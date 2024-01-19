@@ -1,0 +1,22 @@
+{
+  "results": {
+    "isConnected": true,
+    "enabled": true,
+    "hiddenSyncPrefsFields": [
+      "cpq_prorate_precision"
+    ],
+    "last_synced": null,
+    "stripe_account_id": "acct_15uapDIsgf92XbAO",
+    "isCpqInstalled": true,
+    "default_currency": "USD",
+    "polling_enabled": false,
+    "cpq_term_unit": "month",
+    "api_percentage_limit": "95",
+    "sync_start_date": null,
+    "sync_record_retention": "10000",
+    "configurationHash": "e5f555d185a5127cbf93d1028b2b8de558b81645",
+    "isSandbox": true
+  },
+  "error": null,
+  "isSuccess": true
+}

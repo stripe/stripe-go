@@ -2,7 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import getExportableConfigDownloadUrl from '@salesforce/apex/setupAssistant.getExportableConfigDownloadUrl';
 import LightningConfirm from 'lightning/confirm';
 import LightningAlert from "lightning/alert";
-import { Debugger } from 'c/debugger';
+import Debugger from 'c/debugger';
 
 export default class SetupStep extends LightningElement {
     @api stepName = '';
@@ -45,7 +45,7 @@ export default class SetupStep extends LightningElement {
     get exportDisabled() {
         return !this.saveDisabled || !this.exportableConfigDownloadUrl || !this.exportableConfigDownloadUrl.data;
     }
-    
+
     @api 
     get showIntro() {
         return (this.setupComplete ? false : this._showIntro);

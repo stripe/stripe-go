@@ -1,6 +1,69 @@
 @isTest
 public with sharing class test_setupAssistant {
-    static Debug_Helper debugger = new Debug_Helper();
+    static Debug_Helper debugger = new Debug_Helper(true);
+
+    @IsTest
+    static void testGetCoreData() {
+        String response = setupAssistant.getCoreData();
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        System.assertEquals(true, responseMap.get('isSuccess'));
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assertEquals(true, resultsMap.containsKey('packageVersion'), 'Has package key');
+        System.assertEquals(true, resultsMap.containsKey('isCpqInstalled'), 'Has CPQ key');
+        System.assertEquals(true, resultsMap.containsKey('configDownloadUri'), 'Has config download key');
+        System.assertEquals(true, resultsMap.containsKey('isMultiCurrencyEnabled'), 'Has multicurrency key');
+        System.assertEquals(true, resultsMap.containsKey('isSandbox'), 'Has sandbox key');
+        System.assertEquals(true, resultsMap.containsKey('fieldListByObjectMap'), 'Has fieldListByObjectMap key');
+        System.assertEquals(true, resultsMap.containsKey('supportedISOCodes'), 'Has supportedISOCodes key');
+        System.assertEquals(true, resultsMap.containsKey('defaultCurrency'), 'Has defaultCurrency key');
+        System.assertEquals(true, resultsMap.containsKey('orgMaxApiLimit'), 'Has orgMaxApiLimit key');
+
+    }
+
+    @IsTest
+    static void testGetTranslationConfig() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        testSetupData.Enable_Apex_Debug__c = true;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());
+        Test.startTest();
+
+        String saveResp = setupAssistant.getTranslationConfig();
+
+        Test.stopTest();
+
+        debugger.debug('testSaveTranslationConfig', saveResp);
+        Map<String, Object> saveRespMap = (Map<String, Object>)JSON.deserializeUntyped(saveResp);
+        System.assertEquals(true, saveRespMap.get('isSuccess'));
+        Map<String, Object> resultsMap = (Map<String, Object>)saveRespMap.get('results');
+        System.assertEquals('1234', resultsMap.get('configurationHash'));
+    }
+
+    @IsTest
+    static void testSaveTranslationConfig() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        testSetupData.Enable_Apex_Debug__c = true;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());
+        Test.startTest();
+
+        String config = '{"configurationHash": "1234", "pricebook_entry_filter":null,"account_filter":null,"order_filter":"Status = \'Activated\'","product_filter":null,"allMappingConfigurations":{"field_defaults":{"subscription_schedule":{},"subscription_phase":{},"subscription_item":{},"price_order_item":{},"customer":{"balance":"300"},"product":{},"coupon":{},"price":{}},"field_mappings":{"subscription_schedule":{},"subscription_phase":{},"subscription_item":{},"price_order_item":{},"customer":{},"product":{},"coupon":{},"price":{}}},"polling_enabled":false,"cpq_term_unit":"month","api_percentage_limit":"95","sync_start_date":null,"sync_record_retention":"10000"}';
+        String saveResp = setupAssistant.saveTranslationConfig(config);
+
+        Test.stopTest();
+
+        debugger.debug('testSaveTranslationConfig', saveResp);
+        Map<String, Object> saveRespMap = (Map<String, Object>)JSON.deserializeUntyped(saveResp);
+        System.assertEquals(true, saveRespMap.get('isSuccess'));
+        Map<String, Object> resultsMap = (Map<String, Object>)saveRespMap.get('results');
+        System.assertEquals(true, resultsMap.get('isConfigSaved'));
+        System.assertEquals(true, resultsMap.get('isFiltersSaved'));
+        System.assertEquals(false, resultsMap.get('isValidationError'));
+    }
 
     @IsTest
     static void testIsJSDebugEnabled() {
@@ -68,6 +131,28 @@ public with sharing class test_setupAssistant {
         Map<String, Object> setupDataMap = (Map<String, Object>)resultsMap.get('setupData');
         System.assert(setupDataMap.containsKey('Steps_Completed__c'), '`data` not found');
         System.assertEquals(false, setupDataMap.get('isSetupComplete__c'));
+    }
+
+    @isTest
+    static public void testSetupAssistant_getSetupDataWithData() {
+        setupAssistant.saveData(new Map<String, Object>(), false);
+        Map<String, Object> data = new Map<String, Object> {
+                'Steps_Completed__c' => '{"foo": 1}'
+        };
+        setupAssistant.saveData(data, true);
+        insertTestConnectedRecord();
+
+        String response = setupAssistant.getSetupData();
+
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assertEquals(true, resultsMap.get('isConnected'));
+        System.assert(resultsMap.containsKey('setupData'), '`data` not found');
+
+        Map<String, Object> setupDataMap = (Map<String, Object>)resultsMap.get('setupData');
+        System.assertEquals(true, setupDataMap.get('isSetupComplete__c'));
     }
 
     @isTest
@@ -874,13 +959,11 @@ public with sharing class test_setupAssistant {
         public HttpResponse respond(HttpRequest req) {
             calls += 1;
             HttpResponse res = new HttpResponse();
-            responseData rd = new responseData();
-            Map<String, String> services = new Map<String, String>();
-            services.put(setupAssistant.KEY_SALESFORCE_SERVICE, setupAssistant.STATUS_CONNECTED);
-            services.put(setupAssistant.KEY_STRIPE_SERVICE, setupAssistant.STATUS_CONNECTED);
-            rd.put(setupAssistant.KEY_SERVICES, services);
+            Map<String, Object> services = new Map<String, Object>();
+            services.put(setupAssistant.KEY_SALESFORCE, true);
+            services.put(setupAssistant.KEY_STRIPE, true);
 
-            res.setBody(JSON.serialize(rd));
+            res.setBody(JSON.serialize(services));
             res.setStatusCode(200);
 
             return res;
@@ -961,14 +1044,10 @@ public with sharing class test_setupAssistant {
         setTestGlobalKey(testSetupData);
         insertTestConnectedRecord();
 
-        ConnectionStatusesMock m = new ConnectionStatusesMock();
-        Test.setMock(HttpCalloutMock.class, m);
-
         responseData statuses = unpack(setupAssistant.checkServiceConnectionStatuses());
         Map<String, Object> services = (Map<String, Object>) statuses.results.get('services');
         System.assert(services.get(setupAssistant.KEY_STRIPE_SERVICE) == setupAssistant.STATUS_CONNECTED);
         System.assert(services.get(setupAssistant.KEY_SALESFORCE_SERVICE) == setupAssistant.STATUS_CONNECTED);
-        System.assert(m.calls == 0, 'This one does not call out');
     }
 
     @IsTest
@@ -1001,25 +1080,21 @@ public with sharing class test_setupAssistant {
     @IsTest
     static void testGetServiceConnectionStatusesSync() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        testSetupData.Enable_Apex_Debug__c = true;
         setTestGlobalKey(testSetupData);
         insertTestConnectedRecord();
 
-        Map<String, Object> services = new Map<String, Object>();
-        services.put(setupAssistant.KEY_SALESFORCE, true);
-        services.put(setupAssistant.KEY_STRIPE, true);
-        HttpResponse resp = new HttpResponse();
-        resp.setBody(JSON.serialize(services));
-        resp.setStatusCode(200);
+        Test.setMock(HttpCalloutMock.class, new ConnectionStatusesMock());
 
-        Continuation con = (Continuation) setupAssistant.getServiceConnectionStatuses(setupAssistant.KEY_STRIPE_SERVICE);
-        Test.setContinuationResponse('continuation-1', resp);
-        setupAssistant cont = new setupAssistant();
+        Test.startTest();
 
-        String result = (String) Test.invokeContinuationMethod(cont, con);
+        String result = setupAssistant.getServiceConnectionStatusesSync(setupAssistant.KEY_STRIPE_SERVICE);
+
+        Test.stopTest();
 
         debugger.debug('apex result', result);
         responseData statuses = unpack(result);
-        services = (Map<String, Object>) statuses.results.get('services');
+        Map<String, Object> services = (Map<String, Object>) statuses.results.get(setupAssistant.KEY_SERVICES);
         debugger.debug('services', services);
         System.assert(services.get(setupAssistant.KEY_STRIPE_SERVICE) == setupAssistant.STATUS_FRESH);
         System.assert(services.get(setupAssistant.KEY_SALESFORCE_SERVICE) == setupAssistant.STATUS_CONNECTED);

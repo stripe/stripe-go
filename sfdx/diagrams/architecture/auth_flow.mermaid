@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant B as Browser/User
+    participant LWC as SF LWC
+    participant A as SF Apex
+    participant SF as SF DB
+    participant R as Ruby Server
+    participant SA as Stripe Auth
+    participant S as Stripe Api
+
+    critical During component setup on page load
+        LWC-->A: Where do I go to log in to stripe?
+        A-->LWC: Returns auth url {auth_url}
+    end
+
+    LWC-->R: Let me log in {auth_url}
+    R-->SA: Show them the login {new auth_url}
+    SA-->R: Ok they logged in {code}
+    R-->LWC: Ok, you're logged in {code}
+    LWC-->A: Ok, I logged in {code}
+    A-->R: So I'm told there's been a login? {code}
+    R-->A: That code checks out! Here's what I know! {stripe_account_id, name}
+    A-->SF: This is important, save it {Stripe_Account__c}

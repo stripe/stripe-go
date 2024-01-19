@@ -178,6 +178,7 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+
     // validates connection status
     @AuraEnabled
     public static String getStripeAuthorizationUri(Boolean liveMode) {
@@ -351,7 +352,7 @@ public with sharing class setupAssistant {
 
     // Gets the current connection statuses (connected, disconnected, failed, or fresh) for both Stripe and Salesforce
     // This forces checks of the tokens platform side.
-    public static Object getServiceConnectionStatusesSync(String serviceToCheck) {
+    public static String getServiceConnectionStatusesSync(String serviceToCheck) {
         debugger.debug('getServiceConnectionStatusesSync', serviceToCheck);
 
         // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
@@ -365,7 +366,7 @@ public with sharing class setupAssistant {
         try {
             Http http = new Http();
             HttpResponse response = http.send(request);
-            return handleServiceConnectionStatusesResponseProcessor(response, serviceToCheck);
+            return (String) handleServiceConnectionStatusesResponseProcessor(response, serviceToCheck);
         } catch (Exception e) {
             rd.addError(e);
         }
@@ -431,6 +432,8 @@ public with sharing class setupAssistant {
                     KEY_SALESFORCE_SERVICE => salesforceStatus,
                     STRIPE_SERVICE => stripeStatus
             });
+
+            debugger.debug('stripeConnectRec', stripeConnectRec);
 
             upsert stripeConnectRec;
             return rd.getJsonString();
@@ -621,6 +624,7 @@ public with sharing class setupAssistant {
             Boolean multiCurrencyEnabled = UserInfo.isMultiCurrencyOrganization();
             Map<String,System.OrgLimit> limitsMap = OrgLimits.getMap();
             System.OrgLimit apiRequestsLimit = limitsMap.get('DailyApiRequests');
+            rd.put('orgMaxApiLimit', apiRequestsLimit.getLimit());
             if (multiCurrencyEnabled) {
                 List<Object> supportedISOCodes = new List<Object>{
                     new Map<String, Object> {
@@ -644,7 +648,6 @@ public with sharing class setupAssistant {
                 rd.put('supportedISOCodes', supportedISOCodes);
             }
             rd.put('isMultiCurrencyEnabled', multiCurrencyEnabled);
-            rd.put('orgMaxApiLimit', apiRequestsLimit.getLimit());
         } catch (Exception e) {
             rd.addError(e);
         }
@@ -862,6 +865,7 @@ public with sharing class setupAssistant {
             };
             String route = UriTargets.getConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
+            rd = utilities.validateCalloutResponse(response, 'saveFilterSettings');
 
             if(response.getStatusCode() != 200) {
                 rd.put('isValidationError', false);
@@ -874,6 +878,122 @@ public with sharing class setupAssistant {
         }
         rd.put('isFiltersSaved', true);
         rd.put('isValidationError', false);
+        return rd.getJsonString();
+    }
+
+    @AuraEnabled(Cacheable=true)
+    public static String getCoreData() {
+        responseData rd = new responseData();
+        try {
+            if (utilities.isPackagedEnvironment()) {
+                rd.put('packageVersion', System.requestVersion());
+            } else {
+                rd.put('packageVersion', '0.0.0');
+            }
+
+            rd.put('configDownloadUri', Page.ConfigExportDownload.getUrl());
+
+            rd.put('fieldListByObjectMap', new Map<String, Set<Object>>{
+                'OrderItem' => utilities.getListOfFieldsByObject('OrderItem'),
+                'Order' => utilities.getListOfFieldsByObject('Order'),
+                'Account' => utilities.getListOfFieldsByObject('Account'),
+                'Product2' => utilities.getListOfFieldsByObject('Product2'),
+                'PricebookEntry' => utilities.getListOfFieldsByObject('PricebookEntry'),
+                'Order_Stripe_Coupon__c' => utilities.getListOfFieldsByObject(constants.NAMESPACE_API + 'Order_Stripe_Coupon__c')
+            });
+
+            List<Map<String, String>> supportedIsoCodes = utilities.getMultiCurrencyOptions();
+            rd.put('isMultiCurrencyEnabled', supportedIsoCodes.isEmpty() == false);
+            rd.put('supportedISOCodes', supportedIsoCodes);
+            rd.put('defaultCurrency', UserInfo.getDefaultCurrency());
+            rd.put('isCpqInstalled', utilities.isCpqEnabled());
+            rd.put('isSandbox', constants.IS_SANDBOX);
+            Map<String,System.OrgLimit> limitsMap = OrgLimits.getMap();
+            System.OrgLimit apiRequestsLimit = limitsMap.get('DailyApiRequests');
+            rd.put('orgMaxApiLimit', apiRequestsLimit.getLimit());
+        } catch (Exception e) {
+            rd.addError('get core data', e);
+        }
+        return rd.getJsonString();
+    }
+
+    @AuraEnabled
+    public static String getTranslationConfig() {
+        responseData rd = new responseData();
+        if (isConnected() == false) {
+            rd.put('isConnected', false);
+            rd.error = 'The connector is not yet registered with the platform. Please continue setup.';
+            return rd.getJsonString();
+        }
+        rd.put('isConnected', true);
+
+        try {
+            String route = UriTargets.getConfigEndpoint();
+            HttpResponse response =  utilities.makeCallout(route, 'GET');
+            Map<String, Object> responseBody = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+            if (response.getStatusCode() != 200) {
+                String errorMessage = (String)responseBody.get('error');
+                throw new CalloutException(errorMessage);
+            }
+            payloadHelper.extractConfigHash(responseBody, rd);
+            payloadHelper.extractSettingsData(responseBody, rd, true);
+            payloadHelper.extractFieldMappingData(responseBody, rd, true);
+            payloadHelper.extractFilterSettingsData(responseBody, rd);
+        } catch (Exception e) {
+            rd.addError('get configuration from platform', e);
+        }
+
+        return rd.getJsonString();
+    }
+
+    @AuraEnabled(Cacheable=true)
+    public static String getDataMapperLayout() {
+        return getFormattedStripeObjectFields();
+    }
+
+    @AuraEnabled
+    public static String saveTranslationConfig(String config) {
+        responseData rd = new responseData();
+        if (isConnected() == false) {
+            rd.put('isConnected', false);
+            rd.put('isConfigSaved', false);
+            rd.error = 'The connector is not yet registered with the platform. Please continue setup.';
+            return rd.getJsonString();
+        }
+        rd.put('isConnected', true);
+        debugger.debug('saveTranslationConfig config', config);
+        Map<String, Object> conf = (Map<String, Object>) JSON.deserializeUntyped(config);
+        debugger.debug('saveTranslationConfig conf', conf);
+        Map<String, Object> payload = new Map<String, Object>();
+        ConfigPayloadHelper.ErrorTracker errors = new ConfigPayloadHelper.ErrorTracker();
+        try {
+            Boolean configHashErr = payloadHelper.validateConfigHash(conf, payload, errors);
+            Boolean dataMappingErr = payloadHelper.validateDataMappingConfig(conf, payload, errors);
+            Boolean syncPrefsErr = payloadHelper.validateSyncPreferences(conf, payload, errors);
+            Boolean filtersErr = payloadHelper.validateFilterConfig(conf, payload, errors);
+
+            if (configHashErr || dataMappingErr || filtersErr || syncPrefsErr) {
+                rd.put('isValidationError', true);
+                rd.put('isFiltersSaved', false);
+                rd.put('ValidationErrors', errors.errors);
+                return rd.getJsonString();
+            }
+
+            String jsonPayload = JSON.serialize(payload);
+            String route = UriTargets.getConfigEndpoint();
+            HttpResponse response =  utilities.makeCallout(route, 'PUT', jsonPayload);
+            rd = utilities.validateCalloutResponse(response, 'saveConfiguration');
+            debugger.debug('saveTranslationConfig response', response.getBody());
+            rd.put('isConfigSaved', true);
+            rd.put('isValidationError', false);
+            rd.put('isFiltersSaved', true);
+        } catch (Exception e) {
+            rd.addError('save translation config', e);
+            rd.put('isConfigSaved', false);
+            rd.put('isValidationError', false);
+            rd.put('isFiltersSaved', false);
+        }
+
         return rd.getJsonString();
     }
 

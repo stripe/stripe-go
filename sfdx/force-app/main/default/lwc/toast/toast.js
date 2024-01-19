@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { Debugger } from "c/debugger";
+import Debugger from "c/debugger";
 const DebugLog = Debugger.withContext('Toast');
 
 export default class Toast extends LightningElement {

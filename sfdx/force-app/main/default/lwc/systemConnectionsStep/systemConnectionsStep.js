@@ -2,7 +2,8 @@ import validateConnectionStatus from '@salesforce/apex/setupAssistant.validateCo
 import validateSharedState from '@salesforce/apex/setupAssistant.validateSharedState';
 import { LightningElement, track, api } from 'lwc';
 import { getErrorMessage } from 'c/utils'
-import { Debugger } from "c/debugger";
+import { ConfigManager } from "c/systemConfigManager";
+import Debugger from "c/debugger";
 import { ConnectionStatus, TextStrings } from "c/systemStatusUtils";
 const DebugLog = Debugger.withContext('SystemConnectionsStep');
 
@@ -96,7 +97,6 @@ export default class SystemConnectionsStep extends LightningElement {
         return this.isSalesforceConnected && this.isStripeConnected;
     }
 
-
     showConnectToStripeModal() {
         this.template.querySelector('.stripe-modal-connect-stripe-account').show();
     }
@@ -168,6 +168,7 @@ export default class SystemConnectionsStep extends LightningElement {
                 hasChanged,
                 isComplete: this.isComplete,
             }
+
             this.dispatchEvent(new CustomEvent('systemsconnected', { detail: details }));
             this.loading = false;
             return details;

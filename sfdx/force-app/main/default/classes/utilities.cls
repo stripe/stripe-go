@@ -20,6 +20,32 @@ public with sharing class utilities {
         return stripeConnectRec != null && stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c;
     }
 
+    public static List<Map<String, String>> getMultiCurrencyOptions() {
+        List<Map<String, String>> supportedISOCodes = new List<Map<String, String>>();
+        Boolean multiCurrencyEnabled = UserInfo.isMultiCurrencyOrganization();
+        if (multiCurrencyEnabled) {
+            supportedISOCodes.add(new Map<String, String> {
+                'label' => 'Select default currency...',
+                'value' => ''
+            });
+
+            /* using a dynamic query here because the currencyType object can only be referenced directly
+            when the multicurrency feature is enabled in the org otherwise we get a type error*/
+            String supportedISOCodesQuery = 'SELECT ISOCode FROM CurrencyType WHERE IsActive = true';
+            List<SObject> supportedISOCodesQueryResults = Database.query(supportedISOCodesQuery);
+
+            //Iterate through the supported currencies to build list of supported ISO code
+            for(SObject supportedISOCode : supportedISOCodesQueryResults) {
+                supportedISOCodes.add(new Map<String, String> {
+                        'label' => (String) supportedISOCode.get('ISOCode'),
+                        'value' => (String) supportedISOCode.get('ISOCode')
+                });
+            }
+        }
+
+        return supportedISOCodes;
+    }
+
     @AuraEnabled
     public static String getPackageVersion() {
         responseData rd = new responseData();
@@ -435,7 +461,7 @@ public with sharing class utilities {
         
         if(response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
             rd.put('isConfigSaved', true);
-            if (actionTaken == 'saveSyncPreferences' || actionTaken == 'saveMappingConfigurations' || actionTaken == 'activatePolling') {
+            if (actionTaken == 'saveSyncPreferences' || actionTaken == 'saveFilterSettings' || actionTaken == 'saveMappingConfigurations' || actionTaken == 'activatePolling' || actionTaken == 'saveConfiguration') {
                 Map<String, Object> responseBody = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
                 configPayloadHelper.extractConfigHash(responseBody, rd);
             }

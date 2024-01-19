@@ -23,6 +23,17 @@ public with sharing class responseData {
         this.isSuccess = false;
     }
 
+    public void addError(String internalMsg, Exception e) {
+        if(!Test.isRunningTest()) {
+            errorLogger.create(internalMsg, e);
+        } else {
+            this.debugger.debug('responseData.addError(Exception)', e);
+        }
+
+        this.error = e.getMessage();
+        this.isSuccess = false;
+    }
+
     public void addError(String error){
         this.error = error;
         this.isSuccess = false;

@@ -1,0 +1,8 @@
+{
+  "results": {
+    "orgMaxApiLimit": 5000000,
+    "isMultiCurrencyEnabled": false
+  },
+  "error": null,
+  "isSuccess": true
+}

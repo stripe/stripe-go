@@ -1,7 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 import { getErrorMessage } from 'c/utils'
 import { Manager, ServiceEvents } from "c/serviceManager";
-import { Debugger } from 'c/debugger';
+import Debugger from 'c/debugger';
 const DebugLog = Debugger.withContext('SetupWizard');
 
 import companyLogo from '@salesforce/resourceUrl/companyLogo';

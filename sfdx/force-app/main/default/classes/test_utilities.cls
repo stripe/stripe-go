@@ -1,5 +1,96 @@
 @IsTest
 public with sharing class test_utilities {
+    static Test_Tools testTools = new Test_Tools();
+
+    @IsTest
+    static void testDmlManager() {
+        String profile = Test_Tools.PROFILE_CHATTER_FREE_USER;
+        String uniqueId = 'dmlUnprivileged';
+        User unprivUser = testTools.createUser(profile, uniqueId);
+
+        Exception unknownAccessModifier;
+        Exception unknownAccessObject;
+        Exception unknownAccessField;
+        Exception unprivilegedObject;
+        Exception unprivilegedField;
+        try {
+            Map<String, Map<String, Set<String>>> failedAccess = new Map<String, Map<String, Set<String>>> {
+                    'Account' => new Map<String, Set<String>> {
+                        'Foo' => new Set<String> {'bar'}
+                    }
+            };
+            dmlManager.checkAccess(failedAccess);
+        } catch (Exception e) {
+            unknownAccessModifier = e;
+        }
+
+        try {
+            Map<String, Map<String, Set<String>>> failedAccess = new Map<String, Map<String, Set<String>>> {
+                    'Foo' => new Map<String, Set<String>> {
+                        'Delete' => new Set<String> {}
+                    }
+            };
+            dmlManager.checkAccess(failedAccess);
+        } catch (Exception e) {
+            unknownAccessObject = e;
+        }
+
+        try {
+            Map<String, Map<String, Set<String>>> failedAccess = new Map<String, Map<String, Set<String>>> {
+                    'Account' => new Map<String, Set<String>> {
+                        'Read' => new Set<String> {'bar'}
+                    }
+            };
+            dmlManager.checkAccess(failedAccess);
+        } catch (Exception e) {
+            unknownAccessField = e;
+        }
+
+        try {
+            Map<String, Map<String, Set<String>>> failedAccess = new Map<String, Map<String, Set<String>>> {
+                    'Account' => new Map<String, Set<String>> {
+                        'Delete' => new Set<String> {}
+                    }
+            };
+            System.runAs(unprivUser) {
+                dmlManager.checkAccess(failedAccess);
+            }
+        } catch (Exception e) {
+            unprivilegedObject = e;
+        }
+
+        try {
+            Map<String, Map<String, Set<String>>> failedAccess = new Map<String, Map<String, Set<String>>> {
+                    'User' => new Map<String, Set<String>> {
+                        'Read' => new Set<String> {'AccountId'}
+                    }
+            };
+
+            System.runAs(unprivUser) {
+                dmlManager.checkAccess(failedAccess);
+            }
+        } catch (Exception e) {
+            unprivilegedField = e;
+        }
+
+        Map<String, Map<String, Set<String>>> access = new Map<String, Map<String, Set<String>>> {
+                'Account' => new Map<String, Set<String>> {
+                        'Create' => new Set<String> {'Name'},
+                        'Read' => new Set<String> {'Name'},
+                        'Update' => new Set<String> {'Name'},
+                        'Delete' => new Set<String> {}
+                }
+        };
+
+        dmlManager.checkAccess(access);
+
+        System.assertNotEquals(null, unknownAccessModifier, 'Got an exception for unknown access modifier');
+        System.assertNotEquals(null, unknownAccessObject, 'Got an exception for unknown access object');
+        System.assertNotEquals(null, unknownAccessField, 'Got an exception for unknown access field');
+        System.assertNotEquals(null, unprivilegedObject, 'Got an exception for unprivileged object');
+        System.assertNotEquals(null, unprivilegedField, 'Got an exception for unprivileged field');
+    }
+
     @IsTest
     static public void testPackageVersion() {
         Test.startTest();

@@ -1,11 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
-import getPicklistValuesForMapper from '@salesforce/apex/setupAssistant.getPicklistValuesForMapper';
-import getFormattedStripeObjectFields from '@salesforce/apex/setupAssistant.getFormattedStripeObjectFields';
-import getMappingConfigurations from '@salesforce/apex/setupAssistant.getMappingConfigurations';
-import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappingConfigurations';
+import {getPicklistValuesForMapper, getFormattedStripeObjectFields, getMappingConfigurations, saveMappingConfigurations} from './configMapperConverter';
 import { getErrorMessage } from 'c/utils';
 import Alert from 'c/alert';
-import { Debugger } from "c/debugger";
+import {ConfigData, ConfigManager, ConfigStates} from "c/systemConfigManager";
+import Debugger from "c/debugger";
 const DebugLog = Debugger.withContext('DataMappingStep');
 
 const TERMINATION_METADATA_PREFIX = 'sbc_termination.';
@@ -38,7 +36,7 @@ const mappingListDefaults = () => {
 
 export default class DataMappingStep extends LightningElement {
     /*
-     `@track` decorator is needed here to tell the lwc framework to observe 
+     `@track` decorator is needed here to tell the lwc framework to observe
       changes to the properties of an object and to the elements of an array
      */
 
@@ -128,7 +126,7 @@ export default class DataMappingStep extends LightningElement {
     // allMappingConfigurations holds all mappings retrieved from ruby, value is set in `getMappingConfigurations`
     @track allMappingConfigurations;
 
-    // allMappingList is used to retrieve and send all user mappings `saveMappingConfigurations` 
+    // allMappingList is used to retrieve and send all user mappings `saveMappingConfigurations`
     @track allMappingList = {
         // these are static values defined by the user in the mapper UI
         field_defaults: mappingListDefaults(),
@@ -136,7 +134,7 @@ export default class DataMappingStep extends LightningElement {
         field_mappings: mappingListDefaults(),
         // these are default mappings sent from Ruby (can be overridden in map)
         default_mappings: mappingListDefaults(),
-        // these are required mappings sent from Ruby 
+        // these are required mappings sent from Ruby
         required_mappings: mappingListDefaults()
     };
     @track customerMetadataFields = blankMetadataMapping();
@@ -221,11 +219,11 @@ export default class DataMappingStep extends LightningElement {
             },
             {
                 object: 'coupon',
-                mappingsObject: this.couponMappings, 
+                mappingsObject: this.couponMappings,
                 metadataMappingsObject: this.couponMetadataFields
             }
         ]);
-    } 
+    }
 
     valueChange() {
         if(!this.isMappingsUpdated) {
@@ -244,13 +242,13 @@ export default class DataMappingStep extends LightningElement {
     saveObjectMappings(stripeObjectMappings, listOfAllMappings, listOfMetadataFields, stripeObjectName) {
         for(let i = 0; i < stripeObjectMappings.length; i++) {
             for(let j = 0; j < stripeObjectMappings[i].fields.length; j++) {
-                
+
                 const fieldData = stripeObjectMappings[i].fields[j];
 
                 if(!fieldData.value || !fieldData.sfValue) {
                     continue
                 }
-                
+
                 if(fieldData.staticValue === true) {
                     listOfAllMappings.field_defaults[stripeObjectName][fieldData.value] = fieldData.sfValue;
                 } else {
@@ -262,7 +260,7 @@ export default class DataMappingStep extends LightningElement {
 
         return listOfAllMappings;
     }
-    
+
     saveMetadataMappings(metadataFieldList, listOfAllMappings, stripeObjectName) {
         if(metadataFieldList.length) {
             for(let i = 0; i < metadataFieldList.length; i++) {
@@ -455,13 +453,13 @@ export default class DataMappingStep extends LightningElement {
     }
 
     openPicklist(event) {
-        const targetContainer = event.currentTarget.closest('td'); // Get the parent container of the targeted input 
+        const targetContainer = event.currentTarget.closest('td'); // Get the parent container of the targeted input
         const staticInput = targetContainer.querySelector('lightning-input');
         if (staticInput) {
             staticInput.focus();
-        } 
+        }
         this.updatePicklistChoices(event);
-        
+
         //setting timeout to force next render cycle and allow picker to to be rendered
         setTimeout(() => {
             const fieldPicker = targetContainer.querySelector('c-field-picker');
@@ -479,9 +477,9 @@ export default class DataMappingStep extends LightningElement {
     }
 
     filterSfOptionsByStripeFieldType() {
-       if (!this.stripeObjectField.type) {
+        if (!this.stripeObjectField.type) {
             return;
-        } 
+        }
 
         const stripeFieldType = this.stripeObjectField.type.toLowerCase()
 
@@ -557,9 +555,9 @@ export default class DataMappingStep extends LightningElement {
         this.activeObject = event.detail.name;
 
         if(!this.fieldListByObjectMap || !this.activeObject) {
-           return;
+            return;
         }
-    
+
         this.dispatchEvent(this.contentLoading);
         this.activeObjectDescription = this.ACTIVE_OBJECT_INFO[this.activeObject]['description'];
         this.activeObjectAlerts = this.ACTIVE_OBJECT_INFO[this.activeObject]['alerts'];
@@ -584,7 +582,7 @@ export default class DataMappingStep extends LightningElement {
         if (this[this.activeObject + 'MetadataFields'].metadataMapping.fields.length > 0) {
             this.activeStripeObjectSections = ['standard', 'metadata']
         }
-        
+
         return this[this.activeObject + 'Sections'] = this.activeStripeObjectSections
     }
 
@@ -607,7 +605,51 @@ export default class DataMappingStep extends LightningElement {
         window.open(apiUrl, '_blank');
     }
 
+    _firstTranslationCallback = true;
+    /**
+     *
+     * @param {SystemConfig<TranslationData>} event
+     */
+    _processTranslationConfigUpdate(event) {
+        const values= event.detail;
+        Debugger.log('DataMappingStep', '_processTranslationConfigUpdate', values);
+
+        // we will have literally just done the connectedCallback...
+        if (this._firstTranslationCallback) {
+            this._firstTranslationCallback = false;
+            Debugger.log('DataMappingStep', '_processTranslationConfigUpdate', 'skipping first run');
+            return;
+        }
+        this.connectedCallback();
+        Debugger.log('DataMappingStep', '_processTranslationConfigUpdate', 'complete');
+    }
+
+    _initConfigManager() {
+        Debugger.log('DataMappingStep', '_initConfigManager');
+        if (this._boundProcessTranslationConfigUpdate) {
+            Debugger.log('DataMappingStep', '_initConfigManager', 'already ran');
+            return;
+        }
+        this._boundProcessTranslationConfigUpdate = this._processTranslationConfigUpdate.bind(this);
+        ConfigManager.register(ConfigData.translation, ConfigStates.updated, this._boundProcessTranslationConfigUpdate);
+        Debugger.log('DataMappingStep', '_initConfigManager', 'registered')
+    }
+
+    _deinitConfigManager() {
+        ConfigManager.unregister(ConfigData.translation, ConfigStates.updated, this._boundProcessTranslationConfigUpdate);
+    }
+
+    disconnectedCallback() {
+        this._deinitConfigManager();
+    }
+
     @api async connectedCallback() {
+        this._initConfigManager();
+        const config = await ConfigManager.getCachedTranslationData();
+        if (config.isConnected === false) {
+            Debugger.log('DataMappingStep', 'Not yet connected...');
+            return;
+        }
         this.dispatchEvent(this.contentLoading);
         try {
             const getFormattedStripeObjects = await getFormattedStripeObjectFields();
@@ -699,7 +741,7 @@ export default class DataMappingStep extends LightningElement {
             for (const mappingContainer of this.listOfStripeMappingObjects) {
                 this.setFieldMappings(mappingContainer.object, mappingContainer.mappingsObject, mappingContainer.metadataMappingsObject.metadataMapping.fields);
             }
-            
+
             this.allMappingList['default_mappings'] = this.allMappingConfigurations['default_mappings'];
             this.allMappingList['required_mappings'] = this.allMappingConfigurations['required_mappings'];
 
@@ -812,6 +854,9 @@ export default class DataMappingStep extends LightningElement {
      */
     get hiddenMapperFieldSegments() {
         const ret = { objects: {}, paths: [] };
+        if (!this.hiddenMapperFields) {
+            return ret;
+        }
         for (let i = 0; i < this.hiddenMapperFields.length; i++) {
             if (this.hiddenMapperFields[i].indexOf('.') === -1) {
                 ret.objects[this.hiddenMapperFields[i]] = true;
@@ -828,8 +873,8 @@ export default class DataMappingStep extends LightningElement {
         for(let i = 0; i < stripeObjectMap.length; i++) {
             for(let j = 0; j < stripeObjectMap[i].fields.length; j++) {
                 if(this.allMappingConfigurations.default_mappings &&
-                   this.allMappingConfigurations.default_mappings[stripeObject] &&
-                   this.allMappingConfigurations.default_mappings[stripeObject].length !== 0) {
+                    this.allMappingConfigurations.default_mappings[stripeObject] &&
+                    this.allMappingConfigurations.default_mappings[stripeObject].length !== 0) {
 
                     for(const value in this.allMappingConfigurations.default_mappings[stripeObject]) {
                         const fieldData = stripeObjectMap[i].fields[j];
@@ -856,7 +901,7 @@ export default class DataMappingStep extends LightningElement {
                             }
                         } else if (value.startsWith('metadata.')) {
                             let realfieldMapValue = value.replace('metadata.','')
-                            
+
                             let metadataFieldObj = this.getFieldObject(realfieldMapValue, realfieldMapValue, 'metadata', '', false, true, this.allMappingConfigurations.field_defaults[stripeObject][value], 'metadata');
 
                             if (metadataFieldList.length && metadataFieldList.filter(field =>  field.name === realfieldMapValue ).length > 0) {
@@ -964,7 +1009,7 @@ export default class DataMappingStep extends LightningElement {
             const isConfigSaved = responseData.results.isConfigSaved;
             if(!isConfigSaved) {
                 this.showToast('There was a problem saving the data mapping', 'error', 'sticky');
-                return;  
+                return;
             }
 
             this.configurationHash = responseData.results.configurationHash;

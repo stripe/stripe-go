@@ -44,7 +44,7 @@ public abstract class Sentry_Context {
         return new Map<String, String> {
             'type' => 'runtime',
             // TODO this returns a JSON string, which looks messy in sentry
-            'PackageVersion' => utilities.getPackageVersion(),
+            'PackageVersion' => utilities.getPackageVersionString(),
             // TODO would be great to add CPQ version as well
             'CpqInstalled' => String.valueOf(utilities.isCpqEnabled())
         };

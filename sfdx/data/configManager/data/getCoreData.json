@@ -1,0 +1,2328 @@
+{
+  "results": {
+    "packageVersion": "0.0.0",
+    "configDownloadUri": "/apex/configexportdownload",
+    "fieldListByObjectMap": {
+      "Order_Stripe_Coupon__c": [
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": false,
+          "type": "id",
+          "value": "Id",
+          "label": "Record ID"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": false,
+          "type": "polymorphic",
+          "value": "OwnerId",
+          "label": "Owner ID"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsDeleted",
+          "label": "Deleted"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Name",
+          "label": "Coupon Number"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "CreatedDate",
+          "label": "Created Date"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastModifiedDate",
+          "label": "Last Modified Date"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "SystemModstamp",
+          "label": "System Modstamp"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "Amount_Off__c",
+          "label": "Amount Off"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "Duration_In_Months__c",
+          "label": "Duration In Months"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "Duration__c",
+          "label": "Duration"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "Max_Redemptions__c",
+          "label": "Max Redemptions"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Name__c",
+          "label": "Name"
+        },
+        {
+          "relationshipName": "Order_Item__r",
+          "object": "OrderItem",
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "Order_Item__c",
+          "label": "Order Item"
+        },
+        {
+          "relationshipName": "Order__r",
+          "object": "Order",
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "Order__c",
+          "label": "Order"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "Percent_Off__c",
+          "label": "Percent Off"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Quote_Stripe_Coupon_Id__c",
+          "label": "Quote Stripe Coupon ID"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_ID__c",
+          "label": "Stripe ID"
+        },
+        {
+          "isObjectCustom": true,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_Dashboard_Link__c",
+          "label": "Stripe Dashboard Link"
+        }
+      ],
+      "PricebookEntry": [
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "id",
+          "value": "Id",
+          "label": "Price Book Entry ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Name",
+          "label": "Product Name"
+        },
+        {
+          "relationshipName": "Pricebook2",
+          "object": "Pricebook2",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "Pricebook2Id",
+          "label": "Price Book ID"
+        },
+        {
+          "relationshipName": "Product2",
+          "object": "Product2",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "Product2Id",
+          "label": "Product ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "currency",
+          "value": "UnitPrice",
+          "label": "List Price"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsActive",
+          "label": "Active"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "UseStandardPrice",
+          "label": "Use Standard Price"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "CreatedDate",
+          "label": "Created Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastModifiedDate",
+          "label": "Last Modified Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "SystemModstamp",
+          "label": "System Modstamp"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ProductCode",
+          "label": "Product Code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsDeleted",
+          "label": "Deleted"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsArchived",
+          "label": "Archived"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_ID__c",
+          "label": "Stripe ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "Test_Decimal_Field__c",
+          "label": "Test Decimal Custom Field"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Test_String_Field__c",
+          "label": "Test String Custom Field"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_Dashboard_Link__c",
+          "label": "Stripe Dashboard Link"
+        }
+      ],
+      "Product2": [
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "id",
+          "value": "Id",
+          "label": "Product ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Name",
+          "label": "Product Name"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ProductCode",
+          "label": "Product Code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "textarea",
+          "value": "Description",
+          "label": "Product Description"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsActive",
+          "label": "Active"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "CreatedDate",
+          "label": "Created Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastModifiedDate",
+          "label": "Last Modified Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "SystemModstamp",
+          "label": "System Modstamp"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "Family",
+          "label": "Product Family"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsSerialized",
+          "label": "Serialized"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ExternalId",
+          "label": "External ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "url",
+          "value": "DisplayUrl",
+          "label": "Display URL"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "QuantityUnitOfMeasure",
+          "label": "Quantity Unit Of Measure"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsDeleted",
+          "label": "Deleted"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsArchived",
+          "label": "Archived"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastViewedDate",
+          "label": "Last Viewed Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastReferencedDate",
+          "label": "Last Referenced Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "StockKeepingUnit",
+          "label": "Product SKU"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "TransferRecordMode",
+          "label": "Transfer Record Mode"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__AssetAmendmentBehavior__c",
+          "label": "Asset Amendment Behavior"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__AssetConversion__c",
+          "label": "Asset Conversion"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__BatchQuantity__c",
+          "label": "Batch Quantity"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__BillingFrequency__c",
+          "label": "Billing Frequency"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__BillingType__c",
+          "label": "Billing Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__BlockPricingField__c",
+          "label": "Block Pricing Field"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ChargeType__c",
+          "label": "Charge Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__Component__c",
+          "label": "Component"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "percent",
+          "value": "SBQQ__CompoundDiscountRate__c",
+          "label": "Compound Discount (%)"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ConfigurationFieldSet__c",
+          "label": "Configuration Field Set"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "textarea",
+          "value": "SBQQ__ConfigurationFields__c",
+          "label": "Configuration Fields"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SBQQ__ConfigurationFormTitle__c",
+          "label": "Configuration Form Title"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ConfigurationType__c",
+          "label": "Configuration Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "textarea",
+          "value": "SBQQ__ConfigurationValidator__c",
+          "label": "Configuration Validator"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SBQQ__ConfiguredCodePattern__c",
+          "label": "Configured Code Pattern"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "textarea",
+          "value": "SBQQ__ConfiguredDescriptionPattern__c",
+          "label": "Configured Description Pattern"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__CostEditable__c",
+          "label": "Cost Editable"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SBQQ__CustomConfigurationPage__c",
+          "label": "Custom Configuration Page"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__CustomConfigurationRequired__c",
+          "label": "Custom Configuration Required"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__CustomerCommunityAvailability__c",
+          "label": "Customer Community Availability"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__DefaultPricingTable__c",
+          "label": "Default Pricing Table"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__DefaultQuantity__c",
+          "label": "Default Quantity"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__DescriptionLocked__c",
+          "label": "Lock Description"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__DynamicPricingConstraint__c",
+          "label": "Percent Of Total Constraint"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__EnableLargeConfiguration__c",
+          "label": "Enable Large Configuration"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__ExcludeFromMaintenance__c",
+          "label": "Exclude From Percent Of Total"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__ExcludeFromOpportunity__c",
+          "label": "Exclude From Opportunity"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__ExternallyConfigurable__c",
+          "label": "Externally Configurable"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__GenerateContractedPrice__c",
+          "label": "Generate Contracted Price"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__HasConfigurationAttributes__c",
+          "label": "Has Configuration Attributes"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__HasConsumptionSchedule__c",
+          "label": "Has Consumption Schedules"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__Hidden__c",
+          "label": "Hidden"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__HidePriceInSearchResults__c",
+          "label": "Hide Price in Search Results"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__IncludeInMaintenance__c",
+          "label": "Include In Percent Of Total"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__NewQuoteGroup__c",
+          "label": "New Quote Group"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__NonDiscountable__c",
+          "label": "Non Discountable"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__NonPartnerDiscountable__c",
+          "label": "Non Partner Discountable"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__OptionLayout__c",
+          "label": "Option Layout"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__OptionSelectionMethod__c",
+          "label": "Option Selection Method"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__Optional__c",
+          "label": "Optional"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__PriceEditable__c",
+          "label": "Price Editable"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__PricingMethodEditable__c",
+          "label": "Pricing Method Editable"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__PricingMethod__c",
+          "label": "Pricing Method"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SBQQ__ProductPictureID__c",
+          "label": "Product Picture Id"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__QuantityEditable__c",
+          "label": "Quantity Editable"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__QuantityScale__c",
+          "label": "Quantity Scale"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__ReconfigurationDisabled__c",
+          "label": "Disable Reconfiguration"
+        },
+        {
+          "relationshipName": "SBQQ__RenewalProduct__r",
+          "object": "Product2",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__RenewalProduct__c",
+          "label": "Renewal Product"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__SortOrder__c",
+          "label": "Sort Order"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "textarea",
+          "value": "SBQQ__Specifications__c",
+          "label": "Specifications"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__SubscriptionBase__c",
+          "label": "Percent Of Total Base"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__SubscriptionCategory__c",
+          "label": "Percent Of Total Category"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "percent",
+          "value": "SBQQ__SubscriptionPercent__c",
+          "label": "Percent Of Total (%)"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__SubscriptionPricing__c",
+          "label": "Subscription Pricing"
+        },
+        {
+          "relationshipName": "SBQQ__SubscriptionTarget__r",
+          "object": "Product2",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__SubscriptionTarget__c",
+          "label": "Percent Of Total Target"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__SubscriptionTerm__c",
+          "label": "Subscription Term"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__SubscriptionType__c",
+          "label": "Subscription Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SBQQ__TaxCode__c",
+          "label": "Tax code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__Taxable__c",
+          "label": "Taxable"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__TermDiscountLevel__c",
+          "label": "Term Discount Level"
+        },
+        {
+          "relationshipName": "SBQQ__UpgradeCredit__r",
+          "object": "Product2",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__UpgradeCredit__c",
+          "label": "Upgrade Credit"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__UpgradeRatio__c",
+          "label": "Upgrade Ratio"
+        },
+        {
+          "relationshipName": "SBQQ__UpgradeSource__r",
+          "object": "Product2",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__UpgradeSource__c",
+          "label": "Upgrade Source"
+        },
+        {
+          "relationshipName": "SBQQ__UpgradeTarget__r",
+          "object": "Product2",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__UpgradeTarget__c",
+          "label": "Upgrade Target"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ConfigurationEvent__c",
+          "label": "Configuration Event"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_ID__c",
+          "label": "Stripe ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_Dashboard_Link__c",
+          "label": "Stripe Dashboard Link"
+        }
+      ],
+      "Account": [
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "id",
+          "value": "Id",
+          "label": "Account ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsDeleted",
+          "label": "Deleted"
+        },
+        {
+          "relationshipName": "MasterRecord",
+          "object": "Account",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "MasterRecordId",
+          "label": "Master Record ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Name",
+          "label": "Account Name"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "Type",
+          "label": "Account Type"
+        },
+        {
+          "relationshipName": "Parent",
+          "object": "Account",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "ParentId",
+          "label": "Parent Account ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "textarea",
+          "value": "BillingStreet",
+          "label": "Billing Street"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "BillingCity",
+          "label": "Billing City"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "BillingState",
+          "label": "Billing State/Province"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "BillingPostalCode",
+          "label": "Billing Zip/Postal Code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "BillingCountry",
+          "label": "Billing Country"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "BillingLatitude",
+          "label": "Billing Latitude"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "BillingLongitude",
+          "label": "Billing Longitude"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "BillingGeocodeAccuracy",
+          "label": "Billing Geocode Accuracy"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "address",
+          "value": "BillingAddress",
+          "label": "Billing Address"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "textarea",
+          "value": "ShippingStreet",
+          "label": "Shipping Street"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ShippingCity",
+          "label": "Shipping City"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ShippingState",
+          "label": "Shipping State/Province"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ShippingPostalCode",
+          "label": "Shipping Zip/Postal Code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ShippingCountry",
+          "label": "Shipping Country"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "ShippingLatitude",
+          "label": "Shipping Latitude"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "ShippingLongitude",
+          "label": "Shipping Longitude"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "ShippingGeocodeAccuracy",
+          "label": "Shipping Geocode Accuracy"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "address",
+          "value": "ShippingAddress",
+          "label": "Shipping Address"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "phone",
+          "value": "Phone",
+          "label": "Account Phone"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "phone",
+          "value": "Fax",
+          "label": "Account Fax"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "AccountNumber",
+          "label": "Account Number"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "url",
+          "value": "Website",
+          "label": "Website"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "url",
+          "value": "PhotoUrl",
+          "label": "Photo URL"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Sic",
+          "label": "SIC Code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "Industry",
+          "label": "Industry"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "currency",
+          "value": "AnnualRevenue",
+          "label": "Annual Revenue"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "integer",
+          "value": "NumberOfEmployees",
+          "label": "Employees"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "Ownership",
+          "label": "Ownership"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "TickerSymbol",
+          "label": "Ticker Symbol"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "textarea",
+          "value": "Description",
+          "label": "Account Description"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "Rating",
+          "label": "Account Rating"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Site",
+          "label": "Account Site"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "CreatedDate",
+          "label": "Created Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastModifiedDate",
+          "label": "Last Modified Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "SystemModstamp",
+          "label": "System Modstamp"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "date",
+          "value": "LastActivityDate",
+          "label": "Last Activity"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastViewedDate",
+          "label": "Last Viewed Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastReferencedDate",
+          "label": "Last Referenced Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Jigsaw",
+          "label": "Data.com Key"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "JigsawCompanyId",
+          "label": "Jigsaw Company ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "CleanStatus",
+          "label": "Clean Status"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "AccountSource",
+          "label": "Account Source"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "DunsNumber",
+          "label": "D-U-N-S Number"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Tradestyle",
+          "label": "Tradestyle"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "NaicsCode",
+          "label": "NAICS Code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "NaicsDesc",
+          "label": "NAICS Description"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "YearStarted",
+          "label": "Year Started"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "SicDesc",
+          "label": "SIC Description"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "CustomerPriority__c",
+          "label": "Customer Priority"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SLA__c",
+          "label": "SLA"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "Active__c",
+          "label": "Active"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "NumberofLocations__c",
+          "label": "Number of Locations"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "UpsellOpportunity__c",
+          "label": "Upsell Opportunity"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SLASerialNumber__c",
+          "label": "SLA Serial Number"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "date",
+          "value": "SLAExpirationDate__c",
+          "label": "SLA Expiration Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__AssetQuantitiesCombined__c",
+          "label": "Combine Asset Quantities"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__CoTermedContractsCombined__c",
+          "label": "Combine Co-Termed Contracts"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ContractCoTermination__c",
+          "label": "Contract Co-Termination"
+        },
+        {
+          "relationshipName": "SBQQ__DefaultOpportunity__r",
+          "object": "Opportunity",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__DefaultOpportunity__c",
+          "label": "Default Opportunity"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__IgnoreParentContractedPrices__c",
+          "label": "Ignore Parent Contracted Prices"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__PreserveBundle__c",
+          "label": "Preserve Bundle Structure"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "date",
+          "value": "SBQQ__PriceHoldEnd__c",
+          "label": "Price Hold End"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__RenewalModel__c",
+          "label": "Renewal Model"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__RenewalPricingMethod__c",
+          "label": "Renewal Pricing Method"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__TaxExempt__c",
+          "label": "Tax-Exempt"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__CoTerminationEvent__c",
+          "label": "Co-Termination Event"
+        },
+        {
+          "relationshipName": "Primary_Contact__r",
+          "object": "Contact",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "Primary_Contact__c",
+          "label": "Primary Contact"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_ID__c",
+          "label": "Stripe ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_Dashboard_Link__c",
+          "label": "Stripe Dashboard Link"
+        }
+      ],
+      "Order": [
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "id",
+          "value": "Id",
+          "label": "Order ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "polymorphic",
+          "value": "OwnerId",
+          "label": "Owner ID"
+        },
+        {
+          "relationshipName": "Contract",
+          "object": "Contract",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "ContractId",
+          "label": "Contract ID"
+        },
+        {
+          "relationshipName": "Account",
+          "object": "Account",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "AccountId",
+          "label": "Account ID"
+        },
+        {
+          "relationshipName": "Pricebook2",
+          "object": "Pricebook2",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "Pricebook2Id",
+          "label": "Price Book ID"
+        },
+        {
+          "relationshipName": "OriginalOrder",
+          "object": "Order",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "OriginalOrderId",
+          "label": "Order ID"
+        },
+        {
+          "relationshipName": "Opportunity",
+          "object": "Opportunity",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "OpportunityId",
+          "label": "Opportunity ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "date",
+          "value": "EffectiveDate",
+          "label": "Order Start Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "date",
+          "value": "EndDate",
+          "label": "Order End Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsReductionOrder",
+          "label": "Reduction Order"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "Status",
+          "label": "Status"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "textarea",
+          "value": "Description",
+          "label": "Description"
+        },
+        {
+          "relationshipName": "CustomerAuthorizedBy",
+          "object": "Contact",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "CustomerAuthorizedById",
+          "label": "Customer Authorized By ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "date",
+          "value": "CustomerAuthorizedDate",
+          "label": "Customer Authorized Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "date",
+          "value": "CompanyAuthorizedDate",
+          "label": "Company Authorized Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "Type",
+          "label": "Order Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "textarea",
+          "value": "BillingStreet",
+          "label": "Billing Street"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "BillingCity",
+          "label": "Billing City"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "BillingState",
+          "label": "Billing State/Province"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "BillingPostalCode",
+          "label": "Billing Zip/Postal Code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "BillingCountry",
+          "label": "Billing Country"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "BillingLatitude",
+          "label": "Billing Latitude"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "BillingLongitude",
+          "label": "Billing Longitude"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "BillingGeocodeAccuracy",
+          "label": "Billing Geocode Accuracy"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "address",
+          "value": "BillingAddress",
+          "label": "Billing Address"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "textarea",
+          "value": "ShippingStreet",
+          "label": "Shipping Street"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ShippingCity",
+          "label": "Shipping City"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ShippingState",
+          "label": "Shipping State/Province"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ShippingPostalCode",
+          "label": "Shipping Zip/Postal Code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "ShippingCountry",
+          "label": "Shipping Country"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "ShippingLatitude",
+          "label": "Shipping Latitude"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "ShippingLongitude",
+          "label": "Shipping Longitude"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "ShippingGeocodeAccuracy",
+          "label": "Shipping Geocode Accuracy"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "address",
+          "value": "ShippingAddress",
+          "label": "Shipping Address"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Name",
+          "label": "Order Name"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "date",
+          "value": "PoDate",
+          "label": "PO Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "PoNumber",
+          "label": "PO Number"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "OrderReferenceNumber",
+          "label": "Order Reference Number"
+        },
+        {
+          "relationshipName": "BillToContact",
+          "object": "Contact",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "BillToContactId",
+          "label": "Bill To Contact ID"
+        },
+        {
+          "relationshipName": "ShipToContact",
+          "object": "Contact",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "ShipToContactId",
+          "label": "Ship To Contact ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "ActivatedDate",
+          "label": "Activated Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "picklist",
+          "value": "StatusCode",
+          "label": "Status Category"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "OrderNumber",
+          "label": "Order Number"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "currency",
+          "value": "TotalAmount",
+          "label": "Order Amount"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "CreatedDate",
+          "label": "Created Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastModifiedDate",
+          "label": "Last Modified Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsDeleted",
+          "label": "Deleted"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "SystemModstamp",
+          "label": "System Modstamp"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastViewedDate",
+          "label": "Last Viewed Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastReferencedDate",
+          "label": "Last Referenced Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__Contracted__c",
+          "label": "Contracted"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ContractingMethod__c",
+          "label": "Contracting Method"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__PaymentTerm__c",
+          "label": "Payment Term"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SBQQ__PriceCalcStatusMessage__c",
+          "label": "Price Calculation Status Message"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__PriceCalcStatus__c",
+          "label": "Price Calculation Status"
+        },
+        {
+          "relationshipName": "SBQQ__Quote__r",
+          "object": "SBQQ__Quote__c",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__Quote__c",
+          "label": "Quote"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__RenewalTerm__c",
+          "label": "Renewal Term"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "percent",
+          "value": "SBQQ__RenewalUpliftRate__c",
+          "label": "Renewal Uplift (%)"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "currency",
+          "value": "SBQQ__TaxAmount__c",
+          "label": "Estimated Tax"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "currency",
+          "value": "SBQQ__OrderBookings__c",
+          "label": "Order Bookings"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "Skip_Past_Initial_Invoices__c",
+          "label": "Skip Past Invoices"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_ID__c",
+          "label": "Stripe ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "url",
+          "value": "Stripe_Invoice_Payment_Link__c",
+          "label": "Stripe Invoice Payment Link"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_Revenue_Contract_ID__c",
+          "label": "Stripe Revenue Contract ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_Dashboard_Link__c",
+          "label": "Stripe Dashboard Link"
+        }
+      ],
+      "OrderItem": [
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "id",
+          "value": "Id",
+          "label": "Order Product ID"
+        },
+        {
+          "relationshipName": "Product2",
+          "object": "Product2",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "Product2Id",
+          "label": "Product ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "boolean",
+          "value": "IsDeleted",
+          "label": "Deleted"
+        },
+        {
+          "relationshipName": "Order",
+          "object": "Order",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "OrderId",
+          "label": "Order ID"
+        },
+        {
+          "relationshipName": "PricebookEntry",
+          "object": "PricebookEntry",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "PricebookEntryId",
+          "label": "Price Book Entry ID"
+        },
+        {
+          "relationshipName": "OriginalOrderItem",
+          "object": "OrderItem",
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "reference",
+          "value": "OriginalOrderItemId",
+          "label": "Original Order Item ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "AvailableQuantity",
+          "label": "Available Quantity"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "double",
+          "value": "Quantity",
+          "label": "Quantity"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "currency",
+          "value": "UnitPrice",
+          "label": "Unit Price"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "currency",
+          "value": "ListPrice",
+          "label": "List Price"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "currency",
+          "value": "TotalPrice",
+          "label": "Total Price"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "date",
+          "value": "ServiceDate",
+          "label": "Start Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "date",
+          "value": "EndDate",
+          "label": "End Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "Description",
+          "label": "Line Description"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "CreatedDate",
+          "label": "Created Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "LastModifiedDate",
+          "label": "Last Modified Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "datetime",
+          "value": "SystemModstamp",
+          "label": "System Modstamp"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": false,
+          "type": "string",
+          "value": "OrderItemNumber",
+          "label": "Order Product Number"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__Activated__c",
+          "label": "Activated"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__BillingFrequency__c",
+          "label": "Billing Frequency"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__BillingType__c",
+          "label": "Billing Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__BookingsIndicator__c",
+          "label": "Bookings Indicator"
+        },
+        {
+          "relationshipName": "SBQQ__BundleRoot__r",
+          "object": "OrderItem",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__BundleRoot__c",
+          "label": "Bundle Root"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ChargeType__c",
+          "label": "Charge Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ContractAction__c",
+          "label": "Contract Action"
+        },
+        {
+          "relationshipName": "SBQQ__Contract__r",
+          "object": "Contract",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__Contract__c",
+          "label": "Contract"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "SBQQ__Contracted__c",
+          "label": "Contracted"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ContractingMethod__c",
+          "label": "Contracting Method"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__DefaultSubscriptionTerm__c",
+          "label": "Default Subscription Term"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SBQQ__DimensionType__c",
+          "label": "Segment Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__OrderedQuantity__c",
+          "label": "Ordered Quantity"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__PricingMethod__c",
+          "label": "Pricing Method"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__ProductSubscriptionType__c",
+          "label": "Product Subscription Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__ProrateMultiplier__c",
+          "label": "Prorate Multiplier"
+        },
+        {
+          "relationshipName": "SBQQ__QuoteLine__r",
+          "object": "SBQQ__QuoteLine__c",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__QuoteLine__c",
+          "label": "Quote Line"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "currency",
+          "value": "SBQQ__QuotedListPrice__c",
+          "label": "Quoted List Price"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__QuotedQuantity__c",
+          "label": "Quoted Quantity"
+        },
+        {
+          "relationshipName": "SBQQ__RequiredBy__r",
+          "object": "OrderItem",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__RequiredBy__c",
+          "label": "Required By"
+        },
+        {
+          "relationshipName": "SBQQ__RevisedOrderProduct__r",
+          "object": "OrderItem",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__RevisedOrderProduct__c",
+          "label": "Revised Order Product"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__SegmentIndex__c",
+          "label": "Segment Index"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SBQQ__SegmentKey__c",
+          "label": "Segment Key"
+        },
+        {
+          "relationshipName": "SBQQ__ShippingAccount__r",
+          "object": "Account",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__ShippingAccount__c",
+          "label": "Shipping Account"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__Status__c",
+          "label": "Activation Status"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__SubscriptionPricing__c",
+          "label": "Subscription Pricing"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "SBQQ__SubscriptionTerm__c",
+          "label": "Subscription Term"
+        },
+        {
+          "relationshipName": "SBQQ__Subscription__r",
+          "object": "SBQQ__Subscription__c",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__Subscription__c",
+          "label": "Subscription"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "currency",
+          "value": "SBQQ__TaxAmount__c",
+          "label": "Estimated Tax"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "SBQQ__TaxCode__c",
+          "label": "Tax code"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "date",
+          "value": "SBQQ__TerminatedDate__c",
+          "label": "Terminated Date"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "currency",
+          "value": "SBQQ__UnproratedNetPrice__c",
+          "label": "Full-Term Net Unit Price"
+        },
+        {
+          "relationshipName": "SBQQ__UpgradedSubscription__r",
+          "object": "SBQQ__Subscription__c",
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "reference",
+          "value": "SBQQ__UpgradedSubscription__c",
+          "label": "Upgraded Subscription"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "currency",
+          "value": "SBQQ__OrderProductBookings__c",
+          "label": "Order Product Bookings"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "picklist",
+          "value": "SBQQ__SubscriptionType__c",
+          "label": "Subscription Type"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "boolean",
+          "value": "Skip_Line_Item__c",
+          "label": "Skip Line Item in Stripe"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_ID__c",
+          "label": "Stripe ID"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "double",
+          "value": "Test_Decimal_Field__c",
+          "label": "Test Decimal Custom Field"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Test_String_Field__c",
+          "label": "Test String Custom Field"
+        },
+        {
+          "isObjectCustom": false,
+          "isFieldCustom": true,
+          "type": "string",
+          "value": "Stripe_Dashboard_Link__c",
+          "label": "Stripe Dashboard Link"
+        }
+      ]
+    },
+    "isMultiCurrencyEnabled": false,
+    "supportedISOCodes": [],
+    "defaultCurrency": "USD",
+    "isCpqInstalled": true,
+    "isSandbox": true
+  },
+  "error": null,
+  "isSuccess": true
+}

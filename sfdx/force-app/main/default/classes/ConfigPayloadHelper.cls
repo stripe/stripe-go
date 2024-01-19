@@ -41,22 +41,37 @@ public with sharing class ConfigPayloadHelper {
     public static final String OUTPUT_IS_CPQ_INSTALLED = 'isCpqInstalled';
     public static final String OUTPUT_HIDDEN_SYNC_PREFS_FIELDS = 'hiddenSyncPrefsFields';
     public static final String SYNC_RECORD_RETENTION = 'sync_record_retention';
+    public static final String SYNC_START_DATE = 'sync_start_date';
+    public static final String API_PERCENTAGE_LIMIT = 'api_percentage_limit';
+    public static final String CPQ_TERM_UNIT = 'cpq_term_unit';
+    public static final String CPQ_PRORATE_PRECISION = 'cpq_prorate_precision';
+    public static final String POLLING_ENABLED = 'polling_enabled';
+    public static final String STRIPE_ACCOUNT_ID = 'stripe_account_id';
+    public static final String LAST_SYNCED = 'last_synced';
+    public static final String DEFAULT_CURRENCY = 'default_currency';
+
+
+
+    public static final List<String> SETTINGS_OBJECT_FIELDS = new List<String> {
+            FIELD_MAPPINGS,
+            FIELD_DEFAULTS
+    };
 
     public static final List<String> SETTINGS_STRING_FIELDS = new List<String> {
-            'sync_record_retention',
-            'sync_start_date',
-            'api_percentage_limit',
-            'cpq_term_unit',
-            'cpq_prorate_precision'
+            SYNC_RECORD_RETENTION,
+            SYNC_START_DATE,
+            API_PERCENTAGE_LIMIT,
+            CPQ_TERM_UNIT,
+            CPQ_PRORATE_PRECISION
     };
 
     public static final List<String> SETTINGS_BOOLEAN_FIELDS = new List<String> {
-            'polling_enabled'
+            POLLING_ENABLED
     };
 
     public static final List<String> CONNECTION_READ_ONLY_FIELDS = new List<String> {
-            'stripe_account_id',
-            'last_synced'
+            STRIPE_ACCOUNT_ID,
+            LAST_SYNCED
     };
 
     Map<String, String> IOMap_FilterFields = new Map<String, String> {
@@ -304,6 +319,154 @@ public with sharing class ConfigPayloadHelper {
         }
 
         return respList;
+    }
+
+    public Boolean validateConfigHash(Map<String, Object> requestPayload, Map<String, Object> savePayload, ErrorTracker errors) {
+        // this is static...
+        if (requestPayload.containsKey(OUTPUT_CONFIG_HASH) == false) {
+            errors.add(OUTPUT_CONFIG_HASH, 'No value sent for ' + OUTPUT_CONFIG_HASH);
+            return true;
+        }
+
+        savePayload.put(INPUT_CONFIG_HASH, requestPayload.get(OUTPUT_CONFIG_HASH));
+        return false;
+    }
+
+    public Boolean validateDataMappingConfig(Map<String, Object> requestPayload, Map<String, Object> savePayload, ErrorTracker errors) {
+        List<String> required_fields = new List<String> {
+                FIELD_DEFAULTS,
+                FIELD_MAPPINGS
+        };
+
+        if (requestPayload.containsKey(OUTPUT_ALL_MAPPING_CONFIGS) == false) {
+            errors.add(OUTPUT_ALL_MAPPING_CONFIGS, 'No value sent for ' + OUTPUT_ALL_MAPPING_CONFIGS);
+            return true;
+        }
+
+        Map<String, Object> allMappingConfigurations = (Map<String, Object>) requestPayload.get(OUTPUT_ALL_MAPPING_CONFIGS);
+
+        return validateRequiredFields(required_fields, allMappingConfigurations, savePayload, errors);
+    }
+
+    public Boolean validateSyncPreferences(Map<String, Object> requestPayload, Map<String, Object> savePayload, ErrorTracker errors) {
+        List<String> required_fields = new List<String> {
+                POLLING_ENABLED,
+                SYNC_RECORD_RETENTION
+        };
+
+        List<String> optional_fields = new List<String> {
+                SYNC_START_DATE,
+                API_PERCENTAGE_LIMIT,
+                CPQ_TERM_UNIT,
+                CPQ_PRORATE_PRECISION
+        };
+
+        Map<String, Object> settings = (Map<String, Object>) savePayload.get('settings');
+        if (settings == null) {
+            settings = new Map<String, Object>();
+        }
+
+        settings.put(DEFAULT_CURRENCY, UserInfo.getDefaultCurrency());
+
+        Boolean requiredError = validateRequiredFields(required_fields, requestPayload, settings, errors);
+        Boolean optionalError = validateOptionalFields(optional_fields, requestPayload, settings, errors);
+
+        return requiredError || optionalError;
+    }
+
+    public Boolean validateRequiredFields(List<String> fields, Map<String, Object> requestPayload, Map<String, Object> saveTo, ErrorTracker errors) {
+        Boolean hasError = false;
+
+        for (String key : fields) {
+            if (requestPayload.containsKey(key) == false) {
+                hasError = true;
+                errors.add(key, 'No value sent for ' + key);
+            } else {
+                hasError = hasError || extractValue(key, requestPayload, saveTo, errors);
+            }
+        }
+
+        return hasError;
+    }
+
+    public Boolean validateOptionalFields(List<String> fields, Map<String, Object> requestPayload, Map<String, Object> saveTo, ErrorTracker errors) {
+        Boolean hasError = false;
+
+        for (String key : fields) {
+            if (requestPayload.containsKey(key)) {
+                hasError = hasError || extractValue(key, requestPayload, saveTo, errors);
+            }
+        }
+
+        return hasError;
+    }
+
+    public Boolean extractValue(String key, Map<String, Object> requestPayload, Map<String, Object> saveTo, ErrorTracker errors) {
+        if (SETTINGS_STRING_FIELDS.contains(key)) {
+            saveTo.put(key, String.valueOf(requestPayload.get(key)));
+        } else if (SETTINGS_BOOLEAN_FIELDS.contains(key)) {
+            saveTo.put(key, Boolean.valueOf(requestPayload.get(key)));
+        } else if (SETTINGS_OBJECT_FIELDS.contains(key)) {
+            saveTo.put(key, requestPayload.get(key));
+        } else {
+            errors.add(key, 'No definition of how to translate ' + key);
+            return true;
+        }
+
+        return false;
+    }
+
+    public Boolean validateFilterConfig(Map<String, Object> requestPayload, Map<String, Object> savePayload, ErrorTracker errors) {
+        Boolean hadErrors = false;
+        Map<String, String> filters = new Map<String, String>();
+        for (String objectName : IOMap_FilterFields.keySet()) {
+            try {
+                String payloadPropertyName = IOMap_FilterFields.get(objectName);
+                String value = String.valueOf(requestPayload.get(payloadPropertyName));
+                if (String.isBlank(value)) {
+                    value = null;
+                }
+
+                filters.put(payloadPropertyName, value);
+
+                if (value == null) {
+                    continue;
+                }
+
+                // this is human input, so let's try to clean it a little...
+                value = value.trim();
+
+                /*
+                Using limit zero in queries so there are no records are returned therefore it
+                will not count against the total number of rows retrieved salesforce limitation.
+                */
+                String query = 'SELECT Id FROM ' + objectName + ' WHERE ' + value + ' WITH SECURITY_ENFORCED LIMIT 0';
+                Database.query(query);
+            } catch (Exception e) {
+                hadErrors = true;
+                errors.add(objectName, 'Encountered error processing filter: ' + e.getMessage());
+                errorLogger.create('processing filters: ' + objectName, e);
+            }
+        }
+
+        Map<String, Object> settings = (Map<String, Object>) savePayload.get('settings');
+        if (settings == null) {
+            settings = new Map<String, Object>();
+        }
+        settings.put('filters', filters);
+        return hadErrors;
+    }
+
+    public class ErrorTracker {
+        public final List<Map<String, Object>> errors = new List<Map<String, Object>>();
+        public Map<String, Object> add(String target, String msg) {
+            Map<String, Object> err = new Map<String, Object> {
+                    'Object' => target,
+                    'Error' => msg
+            };
+            errors.add(err);
+            return err;
+        }
     }
 
     @TestVisible

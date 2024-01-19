@@ -1,0 +1,10 @@
+{
+  "results": {
+    "isStripeConnected": "stripeConnected",
+    "isSalesforceConnected": "salesforceConnected",
+    "salesforceNamespace": "c",
+    "isSandbox": true
+  },
+  "error": null,
+  "isSuccess": true
+}

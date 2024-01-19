@@ -1,14 +1,11 @@
-import saveSyncPreferences from '@salesforce/apex/setupAssistant.saveSyncPreferences';
-import getSyncPreferences from '@salesforce/apex/setupAssistant.getSyncPreferences';
-import getMulticurrencySelectionOptions from '@salesforce/apex/setupAssistant.getMulticurrencySelectionOptions';
-import getFilterSettings from '@salesforce/apex/setupAssistant.getFilterSettings';
-import saveFilterSettings from '@salesforce/apex/setupAssistant.saveFilterSettings';
+import { saveSyncPreferences, getSyncPreferences, getMulticurrencySelectionOptions, getFilterSettings, saveFilterSettings } from './configMapperConverter';
 import manualTranslation from '@salesforce/apex/setupAssistant.manualTranslation';
 import syncAllRecords from '@salesforce/apex/setupAssistant.syncAllRecords';
 import { LightningElement, api, track} from 'lwc';
 import { getErrorMessage } from 'c/utils'
 import LightningConfirm from 'lightning/confirm';
-import { Debugger } from 'c/debugger';
+import Debugger from "c/debugger";
+import {ConfigData, ConfigManager, ConfigStates} from "c/systemConfigManager";
 
 const POLLING_FIRST_ENABLE_ALERT_TITLE = 'Are you sure?';
 const POLLING_FIRST_ENABLE_ALERT_TEMPLATE = `You are activating live syncing for your integration, meaning we will begin creating Stripe subscriptions for all Salesforce orders activated on or after SYNC_START_DATE. You can pause this in the future in the 'Sync Preferences' menu.`
@@ -160,7 +157,51 @@ export default class SyncPreferencesStep extends LightningElement {
         return inputField.checkValidity() === false;
     }
 
+    _firstTranslationCallback = true;
+    /**
+     *
+     * @param {SystemConfig<TranslationData>} event
+     */
+    _processTranslationConfigUpdate(event) {
+        const values= event.detail;
+        Debugger.log('SyncPreferencesStep', '_processTranslationConfigUpdate', values);
+
+        // we will have literally just done the connectedCallback...
+        if (this._firstTranslationCallback) {
+            this._firstTranslationCallback = false;
+            Debugger.log('SyncPreferencesStep', '_processTranslationConfigUpdate', 'skipping first run');
+            return;
+        }
+        this.connectedCallback();
+        Debugger.log('SyncPreferencesStep', '_processTranslationConfigUpdate', 'complete');
+    }
+
+    _initConfigManager() {
+        Debugger.log('SyncPreferencesStep', '_initConfigManager');
+        if (this._boundProcessTranslationConfigUpdate) {
+            Debugger.log('SyncPreferencesStep', '_initConfigManager', 'already ran');
+            return;
+        }
+        this._boundProcessTranslationConfigUpdate = this._processTranslationConfigUpdate.bind(this);
+        ConfigManager.register(ConfigData.translation, ConfigStates.updated, this._boundProcessTranslationConfigUpdate);
+        Debugger.log('SyncPreferencesStep', '_initConfigManager', 'registered')
+    }
+
+    _deinitConfigManager() {
+        ConfigManager.unregister(ConfigData.translation, ConfigStates.updated, this._boundProcessTranslationConfigUpdate);
+    }
+
+    disconnectedCallback() {
+        this._deinitConfigManager();
+    }
+
     @api async connectedCallback() {
+        this._initConfigManager();
+        const config = await ConfigManager.getCachedTranslationData();
+        if (config.isConnected === false) {
+            Debugger.log('SyncPreferencesStep', 'Not yet connected...');
+            return;
+        }
         try {
             const syncPreferences = await getSyncPreferences();
             const responseData = JSON.parse(syncPreferences);
@@ -449,6 +490,7 @@ export default class SyncPreferencesStep extends LightningElement {
                     if (filterResponseData.isSuccess ) {
                         if (filterResponseData.results.isFiltersSaved) {
                             Debugger.log('saveModifiedSyncPreferences', 'filters saved');
+                            this.configurationHash = filterResponseData.results.configurationHash;
                             saveSuccess = true
                             this.showToast('Changes were successfully saved', 'success');
                         } else {

@@ -1,0 +1,11 @@
+{
+  "results": {
+    "isConnected": true,
+    "pricebook_entry_filter": null,
+    "account_filter": null,
+    "order_filter": "Status = 'Activated'",
+    "product_filter": null
+  },
+  "error": null,
+  "isSuccess": true
+}

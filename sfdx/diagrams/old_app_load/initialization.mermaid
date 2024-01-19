@@ -1,0 +1,30 @@
+sequenceDiagram
+    participant LWCSetup as Setup Component
+    participant LWCStep as Step Component
+    participant LWCSystemConnectionStep as System Connections Component
+    participant LWCDataMappingStep as Data Mapping Component
+    participant LWCSyncPreferencesStep as Sync Preferences Step
+    participant A as Apex
+    participant R as Ruby
+
+    LWCSetup->>A: getSetupData [local]
+    LWCSetup->>A: setOrgType [local, but is @AuraEnabled in utilities class?!]
+    LWCSetup->>A: getPackageVersion [local, but is @AuraEnabled in utilities class?!]
+    LWCStep->>A: getExportableConfigDownloadUrl [local]
+    LWCSystemConnectionStep->>A: validateConnectionStatus [calls GET ruby:/v1/configuration, and also calls POST ruby:/post-install on first call]
+    alt if first call
+        A->>R: /v1/post-install on first call
+    else
+        A->>R: /v1/configuration
+    end
+    LWCDataMappingStep->>A: getFormattedStripeObjectFields [calls GET ruby:/openapi.json]
+    A->>R: /openapi.json
+    LWCSyncPreferencesStep->>A: getSyncPreferences [calls GET ruby:/v1/configuration]
+    A->>R: /v1/configuration
+    LWCDataMappingStep->>A: getPicklistValuesForMapper [local]
+    LWCSyncPreferencesStep->>A: getMulticurrencySelectionOptions [local, returns orgMaxApiLimit too??]
+    LWCSyncPreferencesStep->>A: getFilterSettings [calls GET ruby:/v1/configuration]
+    A->>R: /v1/configuration
+    LWCDataMappingStep->>A: getMappingConfigurations
+    A->>R: /v1/configuration
+

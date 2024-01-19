@@ -1,0 +1,114 @@
+{
+  "results": {
+    "configurationHash": "e5f555d185a5127cbf93d1028b2b8de558b81645",
+    "isConnected": true,
+    "hiddenSyncPrefsFields": [
+      "cpq_prorate_precision"
+    ],
+    "last_synced": null,
+    "stripe_account_id": "acct_15uapDIsgf92XbAO",
+    "polling_enabled": false,
+    "cpq_term_unit": "month",
+    "api_percentage_limit": "95",
+    "sync_start_date": null,
+    "sync_record_retention": "10000",
+    "allMappingConfigurations": {
+      "field_defaults": {
+        "subscription_schedule": {},
+        "subscription_phase": {},
+        "subscription_item": {},
+        "price_order_item": {},
+        "customer": {},
+        "product": {},
+        "coupon": {},
+        "price": {}
+      },
+      "required_mappings": {
+        "coupon": {},
+        "price_order_item": {
+          "unit_amount_decimal": "UnitPrice"
+        },
+        "price": {
+          "unit_amount_decimal": "UnitPrice"
+        },
+        "subscription_item": {
+          "quantity": "Quantity"
+        },
+        "subscription_phase": {},
+        "subscription_schedule": {
+          "iterations": "SBQQ__Quote__c.SBQQ__SubscriptionTerm__c",
+          "start_date": "SBQQ__Quote__c.SBQQ__StartDate__c"
+        },
+        "invoice": {},
+        "customer": {},
+        "product": {}
+      },
+      "default_mappings": {
+        "coupon": {
+          "max_redemptions": "Max_Redemptions__c",
+          "duration_in_months": "Duration_In_Months__c",
+          "duration": "Duration__c",
+          "percent_off": "Percent_Off__c",
+          "amount_off": "Amount_Off__c",
+          "name": "Name__c"
+        },
+        "invoice": {},
+        "subscription_item": {},
+        "subscription_phase": {},
+        "subscription_schedule": {},
+        "price_order_item": {
+          "recurring.usage_type": "SBQQ__BillingType__c",
+          "recurring.interval_count": "SBQQ__BillingFrequency__c"
+        },
+        "price": {
+          "recurring.usage_type": "Product2.SBQQ__BillingType__c",
+          "recurring.interval_count": "Product2.SBQQ__BillingFrequency__c"
+        },
+        "product": {
+          "description": "Description",
+          "name": "Name"
+        },
+        "customer": {
+          "shipping.address.country": "ShippingCountry",
+          "shipping.address.postal_code": "ShippingPostalCode",
+          "shipping.address.state": "ShippingState",
+          "shipping.address.city": "ShippingCity",
+          "shipping.address.line1": "ShippingStreet",
+          "shipping.phone": "Phone",
+          "shipping.name": "Name",
+          "address.country": "BillingCountry",
+          "address.postal_code": "BillingPostalCode",
+          "address.state": "BillingState",
+          "address.city": "BillingCity",
+          "address.line1": "BillingStreet",
+          "description": "Description",
+          "phone": "Phone",
+          "name": "Name"
+        }
+      },
+      "field_mappings": {
+        "subscription_schedule": {},
+        "subscription_phase": {},
+        "subscription_item": {},
+        "price_order_item": {},
+        "customer": {},
+        "product": {},
+        "coupon": {},
+        "price": {}
+      }
+    },
+    "hiddenMapperFields": [
+      "subscription_schedule.default_settings.invoice_settings.rendering.template",
+      "subscription_schedule.default_settings.invoice_settings.rendering.template_version",
+      "subscription_schedule.cancellation_details.comment",
+      "subscription_schedule.cancellation_details.feedback",
+      "subscription_schedule.cancellation_details.feedback_option"
+    ],
+    "pricebook_entry_filter": null,
+    "account_filter": null,
+    "order_filter": "Status = 'Activated'",
+    "product_filter": null
+  },
+  "error": null,
+  "isSuccess": true
+}

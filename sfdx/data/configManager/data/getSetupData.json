@@ -1,0 +1,16 @@
+{
+  "results": {
+    "isConnected": true,
+    "setupData": {
+      "attributes": {
+        "type": "Setup_Data__c",
+        "url": "/services/data/v58.0/sobjects/Setup_Data__c/a1TDR0000020Xxf2AE"
+      },
+      "Id": "a1TDR0000020Xxf2AE",
+      "Steps_Completed__c": "{\"C-POLLING-STEP\":4,\"C-DATA-MAPPING-STEP\":2,\"C-SYSTEM-CONNECTIONS-STEP\":1,\"C-SYNC-PREFERENCES-STEP\":3,\"C-ORG-SETTINGS-STEP\":5}",
+      "isSetupComplete__c": true
+    }
+  },
+  "error": null,
+  "isSuccess": true
+}

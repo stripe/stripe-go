@@ -4,9 +4,10 @@
 
 import activatePolling from '@salesforce/apex/setupAssistant.activatePolling';
 import getSyncPreferences from '@salesforce/apex/setupAssistant.getSyncPreferences';
+import {ConfigManager, ConfigStates, ConfigData, ConfigValidationError} from 'c/systemConfigManager';
 import { LightningElement, api, track } from 'lwc';
 import LightningConfirm from 'lightning/confirm';
-import { Debugger } from 'c/debugger';
+import Debugger from "c/debugger";
 
 /** @typedef {Object} ResponseData
  * @property {boolean} polling_enabled
@@ -88,50 +89,76 @@ export default class PollingStep extends LightningElement {
     @api showButton = false;
     @api showTitle = false;
 
+    _firstTranslationCallback = true;
+    /**
+     *
+     * @param {SystemConfig<TranslationData>} event
+     */
+    _processTranslationConfigUpdate(event) {
+        const values= event.detail;
+        Debugger.log('SyncPreferencesStep', '_processTranslationConfigUpdate', values);
+
+        // we will have literally just done the connectedCallback...
+        if (this._firstTranslationCallback) {
+            this._firstTranslationCallback = false;
+            Debugger.log('SyncPreferencesStep', '_processTranslationConfigUpdate', 'skipping first run');
+            return;
+        }
+        this.connectedCallback();
+        Debugger.log('SyncPreferencesStep', '_processTranslationConfigUpdate', 'complete');
+    }
+
+    _initConfigManager() {
+        Debugger.log('SyncPreferencesStep', '_initConfigManager');
+        if (this._boundProcessTranslationConfigUpdate) {
+            Debugger.log('SyncPreferencesStep', '_initConfigManager', 'already ran');
+            return;
+        }
+        this._boundProcessTranslationConfigUpdate = this._processTranslationConfigUpdate.bind(this);
+        ConfigManager.register(ConfigData.translation, ConfigStates.updated, this._boundProcessTranslationConfigUpdate);
+        Debugger.log('SyncPreferencesStep', '_initConfigManager', 'registered')
+    }
+
+    _deinitConfigManager() {
+        ConfigManager.unregister(ConfigData.translation, ConfigStates.updated, this._boundProcessTranslationConfigUpdate);
+    }
+
+    disconnectedCallback() {
+        this._deinitConfigManager();
+    }
+
     @api async connectedCallback() {
+        this._initConfigManager();
+        const config = await ConfigManager.getCachedTranslationData();
+        if (config.isConnected === false) {
+            Debugger.log('PollingStep', 'Not yet connected...');
+            return;
+        }
+
         await this.initPageStateData();
     }
 
     async initPageStateData() {
-        const syncPrefs = await this.fetchSyncPreferences();
+        const translationData = await ConfigManager.getCachedTranslationData();
 
-        if (syncPrefs === null) {
+        if (translationData === null) {
             return;
         }
 
-        Debugger.log('pollingStep', 'initPageStateData', syncPrefs);
+        Debugger.log('pollingStep', 'initPageStateData', translationData);
 
-        this.pollingEnabled = syncPrefs.polling_enabled;
-        this.lastSynced = syncPrefs.last_synced;
-        this.stripeAccountId = syncPrefs.stripe_account_id;
-        this.configurationHash = syncPrefs.configurationHash;
-        this.isConfigEnabled = syncPrefs.enabled;
+        this.pollingEnabled = translationData.polling_enabled;
+        this.lastSynced = translationData.last_synced;
+        this.stripeAccountId = translationData.stripe_account_id;
+        this.configurationHash = translationData.configurationHash;
+        this.isConfigEnabled = translationData.enabled;
 
-        const syncStartDate = syncPrefs.sync_start_date;
+        const syncStartDate = translationData.sync_start_date;
         if (syncStartDate && syncStartDate !== "0") {
-            this.syncStartDate = new Date(syncStartDate * 1000).toISOString();
+            this.syncStartDate = new Date(parseInt(syncStartDate, 10) * 1000).toISOString();
         } else {
             this.syncStartDate = new Date().toISOString();
         }
-    }
-
-    /**
-     *
-     * @returns {Promise<ResponseData|null>}
-     */
-    async fetchSyncPreferences() {
-        const syncPreferences = await getSyncPreferences();
-        /** @type {ResponsePayload} */
-        const responseData = JSON.parse(syncPreferences);
-        if(!responseData.results.isConnected) {
-            return null;
-        }
-        if(responseData.error) {
-            this.showToast(responseData.error, 'error', 'sticky');
-            return null;
-        }
-
-        return responseData.results;
     }
 
     /**
@@ -182,43 +209,36 @@ export default class PollingStep extends LightningElement {
      * @returns {Promise<boolean>}
      */
     async save() {
-        const syncPrefs = await this.fetchSyncPreferences();
+        const translationData = await ConfigManager.getCachedTranslationData();
 
-        if (syncPrefs === null) {
+        // basic sanity check to ensure we're in a good state...
+        if (translationData === null) {
             return false;
         }
 
-        const updatedSyncPreferences = await activatePolling({
-            syncStartDate: new Date(this.syncStartDate).getTime() / 1000,
-            isConfigEnabled: this.isConfigEnabled,
-            configurationHash: this.configurationHash,
-        });
+        const payload = {
+            polling_enabled: this.pollingEnabled,
+            sync_start_date: new Date(this.syncStartDate).getTime() / 1000,
+        }
 
-        const savedSyncPreferencesResponseData = JSON.parse(updatedSyncPreferences);
-        if (savedSyncPreferencesResponseData.isSuccess) {
-            Debugger.log('save result', savedSyncPreferencesResponseData.results);
-            this.configurationHash = savedSyncPreferencesResponseData.results.configurationHash;
+        let saveSuccess = false;
+        try {
+            const result = await ConfigManager.saveTranslationConfig(payload);
+            this.configurationHash = result.configurationHash;
             this.showToast('Changes were successfully saved', 'success');
-            this.dispatchEvent(new CustomEvent('savecomplete', {
-                detail: {
-                    saveSuccess: true,
-                    configurationHash: this.configurationHash
-                }
-            }));
-
-            return true;
-        } else if (savedSyncPreferencesResponseData.error) {
-            this.showToast(savedSyncPreferencesResponseData.error, 'error', 'sticky');
+            saveSuccess = true;
+        } catch (err) {
+            this.showToast(err.message, 'error', 'sticky');
         }
 
         this.dispatchEvent(new CustomEvent('savecomplete', {
             detail: {
-                saveSuccess: false,
+                saveSuccess,
                 configurationHash: this.configurationHash
             }
         }));
 
-        return false;
+        return saveSuccess;
     }
 
     @api async activatePolling() {

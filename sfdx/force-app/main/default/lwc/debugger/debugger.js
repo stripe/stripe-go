@@ -4,7 +4,7 @@
 import isJSDebugEnabled from '@salesforce/apex/setupAssistant.isJSDebugEnabled';
 import isOAuthAutoCloseWindowEnabled from '@salesforce/apex/setupAssistant.isOAuthAutoCloseWindowEnabled';
 
-class Debugger {
+export default class Debugger {
     static config = null;
     static oauthAutoCloseWindow = null;
     static initialized = false;
@@ -32,22 +32,22 @@ class Debugger {
     /**
      * @param {...*} var_args
      */
-    static log(var_args) {
-        this.exec(console.log, arguments);
+    static log(...var_args) {
+        this.exec(console.log, var_args);
     }
 
     /**
      * @param {...*} var_args
      */
-    static error(var_args) {
-        this.exec(console.error, arguments);
+    static error(...var_args) {
+        this.exec(console.error, var_args);
     }
 
     /**
      * @param {...*} var_args
      */
-    static warn(var_args) {
-        this.exec(console.warn, arguments);
+    static warn(...var_args) {
+        this.exec(console.warn, var_args);
     }
 
     static exec(target, args) {
@@ -68,11 +68,7 @@ class Debugger {
         const ret = [];
         for (let i = 0; i < data.length; i++) {
             try {
-                if (data[i] instanceof Proxy) {
-                    ret.push(JSON.parse(JSON.stringify(data[i])));
-                } else {
-                    ret.push(data[i]);
-                }
+                ret.push(JSON.parse(JSON.stringify(data[i])));
             } catch (e) {
                 ret.push(data[i]);
             }
@@ -80,5 +76,3 @@ class Debugger {
         return ret;
     }
 }
-
-export {Debugger}

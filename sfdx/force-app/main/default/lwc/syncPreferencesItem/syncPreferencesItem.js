@@ -3,7 +3,7 @@
  */
 
 import { LightningElement, api } from 'lwc';
-import { Debugger } from "c/debugger";
+import Debugger from "c/debugger";
 
 export default class SyncPreferencesItem extends LightningElement {
     @api name;
@@ -16,9 +16,9 @@ export default class SyncPreferencesItem extends LightningElement {
     @api first = false;
 
     get displayItem() {
-        Debugger.log('name', this.name);
+        // console.log('name', this.name);
         Debugger.log('toggleFieldVisibilityList', this.toggleFieldVisibilityList);
-        const isInToggleList = this.toggleFieldVisibilityList.indexOf(this.name) !== -1;
+        const isInToggleList = this.toggleFieldVisibilityList && this.toggleFieldVisibilityList.indexOf(this.name) !== -1;
         if (this.hidden) {
             // if it is not visible by default, then it must be in toggleFieldVisibilityList to be visible
             return isInToggleList;

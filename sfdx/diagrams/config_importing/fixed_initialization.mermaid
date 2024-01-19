@@ -1,0 +1,35 @@
+sequenceDiagram
+    participant LWCSetup as Setup Component
+    participant LWCConfigManager as Config Manager
+    participant LWCStep as Step Component
+    participant LWCSystemConnectionStep as System Connections Component
+    participant LWCDataMappingStep as Data Mapping Component
+    participant LWCSyncPreferencesStep as Sync Preferences Step
+    participant NA as New AuraEnabled Methods
+    participant A as Apex
+    participant R as Ruby
+
+    LWCConfigManager->>NA: getCoreConfig
+    NA->>A: getSetupData [local]
+    NA->>A: setOrgType [local, but is @AuraEnabled in utilities class?!]
+    NA->>A: getPackageVersion [local, but is @AuraEnabled in utilities class?!]
+    NA->>A: getPicklistValuesForMapper [local]
+    NA->>A: getExportableConfigDownloadUrl [local]
+    NA->>A: getMulticurrencySelectionOptions [local, returns orgMaxApiLimit too??]
+    critical We're going to leave this alone as it's being tackled in auth stuff
+        LWCSystemConnectionStep->>A: validateConnectionStatus [calls GET ruby:/v1/configuration, and also calls POST ruby:/post-install on first call]
+        alt if first call
+            A->>R: /v1/post-install on first call
+        else
+            A->>R: /v1/configuration
+        end
+    end
+
+    LWCConfigManager->>NA: getDataMapperLayout
+    NA->>A: getFormattedStripeObjectFields [calls GET ruby:/openapi.json]
+    A->>R: /openapi.json
+    note over LWCConfigManager,R: One call to unique resource, totally fine, just giving it a better name
+    LWCConfigManager->>NA: getConnectorSettings
+    NA->>R: /v1/configuration
+    note over LWCConfigManager,R: construct single response using ConfigPayloadHelper that other methods already use
+

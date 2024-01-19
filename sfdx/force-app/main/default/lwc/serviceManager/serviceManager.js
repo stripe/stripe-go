@@ -4,7 +4,7 @@
 import getServiceConnectionStatuses from '@salesforce/apexContinuation/setupAssistant.getServiceConnectionStatuses';
 import checkServiceConnectionStatuses from '@salesforce/apex/setupAssistant.checkServiceConnectionStatuses';
 import {ConnectionStatus, ServiceManagerServices, EventEmitter} from "c/systemStatusUtils";
-import {Debugger} from "c/debugger";
+import Debugger from "c/debugger";
 const DebugLog = Debugger.withContext('ServiceManager');
 const SERVICE_DELIMINATOR = '|';
 
