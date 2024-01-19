@@ -926,6 +926,8 @@ type InvoiceUpcomingScheduleDetailsAmendmentItemActionAddDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingScheduleDetailsAmendmentItemActionAddDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -993,6 +995,8 @@ type InvoiceUpcomingScheduleDetailsAmendmentItemActionSetDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingScheduleDetailsAmendmentItemActionSetDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
@@ -1128,6 +1132,8 @@ type InvoiceUpcomingScheduleDetailsPhaseAddInvoiceItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
@@ -1208,6 +1214,8 @@ type InvoiceUpcomingScheduleDetailsPhaseDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingScheduleDetailsPhaseDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -1258,6 +1266,8 @@ type InvoiceUpcomingScheduleDetailsPhaseItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingScheduleDetailsPhaseItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -1512,6 +1522,8 @@ type InvoiceUpcomingSubscriptionDetailsItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingSubscriptionDetailsItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -2020,6 +2032,8 @@ type InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionAddDiscountParams str
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionAddDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -2087,6 +2101,8 @@ type InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionSetDiscountParams str
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionSetDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
@@ -2222,6 +2238,8 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseAddInvoiceItemDiscountParams struct
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingLinesScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
@@ -2302,6 +2320,8 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingLinesScheduleDetailsPhaseDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -2352,6 +2372,8 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingLinesScheduleDetailsPhaseItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -2606,6 +2628,8 @@ type InvoiceUpcomingLinesSubscriptionDetailsItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingLinesSubscriptionDetailsItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -2749,6 +2773,8 @@ type InvoiceUpcomingLinesSubscriptionItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpcomingLinesSubscriptionItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
