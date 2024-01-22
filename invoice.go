@@ -98,6 +98,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
 const (
 	InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureAny       InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureAutomatic InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureChallenge InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 )
 
 // The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
