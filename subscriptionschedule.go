@@ -629,6 +629,8 @@ type SubscriptionScheduleAmendAmendmentDiscountActionAddParams struct {
 	DiscountEnd *SubscriptionScheduleAmendAmendmentDiscountActionAddDiscountEndParams `form:"discount_end"`
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
 	Index *int64 `form:"index"`
+	// The promotion code to redeem.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Details of the discount to remove.
@@ -637,6 +639,8 @@ type SubscriptionScheduleAmendAmendmentDiscountActionRemoveParams struct {
 	Coupon *string `form:"coupon"`
 	// The ID of a discount to remove from the `discounts` array.
 	Discount *string `form:"discount"`
+	// The ID of a promotion code to remove from the `discounts` array.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Details of the discount to replace the existing discounts with.
@@ -645,6 +649,8 @@ type SubscriptionScheduleAmendAmendmentDiscountActionSetParams struct {
 	Coupon *string `form:"coupon"`
 	// An ID of an existing discount to replace the `discounts` array with.
 	Discount *string `form:"discount"`
+	// An ID of an existing promotion code to replace the `discounts` array with.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Changes to the coupons being redeemed or discounts being applied during the amendment time span.

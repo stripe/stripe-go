@@ -581,6 +581,8 @@ type QuoteLineActionRemoveDiscountParams struct {
 	Coupon *string `form:"coupon"`
 	// The ID of a discount to remove from the `discounts` array.
 	Discount *string `form:"discount"`
+	// The ID of a promotion code to remove from the `discounts` array.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Details for the `remove_item` type.
@@ -595,6 +597,8 @@ type QuoteLineActionSetDiscountParams struct {
 	Coupon *string `form:"coupon"`
 	// An ID of an existing discount to replace the `discounts` array with.
 	Discount *string `form:"discount"`
+	// An ID of an existing promotion code to replace the `discounts` array with.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Time span for the redeemed discount.
