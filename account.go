@@ -52,6 +52,7 @@ const (
 	AccountCompanyStructurePublicCompany                      AccountCompanyStructure = "public_company"
 	AccountCompanyStructurePublicCorporation                  AccountCompanyStructure = "public_corporation"
 	AccountCompanyStructurePublicPartnership                  AccountCompanyStructure = "public_partnership"
+	AccountCompanyStructureRegisteredCharity                  AccountCompanyStructure = "registered_charity"
 	AccountCompanyStructureSingleMemberLLC                    AccountCompanyStructure = "single_member_llc"
 	AccountCompanyStructureSoleEstablishment                  AccountCompanyStructure = "sole_establishment"
 	AccountCompanyStructureSoleProprietorship                 AccountCompanyStructure = "sole_proprietorship"
