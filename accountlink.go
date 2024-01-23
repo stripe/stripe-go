@@ -10,7 +10,7 @@ package stripe
 type AccountLinkCollectionOptionsParams struct {
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`.
 	Fields *string `form:"fields"`
-	// Options for collecting future_requirements in Connect Onboarding
+	// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
 	FutureRequirements *string `form:"future_requirements"`
 }
 
