@@ -216,6 +216,16 @@ func (p *AccountParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// The applicant's gross annual revenue for its preceding fiscal year.
+type AccountBusinessProfileAnnualRevenueParams struct {
+	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
+	FiscalYearEnd *string `form:"fiscal_year_end"`
+}
+
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 type AccountBusinessProfileMonthlyEstimatedRevenueParams struct {
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
@@ -226,6 +236,10 @@ type AccountBusinessProfileMonthlyEstimatedRevenueParams struct {
 
 // Business information about the account.
 type AccountBusinessProfileParams struct {
+	// The applicant's gross annual revenue for its preceding fiscal year.
+	AnnualRevenue *AccountBusinessProfileAnnualRevenueParams `form:"annual_revenue"`
+	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
 	// [The merchant category code for the account](https://stripe.com/docs/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
 	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
@@ -954,6 +968,15 @@ func (p *AccountRejectParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The applicant's gross annual revenue for its preceding fiscal year.
+type AccountBusinessProfileAnnualRevenue struct {
+	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
+	FiscalYearEnd string `json:"fiscal_year_end"`
+}
 type AccountBusinessProfileMonthlyEstimatedRevenue struct {
 	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
@@ -963,6 +986,10 @@ type AccountBusinessProfileMonthlyEstimatedRevenue struct {
 
 // Business information about the account.
 type AccountBusinessProfile struct {
+	// The applicant's gross annual revenue for its preceding fiscal year.
+	AnnualRevenue *AccountBusinessProfileAnnualRevenue `json:"annual_revenue"`
+	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	EstimatedWorkerCount int64 `json:"estimated_worker_count"`
 	// [The merchant category code for the account](https://stripe.com/docs/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC                     string                                         `json:"mcc"`
 	MonthlyEstimatedRevenue *AccountBusinessProfileMonthlyEstimatedRevenue `json:"monthly_estimated_revenue"`
