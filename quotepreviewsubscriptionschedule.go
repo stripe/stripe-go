@@ -306,6 +306,8 @@ type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
@@ -358,6 +360,8 @@ type QuotePreviewSubscriptionSchedulePhaseDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -398,6 +402,8 @@ type QuotePreviewSubscriptionSchedulePhaseItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // Options that configure the trial on the subscription item.
