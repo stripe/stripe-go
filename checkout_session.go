@@ -6,6 +6,15 @@
 
 package stripe
 
+// Type of the account referenced.
+type CheckoutSessionAutomaticTaxLiabilityType string
+
+// List of values that CheckoutSessionAutomaticTaxLiabilityType can take
+const (
+	CheckoutSessionAutomaticTaxLiabilityTypeAccount CheckoutSessionAutomaticTaxLiabilityType = "account"
+	CheckoutSessionAutomaticTaxLiabilityTypeSelf    CheckoutSessionAutomaticTaxLiabilityType = "self"
+)
+
 // The status of the most recent automated tax calculation for this session.
 type CheckoutSessionAutomaticTaxStatus string
 
@@ -183,6 +192,15 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeVERIF    CheckoutSessionCustomerDetailsTaxIDType = "ve_rif"
 	CheckoutSessionCustomerDetailsTaxIDTypeVNTIN    CheckoutSessionCustomerDetailsTaxIDType = "vn_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeZAVAT    CheckoutSessionCustomerDetailsTaxIDType = "za_vat"
+)
+
+// Type of the account referenced.
+type CheckoutSessionInvoiceCreationInvoiceDataIssuerType string
+
+// List of values that CheckoutSessionInvoiceCreationInvoiceDataIssuerType can take
+const (
+	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeAccount CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "account"
+	CheckoutSessionInvoiceCreationInvoiceDataIssuerTypeSelf    CheckoutSessionInvoiceCreationInvoiceDataIssuerType = "self"
 )
 
 // The mode of the Checkout Session.
@@ -791,10 +809,20 @@ type CheckoutSessionAfterExpirationParams struct {
 	Recovery *CheckoutSessionAfterExpirationRecoveryParams `form:"recovery"`
 }
 
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type CheckoutSessionAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
 // Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 type CheckoutSessionAutomaticTaxParams struct {
 	// Set to true to enable automatic taxes.
 	Enabled *bool `form:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *CheckoutSessionAutomaticTaxLiabilityParams `form:"liability"`
 }
 
 // Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
@@ -937,6 +965,14 @@ type CheckoutSessionInvoiceCreationInvoiceDataCustomFieldParams struct {
 	Value *string `form:"value"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type CheckoutSessionInvoiceCreationInvoiceDataIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
 // Default options for invoice PDF rendering for this customer.
 type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
@@ -953,6 +989,8 @@ type CheckoutSessionInvoiceCreationInvoiceDataParams struct {
 	Description *string `form:"description"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer *string `form:"footer"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *CheckoutSessionInvoiceCreationInvoiceDataIssuerParams `form:"issuer"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
@@ -1680,6 +1718,20 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// All invoices will be billed using the specified settings.
+type CheckoutSessionSubscriptionDataInvoiceSettingsParams struct {
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer"`
+}
+
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type CheckoutSessionSubscriptionDataTransferDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
@@ -1714,6 +1766,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// Use this field to optionally store an explanation of the subscription
 	// for rendering in the [customer portal](https://stripe.com/docs/customer-management).
 	Description *string `form:"description"`
+	// All invoices will be billed using the specified settings.
+	InvoiceSettings *CheckoutSessionSubscriptionDataInvoiceSettingsParams `form:"invoice_settings"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
@@ -1944,9 +1998,19 @@ type CheckoutSessionAfterExpiration struct {
 	// When set, configuration used to recover the Checkout Session on expiry.
 	Recovery *CheckoutSessionAfterExpirationRecovery `json:"recovery"`
 }
+
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type CheckoutSessionAutomaticTaxLiability struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type CheckoutSessionAutomaticTaxLiabilityType `json:"type"`
+}
 type CheckoutSessionAutomaticTax struct {
 	// Indicates whether automatic tax is enabled for the session
 	Enabled bool `json:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *CheckoutSessionAutomaticTaxLiability `json:"liability"`
 	// The status of the most recent automated tax calculation for this session.
 	Status CheckoutSessionAutomaticTaxStatus `json:"status"`
 }
@@ -2109,6 +2173,14 @@ type CheckoutSessionInvoiceCreationInvoiceDataCustomField struct {
 	Value string `json:"value"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type CheckoutSessionInvoiceCreationInvoiceDataIssuer struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type CheckoutSessionInvoiceCreationInvoiceDataIssuerType `json:"type"`
+}
+
 // Options for invoice PDF rendering.
 type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
@@ -2123,6 +2195,8 @@ type CheckoutSessionInvoiceCreationInvoiceData struct {
 	Description string `json:"description"`
 	// Footer displayed on the invoice.
 	Footer string `json:"footer"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *CheckoutSessionInvoiceCreationInvoiceDataIssuer `json:"issuer"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Options for invoice PDF rendering.
