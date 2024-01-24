@@ -17,6 +17,15 @@ const (
 	PaymentLinkAfterCompletionTypeRedirect           PaymentLinkAfterCompletionType = "redirect"
 )
 
+// Type of the account referenced.
+type PaymentLinkAutomaticTaxLiabilityType string
+
+// List of values that PaymentLinkAutomaticTaxLiabilityType can take
+const (
+	PaymentLinkAutomaticTaxLiabilityTypeAccount PaymentLinkAutomaticTaxLiabilityType = "account"
+	PaymentLinkAutomaticTaxLiabilityTypeSelf    PaymentLinkAutomaticTaxLiabilityType = "self"
+)
+
 // Configuration for collecting the customer's billing address.
 type PaymentLinkBillingAddressCollection string
 
@@ -80,6 +89,15 @@ type PaymentLinkCustomerCreation string
 const (
 	PaymentLinkCustomerCreationAlways     PaymentLinkCustomerCreation = "always"
 	PaymentLinkCustomerCreationIfRequired PaymentLinkCustomerCreation = "if_required"
+)
+
+// Type of the account referenced.
+type PaymentLinkInvoiceCreationInvoiceDataIssuerType string
+
+// List of values that PaymentLinkInvoiceCreationInvoiceDataIssuerType can take
+const (
+	PaymentLinkInvoiceCreationInvoiceDataIssuerTypeAccount PaymentLinkInvoiceCreationInvoiceDataIssuerType = "account"
+	PaymentLinkInvoiceCreationInvoiceDataIssuerTypeSelf    PaymentLinkInvoiceCreationInvoiceDataIssuerType = "self"
 )
 
 // Indicates when the funds will be captured from the customer's account.
@@ -156,6 +174,15 @@ const (
 	PaymentLinkSubmitTypePay    PaymentLinkSubmitType = "pay"
 )
 
+// Type of the account referenced.
+type PaymentLinkSubscriptionDataInvoiceSettingsIssuerType string
+
+// List of values that PaymentLinkSubscriptionDataInvoiceSettingsIssuerType can take
+const (
+	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeAccount PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "account"
+	PaymentLinkSubscriptionDataInvoiceSettingsIssuerTypeSelf    PaymentLinkSubscriptionDataInvoiceSettingsIssuerType = "self"
+)
+
 // Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
 type PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod string
 
@@ -202,10 +229,20 @@ type PaymentLinkAfterCompletionParams struct {
 	Type *string `form:"type"`
 }
 
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type PaymentLinkAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
 // Configuration for automatic tax collection.
 type PaymentLinkAutomaticTaxParams struct {
 	// If `true`, tax will be calculated automatically using the customer's location.
 	Enabled *bool `form:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *PaymentLinkAutomaticTaxLiabilityParams `form:"liability"`
 }
 
 // Determines the display of payment method reuse agreement text in the UI. If set to `hidden`, it will hide legal text related to the reuse of a payment method.
@@ -328,6 +365,14 @@ type PaymentLinkInvoiceCreationInvoiceDataCustomFieldParams struct {
 	Value *string `form:"value"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type PaymentLinkInvoiceCreationInvoiceDataIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
 // Default options for invoice PDF rendering for this customer.
 type PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
@@ -344,6 +389,8 @@ type PaymentLinkInvoiceCreationInvoiceDataParams struct {
 	Description *string `form:"description"`
 	// Default footer to be displayed on invoices for this customer.
 	Footer *string `form:"footer"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *PaymentLinkInvoiceCreationInvoiceDataIssuerParams `form:"issuer"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Default options for invoice PDF rendering for this customer.
@@ -459,6 +506,20 @@ type PaymentLinkShippingOptionParams struct {
 	ShippingRate *string `form:"shipping_rate"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type PaymentLinkSubscriptionDataInvoiceSettingsIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// All invoices will be billed using the specified settings.
+type PaymentLinkSubscriptionDataInvoiceSettingsParams struct {
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *PaymentLinkSubscriptionDataInvoiceSettingsIssuerParams `form:"issuer"`
+}
+
 // Defines how the subscription should behave when the user's free trial ends.
 type PaymentLinkSubscriptionDataTrialSettingsEndBehaviorParams struct {
 	// Indicates how the subscription should change when the trial ends if the user did not provide a payment method.
@@ -475,6 +536,8 @@ type PaymentLinkSubscriptionDataTrialSettingsParams struct {
 type PaymentLinkSubscriptionDataParams struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
+	// All invoices will be billed using the specified settings.
+	InvoiceSettings *PaymentLinkSubscriptionDataInvoiceSettingsParams `form:"invoice_settings"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will declaratively set metadata on [Subscriptions](https://stripe.com/docs/api/subscriptions) generated from this payment link. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
 	Metadata map[string]string `form:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
@@ -619,9 +682,19 @@ type PaymentLinkAfterCompletion struct {
 	// The specified behavior after the purchase is complete.
 	Type PaymentLinkAfterCompletionType `json:"type"`
 }
+
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type PaymentLinkAutomaticTaxLiability struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type PaymentLinkAutomaticTaxLiabilityType `json:"type"`
+}
 type PaymentLinkAutomaticTax struct {
 	// If `true`, tax will be calculated automatically using the customer's location.
 	Enabled bool `json:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *PaymentLinkAutomaticTaxLiability `json:"liability"`
 }
 
 // Settings related to the payment method reuse text shown in the Checkout UI.
@@ -728,6 +801,14 @@ type PaymentLinkInvoiceCreationInvoiceDataCustomField struct {
 	Value string `json:"value"`
 }
 
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type PaymentLinkInvoiceCreationInvoiceDataIssuer struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type PaymentLinkInvoiceCreationInvoiceDataIssuerType `json:"type"`
+}
+
 // Options for invoice PDF rendering.
 type PaymentLinkInvoiceCreationInvoiceDataRenderingOptions struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
@@ -744,6 +825,8 @@ type PaymentLinkInvoiceCreationInvoiceData struct {
 	Description string `json:"description"`
 	// Footer to be displayed on the invoice.
 	Footer string `json:"footer"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *PaymentLinkInvoiceCreationInvoiceDataIssuer `json:"issuer"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Options for invoice PDF rendering.
@@ -804,6 +887,15 @@ type PaymentLinkShippingOption struct {
 	// The ID of the Shipping Rate to use for this shipping option.
 	ShippingRate *ShippingRate `json:"shipping_rate"`
 }
+type PaymentLinkSubscriptionDataInvoiceSettingsIssuer struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *Account `json:"account"`
+	// Type of the account referenced.
+	Type PaymentLinkSubscriptionDataInvoiceSettingsIssuerType `json:"type"`
+}
+type PaymentLinkSubscriptionDataInvoiceSettings struct {
+	Issuer *PaymentLinkSubscriptionDataInvoiceSettingsIssuer `json:"issuer"`
+}
 
 // Defines how a subscription behaves when a free trial ends.
 type PaymentLinkSubscriptionDataTrialSettingsEndBehavior struct {
@@ -820,7 +912,8 @@ type PaymentLinkSubscriptionDataTrialSettings struct {
 // When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 type PaymentLinkSubscriptionData struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
-	Description string `json:"description"`
+	Description     string                                      `json:"description"`
+	InvoiceSettings *PaymentLinkSubscriptionDataInvoiceSettings `json:"invoice_settings"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on [Subscriptions](https://stripe.com/docs/api/subscriptions) generated from this payment link.
 	Metadata map[string]string `json:"metadata"`
 	// Integer representing the number of trial period days before the customer is charged for the first time.
