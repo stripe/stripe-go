@@ -345,7 +345,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization = "never"
 )
 
-// Request ability to [increment](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization can take
@@ -1295,7 +1295,7 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	Network *string `form:"network"`
 	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization *string `form:"request_extended_authorization"`
-	// Request ability to [increment](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
 	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
 	// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
 	RequestMulticapture *string `form:"request_multicapture"`
@@ -2643,7 +2643,7 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	Network PaymentIntentPaymentMethodOptionsCardNetwork `json:"network"`
 	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization `json:"request_extended_authorization"`
-	// Request ability to [increment](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
+	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
 	RequestIncrementalAuthorization PaymentIntentPaymentMethodOptionsCardRequestIncrementalAuthorization `json:"request_incremental_authorization"`
 	// Request ability to make [multiple captures](https://stripe.com/docs/payments/multicapture) for this PaymentIntent.
 	RequestMulticapture PaymentIntentPaymentMethodOptionsCardRequestMulticapture `json:"request_multicapture"`
