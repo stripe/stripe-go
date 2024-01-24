@@ -153,6 +153,8 @@ type CapitalFinancingOffer struct {
 	AcceptedTerms *CapitalFinancingOfferAcceptedTerms `json:"accepted_terms"`
 	// The ID of the merchant associated with this financing object.
 	Account string `json:"account"`
+	// The time at which this financing offer was charged off, if applicable. Given in seconds since unix epoch.
+	ChargedOffAt int64 `json:"charged_off_at"`
 	// Time at which the offer was created. Given in seconds since unix epoch.
 	Created int64 `json:"created"`
 	// Time at which the offer expires. Given in seconds since unix epoch.
