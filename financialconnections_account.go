@@ -211,7 +211,7 @@ type FinancialConnectionsAccountSubscribeParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The list of account features to which you would like to subscribe.`.
+	// The list of account features to which you would like to subscribe.
 	Features []*string `form:"features"`
 }
 
