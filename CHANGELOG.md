@@ -1,5 +1,21 @@
 # Changelog
 
+## 76.15.0-beta.1 - 2024-01-25
+* [#1802](https://github.com/stripe/stripe-go/pull/1802) Update generated code for beta
+  * Add support for `CreatePreview` method on resource `Invoice`
+  * Add support for `ChargedOffAt` on `CapitalFinancingOffer`
+  * Add support for new values `disabled` and `enabled` on enums `CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove`, `CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave`, `CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault`, and `CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate`
+  * Remove support for values `auto` and `never` from enums `CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove`, `CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave`, `CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault`, and `CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate`
+  * Add support for `EnhancedEvidence` on `DisputeEvidenceParams` and `DisputeEvidence`
+  * Add support for `EnhancedEligibilityTypes` on `Dispute`
+  * Add support for `EnhancedEligibility` on `DisputeEvidenceDetails`
+  * Add support for `PromotionCode` on `InvoiceUpcomingLinesScheduleDetailsAmendmentsDiscountActionsAddParams`, `InvoiceUpcomingLinesScheduleDetailsAmendmentsDiscountActionsRemoveParams`, `InvoiceUpcomingLinesScheduleDetailsAmendmentsDiscountActionsSetParams`, `InvoiceUpcomingLinesScheduleDetailsAmendmentsItemActionsAddDiscountsParams`, `InvoiceUpcomingLinesScheduleDetailsAmendmentsItemActionsSetDiscountsParams`, `InvoiceUpcomingLinesScheduleDetailsPhasesAddInvoiceItemsDiscountsParams`, `InvoiceUpcomingLinesScheduleDetailsPhasesDiscountsParams`, `InvoiceUpcomingLinesScheduleDetailsPhasesItemsDiscountsParams`, `InvoiceUpcomingLinesSubscriptionDetailsItemsDiscountsParams`, `InvoiceUpcomingLinesSubscriptionItemsDiscountsParams`, `InvoiceUpcomingScheduleDetailsAmendmentsDiscountActionsAddParams`, `InvoiceUpcomingScheduleDetailsAmendmentsDiscountActionsRemoveParams`, `InvoiceUpcomingScheduleDetailsAmendmentsDiscountActionsSetParams`, `InvoiceUpcomingScheduleDetailsAmendmentsItemActionsAddDiscountsParams`, `InvoiceUpcomingScheduleDetailsAmendmentsItemActionsSetDiscountsParams`, `InvoiceUpcomingScheduleDetailsPhasesAddInvoiceItemsDiscountsParams`, `InvoiceUpcomingScheduleDetailsPhasesDiscountsParams`, `InvoiceUpcomingScheduleDetailsPhasesItemsDiscountsParams`, `InvoiceUpcomingSubscriptionDetailsItemsDiscountsParams`, `InvoiceUpcomingSubscriptionItemsDiscountsParams`, `QuoteLineActionsAddDiscount`, `QuoteLineActionsAddItemDiscounts`, `QuoteLineActionsRemoveDiscount`, `QuoteLineActionsSetDiscounts`, `QuoteLineActionsSetItemsDiscounts`, `QuoteLinesActionsAddItemDiscountsParams`, `QuoteLinesActionsRemoveDiscountParams`, `QuoteLinesActionsSetDiscountsParams`, `QuoteLinesActionsSetItemsDiscountsParams`, `QuotePhasesDiscountsParams`, `SubscriptionAddInvoiceItemsDiscountsParams`, `SubscriptionDiscountsParams`, `SubscriptionItemDiscountsParams`, `SubscriptionItemsDiscountsParams`, `SubscriptionScheduleAmendAmendmentsDiscountActionsAddParams`, `SubscriptionScheduleAmendAmendmentsDiscountActionsRemoveParams`, `SubscriptionScheduleAmendAmendmentsDiscountActionsSetParams`, `SubscriptionScheduleAmendAmendmentsItemActionsAddDiscountsParams`, `SubscriptionScheduleAmendAmendmentsItemActionsSetDiscountsParams`, `SubscriptionSchedulePhasesAddInvoiceItemsDiscountsParams`, `SubscriptionSchedulePhasesAddInvoiceItemsDiscounts`, `SubscriptionSchedulePhasesDiscountsParams`, `SubscriptionSchedulePhasesDiscounts`, `SubscriptionSchedulePhasesItemsDiscountsParams`, and `SubscriptionSchedulePhasesItemsDiscounts`
+* [#1801](https://github.com/stripe/stripe-go/pull/1801) Update generated code for beta
+  Release specs are identical.
+* [#1799](https://github.com/stripe/stripe-go/pull/1799) Update generated code for beta
+  * Add support for new value `nn` on enum `ConfirmationTokenPaymentMethodPreviewIdealBank`
+  * Add support for new value `NNBANL2G` on enum `ConfirmationTokenPaymentMethodPreviewIdealBic`
+
 ## 76.14.0 - 2024-01-25
 * [#1803](https://github.com/stripe/stripe-go/pull/1803) Update generated code
   * Add support for `AnnualRevenue` and `EstimatedWorkerCount` on `AccountBusinessProfileParams` and `AccountBusinessProfile`
