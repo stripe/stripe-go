@@ -1,5 +1,28 @@
 # Changelog
 
+## 76.14.0 - 2024-01-25
+* [#1803](https://github.com/stripe/stripe-go/pull/1803) Update generated code
+  * Add support for `AnnualRevenue` and `EstimatedWorkerCount` on `AccountBusinessProfileParams` and `AccountBusinessProfile`
+  * Add support for new value `registered_charity` on enum `AccountCompanyStructure`
+  * Add support for `CollectionOptions` on `AccountLinkParams`
+  * Add support for `Liability` on `CheckoutSessionAutomaticTaxParams`, `CheckoutSessionAutomaticTax`, `PaymentLinkAutomaticTaxParams`, `PaymentLinkAutomaticTax`, `QuoteAutomaticTaxParams`, `QuoteAutomaticTax`, `SubscriptionScheduleDefaultSettingsAutomaticTaxParams`, `SubscriptionScheduleDefaultSettingsAutomaticTax`, `SubscriptionSchedulePhasesAutomaticTaxParams`, and `SubscriptionSchedulePhasesAutomaticTax`
+  * Add support for `Issuer` on `CheckoutSessionInvoiceCreationInvoiceDataParams`, `CheckoutSessionInvoiceCreationInvoiceData`, `PaymentLinkInvoiceCreationInvoiceDataParams`, `PaymentLinkInvoiceCreationInvoiceData`, `QuoteInvoiceSettingsParams`, `QuoteInvoiceSettings`, `SubscriptionScheduleDefaultSettingsInvoiceSettingsParams`, `SubscriptionScheduleDefaultSettingsInvoiceSettings`, `SubscriptionSchedulePhasesInvoiceSettingsParams`, and `SubscriptionSchedulePhasesInvoiceSettings`
+  * Add support for `InvoiceSettings` on `CheckoutSessionSubscriptionDataParams`, `PaymentLinkSubscriptionDataParams`, and `PaymentLinkSubscriptionData`
+  * Add support for `PromotionCode` on `InvoiceUpcomingDiscountsParams`, `InvoiceUpcomingInvoiceItemsDiscountsParams`, `InvoiceUpcomingLinesDiscountsParams`, and `InvoiceUpcomingLinesInvoiceItemsDiscountsParams`
+  * Add support for new value `challenge` on enums `InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure` and `SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure`
+  * Add support for `AccountType` on `PaymentMethodUsBankAccountParams`
+* [#1800](https://github.com/stripe/stripe-go/pull/1800) Update generated code
+
+* [#1798](https://github.com/stripe/stripe-go/pull/1798) Update generated code
+  * Add support for new value `nn` on enums `ChargePaymentMethodDetailsIdealBank`, `PaymentMethodIdealBank`, and `SetupAttemptPaymentMethodDetailsIdealBank`
+  * Add support for `Issuer` on `InvoiceParams`, `InvoiceUpcomingLinesParams`, `InvoiceUpcomingParams`, and `Invoice`
+  * Add support for `Liability` on `InvoiceAutomaticTaxParams`, `InvoiceAutomaticTax`, `InvoiceUpcomingAutomaticTaxParams`, `InvoiceUpcomingLinesAutomaticTaxParams`, `SubscriptionAutomaticTaxParams`, and `SubscriptionAutomaticTax`
+  * Add support for `OnBehalfOf` on `InvoiceUpcomingLinesParams` and `InvoiceUpcomingParams`
+  * Add support for `PIN` on `IssuingCardParams`
+  * Add support for `RevocationReason` on `MandatePaymentMethodDetailsBacsDebit`
+  * Add support for `CustomerBalance` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+  * Add support for `InvoiceSettings` on `SubscriptionParams`
+
 ## 76.13.0 - 2024-01-18
 * [#1800](https://github.com/stripe/stripe-go/pull/1800) Update generated code
 * [#1798](https://github.com/stripe/stripe-go/pull/1798) Update generated code
