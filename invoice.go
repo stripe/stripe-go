@@ -3043,6 +3043,1217 @@ func (p *InvoiceVoidInvoiceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type InvoiceCreatePreviewAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Settings for automatic tax lookup for this invoice preview.
+type InvoiceCreatePreviewAutomaticTaxParams struct {
+	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
+	Enabled *bool `form:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *InvoiceCreatePreviewAutomaticTaxLiabilityParams `form:"liability"`
+}
+
+// The customer's shipping information. Appears on invoices emailed to this customer.
+type InvoiceCreatePreviewCustomerDetailsShippingParams struct {
+	// Customer shipping address.
+	Address *AddressParams `form:"address"`
+	// Customer name.
+	Name *string `form:"name"`
+	// Customer phone (including extension).
+	Phone *string `form:"phone"`
+}
+
+// Tax details about the customer.
+type InvoiceCreatePreviewCustomerDetailsTaxParams struct {
+	// A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
+	IPAddress *string `form:"ip_address"`
+}
+
+// The customer's tax IDs.
+type InvoiceCreatePreviewCustomerDetailsTaxIDParams struct {
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`
+	Type *string `form:"type"`
+	// Value of the tax ID.
+	Value *string `form:"value"`
+}
+
+// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
+type InvoiceCreatePreviewCustomerDetailsParams struct {
+	// The customer's address.
+	Address *AddressParams `form:"address"`
+	// The customer's shipping information. Appears on invoices emailed to this customer.
+	Shipping *InvoiceCreatePreviewCustomerDetailsShippingParams `form:"shipping"`
+	// Tax details about the customer.
+	Tax *InvoiceCreatePreviewCustomerDetailsTaxParams `form:"tax"`
+	// The customer's tax exemption. One of `none`, `exempt`, or `reverse`.
+	TaxExempt *string `form:"tax_exempt"`
+	// The customer's tax IDs.
+	TaxIDs []*InvoiceCreatePreviewCustomerDetailsTaxIDParams `form:"tax_ids"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceCreatePreviewDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceCreatePreviewDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
+type InvoiceCreatePreviewDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceCreatePreviewInvoiceItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewInvoiceItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceCreatePreviewInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the invoice item in the preview.
+type InvoiceCreatePreviewInvoiceItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
+type InvoiceCreatePreviewInvoiceItemPeriodParams struct {
+	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
+	End *int64 `form:"end"`
+	// The start of the period. This value is inclusive.
+	Start *int64 `form:"start"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type InvoiceCreatePreviewInvoiceItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// List of invoice items to add or update in the upcoming invoice preview.
+type InvoiceCreatePreviewInvoiceItemParams struct {
+	// The integer amount in cents (or local equivalent) of previewed invoice item.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Only applicable to new invoice items.
+	Currency *string `form:"currency"`
+	// An arbitrary string which you can attach to the invoice item. The description is displayed in the invoice for easy tracking.
+	Description *string `form:"description"`
+	// Explicitly controls whether discounts apply to this invoice item. Defaults to true, except for negative invoice items.
+	Discountable *bool `form:"discountable"`
+	// The coupons to redeem into discounts for the invoice item in the preview.
+	Discounts []*InvoiceCreatePreviewInvoiceItemDiscountParams `form:"discounts"`
+	// The ID of the invoice item to update in preview. If not specified, a new invoice item will be added to the preview of the upcoming invoice.
+	InvoiceItem *string `form:"invoiceitem"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
+	Period *InvoiceCreatePreviewInvoiceItemPeriodParams `form:"period"`
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	PriceData *InvoiceCreatePreviewInvoiceItemPriceDataParams `form:"price_data"`
+	// Non-negative integer. The quantity of units for the invoice item.
+	Quantity *int64 `form:"quantity"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+	// The tax rates that apply to the item. When set, any `default_tax_rates` do not apply to this item.
+	TaxRates []*string `form:"tax_rates"`
+	// The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceCreatePreviewInvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type InvoiceCreatePreviewIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Use the `end` time of a given discount.
+type InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentEndDiscountEndParams struct {
+	// The ID of a specific discount.
+	Discount *string `form:"discount"`
+}
+
+// Time span for the amendment starting from the `amendment_start`.
+type InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to identify the end of the time range modified by the proposed change. If not supplied, the amendment is considered a point-in-time operation that only affects the exact timestamp at `amendment_start`, and a restricted set of attributes is supported on the amendment.
+type InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentEndParams struct {
+	// Use the `end` time of a given discount.
+	DiscountEnd *InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentEndDiscountEndParams `form:"discount_end"`
+	// Time span for the amendment starting from the `amendment_start`.
+	Duration *InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select one of three ways to pass the `amendment_end`.
+	Type *string `form:"type"`
+}
+
+// Details of another amendment in the same array, immediately after which this amendment should begin.
+type InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentStartAmendmentEndParams struct {
+	// The position of the previous amendment in the `amendments` array after which this amendment should begin. Indexes start from 0 and must be less than the index of the current amendment in the array.
+	Index *int64 `form:"index"`
+}
+
+// Use the `end` time of a given discount.
+type InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentStartDiscountEndParams struct {
+	// The ID of a specific discount.
+	Discount *string `form:"discount"`
+}
+
+// Details to identify the earliest timestamp where the proposed change should take effect.
+type InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentStartParams struct {
+	// Details of another amendment in the same array, immediately after which this amendment should begin.
+	AmendmentEnd *InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentStartAmendmentEndParams `form:"amendment_end"`
+	// Use the `end` time of a given discount.
+	DiscountEnd *InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentStartDiscountEndParams `form:"discount_end"`
+	// A precise Unix timestamp for the amendment to start.
+	Timestamp *int64 `form:"timestamp"`
+	// Select one of three ways to pass the `amendment_start`.
+	Type *string `form:"type"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddDiscountEndParams struct {
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// Details of the discount to add.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddParams struct {
+	// The coupon code to redeem.
+	Coupon *string `form:"coupon"`
+	// An ID of an existing discount for a coupon that was already redeemed.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddDiscountEndParams `form:"discount_end"`
+	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
+	Index *int64 `form:"index"`
+	// The promotion code to redeem.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// Details of the discount to remove.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionRemoveParams struct {
+	// The coupon code to remove from the `discounts` array.
+	Coupon *string `form:"coupon"`
+	// The ID of a discount to remove from the `discounts` array.
+	Discount *string `form:"discount"`
+	// The ID of a promotion code to remove from the `discounts` array.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// Details of the discount to replace the existing discounts with.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetParams struct {
+	// The coupon code to replace the `discounts` array with.
+	Coupon *string `form:"coupon"`
+	// An ID of an existing discount to replace the `discounts` array with.
+	Discount *string `form:"discount"`
+	// An ID of an existing promotion code to replace the `discounts` array with.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
+type InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionParams struct {
+	// Details of the discount to add.
+	Add *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionAddParams `form:"add"`
+	// Details of the discount to remove.
+	Remove *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionRemoveParams `form:"remove"`
+	// Details of the discount to replace the existing discounts with.
+	Set *InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionSetParams `form:"set"`
+	// Determines the type of discount action.
+	Type *string `form:"type"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// Options that configure the trial on the subscription item.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []*string `form:"converts_to"`
+	// Determines the type of trial for this item.
+	Type *string `form:"type"`
+}
+
+// Details of the subscription item to add. If an item with the same `price` exists, it will be replaced by this new item. Otherwise, it adds the new item.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddParams struct {
+	// The discounts applied to the item. Subscription item discounts are applied before subscription discounts.
+	Discounts []*InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity"`
+	// The tax rates that apply to this subscription item. When set, the `default_tax_rates` on the subscription do not apply to this `subscription_item`.
+	TaxRates []*string `form:"tax_rates"`
+	// Options that configure the trial on the subscription item.
+	Trial *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddTrialParams `form:"trial"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Details of the subscription item to remove.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionRemoveParams struct {
+	// ID of a price to remove.
+	Price *string `form:"price"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []*string `form:"converts_to"`
+	// Determines the type of trial for this item.
+	Type *string `form:"type"`
+}
+
+// Details of the subscription item to replace the existing items with. If an item with the `set[price]` already exists, the `items` array is not cleared. Instead, all of the other `set` properties that are passed in this request will replace the existing values for the configuration item.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetParams struct {
+	// If an item with the `price` already exists, passing this will override the `discounts` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `discounts`.
+	Discounts []*InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountParams `form:"discounts"`
+	// If an item with the `price` already exists, passing this will override the `metadata` on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// If an item with the `price` already exists, passing this will override the quantity on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `quantity`.
+	Quantity *int64 `form:"quantity"`
+	// If an item with the `price` already exists, passing this will override the `tax_rates` array on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `tax_rates`.
+	TaxRates []*string `form:"tax_rates"`
+	// If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
+	Trial *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetTrialParams `form:"trial"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Changes to the subscription items during the amendment time span.
+type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionParams struct {
+	// Details of the subscription item to add. If an item with the same `price` exists, it will be replaced by this new item. Otherwise, it adds the new item.
+	Add *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddParams `form:"add"`
+	// Details of the subscription item to remove.
+	Remove *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionRemoveParams `form:"remove"`
+	// Details of the subscription item to replace the existing items with. If an item with the `set[price]` already exists, the `items` array is not cleared. Instead, all of the other `set` properties that are passed in this request will replace the existing values for the configuration item.
+	Set *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetParams `form:"set"`
+	// Determines the type of item action.
+	Type *string `form:"type"`
+}
+
+// Instructions for how to modify phase metadata
+type InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParams struct {
+	// Key-value pairs to add to schedule phase metadata. These values will merge with existing schedule phase metadata.
+	Add map[string]string `form:"add"`
+	// Keys to remove from schedule phase metadata.
+	Remove []*string `form:"remove"`
+	// Key-value pairs to set as schedule phase metadata. Existing schedule phase metadata will be overwritten.
+	Set map[string]string `form:"set"`
+	// Select one of three ways to update phase-level `metadata` on subscription schedules.
+	Type *string `form:"type"`
+}
+
+// Details of the pause_collection behavior to apply to the amendment.
+type InvoiceCreatePreviewScheduleDetailsAmendmentSetPauseCollectionSetParams struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior *string `form:"behavior"`
+}
+
+// Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
+type InvoiceCreatePreviewScheduleDetailsAmendmentSetPauseCollectionParams struct {
+	// Details of the pause_collection behavior to apply to the amendment.
+	Set *InvoiceCreatePreviewScheduleDetailsAmendmentSetPauseCollectionSetParams `form:"set"`
+	// Determines the type of the pause_collection amendment.
+	Type *string `form:"type"`
+}
+
+// Defines how the subscription should behave when a trial ends.
+type InvoiceCreatePreviewScheduleDetailsAmendmentTrialSettingsEndBehaviorParams struct {
+	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
+	ProrateUpFront *string `form:"prorate_up_front"`
+}
+
+// Settings related to subscription trials.
+type InvoiceCreatePreviewScheduleDetailsAmendmentTrialSettingsParams struct {
+	// Defines how the subscription should behave when a trial ends.
+	EndBehavior *InvoiceCreatePreviewScheduleDetailsAmendmentTrialSettingsEndBehaviorParams `form:"end_behavior"`
+}
+
+// Changes to apply to the phases of the subscription schedule, in the order provided.
+type InvoiceCreatePreviewScheduleDetailsAmendmentParams struct {
+	// Details to identify the end of the time range modified by the proposed change. If not supplied, the amendment is considered a point-in-time operation that only affects the exact timestamp at `amendment_start`, and a restricted set of attributes is supported on the amendment.
+	AmendmentEnd *InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentEndParams `form:"amendment_end"`
+	// Details to identify the earliest timestamp where the proposed change should take effect.
+	AmendmentStart *InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentStartParams `form:"amendment_start"`
+	// For a point-in-time amendment, this attribute lets you set or update whether the subscription's billing cycle anchor is reset at the `amendment_start` timestamp.
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Changes to the coupons being redeemed or discounts being applied during the amendment time span.
+	DiscountActions []*InvoiceCreatePreviewScheduleDetailsAmendmentDiscountActionParams `form:"discount_actions"`
+	// Changes to the subscription items during the amendment time span.
+	ItemActions []*InvoiceCreatePreviewScheduleDetailsAmendmentItemActionParams `form:"item_actions"`
+	// Instructions for how to modify phase metadata
+	MetadataActions []*InvoiceCreatePreviewScheduleDetailsAmendmentMetadataActionParams `form:"metadata_actions"`
+	// Changes to how Stripe handles prorations during the amendment time span. Affects if and how prorations are created when a future phase starts. In cases where the amendment changes the currently active phase, it is used to determine whether or how to prorate now, at the time of the request. Also supported as a point-in-time operation when `amendment_end` is `null`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// Defines how to pause collection for the underlying subscription throughout the duration of the amendment.
+	SetPauseCollection *InvoiceCreatePreviewScheduleDetailsAmendmentSetPauseCollectionParams `form:"set_pause_collection"`
+	// Ends the subscription schedule early as dictated by either the accompanying amendment's start or end.
+	SetScheduleEnd *string `form:"set_schedule_end"`
+	// Settings related to subscription trials.
+	TrialSettings *InvoiceCreatePreviewScheduleDetailsAmendmentTrialSettingsParams `form:"trial_settings"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the item.
+type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
+type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams struct {
+	// The coupons to redeem into discounts for the item.
+	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams `form:"discounts"`
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	PriceData *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPriceDataParams `form:"price_data"`
+	// Quantity for this item. Defaults to 1.
+	Quantity *int64 `form:"quantity"`
+	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+type InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxLiabilityParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// Automatic tax settings for this phase.
+type InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxParams struct {
+	// Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription.
+	Enabled *bool `form:"enabled"`
+	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
+	Liability *InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxLiabilityParams `form:"liability"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type InvoiceCreatePreviewScheduleDetailsPhaseBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
+type InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+type InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsIssuerParams struct {
+	// The connected account being referenced when `type` is `account`.
+	Account *string `form:"account"`
+	// Type of the account referenced in the request.
+	Type *string `form:"type"`
+}
+
+// All invoices will be billed using the specified settings.
+type InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsParams struct {
+	// Number of days within which a customer must pay invoices generated by this subscription schedule. This value will be `null` for subscription schedules where `billing=charge_automatically`.
+	DaysUntilDue *int64 `form:"days_until_due"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsIssuerParams `form:"issuer"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the subscription item.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// Options that configure the trial on the subscription item.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	ConvertsTo []*string `form:"converts_to"`
+	// Determines the type of trial for this item.
+	Type *string `form:"type"`
+}
+
+// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *InvoiceCreatePreviewScheduleDetailsPhaseItemBillingThresholdsParams `form:"billing_thresholds"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The plan ID to subscribe to. You may specify the same ID in `plan` and `price`.
+	Plan *string `form:"plan"`
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	PriceData *InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataParams `form:"price_data"`
+	// Quantity for the given price. Can be set only if the price's `usage_type` is `licensed` and not `metered`.
+	Quantity *int64 `form:"quantity"`
+	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	TaxRates []*string `form:"tax_rates"`
+	// Options that configure the trial on the subscription item.
+	Trial *InvoiceCreatePreviewScheduleDetailsPhaseItemTrialParams `form:"trial"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceCreatePreviewScheduleDetailsPhaseItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// If specified, payment collection for this subscription will be paused.
+type InvoiceCreatePreviewScheduleDetailsPhasePauseCollectionParams struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior *string `form:"behavior"`
+}
+
+// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
+type InvoiceCreatePreviewScheduleDetailsPhaseTransferDataParams struct {
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the destination account. By default, the entire amount is transferred to the destination.
+	AmountPercent *float64 `form:"amount_percent"`
+	// ID of an existing, connected Stripe account.
+	Destination *string `form:"destination"`
+}
+
+// Defines how the subscription should behave when a trial ends.
+type InvoiceCreatePreviewScheduleDetailsPhaseTrialSettingsEndBehaviorParams struct {
+	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
+	ProrateUpFront *string `form:"prorate_up_front"`
+}
+
+// Settings related to subscription trials.
+type InvoiceCreatePreviewScheduleDetailsPhaseTrialSettingsParams struct {
+	// Defines how the subscription should behave when a trial ends.
+	EndBehavior *InvoiceCreatePreviewScheduleDetailsPhaseTrialSettingsEndBehaviorParams `form:"end_behavior"`
+}
+
+// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
+type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
+	// A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
+	AddInvoiceItems []*InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemParams `form:"add_invoice_items"`
+	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
+	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	// Automatic tax settings for this phase.
+	AutomaticTax *InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxParams `form:"automatic_tax"`
+	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *InvoiceCreatePreviewScheduleDetailsPhaseBillingThresholdsParams `form:"billing_thresholds"`
+	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
+	CollectionMethod *string `form:"collection_method"`
+	// The identifier of the coupon to apply to this phase of the subscription schedule.
+	Coupon *string `form:"coupon"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
+	DefaultPaymentMethod *string `form:"default_payment_method"`
+	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will set the Subscription's [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates), which means they will be the Invoice's [`default_tax_rates`](https://stripe.com/docs/api/invoices/create#create_invoice-default_tax_rates) for any Invoices issued by the Subscription during this Phase.
+	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
+	Description *string `form:"description"`
+	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
+	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams `form:"discounts"`
+	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
+	EndDate    *int64 `form:"end_date"`
+	EndDateNow *bool  `form:"-"` // See custom AppendTo
+	// All invoices will be billed using the specified settings.
+	InvoiceSettings *InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsParams `form:"invoice_settings"`
+	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
+	Items []*InvoiceCreatePreviewScheduleDetailsPhaseItemParams `form:"items"`
+	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set.
+	Iterations *int64 `form:"iterations"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The account on behalf of which to charge, for each of the associated subscription's invoices.
+	OnBehalfOf *string `form:"on_behalf_of"`
+	// If specified, payment collection for this subscription will be paused.
+	PauseCollection *InvoiceCreatePreviewScheduleDetailsPhasePauseCollectionParams `form:"pause_collection"`
+	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
+	StartDate    *int64 `form:"start_date"`
+	StartDateNow *bool  `form:"-"` // See custom AppendTo
+	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
+	TransferData *InvoiceCreatePreviewScheduleDetailsPhaseTransferDataParams `form:"transfer_data"`
+	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
+	Trial *bool `form:"trial"`
+	// Specify trial behavior when crossing phase boundaries
+	TrialContinuation *string `form:"trial_continuation"`
+	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
+	// Settings related to subscription trials.
+	TrialSettings *InvoiceCreatePreviewScheduleDetailsPhaseTrialSettingsParams `form:"trial_settings"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceCreatePreviewScheduleDetailsPhaseParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// AppendTo implements custom encoding logic for InvoiceCreatePreviewScheduleDetailsPhaseParams.
+func (p *InvoiceCreatePreviewScheduleDetailsPhaseParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.EndDateNow) {
+		body.Add(form.FormatKey(append(keyParts, "end_date")), "now")
+	}
+	if BoolValue(p.StartDateNow) {
+		body.Add(form.FormatKey(append(keyParts, "start_date")), "now")
+	}
+	if BoolValue(p.TrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
+	}
+}
+
+// End the prebilled period when a specified amendment ends.
+type InvoiceCreatePreviewScheduleDetailsPrebillingBillUntilAmendmentEndParams struct {
+	// The position of the amendment in the `amendments` array at which prebilling should end. Indexes start from 0 and must be less than the total number of supplied amendments.
+	Index *int64 `form:"index"`
+}
+
+// Time span for prebilling, starting from `bill_from`.
+type InvoiceCreatePreviewScheduleDetailsPrebillingBillUntilDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// The end of the prebilled time period.
+type InvoiceCreatePreviewScheduleDetailsPrebillingBillUntilParams struct {
+	// End the prebilled period when a specified amendment ends.
+	AmendmentEnd *InvoiceCreatePreviewScheduleDetailsPrebillingBillUntilAmendmentEndParams `form:"amendment_end"`
+	// Time span for prebilling, starting from `bill_from`.
+	Duration *InvoiceCreatePreviewScheduleDetailsPrebillingBillUntilDurationParams `form:"duration"`
+	// End the prebilled period at a precise integer timestamp, starting from the Unix epoch.
+	Timestamp *int64 `form:"timestamp"`
+	// Select one of several ways to pass the `bill_until` value.
+	Type *string `form:"type"`
+}
+
+// Provide any time periods to bill in advance.
+type InvoiceCreatePreviewScheduleDetailsPrebillingParams struct {
+	// The end of the prebilled time period.
+	BillUntil *InvoiceCreatePreviewScheduleDetailsPrebillingBillUntilParams `form:"bill_until"`
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+}
+
+// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
+type InvoiceCreatePreviewScheduleDetailsParams struct {
+	// Changes to apply to the phases of the subscription schedule, in the order provided.
+	Amendments []*InvoiceCreatePreviewScheduleDetailsAmendmentParams `form:"amendments"`
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior *string `form:"billing_behavior"`
+	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
+	EndBehavior *string `form:"end_behavior"`
+	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
+	Phases []*InvoiceCreatePreviewScheduleDetailsPhaseParams `form:"phases"`
+	// Provide any time periods to bill in advance.
+	Prebilling []*InvoiceCreatePreviewScheduleDetailsPrebillingParams `form:"prebilling"`
+	// In cases where the `schedule_details` params update the currently active phase, specifies if and how to prorate at the time of the request.
+	ProrationBehavior *string `form:"proration_behavior"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the subscription item.
+type InvoiceCreatePreviewSubscriptionDetailsItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *InvoiceCreatePreviewSubscriptionDetailsItemPriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// A list of up to 20 subscription items, each with an attached price.
+type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds"`
+	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
+	ClearUsage *bool `form:"clear_usage"`
+	// A flag that, if set to `true`, will delete the specified item.
+	Deleted *bool `form:"deleted"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*InvoiceCreatePreviewSubscriptionDetailsItemDiscountParams `form:"discounts"`
+	// Subscription item to update.
+	ID *string `form:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Plan ID for this item, as a string.
+	Plan *string `form:"plan"`
+	// The ID of the price object. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	PriceData *InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams `form:"price_data"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity"`
+	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceCreatePreviewSubscriptionDetailsItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The pre-billing to apply to the subscription as a preview.
+type InvoiceCreatePreviewSubscriptionDetailsPrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+}
+
+// The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
+type InvoiceCreatePreviewSubscriptionDetailsParams struct {
+	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
+	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
+	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
+	CancelAt *int64 `form:"cancel_at"`
+	// Boolean indicating whether this subscription should cancel at the end of the current period.
+	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
+	// This simulates the subscription being canceled or expired immediately.
+	CancelNow *bool `form:"cancel_now"`
+	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set.
+	DefaultTaxRates []*string `form:"default_tax_rates"`
+	// A list of up to 20 subscription items, each with an attached price.
+	Items []*InvoiceCreatePreviewSubscriptionDetailsItemParams `form:"items"`
+	// The pre-billing to apply to the subscription as a preview.
+	Prebilling *InvoiceCreatePreviewSubscriptionDetailsPrebillingParams `form:"prebilling"`
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// If previewing an update to a subscription, and doing proration, `subscription_details.proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_details.items`, or `subscription_details.trial_end` are required. Also, `subscription_details.proration_behavior` cannot be set to 'none'.
+	ProrationDate *int64 `form:"proration_date"`
+	// For paused subscriptions, setting `subscription_details.resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
+	ResumeAt *string `form:"resume_at"`
+	// Date a subscription is intended to start (can be future or past).
+	StartDate *int64 `form:"start_date"`
+	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_details.items` or `subscription` is required.
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for InvoiceCreatePreviewSubscriptionDetailsParams.
+func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.BillingCycleAnchorNow) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
+	}
+	if BoolValue(p.BillingCycleAnchorUnchanged) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.TrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
+	}
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type InvoiceCreatePreviewSubscriptionItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// Time span for the redeemed discount.
+type InvoiceCreatePreviewSubscriptionItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceCreatePreviewSubscriptionItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceCreatePreviewSubscriptionItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the subscription item.
+type InvoiceCreatePreviewSubscriptionItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceCreatePreviewSubscriptionItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type InvoiceCreatePreviewSubscriptionItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type InvoiceCreatePreviewSubscriptionItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the product that this price will belong to.
+	Product *string `form:"product"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *InvoiceCreatePreviewSubscriptionItemPriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// A list of up to 20 subscription items, each with an attached price. This field has been deprecated and will be removed in a future API version. Use `subscription_details.items` instead.
+type InvoiceCreatePreviewSubscriptionItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *InvoiceCreatePreviewSubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
+	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
+	ClearUsage *bool `form:"clear_usage"`
+	// A flag that, if set to `true`, will delete the specified item.
+	Deleted *bool `form:"deleted"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*InvoiceCreatePreviewSubscriptionItemDiscountParams `form:"discounts"`
+	// Subscription item to update.
+	ID *string `form:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Plan ID for this item, as a string.
+	Plan *string `form:"plan"`
+	// The ID of the price object. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	PriceData *InvoiceCreatePreviewSubscriptionItemPriceDataParams `form:"price_data"`
+	// Quantity for this item.
+	Quantity *int64 `form:"quantity"`
+	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceCreatePreviewSubscriptionItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The pre-billing to apply to the subscription as a preview. This field has been deprecated and will be removed in a future API version. Use `subscription_details.prebilling` instead.
+type InvoiceCreatePreviewSubscriptionPrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+}
+
+// At any time, you can preview the upcoming invoice for a customer. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
+//
+// Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
+//
+// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass a proration_date parameter when doing the actual subscription update. The value passed in should be the same as the subscription_proration_date returned on the upcoming invoice resource. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_proration_date on the upcoming invoice resource.
+type InvoiceCreatePreviewParams struct {
+	Params `form:"*"`
+	// Settings for automatic tax lookup for this invoice preview.
+	AutomaticTax *InvoiceCreatePreviewAutomaticTaxParams `form:"automatic_tax"`
+	// The code of the coupon to apply. If `subscription` or `subscription_items` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer's subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string.
+	Coupon *string `form:"coupon"`
+	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
+	Currency *string `form:"currency"`
+	// The identifier of the customer whose upcoming invoice you'd like to retrieve. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
+	Customer *string `form:"customer"`
+	// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
+	CustomerDetails *InvoiceCreatePreviewCustomerDetailsParams `form:"customer_details"`
+	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
+	Discounts []*InvoiceCreatePreviewDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// List of invoice items to add or update in the upcoming invoice preview.
+	InvoiceItems []*InvoiceCreatePreviewInvoiceItemParams `form:"invoice_items"`
+	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
+	Issuer *InvoiceCreatePreviewIssuerParams `form:"issuer"`
+	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
+	OnBehalfOf *string `form:"on_behalf_of"`
+	// Customizes the types of values to include when calculating the invoice. Defaults to `next` if unspecified.
+	PreviewMode *string `form:"preview_mode"`
+	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
+	Schedule *string `form:"schedule"`
+	// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
+	ScheduleDetails *InvoiceCreatePreviewScheduleDetailsParams `form:"schedule_details"`
+	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
+	Subscription *string `form:"subscription"`
+	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.billing_cycle_anchor` instead.
+	SubscriptionBillingCycleAnchor          *int64 `form:"subscription_billing_cycle_anchor"`
+	SubscriptionBillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
+	SubscriptionBillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at` instead.
+	SubscriptionCancelAt *int64 `form:"subscription_cancel_at"`
+	// Boolean indicating whether this subscription should cancel at the end of the current period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at_period_end` instead.
+	SubscriptionCancelAtPeriodEnd *bool `form:"subscription_cancel_at_period_end"`
+	// This simulates the subscription being canceled or expired immediately. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_now` instead.
+	SubscriptionCancelNow *bool `form:"subscription_cancel_now"`
+	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set. This field has been deprecated and will be removed in a future API version. Use `subscription_details.default_tax_rates` instead.
+	SubscriptionDefaultTaxRates []*string `form:"subscription_default_tax_rates"`
+	// The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
+	SubscriptionDetails *InvoiceCreatePreviewSubscriptionDetailsParams `form:"subscription_details"`
+	// A list of up to 20 subscription items, each with an attached price. This field has been deprecated and will be removed in a future API version. Use `subscription_details.items` instead.
+	SubscriptionItems []*InvoiceCreatePreviewSubscriptionItemParams `form:"subscription_items"`
+	// The pre-billing to apply to the subscription as a preview. This field has been deprecated and will be removed in a future API version. Use `subscription_details.prebilling` instead.
+	SubscriptionPrebilling *InvoiceCreatePreviewSubscriptionPrebillingParams `form:"subscription_prebilling"`
+	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_behavior` instead.
+	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
+	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_date` instead.
+	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
+	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed. This field has been deprecated and will be removed in a future API version. Use `subscription_details.resume_at` instead.
+	SubscriptionResumeAt *string `form:"subscription_resume_at"`
+	// Date a subscription is intended to start (can be future or past). This field has been deprecated and will be removed in a future API version. Use `subscription_details.start_date` instead.
+	SubscriptionStartDate *int64 `form:"subscription_start_date"`
+	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required. This field has been deprecated and will be removed in a future API version. Use `subscription_details.trial_end` instead.
+	SubscriptionTrialEnd    *int64 `form:"subscription_trial_end"`
+	SubscriptionTrialEndNow *bool  `form:"-"` // See custom AppendTo
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceCreatePreviewParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AppendTo implements custom encoding logic for InvoiceCreatePreviewParams.
+func (p *InvoiceCreatePreviewParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.SubscriptionBillingCycleAnchorNow) {
+		body.Add(form.FormatKey(append(keyParts, "subscription_billing_cycle_anchor")), "now")
+	}
+	if BoolValue(p.SubscriptionBillingCycleAnchorUnchanged) {
+		body.Add(form.FormatKey(append(keyParts, "subscription_billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.SubscriptionTrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "subscription_trial_end")), "now")
+	}
+}
+
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type InvoiceListLinesParams struct {
 	ListParams `form:"*"`

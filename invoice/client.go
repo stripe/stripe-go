@@ -84,6 +84,24 @@ func (c Client) AttachPaymentIntent(id string, params *stripe.InvoiceAttachPayme
 	return invoice, err
 }
 
+// CreatePreview is the method for the `POST /v1/invoices/create_preview` API.
+func CreatePreview(params *stripe.InvoiceCreatePreviewParams) (*stripe.Invoice, error) {
+	return getC().CreatePreview(params)
+}
+
+// CreatePreview is the method for the `POST /v1/invoices/create_preview` API.
+func (c Client) CreatePreview(params *stripe.InvoiceCreatePreviewParams) (*stripe.Invoice, error) {
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/invoices/create_preview",
+		c.Key,
+		params,
+		invoice,
+	)
+	return invoice, err
+}
+
 // FinalizeInvoice is the method for the `POST /v1/invoices/{invoice}/finalize` API.
 func FinalizeInvoice(id string, params *stripe.InvoiceFinalizeInvoiceParams) (*stripe.Invoice, error) {
 	return getC().FinalizeInvoice(id, params)
