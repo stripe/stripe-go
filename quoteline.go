@@ -201,6 +201,8 @@ type QuoteLineActionAddDiscount struct {
 	DiscountEnd *QuoteLineActionAddDiscountDiscountEnd `json:"discount_end"`
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
 	Index int64 `json:"index"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -219,6 +221,8 @@ type QuoteLineActionAddItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionAddItemDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -261,6 +265,8 @@ type QuoteLineActionRemoveDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionRemoveDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // Details for the `remove_item` type.
@@ -285,6 +291,8 @@ type QuoteLineActionSetDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionSetDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -303,6 +311,8 @@ type QuoteLineActionSetItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionSetItemDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // Options that configure the trial on the subscription item.

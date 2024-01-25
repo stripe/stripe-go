@@ -107,13 +107,15 @@ type SubscriptionItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
 type SubscriptionItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
-	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 }
 

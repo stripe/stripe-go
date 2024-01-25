@@ -258,6 +258,8 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
@@ -316,6 +318,8 @@ type SubscriptionSchedulePhaseDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -360,6 +364,8 @@ type SubscriptionSchedulePhaseItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -623,6 +629,8 @@ type SubscriptionScheduleAmendAmendmentDiscountActionAddParams struct {
 	DiscountEnd *SubscriptionScheduleAmendAmendmentDiscountActionAddDiscountEndParams `form:"discount_end"`
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
 	Index *int64 `form:"index"`
+	// The promotion code to redeem.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Details of the discount to remove.
@@ -631,6 +639,8 @@ type SubscriptionScheduleAmendAmendmentDiscountActionRemoveParams struct {
 	Coupon *string `form:"coupon"`
 	// The ID of a discount to remove from the `discounts` array.
 	Discount *string `form:"discount"`
+	// The ID of a promotion code to remove from the `discounts` array.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Details of the discount to replace the existing discounts with.
@@ -639,6 +649,8 @@ type SubscriptionScheduleAmendAmendmentDiscountActionSetParams struct {
 	Coupon *string `form:"coupon"`
 	// An ID of an existing discount to replace the `discounts` array with.
 	Discount *string `form:"discount"`
+	// An ID of an existing promotion code to replace the `discounts` array with.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Changes to the coupons being redeemed or discounts being applied during the amendment time span.
@@ -679,6 +691,8 @@ type SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionScheduleAmendAmendmentItemActionAddDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -746,6 +760,8 @@ type SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionScheduleAmendAmendmentItemActionSetDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
@@ -1021,6 +1037,8 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
@@ -1051,6 +1069,8 @@ type SubscriptionSchedulePhaseDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -1085,6 +1105,8 @@ type SubscriptionSchedulePhaseItemDiscount struct {
 	Discount *Discount `json:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *SubscriptionSchedulePhaseItemDiscountDiscountEnd `json:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // Options that configure the trial on the subscription item.

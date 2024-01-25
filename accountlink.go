@@ -6,6 +6,14 @@
 
 package stripe
 
+// Specifies the requirements that Stripe collects from connected accounts in the Connect Onboarding flow.
+type AccountLinkCollectionOptionsParams struct {
+	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`.
+	Fields *string `form:"fields"`
+	// Specifies whether the platform collects future_requirements in addition to requirements in Connect Onboarding. The default value is `omit`.
+	FutureRequirements *string `form:"future_requirements"`
+}
+
 // AccountLinkType is the type of an account link.
 type AccountLinkType string
 
@@ -29,8 +37,10 @@ type AccountLinkParams struct {
 	Params `form:"*"`
 	// The identifier of the account to create an account link for.
 	Account *string `form:"account"`
-	// Which information the platform needs to collect from the user. One of `currently_due` or `eventually_due`. Default is `currently_due`.
+	// The collect parameter is deprecated. Use `collection_options` instead.
 	Collect *string `form:"collect"`
+	// Specifies the requirements that Stripe collects from connected accounts in the Connect Onboarding flow.
+	CollectionOptions *AccountLinkCollectionOptionsParams `form:"collection_options"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The URL the user will be redirected to if the account link is expired, has been previously-visited, or is otherwise invalid. The URL you specify should attempt to generate a new account link with the same parameters used to create the original account link, then redirect the user to the new account link's URL so they can continue with Connect Onboarding. If a new account link cannot be generated or the redirect fails you should display a useful error to the user.

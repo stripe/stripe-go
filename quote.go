@@ -458,7 +458,7 @@ type QuoteLineItemDiscountParams struct {
 type QuoteLineItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
-	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 }
 
@@ -538,6 +538,8 @@ type QuoteLineActionAddItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionAddItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Options that configure the trial on the subscription item.
@@ -579,6 +581,8 @@ type QuoteLineActionRemoveDiscountParams struct {
 	Coupon *string `form:"coupon"`
 	// The ID of a discount to remove from the `discounts` array.
 	Discount *string `form:"discount"`
+	// The ID of a promotion code to remove from the `discounts` array.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Details for the `remove_item` type.
@@ -593,6 +597,8 @@ type QuoteLineActionSetDiscountParams struct {
 	Coupon *string `form:"coupon"`
 	// An ID of an existing discount to replace the `discounts` array with.
 	Discount *string `form:"discount"`
+	// An ID of an existing promotion code to replace the `discounts` array with.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Time span for the redeemed discount.
@@ -621,6 +627,8 @@ type QuoteLineActionSetItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineActionSetItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
@@ -818,6 +826,8 @@ type QuotePhaseDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuotePhaseDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // All invoices will be billed using the specified settings.
@@ -858,7 +868,7 @@ type QuotePhaseLineItemDiscountParams struct {
 type QuotePhaseLineItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
-	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 }
 

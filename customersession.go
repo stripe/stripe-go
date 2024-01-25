@@ -11,8 +11,8 @@ type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove string
 
 // List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove can take
 const (
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemoveAuto  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove = "auto"
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemoveNever CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove = "never"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemoveDisabled CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove = "disabled"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemoveEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove = "enabled"
 )
 
 // Controls whether the Payment Element offers to save a new payment method.
@@ -20,8 +20,8 @@ type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave string
 
 // List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave can take
 const (
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSaveAuto  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave = "auto"
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSaveNever CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave = "never"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSaveDisabled CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave = "disabled"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSaveEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave = "enabled"
 )
 
 // Controls whether the Payment Element offers to set a payment method as the default.
@@ -29,8 +29,8 @@ type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault st
 
 // List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault can take
 const (
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefaultAuto  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault = "auto"
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefaultNever CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault = "never"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefaultDisabled CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault = "disabled"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefaultEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault = "enabled"
 )
 
 // Controls whether the Payment Element allows the updating of a saved payment method.
@@ -38,8 +38,8 @@ type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate string
 
 // List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate can take
 const (
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdateAuto  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate = "auto"
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdateNever CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate = "never"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdateDisabled CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate = "disabled"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdateEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate = "enabled"
 )
 
 // Configuration for buy button.
@@ -74,7 +74,7 @@ type CustomerSessionComponentsPricingTableParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// Configuration for each component. 1 component must be enabled.
+// Configuration for each component. Exactly 1 component must be enabled.
 type CustomerSessionComponentsParams struct {
 	// Configuration for buy button.
 	BuyButton *CustomerSessionComponentsBuyButtonParams `form:"buy_button"`
@@ -87,7 +87,7 @@ type CustomerSessionComponentsParams struct {
 // Creates a customer session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
 type CustomerSessionParams struct {
 	Params `form:"*"`
-	// Configuration for each component. 1 component must be enabled.
+	// Configuration for each component. Exactly 1 component must be enabled.
 	Components *CustomerSessionComponentsParams `form:"components"`
 	// The ID of an existing customer for which to create the customer session.
 	Customer *string `form:"customer"`

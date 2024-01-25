@@ -303,7 +303,7 @@ type PaymentLinkCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 type PaymentLinkCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *PaymentLinkCustomFieldDropdownParams `form:"dropdown"`
@@ -595,7 +595,7 @@ type PaymentLinkParams struct {
 	Currency *string `form:"currency"`
 	// Configures whether [checkout sessions](https://stripe.com/docs/api/checkout/sessions) created by this payment link create a [Customer](https://stripe.com/docs/api/customers).
 	CustomerCreation *string `form:"customer_creation"`
-	// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 	CustomFields []*PaymentLinkCustomFieldParams `form:"custom_fields"`
 	// Display additional text for your customers using custom text.
 	CustomText *PaymentLinkCustomTextParams `form:"custom_text"`
@@ -745,7 +745,7 @@ type PaymentLinkCustomFieldText struct {
 	MinimumLength int64 `json:"minimum_length"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 type PaymentLinkCustomField struct {
 	Dropdown *PaymentLinkCustomFieldDropdown `json:"dropdown"`
 	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
@@ -961,7 +961,7 @@ type PaymentLink struct {
 	Currency Currency `json:"currency"`
 	// Configuration for Customer creation during checkout.
 	CustomerCreation PaymentLinkCustomerCreation `json:"customer_creation"`
-	// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 	CustomFields []*PaymentLinkCustomField `json:"custom_fields"`
 	CustomText   *PaymentLinkCustomText    `json:"custom_text"`
 	// Unique identifier for the object.

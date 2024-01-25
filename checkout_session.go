@@ -894,7 +894,7 @@ type CheckoutSessionCustomFieldTextParams struct {
 	MinimumLength *int64 `form:"minimum_length"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 type CheckoutSessionCustomFieldParams struct {
 	// Configuration for `type=dropdown` fields.
 	Dropdown *CheckoutSessionCustomFieldDropdownParams `form:"dropdown"`
@@ -1062,7 +1062,7 @@ func (p *CheckoutSessionLineItemPriceDataProductDataParams) AddMetadata(key stri
 type CheckoutSessionLineItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
-	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
 }
 
@@ -1868,7 +1868,7 @@ type CheckoutSessionParams struct {
 	CustomerEmail *string `form:"customer_email"`
 	// Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
 	CustomerUpdate *CheckoutSessionCustomerUpdateParams `form:"customer_update"`
-	// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 	CustomFields []*CheckoutSessionCustomFieldParams `form:"custom_fields"`
 	// Display additional text for your customers using custom text.
 	CustomText *CheckoutSessionCustomTextParams `form:"custom_text"`
@@ -2107,7 +2107,7 @@ type CheckoutSessionCustomFieldText struct {
 	Value string `json:"value"`
 }
 
-// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 type CheckoutSessionCustomField struct {
 	Dropdown *CheckoutSessionCustomFieldDropdown `json:"dropdown"`
 	// String of your choice that your integration can use to reconcile this field. Must be unique to this field, alphanumeric, and up to 200 characters.
@@ -2703,7 +2703,7 @@ type CheckoutSession struct {
 	// on file. To access information about the customer once the payment flow is
 	// complete, use the `customer` attribute.
 	CustomerEmail string `json:"customer_email"`
-	// Collect additional information from your customer using custom fields. Up to 2 fields are supported.
+	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 	CustomFields []*CheckoutSessionCustomField `json:"custom_fields"`
 	CustomText   *CheckoutSessionCustomText    `json:"custom_text"`
 	// The timestamp at which the Checkout Session will expire.
