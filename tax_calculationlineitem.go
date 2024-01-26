@@ -100,22 +100,22 @@ type TaxCalculationLineItemTaxBreakdownTaxRateDetails struct {
 
 // Detailed account of taxes relevant to this line item.
 type TaxCalculationLineItemTaxBreakdown struct {
-	// The amount of tax, in integer cents.
+	// The amount of tax, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount       int64                                           `json:"amount"`
 	Jurisdiction *TaxCalculationLineItemTaxBreakdownJurisdiction `json:"jurisdiction"`
 	// Indicates whether the jurisdiction was determined by the origin (merchant's address) or destination (customer's address).
 	Sourcing TaxCalculationLineItemTaxBreakdownSourcing `json:"sourcing"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason TaxCalculationLineItemTaxBreakdownTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in integer cents.
+	// The amount on which tax is calculated, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	TaxableAmount int64 `json:"taxable_amount"`
 	// Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax.
 	TaxRateDetails *TaxCalculationLineItemTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
 }
 type TaxCalculationLineItem struct {
-	// The line item amount in integer cents. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+	// The line item amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
 	Amount int64 `json:"amount"`
-	// The amount of tax calculated for this line item, in integer cents.
+	// The amount of tax calculated for this line item, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	AmountTax int64 `json:"amount_tax"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
