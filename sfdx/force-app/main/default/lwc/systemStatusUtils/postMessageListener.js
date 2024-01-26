@@ -147,6 +147,7 @@ class PostMessageListener extends EventEmitter {
                 id,
                 result,
                 state: validatedState,
+                raw_state: state,
             }
             DebugLog('_listener', 'postValidation', 'details', details);
 
@@ -162,7 +163,7 @@ class PostMessageListener extends EventEmitter {
             this._fireEvent(ListenerEvents.complete, details);
         };
 
-        return validateSharedState({ service: service, state })
+        return validateSharedState({ state })
             .then(postValidation)
             .catch((error) => {
                 DebugLog('_listener', 'validateSharedState', 'error', error);

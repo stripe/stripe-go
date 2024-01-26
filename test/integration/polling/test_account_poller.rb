@@ -64,4 +64,17 @@ class Critic::AccountPollerTest < Critic::VCRTest
     # kick off account poll job for this user
     StripeForce::InitiatePollsJobs.queue_polls_for_user(@user)
   end
+
+  it 'polls for default account only' do
+    # enable account polling
+    @user.enable_feature(FeatureFlags::ACCOUNT_POLLING)
+    @user.enable_feature(FeatureFlags::MULTI_STRIPE_ACCOUNT)
+    @user.connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = true
+    @user.is_default_account_config = false
+    @user.save
+
+    locker = Integrations::Locker.new(@user)
+    StripeForce::AccountPoller.perform(user: @user, locker: locker)
+    assert_equal(0, StripeForce::PollTimestamp.count)
+  end
 end

@@ -61,6 +61,11 @@ public with sharing class Debug_Helper {
             return;
         }
 
+        if (message == null) {
+            outputService.debug('[' + source + '] ' + '//null//');
+            return;
+        }
+
         if (message.length() < lengthLimit) {
             outputService.debug('[' + source + '] ' + message);
             return;

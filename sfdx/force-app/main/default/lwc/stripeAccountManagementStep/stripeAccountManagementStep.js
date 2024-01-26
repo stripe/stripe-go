@@ -1,25 +1,93 @@
 import getStripeAuthorizationUri from '@salesforce/apex/setupAssistant.getStripeAuthorizationUri';
 import addStripeAccount from '@salesforce/apex/setupAssistant.addStripeAccount';
+import getStripeAccounts from '@salesforce/apex/setupAssistant.getStripeAccounts';
+import setStripeAccountAsDefault from '@salesforce/apex/setupAssistant.setStripeAccountAsDefault';
+import deleteStripeAccount from '@salesforce/apex/setupAssistant.deleteStripeAccount';
 import {LightningElement, track, api} from 'lwc';
 import {getErrorMessage, createToast, openWindow} from 'c/utils'
+import AddStripeAccountModal from 'c/addStripeAccountModal';
 import Debugger from "c/debugger";
 import {MessageListener, ConnectionStatus, ListenerEvents, ServiceManagerServices} from "c/systemStatusUtils";
 import { Manager, ServiceEvents } from "c/serviceManager";
-const DebugLog = Debugger.withContext('StripeAccountSetupStep');
+import LightningConfirm from "lightning/confirm";
+
+const DebugLog = Debugger.withContext('StripeAccountManagementStep');
 const SERVICE_DELIMINATOR = '|';
 
-export default class StripeAccountSetupStep extends LightningElement {
+export default class StripeAccountManagementStep extends LightningElement {
     @track isConnected = false;
     @track loading = false;
     @track modalLoading = false;
     @track status = ConnectionStatus.loading;
     @track accountType;
+    @track accounts = [];
     @api hideAction = false;
     @api isSetup = false;
     _connectWindow = null;
     _expectedUpdate = undefined;
+    accountsByExternalId = {};
     contentLoading = new CustomEvent('contentloading');
     contentLoadingComplete = new CustomEvent('contentloadingcomplete');
+
+    async handleRowAction(event) {
+        const context = {
+            action: event.detail.value,
+            id: event.target.dataset.id,
+        };
+        context.account = this.accountsByExternalId[context.id];
+
+        DebugLog('handleRowAction', context)
+
+        if (context.account === undefined || context.account === null) {
+            DebugLog('handleRowAction', 'account not found', context);
+            this._showToast('Account not found', 'error', 'sticky');
+            return;
+        }
+
+        context.functionArgs = {stripeAccountId: context.account.Stripe_ID__c, isLive: context.account.Is_Live_Mode__c};
+        DebugLog('handleRowAction', 'before call', context);
+
+        try {
+            let fn = null;
+            let confConfig = {
+                theme: 'shade',
+                label: 'Are you sure?',
+            };
+            if (context.action === 'SetPrimary') {
+                fn = setStripeAccountAsDefault;
+                confConfig.message = `Are you sure you want to set ${context.account.Stripe_ID__c} as the primary account?`;
+            } else if (context.action === 'Delete') {
+                fn = deleteStripeAccount;
+                confConfig.message = `Are you sure you want to delete ${context.account.Stripe_ID__c}?`;
+            } else {
+                DebugLog('handleRowAction', 'unknown action', context.action);
+                this._showToast('Unknown action', 'error', 'sticky');
+                return;
+            }
+
+            const conf = await LightningConfirm.open(confConfig);
+            if (conf === false) {
+                return;
+            }
+
+            this.dispatchEvent(this.contentLoading);
+
+            context.result = await fn(context.functionArgs);
+
+            DebugLog('handleRowAction', 'after call', context);
+
+            if (context.result !== true) {
+                this._showToast('There was a problem updating the account. Please refresh and try again.', 'error', 'sticky');
+                return;
+            }
+
+            await this.getStripeAccounts();
+            this.dispatchEvent(this.contentLoadingComplete);
+        } catch (e) {
+            const msg = getErrorMessage(e);
+            this._showToast(msg, 'error', 'sticky');
+        }
+    }
 
     async connectedCallback() {
         if (this._boundConnectionStatusUpdated) {
@@ -28,6 +96,8 @@ export default class StripeAccountSetupStep extends LightningElement {
         }
 
         DebugLog('connectedCallback', 'connecting');
+        this.dispatchEvent(this.contentLoading);
+        await this.getStripeAccounts();
         this._boundConnectionStatusUpdated = this._connectionStatusUpdated.bind(this);
         Manager.on(ServiceEvents.connection_status_updated, this._boundConnectionStatusUpdated);
     }
@@ -46,6 +116,24 @@ export default class StripeAccountSetupStep extends LightningElement {
         await Manager.updateConnectionStatuses();
     }
 
+    async getStripeAccounts() {
+        try {
+            const stripeAccounts = await getStripeAccounts();
+            const acctsByExtId = {};
+            stripeAccounts.forEach(acct => {
+                acct.livemode = acct.Is_Live_Mode__c === true ? 'live' : 'test';
+                acctsByExtId[acct.External_ID__c] = acct;
+            });
+            this.accounts = stripeAccounts;
+            this.accountsByExternalId = acctsByExtId;
+            return stripeAccounts;
+        } catch (e) {
+            const err = getErrorMessage(e);
+            this.showToast(err, 'error', 'sticky');
+            return null;
+        }
+    }
+
     // connected to the "Authorize" button in the UI
     // main entry point for starting the authorization flow
     /**
@@ -55,7 +143,12 @@ export default class StripeAccountSetupStep extends LightningElement {
     async authorizeIntegrationUser() {
         DebugLog('authorizeIntegrationUser called');
         this.loading = true;
-        const authInfo = await getStripeAuthorizationUri({ liveMode: this.accountType === 'live' });
+        const result = await AddStripeAccountModal.open({ size: 'small' });
+        if (result === null) {
+            return;
+        }
+
+        const authInfo = await getStripeAuthorizationUri({ liveMode: result === 'live' });
         /** @type {IntegrationUserAuthorizationUriPayload} */
         const responseData = JSON.parse(authInfo);
         DebugLog('authorizeIntegrationUser responseData', responseData);
@@ -87,37 +180,31 @@ export default class StripeAccountSetupStep extends LightningElement {
             return;
         }
 
-        const statuses = event.detail.statuses;
-        const stripeService = Object.keys(statuses).find(key => key.startsWith(ServiceManagerServices.stripe + SERVICE_DELIMINATOR));
-        this.status = statuses[stripeService];
-        this.isConnected = this.status === ConnectionStatus.fresh || this.status === ConnectionStatus.connected;
-        DebugLog('connectionStatusUpdated', 'stripe status', {
-            stripeService,
-            status: this.status,
-            isConnected: this.isConnected,
-            isSetup: this.isSetup,
-        });
-
-        if (this._expectedUpdate !== undefined && this.status === 'failed') {
-            DebugLog('connectionStatusUpdated', 'got failed status');
-            this._showErrorToast();
-        }
-
-        if (this._expectedUpdate === true && this.status === ConnectionStatus.fresh) {
-            DebugLog('connectionStatusUpdated', 'got fresh status');
-            this._showToast('Integration User has been successfully connected.', 'success');
-        } else if (this._expectedUpdate === false && this.status === ConnectionStatus.disconnected) {
-            DebugLog('connectionStatusUpdated', 'got disconnected status');
-            this._showToast('Integration User successfully unauthorized.', 'success');
-        }
-
-        DebugLog('connectionStatusUpdated', 'isSetup', this.isSetup);
-        DebugLog('connectionStatusUpdated', 'isConnected', this.isConnected);
-
-        if (this.isSetup && this.isConnected) {
-            DebugLog('connectionStatusUpdated', 'dispatching stepcomplete');
-            this.dispatchEvent(new CustomEvent('stepcomplete', { detail: { step: 'stripe_account_connection' }} ));
-        }
+        // const statuses = event.detail.statuses;
+        // const stripeServices = Object.keys(statuses).filter(key => key.startsWith(ServiceManagerServices.stripe + SERVICE_DELIMINATOR));
+        // const existingServices = {};
+        // this.accounts.forEach(acct => existingServices[acct.id] = {account: acct, found: false});
+        // stripeServices.forEach(svcName => {
+        //     const [svcType, svcId, svcProps] = svcName.split(SERVICE_DELIMINATOR);
+        //     const svcStatus = statuses[svcName];
+        //     const svc = {
+        //         id: svcName,
+        //         account_id: svcId,
+        //         type: svcType,
+        //         props: svcProps,
+        //         status: svcStatus,
+        //         livemode: svcProps
+        //     };
+        //     if (existingServices[svcId]) {
+        //         existingServices[svcId].found = true;
+        //         existingServices[svcId].account.status = svc.status;
+        //     } else {
+        //         existingServices[svcId] = {found: true, account: svc};
+        //     }
+        // });
+        //
+        // const foundKeys = Object.keys(existingServices).filter(key => existingServices[key].found);
+        // this.accounts = foundKeys.map(key => existingServices[key].account);
 
         this.dispatchEvent(this.contentLoadingComplete);
         this._expectedUpdate = undefined;
@@ -141,10 +228,13 @@ export default class StripeAccountSetupStep extends LightningElement {
         DebugLog('_onConnectionSuccess', 'got success', event.detail);
         await addStripeAccount({ state : event.detail.raw_state });
         await Manager.updateConnectionStatuses(event.detail.service);
+        await this.getStripeAccounts();
+        this.dispatchEvent(this.contentLoadingComplete);
     }
 
     _onConnectionError(error) {
         DebugLog('_onConnectionError', 'got error', error);
+        this.dispatchEvent(this.contentLoadingComplete);
         this._showErrorToast();
     }
 

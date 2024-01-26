@@ -7,6 +7,11 @@ class StripeForce::AccountPoller < StripeForce::PollerBase
   def perform
     current_execution_time = Time.now.utc
 
+    if @user.feature_enabled?(FeatureFlags::MULTI_STRIPE_ACCOUNT)
+      # Because there is no stripe account field on the Account object, we will only run on the default user to make sure that we only run the poller once per env
+      return unless @user.is_default_account_config
+    end
+
     return if !should_poll?(current_execution_time, poll_timestamp)
 
     poll_record = T.must(poll_timestamp)

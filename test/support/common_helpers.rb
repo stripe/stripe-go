@@ -57,8 +57,8 @@ module Critic::CommonHelpers
     )
   end
 
-  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean, livemode: T::Boolean).returns(StripeForce::User) }
-  def make_user(sandbox: true, save: false, random_user_id: false, livemode: false)
+  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean, livemode: T::Boolean, is_default: T::Boolean).returns(StripeForce::User) }
+  def make_user(sandbox: true, save: false, random_user_id: false, livemode: false, is_default: true)
     user = StripeForce::User.new(
       livemode: livemode,
 
@@ -72,7 +72,8 @@ module Critic::CommonHelpers
         stripe_create_id("acct_")
       else
         ENV.fetch('STRIPE_ACCOUNT_ID')
-      end
+      end,
+      is_default_account_config: is_default
     )
 
     if !sf_caching_global_disabled

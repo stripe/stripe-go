@@ -1,14 +1,25 @@
 # How to test locally
 
 1. Follow normal setup routine.
-2. Run ruby locally... what works for me is: `dotenv bundle exec puma`
-2. Make the local instance internet accessible. You can use ngrok, or my custom localtunnel server if you like. Details below.
-3. Add a Remote Site Config for this url to enable Salesforce to call it.  
+   - Create a scratch org, refresh auth token, etc
+   - Deploy sfdx package to your Scratch org
+1. Follow the instructions below to setup ngrok.
+1. Run ruby locally... what works for me is: `dotenv bundle exec puma`
+1. Make the local instance internet accessible. You can use ngrok, or my custom localtunnel server if you like. Details below.
+1. Add a Remote Site Config for this url to enable Salesforce to call it.  
    (Setup -> Remote Site Settings), /lightning/setup/SecurityRemoteProxy/home
-4. Edit the Default Setup_Connection_Data__mdt record, turn on "Local Authorization  
-   Target" and set "Platform Target" to the URL from step 2. /lightning/setup/CustomMetadata/home
-5. If something seems wonky, set OAuth_State_Signing_Key__c to `98ae2216688a8b879c25f17ed793bfa7bb11201ddda97ad01b2d282a06aa191a` in Salesforce, but it should default to it even if not set.
-6. Test!
+   Select New. Name the remote site whatever you want. The URL is found in your terminal: https:/<>.ngrok-free.app
+1. Go to /lightning/setup/CustomMetadata/home, click on `Manage Records` next to `Setup Connection Data`.
+   1. Click `Edit` on the `Default` Setup_Connection_Data\_\_mdt record
+   2. turn on `Local Authorization Target`
+   3. set `Platform Target` to the URL from step 3.
+   4. Add .ngrok-free.app to your STRIPEFORCE_HOSTS in your .env
+   5. [optional] If you have defined `OAUTH_STATE_SIGNING_KEY` in your `.env` file, set the value of `OAuth State Signing Key` to that value.
+1. If something seems wonky, set OAuth_State_Signing_Key\_\_c to `98ae2216688a8b879c25f17ed793bfa7bb11201ddda97ad01b2d282a06aa191a` in Salesforce, but it should default to it even if not set.
+1. Restart your service
+1. Test!
+
+Note: make sure you have run the Ruby migrations have run locally
 
 ## making localdev accessible
 
@@ -32,8 +43,8 @@ npm install -g ngrok
 Create an account with [ngrok](https://ngrok.com/), and configure your authtoken.
 
 ```
-ngrok authtoken <your_token>
-``` 
+ngrok config add-authtoken<your_token>
+```
 
 #### Running
 
@@ -42,6 +53,8 @@ To run ngrok, execute:
 ```
 ngrok http 3100
 ```
+
+This will product a URL that you will use above.
 
 ### My secure localtunnel server
 

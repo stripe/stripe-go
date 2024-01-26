@@ -7,7 +7,9 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
   def perform
 
     execution_time = Time.now.utc
-
+    if @user.feature_enabled?(FeatureFlags::MULTI_STRIPE_ACCOUNT)
+      return unless StripeForce::User.where(salesforce_account_id: @user.salesforce_account_id).any?
+    end
     return if !should_poll?(execution_time, poll_timestamp)
 
     poll_record = T.must(poll_timestamp)
@@ -52,7 +54,22 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
   end
 
   private def generate_soql(time_start, time_end)
-    # LastModifiedDate has second, but not millisecond, granularity
+    # You can't use constants like true or false in soql
+    # You can't use dynamic values in soql
+
+    # Look at the Order's stripe account obj
+    #--stripe account obj is null
+    #----Only poll if the user is default
+    #--stripe account obj is not null
+    #----Only poll if the user is the same as stripe account obj id on order
+    if @user.feature_enabled?(FeatureFlags::MULTI_STRIPE_ACCOUNT)
+      multi_stripe_account_clause = " AND ((#{prefixed_stripe_field(STRIPE_ACCOUNT)} != null AND #{prefixed_stripe_field(STRIPE_ACCOUNT_LOOKUP)}.#{prefixed_stripe_field(GENERIC_STRIPE_ID)} = '#{@user.stripe_account_id}')"
+      multi_stripe_account_clause += " OR #{prefixed_stripe_field(STRIPE_ACCOUNT)} = null" if @user.is_default_account_config
+      multi_stripe_account_clause += ")"
+    else
+      multi_stripe_account_clause = ""
+    end
+
     <<~EOL
       SELECT Id
       FROM #{poll_type}
@@ -60,6 +77,7 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
       #{prefixed_stripe_field(GENERIC_STRIPE_ID)} = null AND
       LastModifiedDate >= #{time_start.iso8601} AND
       LastModifiedDate < #{time_end.iso8601}
+      #{multi_stripe_account_clause}
       #{@user.user_specified_where_clause_for_object(poll_type)}
     EOL
   end

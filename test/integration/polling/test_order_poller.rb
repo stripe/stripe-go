@@ -288,5 +288,15 @@ class Critic::OrderPollerTest < Critic::VCRTest
       assert(poll_timestamp.last_polled_at - initial_poll > initial_poll_delta)
       assert_equal(SF_ORDER, poll_timestamp.integration_record_type)
     end
+
+    it 'does not poll if the user is disabled' do
+      @user.enable_feature(FeatureFlags::MULTI_STRIPE_ACCOUNT)
+      @user.enabled = false
+      @user.save
+      locker = Integrations::Locker.new(@user)
+      order_poller = StripeForce::OrderPoller.perform(user: @user, locker: locker)
+
+      assert_equal(0, StripeForce::PollTimestamp.count)
+    end
   end
 end
