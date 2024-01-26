@@ -30,9 +30,9 @@ type TaxTransactionLineItemReversal struct {
 	OriginalLineItem string `json:"original_line_item"`
 }
 type TaxTransactionLineItem struct {
-	// The line item amount in integer cents. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+	// The line item amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
 	Amount int64 `json:"amount"`
-	// The amount of tax calculated for this line item, in integer cents.
+	// The amount of tax calculated for this line item, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	AmountTax int64 `json:"amount_tax"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
