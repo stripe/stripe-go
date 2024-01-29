@@ -8,6 +8,19 @@ package stripe
 
 import "encoding/json"
 
+// The level of the jurisdiction that imposes this tax rate. Will be `null` for manually defined tax rates.
+type TaxRateJurisdictionLevel string
+
+// List of values that TaxRateJurisdictionLevel can take
+const (
+	TaxRateJurisdictionLevelCity     TaxRateJurisdictionLevel = "city"
+	TaxRateJurisdictionLevelCountry  TaxRateJurisdictionLevel = "country"
+	TaxRateJurisdictionLevelCounty   TaxRateJurisdictionLevel = "county"
+	TaxRateJurisdictionLevelDistrict TaxRateJurisdictionLevel = "district"
+	TaxRateJurisdictionLevelMultiple TaxRateJurisdictionLevel = "multiple"
+	TaxRateJurisdictionLevelState    TaxRateJurisdictionLevel = "state"
+)
+
 // The high-level tax type, such as `vat` or `sales_tax`.
 type TaxRateTaxType string
 
@@ -114,6 +127,8 @@ type TaxRate struct {
 	Inclusive bool `json:"inclusive"`
 	// The jurisdiction for the tax rate. You can use this label field for tax reporting purposes. It also appears on your customer's invoice.
 	Jurisdiction string `json:"jurisdiction"`
+	// The level of the jurisdiction that imposes this tax rate. Will be `null` for manually defined tax rates.
+	JurisdictionLevel TaxRateJurisdictionLevel `json:"jurisdiction_level"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
