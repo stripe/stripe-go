@@ -716,8 +716,7 @@ const (
 
 // Describes the type of transaction being performed by Checkout in order to customize
 // relevant text on the page, such as the submit button. `submit_type` can only be
-// specified on Checkout Sessions in `payment` mode, but not Checkout Sessions
-// in `subscription` or `setup` mode. Possible values are `auto`, `pay`, `book`, `donate`. If blank or `auto`, `pay` is used.
+// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
 type CheckoutSessionSubmitType string
 
 // List of values that CheckoutSessionSubmitType can take
@@ -1929,8 +1928,7 @@ type CheckoutSessionParams struct {
 	ShippingOptions []*CheckoutSessionShippingOptionParams `form:"shipping_options"`
 	// Describes the type of transaction being performed by Checkout in order to customize
 	// relevant text on the page, such as the submit button. `submit_type` can only be
-	// specified on Checkout Sessions in `payment` mode, but not Checkout Sessions
-	// in `subscription` or `setup` mode. Possible values are `auto`, `pay`, `book`, `donate`. If blank or `auto`, `pay` is used.
+	// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
 	SubmitType *string `form:"submit_type"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data"`
@@ -2754,8 +2752,7 @@ type CheckoutSession struct {
 	Status CheckoutSessionStatus `json:"status"`
 	// Describes the type of transaction being performed by Checkout in order to customize
 	// relevant text on the page, such as the submit button. `submit_type` can only be
-	// specified on Checkout Sessions in `payment` mode, but not Checkout Sessions
-	// in `subscription` or `setup` mode. Possible values are `auto`, `pay`, `book`, `donate`. If blank or `auto`, `pay` is used.
+	// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
 	SubmitType CheckoutSessionSubmitType `json:"submit_type"`
 	// The ID of the subscription for Checkout Sessions in `subscription` mode.
 	Subscription *Subscription `json:"subscription"`
