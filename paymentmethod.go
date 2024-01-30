@@ -73,7 +73,7 @@ const (
 	PaymentMethodCardNetworksAvailableUnknown         PaymentMethodCardNetworksAvailable = "unknown"
 )
 
-// The preferred network for the card.
+// The preferred network for the card. Will contain invalid_preference if requested network is not valid for the card.
 type PaymentMethodCardNetworksPreferred string
 
 // List of values that PaymentMethodCardNetworksPreferred can take
@@ -647,7 +647,7 @@ type PaymentMethodCardChecks struct {
 type PaymentMethodCardNetworks struct {
 	// All available networks for the card.
 	Available []PaymentMethodCardNetworksAvailable `json:"available"`
-	// The preferred network for the card.
+	// The preferred network for the card. Will contain invalid_preference if requested network is not valid for the card.
 	Preferred PaymentMethodCardNetworksPreferred `json:"preferred"`
 }
 
