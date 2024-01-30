@@ -1508,6 +1508,12 @@ type CheckoutSessionPaymentMethodOptionsSofortParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the Swish payment method options.
+type CheckoutSessionPaymentMethodOptionsSwishParams struct {
+	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
+	Reference *string `form:"reference"`
+}
+
 // Additional fields for Financial Connections Session creation
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -1600,6 +1606,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// contains details about the Sofort payment method options.
 	Sofort *CheckoutSessionPaymentMethodOptionsSofortParams `form:"sofort"`
+	// contains details about the Swish payment method options.
+	Swish *CheckoutSessionPaymentMethodOptionsSwishParams `form:"swish"`
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// contains details about the WeChat Pay payment method options.
@@ -2475,6 +2483,10 @@ type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsSwish struct {
+	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
+	Reference string `json:"reference"`
+}
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
@@ -2524,6 +2536,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	RevolutPay       *CheckoutSessionPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
+	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 }
 type CheckoutSessionPhoneNumberCollection struct {
