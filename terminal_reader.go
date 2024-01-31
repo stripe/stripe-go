@@ -58,6 +58,15 @@ const (
 	TerminalReaderDeviceTypeVerifoneP400      TerminalReaderDeviceType = "verifone_P400"
 )
 
+// The networking status of the reader.
+type TerminalReaderStatus string
+
+// List of values that TerminalReaderStatus can take
+const (
+	TerminalReaderStatusOffline TerminalReaderStatus = "offline"
+	TerminalReaderStatusOnline  TerminalReaderStatus = "online"
+)
+
 // Deletes a Reader object.
 type TerminalReaderParams struct {
 	Params `form:"*"`
@@ -375,7 +384,7 @@ type TerminalReader struct {
 	// Serial number of the reader.
 	SerialNumber string `json:"serial_number"`
 	// The networking status of the reader.
-	Status string `json:"status"`
+	Status TerminalReaderStatus `json:"status"`
 }
 
 // TerminalReaderList is a list of Readers as retrieved from a list endpoint.
