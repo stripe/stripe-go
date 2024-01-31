@@ -1,5 +1,4 @@
 import getStripeAuthorizationUri from '@salesforce/apex/setupAssistant.getStripeAuthorizationUri';
-import addStripeAccount from '@salesforce/apex/setupAssistant.addStripeAccount';
 import {LightningElement, track, api} from 'lwc';
 import {getErrorMessage, createToast, openWindow} from 'c/utils'
 import Debugger from "c/debugger";
@@ -18,8 +17,6 @@ export default class StripeAccountSetupStep extends LightningElement {
     @api isSetup = false;
     _connectWindow = null;
     _expectedUpdate = undefined;
-    contentLoading = new CustomEvent('contentloading');
-    contentLoadingComplete = new CustomEvent('contentloadingcomplete');
 
     async connectedCallback() {
         if (this._boundConnectionStatusUpdated) {
@@ -62,7 +59,6 @@ export default class StripeAccountSetupStep extends LightningElement {
         this._connectToMessageListener();
         MessageListener.listenFor(responseData.results.message_origin_uri);
         this._expectedUpdate = true;
-        this.dispatchEvent(this.contentLoading);
         this._connectWindow = openWindow(responseData.results.authorization_uri);
     }
 
@@ -119,7 +115,6 @@ export default class StripeAccountSetupStep extends LightningElement {
             this.dispatchEvent(new CustomEvent('stepcomplete', { detail: { step: 'stripe_account_connection' }} ));
         }
 
-        this.dispatchEvent(this.contentLoadingComplete);
         this._expectedUpdate = undefined;
         this.loading = false;
     }
@@ -137,10 +132,9 @@ export default class StripeAccountSetupStep extends LightningElement {
         });
     }
 
-    async _onConnectionSuccess(event) {
+    _onConnectionSuccess(event) {
         DebugLog('_onConnectionSuccess', 'got success', event.detail);
-        await addStripeAccount({ state : event.detail.raw_state });
-        await Manager.updateConnectionStatuses(event.detail.service);
+        return Manager.updateConnectionStatuses(event.detail.service);
     }
 
     _onConnectionError(error) {

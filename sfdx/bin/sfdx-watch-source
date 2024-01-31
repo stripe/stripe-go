@@ -10,4 +10,4 @@ if [[ -z $(which fd) && -z $(which entr)  ]]; then
   exit 1
 fi
 
-fd . force-app | entr -ncc sh -c 'echo "pushing source"; sfdx force:source:push --loglevel=debug --apiversion=56.0'
+fd . force-app | entr -ncc sh -c 'echo "pushing source"; sfdx force:source:push --loglevel=debug --apiversion=54.0'

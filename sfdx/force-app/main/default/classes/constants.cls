@@ -31,11 +31,7 @@ public with sharing class constants {
     public static final String RUBY_SERVICE_BASE_URI = 'https://salesforce.suitesync.io';
     public static final String RUBY_SERVICE_LOCAL_BASE_URI = 'http://localhost:3100';
     public static final String RUBY_SERVICE_CONFIG_URI = '/v1/configuration';
-    public static final String RUBY_MULTI_ACCT_SERVICE_CONNECTION_STATUS_URI = '/v1/multi_connection_statuses';
-    public static final String RUBY_SINGLE_SERVICE_CONNECTION_STATUS_URI = '/v1/connection_status';
     public static final String RUBY_SERVICE_CONNECTION_STATUS_URI = '/v1/connection_statuses';
-    public static final String RUBY_SERVICE_ACCOUNTS_URI = '/accounts/';
-    public static final String RUBY_SERVICE_ACCOUNTS_SET_DEFAULT_URI = '/set_default';
     public static final String RUBY_SERVICE_TRANSLATE_URI = '/v1/translate';
     public static final String RUBY_SERVICE_TRANSLATE_ALL_URI = '/v1/translate_all';
     public static final String RUBY_SERVICE_SALESFORCE_PROD_URI = '/auth/v2/salesforce';
@@ -55,10 +51,6 @@ public with sharing class constants {
 
     public static final String SYSTEM_STRIPE = 'stripe';
     public static final String SYSTEM_SALESFORCE = 'salesforce';
-
-    public static final String STRIPE_ACCOUNT_CONN_STATUS_CONNECTED = 'connected';
-    public static final String STRIPE_ACCOUNT_CONN_STATUS_DISCONNECTED = 'disconnected';
-    public static final String STRIPE_ACCOUNT_CONN_STATUS_BROKEN = 'broken';
 
     public constants() {
         // empty

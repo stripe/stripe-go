@@ -451,13 +451,7 @@ public with sharing class utilities {
 
         debugger.debug('utilities.buildRequest', 'Setting default API key header');
         request.setHeader('Salesforce-Key', (String)stripeConnectRec.API_Key__c);
-        if (String.isNotBlank(stripeConnectRec.Primary_Stripe_Account_Id__c)) {
-            request.setHeader('Stripe-Primary-Account-Id', (String)stripeConnectRec.Primary_Stripe_Account_Id__c);
-        }
-        if (String.isNotBlank(stripeConnectRec.Primary_Stripe_Account_Livemode__c)) {
-            request.setHeader('Stripe-Primary-Account-Livemode', (String)stripeConnectRec.Primary_Stripe_Account_Livemode__c);
-        }
-        request.setHeader('X-Middleware-Authorization', StripeOAuthState.create().toString());
+//        request.setHeader('Authorization', 'Bearer ' + StripeOAuthState.create().toString());
         return request;
     }
 
@@ -544,21 +538,6 @@ public with sharing class utilities {
         }
 
         return isoCurrency;
-    }
-
-    public static Stripe_Account__c getPrimaryStripeAccount() {
-        List<Stripe_Account__c> accts = [
-                SELECT Id, Name, Stripe_ID__c, Is_Live_Mode__c, External_ID__c, Is_Primary__c
-                FROM Stripe_Account__c
-                WHERE Is_Primary__c = TRUE
-                WITH SECURITY_ENFORCED
-        ];
-
-        if (accts.isEmpty()) {
-            return null;
-        }
-
-        return accts[0];
     }
 
     //Creates a test metadata record in test context

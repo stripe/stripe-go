@@ -51,7 +51,7 @@ printf "🔁 Pushing source code to $environment with credentials of $sf_user";
 # ```
 # sfdx auth:web:login
 # ```
-cd "$HOME/stripe/stripe-salesforce/sfdx" && sfdx force:source:deploy -p force-app/main/default -u $sf_user --apiversion=56.0
+cd "$HOME/stripe/stripe-salesforce/sfdx" && sfdx force:source:deploy -p force-app/main/default -u $sf_user --apiversion=54.0
 
 printf "\n\n\n🟢 Source code pushed. Please manually roll a new package and return here. \n(Press any button to open package manager)\n"
 read;

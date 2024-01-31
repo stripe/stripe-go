@@ -37,72 +37,10 @@ public with sharing class setupAssistant {
         return utilities.isConnected(stripeConnectRec);
     }
 
-    @AuraEnabled
-    public static List<Stripe_Account__c> getStripeAccounts() {
-        return [
-            SELECT Id, Name, Stripe_ID__c, Is_Live_Mode__c, External_ID__c, Is_Primary__c
-            FROM Stripe_Account__c
-            WITH SECURITY_ENFORCED
-            ORDER BY Is_Primary__c DESC, Stripe_ID__c ASC, Is_Live_Mode__c DESC
-        ];
-    }
-
-    @AuraEnabled
-    public static Boolean setStripeAccountAsDefault(String stripeAccountId, Boolean isLive) {
-        String uri = UriTargets.getAccountSetDefaultEndpoint(stripeAccountId, isLive);
-        HttpResponse response = utilities.makeCallout(uri, 'POST');
-
-        if (response.getStatusCode() > 299) {
-            throw new CalloutException('Failed to set default account: ' + response.getBody());
-        }
-
-        List<Stripe_Account__c> stripeAccounts = getStripeAccounts();
-        Boolean found = false;
-        for (Stripe_Account__c stripeAccount : stripeAccounts) {
-            if (stripeAccount.Stripe_ID__c == stripeAccountId && stripeAccount.Is_Live_Mode__c == isLive) {
-                stripeAccount.Is_Primary__c = true;
-                found = true;
-            } else {
-                stripeAccount.Is_Primary__c = false;
-            }
-        }
-        if (found) {
-            update stripeAccounts;
-            Stripe_Connection__c conn = utilities.getStripeConnection();
-            conn.Primary_Stripe_Account_Id__c = stripeAccountId;
-            conn.Primary_Stripe_Account_Livemode__c = isLive ? 'live' : 'test';
-            update conn;
-        }
-        return found;
-    }
-
-    @AuraEnabled
-    public static Boolean deleteStripeAccount(String stripeAccountId, Boolean isLive) {
-        String uri = UriTargets.getAccountEndpoint(stripeAccountId, isLive);
-        HttpResponse response = utilities.makeCallout(uri, 'DELETE');
-
-        if (response.getStatusCode() > 299) {
-            throw new CalloutException('Failed to delete account: ' + response.getBody());
-        }
-
-        List<Stripe_Account__c> stripeAccounts = getStripeAccounts();
-        Stripe_Account__c found = null;
-
-        for (Stripe_Account__c stripeAccount : stripeAccounts) {
-            if (stripeAccount.Stripe_ID__c == stripeAccountId && stripeAccount.Is_Live_Mode__c == isLive) {
-                found = stripeAccount;
-            }
-        }
-        if (found != null) {
-            delete found;
-        }
-        return found != null;
-    }
-
     // downloads sync record and config data from quick action button on sync record component
     @AuraEnabled(Cacheable=true)
     public static String getDownloadForSupportUrl(Id recordId) {
-        PageReference ref = Page.DownloadForSupportConfig;
+        Pagereference ref = Page.DownloadForSupportConfig;
         ref.getParameters().put('recordId', recordId);
         return ref.getUrl();
     }
@@ -118,52 +56,21 @@ public with sharing class setupAssistant {
     }
 
     @AuraEnabled(Cacheable=false)
-    public static Map<String, Object> validateSharedState(String state) {
+    public static Map<String, Object> validateSharedState(String service, String state) {
+        debugger.debug('validateSharedState service', service);
         debugger.debug('validateSharedState state', state);
         try {
             Map<String, Object> data = StripeOAuthState.from_encrypted_state(state).data;
-            debugger.debug('validateSharedState state-data', data);
+            Stripe_Connection__c conn = utilities.getStripeConnection();
+            String stripePrefix = KEY_STRIPE + SERVICE_DELIMINATOR;
+            Boolean isStripeConnection = service.startsWith(stripePrefix);
+            if (String.isBlank(conn.Primary_Stripe_Account_Id__c) && isStripeConnection) {
+                conn.Primary_Stripe_Account_Id__c = service.substring(stripePrefix.length());
+                update conn;
+            }
             return data;
         } catch (Exception e) {
             errorLogger.create('OAuth state decryption failed', e);
-            throw e;
-        }
-    }
-
-    @AuraEnabled(Cacheable=false)
-    public static Stripe_Account__c addStripeAccount(String state) {
-        try {
-            StripeOAuthState data = StripeOAuthState.from_encrypted_state(state);
-            debugger.debug('addStripeAccount state-data', data);
-            Stripe_Connection__c conn = utilities.getStripeConnection();
-
-            String stripe_account_id = data.stripe_account_id;
-            String stripe_account_livemode = data.stripe_account_livemode;
-            String stripe_account_name = data.stripe_account_name;
-            if (String.isBlank(stripe_account_name)) {
-                stripe_account_name = stripe_account_id;
-            }
-
-            if (String.isBlank(conn.Primary_Stripe_Account_Id__c)) {
-                conn.Primary_Stripe_Account_Id__c = stripe_account_id;
-                conn.Primary_Stripe_Account_Livemode__c = stripe_account_livemode;
-                upsert conn;
-            }
-
-            Stripe_Account__c acct = new Stripe_Account__c(
-                    Name = data.stripe_account_name + ' (' + stripe_account_livemode + ')',
-                    Stripe_ID__c = stripe_account_id,
-                    Is_Live_Mode__c = stripe_account_livemode == 'live',
-                    External_ID__c = stripe_account_id + '|' + stripe_account_livemode
-            );
-
-            acct.Is_Primary__c = utilities.getPrimaryStripeAccount() == null;
-
-            Database.upsert(acct, Stripe_Account__c.External_ID__c);
-
-            return acct;
-        } catch (Exception e) {
-            errorLogger.create('Adding stripe account failed', e);
             throw e;
         }
     }
@@ -261,7 +168,7 @@ public with sharing class setupAssistant {
     }
 
     // validates connection status
-    @AuraEnabled(Cacheable=false)
+    @AuraEnabled
     public static String getIntegrationUserAuthorizationUri(Boolean forceLogin) {
         StripeOAuthState state = StripeOAuthState.create();
         responseData rd = new responseData();
@@ -273,7 +180,7 @@ public with sharing class setupAssistant {
 
 
     // validates connection status
-    @AuraEnabled(Cacheable=false)
+    @AuraEnabled
     public static String getStripeAuthorizationUri(Boolean liveMode) {
         StripeOAuthState state = StripeOAuthState.create();
         responseData rd = new responseData();
@@ -384,23 +291,19 @@ public with sharing class setupAssistant {
             // on the ruby service. This key is also persisted locally within the salesforce account.
             utilities.generatePackageKey(stripeConnectRec);
             rd.put(KEY_SERVICES, new Map<String, String>{
-                    KEY_SALESFORCE_SERVICE => STATUS_DISCONNECTED
+                    KEY_SALESFORCE_SERVICE => STATUS_DISCONNECTED,
+                    KEY_STRIPE_SERVICE => STATUS_DISCONNECTED
             });
             rd.put('message', 'Not yet connected.');
         } else {
             Stripe_Connection__c conn = utilities.getStripeConnection();
+            String STRIPE_SERVICE = String.isBlank(conn.Primary_Stripe_Account_Id__c) ? KEY_STRIPE_SERVICE : KEY_STRIPE + SERVICE_DELIMINATOR + conn.Primary_Stripe_Account_Id__c;
             String salesforceStatus = (stripeConnectRec.Salesforce_Connected__c) ? STATUS_CONNECTED : STATUS_DISCONNECTED;
-            Map<String, Object> services = new Map<String, String>{
-                    KEY_SALESFORCE_SERVICE => salesforceStatus
-            };
-            rd.put(KEY_SERVICES, services);
-
-            List<Stripe_Account__c> stripeAccounts = getStripeAccounts();
-            for (Stripe_Account__c stripeAccount : stripeAccounts) {
-                String id = KEY_STRIPE + SERVICE_DELIMINATOR + stripeAccount.External_ID__c;
-                String status = STATUS_CONNECTED;
-                services.put(id, status);
-            }
+            String stripeStatus = (stripeConnectRec.Stripe_Connected__c) ? STATUS_CONNECTED : STATUS_DISCONNECTED;
+            rd.put(KEY_SERVICES, new Map<String, String>{
+                    KEY_SALESFORCE_SERVICE => salesforceStatus,
+                    STRIPE_SERVICE => stripeStatus
+            });
         }
 
         return rd.getJsonString();
@@ -411,12 +314,11 @@ public with sharing class setupAssistant {
     @AuraEnabled(Continuation=true)
     public static Object getServiceConnectionStatuses(String serviceToCheck) {
         debugger.debug('getServiceConnectionStatuses', serviceToCheck);
-
         // gets custom setting record to determin if we are in a sandbox or production org
         Stripe_Connection__c stripeConnectRec = getStripeConnection();
 
         // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
-        String route = UriTargets.getMultiAccountConnectionStatusesEndpoint();
+        String route = UriTargets.getConnectionStatusesEndpoint();
         Integer timeout = 30000;
         HttpRequest request = utilities.buildRequest(route, 'GET', timeout);
         debugger.debug('request', request);
@@ -435,11 +337,7 @@ public with sharing class setupAssistant {
     public static Object handleServiceConnectionStatusesResponseTest() {
         List<String> labels = new List<String>();
         labels.add('continuation-1');
-        String stripeAcct = 'acct_12345';
-        String stripeLivemode = 'test';
-        String stripeSvc = KEY_STRIPE + SERVICE_DELIMINATOR + stripeAcct + SERVICE_DELIMINATOR + stripeLivemode;
-
-        return handleServiceConnectionStatusesResponse(labels, stripeSvc);
+        return handleServiceConnectionStatusesResponse(labels, KEY_STRIPE_SERVICE);
     }
 
     @AuraEnabled
@@ -458,7 +356,7 @@ public with sharing class setupAssistant {
         debugger.debug('getServiceConnectionStatusesSync', serviceToCheck);
 
         // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
-        String route = UriTargets.getMultiAccountConnectionStatusesEndpoint();
+        String route = UriTargets.getConnectionStatusesEndpoint();
         Integer timeout = 30000;
         HttpRequest request = utilities.buildRequest(route, 'GET', timeout);
         debugger.debug('request', request);
@@ -483,7 +381,7 @@ public with sharing class setupAssistant {
         try {
             Map<String, Object> responseBody;
             Stripe_Connection__c conn = utilities.getStripeConnection();
-            String STRIPE_SERVICE = String.isBlank(conn.Primary_Stripe_Account_Id__c) ? null : KEY_STRIPE + SERVICE_DELIMINATOR + conn.Primary_Stripe_Account_Id__c;
+            String STRIPE_SERVICE = String.isBlank(conn.Primary_Stripe_Account_Id__c) ? KEY_STRIPE_SERVICE : KEY_STRIPE + SERVICE_DELIMINATOR + conn.Primary_Stripe_Account_Id__c;
 
             /*
             if we do not get a 200 status code back we create an Error Log record to show we did not get a success
@@ -491,7 +389,8 @@ public with sharing class setupAssistant {
             */
             if(response.getStatusCode() != 200) {
                 rd.put(KEY_SERVICES, new Map<String, String> {
-                        KEY_SALESFORCE_SERVICE => STATUS_DISCONNECTED
+                        KEY_SALESFORCE_SERVICE => STATUS_DISCONNECTED,
+                        STRIPE_SERVICE => STATUS_DISCONNECTED
                 });
                 errorLogger.create('validateConnectionStatus', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get connection status from Ruby service.');
                 rd.put('message', 'Failed to get connection status from Ruby service.' + response.getBody());
@@ -499,54 +398,40 @@ public with sharing class setupAssistant {
             }
 
             debugger.debug('handleServiceConnectionStatusesResponse response body', response.getBody());
-            debugger.debug('handleServiceConnectionStatusesResponse svcToCheck', serviceToCheck);
 
             /*
             if we get a 200 response code from the ruby service we will check the connection status object
             in the payload to determine weather the user successfully connected to stripe or not
             */
             responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-            Boolean salesforceConnected;
-            Boolean stripeConnected;
-            Map<String, String> services = new Map<String, String>();
 
             //get connection status values from response
             debugger.debug('Got connection status result', responseBody);
+            stripeConnectRec.Stripe_Connected__c = (Boolean)responseBody.get(KEY_STRIPE);
+            stripeConnectRec.Salesforce_Connected__c = (Boolean)responseBody.get(KEY_SALESFORCE);
+            debugger.debug('stripeConnectRec', stripeConnectRec);
 
             // Question: why do we care if it's a connected callback? Why can't we just return the same data regardless?
             // Answer: returning 'failed' tells us if there is a problem between the ruby service and salesforce.
             // Answer 2: It was the tell for if we were checking a single service or both.
             // Question: why do we need distinct strings here for the status? Can't we just pass a boolean?
             // Answer: The value is an enum: connected, disconnected, failed, or fresh.
-            for (String key : responseBody.keySet()) {
-                if (key.startsWith(KEY_SALESFORCE)) {
-                    salesforceConnected = (Boolean)responseBody.get(key);
-                    if (stripeConnectRec.Salesforce_Connected__c == false || stripeConnectRec.Salesforce_Connected__c == null) {
-                        stripeConnectRec.Salesforce_Connected__c = salesforceConnected;
-                    }
-                    if (serviceToCheck == key) {
-                        services.put(key, (salesforceConnected) ? STATUS_FRESH : STATUS_DISCONNECTED);
-                    } else {
-                        services.put(key, (salesforceConnected) ? STATUS_CONNECTED : STATUS_DISCONNECTED);
-                    }
-                } else if (key.startsWith(KEY_STRIPE)) {
-                    stripeConnected = (Boolean)responseBody.get(key);
-                    if (stripeConnectRec.Stripe_Connected__c == false || stripeConnectRec.Stripe_Connected__c == null) {
-                        stripeConnectRec.Stripe_Connected__c = stripeConnected;
-                    }
 
-                    if (serviceToCheck == key) {
-                        services.put(key, (stripeConnected) ? STATUS_FRESH : STATUS_DISCONNECTED);
-                    } else {
-                        services.put(key, (stripeConnected) ? STATUS_CONNECTED : STATUS_DISCONNECTED);
-                    }
-                }
+            String salesforceStatus = (stripeConnectRec.Salesforce_Connected__c) ? STATUS_CONNECTED : STATUS_DISCONNECTED;
+            String stripeStatus = (stripeConnectRec.Stripe_Connected__c) ? STATUS_CONNECTED : STATUS_DISCONNECTED;
+
+            // We return a connection status of 'fresh' to determine if we should show a toast message of success or not
+//            debugger.debug('serviceToCheck', serviceToCheck);
+            if (serviceToCheck == KEY_SALESFORCE_SERVICE) {
+                salesforceStatus = (stripeConnectRec.Salesforce_Connected__c) ? STATUS_FRESH : salesforceStatus;
+            } else if (serviceToCheck == STRIPE_SERVICE) {
+                stripeStatus = (stripeConnectRec.Stripe_Connected__c) ? STATUS_FRESH : stripeStatus;
             }
 
-            debugger.debug('stripeConnectRec', stripeConnectRec);
-            debugger.debug('services', services);
-
-            rd.put(KEY_SERVICES, services);
+            rd.put(KEY_SERVICES, new Map<String, String> {
+                    KEY_SALESFORCE_SERVICE => salesforceStatus,
+                    STRIPE_SERVICE => stripeStatus
+            });
 
             debugger.debug('stripeConnectRec', stripeConnectRec);
 

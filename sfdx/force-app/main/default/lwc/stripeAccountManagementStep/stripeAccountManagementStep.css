@@ -1,8 +1,0 @@
-/**
- * Created by jmather-c on 8/31/23.
- */
-.stripe-status {
-    border-radius: var(--lwc-borderRadiusLarge, .5rem);
-    padding: var(--lwc-spacingMedium, 1rem);
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);
-}

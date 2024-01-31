@@ -26249,14 +26249,6 @@ end
 module GeneratedUrlHelpers
   def _routes(); end
 
-  def api_connection_status_path(*args); end
-
-  def api_connection_status_url(*args); end
-
-  def api_multi_connection_statuses_path(*args); end
-
-  def api_multi_connection_statuses_url(*args); end
-
   def omniauth_v2_path(*args); end
 
   def omniauth_v2_url(*args); end
@@ -32228,28 +32220,10 @@ end
 class Minitest::Rails::SpecTests::Test__allows_the_secondary_object_to_be_set_more_than_once__test_unit_test_salesforce_context_rb__33
 end
 
-class Minitest::Rails::SpecTests::Test__amending_orders_with_mdq_products__test_integration_amendments_test_mdq_product_amendments_rb__17
+class Minitest::Rails::SpecTests::Test__backdated_amendment_order__test_integration_amendments_test_backdated_orders_rb__18
 end
 
-class Minitest::Rails::SpecTests::Test__amending_orders_with_mdq_products__test_integration_amendments_test_mdq_product_amendments_rb__17
-end
-
-class Minitest::Rails::SpecTests::Test__backdated_amendment_order__test_integration_amendments_test_backdated_orders_rb__40
-end
-
-class Minitest::Rails::SpecTests::Test__backdated_amendment_order__test_integration_amendments_test_backdated_orders_rb__40
-end
-
-class Minitest::Rails::SpecTests::Test__backdated_amendment_orders_with_mdq__test_integration_amendments_test_mdq_product_amendments_rb__1004
-end
-
-class Minitest::Rails::SpecTests::Test__backdated_amendment_orders_with_mdq__test_integration_amendments_test_mdq_product_amendments_rb__1004
-end
-
-class Minitest::Rails::SpecTests::Test__backdated_initial_order__test_integration_amendments_test_backdated_orders_rb__17
-end
-
-class Minitest::Rails::SpecTests::Test__backdated_initial_order__test_integration_amendments_test_backdated_orders_rb__17
+class Minitest::Rails::SpecTests::Test__backdated_amendment_order__test_integration_amendments_test_backdated_orders_rb__18
 end
 
 class Minitest::Rails::SpecTests::Test__backend_prorated_amendments__test_integration_amendments_test_backend_prorated_amendments_rb__117
@@ -32268,12 +32242,6 @@ class Minitest::Rails::SpecTests::Test__calculate_days_to_prorate__test_unit_tes
 end
 
 class Minitest::Rails::SpecTests::Test__calculate_days_to_prorate__test_unit_test_salesforce_util_rb__85
-end
-
-class Minitest::Rails::SpecTests::Test__change_default_account_configuration__test_controllers_test_session_controller_rb__317
-end
-
-class Minitest::Rails::SpecTests::Test__change_default_account_configuration__test_controllers_test_session_controller_rb__317
 end
 
 class Minitest::Rails::SpecTests::Test__configuration__test_controllers_test_configurations_controller_rb__182
@@ -32306,22 +32274,22 @@ end
 class Minitest::Rails::SpecTests::Test__connection_statuses__test_controllers_test_configurations_controller_rb__7
 end
 
-class Minitest::Rails::SpecTests::Test__contract_co_terminated__test_integration_amendments_test_amendments_rb__545
+class Minitest::Rails::SpecTests::Test__contract_co_terminated__test_integration_amendments_test_amendments_rb__546
 end
 
-class Minitest::Rails::SpecTests::Test__contract_co_terminated__test_integration_amendments_test_amendments_rb__545
-end
-
-class Minitest::Rails::SpecTests::Test__coupon_reuse__test_integration_translate_test_coupon_rb__326
+class Minitest::Rails::SpecTests::Test__contract_co_terminated__test_integration_amendments_test_amendments_rb__546
 end
 
 class Minitest::Rails::SpecTests::Test__coupon_reuse__test_integration_translate_test_coupon_rb__326
 end
 
-class Minitest::Rails::SpecTests::Test__coupons__test_integration_amendments_test_amendments_rb__824
+class Minitest::Rails::SpecTests::Test__coupon_reuse__test_integration_translate_test_coupon_rb__326
 end
 
-class Minitest::Rails::SpecTests::Test__coupons__test_integration_amendments_test_amendments_rb__824
+class Minitest::Rails::SpecTests::Test__coupons__test_integration_amendments_test_amendments_rb__825
+end
+
+class Minitest::Rails::SpecTests::Test__coupons__test_integration_amendments_test_amendments_rb__825
 end
 
 class Minitest::Rails::SpecTests::Test__cpq_details__test_integration_translate_test_price_rb__124
@@ -32336,28 +32304,16 @@ end
 class Minitest::Rails::SpecTests::Test__credentials_refresh__test_unit_test_user_rb__11
 end
 
-class Minitest::Rails::SpecTests::Test__custom_order_filters__test_integration_amendments_test_amendments_rb__1115
+class Minitest::Rails::SpecTests::Test__custom_order_filters__test_integration_amendments_test_amendments_rb__1116
 end
 
-class Minitest::Rails::SpecTests::Test__custom_order_filters__test_integration_amendments_test_amendments_rb__1115
-end
-
-class Minitest::Rails::SpecTests::Test__custom_segments_with_mdq__test_integration_amendments_test_mdq_product_amendments_rb__1000
-end
-
-class Minitest::Rails::SpecTests::Test__custom_segments_with_mdq__test_integration_amendments_test_mdq_product_amendments_rb__1000
+class Minitest::Rails::SpecTests::Test__custom_order_filters__test_integration_amendments_test_amendments_rb__1116
 end
 
 class Minitest::Rails::SpecTests::Test__days_until_due__test_integration_translate_test_subscription_schedule_mapping_rb__22
 end
 
 class Minitest::Rails::SpecTests::Test__days_until_due__test_integration_translate_test_subscription_schedule_mapping_rb__22
-end
-
-class Minitest::Rails::SpecTests::Test__delete_account_configuration__test_controllers_test_session_controller_rb__360
-end
-
-class Minitest::Rails::SpecTests::Test__delete_account_configuration__test_controllers_test_session_controller_rb__360
 end
 
 class Minitest::Rails::SpecTests::Test__delete_past_phases__test_unit_test_order_amendments_rb__11
@@ -32372,40 +32328,28 @@ end
 class Minitest::Rails::SpecTests::Test__determine_current_time__test_unit_test_order_amendments_rb__38
 end
 
-class Minitest::Rails::SpecTests::Test__error_handling__test_integration_amendments_test_mdq_product_amendments_rb__615
-end
-
-class Minitest::Rails::SpecTests::Test__error_handling__test_integration_amendments_test_mdq_product_amendments_rb__615
-end
-
 class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_billing_frequency_rb__14
 end
 
 class Minitest::Rails::SpecTests::Test__errors__test_integration_translate_test_billing_frequency_rb__14
 end
 
-class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_amendments_test_evergreen_amendments_rb__193
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_amendments_test_evergreen_amendments_rb__194
 end
 
-class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_amendments_test_evergreen_amendments_rb__193
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_amendments_test_evergreen_amendments_rb__194
 end
 
-class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_evergreen_order_rb__235
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_evergreen_order_rb__234
 end
 
-class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_evergreen_order_rb__235
-end
-
-class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_multicurrency_rb__376
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_evergreen_order_rb__234
 end
 
 class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_multicurrency_rb__376
 end
 
-class Minitest::Rails::SpecTests::Test__get_all_configurations__test_controllers_test_session_controller_rb__346
-end
-
-class Minitest::Rails::SpecTests::Test__get_all_configurations__test_controllers_test_session_controller_rb__346
+class Minitest::Rails::SpecTests::Test__failure_cases__test_integration_test_multicurrency_rb__376
 end
 
 class Minitest::Rails::SpecTests::Test__handling_a_valid_webhook__test_controllers_test_stripe_webhook_controller_rb__50
@@ -32420,28 +32364,22 @@ end
 class Minitest::Rails::SpecTests::Test__host_selection__test_unit_test_user_rb__31
 end
 
-class Minitest::Rails::SpecTests::Test__initial_login_redirect__test_controllers_test_session_controller_rb__54
+class Minitest::Rails::SpecTests::Test__initial_login_redirect__test_controllers_test_session_controller_rb__57
 end
 
-class Minitest::Rails::SpecTests::Test__initial_login_redirect__test_controllers_test_session_controller_rb__54
+class Minitest::Rails::SpecTests::Test__initial_login_redirect__test_controllers_test_session_controller_rb__57
 end
 
-class Minitest::Rails::SpecTests::Test__invoice_rendering_template__test_integration_amendments_test_amendments_rb__1053
+class Minitest::Rails::SpecTests::Test__invoice_rendering_template__test_integration_amendments_test_amendments_rb__1054
 end
 
-class Minitest::Rails::SpecTests::Test__invoice_rendering_template__test_integration_amendments_test_amendments_rb__1053
-end
-
-class Minitest::Rails::SpecTests::Test__log_level_configuration__test_unit_test_error_context_rb__42
+class Minitest::Rails::SpecTests::Test__invoice_rendering_template__test_integration_amendments_test_amendments_rb__1054
 end
 
 class Minitest::Rails::SpecTests::Test__log_level_configuration__test_unit_test_error_context_rb__42
 end
 
-class Minitest::Rails::SpecTests::Test__mdq_products__test_integration_translate_test_mdq_products_rb__16
-end
-
-class Minitest::Rails::SpecTests::Test__mdq_products__test_integration_translate_test_mdq_products_rb__16
+class Minitest::Rails::SpecTests::Test__log_level_configuration__test_unit_test_error_context_rb__42
 end
 
 class Minitest::Rails::SpecTests::Test__namespace_custom_field_prefix__test_unit_test_translator_rb__73
@@ -32450,16 +32388,16 @@ end
 class Minitest::Rails::SpecTests::Test__namespace_custom_field_prefix__test_unit_test_translator_rb__73
 end
 
-class Minitest::Rails::SpecTests::Test__non_anniversary_amendments__test_integration_amendments_test_proration_amendments_rb__1416
+class Minitest::Rails::SpecTests::Test__non_anniversary_amendments__test_integration_amendments_test_proration_amendments_rb__1282
 end
 
-class Minitest::Rails::SpecTests::Test__non_anniversary_amendments__test_integration_amendments_test_proration_amendments_rb__1416
+class Minitest::Rails::SpecTests::Test__non_anniversary_amendments__test_integration_amendments_test_proration_amendments_rb__1282
 end
 
-class Minitest::Rails::SpecTests::Test__non_anniversary_amendments_with_day_porations__test_integration_amendments_test_proration_amendments_rb__1665
+class Minitest::Rails::SpecTests::Test__non_anniversary_amendments_with_day_porations__test_integration_amendments_test_proration_amendments_rb__1531
 end
 
-class Minitest::Rails::SpecTests::Test__non_anniversary_amendments_with_day_porations__test_integration_amendments_test_proration_amendments_rb__1665
+class Minitest::Rails::SpecTests::Test__non_anniversary_amendments_with_day_porations__test_integration_amendments_test_proration_amendments_rb__1531
 end
 
 class Minitest::Rails::SpecTests::Test__order_line__test_integration_translate_test_price_reuse_rb__196
@@ -32510,12 +32448,6 @@ end
 class Minitest::Rails::SpecTests::Test__product_reuse__test_integration_translate_test_product_rb__14
 end
 
-class Minitest::Rails::SpecTests::Test__quantity_reduction__test_integration_amendments_test_termination_rb__307
-end
-
-class Minitest::Rails::SpecTests::Test__quantity_reduction__test_integration_amendments_test_termination_rb__307
-end
-
 class Minitest::Rails::SpecTests::Test__required_and_optional_mapping__test_unit_test_translator_rb__12
 end
 
@@ -32546,22 +32478,22 @@ end
 class Minitest::Rails::SpecTests::Test__skip_conditions__test_integration_test_proration_auto_bill_rb__62
 end
 
-class Minitest::Rails::SpecTests::Test__skip_initial_invoice_of_backdated_initial_order__test_integration_amendments_test_backdated_orders_rb__651
+class Minitest::Rails::SpecTests::Test__skip_initial_invoice_of_backdated_initial_order__test_integration_amendments_test_backdated_orders_rb__629
 end
 
-class Minitest::Rails::SpecTests::Test__skip_initial_invoice_of_backdated_initial_order__test_integration_amendments_test_backdated_orders_rb__651
+class Minitest::Rails::SpecTests::Test__skip_initial_invoice_of_backdated_initial_order__test_integration_amendments_test_backdated_orders_rb__629
 end
 
-class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_amendments_rb__1276
+class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_amendments_rb__1273
 end
 
-class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_amendments_rb__1276
+class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_amendments_rb__1273
 end
 
-class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_same_day_amendments_rb__416
+class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_same_day_amendments_rb__417
 end
 
-class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_same_day_amendments_rb__416
+class Minitest::Rails::SpecTests::Test__stacked_amendments__test_integration_amendments_test_same_day_amendments_rb__417
 end
 
 class Minitest::Rails::SpecTests::Test__stripe_credentials__test_unit_test_user_rb__81
@@ -32577,28 +32509,22 @@ end
 class Minitest::Rails::SpecTests::Test__stripe_resource_locking__test_unit_test_locker_rb__74
 end
 
-class Minitest::Rails::SpecTests::Test__subscription_without_a_billing_cycle__test_integration_amendments_test_amendments_rb__343
+class Minitest::Rails::SpecTests::Test__subscription_without_a_billing_cycle__test_integration_amendments_test_amendments_rb__344
 end
 
-class Minitest::Rails::SpecTests::Test__subscription_without_a_billing_cycle__test_integration_amendments_test_amendments_rb__343
-end
-
-class Minitest::Rails::SpecTests::Test__success_cases__test_integration_test_multicurrency_rb__23
+class Minitest::Rails::SpecTests::Test__subscription_without_a_billing_cycle__test_integration_amendments_test_amendments_rb__344
 end
 
 class Minitest::Rails::SpecTests::Test__success_cases__test_integration_test_multicurrency_rb__23
 end
 
-class Minitest::Rails::SpecTests::Test__supports_negative_order_items__test_integration_amendments_test_proration_amendments_rb__504
+class Minitest::Rails::SpecTests::Test__success_cases__test_integration_test_multicurrency_rb__23
 end
 
-class Minitest::Rails::SpecTests::Test__supports_negative_order_items__test_integration_amendments_test_proration_amendments_rb__504
+class Minitest::Rails::SpecTests::Test__supports_negative_order_items__test_integration_amendments_test_proration_amendments_rb__505
 end
 
-class Minitest::Rails::SpecTests::Test__terminate_orders_with_mdq__test_integration_amendments_test_mdq_product_amendments_rb__789
-end
-
-class Minitest::Rails::SpecTests::Test__terminate_orders_with_mdq__test_integration_amendments_test_mdq_product_amendments_rb__789
+class Minitest::Rails::SpecTests::Test__supports_negative_order_items__test_integration_amendments_test_proration_amendments_rb__505
 end
 
 class Minitest::Rails::SpecTests::Test__time__test_unit_test_metrics_rb__92
@@ -32631,22 +32557,16 @@ end
 class Minitest::Rails::SpecTests::Test__type__test_integration_translate_test_subscription_schedule_mapping_rb__15
 end
 
-class Minitest::Rails::SpecTests::Test__update_customer__test_integration_amendments_test_amendments_rb__2131
+class Minitest::Rails::SpecTests::Test__update_sf_stripe_id__test_unit_test_translator_rb__131
 end
 
-class Minitest::Rails::SpecTests::Test__update_customer__test_integration_amendments_test_amendments_rb__2131
+class Minitest::Rails::SpecTests::Test__update_sf_stripe_id__test_unit_test_translator_rb__131
 end
 
-class Minitest::Rails::SpecTests::Test__update_sf_stripe_id__test_unit_test_translator_rb__137
+class Minitest::Rails::SpecTests::Test__update_subscription_schedule_fields_on_amendments__test_integration_amendments_test_amendments_rb__1183
 end
 
-class Minitest::Rails::SpecTests::Test__update_sf_stripe_id__test_unit_test_translator_rb__137
-end
-
-class Minitest::Rails::SpecTests::Test__update_subscription_schedule_fields_on_amendments__test_integration_amendments_test_amendments_rb__1186
-end
-
-class Minitest::Rails::SpecTests::Test__update_subscription_schedule_fields_on_amendments__test_integration_amendments_test_amendments_rb__1186
+class Minitest::Rails::SpecTests::Test__update_subscription_schedule_fields_on_amendments__test_integration_amendments_test_amendments_rb__1183
 end
 
 class Minitest::Rails::SpecTests::Test__using_custom_order_line_price_field__test_unit_test_price_helpers_rb__274
@@ -34888,9 +34808,6 @@ class Object
   RUBY_RELEASE_DATE = ::T.let(nil, ::T.untyped)
   RUBY_REVISION = ::T.let(nil, ::T.untyped)
   RUBY_VERSION = ::T.let(nil, ::T.untyped)
-  SERVICE_DELIMINATOR = ::T.let(nil, ::T.untyped)
-  SERVICE_SALESFORCE = ::T.let(nil, ::T.untyped)
-  SERVICE_STRIPE = ::T.let(nil, ::T.untyped)
   STDERR = ::T.let(nil, ::T.untyped)
   STDIN = ::T.let(nil, ::T.untyped)
   STDOUT = ::T.let(nil, ::T.untyped)
@@ -47965,12 +47882,6 @@ module StateEncryptionAlgo::InstanceMethods
 end
 
 class StateEncryptionAlgo::StripeOAuthState
-  def csac_id(); end
-
-  def csac_id=(value); end
-
-  def csac_id?(); end
-
   def csrf(); end
 
   def csrf=(value); end
@@ -47982,18 +47893,6 @@ class StateEncryptionAlgo::StripeOAuthState
   def oauth_version=(value); end
 
   def oauth_version?(); end
-
-  def primary_stripe_account_id(); end
-
-  def primary_stripe_account_id=(value); end
-
-  def primary_stripe_account_id?(); end
-
-  def primary_stripe_account_livemode(); end
-
-  def primary_stripe_account_livemode=(value); end
-
-  def primary_stripe_account_livemode?(); end
 
   def salesforce_account_id(); end
 
@@ -48024,18 +47923,6 @@ class StateEncryptionAlgo::StripeOAuthState
   def stripe_account_id=(value); end
 
   def stripe_account_id?(); end
-
-  def stripe_account_livemode(); end
-
-  def stripe_account_livemode=(value); end
-
-  def stripe_account_livemode?(); end
-
-  def stripe_account_name(); end
-
-  def stripe_account_name=(value); end
-
-  def stripe_account_name?(); end
 
   def user_id(); end
 

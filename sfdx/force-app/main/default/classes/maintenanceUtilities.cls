@@ -8,21 +8,14 @@ global with sharing class maintenanceUtilities {
   }
 
   global static void resetEnvironment() {
-    maintenanceUtilities.resetUserLandData();
+    maintenanceUtilities.resetSetupData();
     maintenanceUtilities.resetConnection();
   }
 
   @Future
-  global static void resetUserLandData() {
-    resetSetupData();
-    List<Stripe_Account__c> stripeAccounts = [SELECT Id FROM Stripe_Account__c];
-    delete stripeAccounts;
-  }
-
   global static void resetSetupData() {
     List<Setup_Data__c> setupData = [SELECT Id FROM Setup_Data__c];
     delete setupData;
-
   }
 
   @Future

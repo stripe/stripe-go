@@ -7,10 +7,8 @@ import getSetupData from '@salesforce/apex/setupAssistant.getSetupData';
 import getDataMapperLayout from '@salesforce/apex/setupAssistant.getDataMapperLayout';
 import getTranslationConfig from '@salesforce/apex/setupAssistant.getTranslationConfig';
 import saveTranslationConfig from '@salesforce/apex/setupAssistant.saveTranslationConfig';
-import { Manager as ServiceManager, ServiceEvents } from 'c/serviceManager';
 import EventEmitter from './eventEmitter';
 import Debugger from 'c/debugger';
-const DebugLog = Debugger.withContext('SystemConfigManager');
 
 
 /**
@@ -326,8 +324,6 @@ class UnknownError extends Error {
     }
 }
 
-const DisconnectedPayload = () => { return { isConnected: false } };
-
 class SystemConfigManager extends EventEmitter {
     constructor() {
         super(ConfigEvents, true);
@@ -339,28 +335,16 @@ class SystemConfigManager extends EventEmitter {
         this.config = storeConfigData(null);
         this.promises = storeConfigData(null);
         this.save_translations = null;
-        this.is_connected = false;
-
         Promise.all([
             this.getSetupData(),
             this.getCoreData(),
             this.getLayoutData(),
+            this.getTranslationData(),
         ]).then(results => {
-            DebugLog('ConfigManager initialized', results);
+            Debugger.log('ConfigManager initialized', results);
         }).catch(error => {
             Debugger.error('ConfigManager failed to initialize', error);
         });
-
-        ServiceManager.on(ServiceEvents.core_functionality_established, this._coreFunctionalityEstablished.bind(this));
-    }
-
-    _coreFunctionalityEstablished() {
-        this.is_connected = true;
-        return this.getTranslationData().then(() => {
-            DebugLog('ConfigManager _coreFunctionalityEstablished succeeded');
-        }).catch(error => {
-            Debugger.error('ConfigManager _coreFunctionalityEstablished failed', error);
-        })
     }
 
     /**
@@ -370,14 +354,14 @@ class SystemConfigManager extends EventEmitter {
     getCoreData() {
         if (this.promises.core === null) {
             this.promises.core = new Promise((resolve, reject) => {
-                DebugLog('getCoreData called')
+                Debugger.log('getCoreData called')
                 return getCoreData()
                     .then((data) => {
                         this.promises.core = null;
-                        DebugLog('getCoreData response', data)
+                        Debugger.log('getCoreData response', data)
                         /** @type {ResponseData<CoreData>} */
                         const response = JSON.parse(data);
-                        DebugLog('getCoreData response decoded', response)
+                        Debugger.log('getCoreData response decoded', response)
                         if (response.isSuccess) {
                             this._processUpdate(ConfigData.core, response.results);
                             resolve(response.results);
@@ -404,14 +388,14 @@ class SystemConfigManager extends EventEmitter {
     getSetupData() {
         if (this.promises.setup === null) {
             this.promises.setup = new Promise((resolve, reject) => {
-                DebugLog('getSetupData called')
+                Debugger.log('getSetupData called')
                 return getSetupData()
                     .then((data) => {
                         this.promises.setup = null;
-                        DebugLog('getSetupData response', data)
+                        Debugger.log('getSetupData response', data)
                         /** @type {ResponseData<SetupDataResults>} */
                         const response = JSON.parse(data);
-                        DebugLog('getSetupData response decoded', response)
+                        Debugger.log('getSetupData response decoded', response)
                         const setupDataObject = response.results.setupData;
                         if (response.isSuccess) {
                             const setupData = {
@@ -445,14 +429,14 @@ class SystemConfigManager extends EventEmitter {
     getLayoutData() {
         if (this.promises.layouts === null) {
             this.promises.layouts = new Promise((resolve, reject) => {
-                DebugLog('getLayoutData called')
+                Debugger.log('getLayoutData called')
                 return getDataMapperLayout()
                     .then((data) => {
                         this.promises.layouts = null;
-                        DebugLog('getLayoutData response', data)
+                        Debugger.log('getLayoutData response', data)
                         /** @type {ResponseData<LayoutData>} */
                         const response = JSON.parse(data);
-                        DebugLog('getLayoutData response decoded', response)
+                        Debugger.log('getLayoutData response decoded', response)
                         if (response.isSuccess) {
                             this._processUpdate(ConfigData.layouts, response.results);
                             resolve(response.results);
@@ -480,19 +464,14 @@ class SystemConfigManager extends EventEmitter {
     getTranslationData() {
         if (this.promises.translation === null) {
             this.promises.translation = new Promise((resolve, reject) => {
-                if (this.is_connected === false) {
-                    DebugLog('getTranslationData called before connection established, waiting for connection');
-                    resolve(DisconnectedPayload());
-                    return DisconnectedPayload();
-                }
-                DebugLog('getTranslationData called')
+                Debugger.log('getTranslationData called')
                 return getTranslationConfig()
                     .then((data) => {
                         this.promises.translation = null;
-                        DebugLog('getTranslationData response', data)
+                        Debugger.log('getTranslationData response', data)
                         /** @type {ResponseData<TranslationData>} */
                         const response = JSON.parse(data);
-                        DebugLog('getTranslationData response decoded', response)
+                        Debugger.log('getTranslationData response decoded', response)
                         if (response.isSuccess) {
                             this._processUpdate(ConfigData.translation, response.results);
                             resolve(response.results);
@@ -521,28 +500,28 @@ class SystemConfigManager extends EventEmitter {
      */
     getCached(config_data) {
         if (config_data === ConfigData.all) {
-            DebugLog('getCached called with all')
+            Debugger.log('getCached called with all')
             const pendingPromises = this._getPendingPromises();
             if (pendingPromises.length > 0) {
-                DebugLog('getCached has pending promises')
+                Debugger.log('getCached has pending promises')
                 return Promise.all(pendingPromises).then(() => {
-                    DebugLog('getCached all pending promises resolved')
+                    Debugger.log('getCached all pending promises resolved')
                     return JSON.parse(JSON.stringify(this.config));
                 });
             }
-            DebugLog('getCached no pending promises')
+            Debugger.log('getCached no pending promises')
             return Promise.resolve(JSON.parse(JSON.stringify(this.config)));
         }
 
         if (this.promises[config_data] === null) {
-            DebugLog('getCached called with, have cashed value', config_data)
+            Debugger.log('getCached called with, have cashed value', config_data)
             return Promise.resolve(JSON.parse(JSON.stringify(this.config[config_data])));
         }
 
         return new Promise((resolve, reject) => {
-            DebugLog('getCached called with, no cashed value', config_data)
+            Debugger.log('getCached called with, no cashed value', config_data)
             return this.promises[config_data].then(() => {
-                DebugLog('getCached promise resolved', config_data)
+                Debugger.log('getCached promise resolved', config_data)
                 const val = JSON.parse(JSON.stringify(this.config[config_data]));
                 resolve(val);
                 return val;
@@ -575,14 +554,6 @@ class SystemConfigManager extends EventEmitter {
      * @return {Promise<TranslationData>}
      */
     getCachedTranslationData() {
-        if (this.is_connected === false) {
-            return new Promise((resolve) => {
-                DebugLog('getCachedTranslationData called before connection established, waiting for connection');
-                resolve(DisconnectedPayload());
-                return DisconnectedPayload();
-            });
-        }
-
         return this.getCached(ConfigData.translation);
     }
 
@@ -600,23 +571,23 @@ class SystemConfigManager extends EventEmitter {
      */
     saveTranslationConfig(config) {
         if (this.save_translations !== null) {
-            DebugLog('Translation config already being saved')
+            Debugger.log('Translation config already being saved')
             return Promise.reject('Translation config already being saved');
         }
         if (this.config.translation === null) {
-            DebugLog('Translation config not loaded, cannot save until loaded')
+            Debugger.log('Translation config not loaded, cannot save until loaded')
             return Promise.reject('Translation config not loaded, cannot save until loaded');
         }
         const savePayload = this._formatTranslationConfigForSave(config);
-        DebugLog('saveTranslationConfig called', savePayload)
+        Debugger.log('saveTranslationConfig called', savePayload)
 
         this.save_translations = saveTranslationConfig({ config: JSON.stringify(savePayload) })
             .then((data) => {
                 this.save_translations = null;
-                DebugLog('saveTranslationConfig response', data)
+                Debugger.log('saveTranslationConfig response', data)
                 /** @type {ResponseData<SaveTranslationDataResults>} */
                 const response = JSON.parse(data);
-                DebugLog('saveTranslationConfig response decoded', response)
+                Debugger.log('saveTranslationConfig response decoded', response)
                 if (response.isSuccess && response.error === null && response.results.isValidationError !== true) {
                         savePayload.configurationHash = response.results.configurationHash;
                         savePayload.isConfigSaved = response.results.isConfigSaved;
@@ -645,7 +616,7 @@ class SystemConfigManager extends EventEmitter {
      */
 
     _formatTranslationConfigForSave(updates) {
-        DebugLog('formatTranslationConfigForSave called', updates)
+        Debugger.log('formatTranslationConfigForSave called', updates)
         /** @type {SaveTranslationData} */
         const save = JSON.parse(JSON.stringify(this.config.translation));
         let fieldDefaults = save.allMappingConfigurations.field_defaults;
@@ -675,7 +646,7 @@ class SystemConfigManager extends EventEmitter {
             }
         });
 
-        DebugLog('formatTranslationConfigForSave returning', save)
+        Debugger.log('formatTranslationConfigForSave returning', save)
         return save;
     }
 
@@ -707,7 +678,7 @@ class SystemConfigManager extends EventEmitter {
      */
     _processUpdate(config_data, value) {
         this.promises[config_data] = null;
-        DebugLog('processUpdate called', config_data, value)
+        Debugger.log('processUpdate called', config_data, value)
         const current = this.config[config_data];
         const update_type = current === null ? ConfigStates.available : ConfigStates.updated;
         this.config[config_data] = value;
@@ -716,24 +687,24 @@ class SystemConfigManager extends EventEmitter {
         // If needed we can send each event a unique copy, but for now we'll just send a deep copy.
         const safeValue = JSON.parse(JSON.stringify(value));
 
-        DebugLog('processUpdate firing event', `${config_data}.${update_type}`, value)
+        Debugger.log('processUpdate firing event', `${config_data}.${update_type}`, value)
         this._fireEvent(`${config_data}.${update_type}`, safeValue);
         if (update_type === ConfigStates.available) {
-            DebugLog('processUpdate firing event', `${config_data}.${ConfigStates.updated}`, value)
+            Debugger.log('processUpdate firing event', `${config_data}.${ConfigStates.updated}`, value)
             this._fireEvent(`${config_data}.${ConfigStates.updated}`, safeValue);
         }
 
         if (this.all_available) {
-            DebugLog('already sent all.available')
+            Debugger.log('already sent all.available')
             return;
         }
 
-        DebugLog('processUpdate checking for all available', {promises: this.promises})
+        Debugger.log('processUpdate checking for all available', {promises: this.promises})
         const still_pending = this._getPendingPromises(config_data);
-        DebugLog('still_pending', still_pending);
+        Debugger.log('still_pending', still_pending);
         if (still_pending.length === 0) {
             this.all_available = true;
-            DebugLog('processUpdate firing all.available', JSON.parse(JSON.stringify(this.config)))
+            Debugger.log('processUpdate firing all.available', JSON.parse(JSON.stringify(this.config)))
             this._fireEvent('all.available', JSON.parse(JSON.stringify(this.config)));
         }
     }

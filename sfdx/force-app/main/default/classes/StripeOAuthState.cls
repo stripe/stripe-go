@@ -12,83 +12,44 @@ public with sharing class StripeOAuthState {
     };
     private static String JWTAlgo = 'hmacSHA256';
 
-    // maps to line ~89 in state_encryption_algo.rb
-    private static final String FIELD_SALESFORCE_ACCOUNT_ID = 'org_id';
-    private static final String FIELD_SALESFORCE_NAMESPACE = 'sf_ns';
-    private static final String FIELD_SALESFORCE_INSTANCE_TYPE = 'sf_it';
-    private static final String FIELD_SALESFORCE_INSTANCE_SUBDOMAIN = 'sf_sd';
-    private static final String FIELD_USER_ID = 'uid';
-    private static final String FIELD_CASC_ID = 'csac';
-    private static final String FIELD_CSRF = 'csrf';
-    private static final String FIELD_STRIPE_ACCOUNT_ID = 'st_id';
-    private static final String FIELD_STRIPE_ACCOUNT_LIVEMODE = 'st_lm';
-    private static final String FIELD_STRIPE_ACCOUNT_NAME = 'st_na';
-    private static final String FIELD_PRIMARY_STRIPE_ACCOUNT_ID = 'pst_id';
-    private static final String FIELD_PRIMARY_STRIPE_ACCOUNT_LIVEMODE = 'pst_lm';
-
-
 
     public Map<String, Object> data;
 
     public String org_id {
-        get { return (String) data.get(FIELD_SALESFORCE_ACCOUNT_ID); }
-        set { data.put(FIELD_SALESFORCE_ACCOUNT_ID, value); }
-    }
-
-    public String namespace {
-        get { return (String) data.get(FIELD_SALESFORCE_NAMESPACE); }
-        set { data.put(FIELD_SALESFORCE_NAMESPACE, value); }
-    }
-
-    public String instance_type {
-        get { return (String) data.get(FIELD_SALESFORCE_INSTANCE_TYPE); }
-        set { data.put(FIELD_SALESFORCE_INSTANCE_TYPE, value); }
-    }
-
-    public String instance_subdomain {
-        get { return (String) data.get(FIELD_SALESFORCE_INSTANCE_SUBDOMAIN); }
-        set { data.put(FIELD_SALESFORCE_INSTANCE_SUBDOMAIN, value); }
-    }
-
-    public String user_id {
-        get { return (String) data.get(FIELD_USER_ID); }
-        set { data.put(FIELD_USER_ID, value); }
-    }
-
-    public String casc_id {
-        get { return (String) data.get(FIELD_CASC_ID); }
-        set { data.put(FIELD_CASC_ID, value); }
+        get { return (String) data.get('org_id'); }
+        set { data.put('org_id', value); }
     }
 
     public String csrf {
-        get { return (String) data.get(FIELD_CSRF); }
-        set { data.put(FIELD_CSRF, value); }
+        get { return (String) data.get('csrf'); }
+        set { data.put('csrf', value); }
     }
 
-    public String stripe_account_id {
-        get { return (String) data.get(FIELD_STRIPE_ACCOUNT_ID); }
-        set { data.put(FIELD_STRIPE_ACCOUNT_ID, value); }
+    public String user_id {
+        get { return (String) data.get('user_id'); }
+        set { data.put('user_id', value); }
     }
 
-    public String stripe_account_livemode {
-        get { return (String) data.get(FIELD_STRIPE_ACCOUNT_LIVEMODE); }
-        set { data.put(FIELD_STRIPE_ACCOUNT_LIVEMODE, value); }
+    public String namespace {
+        get { return (String) data.get('salesforce_namespace'); }
+        set { data.put('salesforce_namespace', value); }
     }
 
-    public String stripe_account_name {
-        get { return (String) data.get(FIELD_STRIPE_ACCOUNT_NAME); }
-        set { data.put(FIELD_STRIPE_ACCOUNT_NAME, value); }
+    public String instance_type {
+        get { return (String) data.get('salesforce_instance_type'); }
+        set { data.put('salesforce_instance_type', value); }
     }
 
     public String primary_stripe_account_id {
-        get { return (String) data.get(FIELD_PRIMARY_STRIPE_ACCOUNT_ID); }
-        set { data.put(FIELD_PRIMARY_STRIPE_ACCOUNT_ID, value); }
+        get { return (String) data.get('primary_stripe_account_id'); }
+        set { data.put('primary_stripe_account_id', value); }
     }
 
-    public String primary_stripe_account_livemode {
-        get { return (String) data.get(FIELD_PRIMARY_STRIPE_ACCOUNT_LIVEMODE); }
-        set { data.put(FIELD_PRIMARY_STRIPE_ACCOUNT_LIVEMODE, value); }
+    public String salesforce_instance_subdomain {
+        get { return (String) data.get('salesforce_instance_subdomain'); }
+        set { data.put('salesforce_instance_subdomain', value); }
     }
+
 
     public static StripeOAuthState create() {
         Stripe_Connection__c conn = utilities.getStripeConnection();
@@ -98,8 +59,7 @@ public with sharing class StripeOAuthState {
                 UserInfo.getOrganizationId(),
                 EncodingUtil.convertToHex(Crypto.generateAesKey(256)),
                 subdomain,
-                conn.Primary_Stripe_Account_Id__c,
-                conn.Primary_Stripe_Account_Livemode__c);
+                conn.Primary_Stripe_Account_Id__c);
     }
 
     public static StripeOAuthState from_encrypted_state(String encrypted_state) {
@@ -121,15 +81,14 @@ public with sharing class StripeOAuthState {
         this.data = data;
     }
 
-    public StripeOAuthState(String org_id, String csrf, String salesforce_instance_subdomain, String primary_stripe_account_id, String primary_stripe_account_livemode) {
+    public StripeOAuthState(String org_id, String csrf, String salesforce_instance_subdomain, String primary_stripe_account_id) {
         this.data = new Map<String, Object>();
         this.org_id = org_id;
         this.csrf = csrf;
         this.namespace = constants.NAMESPACE;
         this.instance_type = Sentry_Environment.getInstanceType().name();
-        this.instance_subdomain = salesforce_instance_subdomain;
+        this.salesforce_instance_subdomain = salesforce_instance_subdomain;
         this.primary_stripe_account_id = primary_stripe_account_id;
-        this.primary_stripe_account_livemode = primary_stripe_account_livemode;
     }
 
     override public String toString() {

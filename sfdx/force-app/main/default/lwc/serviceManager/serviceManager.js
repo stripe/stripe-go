@@ -129,7 +129,7 @@ class ServiceManager extends EventEmitter {
         DebugLog('check cfe', checkCFE);
 
         for (const service in newStatuses) {
-            const [service_type, service_id, service_props] = service.split(SERVICE_DELIMINATOR);
+            const [service_type, service_id] = service.split(SERVICE_DELIMINATOR);
             if (this.statuses[service] !== newStatuses[service]) {
                 changes[service] = newStatuses[service];
                 // this._fireEvent(service, newStatuses[service]);

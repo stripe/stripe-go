@@ -198,7 +198,6 @@ export default class SyncPreferencesStep extends LightningElement {
     @api async connectedCallback() {
         this._initConfigManager();
         const config = await ConfigManager.getCachedTranslationData();
-        Debugger.log('SyncPreferencesStep', 'got config', config);
         if (config.isConnected === false) {
             Debugger.log('SyncPreferencesStep', 'Not yet connected...');
             return;

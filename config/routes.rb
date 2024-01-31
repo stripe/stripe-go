@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   post '/stripe-webhooks' => 'stripe_webhook#stripe_webhook'
   post '/accounts/:stripe_account_id/:livemode/set_default', to: 'sessions#change_default_account_config', as: :set_default_config
+
   delete '/accounts/:stripe_account_id/:livemode', to: 'sessions#delete_account_config', as: :delete_account_config
 
   namespace :v1, module: 'api', as: 'api', constraints: {format: 'json'} do
@@ -28,10 +29,7 @@ Rails.application.routes.draw do
     post 'translate' => 'configurations#translate'
     post 'translate_all' => 'configurations#translate_all'
     get 'connection_statuses' => 'configurations#connection_statuses'
-    get 'connection_status' => 'configurations#connection_status'
-    get 'multi_connection_statuses' => 'configurations#multi_connection_statuses'
   end
-
 
   scope :monitoring do
     if Rails.env.production?

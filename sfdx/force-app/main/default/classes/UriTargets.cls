@@ -21,34 +21,12 @@ public with sharing class UriTargets {
         return getPlatformBaseUri() + constants.RUBY_SERVICE_CONNECTION_STATUS_URI;
     }
 
-    public static String getMultiAccountConnectionStatusesEndpoint() {
-        return getPlatformBaseUri() + constants.RUBY_MULTI_ACCT_SERVICE_CONNECTION_STATUS_URI;
-    }
-
     public static String getOpenApiSpecEndpoint() {
         return getPlatformBaseUri() + constants.RUBY_SERVICE_OPENAPI_URI;
     }
 
     public static String getPostInstallEndpoint() {
         return getPlatformBaseUri() + constants.RUBY_SERVICE_POST_INSTALL_URI;
-    }
-
-    public static String getAccountSetDefaultEndpoint(String accountId, Boolean isLive) {
-        String liveMode = isLive ? 'live' : 'test';
-        return getAccountSetDefaultEndpoint(accountId, liveMode);
-    }
-
-    public static String getAccountSetDefaultEndpoint(String accountId, String liveMode) {
-        return getPlatformBaseUri() + constants.RUBY_SERVICE_ACCOUNTS_URI + accountId + '/' + liveMode + constants.RUBY_SERVICE_ACCOUNTS_SET_DEFAULT_URI;
-    }
-
-    public static String getAccountEndpoint(String accountId, Boolean isLive) {
-        String liveMode = isLive ? 'live' : 'test';
-        return getAccountEndpoint(accountId, liveMode);
-    }
-
-    public static String getAccountEndpoint(String accountId, String liveMode) {
-        return getPlatformBaseUri() + constants.RUBY_SERVICE_ACCOUNTS_URI + accountId + '/' + liveMode;
     }
 
     public static String getStripeAuthorizationUri(Boolean liveMode, StripeOAuthState state) {
