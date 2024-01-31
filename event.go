@@ -95,6 +95,7 @@ const (
 	EventTypeCustomerDiscountCreated                              EventType = "customer.discount.created"
 	EventTypeCustomerDiscountDeleted                              EventType = "customer.discount.deleted"
 	EventTypeCustomerDiscountUpdated                              EventType = "customer.discount.updated"
+	EventTypeCustomerEntitlementSummaryUpdated                    EventType = "customer.entitlement_summary.updated"
 	EventTypeCustomerSourceCreated                                EventType = "customer.source.created"
 	EventTypeCustomerSourceDeleted                                EventType = "customer.source.deleted"
 	EventTypeCustomerSourceExpiring                               EventType = "customer.source.expiring"
