@@ -432,6 +432,12 @@ type AccountCapabilitiesSofortPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The swish_payments capability.
+type AccountCapabilitiesSwishPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The tax_reporting_us_1099_k capability.
 type AccountCapabilitiesTaxReportingUS1099KParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -532,6 +538,8 @@ type AccountCapabilitiesParams struct {
 	SEPADebitPayments *AccountCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
 	// The sofort_payments capability.
 	SofortPayments *AccountCapabilitiesSofortPaymentsParams `form:"sofort_payments"`
+	// The swish_payments capability.
+	SwishPayments *AccountCapabilitiesSwishPaymentsParams `form:"swish_payments"`
 	// The tax_reporting_us_1099_k capability.
 	TaxReportingUS1099K *AccountCapabilitiesTaxReportingUS1099KParams `form:"tax_reporting_us_1099_k"`
 	// The tax_reporting_us_1099_misc capability.
@@ -1017,6 +1025,8 @@ type AccountCapabilities struct {
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.
 	SofortPayments AccountCapabilityStatus `json:"sofort_payments"`
+	// The status of the Swish capability of the account, or whether the account can directly process Swish payments.
+	SwishPayments AccountCapabilityStatus `json:"swish_payments"`
 	// The status of the tax reporting 1099-K (US) capability of the account.
 	TaxReportingUS1099K AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
 	// The status of the tax reporting 1099-MISC (US) capability of the account.

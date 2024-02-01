@@ -204,6 +204,12 @@ type RefundDestinationDetailsPaypal struct{}
 type RefundDestinationDetailsPix struct{}
 type RefundDestinationDetailsRevolut struct{}
 type RefundDestinationDetailsSofort struct{}
+type RefundDestinationDetailsSwish struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsTHBankTransfer struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -242,6 +248,7 @@ type RefundDestinationDetails struct {
 	Pix                 *RefundDestinationDetailsPix                 `json:"pix"`
 	Revolut             *RefundDestinationDetailsRevolut             `json:"revolut"`
 	Sofort              *RefundDestinationDetailsSofort              `json:"sofort"`
+	Swish               *RefundDestinationDetailsSwish               `json:"swish"`
 	THBankTransfer      *RefundDestinationDetailsTHBankTransfer      `json:"th_bank_transfer"`
 	// The type of transaction-specific details of the payment method used in the refund (e.g., `card`). An additional hash is included on `destination_details` with a name matching this value. It contains information specific to the refund transaction.
 	Type           string                                  `json:"type"`
