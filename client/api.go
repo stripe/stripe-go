@@ -288,7 +288,7 @@ type API struct {
 	TaxCalculations *taxcalculation.Client
 	// TaxCodes is the client used to invoke /tax_codes APIs.
 	TaxCodes *taxcode.Client
-	// TaxIDs is the client used to invoke /customers/{customer}/tax_ids APIs.
+	// TaxIDs is the client used to invoke /tax_ids APIs.
 	TaxIDs *taxid.Client
 	// TaxRates is the client used to invoke /tax_rates APIs.
 	TaxRates *taxrate.Client

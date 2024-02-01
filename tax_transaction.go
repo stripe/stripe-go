@@ -233,9 +233,9 @@ func (p *TaxTransactionCreateFromCalculationParams) AddMetadata(key string, valu
 
 // The line item amounts to reverse.
 type TaxTransactionCreateReversalLineItemParams struct {
-	// The amount to reverse, in negative integer cents.
+	// The amount to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
 	Amount *int64 `form:"amount"`
-	// The amount of tax to reverse, in negative integer cents.
+	// The amount of tax to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
 	AmountTax *int64 `form:"amount_tax"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `form:"metadata"`
@@ -258,9 +258,9 @@ func (p *TaxTransactionCreateReversalLineItemParams) AddMetadata(key string, val
 
 // The shipping cost to reverse.
 type TaxTransactionCreateReversalShippingCostParams struct {
-	// The amount to reverse, in negative integer cents.
+	// The amount to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
 	Amount *int64 `form:"amount"`
-	// The amount of tax to reverse, in negative integer cents.
+	// The amount of tax to reverse, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative.
 	AmountTax *int64 `form:"amount_tax"`
 }
 
@@ -269,7 +269,7 @@ type TaxTransactionCreateReversalParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A flat amount to reverse across the entire transaction, in negative integer cents. This value represents the total amount to refund from the transaction, including taxes.
+	// A flat amount to reverse across the entire transaction, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) in negative. This value represents the total amount to refund from the transaction, including taxes.
 	FlatAmount *int64 `form:"flat_amount"`
 	// The line item amounts to reverse.
 	LineItems []*TaxTransactionCreateReversalLineItemParams `form:"line_items"`
@@ -347,14 +347,14 @@ type TaxTransactionShippingCostTaxBreakdownTaxRateDetails struct {
 
 // Detailed account of taxes relevant to shipping cost. (It is not populated for the transaction resource object and will be removed in the next API version.)
 type TaxTransactionShippingCostTaxBreakdown struct {
-	// The amount of tax, in integer cents.
+	// The amount of tax, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	Amount       int64                                               `json:"amount"`
 	Jurisdiction *TaxTransactionShippingCostTaxBreakdownJurisdiction `json:"jurisdiction"`
 	// Indicates whether the jurisdiction was determined by the origin (merchant's address) or destination (customer's address).
 	Sourcing TaxTransactionShippingCostTaxBreakdownSourcing `json:"sourcing"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason TaxTransactionShippingCostTaxBreakdownTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in integer cents.
+	// The amount on which tax is calculated, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	TaxableAmount int64 `json:"taxable_amount"`
 	// Details regarding the rate for this tax. This field will be `null` when the tax is not imposed, for example if the product is exempt from tax.
 	TaxRateDetails *TaxTransactionShippingCostTaxBreakdownTaxRateDetails `json:"tax_rate_details"`
@@ -362,9 +362,9 @@ type TaxTransactionShippingCostTaxBreakdown struct {
 
 // The shipping cost details for the transaction.
 type TaxTransactionShippingCost struct {
-	// The shipping amount in integer cents. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
+	// The shipping amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes were calculated on top of this amount.
 	Amount int64 `json:"amount"`
-	// The amount of tax calculated for shipping, in integer cents.
+	// The amount of tax calculated for shipping, in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	AmountTax int64 `json:"amount_tax"`
 	// The ID of an existing [ShippingRate](https://stripe.com/docs/api/shipping_rates/object).
 	ShippingRate string `json:"shipping_rate"`

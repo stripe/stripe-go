@@ -716,8 +716,7 @@ const (
 
 // Describes the type of transaction being performed by Checkout in order to customize
 // relevant text on the page, such as the submit button. `submit_type` can only be
-// specified on Checkout Sessions in `payment` mode, but not Checkout Sessions
-// in `subscription` or `setup` mode. Possible values are `auto`, `pay`, `book`, `donate`. If blank or `auto`, `pay` is used.
+// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
 type CheckoutSessionSubmitType string
 
 // List of values that CheckoutSessionSubmitType can take
@@ -1508,6 +1507,12 @@ type CheckoutSessionPaymentMethodOptionsSofortParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the Swish payment method options.
+type CheckoutSessionPaymentMethodOptionsSwishParams struct {
+	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
+	Reference *string `form:"reference"`
+}
+
 // Additional fields for Financial Connections Session creation
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -1600,6 +1605,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	SEPADebit *CheckoutSessionPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// contains details about the Sofort payment method options.
 	Sofort *CheckoutSessionPaymentMethodOptionsSofortParams `form:"sofort"`
+	// contains details about the Swish payment method options.
+	Swish *CheckoutSessionPaymentMethodOptionsSwishParams `form:"swish"`
 	// contains details about the Us Bank Account payment method options.
 	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// contains details about the WeChat Pay payment method options.
@@ -1921,8 +1928,7 @@ type CheckoutSessionParams struct {
 	ShippingOptions []*CheckoutSessionShippingOptionParams `form:"shipping_options"`
 	// Describes the type of transaction being performed by Checkout in order to customize
 	// relevant text on the page, such as the submit button. `submit_type` can only be
-	// specified on Checkout Sessions in `payment` mode, but not Checkout Sessions
-	// in `subscription` or `setup` mode. Possible values are `auto`, `pay`, `book`, `donate`. If blank or `auto`, `pay` is used.
+	// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
 	SubmitType *string `form:"submit_type"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data"`
@@ -2475,6 +2481,10 @@ type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsSwish struct {
+	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
+	Reference string `json:"reference"`
+}
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
@@ -2524,6 +2534,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	RevolutPay       *CheckoutSessionPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *CheckoutSessionPaymentMethodOptionsSofort           `json:"sofort"`
+	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 }
 type CheckoutSessionPhoneNumberCollection struct {
@@ -2741,8 +2752,7 @@ type CheckoutSession struct {
 	Status CheckoutSessionStatus `json:"status"`
 	// Describes the type of transaction being performed by Checkout in order to customize
 	// relevant text on the page, such as the submit button. `submit_type` can only be
-	// specified on Checkout Sessions in `payment` mode, but not Checkout Sessions
-	// in `subscription` or `setup` mode. Possible values are `auto`, `pay`, `book`, `donate`. If blank or `auto`, `pay` is used.
+	// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
 	SubmitType CheckoutSessionSubmitType `json:"submit_type"`
 	// The ID of the subscription for Checkout Sessions in `subscription` mode.
 	Subscription *Subscription `json:"subscription"`
