@@ -826,6 +826,12 @@ type AccountSettingsCardPaymentsParams struct {
 	StatementDescriptorPrefixKanji *string `form:"statement_descriptor_prefix_kanji"`
 }
 
+// Settings specific to the account's use of Invoices.
+type AccountSettingsInvoicesParams struct {
+	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
+	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
+}
+
 // Settings that apply across payment methods for charging on the account.
 type AccountSettingsPaymentsParams struct {
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge.
@@ -898,6 +904,8 @@ type AccountSettingsParams struct {
 	CardIssuing *AccountSettingsCardIssuingParams `form:"card_issuing"`
 	// Settings specific to card charging on the account.
 	CardPayments *AccountSettingsCardPaymentsParams `form:"card_payments"`
+	// Settings specific to the account's use of Invoices.
+	Invoices *AccountSettingsInvoicesParams `form:"invoices"`
 	// Settings that apply across payment methods for charging on the account.
 	Payments *AccountSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
@@ -1332,6 +1340,10 @@ type AccountSettingsDashboard struct {
 	// The timezone used in the Stripe Dashboard for this account. A list of possible time zone values is maintained at the [IANA Time Zone Database](http://www.iana.org/time-zones).
 	Timezone string `json:"timezone"`
 }
+type AccountSettingsInvoices struct {
+	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
+	DefaultAccountTaxIDs []*TaxID `json:"default_account_tax_ids"`
+}
 type AccountSettingsPayments struct {
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge.
 	StatementDescriptor string `json:"statement_descriptor"`
@@ -1388,6 +1400,7 @@ type AccountSettings struct {
 	CardIssuing       *AccountSettingsCardIssuing       `json:"card_issuing"`
 	CardPayments      *AccountSettingsCardPayments      `json:"card_payments"`
 	Dashboard         *AccountSettingsDashboard         `json:"dashboard"`
+	Invoices          *AccountSettingsInvoices          `json:"invoices"`
 	Payments          *AccountSettingsPayments          `json:"payments"`
 	Payouts           *AccountSettingsPayouts           `json:"payouts"`
 	SEPADebitPayments *AccountSettingsSEPADebitPayments `json:"sepa_debit_payments"`
