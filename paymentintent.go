@@ -1323,9 +1323,6 @@ type PaymentIntentPaymentMethodDataRadarOptionsParams struct {
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type PaymentIntentPaymentMethodDataRevolutPayParams struct{}
 
-// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
-type PaymentIntentPaymentMethodDataSwishParams struct{}
-
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentIntentPaymentMethodDataUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -1412,7 +1409,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
-	Swish *PaymentIntentPaymentMethodDataSwishParams `form:"swish"`
+	Swish *PaymentMethodSwishParams `form:"swish"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
