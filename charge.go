@@ -1778,6 +1778,14 @@ type ChargePaymentMethodDetailsSofort struct {
 	VerifiedName string `json:"verified_name"`
 }
 type ChargePaymentMethodDetailsStripeAccount struct{}
+type ChargePaymentMethodDetailsSwish struct {
+	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
+	Fingerprint string `json:"fingerprint"`
+	// Payer bank reference number for the payment
+	PaymentReference string `json:"payment_reference"`
+	// The last four digits of the Swish account phone number
+	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
+}
 type ChargePaymentMethodDetailsUSBankAccount struct {
 	// Account holder type: individual or company.
 	AccountHolderType ChargePaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
@@ -1839,6 +1847,7 @@ type ChargePaymentMethodDetails struct {
 	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
 	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort"`
 	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account"`
+	Swish              *ChargePaymentMethodDetailsSwish              `json:"swish"`
 	// The type of transaction-specific details of the payment method used in the payment, one of `ach_credit_transfer`, `ach_debit`, `acss_debit`, `alipay`, `au_becs_debit`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `stripe_account`, or `wechat`.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
