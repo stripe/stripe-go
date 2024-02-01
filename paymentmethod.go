@@ -73,7 +73,7 @@ const (
 	PaymentMethodCardNetworksAvailableUnknown         PaymentMethodCardNetworksAvailable = "unknown"
 )
 
-// The preferred network for the card.
+// The preferred network for the card. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
 type PaymentMethodCardNetworksPreferred string
 
 // List of values that PaymentMethodCardNetworksPreferred can take
@@ -173,6 +173,7 @@ const (
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
+	PaymentMethodTypeSwish            PaymentMethodType = "swish"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
 	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
 	PaymentMethodTypeZip              PaymentMethodType = "zip"
@@ -425,6 +426,9 @@ type PaymentMethodSofortParams struct {
 	Country *string `form:"country"`
 }
 
+// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
+type PaymentMethodSwishParams struct{}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUSBankAccountParams struct {
 	// Account holder type: individual or company.
@@ -518,6 +522,8 @@ type PaymentMethodParams struct {
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
+	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
+	Swish *PaymentMethodSwishParams `form:"swish"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
@@ -647,7 +653,7 @@ type PaymentMethodCardChecks struct {
 type PaymentMethodCardNetworks struct {
 	// All available networks for the card.
 	Available []PaymentMethodCardNetworksAvailable `json:"available"`
-	// The preferred network for the card.
+	// The preferred network for the card. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
 	Preferred PaymentMethodCardNetworksPreferred `json:"preferred"`
 }
 
@@ -907,6 +913,7 @@ type PaymentMethodSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 }
+type PaymentMethodSwish struct{}
 
 // Contains information about US bank account networks that can be used.
 type PaymentMethodUSBankAccountNetworks struct {
@@ -1004,6 +1011,7 @@ type PaymentMethod struct {
 	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay"`
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
 	Sofort       *PaymentMethodSofort       `json:"sofort"`
+	Swish        *PaymentMethodSwish        `json:"swish"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`

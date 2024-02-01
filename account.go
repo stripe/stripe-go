@@ -186,9 +186,7 @@ type AccountParams struct {
 	Expand []*string `form:"expand"`
 	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/docs/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/docs/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/docs/api#account_create_bank_account) creation.
 	//
-	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/docs/api#account_create_bank_account) or [card creation](https://stripe.com/docs/api#account_create_card) APIs.
-	//
-	// Once you create an [Account Link](https://stripe.com/docs/api/account_links) or [Account Session](https://stripe.com/docs/api/account_sessions), this property can only be updated for Custom accounts.
+	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/docs/api#account_create_bank_account) or [card creation](https://stripe.com/docs/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/docs/api/account_links) or [Account Session](https://stripe.com/docs/api/account_sessions), this property can only be updated for Custom accounts.
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/docs/api/account_links) or [Account Session](https://stripe.com/docs/api/account_sessions), this property can only be updated for Custom accounts.
 	Individual *PersonParams `form:"individual"`
@@ -452,6 +450,12 @@ type AccountCapabilitiesSofortPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The swish_payments capability.
+type AccountCapabilitiesSwishPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The tax_reporting_us_1099_k capability.
 type AccountCapabilitiesTaxReportingUS1099KParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -554,6 +558,8 @@ type AccountCapabilitiesParams struct {
 	SEPADebitPayments *AccountCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
 	// The sofort_payments capability.
 	SofortPayments *AccountCapabilitiesSofortPaymentsParams `form:"sofort_payments"`
+	// The swish_payments capability.
+	SwishPayments *AccountCapabilitiesSwishPaymentsParams `form:"swish_payments"`
 	// The tax_reporting_us_1099_k capability.
 	TaxReportingUS1099K *AccountCapabilitiesTaxReportingUS1099KParams `form:"tax_reporting_us_1099_k"`
 	// The tax_reporting_us_1099_misc capability.
@@ -820,6 +826,12 @@ type AccountSettingsCardPaymentsParams struct {
 	StatementDescriptorPrefixKanji *string `form:"statement_descriptor_prefix_kanji"`
 }
 
+// Settings specific to the account's use of Invoices.
+type AccountSettingsInvoicesParams struct {
+	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
+	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
+}
+
 // Settings that apply across payment methods for charging on the account.
 type AccountSettingsPaymentsParams struct {
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge.
@@ -892,6 +904,8 @@ type AccountSettingsParams struct {
 	CardIssuing *AccountSettingsCardIssuingParams `form:"card_issuing"`
 	// Settings specific to card charging on the account.
 	CardPayments *AccountSettingsCardPaymentsParams `form:"card_payments"`
+	// Settings specific to the account's use of Invoices.
+	Invoices *AccountSettingsInvoicesParams `form:"invoices"`
 	// Settings that apply across payment methods for charging on the account.
 	Payments *AccountSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
@@ -1073,6 +1087,8 @@ type AccountCapabilities struct {
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.
 	SofortPayments AccountCapabilityStatus `json:"sofort_payments"`
+	// The status of the Swish capability of the account, or whether the account can directly process Swish payments.
+	SwishPayments AccountCapabilityStatus `json:"swish_payments"`
 	// The status of the tax reporting 1099-K (US) capability of the account.
 	TaxReportingUS1099K AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
 	// The status of the tax reporting 1099-MISC (US) capability of the account.
@@ -1324,6 +1340,10 @@ type AccountSettingsDashboard struct {
 	// The timezone used in the Stripe Dashboard for this account. A list of possible time zone values is maintained at the [IANA Time Zone Database](http://www.iana.org/time-zones).
 	Timezone string `json:"timezone"`
 }
+type AccountSettingsInvoices struct {
+	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
+	DefaultAccountTaxIDs []*TaxID `json:"default_account_tax_ids"`
+}
 type AccountSettingsPayments struct {
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge.
 	StatementDescriptor string `json:"statement_descriptor"`
@@ -1380,6 +1400,7 @@ type AccountSettings struct {
 	CardIssuing       *AccountSettingsCardIssuing       `json:"card_issuing"`
 	CardPayments      *AccountSettingsCardPayments      `json:"card_payments"`
 	Dashboard         *AccountSettingsDashboard         `json:"dashboard"`
+	Invoices          *AccountSettingsInvoices          `json:"invoices"`
 	Payments          *AccountSettingsPayments          `json:"payments"`
 	Payouts           *AccountSettingsPayouts           `json:"payouts"`
 	SEPADebitPayments *AccountSettingsSEPADebitPayments `json:"sepa_debit_payments"`
