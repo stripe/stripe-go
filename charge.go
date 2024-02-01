@@ -268,6 +268,7 @@ const (
 	ChargePaymentMethodDetailsTypeP24               ChargePaymentMethodDetailsType = "p24"
 	ChargePaymentMethodDetailsTypeSEPADebit         ChargePaymentMethodDetailsType = "sepa_debit"
 	ChargePaymentMethodDetailsTypeSofort            ChargePaymentMethodDetailsType = "sofort"
+	ChargePaymentMethodDetailsTypeSwish             ChargePaymentMethodDetailsType = "swish"
 	ChargePaymentMethodDetailsTypeStripeAccount     ChargePaymentMethodDetailsType = "stripe_account"
 	ChargePaymentMethodDetailsTypeWeChat            ChargePaymentMethodDetailsType = "wechat"
 )
