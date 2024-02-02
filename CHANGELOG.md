@@ -1,5 +1,14 @@
 # Changelog
 
+## 76.15.0 - 2024-02-01
+  Release specs are identical.
+* [#1805](https://github.com/stripe/stripe-go/pull/1805) Update generated code
+  * Add support for Swish payment method throughout the API.
+  * Add support for `Relationship` on `AccountIndividualParams` and `TokenAccountIndividualParams`
+  * Add support for `Invoices` on `AccountSettingsParams` and `AccountSettings`
+  * Add support for `AccountTaxIDs` on `SubscriptionInvoiceSettingsParams`, `SubscriptionScheduleDefaultSettingsInvoiceSettingsParams`, `SubscriptionScheduleDefaultSettingsInvoiceSettings`, `SubscriptionSchedulePhasesInvoiceSettingsParams`, and `SubscriptionSchedulePhasesInvoiceSettings`
+  * Add support for `JurisdictionLevel` on `TaxRate`
+
 ## 76.14.0 - 2024-01-25
 * [#1803](https://github.com/stripe/stripe-go/pull/1803) Update generated code
   * Add support for `AnnualRevenue` and `EstimatedWorkerCount` on `AccountBusinessProfileParams` and `AccountBusinessProfile`
