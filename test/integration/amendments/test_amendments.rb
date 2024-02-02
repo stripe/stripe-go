@@ -27,11 +27,7 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     initial_start_date = now_time
     initial_order_end_date = initial_start_date + contract_term
 
-    amendment_term = 3
-    amendment_start_date = initial_start_date + (contract_term - amendment_term).months
-    amendment_end_date = amendment_start_date + amendment_term.months
-    # normalize the amendment_end_date so test doesn't fail EOM
-    amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
+    amendment_start_date = initial_start_date + 9.months
 
     sf_product_id, _sf_pricebook_id = salesforce_recurring_product_with_price(price: monthly_price)
     sf_order = create_subscription_order(sf_product_id: sf_product_id,
@@ -58,7 +54,6 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     amendment_data = create_quote_data_from_contract_amendment(sf_contract)
     amendment_data["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 3
     amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
-    amendment_data["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
     sf_order_amendment = create_order_from_quote_data(amendment_data)
 
     # api preconditions: the contract ID on the amendment is STILL empty right after the contract is created
@@ -98,6 +93,14 @@ class Critic::OrderAmendmentTranslation < Critic::OrderAmendmentFunctionalTest
     # first phase should start now and end in 9mo
     assert_equal(0, first_phase.start_date - initial_start_date.to_i)
     assert_equal(0, first_phase.end_date - amendment_start_date.to_i)
+
+    cache_service = CacheService.new(@user)
+    mapper = StripeForce::Mapper.new(@user, cache_service)
+    amendment_term = StripeForce::Utilities::SalesforceUtil.calculate_subscription_term(mapper, sf_order_amendment)
+    assert_equal(3, amendment_term)
+    amendment_end_date = amendment_start_date + amendment_term.months
+    # normalize the amendment_end_date so test doesn't fail EOM
+    amendment_end_date = StripeForce::Translate::OrderHelpers.anchor_time_to_day_of_month(base_time: amendment_end_date, anchor_day_of_month: initial_order_end_date.day)
 
     # second phase should start at the end date
     assert_equal(0, second_phase.start_date - amendment_start_date.to_i)

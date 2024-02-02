@@ -20,7 +20,7 @@ class StripeForce::Translate
     # to calculate the end date
     string_start_date_from_salesforce = subscription_schedule['start_date']
     start_date_from_salesforce = DateTime.parse(string_start_date_from_salesforce)
-    subscription_term_from_salesforce = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+    subscription_term_from_salesforce = T.must(StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order))
     order_end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(start_date_from_salesforce + subscription_term_from_salesforce.months)
 
     non_segmented_contract_items, segmented_contract_items = split_and_sort_mdq_item(contract_items)

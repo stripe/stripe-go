@@ -7,7 +7,7 @@ class StripeForce::Translate
     log.info 'no recurring items found, creating a one-time invoice', salesforce_object_id: sf_order.Id
 
     order_start_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, sf_order)
-    subscription_term_from_salesforce = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+    subscription_term_from_salesforce = T.must(StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order))
     order_end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(order_start_date + subscription_term_from_salesforce.months)
     period_start = order_start_date.to_i
     period_end = order_end_date.to_i

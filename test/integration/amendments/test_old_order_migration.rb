@@ -319,11 +319,12 @@ class Critic::OldOrderMigration < Critic::OrderAmendmentFunctionalTest
 
     sf_order_amendment = create_order_from_quote_data(amendment_data)
 
-    StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
-
-    sf_order.refresh
-
+    exception = assert_raises(StripeForce::Errors::UserError) do
+      StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
+    end
+    assert_match("Failed to sync pre-integration order. If merchant wants to sync this order, please ask partner to gate them into old order migration.", exception.message)
     # Order should not have translated
+    sf_order.refresh
     assert_nil(sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)])
   end
 end

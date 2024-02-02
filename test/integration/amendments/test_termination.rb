@@ -5,10 +5,10 @@ require_relative './_lib'
 
 class Critic::OrderAmendmentTermination < Critic::OrderAmendmentFunctionalTest
   before do
-    # set_cassette_dir(__FILE__)
-    # if !VCR.current_cassette.originally_recorded_at.nil?
-    #   Timecop.freeze(VCR.current_cassette.originally_recorded_at)
-    # end
+    set_cassette_dir(__FILE__)
+    if !VCR.current_cassette.originally_recorded_at.nil?
+      Timecop.freeze(VCR.current_cassette.originally_recorded_at)
+    end
 
     @user = make_user(save: true)
     @user.enable_feature(FeatureFlags::TERMINATION_METADATA)

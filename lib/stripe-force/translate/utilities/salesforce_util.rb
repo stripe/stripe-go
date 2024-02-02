@@ -155,7 +155,6 @@ module StripeForce::Utilities
       stripe_mapping_key = StripeForce::Mapper.mapping_key_for_record(stripe_record_or_class, sf_record)
 
       user = mapper.user
-
       required_mappings = user.required_mappings[stripe_mapping_key]
       if required_mappings.nil?
         raise StripeForce::Errors::RawUserError.new("Required mappings were empty for the Stripe object: #{stripe_mapping_key}")
@@ -182,20 +181,15 @@ module StripeForce::Utilities
       required_data.merge(optional_data)
     end
 
-    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Integer) }
-    def self.extract_subscription_term_from_order!(mapper, sf_order)
+    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject, is_required: T::Boolean).returns(T.nilable(Integer)) }
+    def self.extract_subscription_term_from_order!(mapper, sf_order, is_required=true)
       user = mapper.user
 
       # users can map to this path if they want to override the default subscription term
       subscription_phase_term_stripe_path = ['subscription_phase', 'iterations']
-      mapped_subscription_phase_term_order_path = user.field_mappings.dig(*subscription_phase_term_stripe_path)
-      if mapped_subscription_phase_term_order_path.present?
-        mapped_subscription_phase_term = T.cast(mapper.extract_key_path_for_record(sf_order, mapped_subscription_phase_term_order_path), T.nilable(T.any(String, Float, Integer)))
-      else
-        mapped_subscription_phase_term = user.field_defaults.dig(*subscription_phase_term_stripe_path)
-      end
-
+      mapped_subscription_phase_term = extract_optional_fields_from_order(mapper, sf_order, subscription_phase_term_stripe_path)
       if mapped_subscription_phase_term.present?
+        mapped_subscription_phase_term = T.cast(mapped_subscription_phase_term, T.any(String, Float, Integer))
         if !Integrations::Utilities::StripeUtil.is_integer_value?(mapped_subscription_phase_term)
           raise StripeForce::Errors::RawUserError.new("The subscription term can't be a decimal value.", salesforce_object: sf_order)
         end
@@ -205,21 +199,23 @@ module StripeForce::Utilities
 
       # we hard code this path to the Quote's subscription term with no opportunity for users to change it
       subscription_schedule_term_stripe_path = ['subscription_schedule', 'iterations']
-      subscription_schedule_term_order_path = user.field_mappings.dig(*subscription_schedule_term_stripe_path) || user.required_mappings.dig(*subscription_schedule_term_stripe_path)
+      mapped_subscription_schedule_term_path = user.field_mappings.dig(*subscription_schedule_term_stripe_path) || user.required_mappings.dig(*subscription_schedule_term_stripe_path)
+      mapped_subscription_schedule_term = mapper.extract_key_path_for_record(sf_order, mapped_subscription_schedule_term_path)
+      if mapped_subscription_schedule_term.present?
+        mapped_subscription_schedule_term = T.cast(mapped_subscription_schedule_term, T.any(String, Float, Integer))
+        if !Integrations::Utilities::StripeUtil.is_integer_value?(mapped_subscription_schedule_term)
+          raise StripeForce::Errors::RawUserError.new("The subscription term can't be a decimal value.", salesforce_object: sf_order)
+        end
 
-      quote_subscription_term = T.cast(mapper.extract_key_path_for_record(sf_order, subscription_schedule_term_order_path), T.nilable(T.any(String, Float, Integer)))
-      if quote_subscription_term.nil?
+        return mapped_subscription_schedule_term.to_i
+      elsif is_required
         raise Integrations::Errors::MissingRequiredFields.new(
           salesforce_object: sf_order,
-          missing_salesforce_fields: [subscription_schedule_term_order_path]
+          missing_salesforce_fields: [subscription_schedule_term_stripe_path]
         )
       end
 
-      if !Integrations::Utilities::StripeUtil.is_integer_value?(quote_subscription_term)
-        raise StripeForce::Errors::RawUserError.new("The subscription term can't be a decimal value.", salesforce_object: sf_order)
-      end
-
-      quote_subscription_term.to_i
+      nil
     end
 
     sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Time) }
@@ -293,8 +289,6 @@ module StripeForce::Utilities
       end
 
       # (4) if the quote line’s subscription term is null and the quote line isn’t part of a quote line group, the effective subscription term inherits the quote’s subscription term
-      # self.extract_subscription_term_from_order!(mapper, sf_order)
-
       # (5) if the quote subscription term is null, the effective subscription term inherits the default subscription term
       # but we require quote subscription term so it should never reach here
       CPQ_QUOTE_LINE_DEFAULT_SUBSCRIPTION_TERM
@@ -302,20 +296,28 @@ module StripeForce::Utilities
 
     # this function calculates a Salesforce Order End Date using the following formula:
     # end date = start date + subscription term (in months)
-    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Time) }
-    def self.calculate_order_end_date(mapper, sf_order)
+    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject, require_sub_term: T::Boolean).returns(Time) }
+    def self.calculate_order_end_date(mapper, sf_order, require_sub_term=true)
       sf_order_start_date = extract_subscription_start_date_from_order(mapper, sf_order)
-      sf_order_subscription_term = extract_subscription_term_from_order!(mapper, sf_order)
-      calculated_order_end_date = sf_order_start_date + sf_order_subscription_term.months
-
-      # https://jira.corp.stripe.com/browse/PLATINT-1514
+      sf_order_subscription_term = extract_subscription_term_from_order!(mapper, sf_order, require_sub_term)
       cpq_order_end_date = extract_subscription_end_date_from_order(mapper, sf_order)
-      # the plus one day here is to include the last day
-      if !cpq_order_end_date.nil? && (calculated_order_end_date + 1.day) != cpq_order_end_date
-        log.info 'calculated order end date differs from CPQ provided end date', cpq_end_date: cpq_order_end_date, calculated_order_end_date: calculated_order_end_date
+
+      # user needs to specify subscription term or end date
+      if sf_order_subscription_term.nil? && cpq_order_end_date.nil?
+        raise StripeForce::Errors::RawUserError.new("Please specify either the subscription term or the end date on the Salesforce amendment.")
       end
 
-      calculated_order_end_date
+      if sf_order_subscription_term.present?
+        calculated_order_end_date = sf_order_start_date + sf_order_subscription_term.months
+
+        # the plus one day here is to include the last day
+        if cpq_order_end_date.present? && calculated_order_end_date != (cpq_order_end_date + 1.day)
+          log.info 'calculated order end date differs from CPQ provided end date', cpq_end_date: cpq_order_end_date, calculated_order_end_date: calculated_order_end_date, sf_order_id: sf_order.Id
+        end
+        calculated_order_end_date
+      else
+        T.must(cpq_order_end_date)
+      end
     end
 
     # this function determines the amendment order end date and takes into account a special case
@@ -329,7 +331,7 @@ module StripeForce::Utilities
     def self.normalize_sf_order_amendment_end_date(mapper:, sf_order_amendment:, sf_initial_order:)
         initial_order_end_date = calculate_order_end_date(mapper, sf_initial_order)
         amendment_start_date = extract_subscription_start_date_from_order(mapper, sf_order_amendment)
-        amendment_end_date = calculate_order_end_date(mapper, sf_order_amendment)
+        amendment_end_date = calculate_order_end_date(mapper, sf_order_amendment, false)
 
         # if the order amendment start date day-of-month is the eom AND
         # the initial order starts on a day that is greater than the order amendment
@@ -370,26 +372,39 @@ module StripeForce::Utilities
 
       # let's verify the provided subscription term and compare this against the calculated sub term
       # the sub term should equal the number of whole months between the start and end date
-      amendment_start_date = extract_subscription_start_date_from_order(mapper, sf_order_amendment)
-      amendment_subscription_term = extract_subscription_term_from_order!(mapper, sf_order_amendment)
+      amendment_subscription_term = extract_subscription_term_from_order!(mapper, sf_order_amendment, false)
+      if amendment_subscription_term.present?
+        calculated_sub_term = self.calculate_subscription_term(mapper, sf_order_amendment)
+        if calculated_sub_term != amendment_subscription_term
+          log.info 'Amendment order subscription term does not equal number of whole months between the order start and end date.',
+            amendment_order_end_date: amendment_end_date,
+            amendment_subscription_term: amendment_subscription_term
+          raise StripeForce::Errors::RawUserError.new("The amendment order subscription term doesn't equal the number of whole months between the start and end date. Please clear the subscription term field on the amendment order to default to using the SBQQ_EndDate__c.")
+        end
+      end
+      amendment_end_date
+    end
+
+    # Calculate the number of whole months between the start and end date
+    # Should only be used for amendment orders
+    sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject).returns(Integer) }
+    def self.calculate_subscription_term(mapper, sf_order)
+      start_date = extract_subscription_start_date_from_order(mapper, sf_order)
+      end_date = extract_subscription_end_date_from_order(mapper, sf_order)
+      if end_date.nil?
+        raise StripeForce::Errors::RawUserError.new("Order does not have the CPQ end date field populated.")
+      end
 
       # Sanity check the provided amendment subscription term (since users can input whatever) by calculating
       # the number of whole months between amendment start and end dates and confirming its equal to the amendment_subscription_term
       # This is important since this will be used downstream for proration calculations
-      num_months = (amendment_end_date.year * 12 + amendment_end_date.month) - (amendment_start_date.year * 12 + amendment_start_date.month)
+      num_months = (end_date.year * 12 + end_date.month) - (start_date.year * 12 + start_date.month)
       # partial months don't count towards the number of whole months
-      if amendment_end_date.day < amendment_start_date.day
+      if end_date.day < start_date.day
         num_months -= 1
       end
 
-      if num_months != amendment_subscription_term
-        log.info 'Amendment order subscription term does not equal number of whole months between the order start and end date.',
-          amendment_order_start_date: amendment_start_date,
-          amendment_order_end_date: amendment_end_date,
-          amendment_subscription_term: amendment_subscription_term
-        raise StripeForce::Errors::RawUserError.new("The amendment order subscription term doesn't equal the number of whole months between the start and end date.")
-      end
-      amendment_end_date
+      num_months
     end
 
     # Determines the number of days to prorate given the amendment order start and end dates and subscription term
@@ -456,7 +471,11 @@ module StripeForce::Utilities
     sig { params(mapper: StripeForce::Mapper, sf_order: Restforce::SObject, sf_order_item: Restforce::SObject, billing_frequency: Integer, is_terminated_line: T::Boolean).returns(BigDecimal) }
     def self.calculate_price_multiplier(mapper, sf_order, sf_order_item, billing_frequency, is_terminated_line: false)
       user = mapper.user
-      quote_subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+
+      subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order, false)
+      if subscription_term.nil?
+        subscription_term = StripeForce::Utilities::SalesforceUtil.calculate_subscription_term(mapper, sf_order)
+      end
       effective_subscription_term = StripeForce::Utilities::SalesforceUtil.determine_quote_line_subscription_term(mapper, sf_order_item, sf_order)
       cpq_price_multiplier = sf_order_item[CPQ_PRORATE_MULTIPLIER]
 
@@ -469,7 +488,7 @@ module StripeForce::Utilities
         days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
           sf_order_start_date: sf_order_start_date,
           sf_order_end_date: T.must(sf_order_end_date),
-          sf_order_subscription_term: quote_subscription_term)
+          sf_order_subscription_term: subscription_term)
 
         # if there is a partial month due to a non-anniversary amendment
         # we calculate the price multiplier differently depending on the CPQ Subscription Prorate Precision setting
@@ -477,13 +496,13 @@ module StripeForce::Utilities
           if user.feature_enabled?(FeatureFlags::DAY_PRORATIONS) || user.connector_settings[CONNECTOR_SETTING_CPQ_PRORATE_PRECISION] == 'month+day'
             # calculate the price multiplier for when CPQ Subscription Prorate Precision = 'Month + Day'
             log.info 'using \'monthly + daily\' price multiplier calculations', sf_order_id: sf_order.Id, sf_order_item_id: sf_order_item.Id, days: days
-            calculated_price_multiplier = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiplier(whole_months: quote_subscription_term, partial_month_days: days, product_subscription_term: effective_subscription_term)
+            calculated_price_multiplier = StripeForce::Utilities::SalesforceUtil.calculate_month_plus_day_price_multiplier(whole_months: subscription_term, partial_month_days: days, product_subscription_term: effective_subscription_term)
           else
             # calculate the price multiplier for when CPQ Subscription Prorate Precision = 'Month'
             # therefore cpq treats the partial month as a whole month so we add one to the provided subscription term
             log.info 'using \'monthly\' price multiplier calculations', sf_order_id: sf_order.Id, sf_order_item_id: sf_order_item.Id
-            quote_subscription_term += 1
-            calculated_price_multiplier = BigDecimal(T.must(quote_subscription_term)) / BigDecimal(billing_frequency)
+            subscription_term += 1
+            calculated_price_multiplier = BigDecimal(T.must(subscription_term)) / BigDecimal(billing_frequency)
           end
 
           if is_terminated_line
@@ -494,7 +513,7 @@ module StripeForce::Utilities
         end
       end
 
-      price_multiplier = BigDecimal(T.must(quote_subscription_term)) / BigDecimal(billing_frequency)
+      price_multiplier = BigDecimal(T.must(subscription_term)) / BigDecimal(billing_frequency)
       validated_price_multiplier = validate_price_multipliers(price_multiplier, cpq_price_multiplier, false)
 
       # TODO should test this further with proration amendments

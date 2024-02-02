@@ -101,10 +101,10 @@ export default class StripeAccountSetupStep extends LightningElement {
 
         if (this._expectedUpdate === true && this.status === ConnectionStatus.fresh) {
             DebugLog('connectionStatusUpdated', 'got fresh status');
-            this._showToast('Integration User has been successfully connected.', 'success');
+            this._showToast('User has successfully authorized Stripe account.', 'success');
         } else if (this._expectedUpdate === false && this.status === ConnectionStatus.disconnected) {
             DebugLog('connectionStatusUpdated', 'got disconnected status');
-            this._showToast('Integration User successfully unauthorized.', 'success');
+            this._showToast('User has successfully unauthorized Stripe account.', 'success');
         }
 
         DebugLog('connectionStatusUpdated', 'isSetup', this.isSetup);

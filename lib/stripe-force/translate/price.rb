@@ -132,7 +132,10 @@ class StripeForce::Translate
       sf_order = cache_service.get_record_from_cache(SF_ORDER, sf_order_item["OrderId"])
 
       # Get the term and billing frequency to calculate proration
-      subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(@mapper, sf_order)
+      subscription_term = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(@mapper, sf_order, false)
+      if subscription_term.nil?
+        subscription_term = StripeForce::Utilities::SalesforceUtil.calculate_subscription_term(@mapper, sf_order)
+      end
       billing_frequency = StripeForce::Utilities::StripeUtil.billing_frequency_of_price_in_months(stripe_price)
 
       _is_order_backend_prorated, is_order_frontend_prorated = OrderHelpers.prorated_order?(

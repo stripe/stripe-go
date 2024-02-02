@@ -1380,7 +1380,6 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       initial_invoice.pay({'paid_out_of_band': true})
 
       # now, let's advance the clock and pretent like we are in the future to fully test autobilling
-
       test_clock = advance_test_clock(stripe_customer, (amendment_start_date + 1.day).to_i)
 
       # simulate sending the webhook
@@ -1918,10 +1917,12 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       @user.enable_feature FeatureFlags::NON_ANNIVERSARY_AMENDMENTS, update: true
       @user.enable_feature FeatureFlags::TEST_CLOCKS, update: true
 
+      cache_service = CacheService.new(@user)
+      mapper = StripeForce::Mapper.new(@user, cache_service)
+
       # initial order: starts now, billed annually
       # amendment order: starts 4 days later (on a non-anniversary day)
       contract_term = 12
-      amendment_term = 11
 
       initial_order_start_date = now_time
       initial_order_end_date = initial_order_start_date + contract_term.months
@@ -1960,7 +1961,8 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       amendment_quote = create_quote_data_from_contract_amendment(sf_contract)
       amendment_quote["lineItems"].first["record"][CPQ_QUOTE_QUANTITY] = 2
       amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_START_DATE] = format_date_for_salesforce(amendment_start_date)
-      amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM] = amendment_term
+      # note this is on purpose to test that non anniversary amendment work without a subscription term
+      assert_nil(amendment_quote["record"][CPQ_QUOTE_SUBSCRIPTION_TERM])
 
       sf_order_amendment = create_order_from_quote_data(amendment_quote)
       StripeForce::Translate.perform_inline(@user, sf_order_amendment.Id)
@@ -2003,6 +2005,8 @@ class Critic::ProratedAmendmentTranslation < Critic::OrderAmendmentFunctionalTes
       end
       assert_equal(1, invoice_events.count)
 
+      amendment_term = StripeForce::Utilities::SalesforceUtil.calculate_subscription_term(mapper, sf_order_amendment)
+      assert_equal(11, amendment_term)
       # verify proration invoice total
       days_prorating = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
         sf_order_start_date: amendment_start_date,

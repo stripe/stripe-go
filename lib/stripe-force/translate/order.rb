@@ -24,7 +24,7 @@ class StripeForce::Translate
       contract_structure = extract_contract_from_order(sf_object)
     elsif is_pre_integration_order
       log.info 'skipping translation of pre-integration order, if merchant wants to sync this order please gate them into old order migration: ', order_ids: contract_structure.initial
-      return
+      raise StripeForce::Errors::RawUserError.new("Failed to sync pre-integration order. If merchant wants to sync this order, please ask partner to gate them into old order migration.")
     end
 
     # process the initial order
@@ -277,6 +277,8 @@ class StripeForce::Translate
     sf_account = cache_service.get_record_from_cache(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
     stripe_customer = translate_account(sf_account)
 
+    subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
+
     sf_order_items = order_lines_from_order(sf_order)
     invoice_items, subscription_items = phase_items_from_order_lines(sf_order_items)
     is_recurring_order = !subscription_items.empty?
@@ -305,7 +307,6 @@ class StripeForce::Translate
       metadata: Metadata.stripe_metadata_for_sf_object(@user, sf_order),
     })
 
-    subscription_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order, Stripe::SubscriptionSchedule)
     mapper.assign_values_from_hash(subscription_schedule, subscription_params)
     apply_mapping(subscription_schedule, sf_order)
 
@@ -394,11 +395,11 @@ class StripeForce::Translate
     subscription_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
 
     # the user maps to this to determine the subscription schedule end date
-    subscription_term_from_salesforce = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order)
+    subscription_term_from_salesforce = T.must(StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order))
 
     # originally `iterations` was used, but this fails when subscription term is less than a single billing cycle
     initial_phase_end_date = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(
-      start_date_from_salesforce + subscription_term_from_salesforce.months
+      start_date_from_salesforce + T.must(subscription_term_from_salesforce).months
     )
 
     # TODO we should have a check to ensure all quantities are positive
@@ -435,7 +436,7 @@ class StripeForce::Translate
 
     is_initial_order_backend_prorated, _is_initial_order_frontend_prorated = OrderHelpers.prorated_initial_order?(
       phase_items: subscription_items,
-      subscription_term: subscription_term_from_salesforce,
+      subscription_term: T.must(subscription_term_from_salesforce),
       billing_frequency: billing_frequency
     )
     if is_initial_order_backend_prorated
@@ -448,7 +449,7 @@ class StripeForce::Translate
         mapper: mapper,
         sf_order_amendment: sf_order,
         phase_items: subscription_items,
-        subscription_term: subscription_term_from_salesforce,
+        subscription_term: T.must(subscription_term_from_salesforce),
         billing_frequency: billing_frequency,
       )
 
@@ -459,8 +460,8 @@ class StripeForce::Translate
       end
 
       # number of months not in a full billing cycle
-      backend_proration_term = subscription_term_from_salesforce % billing_frequency
-      backend_proration_start_date = start_date_from_salesforce + (subscription_term_from_salesforce - backend_proration_term).months
+      backend_proration_term = T.must(subscription_term_from_salesforce) % billing_frequency
+      backend_proration_start_date = start_date_from_salesforce + (T.must(subscription_term_from_salesforce) - backend_proration_term).months
       backend_proration_start_date_timestamp = StripeForce::Utilities::SalesforceUtil.datetime_to_unix_timestamp(backend_proration_start_date)
 
       log.info 'adding backend proration phase', backend_proration_start_date: backend_proration_start_date, backend_proration_term: backend_proration_term
@@ -564,7 +565,7 @@ class StripeForce::Translate
 
     is_initial_order_backend_prorated, _is_initial_order_frontend_prorated = OrderHelpers.prorated_initial_order?(
       phase_items: initial_order_phase_items,
-      subscription_term: StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(@mapper, contract_structure.initial),
+      subscription_term: T.must(StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(@mapper, contract_structure.initial)),
       billing_frequency: OrderAmendment.calculate_billing_frequency_from_phase_items(@user, initial_order_phase_items)
     )
 
@@ -599,7 +600,6 @@ class StripeForce::Translate
       log.info 'processing amendment order', sf_order_amendment_id: sf_order_amendment.Id, index: index
       invoice_items_in_order, aggregate_phase_items = build_phase_items_from_order_amendment(previous_phase_items, sf_order_amendment)
 
-      # TODO replace with local sync record call in the future
       order_amendment_subscription_id = sf_order_amendment[prefixed_stripe_field(GENERIC_STRIPE_ID)]
       if order_amendment_subscription_id.present?
         log.info "order amendment already translated, skipping", sf_order_amendment_id: sf_order_amendment.Id, index: index
@@ -634,13 +634,14 @@ class StripeForce::Translate
       # we'll create price IDs which will never be archived since they won't be used in an active phase
       aggregate_phase_items = OrderHelpers.ensure_unique_phase_item_prices(@user, aggregate_phase_items)
 
-      phase_params = StripeForce::Utilities::SalesforceUtil.extract_salesforce_params!(mapper, sf_order_amendment, Stripe::SubscriptionSchedule)
-
-      # convert the string Salesforce start date from to a timestamp
-      string_start_date_from_salesforce = phase_params['start_date']
-      sf_order_amendment_start_date_as_timestamp = StripeForce::Utilities::SalesforceUtil.salesforce_date_to_unix_timestamp(string_start_date_from_salesforce)
-      phase_params['start_date'] = sf_order_amendment_start_date_as_timestamp
-      subscription_term_from_salesforce = phase_params.delete('iterations').to_i
+      sf_order_amendment_start_date = StripeForce::Utilities::SalesforceUtil.extract_subscription_start_date_from_order(mapper, sf_order_amendment)
+      sf_order_amendment_start_date_as_timestamp = sf_order_amendment_start_date.to_i
+      phase_params = {'start_date': sf_order_amendment_start_date_as_timestamp}
+      subscription_term_from_salesforce = StripeForce::Utilities::SalesforceUtil.extract_subscription_term_from_order!(mapper, sf_order_amendment, false)
+      if subscription_term_from_salesforce.nil?
+        log.info 'no subscription term found on order amendment, calculating from amendment order', sf_order_amendment: sf_order_amendment.Id
+        subscription_term_from_salesforce = StripeForce::Utilities::SalesforceUtil.calculate_subscription_term(mapper, sf_order_amendment)
+      end
 
       # we need to normalize the amendment order end date to take into account special cases
       # that can occur when then initial order starts on a day of the month that doesn't exist in the amendment month
@@ -744,7 +745,7 @@ class StripeForce::Translate
 
           if @user.feature_enabled?(FeatureFlags::NON_ANNIVERSARY_AMENDMENTS)
             days = StripeForce::Utilities::SalesforceUtil.calculate_days_to_prorate(
-              sf_order_start_date: StripeForce::Utilities::SalesforceUtil.salesforce_date_to_beginning_of_day(string_start_date_from_salesforce),
+              sf_order_start_date: sf_order_amendment_start_date,
               sf_order_end_date: sf_order_amendment_end_date,
               sf_order_subscription_term: subscription_term)
 
