@@ -1,5 +1,16 @@
 # Changelog
 
+## 76.16.0-beta.1 - 2024-02-01
+* [#1806](https://github.com/stripe/stripe-go/pull/1806) Update generated code for beta
+  * Add support for new resources `Entitlements.Event` and `Entitlements.Feature`
+  * Add support for `New` method on resource `Event`
+  * Add support for `List` and `New` methods on resource `Feature`
+  * Add support for `Swish` on `ConfirmationTokenPaymentMethodPreview`
+  * Add support for new value `swish` on enum `ConfirmationTokenPaymentMethodPreviewType`
+  * Add support for new value `customer.entitlement_summary.updated` on enum `EventType`
+  * Add support for `AccountTaxIDs` on `InvoiceCreatePreviewScheduleDetailsPhasesInvoiceSettingsParams`, `InvoiceUpcomingLinesScheduleDetailsPhasesInvoiceSettingsParams`, and `InvoiceUpcomingScheduleDetailsPhasesInvoiceSettingsParams`
+  * Add support for `Feature` on `ProductFeaturesParams` and `ProductFeatures`
+
 ## 76.15.0-beta.1 - 2024-01-25
 * [#1802](https://github.com/stripe/stripe-go/pull/1802) Update generated code for beta
   * Add support for `CreatePreview` method on resource `Invoice`
