@@ -227,7 +227,7 @@ type IdentityVerificationReportIDNumber struct {
 	Error *IdentityVerificationReportIDNumberError `json:"error"`
 	// First name.
 	FirstName string `json:"first_name"`
-	// ID number.
+	// ID number. When `id_number_type` is `us_ssn`, only the last 4 digits are present.
 	IDNumber string `json:"id_number"`
 	// Type of ID number.
 	IDNumberType IdentityVerificationReportIDNumberIDNumberType `json:"id_number_type"`
