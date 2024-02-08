@@ -193,6 +193,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewP24BankSantanderPrzelew24   ConfirmationTokenPaymentMethodPreviewP24Bank = "santander_przelew24"
 	ConfirmationTokenPaymentMethodPreviewP24BankTmobileUsbugiBankowe ConfirmationTokenPaymentMethodPreviewP24Bank = "tmobile_usbugi_bankowe"
 	ConfirmationTokenPaymentMethodPreviewP24BankToyotaBank           ConfirmationTokenPaymentMethodPreviewP24Bank = "toyota_bank"
+	ConfirmationTokenPaymentMethodPreviewP24BankVelobank             ConfirmationTokenPaymentMethodPreviewP24Bank = "velobank"
 	ConfirmationTokenPaymentMethodPreviewP24BankVolkswagenBank       ConfirmationTokenPaymentMethodPreviewP24Bank = "volkswagen_bank"
 )
 
@@ -341,6 +342,18 @@ type ConfirmationTokenMandateData struct {
 	// This hash contains details about the customer acceptance of the Mandate.
 	CustomerAcceptance *ConfirmationTokenMandateDataCustomerAcceptance `json:"customer_acceptance"`
 }
+
+// This hash contains the card payment method options.
+type ConfirmationTokenPaymentMethodOptionsCard struct {
+	// The `cvc_update` Token collected from the Payment Element.
+	CVCToken string `json:"cvc_token"`
+}
+
+// Payment-method-specific configuration for this ConfirmationToken.
+type ConfirmationTokenPaymentMethodOptions struct {
+	// This hash contains the card payment method options.
+	Card *ConfirmationTokenPaymentMethodOptionsCard `json:"card"`
+}
 type ConfirmationTokenPaymentMethodPreviewACSSDebit struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
@@ -403,7 +416,7 @@ type ConfirmationTokenPaymentMethodPreviewCardChecks struct {
 type ConfirmationTokenPaymentMethodPreviewCardNetworks struct {
 	// All available networks for the card.
 	Available []string `json:"available"`
-	// The preferred network for the card. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
+	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
 	Preferred string `json:"preferred"`
 }
 
@@ -774,6 +787,8 @@ type ConfirmationToken struct {
 	PaymentIntent string `json:"payment_intent"`
 	// ID of an existing PaymentMethod.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
+	// Payment-method-specific configuration for this ConfirmationToken.
+	PaymentMethodOptions *ConfirmationTokenPaymentMethodOptions `json:"payment_method_options"`
 	// Payment details collected by the Payment Element, used to create a PaymentMethod when a PaymentIntent or SetupIntent is confirmed with this ConfirmationToken.
 	PaymentMethodPreview *ConfirmationTokenPaymentMethodPreview `json:"payment_method_preview"`
 	// Return URL used to confirm the Intent.

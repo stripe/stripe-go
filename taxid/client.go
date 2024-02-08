@@ -4,7 +4,7 @@
 //
 //
 
-// Package taxid provides the /tax_ids APIs
+// Package taxid provides the /customers/{customer}/tax_ids APIs
 package taxid
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v76/form"
 )
 
-// Client is used to invoke /tax_ids APIs.
+// Client is used to invoke /customers/{customer}/tax_ids APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
