@@ -1,5 +1,10 @@
 # Changelog
 
+## 76.17.0-beta.1 - 2024-02-08
+* [#1810](https://github.com/stripe/stripe-go/pull/1810) Update generated code for beta
+  * Add support for `PaymentMethodOptions` on `ConfirmationToken`
+  * Add support for new value `velobank` on enum `ConfirmationTokenPaymentMethodPreviewP24Bank`
+
 ## 76.16.0-beta.1 - 2024-02-01
 * [#1806](https://github.com/stripe/stripe-go/pull/1806) Update generated code for beta
   * Add support for new resources `Entitlements.Event` and `Entitlements.Feature`
