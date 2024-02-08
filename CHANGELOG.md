@@ -1,5 +1,11 @@
 # Changelog
 
+## 76.16.0 - 2024-02-08
+* [#1811](https://github.com/stripe/stripe-go/pull/1811) Update generated code
+  * Add support for new value `velobank` on enums `ChargePaymentMethodDetailsP24Bank` and `PaymentMethodP24Bank`
+  * Add support for `SetupFutureUsage` on `PaymentIntentConfirmPaymentMethodOptionsBlikParams`, `PaymentIntentPaymentMethodOptionsBlikParams`, and `PaymentIntentPaymentMethodOptionsBlik`
+  * Add support for `RequireCVCRecollection` on `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, and `PaymentIntentPaymentMethodOptionsCard`
+
 ## 76.15.0 - 2024-02-01
   Release specs are identical.
 * [#1805](https://github.com/stripe/stripe-go/pull/1805) Update generated code
