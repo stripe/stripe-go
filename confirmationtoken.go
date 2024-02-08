@@ -193,6 +193,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewP24BankSantanderPrzelew24   ConfirmationTokenPaymentMethodPreviewP24Bank = "santander_przelew24"
 	ConfirmationTokenPaymentMethodPreviewP24BankTmobileUsbugiBankowe ConfirmationTokenPaymentMethodPreviewP24Bank = "tmobile_usbugi_bankowe"
 	ConfirmationTokenPaymentMethodPreviewP24BankToyotaBank           ConfirmationTokenPaymentMethodPreviewP24Bank = "toyota_bank"
+	ConfirmationTokenPaymentMethodPreviewP24BankVelobank             ConfirmationTokenPaymentMethodPreviewP24Bank = "velobank"
 	ConfirmationTokenPaymentMethodPreviewP24BankVolkswagenBank       ConfirmationTokenPaymentMethodPreviewP24Bank = "volkswagen_bank"
 )
 
