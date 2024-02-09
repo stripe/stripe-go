@@ -164,11 +164,11 @@ module Integrations
     # https://github.com/resque/resque/blob/master/docs/HOOKS.md
     module ResqueHooks
       def after_perform_send_metrics(*_args)
-        Integrations::Metrics::Writer.instance.send_metrics_synchronously
+        # Integrations::Metrics::Writer.instance.send_metrics_synchronously
       end
 
       def on_failure_send_metrics(*_args)
-        Integrations::Metrics::Writer.instance.send_metrics_synchronously
+        # Integrations::Metrics::Writer.instance.send_metrics_synchronously
       end
     end
   end
