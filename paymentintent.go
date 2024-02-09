@@ -3526,11 +3526,9 @@ type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode struct {
 	ImageURLSVG string `json:"image_url_svg"`
 }
 type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode struct {
-	// The URL to the hosted Swish instructions page, which allows customers to view the QR code.
-	HostedInstructionsURL string `json:"hosted_instructions_url"`
-	// The url for mobile redirect based auth
-	MobileAuthURL string                                                           `json:"mobile_auth_url"`
-	QRCode        *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
+	// The URL to the hosted Swish instructions page, which allows customers to view the QR code or redirect to the Swish mobile app.
+	HostedInstructionsURL string                                                           `json:"hosted_instructions_url"`
+	QRCode                *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
 
 // When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
