@@ -3122,8 +3122,7 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // return to the requires_confirmation state
 // after those actions are completed. Your server needs to then
 // explicitly re-confirm the PaymentIntent to initiate the next payment
-// attempt. Read the [expanded documentation](https://stripe.com/docs/payments/payment-intents/web-manual)
-// to learn more about manual confirmation.
+// attempt.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
