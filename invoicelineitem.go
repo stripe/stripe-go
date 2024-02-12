@@ -53,6 +53,8 @@ type InvoiceLineItem struct {
 	Discounts []*Discount `json:"discounts"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// The ID of the invoice that contains this line item.
+	Invoice string `json:"invoice"`
 	// The ID of the [invoice item](https://stripe.com/docs/api/invoiceitems) associated with this line item if any.
 	InvoiceItem *InvoiceItem `json:"invoice_item"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
