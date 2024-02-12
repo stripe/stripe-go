@@ -3527,7 +3527,7 @@ type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode struct {
 type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode struct {
 	// The URL to the hosted Swish instructions page, which allows customers to view the QR code.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
-	// The url for mobile redirect based auth
+	// The url for mobile redirect based auth (for internal use only and not typically available in standard API requests).
 	MobileAuthURL string                                                           `json:"mobile_auth_url"`
 	QRCode        *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
