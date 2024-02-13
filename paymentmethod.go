@@ -168,6 +168,7 @@ const (
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
 	PaymentMethodTypePaypal           PaymentMethodType = "paypal"
+	PaymentMethodTypePayto            PaymentMethodType = "payto"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
@@ -407,6 +408,16 @@ type PaymentMethodPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type PaymentMethodPaypalParams struct{}
 
+// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+type PaymentMethodPaytoParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+	// The PayID alias for the bank account.
+	PayID *string `form:"pay_id"`
+}
+
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type PaymentMethodPixParams struct{}
 
@@ -518,6 +529,8 @@ type PaymentMethodParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+	Payto *PaymentMethodPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -888,6 +901,14 @@ type PaymentMethodPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedEmail string `json:"verified_email"`
 }
+type PaymentMethodPayto struct {
+	// Bank-State-Branch number of the bank account.
+	BSBNumber string `json:"bsb_number"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The PayID alias for the bank account.
+	PayID string `json:"pay_id"`
+}
 type PaymentMethodPix struct{}
 type PaymentMethodPromptPay struct{}
 
@@ -1014,6 +1035,7 @@ type PaymentMethod struct {
 	P24       *PaymentMethodP24       `json:"p24"`
 	PayNow    *PaymentMethodPayNow    `json:"paynow"`
 	Paypal    *PaymentMethodPaypal    `json:"paypal"`
+	Payto     *PaymentMethodPayto     `json:"payto"`
 	Pix       *PaymentMethodPix       `json:"pix"`
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.

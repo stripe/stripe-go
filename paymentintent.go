@@ -704,6 +704,61 @@ const (
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
 )
 
+// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType can take
+const (
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountTypeFixed   PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType = "fixed"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountTypeMaximum PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType = "maximum"
+)
+
+// The periodicity at which payments will be collected.
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule can take
+const (
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleAdhoc       PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "adhoc"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleAnnual      PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "annual"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleDaily       PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "daily"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleFortnightly PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "fortnightly"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleMonthly     PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "monthly"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleQuarterly   PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "quarterly"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleSemiAnnual  PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "semi_annual"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleWeekly      PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "weekly"
+)
+
+// The purpose for which payments are made. Defaults to retail.
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose can take
+const (
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeDependantSupport PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "dependant_support"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeGovernment       PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "government"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeLoan             PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "loan"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeMortgage         PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "mortgage"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeOther            PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "other"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposePension          PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "pension"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposePersonal         PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "personal"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeRetail           PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "retail"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeSalary           PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "salary"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeTax              PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "tax"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeUtility          PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "utility"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage = "off_session"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
@@ -1408,6 +1463,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	PayNow *PaymentIntentPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentIntentPaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+	Payto *PaymentMethodPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentIntentPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -2000,6 +2057,36 @@ type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	Subsellers []*string `form:"subsellers"`
 }
 
+// Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsParams struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount *int64 `form:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType *string `form:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate *string `form:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod *int64 `form:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose *string `form:"purpose"`
+}
+
+// If this is a `payto` PaymentMethod, this sub-hash contains details about the PayTo payment method options.
+type PaymentIntentPaymentMethodOptionsPaytoParams struct {
+	// Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
+	MandateOptions *PaymentIntentPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
@@ -2217,6 +2304,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	PayNow *PaymentIntentPaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *PaymentIntentPaymentMethodOptionsPaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this sub-hash contains details about the PayTo payment method options.
+	Payto *PaymentIntentPaymentMethodOptionsPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 	Pix *PaymentIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
@@ -4076,6 +4165,29 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
 	Subsellers []string `json:"subsellers"`
 }
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptions struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount int64 `json:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType `json:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate string `json:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod int64 `json:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose `json:"purpose"`
+}
+type PaymentIntentPaymentMethodOptionsPayto struct {
+	MandateOptions *PaymentIntentPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
@@ -4207,6 +4319,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
 	Paypal           *PaymentIntentPaymentMethodOptionsPaypal           `json:"paypal"`
+	Payto            *PaymentIntentPaymentMethodOptionsPayto            `json:"payto"`
 	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`

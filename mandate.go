@@ -68,6 +68,48 @@ const (
 	MandatePaymentMethodDetailsBACSDebitRevocationReasonDebitNotAuthorized    MandatePaymentMethodDetailsBACSDebitRevocationReason = "debit_not_authorized"
 )
 
+// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+type MandatePaymentMethodDetailsPaytoAmountType string
+
+// List of values that MandatePaymentMethodDetailsPaytoAmountType can take
+const (
+	MandatePaymentMethodDetailsPaytoAmountTypeFixed   MandatePaymentMethodDetailsPaytoAmountType = "fixed"
+	MandatePaymentMethodDetailsPaytoAmountTypeMaximum MandatePaymentMethodDetailsPaytoAmountType = "maximum"
+)
+
+// The periodicity at which payments will be collected.
+type MandatePaymentMethodDetailsPaytoPaymentSchedule string
+
+// List of values that MandatePaymentMethodDetailsPaytoPaymentSchedule can take
+const (
+	MandatePaymentMethodDetailsPaytoPaymentScheduleAdhoc       MandatePaymentMethodDetailsPaytoPaymentSchedule = "adhoc"
+	MandatePaymentMethodDetailsPaytoPaymentScheduleAnnual      MandatePaymentMethodDetailsPaytoPaymentSchedule = "annual"
+	MandatePaymentMethodDetailsPaytoPaymentScheduleDaily       MandatePaymentMethodDetailsPaytoPaymentSchedule = "daily"
+	MandatePaymentMethodDetailsPaytoPaymentScheduleFortnightly MandatePaymentMethodDetailsPaytoPaymentSchedule = "fortnightly"
+	MandatePaymentMethodDetailsPaytoPaymentScheduleMonthly     MandatePaymentMethodDetailsPaytoPaymentSchedule = "monthly"
+	MandatePaymentMethodDetailsPaytoPaymentScheduleQuarterly   MandatePaymentMethodDetailsPaytoPaymentSchedule = "quarterly"
+	MandatePaymentMethodDetailsPaytoPaymentScheduleSemiAnnual  MandatePaymentMethodDetailsPaytoPaymentSchedule = "semi_annual"
+	MandatePaymentMethodDetailsPaytoPaymentScheduleWeekly      MandatePaymentMethodDetailsPaytoPaymentSchedule = "weekly"
+)
+
+// The purpose for which payments are made. Defaults to retail.
+type MandatePaymentMethodDetailsPaytoPurpose string
+
+// List of values that MandatePaymentMethodDetailsPaytoPurpose can take
+const (
+	MandatePaymentMethodDetailsPaytoPurposeDependantSupport MandatePaymentMethodDetailsPaytoPurpose = "dependant_support"
+	MandatePaymentMethodDetailsPaytoPurposeGovernment       MandatePaymentMethodDetailsPaytoPurpose = "government"
+	MandatePaymentMethodDetailsPaytoPurposeLoan             MandatePaymentMethodDetailsPaytoPurpose = "loan"
+	MandatePaymentMethodDetailsPaytoPurposeMortgage         MandatePaymentMethodDetailsPaytoPurpose = "mortgage"
+	MandatePaymentMethodDetailsPaytoPurposeOther            MandatePaymentMethodDetailsPaytoPurpose = "other"
+	MandatePaymentMethodDetailsPaytoPurposePension          MandatePaymentMethodDetailsPaytoPurpose = "pension"
+	MandatePaymentMethodDetailsPaytoPurposePersonal         MandatePaymentMethodDetailsPaytoPurpose = "personal"
+	MandatePaymentMethodDetailsPaytoPurposeRetail           MandatePaymentMethodDetailsPaytoPurpose = "retail"
+	MandatePaymentMethodDetailsPaytoPurposeSalary           MandatePaymentMethodDetailsPaytoPurpose = "salary"
+	MandatePaymentMethodDetailsPaytoPurposeTax              MandatePaymentMethodDetailsPaytoPurpose = "tax"
+	MandatePaymentMethodDetailsPaytoPurposeUtility          MandatePaymentMethodDetailsPaytoPurpose = "utility"
+)
+
 // This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 type MandatePaymentMethodDetailsType string
 
@@ -176,6 +218,22 @@ type MandatePaymentMethodDetailsPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedEmail string `json:"verified_email"`
 }
+type MandatePaymentMethodDetailsPayto struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount int64 `json:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType MandatePaymentMethodDetailsPaytoAmountType `json:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate string `json:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule MandatePaymentMethodDetailsPaytoPaymentSchedule `json:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod int64 `json:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose MandatePaymentMethodDetailsPaytoPurpose `json:"purpose"`
+	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
+	StartDate string `json:"start_date"`
+}
 type MandatePaymentMethodDetailsSEPADebit struct {
 	// The unique reference of the mandate.
 	Reference string `json:"reference"`
@@ -194,6 +252,7 @@ type MandatePaymentMethodDetails struct {
 	CashApp     *MandatePaymentMethodDetailsCashApp     `json:"cashapp"`
 	Link        *MandatePaymentMethodDetailsLink        `json:"link"`
 	Paypal      *MandatePaymentMethodDetailsPaypal      `json:"paypal"`
+	Payto       *MandatePaymentMethodDetailsPayto       `json:"payto"`
 	SEPADebit   *MandatePaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
 	// This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 	Type          MandatePaymentMethodDetailsType           `json:"type"`

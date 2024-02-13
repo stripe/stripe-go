@@ -228,6 +228,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
+	ConfirmationTokenPaymentMethodPreviewTypePayto            ConfirmationTokenPaymentMethodPreviewType = "payto"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
@@ -641,6 +642,14 @@ type ConfirmationTokenPaymentMethodPreviewPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedEmail string `json:"verified_email"`
 }
+type ConfirmationTokenPaymentMethodPreviewPayto struct {
+	// Bank-State-Branch number of the bank account.
+	BSBNumber string `json:"bsb_number"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The PayID alias for the bank account.
+	PayID string `json:"pay_id"`
+}
 type ConfirmationTokenPaymentMethodPreviewPix struct{}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
 type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
@@ -744,6 +753,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	P24              *ConfirmationTokenPaymentMethodPreviewP24              `json:"p24"`
 	PayNow           *ConfirmationTokenPaymentMethodPreviewPayNow           `json:"paynow"`
 	Paypal           *ConfirmationTokenPaymentMethodPreviewPaypal           `json:"paypal"`
+	Payto            *ConfirmationTokenPaymentMethodPreviewPayto            `json:"payto"`
 	Pix              *ConfirmationTokenPaymentMethodPreviewPix              `json:"pix"`
 	PromptPay        *ConfirmationTokenPaymentMethodPreviewPromptPay        `json:"promptpay"`
 	RevolutPay       *ConfirmationTokenPaymentMethodPreviewRevolutPay       `json:"revolut_pay"`

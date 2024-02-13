@@ -426,6 +426,12 @@ type AccountCapabilitiesPaypalPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The payto_payments capability.
+type AccountCapabilitiesPaytoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountCapabilitiesPromptPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -550,6 +556,8 @@ type AccountCapabilitiesParams struct {
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The paypal_payments capability.
 	PaypalPayments *AccountCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The payto_payments capability.
+	PaytoPayments *AccountCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The revolut_pay_payments capability.
@@ -1079,6 +1087,8 @@ type AccountCapabilities struct {
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
 	// The status of the PayPal payments capability of the account, or whether the account can directly process PayPal charges.
 	PaypalPayments AccountCapabilityStatus `json:"paypal_payments"`
+	// The status of the PayTo capability of the account, or whether the account can directly process PayTo charges.
+	PaytoPayments AccountCapabilityStatus `json:"payto_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
 	PromptPayPayments AccountCapabilityStatus `json:"promptpay_payments"`
 	// The status of the RevolutPay capability of the account, or whether the account can directly process RevolutPay payments.

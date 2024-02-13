@@ -252,6 +252,7 @@ type SetupAttemptPaymentMethodDetailsIDEAL struct {
 type SetupAttemptPaymentMethodDetailsKlarna struct{}
 type SetupAttemptPaymentMethodDetailsLink struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
+type SetupAttemptPaymentMethodDetailsPayto struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
 type SetupAttemptPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -287,6 +288,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	Klarna      *SetupAttemptPaymentMethodDetailsKlarna      `json:"klarna"`
 	Link        *SetupAttemptPaymentMethodDetailsLink        `json:"link"`
 	Paypal      *SetupAttemptPaymentMethodDetailsPaypal      `json:"paypal"`
+	Payto       *SetupAttemptPaymentMethodDetailsPayto       `json:"payto"`
 	SEPADebit   *SetupAttemptPaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
 	Sofort      *SetupAttemptPaymentMethodDetailsSofort      `json:"sofort"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.

@@ -166,6 +166,48 @@ const (
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
+// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+type SetupIntentPaymentMethodOptionsPaytoMandateOptionsAmountType string
+
+// List of values that SetupIntentPaymentMethodOptionsPaytoMandateOptionsAmountType can take
+const (
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsAmountTypeFixed   SetupIntentPaymentMethodOptionsPaytoMandateOptionsAmountType = "fixed"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsAmountTypeMaximum SetupIntentPaymentMethodOptionsPaytoMandateOptionsAmountType = "maximum"
+)
+
+// The periodicity at which payments will be collected.
+type SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule string
+
+// List of values that SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule can take
+const (
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleAdhoc       SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "adhoc"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleAnnual      SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "annual"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleDaily       SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "daily"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleFortnightly SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "fortnightly"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleMonthly     SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "monthly"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleQuarterly   SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "quarterly"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleSemiAnnual  SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "semi_annual"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleWeekly      SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "weekly"
+)
+
+// The purpose for which payments are made. Defaults to retail.
+type SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose string
+
+// List of values that SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose can take
+const (
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeDependantSupport SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "dependant_support"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeGovernment       SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "government"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeLoan             SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "loan"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeMortgage         SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "mortgage"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeOther            SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "other"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposePension          SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "pension"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposePersonal         SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "personal"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeRetail           SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "retail"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeSalary           SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "salary"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeTax              SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "tax"
+	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeUtility          SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "utility"
+)
+
 // Settings for configuring manual entry of account details.
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode string
 
@@ -433,6 +475,16 @@ type SetupIntentPaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentPaymentMethodDataPaypalParams struct{}
 
+// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+type SetupIntentPaymentMethodDataPaytoParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+	// The PayID alias for the bank account.
+	PayID *string `form:"pay_id"`
+}
+
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentPaymentMethodDataPixParams struct{}
 
@@ -538,6 +590,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentPaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+	Payto *SetupIntentPaymentMethodDataPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -704,6 +758,30 @@ type SetupIntentPaymentMethodOptionsPaypalParams struct {
 	Subsellers []*string `form:"subsellers"`
 }
 
+// Additional fields for Mandate creation.
+type SetupIntentPaymentMethodOptionsPaytoMandateOptionsParams struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount *int64 `form:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType *string `form:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate *string `form:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod *int64 `form:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose *string `form:"purpose"`
+	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
+	StartDate *string `form:"start_date"`
+}
+
+// If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
+type SetupIntentPaymentMethodOptionsPaytoParams struct {
+	// Additional fields for Mandate creation.
+	MandateOptions *SetupIntentPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 
@@ -765,6 +843,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Link *SetupIntentPaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *SetupIntentPaymentMethodOptionsPaypalParams `form:"paypal"`
+	// If this is a `payto` SetupIntent, this sub-hash contains details about the PayTo payment method options.
+	Payto *SetupIntentPaymentMethodOptionsPaytoParams `form:"payto"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *SetupIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
@@ -999,6 +1079,16 @@ type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type SetupIntentConfirmPaymentMethodDataPaypalParams struct{}
 
+// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+type SetupIntentConfirmPaymentMethodDataPaytoParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+	// The PayID alias for the bank account.
+	PayID *string `form:"pay_id"`
+}
+
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type SetupIntentConfirmPaymentMethodDataPixParams struct{}
 
@@ -1104,6 +1194,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *SetupIntentConfirmPaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+	Payto *SetupIntentConfirmPaymentMethodDataPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *SetupIntentConfirmPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1319,6 +1411,25 @@ type SetupIntentPaymentMethodOptionsPaypal struct {
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
 	Subsellers []string `json:"subsellers"`
 }
+type SetupIntentPaymentMethodOptionsPaytoMandateOptions struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount int64 `json:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType SetupIntentPaymentMethodOptionsPaytoMandateOptionsAmountType `json:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate string `json:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule SetupIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod int64 `json:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose `json:"purpose"`
+	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
+	StartDate string `json:"start_date"`
+}
+type SetupIntentPaymentMethodOptionsPayto struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options"`
+}
 type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type SetupIntentPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
@@ -1353,6 +1464,7 @@ type SetupIntentPaymentMethodOptions struct {
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
 	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal"`
+	Payto         *SetupIntentPaymentMethodOptionsPayto         `json:"payto"`
 	SEPADebit     *SetupIntentPaymentMethodOptionsSEPADebit     `json:"sepa_debit"`
 	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
