@@ -4,7 +4,7 @@
  * File is WIP and not implemented in setup.js yet to minimize scope of change.
  */
 
-import {ConfigManager, ConfigStates, ConfigData} from 'c/systemConfigManager';
+import {ConfigManager} from 'c/systemConfigManager';
 
 
 function createBaseResponse() {
@@ -65,10 +65,11 @@ async function getSetupDataCore() {
  */
 async function getPackageVersionCore() {
     const result = await ConfigManager.getCachedCoreData();
-    const response = createBaseResponse();
     const pieces = result.packageVersion.split('.');
-    response.results.major = (pieces.length > 0) ? pieces[0] : '0';
-    response.results.minor = (pieces.length > 1) ? pieces[1] : '0';
+
+    const response = createBaseResponse();
+    response.results.major = (pieces && pieces.length > 0) ? pieces[0] : '0';
+    response.results.minor = (pieces && pieces.length > 1) ? pieces[1] : '0';
     return JSON.stringify(response);
 }
 

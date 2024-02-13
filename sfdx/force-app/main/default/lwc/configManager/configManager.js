@@ -463,8 +463,8 @@ class ConfigManager extends EventEmitter {
     _formatTranslationConfigForSave(updates) {
         /** @type {SaveTranslationConfig} */
         const save = JSON.parse(JSON.stringify(this.config.translation));
-        let fieldDefaults = save.allMappingConfigurations.field_defaults;
-        let fieldMappings = save.allMappingConfigurations.field_mappings;
+        let fieldDefaults = save.allMappingConfigurations && save.allMappingConfigurations.field_defaults
+        let fieldMappings = save.allMappingConfigurations && save.allMappingConfigurations.field_mappings;
         if (updates.allMappingConfigurations) {
             if (updates.allMappingConfigurations.field_defaults) {
                 fieldDefaults = updates.allMappingConfigurations.field_defaults;
@@ -478,7 +478,6 @@ class ConfigManager extends EventEmitter {
             field_defaults: fieldDefaults,
             field_mappings: fieldMappings,
         }
-
 
         // incorporate the config into the full payload. This should hopefully fix any more of the config hash issues...
         Object.keys(updates).forEach((key) => {

@@ -10,6 +10,7 @@ public with sharing class Debug_Helper {
 
     @TestVisible
     private OutputService outputService = new DefaultOutputService();
+    
     @TestVisible
     private static final Integer lengthLimit = 100;
 
@@ -29,12 +30,12 @@ public with sharing class Debug_Helper {
 
     public Debug_Helper(Boolean enableDebug, OutputService outputService) {
         this.enableDebug = enableDebug;
-        if (outputService == null) {
+        this.outputService = outputService;
+
+        if (this.outputService == null) {
             DebugHelperException e = (DebugHelperException) Sentry_ExceptionFactory.build(DebugHelperException.class);
             e.setMessage('Instantiated Debug_Helper with null ouputService');
             throw e;
-        } else {
-            this.outputService = outputService;
         }
     }
 
@@ -57,23 +58,22 @@ public with sharing class Debug_Helper {
     }
 
     public void debug(String source, String message) {
-        if (enableDebug == false) {
+        if (enableDebug == false || String.isBlank(source) || String.isBlank(message)) {
             return;
         }
-
+        
         if (message.length() < lengthLimit) {
-            outputService.debug('[' + source + '] ' + message);
+            this.outputService.debug('[' + source + '] ' + message);
             return;
         }
 
-        while (message.length() > 0) {
-//            Integer nextLen = message.length() < lengthLimit ? message.length() : lengthLimit;
+        while (String.isNotBlank(message)) {
             if (message.length() > lengthLimit) {
                 String nextMsg = message.substring(0, lengthLimit);
                 message = message.substring(lengthLimit);
-                outputService.debug('[' + source + '] ' + nextMsg.trim());
+                this.outputService.debug('[' + source + '] ' + nextMsg.trim());
             } else {
-                outputService.debug('[' + source + '] ' + message.trim());
+                this.outputService.debug('[' + source + '] ' + message.trim());
                 message = '';
             }
         }

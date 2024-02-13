@@ -328,7 +328,9 @@
                                                 onshowtoast={showToast}>
                                         </c-stripe-account-setup-step>
                                     </c-step>
-                                    <c-step step-name="Connect the Integration User" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading} illustration-url={integrationUserIllustration} show-intro>
+                                    <c-step step-name="Connect Your Salesforce Account" data-index="1" setup-complete={setupComplete} onnext={next}
+                                        onback={back} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading}
+                                        illustration-url={integrationUserIllustration} show-intro>
                                         <p slot="description">
                                             Allow Stripe to communicate with Salesforce. You will be granting Stripe the necessary access to your Salesforce org. Click "Authorize" and follow the provided steps to establish the connection between Stripe and your Salesforce Org.
                                         </p>

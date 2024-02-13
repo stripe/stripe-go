@@ -1,4 +1,4 @@
-import { LightningElement, track, api } from 'lwc';
+import { LightningElement, track } from 'lwc';
 import { getErrorMessage } from 'c/utils'
 import { Manager, ServiceEvents } from "c/serviceManager";
 import Debugger from 'c/debugger';
@@ -44,7 +44,7 @@ export default class FirstTimeSetup extends LightningElement {
             component: 'c-stripe-account-setup-step',
         },
         {
-            title: 'Connect the Integration User',
+            title: 'Connect Your Salesforce Account',
             name: 'C-INTEGRATION-USER-SETUP-STEP',
             orderIndex: 2,
             isComplete: false,
@@ -187,10 +187,10 @@ export default class FirstTimeSetup extends LightningElement {
         DebugLog('activeStep', this.activeStepIndex);
         this.steps[this.activeStepIndex].isComplete = true;
         if (event.detail.step === 'integration_user_connection' && this.activeStepIndex === this.setupStepRefs.integrationUser) {
-            this.nextDisabled = this.steps[this.setupStepRefs.integrationUser].isComplete === false;
+            this.nextDisabled = false;
         }
         if (event.detail.step === 'stripe_account_connection' && this.activeStepIndex === this.setupStepRefs.stripeAccount) {
-            this.nextDisabled = this.steps[this.setupStepRefs.stripeAccount].isComplete === false;
+            this.nextDisabled = false;
         }
     }
 
@@ -278,14 +278,14 @@ export default class FirstTimeSetup extends LightningElement {
             }
 
             this.setupComplete = responseData.results.setupData.isSetupComplete__c;
-            if(this.setupComplete) {
+            if (this.setupComplete) {
                 return;
             }
 
             let completedSteps = JSON.parse(responseData.results.setupData.Steps_Completed__c);
             DebugLog('fetchSetupData', 'Completed steps', completedSteps);
 
-            if (!responseData.results.isConnected && Object.keys(completedSteps).length <= 0) {
+            if (!responseData.results.isConnected && (completedSteps != null && Object.keys(completedSteps).length <= 0)) {
                 DebugLog('fetchSetupData', 'Not connected, no completed steps');
                 // also in what scenario is length less than 0?
                 return;
@@ -294,7 +294,6 @@ export default class FirstTimeSetup extends LightningElement {
             this.nextDisabled = false;
             this.setupStarted = true;
             this.steps[this.activeStepIndex].isActive = false;
-
 
             // this seems bad... but so much of this is bad... so... whatever? lol. It works.
             for (const step in completedSteps) {
@@ -306,6 +305,10 @@ export default class FirstTimeSetup extends LightningElement {
                 }
             }
             this.steps[this.activeStepIndex].isActive = true;
+
+             // This is causing a known bug where if a user auths Salesforce but doesn't
+            // press "Next", the next time the user loads the app, it'll show "Reauthorize" but Next is not enabled. 
+            // This is a known bug and will be fixed in a future release since commenting this out will cause other downstream affects.
             if (this.activeStepIndex < 2) {
                 this.nextDisabled = true;
             }
@@ -339,18 +342,14 @@ export default class FirstTimeSetup extends LightningElement {
         } else if(this.stepName === 'C-POLLING-STEP') {
             if (e.currentTarget.dataset && e.currentTarget.dataset.activate === "now") {
                 return this.template.querySelector('c-polling-step').activatePolling();
-            } else {
-                return this.nextNavigate();
-            }
-        } else {
-            return this.nextNavigate();
+            }            
         }
+        return this.nextNavigate();
     }
 
     async nextNavigate() {
         try {
             if(this.activeStepIndex <= (this.steps.length - 1)) {
-
                 let stepNumber = this.activeStepIndex + 1;
                 let isLastStep = false;
                 if (stepNumber === (this.steps.length)) {
@@ -370,7 +369,7 @@ export default class FirstTimeSetup extends LightningElement {
                     },
                     isSetupComplete: isLastStep
                 });
-                this.data =  JSON.parse(saveSetupData);
+                this.data = JSON.parse(saveSetupData);
                 if(this.data.isSuccess) {
                     this.setupData = this.data.setupData;
                 } else {
@@ -497,6 +496,7 @@ export default class FirstTimeSetup extends LightningElement {
             if (newActiveStepIndex < 2) {
                 this.nextDisabled = nextStepObj.isComplete === false;
             }
+            
             lastActiveStep.classList.add('slds-hide');
             newActiveStep.classList.remove('slds-hide');
         }

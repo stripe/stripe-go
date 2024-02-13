@@ -514,12 +514,12 @@ class SystemConfigManager extends EventEmitter {
         }
 
         if (this.promises[config_data] === null) {
-            Debugger.log('getCached called with, have cashed value', config_data)
+            Debugger.log('getCached called with, have cached value:', config_data)
             return Promise.resolve(JSON.parse(JSON.stringify(this.config[config_data])));
         }
 
         return new Promise((resolve, reject) => {
-            Debugger.log('getCached called with, no cashed value', config_data)
+            Debugger.log('getCached called with, no cached value:', config_data)
             return this.promises[config_data].then(() => {
                 Debugger.log('getCached promise resolved', config_data)
                 const val = JSON.parse(JSON.stringify(this.config[config_data]));
@@ -619,8 +619,8 @@ class SystemConfigManager extends EventEmitter {
         Debugger.log('formatTranslationConfigForSave called', updates)
         /** @type {SaveTranslationData} */
         const save = JSON.parse(JSON.stringify(this.config.translation));
-        let fieldDefaults = save.allMappingConfigurations.field_defaults;
-        let fieldMappings = save.allMappingConfigurations.field_mappings;
+        let fieldDefaults = save.allMappingConfigurations && save.allMappingConfigurations.field_defaults;
+        let fieldMappings = save.allMappingConfigurations && save.allMappingConfigurations.field_mappings;
         if (updates.allMappingConfigurations) {
             if (updates.allMappingConfigurations.field_defaults) {
                 fieldDefaults = updates.allMappingConfigurations.field_defaults;

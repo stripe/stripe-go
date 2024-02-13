@@ -20,10 +20,10 @@ export default class Debugger {
 
     static withContext(context) {
         const dat = this;
-        return function (var_args) {
+        return function (args) {
             const newargs = [context];
-            for (let i = 0; i < arguments.length; i++) {
-                newargs.push(arguments[i]);
+            for (let i = 0; i < args && args.length; i++) {
+                newargs.push(args[i]);
             }
             dat.exec(console.log, newargs);
         }
@@ -66,7 +66,7 @@ export default class Debugger {
      */
     static sanitize(data) {
         const ret = [];
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data && data.length; i++) {
             try {
                 ret.push(JSON.parse(JSON.stringify(data[i])));
             } catch (e) {

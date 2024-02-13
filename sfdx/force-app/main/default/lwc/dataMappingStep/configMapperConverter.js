@@ -105,8 +105,8 @@ async function saveMappingConfigurationsCore(args) {
     const data = JSON.parse(args.jsonMappingConfigurationsObject);
     const payload = {
         allMappingConfigurations: {
-            field_mappings: data.field_mappings,
-            field_defaults: data.field_defaults,
+            field_mappings: data && data.field_mappings,
+            field_defaults: data && data.field_defaults,
         }
     }
     const result =  await ConfigManager.saveTranslationConfig(payload);

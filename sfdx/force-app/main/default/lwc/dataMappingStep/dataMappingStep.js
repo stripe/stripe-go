@@ -240,16 +240,15 @@ export default class DataMappingStep extends LightningElement {
     }
 
     saveObjectMappings(stripeObjectMappings, listOfAllMappings, listOfMetadataFields, stripeObjectName) {
-        for(let i = 0; i < stripeObjectMappings.length; i++) {
-            for(let j = 0; j < stripeObjectMappings[i].fields.length; j++) {
+        for (let i = 0; i < stripeObjectMappings && stripeObjectMappings.length; i++) {
+            for (let j = 0; j < stripeObjectMappings[i].fields.length; j++) {
 
                 const fieldData = stripeObjectMappings[i].fields[j];
-
-                if(!fieldData.value || !fieldData.sfValue) {
+                if (!fieldData.value || !fieldData.sfValue) {
                     continue
                 }
 
-                if(fieldData.staticValue === true) {
+                if (fieldData.staticValue === true) {
                     listOfAllMappings.field_defaults[stripeObjectName][fieldData.value] = fieldData.sfValue;
                 } else {
                     listOfAllMappings.field_mappings[stripeObjectName][fieldData.value] = fieldData.sfValue;
@@ -257,7 +256,6 @@ export default class DataMappingStep extends LightningElement {
             }
         }
         listOfAllMappings = this.saveMetadataMappings(listOfMetadataFields.metadataMapping.fields, listOfAllMappings, stripeObjectName);
-
         return listOfAllMappings;
     }
 
@@ -645,15 +643,16 @@ export default class DataMappingStep extends LightningElement {
 
     @api async connectedCallback() {
         this._initConfigManager();
+        
         const config = await ConfigManager.getCachedTranslationData();
         if (config.isConnected === false) {
             Debugger.log('DataMappingStep', 'Not yet connected...');
             return;
         }
+        
         this.dispatchEvent(this.contentLoading);
         try {
             const getFormattedStripeObjects = await getFormattedStripeObjectFields();
-
             DebugLog('getFormattedStripeObjects', getFormattedStripeObjects)
 
             const responseData = JSON.parse(getFormattedStripeObjects);
@@ -699,7 +698,7 @@ export default class DataMappingStep extends LightningElement {
                 return;
             }
 
-            if(!picklistValueResponseData.results.isConnected) {
+            if (!picklistValueResponseData.results.isConnected) {
                 return;
             }
 
@@ -713,7 +712,6 @@ export default class DataMappingStep extends LightningElement {
                 });
             } else {
                 this.fieldListByObjectMap[picklistValueResponseData.results.ObjectApiName] = picklistValueResponseData.results.listOfObjectFields;
-
                 this.sfFieldOptions = this.fieldListByObjectMap[picklistValueResponseData.results.ObjectApiName]
                 this.sfFieldOptions.sort(function(a, b) {
                     return a.label.localeCompare(b.label);
@@ -729,22 +727,24 @@ export default class DataMappingStep extends LightningElement {
                 this.showToast(mappingConfigurationResponseData.error, 'error', 'sticky');
                 return;
             }
-            if(!mappingConfigurationResponseData.results.isConnected) {
+            if (!mappingConfigurationResponseData.results.isConnected) {
                 return;
             }
 
             this.configurationHash = mappingConfigurationResponseData.results.configurationHash;
             this.hiddenMapperFields = mappingConfigurationResponseData.results.hiddenMapperFields;
             DebugLog('hiddenMapperFields', this.hiddenMapperFields);
-            this.allMappingConfigurations = mappingConfigurationResponseData.results.allMappingConfigurations;
             DebugLog('listOfStripeMappingObjects', this.listOfStripeMappingObjects);
+
+            this.allMappingConfigurations = mappingConfigurationResponseData.results.allMappingConfigurations;
+            if (this.allMappingConfigurations != null) {
+                this.allMappingList['default_mappings'] = this.allMappingConfigurations['default_mappings'];
+                this.allMappingList['required_mappings'] = this.allMappingConfigurations['required_mappings'];
+            }
+
             for (const mappingContainer of this.listOfStripeMappingObjects) {
                 this.setFieldMappings(mappingContainer.object, mappingContainer.mappingsObject, mappingContainer.metadataMappingsObject.metadataMapping.fields);
             }
-
-            this.allMappingList['default_mappings'] = this.allMappingConfigurations['default_mappings'];
-            this.allMappingList['required_mappings'] = this.allMappingConfigurations['required_mappings'];
-
         } catch (error) {
             const errorMessage = getErrorMessage(error);
             this.showToast(errorMessage, 'error', 'sticky');
@@ -819,11 +819,11 @@ export default class DataMappingStep extends LightningElement {
     applyHiddenMapperFieldDataToTopLevel(mappingObjs) {
         const segments = this.hiddenMapperFieldSegments;
 
-        if (Object.keys(segments.objects).length === 0) {
+        if (segments.objects && Object.keys(segments.objects).length === 0) {
             return mappingObjs;
         }
 
-        for (let i = 0; i < mappingObjs.length; i++) {
+        for (let i = 0; i < mappingObjs && mappingObjs.length; i++) {
             const mappingObj = mappingObjs[i];
             mappingObj.hidden = segments.objects[mappingObj.object];
         }
@@ -869,9 +869,13 @@ export default class DataMappingStep extends LightningElement {
     }
 
     setFieldMappings(stripeObject, stripeObjectMap, metadataFieldList) {
+        if (stripeObjectMap == null) {
+            return;
+        }
+
         // TODO way too many nested for loops, need to simplify this
         for(let i = 0; i < stripeObjectMap.length; i++) {
-            for(let j = 0; j < stripeObjectMap[i].fields.length; j++) {
+            for(let j = 0; j < stripeObjectMap[i].fields && stripeObjectMap[i].fields.length; j++) {
                 if(this.allMappingConfigurations.default_mappings &&
                     this.allMappingConfigurations.default_mappings[stripeObject] &&
                     this.allMappingConfigurations.default_mappings[stripeObject].length !== 0) {
@@ -985,7 +989,6 @@ export default class DataMappingStep extends LightningElement {
         let saveSuccess = false;
 
         let mappingData = JSON.parse(JSON.stringify(this.allMappingList));
-
         for (const mappingContainer of this.listOfStripeMappingObjects) {
             mappingData = this.saveObjectMappings(mappingContainer.mappingsObject, mappingData, mappingContainer.metadataMappingsObject, mappingContainer.object);
         }

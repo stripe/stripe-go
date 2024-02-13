@@ -1,6 +1,6 @@
 import getStripeAuthorizationUri from '@salesforce/apex/setupAssistant.getStripeAuthorizationUri';
 import {LightningElement, track, api} from 'lwc';
-import {getErrorMessage, createToast, openWindow} from 'c/utils'
+import {createToast, openWindow} from 'c/utils'
 import Debugger from "c/debugger";
 import {MessageListener, ConnectionStatus, ListenerEvents, ServiceManagerServices} from "c/systemStatusUtils";
 import { Manager, ServiceEvents } from "c/serviceManager";

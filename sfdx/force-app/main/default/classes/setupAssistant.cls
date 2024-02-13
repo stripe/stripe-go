@@ -519,11 +519,7 @@ public with sharing class setupAssistant {
         Boolean isConnected = false;
         try {
             isConnected = isConnected();
-
             if (isConnected) {
-                //used to store configuration maps from response
-                Map<String, Object> allMappingConfigurations = new Map<String, Object>();
-
                 //construct call out to rubys configuration endpoint
                 String route = UriTargets.getConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route,'GET');
@@ -532,9 +528,7 @@ public with sharing class setupAssistant {
                 Map<String, Object> responseBody;
                 if (response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-
                     payloadHelper.extractConfigHash(responseBody, rd);
-
                     payloadHelper.extractFieldMappingData(responseBody, rd, true);
                 } else {
                     errorLogger.create('getMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
@@ -965,17 +959,18 @@ public with sharing class setupAssistant {
         Map<String, Object> conf = (Map<String, Object>) JSON.deserializeUntyped(config);
         debugger.debug('saveTranslationConfig conf', conf);
         Map<String, Object> payload = new Map<String, Object>();
-        ConfigPayloadHelper.ErrorTracker errors = new ConfigPayloadHelper.ErrorTracker();
+        ConfigPayloadHelper.ErrorTracker errorTracker = new ConfigPayloadHelper.ErrorTracker();
         try {
-            Boolean configHashErr = payloadHelper.validateConfigHash(conf, payload, errors);
-            Boolean dataMappingErr = payloadHelper.validateDataMappingConfig(conf, payload, errors);
-            Boolean syncPrefsErr = payloadHelper.validateSyncPreferences(conf, payload, errors);
-            Boolean filtersErr = payloadHelper.validateFilterConfig(conf, payload, errors);
+            Boolean configHashErr = payloadHelper.validateConfigHash(conf, payload, errorTracker);
+            Boolean dataMappingErr = payloadHelper.validateDataMappingConfig(conf, payload, errorTracker);
+            Boolean syncPrefsErr = payloadHelper.validateSyncPreferences(conf, payload, errorTracker);
+            Boolean filtersErr = payloadHelper.validateFilterConfig(conf, payload, errorTracker);
 
             if (configHashErr || dataMappingErr || filtersErr || syncPrefsErr) {
                 rd.put('isValidationError', true);
                 rd.put('isFiltersSaved', false);
-                rd.put('ValidationErrors', errors.errors);
+                rd.put('ValidationErrors', errorTracker.getErrors());
+                debugger.debug('saveTranslationConfig validation errors', errorTracker.getErrors());
                 return rd.getJsonString();
             }
 

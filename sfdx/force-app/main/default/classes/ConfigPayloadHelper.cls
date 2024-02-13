@@ -459,12 +459,17 @@ public with sharing class ConfigPayloadHelper {
 
     public class ErrorTracker {
         public final List<Map<String, Object>> errors = new List<Map<String, Object>>();
+
+        public List<Map<String, Object>> getErrors() {
+            return this.errors;
+        }
+
         public Map<String, Object> add(String target, String msg) {
             Map<String, Object> err = new Map<String, Object> {
                     'Object' => target,
                     'Error' => msg
             };
-            errors.add(err);
+            this.errors.add(err);
             return err;
         }
     }
