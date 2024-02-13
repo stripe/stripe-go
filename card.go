@@ -282,6 +282,11 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+type CardNetworks struct {
+	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
+	Preferred string `json:"preferred"`
+}
+
 // You can store multiple cards on a customer in order to charge the customer
 // later. You can also store multiple debit cards on a recipient in order to
 // transfer to those cards later.
@@ -359,7 +364,8 @@ type Card struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Cardholder name.
-	Name string `json:"name"`
+	Name     string        `json:"name"`
+	Networks *CardNetworks `json:"networks"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// For external accounts that are cards, possible values are `new` and `errored`. If a payout fails, the status is set to `errored` and [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) are stopped until account details are updated.
