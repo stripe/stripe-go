@@ -313,6 +313,12 @@ type PaymentMethodBoletoParams struct {
 	TaxID *string `form:"tax_id"`
 }
 
+// Contains information about card networks used to process the payment.
+type PaymentMethodCardNetworksParams struct {
+	// The customer's preferred card network for co-branded cards. Supports `cartes_bancaires`, `mastercard`, or `visa`. Selection of a network that does not apply to the card will be stored as `invalid_preference` on the card.
+	Preferred *string `form:"preferred"`
+}
+
 // If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
 type PaymentMethodCardParams struct {
 	// The card's CVC. It is highly recommended to always include this value.
@@ -321,6 +327,8 @@ type PaymentMethodCardParams struct {
 	ExpMonth *int64 `form:"exp_month"`
 	// Four-digit number representing the card's expiration year.
 	ExpYear *int64 `form:"exp_year"`
+	// Contains information about card networks used to process the payment.
+	Networks *PaymentMethodCardNetworksParams `form:"networks"`
 	// The card number, as a string without any separators.
 	Number *string `form:"number"`
 	// For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format card: {token: "tok_visa"}.
@@ -709,6 +717,8 @@ type PaymentMethodCard struct {
 	Checks *PaymentMethodCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
+	// The brand to use when displaying the card, this accounts for customer's brand choice on dual-branded cards. Can be `american_express`, `cartes_bancaires`, `diners_club`, `discover`, `eftpos_australia`, `interac`, `jcb`, `mastercard`, `union_pay`, `visa`, or `other` and may contain more values in the future.
+	DisplayBrand string `json:"display_brand"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
