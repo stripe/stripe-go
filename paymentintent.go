@@ -384,7 +384,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestOvercaptureNever       PaymentIntentPaymentMethodOptionsCardRequestOvercapture = "never"
 )
 
-// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure can take
@@ -1335,7 +1335,7 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	RequestMulticapture *string `form:"request_multicapture"`
 	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture *string `form:"request_overcapture"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection *bool `form:"require_cvc_recollection"`
@@ -2085,8 +2085,7 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // return to the requires_confirmation state
 // after those actions are completed. Your server needs to then
 // explicitly re-confirm the PaymentIntent to initiate the next payment
-// attempt. Read the [expanded documentation](https://stripe.com/docs/payments/payment-intents/web-manual)
-// to learn more about manual confirmation.
+// attempt.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// Controls when the funds will be captured from the customer's account.
@@ -2483,7 +2482,7 @@ type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode struct {
 type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode struct {
 	// The URL to the hosted Swish instructions page, which allows customers to view the QR code.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
-	// The url for mobile redirect based auth
+	// The url for mobile redirect based auth (for internal use only and not typically available in standard API requests).
 	MobileAuthURL string                                                           `json:"mobile_auth_url"`
 	QRCode        *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
@@ -2724,7 +2723,7 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	RequestMulticapture PaymentIntentPaymentMethodOptionsCardRequestMulticapture `json:"request_multicapture"`
 	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture PaymentIntentPaymentMethodOptionsCardRequestOvercapture `json:"request_overcapture"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection bool `json:"require_cvc_recollection"`
