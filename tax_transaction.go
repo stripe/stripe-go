@@ -65,7 +65,7 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeMYITN    TaxTransactionCustomerDetailsTaxIDType = "my_itn"
 	TaxTransactionCustomerDetailsTaxIDTypeMYSST    TaxTransactionCustomerDetailsTaxIDType = "my_sst"
 	TaxTransactionCustomerDetailsTaxIDTypeNOVAT    TaxTransactionCustomerDetailsTaxIDType = "no_vat"
-	TaxTransactionCustomerDetailsTaxIDTypeNoVoec   TaxTransactionCustomerDetailsTaxIDType = "no_voec"
+	TaxTransactionCustomerDetailsTaxIDTypeNOVOEC   TaxTransactionCustomerDetailsTaxIDType = "no_voec"
 	TaxTransactionCustomerDetailsTaxIDTypeNZGST    TaxTransactionCustomerDetailsTaxIDType = "nz_gst"
 	TaxTransactionCustomerDetailsTaxIDTypePERUC    TaxTransactionCustomerDetailsTaxIDType = "pe_ruc"
 	TaxTransactionCustomerDetailsTaxIDTypePHTIN    TaxTransactionCustomerDetailsTaxIDType = "ph_tin"

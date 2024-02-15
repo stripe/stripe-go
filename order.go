@@ -514,7 +514,7 @@ const (
 	OrderTaxDetailsTaxIDTypeMYITN    OrderTaxDetailsTaxIDType = "my_itn"
 	OrderTaxDetailsTaxIDTypeMYSST    OrderTaxDetailsTaxIDType = "my_sst"
 	OrderTaxDetailsTaxIDTypeNOVAT    OrderTaxDetailsTaxIDType = "no_vat"
-	OrderTaxDetailsTaxIDTypeNoVoec   OrderTaxDetailsTaxIDType = "no_voec"
+	OrderTaxDetailsTaxIDTypeNOVOEC   OrderTaxDetailsTaxIDType = "no_voec"
 	OrderTaxDetailsTaxIDTypeNZGST    OrderTaxDetailsTaxIDType = "nz_gst"
 	OrderTaxDetailsTaxIDTypePERUC    OrderTaxDetailsTaxIDType = "pe_ruc"
 	OrderTaxDetailsTaxIDTypePHTIN    OrderTaxDetailsTaxIDType = "ph_tin"

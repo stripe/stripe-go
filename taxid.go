@@ -69,7 +69,7 @@ const (
 	TaxIDTypeMYITN    TaxIDType = "my_itn"
 	TaxIDTypeMYSST    TaxIDType = "my_sst"
 	TaxIDTypeNOVAT    TaxIDType = "no_vat"
-	TaxIDTypeNoVoec   TaxIDType = "no_voec"
+	TaxIDTypeNOVOEC   TaxIDType = "no_voec"
 	TaxIDTypeNZGST    TaxIDType = "nz_gst"
 	TaxIDTypePERUC    TaxIDType = "pe_ruc"
 	TaxIDTypePHTIN    TaxIDType = "ph_tin"

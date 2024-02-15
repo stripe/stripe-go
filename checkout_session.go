@@ -170,7 +170,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeMYITN    CheckoutSessionCustomerDetailsTaxIDType = "my_itn"
 	CheckoutSessionCustomerDetailsTaxIDTypeMYSST    CheckoutSessionCustomerDetailsTaxIDType = "my_sst"
 	CheckoutSessionCustomerDetailsTaxIDTypeNOVAT    CheckoutSessionCustomerDetailsTaxIDType = "no_vat"
-	CheckoutSessionCustomerDetailsTaxIDTypeNoVoec   CheckoutSessionCustomerDetailsTaxIDType = "no_voec"
+	CheckoutSessionCustomerDetailsTaxIDTypeNOVOEC   CheckoutSessionCustomerDetailsTaxIDType = "no_voec"
 	CheckoutSessionCustomerDetailsTaxIDTypeNZGST    CheckoutSessionCustomerDetailsTaxIDType = "nz_gst"
 	CheckoutSessionCustomerDetailsTaxIDTypePERUC    CheckoutSessionCustomerDetailsTaxIDType = "pe_ruc"
 	CheckoutSessionCustomerDetailsTaxIDTypePHTIN    CheckoutSessionCustomerDetailsTaxIDType = "ph_tin"

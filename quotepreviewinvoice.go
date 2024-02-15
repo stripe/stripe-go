@@ -137,7 +137,7 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeMYITN    QuotePreviewInvoiceCustomerTaxIDType = "my_itn"
 	QuotePreviewInvoiceCustomerTaxIDTypeMYSST    QuotePreviewInvoiceCustomerTaxIDType = "my_sst"
 	QuotePreviewInvoiceCustomerTaxIDTypeNOVAT    QuotePreviewInvoiceCustomerTaxIDType = "no_vat"
-	QuotePreviewInvoiceCustomerTaxIDTypeNoVoec   QuotePreviewInvoiceCustomerTaxIDType = "no_voec"
+	QuotePreviewInvoiceCustomerTaxIDTypeNOVOEC   QuotePreviewInvoiceCustomerTaxIDType = "no_voec"
 	QuotePreviewInvoiceCustomerTaxIDTypeNZGST    QuotePreviewInvoiceCustomerTaxIDType = "nz_gst"
 	QuotePreviewInvoiceCustomerTaxIDTypePERUC    QuotePreviewInvoiceCustomerTaxIDType = "pe_ruc"
 	QuotePreviewInvoiceCustomerTaxIDTypePHTIN    QuotePreviewInvoiceCustomerTaxIDType = "ph_tin"
