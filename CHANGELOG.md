@@ -1,5 +1,12 @@
 # Changelog
 
+## 76.17.0 - 2024-02-15
+* [#1812](https://github.com/stripe/stripe-go/pull/1812) Update generated code
+  * Add support for `Networks` on `Card`, `PaymentMethodCardParams`, and `TokenCardParams`
+  * Add support for new value `no_voec` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, `TaxIdType`, and `TaxTransactionCustomerDetailsTaxIdsType`
+  * Add support for new value `financial_connections.account.refreshed_ownership` on enum `EventType`
+  * Add support for `DisplayBrand` on `PaymentMethodCard`
+
 ## 76.16.0 - 2024-02-08
 * [#1811](https://github.com/stripe/stripe-go/pull/1811) Update generated code
   * Add support for new value `velobank` on enums `ChargePaymentMethodDetailsP24Bank` and `PaymentMethodP24Bank`
