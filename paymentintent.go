@@ -403,6 +403,15 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkVisa            PaymentIntentPaymentMethodOptionsCardNetwork = "visa"
 )
 
+// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization can take
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization = "if_available"
+	PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization = "never"
+)
+
 // Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization string
 
@@ -1479,6 +1488,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish"`
+	// If this is a Twint PaymentMethod, this hash contains details about the Twint payment method.
+	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
@@ -1777,6 +1788,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	MOTO *bool `form:"moto"`
 	// Selected network to process this PaymentIntent on. Depends on the available networks of the card attached to the PaymentIntent. Can be only set confirm-time.
 	Network *string `form:"network"`
+	// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+	RequestDecrementalAuthorization *string `form:"request_decremental_authorization"`
 	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization *string `form:"request_extended_authorization"`
 	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
@@ -3268,6 +3281,35 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Perform an decremental authorization on an eligible
+// [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
+// PaymentIntent's status must be requires_capture and
+// [decremental_authorization.status](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card-decremental_authorization)
+// must be available.
+//
+// Decremental authorizations decrease the authorized amount on your customer's card
+// to the new, lower amount provided. A single PaymentIntent can call this endpoint multiple times to further decrease the authorized amount.
+//
+// After decrement, the PaymentIntent object
+// returns with the updated
+// [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
+// The PaymentIntent will now be capturable up to the new authorized amount.
+//
+// Each PaymentIntent can have a maximum of 10 decremental or incremental authorization attempts, including declines.
+// After it's captured, a PaymentIntent can no longer be decremented.
+type PaymentIntentDecrementAuthorizationParams struct {
+	Params `form:"*"`
+	// The updated total amount that you intend to collect from the cardholder. This amount must be smaller than the currently authorized amount.
+	Amount *int64 `form:"amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentDecrementAuthorizationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The parameters used to automatically create a transfer after the payment is captured.
 // Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentIncrementAuthorizationTransferDataParams struct {
@@ -3976,6 +4018,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	MandateOptions *PaymentIntentPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
 	// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
 	Network PaymentIntentPaymentMethodOptionsCardNetwork `json:"network"`
+	// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+	RequestDecrementalAuthorization PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization `json:"request_decremental_authorization"`
 	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization `json:"request_extended_authorization"`
 	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.

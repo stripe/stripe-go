@@ -486,6 +486,12 @@ type AccountCapabilitiesTreasuryParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The twint_payments capability.
+type AccountCapabilitiesTWINTPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The us_bank_account_ach_payments capability.
 type AccountCapabilitiesUSBankAccountACHPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -576,6 +582,8 @@ type AccountCapabilitiesParams struct {
 	Transfers *AccountCapabilitiesTransfersParams `form:"transfers"`
 	// The treasury capability.
 	Treasury *AccountCapabilitiesTreasuryParams `form:"treasury"`
+	// The twint_payments capability.
+	TWINTPayments *AccountCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
 	// The zip_payments capability.
@@ -1107,6 +1115,8 @@ type AccountCapabilities struct {
 	Transfers AccountCapabilityStatus `json:"transfers"`
 	// The status of the banking capability, or whether the account can have bank accounts.
 	Treasury AccountCapabilityStatus `json:"treasury"`
+	// The status of the Twint capability of the account, or whether the account can directly process Twint charges.
+	TWINTPayments AccountCapabilityStatus `json:"twint_payments"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments"`
 	// The status of the Zip capability of the account, or whether the account can directly process Zip charges.

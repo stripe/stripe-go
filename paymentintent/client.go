@@ -119,6 +119,22 @@ func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*
 	return paymentintent, err
 }
 
+// DecrementAuthorization is the method for the `POST /v1/payment_intents/{intent}/decrement_authorization` API.
+func DecrementAuthorization(id string, params *stripe.PaymentIntentDecrementAuthorizationParams) (*stripe.PaymentIntent, error) {
+	return getC().DecrementAuthorization(id, params)
+}
+
+// DecrementAuthorization is the method for the `POST /v1/payment_intents/{intent}/decrement_authorization` API.
+func (c Client) DecrementAuthorization(id string, params *stripe.PaymentIntentDecrementAuthorizationParams) (*stripe.PaymentIntent, error) {
+	path := stripe.FormatURLPath(
+		"/v1/payment_intents/%s/decrement_authorization",
+		id,
+	)
+	paymentintent := &stripe.PaymentIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
 // IncrementAuthorization is the method for the `POST /v1/payment_intents/{intent}/increment_authorization` API.
 func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
 	return getC().IncrementAuthorization(id, params)
