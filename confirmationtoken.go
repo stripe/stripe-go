@@ -228,12 +228,14 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
+	ConfirmationTokenPaymentMethodPreviewTypePayto            ConfirmationTokenPaymentMethodPreviewType = "payto"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
+	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
 	ConfirmationTokenPaymentMethodPreviewTypeWeChatPay        ConfirmationTokenPaymentMethodPreviewType = "wechat_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeZip              ConfirmationTokenPaymentMethodPreviewType = "zip"
@@ -474,6 +476,8 @@ type ConfirmationTokenPaymentMethodPreviewCard struct {
 	Country string `json:"country"`
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
 	Description string `json:"description"`
+	// The brand to use when displaying the card, this accounts for customer's brand choice on dual-branded cards. Can be `american_express`, `cartes_bancaires`, `diners_club`, `discover`, `eftpos_australia`, `interac`, `jcb`, `mastercard`, `union_pay`, `visa`, or `other` and may contain more values in the future.
+	DisplayBrand string `json:"display_brand"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
@@ -639,6 +643,14 @@ type ConfirmationTokenPaymentMethodPreviewPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedEmail string `json:"verified_email"`
 }
+type ConfirmationTokenPaymentMethodPreviewPayto struct {
+	// Bank-State-Branch number of the bank account.
+	BSBNumber string `json:"bsb_number"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The PayID alias for the bank account.
+	PayID string `json:"pay_id"`
+}
 type ConfirmationTokenPaymentMethodPreviewPix struct{}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
 type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
@@ -669,6 +681,7 @@ type ConfirmationTokenPaymentMethodPreviewSofort struct {
 	Country string `json:"country"`
 }
 type ConfirmationTokenPaymentMethodPreviewSwish struct{}
+type ConfirmationTokenPaymentMethodPreviewTWINT struct{}
 
 // Contains information about US bank account networks that can be used.
 type ConfirmationTokenPaymentMethodPreviewUSBankAccountNetworks struct {
@@ -742,12 +755,14 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	P24              *ConfirmationTokenPaymentMethodPreviewP24              `json:"p24"`
 	PayNow           *ConfirmationTokenPaymentMethodPreviewPayNow           `json:"paynow"`
 	Paypal           *ConfirmationTokenPaymentMethodPreviewPaypal           `json:"paypal"`
+	Payto            *ConfirmationTokenPaymentMethodPreviewPayto            `json:"payto"`
 	Pix              *ConfirmationTokenPaymentMethodPreviewPix              `json:"pix"`
 	PromptPay        *ConfirmationTokenPaymentMethodPreviewPromptPay        `json:"promptpay"`
 	RevolutPay       *ConfirmationTokenPaymentMethodPreviewRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *ConfirmationTokenPaymentMethodPreviewSEPADebit        `json:"sepa_debit"`
 	Sofort           *ConfirmationTokenPaymentMethodPreviewSofort           `json:"sofort"`
 	Swish            *ConfirmationTokenPaymentMethodPreviewSwish            `json:"swish"`
+	TWINT            *ConfirmationTokenPaymentMethodPreviewTWINT            `json:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          ConfirmationTokenPaymentMethodPreviewType           `json:"type"`
 	USBankAccount *ConfirmationTokenPaymentMethodPreviewUSBankAccount `json:"us_bank_account"`

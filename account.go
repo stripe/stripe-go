@@ -426,6 +426,12 @@ type AccountCapabilitiesPaypalPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The payto_payments capability.
+type AccountCapabilitiesPaytoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountCapabilitiesPromptPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -476,6 +482,12 @@ type AccountCapabilitiesTransfersParams struct {
 
 // The treasury capability.
 type AccountCapabilitiesTreasuryParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The twint_payments capability.
+type AccountCapabilitiesTWINTPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -550,6 +562,8 @@ type AccountCapabilitiesParams struct {
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The paypal_payments capability.
 	PaypalPayments *AccountCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The payto_payments capability.
+	PaytoPayments *AccountCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The revolut_pay_payments capability.
@@ -568,6 +582,8 @@ type AccountCapabilitiesParams struct {
 	Transfers *AccountCapabilitiesTransfersParams `form:"transfers"`
 	// The treasury capability.
 	Treasury *AccountCapabilitiesTreasuryParams `form:"treasury"`
+	// The twint_payments capability.
+	TWINTPayments *AccountCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
 	// The zip_payments capability.
@@ -1079,6 +1095,8 @@ type AccountCapabilities struct {
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
 	// The status of the PayPal payments capability of the account, or whether the account can directly process PayPal charges.
 	PaypalPayments AccountCapabilityStatus `json:"paypal_payments"`
+	// The status of the PayTo capability of the account, or whether the account can directly process PayTo charges.
+	PaytoPayments AccountCapabilityStatus `json:"payto_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
 	PromptPayPayments AccountCapabilityStatus `json:"promptpay_payments"`
 	// The status of the RevolutPay capability of the account, or whether the account can directly process RevolutPay payments.
@@ -1097,6 +1115,8 @@ type AccountCapabilities struct {
 	Transfers AccountCapabilityStatus `json:"transfers"`
 	// The status of the banking capability, or whether the account can have bank accounts.
 	Treasury AccountCapabilityStatus `json:"treasury"`
+	// The status of the Twint capability of the account, or whether the account can directly process Twint charges.
+	TWINTPayments AccountCapabilityStatus `json:"twint_payments"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments"`
 	// The status of the Zip capability of the account, or whether the account can directly process Zip charges.

@@ -168,12 +168,14 @@ const (
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
 	PaymentMethodTypePaypal           PaymentMethodType = "paypal"
+	PaymentMethodTypePayto            PaymentMethodType = "payto"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
+	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
 	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
 	PaymentMethodTypeZip              PaymentMethodType = "zip"
@@ -313,6 +315,12 @@ type PaymentMethodBoletoParams struct {
 	TaxID *string `form:"tax_id"`
 }
 
+// Contains information about card networks used to process the payment.
+type PaymentMethodCardNetworksParams struct {
+	// The customer's preferred card network for co-branded cards. Supports `cartes_bancaires`, `mastercard`, or `visa`. Selection of a network that does not apply to the card will be stored as `invalid_preference` on the card.
+	Preferred *string `form:"preferred"`
+}
+
 // If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
 type PaymentMethodCardParams struct {
 	// The card's CVC. It is highly recommended to always include this value.
@@ -321,6 +329,8 @@ type PaymentMethodCardParams struct {
 	ExpMonth *int64 `form:"exp_month"`
 	// Four-digit number representing the card's expiration year.
 	ExpYear *int64 `form:"exp_year"`
+	// Contains information about card networks used to process the payment.
+	Networks *PaymentMethodCardNetworksParams `form:"networks"`
 	// The card number, as a string without any separators.
 	Number *string `form:"number"`
 	// For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format card: {token: "tok_visa"}.
@@ -399,6 +409,16 @@ type PaymentMethodPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type PaymentMethodPaypalParams struct{}
 
+// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+type PaymentMethodPaytoParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+	// The PayID alias for the bank account.
+	PayID *string `form:"pay_id"`
+}
+
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type PaymentMethodPixParams struct{}
 
@@ -428,6 +448,9 @@ type PaymentMethodSofortParams struct {
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type PaymentMethodSwishParams struct{}
+
+// If this is a Twint PaymentMethod, this hash contains details about the Twint payment method.
+type PaymentMethodTWINTParams struct{}
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUSBankAccountParams struct {
@@ -510,6 +533,8 @@ type PaymentMethodParams struct {
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodPaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+	Payto *PaymentMethodPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -524,6 +549,8 @@ type PaymentMethodParams struct {
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish"`
+	// If this is a Twint PaymentMethod, this hash contains details about the Twint payment method.
+	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
@@ -709,6 +736,8 @@ type PaymentMethodCard struct {
 	Checks *PaymentMethodCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
+	// The brand to use when displaying the card, this accounts for customer's brand choice on dual-branded cards. Can be `american_express`, `cartes_bancaires`, `diners_club`, `discover`, `eftpos_australia`, `interac`, `jcb`, `mastercard`, `union_pay`, `visa`, or `other` and may contain more values in the future.
+	DisplayBrand string `json:"display_brand"`
 	// Two-digit number representing the card's expiration month.
 	ExpMonth int64 `json:"exp_month"`
 	// Four-digit number representing the card's expiration year.
@@ -878,6 +907,14 @@ type PaymentMethodPaypal struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedEmail string `json:"verified_email"`
 }
+type PaymentMethodPayto struct {
+	// Bank-State-Branch number of the bank account.
+	BSBNumber string `json:"bsb_number"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The PayID alias for the bank account.
+	PayID string `json:"pay_id"`
+}
 type PaymentMethodPix struct{}
 type PaymentMethodPromptPay struct{}
 
@@ -914,6 +951,7 @@ type PaymentMethodSofort struct {
 	Country string `json:"country"`
 }
 type PaymentMethodSwish struct{}
+type PaymentMethodTWINT struct{}
 
 // Contains information about US bank account networks that can be used.
 type PaymentMethodUSBankAccountNetworks struct {
@@ -1004,6 +1042,7 @@ type PaymentMethod struct {
 	P24       *PaymentMethodP24       `json:"p24"`
 	PayNow    *PaymentMethodPayNow    `json:"paynow"`
 	Paypal    *PaymentMethodPaypal    `json:"paypal"`
+	Payto     *PaymentMethodPayto     `json:"payto"`
 	Pix       *PaymentMethodPix       `json:"pix"`
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -1012,6 +1051,7 @@ type PaymentMethod struct {
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
 	Sofort       *PaymentMethodSofort       `json:"sofort"`
 	Swish        *PaymentMethodSwish        `json:"swish"`
+	TWINT        *PaymentMethodTWINT        `json:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`

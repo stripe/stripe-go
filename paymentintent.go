@@ -403,6 +403,15 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkVisa            PaymentIntentPaymentMethodOptionsCardNetwork = "visa"
 )
 
+// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization can take
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization = "if_available"
+	PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization = "never"
+)
+
 // Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization string
 
@@ -439,7 +448,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestOvercaptureNever       PaymentIntentPaymentMethodOptionsCardRequestOvercapture = "never"
 )
 
-// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure can take
@@ -702,6 +711,61 @@ type PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage string
 const (
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
+)
+
+// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType can take
+const (
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountTypeFixed   PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType = "fixed"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountTypeMaximum PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType = "maximum"
+)
+
+// The periodicity at which payments will be collected.
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule can take
+const (
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleAdhoc       PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "adhoc"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleAnnual      PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "annual"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleDaily       PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "daily"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleFortnightly PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "fortnightly"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleMonthly     PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "monthly"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleQuarterly   PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "quarterly"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleSemiAnnual  PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "semi_annual"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleWeekly      PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "weekly"
+)
+
+// The purpose for which payments are made. Defaults to retail.
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose can take
+const (
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeDependantSupport PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "dependant_support"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeGovernment       PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "government"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeLoan             PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "loan"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeMortgage         PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "mortgage"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeOther            PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "other"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposePension          PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "pension"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposePersonal         PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "personal"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeRetail           PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "retail"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeSalary           PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "salary"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeTax              PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "tax"
+	PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurposeUtility          PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "utility"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage = "off_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1408,6 +1472,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	PayNow *PaymentIntentPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentIntentPaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+	Payto *PaymentMethodPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentIntentPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
@@ -1422,6 +1488,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish"`
+	// If this is a Twint PaymentMethod, this hash contains details about the Twint payment method.
+	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
@@ -1720,6 +1788,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	MOTO *bool `form:"moto"`
 	// Selected network to process this PaymentIntent on. Depends on the available networks of the card attached to the PaymentIntent. Can be only set confirm-time.
 	Network *string `form:"network"`
+	// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+	RequestDecrementalAuthorization *string `form:"request_decremental_authorization"`
 	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization *string `form:"request_extended_authorization"`
 	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
@@ -1728,7 +1798,7 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	RequestMulticapture *string `form:"request_multicapture"`
 	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture *string `form:"request_overcapture"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection *bool `form:"require_cvc_recollection"`
@@ -2000,6 +2070,36 @@ type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	Subsellers []*string `form:"subsellers"`
 }
 
+// Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptionsParams struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount *int64 `form:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType *string `form:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate *string `form:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod *int64 `form:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose *string `form:"purpose"`
+}
+
+// If this is a `payto` PaymentMethod, this sub-hash contains details about the PayTo payment method options.
+type PaymentIntentPaymentMethodOptionsPaytoParams struct {
+	// Additional fields for Mandate creation. Only `purpose` field is configurable for PayTo PaymentIntent with `setup_future_usage=none`. Other fields are only applicable to PayTo PaymentIntent with `setup_future_usage=off_session`
+	MandateOptions *PaymentIntentPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
@@ -2217,6 +2317,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	PayNow *PaymentIntentPaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 	Paypal *PaymentIntentPaymentMethodOptionsPaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this sub-hash contains details about the PayTo payment method options.
+	Payto *PaymentIntentPaymentMethodOptionsPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 	Pix *PaymentIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
@@ -3122,8 +3224,7 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // return to the requires_confirmation state
 // after those actions are completed. Your server needs to then
 // explicitly re-confirm the PaymentIntent to initiate the next payment
-// attempt. Read the [expanded documentation](https://stripe.com/docs/payments/payment-intents/web-manual)
-// to learn more about manual confirmation.
+// attempt.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
@@ -3177,6 +3278,35 @@ type PaymentIntentConfirmParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentConfirmParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Perform an decremental authorization on an eligible
+// [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
+// PaymentIntent's status must be requires_capture and
+// [decremental_authorization.status](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card-decremental_authorization)
+// must be available.
+//
+// Decremental authorizations decrease the authorized amount on your customer's card
+// to the new, lower amount provided. A single PaymentIntent can call this endpoint multiple times to further decrease the authorized amount.
+//
+// After decrement, the PaymentIntent object
+// returns with the updated
+// [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
+// The PaymentIntent will now be capturable up to the new authorized amount.
+//
+// Each PaymentIntent can have a maximum of 10 decremental or incremental authorization attempts, including declines.
+// After it's captured, a PaymentIntent can no longer be decremented.
+type PaymentIntentDecrementAuthorizationParams struct {
+	Params `form:"*"`
+	// The updated total amount that you intend to collect from the cardholder. This amount must be smaller than the currently authorized amount.
+	Amount *int64 `form:"amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentDecrementAuthorizationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -3528,7 +3658,7 @@ type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode struct {
 type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode struct {
 	// The URL to the hosted Swish instructions page, which allows customers to view the QR code.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
-	// The url for mobile redirect based auth
+	// The url for mobile redirect based auth (for internal use only and not typically available in standard API requests).
 	MobileAuthURL string                                                           `json:"mobile_auth_url"`
 	QRCode        *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCodeQRCode `json:"qr_code"`
 }
@@ -3888,6 +4018,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	MandateOptions *PaymentIntentPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
 	// Selected network to process this payment intent on. Depends on the available networks of the card attached to the payment intent. Can be only set confirm-time.
 	Network PaymentIntentPaymentMethodOptionsCardNetwork `json:"network"`
+	// Request ability to [decrement the authorization](https://stripe.com/docs/payments/decremental-authorization) for this PaymentIntent.
+	RequestDecrementalAuthorization PaymentIntentPaymentMethodOptionsCardRequestDecrementalAuthorization `json:"request_decremental_authorization"`
 	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/docs/payments/extended-authorization) for this PaymentIntent.
 	RequestExtendedAuthorization PaymentIntentPaymentMethodOptionsCardRequestExtendedAuthorization `json:"request_extended_authorization"`
 	// Request ability to [increment the authorization](https://stripe.com/docs/payments/incremental-authorization) for this PaymentIntent.
@@ -3896,7 +4028,7 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	RequestMulticapture PaymentIntentPaymentMethodOptionsCardRequestMulticapture `json:"request_multicapture"`
 	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture PaymentIntentPaymentMethodOptionsCardRequestOvercapture `json:"request_overcapture"`
-	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
 	RequireCVCRecollection bool `json:"require_cvc_recollection"`
@@ -4077,6 +4209,29 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
 	Subsellers []string `json:"subsellers"`
 }
+type PaymentIntentPaymentMethodOptionsPaytoMandateOptions struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount int64 `json:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType PaymentIntentPaymentMethodOptionsPaytoMandateOptionsAmountType `json:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate string `json:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod int64 `json:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose PaymentIntentPaymentMethodOptionsPaytoMandateOptionsPurpose `json:"purpose"`
+}
+type PaymentIntentPaymentMethodOptionsPayto struct {
+	MandateOptions *PaymentIntentPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsPix struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
@@ -4208,6 +4363,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
 	Paypal           *PaymentIntentPaymentMethodOptionsPaypal           `json:"paypal"`
+	Payto            *PaymentIntentPaymentMethodOptionsPayto            `json:"payto"`
 	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
