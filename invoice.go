@@ -795,7 +795,7 @@ type InvoiceUpcomingParams struct {
 	SubscriptionDefaultTaxRates []*string `form:"subscription_default_tax_rates"`
 	// A list of up to 20 subscription items, each with an attached price.
 	SubscriptionItems []*SubscriptionItemsParams `form:"subscription_items"`
-	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
@@ -1081,7 +1081,7 @@ type InvoiceUpcomingLinesParams struct {
 	SubscriptionDefaultTaxRates []*string `form:"subscription_default_tax_rates"`
 	// A list of up to 20 subscription items, each with an attached price.
 	SubscriptionItems []*InvoiceUpcomingLinesSubscriptionItemParams `form:"subscription_items"`
-	// Determines how to handle [prorations](https://stripe.com/docs/subscriptions/billing-cycle#prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'.
 	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
