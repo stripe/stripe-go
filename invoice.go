@@ -286,7 +286,7 @@ type InvoiceParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
 	PaymentSettings *InvoicePaymentSettingsParams `form:"payment_settings"`
-	// How to handle pending invoice items on invoice creation. One of `include` or `exclude`. `include` will include any pending invoice items, and will create an empty draft invoice if no pending invoice items exist. `exclude` will always create an empty invoice draft regardless if there are pending invoice items or not. Defaults to `exclude` if the parameter is omitted.
+	// How to handle pending invoice items on invoice creation. Defaults to `exclude` if the parameter is omitted.
 	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior"`
 	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
 	Rendering *InvoiceRenderingParams `form:"rendering"`
