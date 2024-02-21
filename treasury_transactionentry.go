@@ -67,8 +67,10 @@ const (
 
 // Retrieves a list of TransactionEntry objects.
 type TreasuryTransactionEntryListParams struct {
-	ListParams       `form:"*"`
-	Created          *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return TransactionEntries that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return TransactionEntries that were created during the given date interval.
 	CreatedRange     *RangeQueryParams `form:"created"`
 	EffectiveAt      *int64            `form:"effective_at"`
 	EffectiveAtRange *RangeQueryParams `form:"effective_at"`

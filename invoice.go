@@ -600,9 +600,11 @@ type InvoiceTransferDataParams struct {
 type InvoiceListParams struct {
 	ListParams `form:"*"`
 	// The collection method of the invoice to retrieve. Either `charge_automatically` or `send_invoice`.
-	CollectionMethod *string           `form:"collection_method"`
-	Created          *int64            `form:"created"`
-	CreatedRange     *RangeQueryParams `form:"created"`
+	CollectionMethod *string `form:"collection_method"`
+	// Only return invoices that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return invoices that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return invoices for the customer specified by this customer ID.
 	Customer     *string           `form:"customer"`
 	DueDate      *int64            `form:"due_date"`

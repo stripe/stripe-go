@@ -303,8 +303,10 @@ const (
 
 // Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
 type ChargeListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return charges that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return charges that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return charges for the customer specified by this customer ID.
 	Customer *string `form:"customer"`

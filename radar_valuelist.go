@@ -58,8 +58,10 @@ type RadarValueListListParams struct {
 	// The alias used to reference the value list when writing rules.
 	Alias *string `form:"alias"`
 	// A value contained within a value list - returns all value lists containing this value.
-	Contains     *string           `form:"contains"`
-	Created      *int64            `form:"created"`
+	Contains *string `form:"contains"`
+	// Only return value lists that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return value lists that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

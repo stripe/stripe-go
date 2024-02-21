@@ -20,8 +20,10 @@ const (
 
 // Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
 type TransferListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return transfers that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return transfers that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return transfers for the destination specified by this account ID.
 	Destination *string `form:"destination"`

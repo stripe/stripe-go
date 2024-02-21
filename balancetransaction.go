@@ -128,8 +128,10 @@ const (
 //
 // Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
 type BalanceTransactionListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return transactions that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return transactions that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return transactions in a certain currency. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`

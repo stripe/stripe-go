@@ -10,8 +10,10 @@ import "github.com/stripe/stripe-go/v76/form"
 
 // Returns a list of file links.
 type FileLinkListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return links that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return links that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
