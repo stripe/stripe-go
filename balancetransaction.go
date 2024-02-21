@@ -174,7 +174,7 @@ type BalanceTransactionFeeDetail struct {
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
-	// Type of the fee, one of: `application_fee`, `stripe_fee` or `tax`.
+	// Type of the fee, one of: `application_fee`, `payment_method_passthrough_fee`, `stripe_fee` or `tax`.
 	Type string `json:"type"`
 }
 
