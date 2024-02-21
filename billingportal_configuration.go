@@ -65,7 +65,7 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdateQuantity      BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate = "quantity"
 )
 
-// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
+// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. Defaults to a value of `none` if you don't set it during creation.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior string
 
 // List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior can take
@@ -280,7 +280,7 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdate struct {
 	Enabled bool `json:"enabled"`
 	// The list of up to 10 products that support subscription updates.
 	Products []*BillingPortalConfigurationFeaturesSubscriptionUpdateProduct `json:"products"`
-	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
+	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. Defaults to a value of `none` if you don't set it during creation.
 	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior `json:"proration_behavior"`
 }
 type BillingPortalConfigurationFeatures struct {
