@@ -736,8 +736,10 @@ type SubscriptionListParams struct {
 	// Filter subscriptions by their automatic tax settings.
 	AutomaticTax *SubscriptionListAutomaticTaxParams `form:"automatic_tax"`
 	// The collection method of the subscriptions to retrieve. Either `charge_automatically` or `send_invoice`.
-	CollectionMethod        *string           `form:"collection_method"`
-	Created                 *int64            `form:"created"`
+	CollectionMethod *string `form:"collection_method"`
+	// Only return subscriptions that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return subscriptions that were created during the given date interval.
 	CreatedRange            *RangeQueryParams `form:"created"`
 	CurrentPeriodEnd        *int64            `form:"current_period_end"`
 	CurrentPeriodEndRange   *RangeQueryParams `form:"current_period_end"`

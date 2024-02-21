@@ -40,8 +40,10 @@ const (
 
 // Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.
 type FileListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return files that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return files that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

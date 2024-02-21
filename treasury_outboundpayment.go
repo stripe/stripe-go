@@ -82,6 +82,10 @@ const (
 // Returns a list of OutboundPayments sent from the specified FinancialAccount.
 type TreasuryOutboundPaymentListParams struct {
 	ListParams `form:"*"`
+	// Only return OutboundPayments that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return OutboundPayments that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return OutboundPayments sent to this customer.
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.

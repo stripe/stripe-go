@@ -21,8 +21,10 @@ const (
 
 // Returns a list of Report Runs, with the most recent appearing first.
 type ReportingReportRunListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return Report Runs that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return Report Runs that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

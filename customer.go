@@ -172,8 +172,10 @@ type CustomerDeleteDiscountParams struct {
 
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
 type CustomerListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return customers that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return customers that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// A case-sensitive filter on the list based on the customer's `email` field. The value must be a string.
 	Email *string `form:"email"`
