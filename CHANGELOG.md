@@ -1,5 +1,11 @@
 # Changelog
 
+## 76.18.0 - 2024-02-22
+* [#1814](https://github.com/stripe/stripe-go/pull/1814) Update generated code
+  * Add support for `ClientReferenceID` on `IdentityVerificationReportListParams`, `IdentityVerificationReport`, `IdentityVerificationSessionListParams`, `IdentityVerificationSessionParams`, and `IdentityVerificationSession`
+  * Remove support for value `service_tax` from enum `TaxRateTaxType`
+  * Add support for `Created` on `TreasuryOutboundPaymentListParams`
+
 ## 76.17.0 - 2024-02-15
 * [#1812](https://github.com/stripe/stripe-go/pull/1812) Update generated code
   * Add support for `Networks` on `Card`, `PaymentMethodCardParams`, and `TokenCardParams`
