@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
   include StateEncryptionAlgo
 
   # If you're using a strategy that POSTs during callback, you'll need to skip the authenticity token check for the callback action only.
-  skip_before_action :verify_authenticity_token, only: :create
+  skip_before_action :verify_authenticity_token, only: [:create, :change_default_account_config, :delete_account_config]
 
   # TODO more gracefully handle oauth redirect errors
   # rescue_from OAuth2::Error do
@@ -74,9 +74,18 @@ class SessionsController < ApplicationController
   def stripe_callback
     begin
       state = require_state
-      livemode = request.path.include? '/stripelivemode/'
+      livemode = auth_hash["provider"] == 'stripelivemode'
       user_id = stripe_callback_handler(state, livemode)
       user = T.must(StripeForce::User.find(id: user_id))
+
+      default_user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true)
+      if default_user
+        # When we create a new user, we need to copy over the field mappings and the feature flags so they don't need to be reset
+        user.field_mappings = default_user.field_mappings
+        user.feature_flags = default_user.feature_flags
+        user.field_defaults = default_user.field_defaults
+        user.save
+      end
 
       if state.oauth_version == 'v2'
         user.cache_stripe_v2_connection_status(connected: true, livemode: livemode)
@@ -96,7 +105,7 @@ class SessionsController < ApplicationController
     begin
       state = require_state
       account_configurations = StripeForce::User.where(salesforce_account_id: state.salesforce_account_id)
-      livemode = params.require(:livemode)
+      livemode = params.require(:livemode) == 'live'
 
       salesforce_account_id = state.salesforce_account_id
       stripe_account_id = params.require(:stripe_account_id)
@@ -105,13 +114,15 @@ class SessionsController < ApplicationController
       current_default_stripe_account = account_configurations.detect {|config| config.is_default_account_config == true }
       current_default_stripe_account.is_default_account_config = false
       new_default_user.is_default_account_config = true
+      new_default_user.salesforce_organization_key = current_default_stripe_account.salesforce_organization_key
+      current_default_stripe_account.salesforce_organization_key = nil
 
       current_default_stripe_account.save
       new_default_user.save
-    rescue TypeError => _
+    rescue TypeError
       multi_account_failure_response('change_default_account_config', 'The provided Stripe Account ID is not associated with a User')
     rescue StateException => e
-      v2_failure_response("stripe", e.state, "Connection State is Invalid.")
+      multi_account_failure_response('passed_state_invalid', 'The provided State value is not valid. Error: ' + e.message)
     end
   end
 
@@ -120,7 +131,8 @@ class SessionsController < ApplicationController
     begin
       state = require_state
       current_user = T.must(StripeForce::User.find(id: state.user_id))
-      livemode = params.require(:livemode)
+
+      livemode = params.require(:livemode) == 'live'
       stripe_account_id = params.require(:stripe_account_id)
 
       associated_users = StripeForce::User.where(salesforce_account_id: state.salesforce_account_id)
@@ -131,12 +143,15 @@ class SessionsController < ApplicationController
       elsif user_to_be_removed.is_default_account_config == true && associated_users.count > 1
         multi_account_failure_response('delete_account_config', "Cannot delete the default User unless it is the only User in the org.")
       else
-        user_to_be_removed.destroy
+        # Keep this consistent with v2, where we soft delete instead of hard deleting
+        user_to_be_removed.enabled = false
+        user_to_be_removed.connector_settings[CONNECTOR_SETTING_POLLING_ENABLED] = false
+        user_to_be_removed.save
       end
     rescue TypeError => _
       multi_account_failure_response('change_default_account', 'The provided Stripe Account ID is not associated with a User.')
     rescue StateException => e
-      v2_failure_response("stripe", e.state, "Connection State is Invalid.")
+      multi_account_failure_response('passed_state_invalid', 'The provided State value is not valid. Error: ' + e.message)
     end
   end
 
@@ -153,7 +168,7 @@ class SessionsController < ApplicationController
         render json: associated_users, status: :ok
       end
     rescue StateException => e
-      v2_failure_response("stripe", e.state, "Connection State is Invalid.")
+      multi_account_failure_response('passed_state_invalid', 'The provided State value is not valid. Error: ' + e.message)
     end
   end
 
@@ -199,13 +214,13 @@ class SessionsController < ApplicationController
 
     state.salesforce_account_id = sf_account_id if state.salesforce_account_id.nil?
 
-    user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id)
+    user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true)
 
     log.default_tags[:sf_account_id] = sf_account_id
 
     unless user
       log.info 'creating new user'
-      user = StripeForce::User.new(salesforce_account_id: sf_account_id)
+      user = StripeForce::User.new(salesforce_account_id: sf_account_id, stripe_account_id: state.stripe_account_id, livemode: state.livemode)
 
       Integrations::Metrics::Writer.instance.track_counter('user.new', dimensions: {livemode: user.livemode, sf_account_id: sf_account_id})
       Integrations::ErrorContext.report_feature_usage("New user. sf_account_id: #{sf_account_id}")
@@ -279,30 +294,70 @@ class SessionsController < ApplicationController
       return
     end
 
-    state.stripe_account_id = stripe_account_id if state.stripe_account_id.nil?
-    state.primary_stripe_account_id = stripe_account_id if state.primary_stripe_account_id.nil?
-
-    unless state.user_id
-      return nil
-    end
-
-    user = StripeForce::User.find(id: state.user_id)
-
     log.default_tags[:stripe_account_id] = stripe_account_id
 
+    # First, we try to find the user in our state, which is generally our source of truth
+    user = StripeForce::User.find(id: state.user_id)
+    if user.nil?
+      # If our state has no user (could be a new org / reauth), then we try to find a default account that was created via a post install action
+      user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true, stripe_account_id: nil, livemode: livemode)
+    end
+    if user.nil?
+      # At this point we know that we're reauthenticating, so it's safe to find on the stripe account ID.
+      user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true, stripe_account_id: stripe_account_id, livemode: livemode)
+    end
     if user.blank?
+      # If the user is blank here, we're in an error case. This happens if there's no user in the database (because if there was one, it would be default)
       Integrations::ErrorContext.report_edge_case("invalid user identifier", metadata: {user_id: state.user_id})
       head :not_found
       return
     end
 
     log.default_tags[:user_id] = user.id
+    if stripe_auth['extra'] && stripe_auth['extra']['settings'] && stripe_auth['extra']['settings']['dashboard'] && stripe_auth['extra']['settings']['dashboard']['display_name']
+      state.stripe_account_name = stripe_auth['extra']['settings']['dashboard']['display_name']
+    end
+
+    state.stripe_account_id = stripe_account_id
+    state.livemode = livemode
+    state.primary_stripe_account_id = stripe_account_id unless state.primary_stripe_account_id?
+    state.primary_livemode = livemode unless state.primary_livemode?
+
+    if user.stripe_account_id && user.stripe_account_id != stripe_account_id && user.salesforce_account_id == state.salesforce_account_id
+      # We're finding for is_default_account_config: false because if we're here, we know we're creating a sub user, that should be false already
+      sub_user = StripeForce::User.find_or_new(salesforce_account_id: state.salesforce_account_id, stripe_account_id: stripe_account_id, livemode: livemode, is_default_account_config: false)
+
+      if sub_user.id.nil?
+        log.info 'adding stripe account ID to sf org', stripe_account_id: stripe_account_id, salesforce_account_id: user.salesforce_account_id
+        sub_user.is_default_account_config = false
+        # incorporate the data setup from post-install, so we can deprecate it later
+        sub_user.connector_settings = user.connector_settings
+        sub_user.feature_flags = user.feature_flags
+        sub_user.field_defaults = user.field_defaults
+        sub_user.field_mappings = user.field_mappings
+        sub_user.salesforce_object_prefix_mappings = user.salesforce_object_prefix_mappings
+
+        sub_user.salesforce_account_id = user.salesforce_account_id
+        sub_user.salesforce_instance_url = user.salesforce_instance_url
+        sub_user.salesforce_token = user.salesforce_token
+        sub_user.salesforce_refresh_token = user.salesforce_refresh_token
+        sub_user.name = user.name
+        sub_user.email = user.email
+        sub_user.save
+        log.info 'added stripe account ID to sf org', user_id: sub_user.id, stripe_account_id: stripe_account_id, salesforce_account_id: user.salesforce_account_id
+
+      else
+        log.info 'updated stripe account ID to sf org', user_id: sub_user.id, stripe_account_id: stripe_account_id, salesforce_account_id: user.salesforce_account_id
+        sub_user.update(stripe_account_id: stripe_account_id, livemode: livemode)
+      end
+
+      state.stripe_account_id = stripe_account_id
+      state.livemode = livemode
+
+      return sub_user.id
+    end
 
     log.info 'updating stripe account ID', user_id: user.id, stripe_account_id: stripe_account_id
-
-    if user.stripe_account_id && user.stripe_account_id != stripe_account_id
-      Integrations::ErrorContext.report_edge_case("stripe account ID already set, overwriting")
-    end
 
     user.update(stripe_account_id: stripe_account_id, livemode: livemode)
 
@@ -370,7 +425,7 @@ class SessionsController < ApplicationController
     </div>
 
     <script type="application/javascript">
-    window.opener.postMessage("connection_successful-stripe|#{state.stripe_account_id}-#{state}", "#{postmessage_domain}")
+    window.opener.postMessage("connection_successful-stripe|#{state.stripe_account_id}|#{state.stripe_account_livemode}-#{state}", "#{postmessage_domain}")
     </script>
     EOL
   end
@@ -428,14 +483,21 @@ class SessionsController < ApplicationController
 
   sig { params(defaults: Hash).returns(StateEncryptionAlgo::StripeOAuthState) }
   protected def require_state(defaults={})
-    encrypted_state = params.permit(:state)["state"].to_s
+    encrypted_state = nil
+    if request.headers['X-Middleware-Authorization'].present?
+      encrypted_state = request.headers['X-Middleware-Authorization']
+    else
+      encrypted_state = params.permit(:state)["state"].to_s
+    end
     # puts encrypted_state unless Rails.env.production?
     state = restore_state(encrypted_state, defaults)
     if state.nil?
       raise StateException.new(encrypted_state)
     elsif state.user_id.nil?
-      user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id)
+      # Find user after first stripe account setup
+      user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, stripe_account_id: state.primary_stripe_account_id, livemode: state.primary_livemode, is_default_account_config: true)
       state.user_id = user.id unless user.nil?
+      state.csac_id = user.id unless user.nil?
     end
     state
   end

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>OAuth_State_Signing_Key__c</fullName>
-    <defaultValue>"98ae2216688a8b879c25f17ed793bfa7bb11201ddda97ad01b2d282a06aa191a"</defaultValue>
+    <defaultValue>&quot;98ae2216688a8b879c25f17ed793bfa7bb11201ddda97ad01b2d282a06aa191a&quot;</defaultValue>
     <description>Generate with: System.debug(EncodingUtil.convertToHex(Crypto.generateAesKey(256)));</description>
-    <inlineHelpText>This is the Shared Key to use for signing the state JWT passed to platform.</inlineHelpText>
     <externalId>false</externalId>
-    <label>OAuth State Encryption Key</label>
-    <length>64</length>
-    <type>Text</type>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>This is the Shared Key to use for signing the state JWT passed to platform.</inlineHelpText>
+    <label>OAuth State Signing Key</label>
+    <length>128</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>

@@ -3,6 +3,10 @@
 
 require_relative './controller'
 
+SERVICE_SALESFORCE = "salesforce"
+SERVICE_STRIPE = "stripe"
+SERVICE_DELIMINATOR = "|"
+
 module Api
   class ConfigurationsController < Controller
     wrap_parameters false
@@ -23,6 +27,46 @@ module Api
         salesforce: @user.valid_credentials_salesforce!,
         stripe: @user.valid_credentials_stripe!,
       }
+    end
+
+    def connection_status
+      service = params.require(:service)
+      resp = {}
+      if service && service.start_with?(SERVICE_SALESFORCE)
+        sf_status = @user.valid_credentials_salesforce!
+        sf_key = @user.salesforce_account_id
+        resp["#{SERVICE_SALESFORCE}#{SERVICE_DELIMINATOR}#{sf_key}"] = sf_status
+        render json: resp
+      elsif service && service.start_with?(SERVICE_STRIPE)
+        salesforce_account_id = @user.salesforce_account_id
+        stripe_account_id, livemode = service.split(SERVICE_DELIMINATOR)[1..2]
+        is_live = livemode == "live"
+        user = StripeForce::User.find(salesforce_account_id: salesforce_account_id, stripe_account_id: stripe_account_id, livemode: is_live)
+        if user.blank?
+          log.error 'invalid stripe account', stripe_account_id: stripe_account_id, livemode: livemode
+          head :bad_request, json: {error: "Stripe account '#{stripe_account_id}' was not found."}
+          return
+        end
+        resp["#{SERVICE_STRIPE}#{SERVICE_DELIMINATOR}#{user.stripe_account_id}#{SERVICE_DELIMINATOR}#{livemode}"] = user.valid_credentials_stripe!
+        render json: resp
+      else
+        log.error 'invalid service', service: service
+        head :bad_request, json: {error: "Service '#{service}' was not found."}
+      end
+    end
+
+    def multi_connection_statuses
+      sf_status = @user.valid_credentials_salesforce!
+      sf_key = @user.salesforce_account_id
+      resp = {}
+      resp["#{SERVICE_SALESFORCE}#{SERVICE_DELIMINATOR}#{sf_key}"] = sf_status
+      users = StripeForce::User.where(salesforce_account_id: sf_key)
+      users.each do |user|
+        livemode = user.livemode ? "live" : "test"
+        resp["#{SERVICE_STRIPE}#{SERVICE_DELIMINATOR}#{user.stripe_account_id}#{SERVICE_DELIMINATOR}#{livemode}"] = user.valid_credentials_stripe!
+      end
+
+      render json: resp
     end
 
     def translate_all
@@ -88,7 +132,13 @@ module Api
         return
       end
 
-      user = StripeForce::User.find_or_new(salesforce_account_id: salesforce_account_id)
+      # If there is a pre-existing user, it is default. There is guaranteed only one default account, so find returns one.
+      # If there is no pre-existing user, then we create one and make it the default, which is expected behavior anyway.
+      user = StripeForce::User.find(salesforce_account_id: salesforce_account_id, is_default_account_config: true)
+      if user.nil?
+        log.info 'no user found for current org, creating new user'
+        user = StripeForce::User.new(salesforce_account_id: salesforce_account_id, is_default_account_config: true)
+      end
 
       set_error_context(user: user)
 
@@ -182,7 +232,8 @@ module Api
       end
 
       # DB enforces that SF org IDs must be unique
-      @user = StripeForce::User.find(salesforce_account_id: salesforce_account_id)
+      # Folded api key check into user lookup to not be leaky about what orgs are in the system
+      @user = StripeForce::User.find(salesforce_account_id: salesforce_account_id, salesforce_organization_key: salesforce_api_key, is_default_account_config: true)
 
       if @user.blank?
         log.warn 'invalid user ID specified', salesforce_account_id: salesforce_account_id
@@ -191,12 +242,6 @@ module Api
       end
 
       set_error_context(user: @user)
-
-      if @user.salesforce_organization_key != salesforce_api_key
-        log.error 'api key does not match user'
-        head :not_found
-        nil
-      end
 
       if @user.connector_settings[CONNECTOR_SETTING_PACKAGE_VERSION].nil?
         @user.connector_settings[CONNECTOR_SETTING_PACKAGE_VERSION] = salesforce_package_version

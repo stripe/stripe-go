@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Live_Mode__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Is this connection in Live mode?</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Is this connection in Live mode?</inlineHelpText>
+    <label>Is Live Mode?</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

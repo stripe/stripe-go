@@ -202,7 +202,7 @@ export default class SystemConnectionsStep extends LightningElement {
         }
 
         if (result === 'connection_successful') {
-            return validateSharedState({ service: identifier, state: state })
+            return validateSharedState({ state: state })
                 .then((response) => {
                     DebugLog('_postMessageListener', 'connectionSetupComplete', response);
                     return this._checkConnectionStatus(system);

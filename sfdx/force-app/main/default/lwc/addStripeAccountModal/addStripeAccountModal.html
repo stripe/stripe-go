@@ -1,0 +1,15 @@
+<!--
+ - Created by jmather-c on 12/4/23.
+ -->
+
+<!-- Add Stripe Account Modal -->
+<template>
+    <lightning-modal-header label="Add A Stripe Account"></lightning-modal-header>
+    <lightning-modal-body>
+        <c-stripe-account-connection-modes onselect={updateAccountType}></c-stripe-account-connection-modes>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="Cancel" onclick={handleCancel} variant="destructive"></lightning-button>
+        <lightning-button class="slds-m-left_small" label="OK" disabled={loginDisabled} variant="brand" onclick={handleSelectType}></lightning-button>
+    </lightning-modal-footer>
+</template>

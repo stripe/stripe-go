@@ -19,6 +19,8 @@ export default class IntegrationUserSetupStep extends LightningElement {
     @api isSetup = false;
     _connectWindow = null;
     _expectedUpdate = undefined;
+    contentLoading = new CustomEvent('contentloading');
+    contentLoadingComplete = new CustomEvent('contentloadingcomplete');
 
     async connectedCallback() {
         if (this._boundConnectionStatusUpdated) {
@@ -58,6 +60,7 @@ export default class IntegrationUserSetupStep extends LightningElement {
         this._connectToMessageListener();
         MessageListener.listenFor(responseData.results.message_origin_uri);
         this._expectedUpdate = true;
+        this.dispatchEvent(this.contentLoading);
         this._connectWindow = openWindow(responseData.results.authorization_uri);
     }
 
@@ -141,6 +144,7 @@ export default class IntegrationUserSetupStep extends LightningElement {
             this.dispatchEvent(new CustomEvent('stepcomplete', { detail: { step: 'integration_user_connection' }} ));
         }
 
+        this.dispatchEvent(this.contentLoadingComplete);
         this._expectedUpdate = undefined;
         this.loading = false;
     }

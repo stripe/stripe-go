@@ -1,4 +1,11 @@
+.localdevserver/
 .sfdx/
 .sf/
 jwt-cert/private_key.pem
 sfdx.iml
+force-app/main/default/featureParameters/
+force-app/main/default/permissionsetgroups/
+force-app/main/default/permissionsets/SteelBrickCPQ**
+force-app/main/default/permissionsets/sfdcInternalInt**
+force-app/main/default/remoteSiteSettings/AAA.remoteSite-meta.xml
+force-app/main/default/customMetadata/Setup_Connection_Data.Default.md-meta.xml

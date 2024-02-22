@@ -141,13 +141,17 @@ module StripeForce
       end
     end
 
-    # custom fields added by our package
+    # custom Salesforce fields added by our package
     GENERIC_STRIPE_ID = 'Stripe_ID__c'
     GENERIC_STRIPE_REVENUE_CONTRACT_ID = 'Stripe_Revenue_Contract_ID__c'
     ORDER_LINE_SKIP = 'Skip_Line_Item__c'
     SKIP_PAST_INITIAL_INVOICES = 'Skip_Past_Initial_Invoices__c'
     ORDER_INVOICE_PAYMENT_LINK = 'Stripe_Invoice_Payment_Link__c'
     ORDER_SUBSCRIPTION_PAYMENT_LINK = 'Stripe_Subscription_Payment_Link__c'
+
+    # custom Salesforce objects added by our package
+    STRIPE_ACCOUNT = 'Stripe_Account__c'
+    STRIPE_ACCOUNT_LOOKUP = 'Stripe_Account__r'
 
     SYNC_RECORD = 'Sync_Record__c'
     STRIPE_OVERVIEW_DOCUMENTATION_LINK = 'https://stripe.com/docs/connectors/salesforce-cpq/overview'
@@ -209,6 +213,8 @@ module StripeForce
     # non-cpq constants
     SALESFORCE_ACCOUNT_ID_HEADER = 'Salesforce-Account-Id'
     SALESFORCE_KEY_HEADER = 'Salesforce-Key'
+    STRIPE_ACCOUNT_ID_HEADER = 'Stripe-Primary-Account-Id'
+    STRIPE_ACCOUNT_LIVEMODE_HEADER = 'Stripe-Primary-Account-Livemode'
     SALESFORCE_PACKAGE_NAMESPACE_HEADER = "Salesforce-Package-Namespace"
     SALESFORCE_INSTANCE_TYPE_HEADER = 'Salesforce-Type'
     SALESFORCE_PACKAGE_ID_HEADER = 'Salesforce-Package-Id'
@@ -279,6 +285,7 @@ module StripeForce
         SYNC_RECORD_FIELDS = new('sync_record_fields')
         MDQ = new('mdq')
         SALESFORCE_PRECISION = new('salesforce_precision')
+        MULTI_STRIPE_ACCOUNT = new('multi_stripe_account')
         QUANTITY_REDUCTION_ORDER_ITEM_CREDIT = new('quantity_reduction_order_item_credit')
       end
     end

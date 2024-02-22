@@ -80,19 +80,57 @@ module StateEncryptionAlgo
       end
       define_method("#{field}?") do
         data_hash = instance_variable_get("@data")
-        data_hash.key?(key.to_s)
+        s_key = key.to_s
+        data_hash.key?(s_key) && data_hash[s_key].nil? == false
       end
     end
 
     json_field :oauth_version
+    # Maps to line ~15 in StripeOAuthState.cls
     json_field :salesforce_account_id, :org_id
-    json_field :salesforce_namespace
-    json_field :salesforce_instance_type
-    json_field :salesforce_instance_subdomain
-    json_field :user_id
+    json_field :salesforce_namespace, :sf_ns
+    json_field :salesforce_instance_type, :sf_it
+    json_field :salesforce_instance_subdomain, :sf_sd
+    json_field :user_id, :uid
+    json_field :csac_id, :csac
     json_field :csrf
-    json_field :stripe_account_id
-    json_field :primary_stripe_account_id
+    json_field :stripe_account_id, :st_id
+    json_field :stripe_account_name, :st_na
+    json_field :stripe_account_livemode, :st_lm
+    json_field :primary_stripe_account_id, :pst_id
+    json_field :primary_stripe_account_livemode, :pst_lm
+
+    def livemode
+      self.stripe_account_livemode == "live" || false
+    end
+
+    def livemode?
+      self.stripe_account_livemode.nil? == false
+    end
+
+    def livemode=(value)
+      if value == true
+        self.stripe_account_livemode = "live"
+      else
+        self.stripe_account_livemode = "test"
+      end
+    end
+
+    def primary_livemode
+      self.primary_stripe_account_livemode == "live" || false
+    end
+
+    def primary_livemode?
+      self.primary_stripe_account_livemode.nil? == false
+    end
+
+    def primary_livemode=(value)
+      if value == true
+        self.primary_stripe_account_livemode = "live"
+      else
+        self.primary_stripe_account_livemode = "test"
+      end
+    end
 
     sig { returns(T.nilable(String)) }
     def to_s

@@ -1,0 +1,62 @@
+<!--
+ - Created by jmather-c on 8/30/23.
+ -->
+
+<!-- Integration User Setup Step -->
+<template>
+    <div class="slds-p-horizontal_large slds-p-vertical_xx-large slds-container slds-container_center slds-container_medium">
+        <div class="slds-text-align_right slds-m-bottom_medium">
+            <lightning-button label="Add Account" variant="brand" onclick={authorizeIntegrationUser}></lightning-button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Primary?
+                        <lightning-helptext icon-name="utility:info" content="This is the default account used to sync Orders."></lightning-helptext>
+                    </th>
+                    <th>Stripe Account Name</th>
+                    <th>Stripe Account Id</th>
+                    <th>Mode</th>
+<!--                    <th>Status</th>-->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={accounts} for:item="account">
+                    <tr key={account.External_ID__c}>
+                        <td>
+                            <template if:true={account.Is_Primary__c}>
+                                <lightning-icon icon-name="utility:check" size="xx-small" alternative-text="Primary"></lightning-icon>
+                            </template>
+                        </td>
+                        <td>{account.Name}</td>
+                        <td>{account.Stripe_ID__c}</td>
+                        <td>{account.livemode}</td>
+<!--                        <td>{account.Connection_Status__c}</td>-->
+                        <td>
+                            <template if:false={account.Is_Primary__c}>
+                                <lightning-button-menu data-id={account.External_ID__c} alternative-text="Show menu" variant="border-filled" onselect={handleRowAction}>
+                                    <lightning-menu-item  value="SetPrimary" label="Set as Primary"></lightning-menu-item>
+                                    <lightning-menu-item  value="Delete" label="Delete"></lightning-menu-item>
+                                </lightning-button-menu>
+                            </template>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
+     <!-- Remove Account Confirmation Modal -->
+    <c-modal class="stripe-modal_remove-account" title="Remove Stripe Account">
+        <div class="slds-is-relative">
+            <lightning-spinner if:true={modalLoading} alternative-text="Loading..."></lightning-spinner>
+            <p class="slds-text-align_center">
+                Are you sure you want to remove this Stripe account from your Salesforce org?
+            </p>
+        </div>
+        <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button" onclick={hideRemoveAccountModal} disabled={modalLoading}></lightning-button>
+        <lightning-button slot="footer" label="Remove Account" variant="destructive" class="slds-button" onclick={deleteAccount} disabled={modalLoading}></lightning-button>
+    </c-modal>
+    <!-- /Remove Account Confirmation Modal -->
+</template>

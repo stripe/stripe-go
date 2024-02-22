@@ -31,7 +31,7 @@ class StripeForce::PollerBase
   def should_poll?(execution_time, poll_record)
     fail_if_dying_worker!
 
-    unless @user.polling_enabled?
+    unless @user.polling_enabled? && @user.enabled == true
       log.info 'skipping poll for user that has polling disabled'
       return false
     end

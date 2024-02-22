@@ -1,6 +1,125 @@
-@isTest
+@IsTest
 public with sharing class test_setupAssistant {
     static Debug_Helper debugger = new Debug_Helper(true);
+    public static final String TEST_STRIPE_ACCOUNT_ID = 'acct_12345';
+
+    @IsTest
+    static void testMaintenanceUtilitiesResetServiceConnection() {
+        stripeConnectionSuccessMock mock = new stripeConnectionSuccessMock();
+        Test.setMock(HttpCalloutMock.class, mock);
+        Test.startTest();
+        maintenanceUtilities.resetServiceConnection();
+        Test.stopTest();
+
+        System.assertEquals(1, mock.calls);
+        Stripe_Connection__c stripeConnectRec = utilities.getStripeConnection();
+        System.assertNotEquals(null, stripeConnectRec.API_Key__c);
+    }
+
+    @IsTest
+    static void testMaintenanceUtilitiesResetEnvironment() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        testSetupData.Enable_Apex_Debug__c = true;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+        Setup_Data__c setupData = new Setup_Data__c(
+                isSetupComplete__c = false,
+                Steps_Completed__c = '{"foo": 1}'
+        );
+        insert setupData;
+
+        Test.startTest();
+        maintenanceUtilities.resetEnvironment();
+        maintenanceUtilities.resetUserLandData();
+        maintenanceUtilities.resetSetupData();
+        maintenanceUtilities.resetConnection();
+        Test.stopTest();
+
+        Stripe_Connection__c stripeConnectRec = utilities.getStripeConnection();
+        System.assertEquals(null, stripeConnectRec.Id);
+        System.assertEquals(null, stripeConnectRec.API_Key__c);
+        List<Setup_Data__c> setupDataCheck = [SELECT Id FROM Setup_Data__c];
+        System.assertEquals(0, setupDataCheck.size());
+        List<Stripe_Account__c> stripeAccountCheck = [SELECT Id FROM Stripe_Account__c];
+        System.assertEquals(0, stripeAccountCheck.size());
+    }
+
+    @IsTest
+    static void testSetStripeAccountAsDefault() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        AccountManagementMock mock = new AccountManagementMock();
+        Test.setMock(HttpCalloutMock.class, mock);
+        mock.nextCallFails = true;
+        Exception ex;
+
+        Test.startTest();
+        Boolean checkFail;
+        try {
+            checkFail = setupAssistant.setStripeAccountAsDefault(TEST_STRIPE_ACCOUNT_ID, false);
+        } catch (Exception e) {
+            ex = e;
+        }
+        Boolean checkPass = setupAssistant.setStripeAccountAsDefault(TEST_STRIPE_ACCOUNT_ID, false);
+        Test.stopTest();
+
+        System.assertEquals(null, checkFail);
+        System.assertNotEquals(null, ex);
+        System.assertEquals(true, checkPass);
+    }
+
+    @IsTest
+    static void testDeleteStripeAccount() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        AccountManagementMock mock = new AccountManagementMock();
+        Test.setMock(HttpCalloutMock.class, mock);
+        mock.nextCallFails = true;
+        Exception ex;
+
+        Test.startTest();
+        Boolean checkFail;
+        try {
+            checkFail = setupAssistant.deleteStripeAccount(TEST_STRIPE_ACCOUNT_ID, false);
+        } catch (Exception e) {
+            ex = e;
+        }
+        Boolean checkPass = setupAssistant.deleteStripeAccount(TEST_STRIPE_ACCOUNT_ID, false);
+        Test.stopTest();
+
+        System.assertEquals(null, checkFail);
+        System.assertNotEquals(null, ex);
+        System.assertEquals(true, checkPass);
+    }
+
+    @IsTest
+    static void testAddStripeAccount() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        StripeOAuthState state = StripeOAuthState.create();
+        state.user_id = '1';
+        state.casc_id = '1';
+        state.stripe_account_id = 'acct_234567';
+        state.stripe_account_livemode = 'test';
+        String stateStr = state.toString();
+
+        Test.startTest();
+        Stripe_Account__c acct = setupAssistant.addStripeAccount(stateStr);
+        Test.stopTest();
+
+        System.assertNotEquals(null, acct);
+        System.assertEquals(state.stripe_account_id, acct.Stripe_ID__c);
+        System.assertEquals(false, acct.Is_Live_Mode__c);
+        System.assertEquals(false, acct.Is_Primary__c);
+        String extId = state.stripe_account_id + '|' + state.stripe_account_livemode;
+        System.assertEquals(extId, acct.External_ID__c);
+    }
 
     @IsTest
     static void testGetCoreData() {
@@ -711,6 +830,14 @@ public with sharing class test_setupAssistant {
         stripeConnectRec.Salesforce_Connected__c = true;
         stripeConnectRec.API_Key__c = 'testPackageGUID';
         insert stripeConnectRec;
+
+        Stripe_Account__c stripeAccountRec = new Stripe_Account__c(
+                Stripe_ID__c = TEST_STRIPE_ACCOUNT_ID,
+                Is_Live_Mode__c = false,
+                Is_Primary__c = true,
+                External_ID__c =  TEST_STRIPE_ACCOUNT_ID + '|test'
+        );
+        insert stripeAccountRec;
     }
 
     @isTest
@@ -739,7 +866,10 @@ public with sharing class test_setupAssistant {
     }
 
     private class stripeConnectionSuccessMock implements HttpCalloutMock {
+        public Integer calls = 0;
+
         public HttpResponse respond(HttpRequest req) {
+            this.calls++;
             HttpResponse res = new HttpResponse();
 
             System.assertEquals(req.getHeader('Salesforce-Account-Id'), (String)constants.ORG_ID);
@@ -960,12 +1090,59 @@ public with sharing class test_setupAssistant {
             calls += 1;
             HttpResponse res = new HttpResponse();
             Map<String, Object> services = new Map<String, Object>();
-            services.put(setupAssistant.KEY_SALESFORCE, true);
-            services.put(setupAssistant.KEY_STRIPE, true);
+            String salesforceSvc = setupAssistant.KEY_SALESFORCE + setupAssistant.SERVICE_DELIMINATOR + UserInfo.getOrganizationId();
+            String stripeAcct = TEST_STRIPE_ACCOUNT_ID;
+            String stripeLivemode = 'test';
+            String stripeSvc = setupAssistant.KEY_STRIPE + setupAssistant.SERVICE_DELIMINATOR + stripeAcct + setupAssistant.SERVICE_DELIMINATOR + stripeLivemode;
+
+            services.put(salesforceSvc, true);
+            services.put(stripeSvc, true);
 
             res.setBody(JSON.serialize(services));
             res.setStatusCode(200);
 
+            return res;
+        }
+    }
+
+    public class AccountManagementMock implements HttpCalloutMock {
+        public Integer calls = 0;
+        public Boolean nextCallFails = false;
+
+        public HttpResponse respond(HttpRequest req) {
+            calls += 1;
+
+            if (nextCallFails) {
+                nextCallFails = false;
+                return respondWithFailure();
+            }
+
+            String method = req.getMethod();
+            String endpoint = req.getEndpoint();
+            Boolean isAccountsUri = endpoint.contains(constants.RUBY_SERVICE_ACCOUNTS_URI);
+            Boolean isSetDefaultUri = endpoint.endsWith(constants.RUBY_SERVICE_ACCOUNTS_SET_DEFAULT_URI);
+
+            if (method == 'POST' && isAccountsUri && isSetDefaultUri) {
+                HttpResponse res = new HttpResponse();
+                res.setBody(JSON.serialize(new Map<String, Object>()));
+                res.setStatusCode(200);
+                return res;
+            }
+
+            if (method == 'DELETE' && isAccountsUri && isSetDefaultUri == false) {
+                HttpResponse res = new HttpResponse();
+                res.setBody(JSON.serialize(new Map<String, Object>()));
+                res.setStatusCode(200);
+                return res;
+            }
+
+            return respondWithFailure();
+        }
+
+        public HttpResponse respondWithFailure() {
+            HttpResponse res = new HttpResponse();
+            res.setBody(JSON.serialize(new Map<String, Object>()));
+            res.setStatusCode(500);
             return res;
         }
     }
@@ -978,8 +1155,7 @@ public with sharing class test_setupAssistant {
         StripeOAuthState state = StripeOAuthState.create();
         String stateString = state.toString();
 
-        String service = 'foo';
-        Map<String, Object> restoredState = setupAssistant.validateSharedState(service, stateString);
+        Map<String, Object> restoredState = setupAssistant.validateSharedState(stateString);
         Map<String, Object> oldState = (Map<String, Object>) JSON.deserializeUntyped(state.toJSON());
         for (String key : oldState.keySet()) {
             System.assertEquals(oldState.get(key), restoredState.get(key));
@@ -1046,8 +1222,9 @@ public with sharing class test_setupAssistant {
 
         responseData statuses = unpack(setupAssistant.checkServiceConnectionStatuses());
         Map<String, Object> services = (Map<String, Object>) statuses.results.get('services');
-        System.assert(services.get(setupAssistant.KEY_STRIPE_SERVICE) == setupAssistant.STATUS_CONNECTED);
         System.assert(services.get(setupAssistant.KEY_SALESFORCE_SERVICE) == setupAssistant.STATUS_CONNECTED);
+        String stripeKey = 'stripe|' + TEST_STRIPE_ACCOUNT_ID + '|test';
+        System.assert(services.get(stripeKey) == setupAssistant.STATUS_CONNECTED);
     }
 
     @IsTest
@@ -1056,14 +1233,19 @@ public with sharing class test_setupAssistant {
         setTestGlobalKey(testSetupData);
         insertTestConnectedRecord();
 
+        String salesforceSvc = setupAssistant.KEY_SALESFORCE + setupAssistant.SERVICE_DELIMINATOR + UserInfo.getOrganizationId();
+        String stripeAcct = TEST_STRIPE_ACCOUNT_ID;
+        String stripeLivemode = 'test';
+        String stripeSvc = setupAssistant.KEY_STRIPE + setupAssistant.SERVICE_DELIMINATOR + stripeAcct + setupAssistant.SERVICE_DELIMINATOR + stripeLivemode;
+
         Map<String, Object> services = new Map<String, Object>();
-        services.put(setupAssistant.KEY_SALESFORCE, true);
-        services.put(setupAssistant.KEY_STRIPE, true);
+        services.put(salesforceSvc, true);
+        services.put(stripeSvc, true);
         HttpResponse resp = new HttpResponse();
         resp.setBody(JSON.serialize(services));
         resp.setStatusCode(200);
 
-        Continuation con = (Continuation) setupAssistant.getServiceConnectionStatuses(setupAssistant.KEY_STRIPE_SERVICE);
+        Continuation con = (Continuation) setupAssistant.getServiceConnectionStatuses(stripeSvc);
         Test.setContinuationResponse('continuation-1', resp);
         setupAssistant cont = new setupAssistant();
 
@@ -1073,8 +1255,8 @@ public with sharing class test_setupAssistant {
         responseData statuses = unpack(result);
         services = (Map<String, Object>) statuses.results.get('services');
         debugger.debug('services', services);
-        System.assert(services.get(setupAssistant.KEY_STRIPE_SERVICE) == setupAssistant.STATUS_FRESH);
-        System.assert(services.get(setupAssistant.KEY_SALESFORCE_SERVICE) == setupAssistant.STATUS_CONNECTED);
+        System.assertEquals(setupAssistant.STATUS_FRESH, (String)services.get(stripeSvc));
+        System.assertEquals(setupAssistant.STATUS_CONNECTED, (String)services.get(salesforceSvc));
     }
 
     @IsTest
@@ -1084,11 +1266,16 @@ public with sharing class test_setupAssistant {
         setTestGlobalKey(testSetupData);
         insertTestConnectedRecord();
 
+        String salesforceSvc = setupAssistant.KEY_SALESFORCE + setupAssistant.SERVICE_DELIMINATOR + UserInfo.getOrganizationId();
+        String stripeAcct = TEST_STRIPE_ACCOUNT_ID;
+        String stripeLivemode = 'test';
+        String stripeSvc = setupAssistant.KEY_STRIPE + setupAssistant.SERVICE_DELIMINATOR + stripeAcct + setupAssistant.SERVICE_DELIMINATOR + stripeLivemode;
+
         Test.setMock(HttpCalloutMock.class, new ConnectionStatusesMock());
 
         Test.startTest();
 
-        String result = setupAssistant.getServiceConnectionStatusesSync(setupAssistant.KEY_STRIPE_SERVICE);
+        String result = setupAssistant.getServiceConnectionStatusesSync(stripeSvc);
 
         Test.stopTest();
 
@@ -1096,8 +1283,8 @@ public with sharing class test_setupAssistant {
         responseData statuses = unpack(result);
         Map<String, Object> services = (Map<String, Object>) statuses.results.get(setupAssistant.KEY_SERVICES);
         debugger.debug('services', services);
-        System.assert(services.get(setupAssistant.KEY_STRIPE_SERVICE) == setupAssistant.STATUS_FRESH);
-        System.assert(services.get(setupAssistant.KEY_SALESFORCE_SERVICE) == setupAssistant.STATUS_CONNECTED);
+        System.assertEquals(setupAssistant.STATUS_FRESH, (String)services.get(stripeSvc));
+        System.assertEquals(setupAssistant.STATUS_CONNECTED, (String)services.get(salesforceSvc));
     }
 
 
