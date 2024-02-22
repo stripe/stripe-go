@@ -37,8 +37,8 @@ const (
 	TaxRateTaxTypeQST               TaxRateTaxType = "qst"
 	TaxRateTaxTypeRST               TaxRateTaxType = "rst"
 	TaxRateTaxTypeSalesTax          TaxRateTaxType = "sales_tax"
-	TaxRateTaxTypeServiceTax        TaxRateTaxType = "service_tax"
 	TaxRateTaxTypeVAT               TaxRateTaxType = "vat"
+	TaxRateTaxTypeServiceTax        TaxRateTaxType = "service_tax"
 )
 
 // Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.

@@ -79,8 +79,12 @@ const (
 
 // Returns a list of VerificationSessions
 type IdentityVerificationSessionListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
+	ClientReferenceID *string `form:"client_reference_id"`
+	// Only return VerificationSessions that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return VerificationSessions that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -120,6 +124,8 @@ type IdentityVerificationSessionOptionsParams struct {
 // Related guide: [Verify your users' identity documents](https://stripe.com/docs/identity/verify-identity-documents)
 type IdentityVerificationSessionParams struct {
 	Params `form:"*"`
+	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
+	ClientReferenceID *string `form:"client_reference_id"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -260,6 +266,8 @@ type IdentityVerificationSessionVerifiedOutputs struct {
 // Related guide: [The Verification Sessions API](https://stripe.com/docs/identity/verification-sessions)
 type IdentityVerificationSession struct {
 	APIResource
+	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
+	ClientReferenceID string `json:"client_reference_id"`
 	// The short-lived client secret used by Stripe.js to [show a verification modal](https://stripe.com/docs/js/identity/modal) inside your app. This client secret expires after 24 hours and can only be used once. Don't store it, log it, embed it in a URL, or expose it to anyone other than the user. Make sure that you have TLS enabled on any page that includes the client secret. Refer to our docs on [passing the client secret to the frontend](https://stripe.com/docs/identity/verification-sessions#client-secret) to learn more.
 	ClientSecret string `json:"client_secret"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

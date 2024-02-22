@@ -82,9 +82,9 @@ const (
 // Returns a list of Issuing Dispute objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingDisputeListParams struct {
 	ListParams `form:"*"`
-	// Select Issuing disputes that were created during the given date interval.
+	// Only return Issuing disputes that were created during the given date interval.
 	Created *int64 `form:"created"`
-	// Select Issuing disputes that were created during the given date interval.
+	// Only return Issuing disputes that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

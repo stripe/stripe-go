@@ -118,9 +118,9 @@ type IssuingTokenListParams struct {
 	ListParams `form:"*"`
 	// The Issuing card identifier to list tokens for.
 	Card *string `form:"card"`
-	// Select Issuing tokens that were created during the given date interval.
+	// Only return Issuing tokens that were created during the given date interval.
 	Created *int64 `form:"created"`
-	// Select Issuing tokens that were created during the given date interval.
+	// Only return Issuing tokens that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
