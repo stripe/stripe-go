@@ -1,5 +1,9 @@
 # Changelog
 
+## 76.19.0-beta.1 - 2024-02-22
+* [#1815](https://github.com/stripe/stripe-go/pull/1815) Update generated code for beta
+
+
 ## 76.18.0 - 2024-02-22
 * [#1814](https://github.com/stripe/stripe-go/pull/1814) Update generated code
   * Add support for `ClientReferenceID` on `IdentityVerificationReportListParams`, `IdentityVerificationReport`, `IdentityVerificationSessionListParams`, `IdentityVerificationSessionParams`, and `IdentityVerificationSession`
