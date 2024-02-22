@@ -64,9 +64,11 @@ const (
 type CapitalFinancingOfferListParams struct {
 	ListParams `form:"*"`
 	// limit list to offers belonging to given connected account
-	ConnectedAccount *string           `form:"connected_account"`
-	Created          *int64            `form:"created"`
-	CreatedRange     *RangeQueryParams `form:"created"`
+	ConnectedAccount *string `form:"connected_account"`
+	// Only return offers that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return offers that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// limit list to offers with given status

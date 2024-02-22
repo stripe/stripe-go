@@ -119,8 +119,10 @@ type InvoiceItemPriceDataParams struct {
 
 // Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
 type InvoiceItemListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return invoice items that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return invoice items that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// The identifier of the customer whose invoice items to return. If none is provided, all invoice items will be returned.
 	Customer *string `form:"customer"`

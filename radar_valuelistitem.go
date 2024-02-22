@@ -24,8 +24,10 @@ func (p *RadarValueListItemParams) AddExpand(f string) {
 
 // Returns a list of ValueListItem objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type RadarValueListItemListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return items that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return items that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

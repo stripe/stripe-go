@@ -946,8 +946,10 @@ type AccountTOSAcceptanceParams struct {
 
 // Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect). If you're not a platform, the list is empty.
 type AccountListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return connected accounts that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return connected accounts that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

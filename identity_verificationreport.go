@@ -107,8 +107,12 @@ const (
 
 // List all verification reports.
 type IdentityVerificationReportListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
+	ClientReferenceID *string `form:"client_reference_id"`
+	// Only return VerificationReports that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return VerificationReports that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -285,6 +289,8 @@ type IdentityVerificationReportSelfie struct {
 // Related guides: [Accessing verification results](https://stripe.com/docs/identity/verification-sessions#results).
 type IdentityVerificationReport struct {
 	APIResource
+	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
+	ClientReferenceID string `json:"client_reference_id"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Result from a document check

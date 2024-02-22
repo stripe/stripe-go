@@ -302,8 +302,10 @@ const (
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://stripe.com/docs/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
 type EventListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return events that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return events that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Filter events by whether all webhooks were successfully delivered. If false, events which are still pending or have failed all delivery attempts to a webhook endpoint will be returned.
 	DeliverySuccess *bool `form:"delivery_success"`

@@ -60,6 +60,7 @@ import (
 	identityverificationsession "github.com/stripe/stripe-go/v76/identity/verificationsession"
 	"github.com/stripe/stripe-go/v76/invoice"
 	"github.com/stripe/stripe-go/v76/invoiceitem"
+	"github.com/stripe/stripe-go/v76/invoicelineitem"
 	"github.com/stripe/stripe-go/v76/invoicepayment"
 	issuingauthorization "github.com/stripe/stripe-go/v76/issuing/authorization"
 	issuingcard "github.com/stripe/stripe-go/v76/issuing/card"
@@ -253,6 +254,8 @@ type API struct {
 	IdentityVerificationSessions *identityverificationsession.Client
 	// InvoiceItems is the client used to invoke /invoiceitems APIs.
 	InvoiceItems *invoiceitem.Client
+	// InvoiceLineItems is the client used to invoke /invoices/{invoice}/lines APIs.
+	InvoiceLineItems *invoicelineitem.Client
 	// InvoicePayments is the client used to invoke /invoices/{invoice}/payments APIs.
 	InvoicePayments *invoicepayment.Client
 	// Invoices is the client used to invoke /invoices APIs.
@@ -495,6 +498,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IdentityVerificationReports = &identityverificationreport.Client{B: backends.API, Key: key}
 	a.IdentityVerificationSessions = &identityverificationsession.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
+	a.InvoiceLineItems = &invoicelineitem.Client{B: backends.API, Key: key}
 	a.InvoicePayments = &invoicepayment.Client{B: backends.API, Key: key}
 	a.Invoices = &invoice.Client{B: backends.API, Key: key}
 	a.IssuingAuthorizations = &issuingauthorization.Client{B: backends.API, Key: key}
