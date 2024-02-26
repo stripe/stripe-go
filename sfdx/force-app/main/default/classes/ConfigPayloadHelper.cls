@@ -371,6 +371,8 @@ public with sharing class ConfigPayloadHelper {
         Boolean requiredError = validateRequiredFields(required_fields, requestPayload, settings, errors);
         Boolean optionalError = validateOptionalFields(optional_fields, requestPayload, settings, errors);
 
+        savePayload.put('settings', settings);
+
         return requiredError || optionalError;
     }
 
