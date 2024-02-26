@@ -6,14 +6,15 @@
 <template>
     <div class="slds-p-horizontal_large slds-p-vertical_xx-large slds-container slds-container_center slds-container_medium">
         <div class="slds-text-align_right slds-m-bottom_medium">
-            <lightning-button label="Add Account" variant="brand" onclick={authorizeIntegrationUser}></lightning-button>
+            <lightning-button label="Add Stripe Account" variant="brand" onclick={authorizeIntegrationUser}></lightning-button>
         </div>
         <table>
             <thead>
-                <tr>
+                <tr class="stripe-accounts-table">
                     <th>
                         Primary?
-                        <lightning-helptext icon-name="utility:info" content="This is the default account used to sync Orders."></lightning-helptext>
+                        <lightning-helptext icon-name="utility:info"
+                            content="Default Stripe Account to sync Salesforce Orders to."></lightning-helptext>
                     </th>
                     <th>Stripe Account Name</th>
                     <th>Stripe Account Id</th>
@@ -44,6 +45,11 @@
                         </td>
                     </tr>
                 </template>
+                <template if:false={accounts.length}>
+                    <tr>
+                        <td>No Stripe Accounts connected.</td>
+                    </tr>
+                </template>
             </tbody>
         </table>
     </div>
@@ -56,7 +62,8 @@
             </p>
         </div>
         <lightning-button slot="footer" label="Cancel" variant="neutral" class="slds-button" onclick={hideRemoveAccountModal} disabled={modalLoading}></lightning-button>
-        <lightning-button slot="footer" label="Remove Account" variant="destructive" class="slds-button" onclick={deleteAccount} disabled={modalLoading}></lightning-button>
+        <lightning-button slot="footer" label="Remove Stripe Account" variant="destructive" class="slds-button"
+            onclick={deleteAccount} disabled={modalLoading}></lightning-button>
     </c-modal>
     <!-- /Remove Account Confirmation Modal -->
 </template>

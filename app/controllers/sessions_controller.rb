@@ -206,7 +206,7 @@ class SessionsController < ApplicationController
     sf_account_id = raw_sf_account_url.match(%r{id/([^/]+)/})[1]
 
     if sf_account_id.blank?
-      log.warn 'callback requested with empty sf_account_id',
+      log.warn 'salesforce_callback_handler requested with empty sf_account_id',
                sf_account_id: sf_account_id
       head :not_found
       return
@@ -215,7 +215,6 @@ class SessionsController < ApplicationController
     state.salesforce_account_id = sf_account_id if state.salesforce_account_id.nil?
 
     user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true)
-
     log.default_tags[:sf_account_id] = sf_account_id
 
     unless user
@@ -239,7 +238,7 @@ class SessionsController < ApplicationController
     # TODO it seems possible for a user to auth against the wrong account, need to investigate further
     if !user.new? && user.salesforce_account_id != sf_account_id
       # this likely means a user is trying to auth to Salesforce Org A but most recently logged into Salesforce Org B
-      raise "user already exists and account ID is not equal, this should never happen"
+      raise "User already exists and Salesforce Account ID is not equal. This should never happen."
     end
     user.salesforce_account_id = sf_account_id
     user.salesforce_refresh_token = sf_refresh_token
@@ -288,7 +287,7 @@ class SessionsController < ApplicationController
     stripe_account_id = stripe_auth["uid"]
 
     if stripe_account_id.blank?
-      log.warn 'callback requested with empty stripe_account_id',
+      log.warn 'stripe_callback_handler requested with empty stripe_account_id',
                stripe_account_id: stripe_account_id
       head :not_found
       return
@@ -296,69 +295,55 @@ class SessionsController < ApplicationController
 
     log.default_tags[:stripe_account_id] = stripe_account_id
 
-    # First, we try to find the user in our state, which is generally our source of truth
-    user = StripeForce::User.find(id: state.user_id)
-    if user.nil?
-      # If our state has no user (could be a new org / reauth), then we try to find a default account that was created via a post install action
-      user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true, stripe_account_id: nil, livemode: livemode)
-    end
-    if user.nil?
-      # At this point we know that we're reauthenticating, so it's safe to find on the stripe account ID.
-      user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true, stripe_account_id: stripe_account_id, livemode: livemode)
-    end
-    if user.blank?
-      # If the user is blank here, we're in an error case. This happens if there's no user in the database (because if there was one, it would be default)
-      Integrations::ErrorContext.report_edge_case("invalid user identifier", metadata: {user_id: state.user_id})
-      head :not_found
-      return
-    end
-
-    log.default_tags[:user_id] = user.id
+    # set values on the state
+    # it's important we do this before the below since we use state.stripe_account_id below to create the user
     if stripe_auth['extra'] && stripe_auth['extra']['settings'] && stripe_auth['extra']['settings']['dashboard'] && stripe_auth['extra']['settings']['dashboard']['display_name']
       state.stripe_account_name = stripe_auth['extra']['settings']['dashboard']['display_name']
     end
+    state.stripe_account_id = stripe_account_id if state.stripe_account_id.nil?
+    state.primary_stripe_account_id = stripe_account_id if state.primary_stripe_account_id.nil?
+    # this field is used in stripe_v2_callback_response(state) to postmessage
+    state.livemode = livemode if state.stripe_account_livemode?
 
-    state.stripe_account_id = stripe_account_id
-    state.livemode = livemode
-    state.primary_stripe_account_id = stripe_account_id unless state.primary_stripe_account_id?
-    state.primary_livemode = livemode unless state.primary_livemode?
-
-    if user.stripe_account_id && user.stripe_account_id != stripe_account_id && user.salesforce_account_id == state.salesforce_account_id
-      # We're finding for is_default_account_config: false because if we're here, we know we're creating a sub user, that should be false already
-      sub_user = StripeForce::User.find_or_new(salesforce_account_id: state.salesforce_account_id, stripe_account_id: stripe_account_id, livemode: livemode, is_default_account_config: false)
-
-      if sub_user.id.nil?
-        log.info 'adding stripe account ID to sf org', stripe_account_id: stripe_account_id, salesforce_account_id: user.salesforce_account_id
-        sub_user.is_default_account_config = false
-        # incorporate the data setup from post-install, so we can deprecate it later
-        sub_user.connector_settings = user.connector_settings
-        sub_user.feature_flags = user.feature_flags
-        sub_user.field_defaults = user.field_defaults
-        sub_user.field_mappings = user.field_mappings
-        sub_user.salesforce_object_prefix_mappings = user.salesforce_object_prefix_mappings
-
-        sub_user.salesforce_account_id = user.salesforce_account_id
-        sub_user.salesforce_instance_url = user.salesforce_instance_url
-        sub_user.salesforce_token = user.salesforce_token
-        sub_user.salesforce_refresh_token = user.salesforce_refresh_token
-        sub_user.name = user.name
-        sub_user.email = user.email
-        sub_user.save
-        log.info 'added stripe account ID to sf org', user_id: sub_user.id, stripe_account_id: stripe_account_id, salesforce_account_id: user.salesforce_account_id
-
-      else
-        log.info 'updated stripe account ID to sf org', user_id: sub_user.id, stripe_account_id: stripe_account_id, salesforce_account_id: user.salesforce_account_id
-        sub_user.update(stripe_account_id: stripe_account_id, livemode: livemode)
-      end
-
-      state.stripe_account_id = stripe_account_id
-      state.livemode = livemode
-
-      return sub_user.id
+    # Either the user is:
+    # -- making the first call to auth a Stripe acct in a new Salesforce org
+    # -- authorizing a new user (MSA)
+    # -- reauthing an existing user
+    user = StripeForce::User.find(id: state.user_id)
+    if user.nil?
+      # This should really never happen but it is currently happening when we re-auth a user in v1 (pre-MSA org)
+      log.info 'could not find user based off user_id so finding user based off trio'
+      user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, stripe_account_id: state.stripe_account_id, livemode: livemode, is_default_account_config: true,)
+    end
+    default_user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true)
+    if user.nil? || (!user.stripe_account_id.nil? && user.stripe_account_id != stripe_account_id)
+      # this condition should primarily be hit when authing a non default stripe account
+      # second conditional picks up whether the user that we have is a different one than the one we're trying to auth
+      # user can be picked up from state.user_id, which will be our existing user
+      log.info 'creating new user', stripe_account_id: stripe_account_id, salesforce_account_id: state.salesforce_account_id, is_default_account_config: default_user.nil?
+      user = StripeForce::User.new(salesforce_account_id: state.salesforce_account_id, stripe_account_id: stripe_account_id, livemode: livemode, is_default_account_config: default_user.nil?)
+      log.info 'created new user', id: user.id
     end
 
-    log.info 'updating stripe account ID', user_id: user.id, stripe_account_id: stripe_account_id
+    # connected a new Stripe acct that is not the default_account_config
+    if default_user.present? && user.stripe_account_id != default_user.stripe_account_id
+      # When we create a new user, we need to copy over the field mappings and the feature flags so they don't need to be reset
+      log.info "updating user's (#{user.id}) account config to match default user (#{default_user.id})"
 
+      user.connector_settings = default_user.connector_settings
+      user.feature_flags = default_user.feature_flags
+      user.field_defaults = default_user.field_defaults
+      user.field_mappings = default_user.field_mappings
+      user.salesforce_object_prefix_mappings = default_user.salesforce_object_prefix_mappings
+      user.salesforce_token = default_user.salesforce_token
+      user.salesforce_refresh_token = default_user.salesforce_refresh_token
+      user.save
+    end
+
+    if user.stripe_account_id && user.stripe_account_id != stripe_account_id
+      Integrations::ErrorContext.report_edge_case("Stripe account ID already set, overwriting.")
+    end
+    log.info 'updating stripe account ID', user_id: user.id, stripe_account_id: stripe_account_id
     user.update(stripe_account_id: stripe_account_id, livemode: livemode)
 
     user.id
@@ -494,7 +479,7 @@ class SessionsController < ApplicationController
     if state.nil?
       raise StateException.new(encrypted_state)
     elsif state.user_id.nil?
-      # Find user after first stripe account setup
+      # Find user after first Stripe account setup
       user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, stripe_account_id: state.primary_stripe_account_id, livemode: state.primary_livemode, is_default_account_config: true)
       state.user_id = user.id unless user.nil?
       state.csac_id = user.id unless user.nil?

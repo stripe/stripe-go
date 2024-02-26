@@ -7,12 +7,11 @@ import {LightningElement, track, api} from 'lwc';
 import {getErrorMessage, createToast, openWindow} from 'c/utils'
 import AddStripeAccountModal from 'c/addStripeAccountModal';
 import Debugger from "c/debugger";
-import {MessageListener, ConnectionStatus, ListenerEvents, ServiceManagerServices} from "c/systemStatusUtils";
+import {MessageListener, ConnectionStatus, ListenerEvents} from "c/systemStatusUtils";
 import { Manager, ServiceEvents } from "c/serviceManager";
 import LightningConfirm from "lightning/confirm";
 
 const DebugLog = Debugger.withContext('StripeAccountManagementStep');
-const SERVICE_DELIMINATOR = '|';
 
 export default class StripeAccountManagementStep extends LightningElement {
     @track isConnected = false;

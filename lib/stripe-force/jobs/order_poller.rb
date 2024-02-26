@@ -7,9 +7,6 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
   def perform
 
     execution_time = Time.now.utc
-    if @user.feature_enabled?(FeatureFlags::MULTI_STRIPE_ACCOUNT)
-      return unless StripeForce::User.where(salesforce_account_id: @user.salesforce_account_id).any?
-    end
     return if !should_poll?(execution_time, poll_timestamp)
 
     poll_record = T.must(poll_timestamp)
@@ -54,9 +51,6 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
   end
 
   private def generate_soql(time_start, time_end)
-    # You can't use constants like true or false in soql
-    # You can't use dynamic values in soql
-
     # Look at the Order's stripe account obj
     #--stripe account obj is null
     #----Only poll if the user is default

@@ -61,6 +61,7 @@ module Api
       resp = {}
       resp["#{SERVICE_SALESFORCE}#{SERVICE_DELIMINATOR}#{sf_key}"] = sf_status
       users = StripeForce::User.where(salesforce_account_id: sf_key)
+      log.info "found connection statuses for #{users.count} users with salesforce_account_id #{sf_key}"
       users.each do |user|
         livemode = user.livemode ? "live" : "test"
         resp["#{SERVICE_STRIPE}#{SERVICE_DELIMINATOR}#{user.stripe_account_id}#{SERVICE_DELIMINATOR}#{livemode}"] = user.valid_credentials_stripe!
