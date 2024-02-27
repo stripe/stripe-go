@@ -1357,11 +1357,11 @@ func StringSlice(v []string) []*string {
 }
 
 func AddBetaVersion(betaName string, betaVersion string) error {
-	if strings.Contains(APIVersion, "; " + betaName + "=") {
-        return errors.New(fmt.Sprintf("Stripe version header %s already contains entry for beta %s", APIVersion, betaName))
-    }
-    APIVersion = fmt.Sprintf("%s; %s=%s", APIVersion, betaName, betaVersion)
-    return nil
+	if strings.Contains(APIVersion, "; "+betaName+"=") {
+		return fmt.Errorf("Stripe version header %s already contains entry for beta %s", APIVersion, betaName)
+	}
+	APIVersion = fmt.Sprintf("%s; %s=%s", APIVersion, betaName, betaVersion)
+	return nil
 }
 
 //
