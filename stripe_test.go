@@ -1550,6 +1550,14 @@ func TestRawRequestTelemetry(t *testing.T) {
 	defer testServer.Close()
 }
 
+func TestAddBetaVersion(t *testing.T) {
+	APIVersion = "2024-02-26"
+	AddBetaVersion("feature_beta", "v3")
+	assert.Equal(t, "2024-02-26; feature_beta=v3", APIVersion)
+	err := AddBetaVersion("feature_beta", "v3")
+	assert.Equal(t, "Stripe version header 2024-02-26; feature_beta=v3 already contains entry for beta feature_beta", err.Error())
+}
+
 //
 // ---
 //
