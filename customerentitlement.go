@@ -6,15 +6,6 @@
 
 package stripe
 
-// The type of feature.
-type CustomerEntitlementType string
-
-// List of values that CustomerEntitlementType can take
-const (
-	CustomerEntitlementTypeQuantity CustomerEntitlementType = "quantity"
-	CustomerEntitlementTypeSwitch   CustomerEntitlementType = "switch"
-)
-
 // Retrieve a list of entitlements for a customer
 type CustomerEntitlementListParams struct {
 	ListParams `form:"*"`
@@ -26,12 +17,6 @@ type CustomerEntitlementListParams struct {
 // AddExpand appends a new field to expand.
 func (p *CustomerEntitlementListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// Contains information about entitlements relating to features with type=quantity. Required when the feature has type=quantity.
-type CustomerEntitlementQuantity struct {
-	// The total quantity available to the customer.
-	TotalAvailable int64 `json:"total_available"`
 }
 
 // A entitlement for a customer describes access to a feature.
@@ -46,10 +31,6 @@ type CustomerEntitlement struct {
 	LookupKey string `json:"lookup_key"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Contains information about entitlements relating to features with type=quantity. Required when the feature has type=quantity.
-	Quantity *CustomerEntitlementQuantity `json:"quantity"`
-	// The type of feature.
-	Type CustomerEntitlementType `json:"type"`
 }
 
 // CustomerEntitlementList is a list of CustomerEntitlements as retrieved from a list endpoint.
