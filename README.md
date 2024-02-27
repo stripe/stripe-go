@@ -541,7 +541,7 @@ If your beta feature requires a `Stripe-Version` header to be sent, set the `str
 > The `APIVersion` can only be set in beta versions of the library. 
 
 ```go
-stripe.AddBetaVersion += ("feature_beta", "v3")
+stripe.AddBetaVersion("feature_beta", "v3")
 ```
 
 ## Support
