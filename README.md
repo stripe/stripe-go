@@ -535,13 +535,13 @@ go get -u github.com/stripe/stripe-go/v76@v73.3.0-beta.1
 
 We highly recommend keeping an eye on when the beta feature you are interested in goes from beta to stable so that you can move from using a beta version of the SDK to the stable version.
 
-If your beta feature requires a `Stripe-Version` header to be sent, use the `stripe.APIVersion` field to set it:
+If your beta feature requires a `Stripe-Version` header to be sent, set the `stripe.APIVersion` field using the `stripe.AddBetaVersion` function to set it:
 
 > **Note**
 > The `APIVersion` can only be set in beta versions of the library. 
 
 ```go
-stripe.APIVersion += "; feature_beta=v3"
+stripe.AddBetaVersion("feature_beta", "v3")
 ```
 
 ## Support
