@@ -995,7 +995,7 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         try {
             if (utilities.isPackagedEnvironment()) {
-                rd.put('packageVersion', System.requestVersion());
+                rd.put('packageVersion', System.requestVersion().toString());
             } else {
                 rd.put('packageVersion', '0.0.0');
             }

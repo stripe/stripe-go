@@ -136,7 +136,6 @@ public with sharing class test_setupAssistant {
         System.assertEquals(true, resultsMap.containsKey('supportedISOCodes'), 'Has supportedISOCodes key');
         System.assertEquals(true, resultsMap.containsKey('defaultCurrency'), 'Has defaultCurrency key');
         System.assertEquals(true, resultsMap.containsKey('orgMaxApiLimit'), 'Has orgMaxApiLimit key');
-
     }
 
     @IsTest
