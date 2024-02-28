@@ -26,7 +26,7 @@ const (
 	PaymentLinkAutomaticTaxLiabilityTypeSelf    PaymentLinkAutomaticTaxLiabilityType = "self"
 )
 
-// Configuration for collecting the customer's billing address.
+// Configuration for collecting the customer's billing address. Defaults to `auto`.
 type PaymentLinkBillingAddressCollection string
 
 // List of values that PaymentLinkBillingAddressCollection can take
@@ -119,7 +119,7 @@ const (
 	PaymentLinkPaymentIntentDataSetupFutureUsageOnSession  PaymentLinkPaymentIntentDataSetupFutureUsage = "on_session"
 )
 
-// Configuration for collecting a payment method during checkout.
+// Configuration for collecting a payment method during checkout. Defaults to `always`.
 type PaymentLinkPaymentMethodCollection string
 
 // List of values that PaymentLinkPaymentMethodCollection can take
@@ -588,7 +588,7 @@ type PaymentLinkParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Configuration for automatic tax collection.
 	AutomaticTax *PaymentLinkAutomaticTaxParams `form:"automatic_tax"`
-	// Configuration for collecting the customer's billing address.
+	// Configuration for collecting the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
 	// Configure fields to gather active consent from customers.
 	ConsentCollection *PaymentLinkConsentCollectionParams `form:"consent_collection"`
@@ -616,7 +616,7 @@ type PaymentLinkParams struct {
 	PaymentIntentData *PaymentLinkPaymentIntentDataParams `form:"payment_intent_data"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.This may occur if the Checkout Session includes a free trial or a discount.
 	//
-	// Can only be set in `subscription` mode.
+	// Can only be set in `subscription` mode. Defaults to `always`.
 	//
 	// If you'd like information on how to collect a payment method outside of Checkout, read the guide on [configuring subscriptions with a free trial](https://stripe.com/docs/payments/checkout/free-trials).
 	PaymentMethodCollection *string `form:"payment_method_collection"`
@@ -954,7 +954,7 @@ type PaymentLink struct {
 	// This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account.
 	ApplicationFeePercent float64                  `json:"application_fee_percent"`
 	AutomaticTax          *PaymentLinkAutomaticTax `json:"automatic_tax"`
-	// Configuration for collecting the customer's billing address.
+	// Configuration for collecting the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection PaymentLinkBillingAddressCollection `json:"billing_address_collection"`
 	// When set, provides configuration to gather active consent from customers.
 	ConsentCollection *PaymentLinkConsentCollection `json:"consent_collection"`
@@ -983,7 +983,7 @@ type PaymentLink struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// Indicates the parameters to be passed to PaymentIntent creation during checkout.
 	PaymentIntentData *PaymentLinkPaymentIntentData `json:"payment_intent_data"`
-	// Configuration for collecting a payment method during checkout.
+	// Configuration for collecting a payment method during checkout. Defaults to `always`.
 	PaymentMethodCollection PaymentLinkPaymentMethodCollection `json:"payment_method_collection"`
 	// The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes    []PaymentLinkPaymentMethodType    `json:"payment_method_types"`
