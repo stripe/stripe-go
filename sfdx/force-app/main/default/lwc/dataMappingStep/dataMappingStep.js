@@ -240,7 +240,7 @@ export default class DataMappingStep extends LightningElement {
     }
 
     saveObjectMappings(stripeObjectMappings, listOfAllMappings, listOfMetadataFields, stripeObjectName) {
-        for (let i = 0; i < stripeObjectMappings && stripeObjectMappings.length; i++) {
+        for (let i = 0; i < stripeObjectMappings.length; i++) {
             for (let j = 0; j < stripeObjectMappings[i].fields.length; j++) {
 
                 const fieldData = stripeObjectMappings[i].fields[j];
@@ -869,13 +869,9 @@ export default class DataMappingStep extends LightningElement {
     }
 
     setFieldMappings(stripeObject, stripeObjectMap, metadataFieldList) {
-        if (stripeObjectMap == null) {
-            return;
-        }
-
         // TODO way too many nested for loops, need to simplify this
         for(let i = 0; i < stripeObjectMap.length; i++) {
-            for(let j = 0; j < stripeObjectMap[i].fields && stripeObjectMap[i].fields.length; j++) {
+            for(let j = 0; j < stripeObjectMap[i].fields.length; j++) {
                 if(this.allMappingConfigurations.default_mappings &&
                     this.allMappingConfigurations.default_mappings[stripeObject] &&
                     this.allMappingConfigurations.default_mappings[stripeObject].length !== 0) {
