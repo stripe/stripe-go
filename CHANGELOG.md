@@ -1,5 +1,15 @@
 # Changelog
 
+## 76.20.0-beta.1 - 2024-02-29
+* [#1816](https://github.com/stripe/stripe-go/pull/1816) Update generated code for beta
+  * Remove support for resource `Entitlements.Event`
+  * Change type of `ConfirmationTokenMandateData` from `nullable(ConfirmationTokensResourceMandateData)` to `ConfirmationTokensResourceMandateData`
+  * Remove support for `Quantity` and `Type` on `EntitlementsFeatureParams` and `EntitlementsFeature`
+  * Add support for `Livemode` on `IssuingPersonalizationDesign`
+  * Add support for `ApplicationFeeAmount`, `Description`, `Metadata`, and `TransferData` on `PaymentIntentDecrementAuthorizationParams`
+  * Add support for `EnableCustomerCancellation` on `TerminalReaderActionCollectPaymentMethodCollectConfig` and `TerminalReaderCollectPaymentMethodCollectConfigParams`
+* [#1819](https://github.com/stripe/stripe-go/pull/1819) Add helper to set beta version
+
 ## 76.19.0-beta.1 - 2024-02-22
 * [#1815](https://github.com/stripe/stripe-go/pull/1815) Update generated code for beta
 
