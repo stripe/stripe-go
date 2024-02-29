@@ -3281,6 +3281,13 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The parameters used to automatically create a transfer after the payment is captured.
+// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+type PaymentIntentDecrementAuthorizationTransferDataParams struct {
+	// The amount that will be transferred automatically when a charge succeeds.
+	Amount *int64 `form:"amount"`
+}
+
 // Perform an decremental authorization on an eligible
 // [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
 // PaymentIntent's status must be requires_capture and
@@ -3301,13 +3308,31 @@ type PaymentIntentDecrementAuthorizationParams struct {
 	Params `form:"*"`
 	// The updated total amount that you intend to collect from the cardholder. This amount must be smaller than the currently authorized amount.
 	Amount *int64 `form:"amount"`
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The parameters used to automatically create a transfer after the payment is captured.
+	// Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	TransferData *PaymentIntentDecrementAuthorizationTransferDataParams `form:"transfer_data"`
 }
 
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentDecrementAuthorizationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentIntentDecrementAuthorizationParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The parameters used to automatically create a transfer after the payment is captured.

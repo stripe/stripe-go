@@ -937,8 +937,7 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 
 	stripeErr, _ := err.(*Error)
 
-	// Don't retry if the context was was canceled or its deadline was
-	// exceeded.
+	// Don't retry if the context was canceled or its deadline was exceeded.
 	if req.Context() != nil && req.Context().Err() != nil {
 		switch req.Context().Err() {
 		case context.Canceled:

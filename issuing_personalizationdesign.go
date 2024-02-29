@@ -164,6 +164,8 @@ type IssuingPersonalizationDesign struct {
 	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
 	LookupKey string `json:"lookup_key"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

@@ -8,15 +8,6 @@ package stripe
 
 import "encoding/json"
 
-// The type of feature.
-type EntitlementsFeatureType string
-
-// List of values that EntitlementsFeatureType can take
-const (
-	EntitlementsFeatureTypeQuantity EntitlementsFeatureType = "quantity"
-	EntitlementsFeatureTypeSwitch   EntitlementsFeatureType = "switch"
-)
-
 // Retrieve a list of features
 type EntitlementsFeatureListParams struct {
 	ListParams `form:"*"`
@@ -29,12 +20,6 @@ func (p *EntitlementsFeatureListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Contains information about type=quantity features. This is required when type=quantity.
-type EntitlementsFeatureQuantityParams struct {
-	// The quantity of units made available by this feature. This quantity will be multiplied by the line_item quantity for line_items that contain this feature.
-	UnitsAvailable *int64 `form:"units_available"`
-}
-
 // Creates a feature
 type EntitlementsFeatureParams struct {
 	Params `form:"*"`
@@ -44,21 +29,11 @@ type EntitlementsFeatureParams struct {
 	LookupKey *string `form:"lookup_key"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
 	Name *string `form:"name"`
-	// Contains information about type=quantity features. This is required when type=quantity.
-	Quantity *EntitlementsFeatureQuantityParams `form:"quantity"`
-	// The type of feature.
-	Type *string `form:"type"`
 }
 
 // AddExpand appends a new field to expand.
 func (p *EntitlementsFeatureParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
-}
-
-// Contains information about type=quantity features. This is required when type=quantity.
-type EntitlementsFeatureQuantity struct {
-	// The quantity of units made available by this feature. This quantity will be multiplied by the line_item quantity for line_items that contain this feature.
-	UnitsAvailable int64 `json:"units_available"`
 }
 
 // A feature represents a monetizable ability or functionality in your system.
@@ -75,10 +50,6 @@ type EntitlementsFeature struct {
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Contains information about type=quantity features. This is required when type=quantity.
-	Quantity *EntitlementsFeatureQuantity `json:"quantity"`
-	// The type of feature.
-	Type EntitlementsFeatureType `json:"type"`
 }
 
 // EntitlementsFeatureList is a list of Features as retrieved from a list endpoint.

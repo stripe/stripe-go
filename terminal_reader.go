@@ -215,6 +215,8 @@ type TerminalReaderCollectPaymentMethodCollectConfigTippingParams struct {
 
 // Configuration overrides
 type TerminalReaderCollectPaymentMethodCollectConfigParams struct {
+	// Enables cancel button on transaction screens.
+	EnableCustomerCancellation *bool `form:"enable_customer_cancellation"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping *bool `form:"skip_tipping"`
 	// Tipping configuration for this transaction.
@@ -259,6 +261,8 @@ type TerminalReaderProcessPaymentIntentProcessConfigTippingParams struct {
 
 // Configuration overrides
 type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
+	// Enables cancel button on transaction screens.
+	EnableCustomerCancellation *bool `form:"enable_customer_cancellation"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping *bool `form:"skip_tipping"`
 	// Tipping configuration for this transaction.
@@ -282,7 +286,10 @@ func (p *TerminalReaderProcessPaymentIntentParams) AddExpand(f string) {
 }
 
 // Configuration overrides
-type TerminalReaderProcessSetupIntentProcessConfigParams struct{}
+type TerminalReaderProcessSetupIntentProcessConfigParams struct {
+	// Enables cancel button on transaction screens.
+	EnableCustomerCancellation *bool `form:"enable_customer_cancellation"`
+}
 
 // Initiates a setup intent flow on a Reader.
 type TerminalReaderProcessSetupIntentParams struct {
@@ -302,6 +309,12 @@ func (p *TerminalReaderProcessSetupIntentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configuration overrides
+type TerminalReaderRefundPaymentRefundPaymentConfigParams struct {
+	// Enables cancel button on transaction screens.
+	EnableCustomerCancellation *bool `form:"enable_customer_cancellation"`
+}
+
 // Initiates a refund on a Reader
 type TerminalReaderRefundPaymentParams struct {
 	Params `form:"*"`
@@ -317,6 +330,8 @@ type TerminalReaderRefundPaymentParams struct {
 	PaymentIntent *string `form:"payment_intent"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
 	RefundApplicationFee *bool `form:"refund_application_fee"`
+	// Configuration overrides
+	RefundPaymentConfig *TerminalReaderRefundPaymentRefundPaymentConfigParams `form:"refund_payment_config"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
 	ReverseTransfer *bool `form:"reverse_transfer"`
 }
@@ -435,6 +450,8 @@ type TerminalReaderActionCollectPaymentMethodCollectConfigTipping struct {
 
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionCollectPaymentMethodCollectConfig struct {
+	// Enable customer initiated cancellation when processing this payment.
+	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping bool `json:"skip_tipping"`
 	// Represents a per-transaction tipping configuration
@@ -471,6 +488,8 @@ type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
 
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionProcessPaymentIntentProcessConfig struct {
+	// Enable customer initiated cancellation when processing this payment.
+	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping bool `json:"skip_tipping"`
 	// Represents a per-transaction tipping configuration
@@ -487,7 +506,10 @@ type TerminalReaderActionProcessPaymentIntent struct {
 }
 
 // Represents a per-setup override of a reader configuration
-type TerminalReaderActionProcessSetupIntentProcessConfig struct{}
+type TerminalReaderActionProcessSetupIntentProcessConfig struct {
+	// Enable customer initiated cancellation when processing this SetupIntent.
+	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
+}
 
 // Represents a reader action to process a setup intent
 type TerminalReaderActionProcessSetupIntent struct {
@@ -497,6 +519,12 @@ type TerminalReaderActionProcessSetupIntent struct {
 	ProcessConfig *TerminalReaderActionProcessSetupIntentProcessConfig `json:"process_config"`
 	// Most recent SetupIntent processed by the reader.
 	SetupIntent *SetupIntent `json:"setup_intent"`
+}
+
+// Represents a per-transaction override of a reader configuration
+type TerminalReaderActionRefundPaymentRefundPaymentConfig struct {
+	// Enable customer initiated cancellation when refunding this payment.
+	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
 }
 
 // Represents a reader action to refund a payment
@@ -515,6 +543,8 @@ type TerminalReaderActionRefundPayment struct {
 	Refund *Refund `json:"refund"`
 	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
 	RefundApplicationFee bool `json:"refund_application_fee"`
+	// Represents a per-transaction override of a reader configuration
+	RefundPaymentConfig *TerminalReaderActionRefundPaymentRefundPaymentConfig `json:"refund_payment_config"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
 	ReverseTransfer bool   `json:"reverse_transfer"`
 	StripeAccount   string `json:"stripe_account"`
