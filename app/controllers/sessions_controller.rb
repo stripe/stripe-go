@@ -114,8 +114,6 @@ class SessionsController < ApplicationController
       current_default_stripe_account = account_configurations.detect {|config| config.is_default_account_config == true }
       current_default_stripe_account.is_default_account_config = false
       new_default_user.is_default_account_config = true
-      new_default_user.salesforce_organization_key = current_default_stripe_account.salesforce_organization_key
-      current_default_stripe_account.salesforce_organization_key = nil
 
       current_default_stripe_account.save
       new_default_user.save
@@ -337,6 +335,7 @@ class SessionsController < ApplicationController
       user.salesforce_object_prefix_mappings = default_user.salesforce_object_prefix_mappings
       user.salesforce_token = default_user.salesforce_token
       user.salesforce_refresh_token = default_user.salesforce_refresh_token
+      user.salesforce_organization_key = default_user.salesforce_organization_key
       user.save
     end
 
