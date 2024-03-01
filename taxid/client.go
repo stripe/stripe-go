@@ -4,18 +4,17 @@
 //
 //
 
-// Package taxid provides the /customers/{customer}/tax_ids APIs
+// Package taxid provides the /tax_ids APIs
 package taxid
 
 import (
-	"fmt"
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go/v76"
 	"github.com/stripe/stripe-go/v76/form"
 )
 
-// Client is used to invoke /customers/{customer}/tax_ids APIs.
+// Client is used to invoke /tax_ids APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -28,15 +27,13 @@ func New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 
 // New creates a new tax id.
 func (c Client) New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
-	if params == nil {
-		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Customer must be set",
+	path := "/v1/tax_ids"
+	if params.Customer != nil {
+		path = stripe.FormatURLPath(
+			"/v1/customers/%s/tax_ids",
+			stripe.StringValue(params.Customer),
 		)
 	}
-	path := stripe.FormatURLPath(
-		"/v1/customers/%s/tax_ids",
-		stripe.StringValue(params.Customer),
-	)
 	taxid := &stripe.TaxID{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, taxid)
 	return taxid, err
@@ -49,16 +46,17 @@ func Get(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 
 // Get returns the details of a tax id.
 func (c Client) Get(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
-	if params == nil {
-		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Customer must be set",
-		)
-	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/tax_ids/%s",
-		stripe.StringValue(params.Customer),
+		"/v1/tax_ids/%s",
 		id,
 	)
+	if params.Customer != nil {
+		path = stripe.FormatURLPath(
+			"/v1/customers/%s/tax_ids/%s",
+			stripe.StringValue(params.Customer),
+			id,
+		)
+	}
 	taxid := &stripe.TaxID{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, taxid)
 	return taxid, err
@@ -71,16 +69,17 @@ func Del(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 
 // Del removes a tax id.
 func (c Client) Del(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
-	if params == nil {
-		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Customer must be set",
-		)
-	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/tax_ids/%s",
-		stripe.StringValue(params.Customer),
+		"/v1/tax_ids/%s",
 		id,
 	)
+	if params.Customer != nil {
+		path = stripe.FormatURLPath(
+			"/v1/customers/%s/tax_ids/%s",
+			stripe.StringValue(params.Customer),
+			id,
+		)
+	}
 	taxid := &stripe.TaxID{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, taxid)
 	return taxid, err
@@ -93,10 +92,13 @@ func List(params *stripe.TaxIDListParams) *Iter {
 
 // List returns a list of tax ids.
 func (c Client) List(listParams *stripe.TaxIDListParams) *Iter {
-	path := stripe.FormatURLPath(
-		"/v1/customers/%s/tax_ids",
-		stripe.StringValue(listParams.Customer),
-	)
+	path := "/v1/tax_ids"
+	if listParams != nil && listParams.Customer != nil {
+		path = stripe.FormatURLPath(
+			"/v1/customers/%s/tax_ids",
+			stripe.StringValue(listParams.Customer),
+		)
+	}
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxIDList{}
