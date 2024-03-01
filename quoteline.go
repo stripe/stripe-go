@@ -116,6 +116,7 @@ type QuoteLineEndsAtType string
 
 // List of values that QuoteLineEndsAtType can take
 const (
+	QuoteLineEndsAtTypeBillingPeriodEnd    QuoteLineEndsAtType = "billing_period_end"
 	QuoteLineEndsAtTypeDiscountEnd         QuoteLineEndsAtType = "discount_end"
 	QuoteLineEndsAtTypeDuration            QuoteLineEndsAtType = "duration"
 	QuoteLineEndsAtTypeQuoteAcceptanceDate QuoteLineEndsAtType = "quote_acceptance_date"
