@@ -2738,6 +2738,37 @@ func TestTaxFormsPdfGet(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestTaxIdsDelete(t *testing.T) {
+	params := &stripe.TaxIDParams{}
+	result, err := taxid.Del("taxid_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxIdsGet(t *testing.T) {
+	params := &stripe.TaxIDListParams{}
+	result := taxid.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestTaxIdsGet2(t *testing.T) {
+	params := &stripe.TaxIDParams{}
+	result, err := taxid.Get("taxid_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxIdsPost(t *testing.T) {
+	params := &stripe.TaxIDParams{
+		Type:  stripe.String(string(stripe.TaxIDTypeEUVAT)),
+		Value: stripe.String("123"),
+	}
+	result, err := taxid.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestTaxRatesGet(t *testing.T) {
 	params := &stripe.TaxRateListParams{}
 	params.Limit = stripe.Int64(3)
