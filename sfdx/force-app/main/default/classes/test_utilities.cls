@@ -6,7 +6,7 @@ public with sharing class test_utilities {
     static void testDmlManager() {
         String profile = Test_Tools.PROFILE_CHATTER_FREE_USER;
         String uniqueId = 'dmlUnprivileged';
-        User unprivUser = testTools.createUser(profile, uniqueId);
+        User unprivUser = testTools.insertUser(profile, uniqueId);
 
         Exception unknownAccessModifier;
         Exception unknownAccessObject;

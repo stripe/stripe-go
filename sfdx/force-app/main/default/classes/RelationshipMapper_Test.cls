@@ -5,6 +5,7 @@
 
 @IsTest
 public with sharing class RelationshipMapper_Test {
+    private static Test_Tools testTools = new Test_Tools();
     static Map<String, ConfigData> testData = new Map<String, ConfigData> {
             'price' => new ConfigData('price', new Map<String, String> {
                     'metadata.Product' => 'Product2.Name',
@@ -104,8 +105,6 @@ public with sharing class RelationshipMapper_Test {
                     'metadata.Contract Service Start Date' => 'EffectiveDate'
             })
     };
-
-    static Test_Tools testTools = new Test_Tools();
 
     @IsTest
     static void TestConfigData() {
@@ -441,7 +440,7 @@ public with sharing class RelationshipMapper_Test {
         RelationshipMapper rm = new RelationshipMapper();
         String profile = Test_Tools.PROFILE_CHATTER_FREE_USER;
         String uniqueId = 'TestRMAccessibility';
-        User unprivUser = testTools.createUser(profile, uniqueId);
+        User unprivUser = testTools.insertUser(profile, uniqueId);
         String path = 'Name';
 
         Test.startTest();

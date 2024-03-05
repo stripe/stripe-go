@@ -1,3 +1,6 @@
+import Debugger from "c/debugger";
+const DebugLog = Debugger.withContext('Utils');
+
 function getErrorMessage(error) {
     if (error.message) {
         return error.message;
@@ -10,6 +13,7 @@ function openWindow(url) {
 }
 
 function createToast(message, variant, mode) {
+    DebugLog('createToast', message, variant, mode);
     return new CustomEvent('showtoast', {
         bubbles: true,
         composed: true,

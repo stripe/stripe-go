@@ -427,6 +427,7 @@ class ConfigManager extends EventEmitter {
      * @param {SaveTranslationConfig} config
      */
     saveTranslationConfig(config) {
+        console.log(config);
         if (this.save_translations !== null) {
             return Promise.reject('Translation config already being saved');
         }

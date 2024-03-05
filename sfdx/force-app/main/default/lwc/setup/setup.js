@@ -11,6 +11,7 @@ import getPackageVersion from '@salesforce/apex/utilities.getPackageVersion';
 import setOrgType from '@salesforce/apex/utilities.setOrgType';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
 import illustrations from '@salesforce/resourceUrl/illustrations';
+import handleGeneratePackageKeyForV2 from '@salesforce/apex/setupAssistant.handleGeneratePackageKeyForV2';
 
 export default class FirstTimeSetup extends LightningElement {
     systemConnectionsIllustration = illustrations + '/stripe_illustration_systemConnections.svg';
@@ -37,7 +38,7 @@ export default class FirstTimeSetup extends LightningElement {
     @track steps = [
         {
             title: 'Connect Your Stripe Account',
-            name: 'C-STRIPE_ACCOUNT_SETUP-STEP',
+            name: 'C-STRIPE-ACCOUNT-SETUP-STEP',
             orderIndex: 1,
             isComplete: false,
             isActive: false,
@@ -194,11 +195,12 @@ export default class FirstTimeSetup extends LightningElement {
         }
     }
 
-    systemsConnected(event) {
+    async systemsConnected(event) {
         DebugLog('systemsConnected', event.detail);
         if (event.detail.isConnected && this.setupComplete === false && event.detail.isFirstRun === false) {
             DebugLog('Refreshing data dependent items.');
-            this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, '');
+            await handleGeneratePackageKeyForV2({});
+            //this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, '');
             this.template.querySelector('c-sync-preferences-step').connectedCallback();
             this.template.querySelector('c-polling-step').connectedCallback();
             this.nextDisabled = false;

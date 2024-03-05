@@ -54,7 +54,7 @@ public with sharing class Rest_Service_HelperTest {
     private static void TestGetAccessibleFieldsWithInaccessibleObject() {
         String profile = Test_Tools.PROFILE_CHATTER_FREE_USER;
         String uniqueId = 'TestGetAccessibleFieldsWithInaccessibleObject';
-        User u = testTools.createUser(profile, uniqueId);
+        User u = testTools.insertUser(profile, uniqueId);
         Set<Object> errors = new Set<Object>();
         String objName = Opportunity.class.getName();
         Set<String> fields = new Set<String>();

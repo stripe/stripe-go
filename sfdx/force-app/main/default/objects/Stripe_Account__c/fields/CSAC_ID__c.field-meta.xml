@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CSAC_ID__c</fullName>
+    <externalId>false</externalId>
+    <label>Connector Salesforce Account Config Id</label>
+    <description>The CSAC of the Stripe Account this record represents.</description>
+    <inlineHelpText>The CSAC of the Stripe Account this record represents.</inlineHelpText>
+    <length>131072</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+    <unique>false</unique>
+</CustomField>

@@ -18,6 +18,10 @@
                 <behavior>Edit</behavior>
                 <field>Global_Key__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Middleware_Infrastructure_Version__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

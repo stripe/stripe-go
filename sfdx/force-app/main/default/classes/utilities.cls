@@ -256,13 +256,49 @@ public with sharing class utilities {
         throw new SetupIsNotCompleteException('Org is not setup correctly, missing custom metadata record with global key');
     }
 
+    public static Boolean shouldInitializeMiddlewareConnection() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            debugger.debug('utilities.shouldInitializeMiddlewareConnection', 'Initializing middleware connection');
+            Boolean isV1 = setupConfigMetadata[0].Middleware_Infrastructure_Version__c != 'v2';
+            Boolean isV2 = setupConfigMetadata[0].Middleware_Infrastructure_Version__c == 'v2';
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+            Stripe_Account__c acct = getPrimaryStripeAccount();
+            Boolean needsAPIKey = stripeConnectRec.API_Key__c == null || String.isBlank(stripeConnectRec.API_Key__c);
+            debugger.debug('utilities.shouldInitializeMiddlewareConnection:needsAPIKey', needsAPIKey);
+            debugger.debug('utilities.shouldInitializeMiddlewareConnection:acct', acct);
+            debugger.debug('utilities.shouldInitializeMiddlewareConnection:isV2', isV2);
+            if ((isV1 && needsAPIKey) || (isV2 && needsAPIKey && acct != null)) {
+                return true;
+            } else if (isV2) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public static Boolean isUsingV1Middleware() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0].Middleware_Infrastructure_Version__c != 'v2';
+        }
+
+        return true;
+    }
+
+    public static Boolean isUsingV2Middleware() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0].Middleware_Infrastructure_Version__c == 'v2';
+        }
+
+        return false;
+    }
+
     public static Blob getOAuthStateSigningKey() {
         if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
             String encKey = setupConfigMetadata[0].OAuth_State_Signing_Key__c;
             if (String.isBlank(encKey) || encKey == null) {
                 encKey = stateSigningKey;
             }
-            debugger.debug('utilities.getOAuthStateSigningKey', 'encKey: ' + encKey);
             return EncodingUtil.convertFromHex(encKey);
         }
 
@@ -305,6 +341,18 @@ public with sharing class utilities {
         return Stripe_Connection__c.getOrgDefaults();
     }
 
+    public static Integer getSyncRecordRetentionDays() {
+        Stripe_Connection__c config = getStripeConnection();
+        debugger.debug('utilities.getSyncRecordRetentionDays:Sync_Record_Retention__c', JSON.serialize(config.Sync_Record_Retention__c));
+
+        if (String.isNotEmpty(config.Sync_Record_Retention__c)) {
+            debugger.debug('utilities.getSyncRecordRetentionDays:value', JSON.serialize(Integer.valueOf(config.Sync_Record_Retention__c)));
+            return Integer.valueOf(config.Sync_Record_Retention__c);
+        }
+
+        return 5000;
+    }
+
     public static Setup_Connection_Data__mdt getConnectionData() {
         if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
             return setupConfigMetadata[0];
@@ -320,6 +368,8 @@ public with sharing class utilities {
     // generates package level key and sends to ruby. Named `salesforce_organization_key` on the ruby side
     public static void generatePackageKey(Stripe_Connection__c stripeConnectRec) {
         List<Setup_Connection_Data__mdt> setupConfigList = setupConfigMetadata;
+        debugger.debug('utilities.generatePackageKey', JSON.serialize(stripeConnectRec));
+
         if(setupConfigList.isEmpty()) {
             /* This error should only be thrown in a scratch org when unmangaed key is deployed to
             an org and the custom metadata record containing the global key was not created */
@@ -382,8 +432,16 @@ public with sharing class utilities {
     public static HttpResponse makeCallout(String endPoint, String method, String body, Map<String, String> headers, Integer timeoutLength){
         Http httpMethod = new Http();
         HttpRequest request = buildRequest(endPoint, method, body, headers, timeoutLength);
-        debugger.debug('utilities.makeCallout', 'Calling endpoint');
+        debugger.debug('utilities.makeCallout', 'Calling endpoint: ' + endPoint);
         HttpResponse response = httpMethod.send(request);
+        debugger.debug('utilities.makeCallout', 'Response status: ' + response.getStatusCode());
+        if (response.getStatusCode() > 299) {
+            debugger.debug('utilities.makeCallout', 'Response body: ' + response.getBody());
+            for (String header : response.getHeaderKeys()) {
+                debugger.debug('utilities.makeCallout', 'Response header: ' + header + ' : ' + response.getHeader(header));
+            }
+        }
+
         return response;
     }
     public static HttpRequest buildRequest(String endPoint, String method, Integer timeoutLength) {
@@ -414,18 +472,37 @@ public with sharing class utilities {
         /* these standard headers will be add to the request if none are provided
         the ruby service expects these headers for all requests. */
         request.setHeader('Salesforce-Account-Id', (String)constants.ORG_ID);
+        debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Account-Id" to: ' + constants.ORG_ID);
         request.setHeader('Salesforce-Type', String.valueOf(Sentry_Environment.getInstanceType()));
+        debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Type" to: ' + Sentry_Environment.getInstanceType());
         request.setHeader('Salesforce-Package-Namespace', constants.NAMESPACE);
+        debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Package-Namespace" to: ' + constants.NAMESPACE);
+
+        request.setHeader('X-Requested-With', 'Salesforce');
+        debugger.debug('utilities.buildRequest', 'Set header "X-Requested-With" to: Salesforce');
 
         // TODO this does not seem to be coming over properly
         if (utilities.isPackagedEnvironment()) {
             request.setHeader('Salesforce-Package-Id', (String)getPackageVersionString());
+            debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Package-Id" to: ' + getPackageVersionString());
         } else {
             // For non-package environments, lets just set it as version 0
             request.setHeader('Salesforce-Package-Id', '0.0.0.0');
+            debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Package-Id" to: 0.0.0.0');
         }
 
         debugger.debug('utilities.buildRequest', 'Set default headers');
+
+        Stripe_Account__c acct = getPrimaryStripeAccount();
+
+        if (isUsingV2Middleware()) {
+            debugger.debug('utilities.buildRequest', 'Using V2');
+            request.setHeader('Stripe-Primary-Account-Id', acct.Stripe_ID__c);
+            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Id" to: ' + acct.Stripe_ID__c);
+            String liveMode = acct.Is_Live_Mode__c ? 'true' : 'false';
+            request.setHeader('Stripe-Primary-Account-Livemode', liveMode);
+            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Livemode" to: ' + liveMode);
+        }
 
         /*
          this only happens in the case the key is passed in after generating
@@ -434,12 +511,14 @@ public with sharing class utilities {
         if (headers != null) {
             debugger.debug('utilities.buildRequest', 'Set custom headers');
             request.setHeader('Salesforce-Key', headers.get('Salesforce-Key'));
+            debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Key" to: ' + redactString(headers.get('Salesforce-Key')));
             return request;
         }
 
         Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
+        Boolean needsSetup = stripeConnectRec.Id == null || stripeConnectRec.API_Key__c == null;
 
-        if (stripeConnectRec.Id == null || stripeConnectRec.API_Key__c == null) {
+        if (needsSetup && isUsingV1Middleware()) {
             debugger.debug('utilities.buildRequest', 'Missing Stripe_Connection__c.Id or API_Key__c');
             /*
             This error should only be thrown in a scratch org when unmangaed key is deployed to
@@ -449,16 +528,34 @@ public with sharing class utilities {
             throw new SetupIsNotCompleteException('Connector is not setup correctly, missing metadata.');
         }
 
-        debugger.debug('utilities.buildRequest', 'Setting default API key header');
-        request.setHeader('Salesforce-Key', (String)stripeConnectRec.API_Key__c);
-        if (String.isNotBlank(stripeConnectRec.Primary_Stripe_Account_Id__c)) {
-            request.setHeader('Stripe-Primary-Account-Id', (String)stripeConnectRec.Primary_Stripe_Account_Id__c);
+        if (isUsingV1Middleware()) {
+            debugger.debug('utilities.buildRequest', 'Setting default API key header');
+            request.setHeader('Salesforce-Key', (String) stripeConnectRec.API_Key__c);
+            debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Key" to: ' + redactString(stripeConnectRec.API_Key__c));
+        } else if (isUsingV2Middleware()) {
+            debugger.debug('utilities.buildRequest', 'Setting default API key header');
+            if (stripeConnectRec.API_Key__c == null) {
+                request.setHeader('Salesforce-Key', '');
+                debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Key" to: [REDACTED - EMPTY STRING]');
+            } else {
+                request.setHeader('Salesforce-Key', stripeConnectRec.API_Key__c);
+                debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Key" to: ' + redactString(stripeConnectRec.API_Key__c));
+            }
         }
-        if (String.isNotBlank(stripeConnectRec.Primary_Stripe_Account_Livemode__c)) {
-            request.setHeader('Stripe-Primary-Account-Livemode', (String)stripeConnectRec.Primary_Stripe_Account_Livemode__c);
+        else if (acct != null) {
+            request.setHeader('Stripe-Primary-Account-Id', acct.Stripe_ID__c);
+            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Id" to: ' + acct.Stripe_ID__c);
+            String liveMode = acct.Is_Live_Mode__c ? 'true' : 'false';
+            request.setHeader('Stripe-Primary-Account-Livemode', liveMode);
+            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Livemode" to: ' + liveMode);
         }
         request.setHeader('X-Middleware-Authorization', StripeOAuthState.create().toString());
+        debugger.debug('utilities.buildRequest', 'Set header "X-Middleware-Authorization" to: ' + StripeOAuthState.create().toString());
         return request;
+    }
+
+    public static String redactString(String input) {
+        return input == null ? null : input.replaceAll('(?<=.{3}).(?=.{3})', '*');
     }
 
     public static responseData validateCalloutResponse(HttpResponse response, String actionTaken) {
@@ -548,7 +645,7 @@ public with sharing class utilities {
 
     public static Stripe_Account__c getPrimaryStripeAccount() {
         List<Stripe_Account__c> accts = [
-                SELECT Id, Name, Stripe_ID__c, Is_Live_Mode__c, External_ID__c, Is_Primary__c
+                SELECT Id, Name, Stripe_ID__c, Is_Live_Mode__c, External_ID__c, Connection_Status__c, Is_Primary__c, CSAC_ID__c
                 FROM Stripe_Account__c
                 WHERE Is_Primary__c = TRUE
                 WITH SECURITY_ENFORCED
@@ -567,7 +664,8 @@ public with sharing class utilities {
             if (setupConfigMetadata == null) {
                 setupConfigMetadata = [SELECT Global_Key__c,
                                                 Local_Authorization_Target__c, Enable_Apex_Debug__c, OAuth_AutoClose_Window__c,
-                                                Enable_JS_Debug__c, Platform_Target__c, OAuth_State_Signing_Key__c
+                                                Enable_JS_Debug__c, Platform_Target__c, OAuth_State_Signing_Key__c,
+                                                Middleware_Infrastructure_Version__c
                                         FROM Setup_Connection_Data__mdt
                                         LIMIT 1];
             }

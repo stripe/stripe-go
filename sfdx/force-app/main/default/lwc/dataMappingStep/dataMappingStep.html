@@ -26,7 +26,7 @@
                 </lightning-button>
             </h1>
             <h4 class="slds-m-top_xx-small slds-m-bottom_small">Salesforce Object: <strong>{defaultSfObject}</strong></h4>
-            <template if:true={hasActiveAlerts} for:each={activeObjectAlerts} for:item="alert" for:index="alertIdx">
+            <template if:true={hasActiveAlerts} for:each={getActiveAlerts} for:item="alert" for:index="alertIdx">
                 <c-alert
                         key={alert}
                         type={alert.type}

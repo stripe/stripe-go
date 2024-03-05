@@ -2,7 +2,7 @@
  * Created by jmather-c on 1/4/23.
  */
 
-public with sharing class Debug_Helper {
+ public with sharing class Debug_Helper {
     // This should always be null going to production.
     // We leave this configurable for developers to expose debug logs during development.
     @TestVisible
@@ -10,7 +10,6 @@ public with sharing class Debug_Helper {
 
     @TestVisible
     private OutputService outputService = new DefaultOutputService();
-    
     @TestVisible
     private static final Integer lengthLimit = 100;
 
@@ -30,16 +29,27 @@ public with sharing class Debug_Helper {
 
     public Debug_Helper(Boolean enableDebug, OutputService outputService) {
         this.enableDebug = enableDebug;
-        this.outputService = outputService;
-
-        if (this.outputService == null) {
+        if (outputService == null) {
             DebugHelperException e = (DebugHelperException) Sentry_ExceptionFactory.build(DebugHelperException.class);
             e.setMessage('Instantiated Debug_Helper with null ouputService');
             throw e;
+        } else {
+            this.outputService = outputService;
         }
     }
 
     public void debug(String source, Object data) {
+        if (data instanceof Sentry_Exception) {
+            Map<String, Object> exceptionMap = new Map<String, Object>();
+            exceptionMap.put('message', ((Sentry_Exception)data).getMessage());
+            exceptionMap.put('stackTrace', ((Sentry_Exception)data).getCustomStackTraceAsString());
+            exceptionMap.put('cause', ((Sentry_Exception)data).getCause());
+            exceptionMap.put('lineNumber', ((Sentry_Exception)data).getLineNumber());
+            exceptionMap.put('type', ((Sentry_Exception)data).getTypeName());
+            exceptionMap.put('context', ((Sentry_Exception)data).context);
+            debug(source, exceptionMap);
+            return;
+        }
         if (data instanceof Exception) {
             Map<String, Object> exceptionMap = new Map<String, Object>();
             exceptionMap.put('message', ((Exception)data).getMessage());
@@ -53,27 +63,34 @@ public with sharing class Debug_Helper {
         if (data == null) {
             debug(source, 'null');
         } else {
-            debug(source, data.toString());
+            // apparently currently the toString() on Integer is throwing exceptions?
+            debug(source, String.valueOf(data));
         }
     }
 
     public void debug(String source, String message) {
-        if (enableDebug == false || String.isBlank(source) || String.isBlank(message)) {
-            return;
-        }
-        
-        if (message.length() < lengthLimit) {
-            this.outputService.debug('[' + source + '] ' + message);
+        if (enableDebug == false) {
             return;
         }
 
-        while (String.isNotBlank(message)) {
+        if (message == null) {
+            outputService.debug('[' + source + '] ' + '//null//');
+            return;
+        }
+
+        if (message.length() < lengthLimit) {
+            outputService.debug('[' + source + '] ' + message);
+            return;
+        }
+
+        while (message.length() > 0) {
+//            Integer nextLen = message.length() < lengthLimit ? message.length() : lengthLimit;
             if (message.length() > lengthLimit) {
                 String nextMsg = message.substring(0, lengthLimit);
                 message = message.substring(lengthLimit);
-                this.outputService.debug('[' + source + '] ' + nextMsg.trim());
+                outputService.debug('[' + source + '] ' + nextMsg.trim());
             } else {
-                this.outputService.debug('[' + source + '] ' + message.trim());
+                outputService.debug('[' + source + '] ' + message.trim());
                 message = '';
             }
         }

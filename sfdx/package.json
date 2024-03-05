@@ -25,7 +25,9 @@
     "eslint": "^8.11.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jest": "^26.1.2",
-    "husky": "^7.0.4",
+    "husky": "^8.0.3",
+    "jsrsasign": "^10.9.0",
+    "jsrsasign-util": "^1.0.5",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.0",
     "prettier-plugin-apex": "^1.10.0"

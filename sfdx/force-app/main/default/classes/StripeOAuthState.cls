@@ -17,14 +17,16 @@ public with sharing class StripeOAuthState {
     private static final String FIELD_SALESFORCE_NAMESPACE = 'sf_ns';
     private static final String FIELD_SALESFORCE_INSTANCE_TYPE = 'sf_it';
     private static final String FIELD_SALESFORCE_INSTANCE_SUBDOMAIN = 'sf_sd';
+    private static final String FIELD_SALESFORCE_INSTANCE_URL = 'sf_iu';
     private static final String FIELD_USER_ID = 'uid';
-    private static final String FIELD_CASC_ID = 'csac';
+    private static final String FIELD_CSAC_ID = 'csac';
     private static final String FIELD_CSRF = 'csrf';
     private static final String FIELD_STRIPE_ACCOUNT_ID = 'st_id';
     private static final String FIELD_STRIPE_ACCOUNT_LIVEMODE = 'st_lm';
     private static final String FIELD_STRIPE_ACCOUNT_NAME = 'st_na';
     private static final String FIELD_PRIMARY_STRIPE_ACCOUNT_ID = 'pst_id';
     private static final String FIELD_PRIMARY_STRIPE_ACCOUNT_LIVEMODE = 'pst_lm';
+    private static final String FIELD_LIVEMODE = 'livemode';
 
 
 
@@ -55,9 +57,9 @@ public with sharing class StripeOAuthState {
         set { data.put(FIELD_USER_ID, value); }
     }
 
-    public String casc_id {
-        get { return (String) data.get(FIELD_CASC_ID); }
-        set { data.put(FIELD_CASC_ID, value); }
+    public String csac_id {
+        get { return (String) data.get(FIELD_CSAC_ID); }
+        set { data.put(FIELD_CSAC_ID, value); }
     }
 
     public String csrf {
@@ -90,16 +92,26 @@ public with sharing class StripeOAuthState {
         set { data.put(FIELD_PRIMARY_STRIPE_ACCOUNT_LIVEMODE, value); }
     }
 
+    public String salesforce_instance_url {
+        get { return (String) data.get(FIELD_SALESFORCE_INSTANCE_URL); }
+        set { data.put(FIELD_SALESFORCE_INSTANCE_URL, value); }
+    }
+
+    public Boolean auth_live_mode {
+        get { return data.get(FIELD_LIVEMODE) != null ? Boolean.valueOf(data.get(FIELD_LIVEMODE)) : null; }
+        set { if (value != null) { data.put(FIELD_LIVEMODE, Boolean.valueOf(value) ? 'true' : 'false'); } }
+    }
+
     public static StripeOAuthState create() {
         Stripe_Connection__c conn = utilities.getStripeConnection();
+        Stripe_Account__c acct = utilities.getPrimaryStripeAccount();
         Url instanceUrl = new Url(Url.getOrgDomainUrl().toExternalForm());
         String subdomain = instanceUrl.getHost().split('\\.')[0];
         return new StripeOAuthState(
                 UserInfo.getOrganizationId(),
                 EncodingUtil.convertToHex(Crypto.generateAesKey(256)),
                 subdomain,
-                conn.Primary_Stripe_Account_Id__c,
-                conn.Primary_Stripe_Account_Livemode__c);
+                acct);
     }
 
     public static StripeOAuthState from_encrypted_state(String encrypted_state) {
@@ -107,6 +119,7 @@ public with sharing class StripeOAuthState {
         if (data == null) {
             OAuthInvalidStateException ex = (OAuthInvalidStateException) Sentry_ExceptionFactory.build(OAuthInvalidStateException.class);
             ex.setMessage('Invalid OAuth State');
+            ex.context.put('method', 'from_encrypted_state');
             ex.context.put('encrypted_state', encrypted_state);
 
             throw ex;
@@ -121,7 +134,7 @@ public with sharing class StripeOAuthState {
         this.data = data;
     }
 
-    public StripeOAuthState(String org_id, String csrf, String salesforce_instance_subdomain, String primary_stripe_account_id, String primary_stripe_account_livemode) {
+    public StripeOAuthState(String org_id, String csrf, String salesforce_instance_subdomain, Stripe_Account__c primaryAccount) {
         this.data = new Map<String, Object>();
         this.org_id = org_id;
         this.csrf = csrf;
@@ -130,6 +143,11 @@ public with sharing class StripeOAuthState {
         this.instance_subdomain = salesforce_instance_subdomain;
         this.primary_stripe_account_id = primary_stripe_account_id;
         this.primary_stripe_account_livemode = primary_stripe_account_livemode;
+        this.instance_subdomain = salesforce_instance_subdomain;
+        this.primary_stripe_account_id = (primaryAccount != null) ? primaryAccount.Stripe_ID__c : null;
+        this.primary_stripe_account_livemode = (primaryAccount != null && primaryAccount.Is_Live_Mode__c) ? 'true' : 'false';
+        this.csac_id = (primaryAccount != null) ? primaryAccount.CSAC_ID__c : null;
+        this.salesforce_instance_url = Url.getOrgDomainUrl().toExternalForm();
     }
 
     override public String toString() {
@@ -164,7 +182,15 @@ public with sharing class StripeOAuthState {
         try {
             String header_b64 = toSanitizedBase64(Blob.valueOf(JSON.serialize(JWTHeader)));
             String state_b64 = toSanitizedBase64(Blob.valueOf(JSON.serialize(state)));
-            Blob hash = Crypto.generateMac(JWTAlgo, Blob.valueOf(state_b64), utilities.getOAuthStateSigningKey());
+            Blob hash;
+
+            if (utilities.isUsingV2Middleware()) {
+                String str_b64 = header_b64 + '.' + state_b64;
+                hash = Crypto.generateMac(JWTAlgo, Blob.valueOf(str_b64), utilities.getOAuthStateSigningKey());            
+            } else {
+                hash = Crypto.generateMac(JWTAlgo, Blob.valueOf(state_b64), utilities.getOAuthStateSigningKey());
+            }
+
             String hash_b64 = toSanitizedBase64(hash);
             return header_b64 + '.' + state_b64 + '.' + hash_b64;
         } catch (Exception e) {
@@ -173,15 +199,29 @@ public with sharing class StripeOAuthState {
         }
     }
 
-    public static Map<String, Object> decrypt(String state) {
+    public static Map<String, Object> decrypt(String st) {
+        List<String> parts;
+        String input;
         try {
-            List<String> parts = state.split('\\.');
-            String input = parts[1];
+            if (utilities.isUsingV2Middleware()) {
+                parts = st.split('\\.');
+                String header = parts[0];
+                String payload = parts[1];
+                input = header + '.' + payload;
+            } else {
+                parts = st.split('\\.');
+                input = parts[1];
+            }
+
             Blob hash = fromSanitizedBase64(parts[2]);
             Boolean verified = Crypto.verifyHmac(JWTAlgo, Blob.valueOf(input), utilities.getOAuthStateSigningKey(), hash);
             if (!verified) {
-                errorLogger.create('StripeOAuthState.decrypt failed', 'hash verification failed', '120', 'StripeOAuthState.decrypt');
-                return null;
+                OAuthInvalidStateException ex = (OAuthInvalidStateException) Sentry_ExceptionFactory.build(OAuthInvalidStateException.class);
+                ex.setMessage('Invalid OAuth State In Decrypt');
+                ex.context.put('method', 'decrypt');
+                ex.context.put('hash', toSanitizedBase64(hash));
+                ex.context.put('encrypted_state', st);
+                throw ex;
             }
             return (Map<String, Object>) JSON.deserializeUntyped(fromSanitizedBase64(parts[1]).toString());
         } catch (Exception e) {

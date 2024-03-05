@@ -140,7 +140,7 @@ export default class StripeAccountSetupStep extends LightningElement {
     async _onConnectionSuccess(event) {
         DebugLog('_onConnectionSuccess', 'got success', event.detail);
         await addStripeAccount({ state : event.detail.raw_state });
-        await Manager.updateConnectionStatuses(event.detail.service);
+        return Manager.updateConnectionStatuses(event.detail.service);
     }
 
     _onConnectionError(error) {

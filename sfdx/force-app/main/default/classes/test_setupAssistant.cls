@@ -1,10 +1,12 @@
-@IsTest
+@isTest
 public with sharing class test_setupAssistant {
     static Debug_Helper debugger = new Debug_Helper(true);
     public static final String TEST_STRIPE_ACCOUNT_ID = 'acct_12345';
 
     @IsTest
     static void testMaintenanceUtilitiesResetServiceConnection() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
         stripeConnectionSuccessMock mock = new stripeConnectionSuccessMock();
         Test.setMock(HttpCalloutMock.class, mock);
         Test.startTest();
@@ -104,7 +106,7 @@ public with sharing class test_setupAssistant {
 
         StripeOAuthState state = StripeOAuthState.create();
         state.user_id = '1';
-        state.casc_id = '1';
+        state.csac_id = '1';
         state.stripe_account_id = 'acct_234567';
         state.stripe_account_livemode = 'test';
         String stateStr = state.toString();
@@ -803,6 +805,7 @@ public with sharing class test_setupAssistant {
         fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
         fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
         fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
+        fields.put(Setup_Connection_Data__mdt.Middleware_Infrastructure_Version__c.getDescribe().getName(), 'v1');
         fields.put(Setup_Connection_Data__mdt.OAuth_State_Signing_Key__c.getDescribe().getName(), EncodingUtil.convertToHex(Crypto.generateAesKey(256)));
         testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
 
@@ -828,10 +831,12 @@ public with sharing class test_setupAssistant {
         stripeConnectRec.Stripe_Connected__c = true;
         stripeConnectRec.Salesforce_Connected__c = true;
         stripeConnectRec.API_Key__c = 'testPackageGUID';
+        stripeConnectRec.Sync_Record_Retention__c = '5000';
         insert stripeConnectRec;
 
         Stripe_Account__c stripeAccountRec = new Stripe_Account__c(
                 Stripe_ID__c = TEST_STRIPE_ACCOUNT_ID,
+                Connection_Status__c = constants.STRIPE_ACCOUNT_CONN_STATUS_CONNECTED,
                 Is_Live_Mode__c = false,
                 Is_Primary__c = true,
                 External_ID__c =  TEST_STRIPE_ACCOUNT_ID + '|test'

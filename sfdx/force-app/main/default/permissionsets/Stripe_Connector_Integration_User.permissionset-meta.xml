@@ -241,6 +241,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Stripe_Account__c.Connection_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Stripe_Account__c.External_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -252,6 +257,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Stripe_Account__c.Is_Primary__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Stripe_Account__c.CSAC_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

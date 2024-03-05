@@ -246,22 +246,38 @@
                                         <div class="slds-progress slds-progress_vertical">
                                             <ol class="slds-progress__list">
                                                 <template for:each={steps} for:item="step" for:index="index">
-                                                    <!-- Completed Item  -->
-                                                    <li key={step.title} if:true={step.isComplete} class="slds-progress__item slds-is-completed">
-                                                        <lightning-icon icon-name="utility:success" size="xx-small" class="slds-progress__marker slds-progress__marker_icon" title="Complete" alternative-text="Complete"></lightning-icon>
-                                                        <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.title}</div>
-                                                    </li>
-                                                    <!-- /Completed Item  -->
-                                                    <!-- Active Item -->
-                                                    <li key={step.title} if:true={step.isActive} class="slds-progress__item slds-is-active">
-                                                        <div class="slds-progress__marker">
-                                                            <span class="slds-assistive-text">Active</span>
-                                                        </div>
-                                                        <div class="slds-progress__item_content slds-grid slds-grid_align-spread"><strong>{step.title}</strong></div>
-                                                    </li>
-                                                    <!-- /Active Item -->
+                                                    <template if:true={step.isComplete}>
+                                                        <template if:true={step.isActive}>
+                                                            <!-- Active Item -->
+                                                            <li key={step.title} if:true={step.isActive} class="slds-progress__item slds-is-active">
+                                                                <div class="slds-progress__marker">
+                                                                    <span class="slds-assistive-text">Active</span>
+                                                                </div>
+                                                                <div class="slds-progress__item_content slds-grid slds-grid_align-spread"><strong>{step.title}</strong></div>
+                                                            </li>
+                                                            <!-- /Active Item -->
+                                                        </template>
+                                                        <template if:false={step.isActive}>
+                                                            <!-- Completed Item  -->
+                                                            <li key={step.title} if:true={step.isComplete} class="slds-progress__item slds-is-completed">
+                                                                <lightning-icon icon-name="utility:success" size="xx-small" class="slds-progress__marker slds-progress__marker_icon" title="Complete" alternative-text="Complete"></lightning-icon>
+                                                                <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.title}</div>
+                                                            </li>
+                                                            <!-- /Completed Item  -->
+                                                        </template>
+                                                    </template>
                                                     <!-- Inactive Item -->
                                                     <template if:false={step.isComplete}>
+                                                        <template if:true={step.isActive}>
+                                                            <!-- Active Item -->
+                                                            <li key={step.title} if:true={step.isActive} class="slds-progress__item slds-is-active">
+                                                                <div class="slds-progress__marker">
+                                                                    <span class="slds-assistive-text">Active</span>
+                                                                </div>
+                                                                <div class="slds-progress__item_content slds-grid slds-grid_align-spread"><strong>{step.title}</strong></div>
+                                                            </li>
+                                                            <!-- /Active Item -->
+                                                        </template>
                                                         <template if:false={step.isActive}>
                                                             <li key={step.title} class="slds-progress__item">
                                                                 <div class="slds-progress__marker"></div>

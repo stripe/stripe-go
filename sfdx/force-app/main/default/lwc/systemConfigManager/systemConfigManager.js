@@ -340,11 +340,9 @@ class SystemConfigManager extends EventEmitter {
         this.promises = storeConfigData(null);
         this.save_translations = null;
         this.is_connected = false;
-
         Promise.all([
             this.getSetupData(),
             this.getCoreData(),
-            this.getLayoutData(),
         ]).then(results => {
             DebugLog('ConfigManager initialized', results);
         }).catch(error => {
@@ -356,7 +354,10 @@ class SystemConfigManager extends EventEmitter {
 
     _coreFunctionalityEstablished() {
         this.is_connected = true;
-        return this.getTranslationData().then(() => {
+        return Promise.all([
+            this.getLayoutData(),
+            this.getTranslationData(),
+        ]).then(() => {
             DebugLog('ConfigManager _coreFunctionalityEstablished succeeded');
         }).catch(error => {
             Debugger.error('ConfigManager _coreFunctionalityEstablished failed', error);
@@ -445,6 +446,11 @@ class SystemConfigManager extends EventEmitter {
     getLayoutData() {
         if (this.promises.layouts === null) {
             this.promises.layouts = new Promise((resolve, reject) => {
+                if (this.is_connected === false) {
+                    DebugLog('getLayoutData called before connection established, waiting for connection');
+                    resolve(DisconnectedPayload());
+                    return DisconnectedPayload();
+                }
                 DebugLog('getLayoutData called')
                 return getDataMapperLayout()
                     .then((data) => {
@@ -535,12 +541,12 @@ class SystemConfigManager extends EventEmitter {
         }
 
         if (this.promises[config_data] === null) {
-            Debugger.log('getCached called with, have cached value:', config_data)
+            DebugLog('getCached called with, have cashed value', config_data)
             return Promise.resolve(JSON.parse(JSON.stringify(this.config[config_data])));
         }
 
         return new Promise((resolve, reject) => {
-            Debugger.log('getCached called with, no cached value:', config_data)
+            DebugLog('getCached called with, no cashed value', config_data)
             return this.promises[config_data].then(() => {
                 DebugLog('getCached promise resolved', config_data)
                 const val = JSON.parse(JSON.stringify(this.config[config_data]));
@@ -648,8 +654,8 @@ class SystemConfigManager extends EventEmitter {
         DebugLog('formatTranslationConfigForSave called', updates)
         /** @type {SaveTranslationData} */
         const save = JSON.parse(JSON.stringify(this.config.translation));
-        let fieldDefaults = save.allMappingConfigurations && save.allMappingConfigurations.field_defaults;
-        let fieldMappings = save.allMappingConfigurations && save.allMappingConfigurations.field_mappings;
+        let fieldDefaults = save.allMappingConfigurations.field_defaults;
+        let fieldMappings = save.allMappingConfigurations.field_mappings;
         if (updates.allMappingConfigurations) {
             if (updates.allMappingConfigurations.field_defaults) {
                 fieldDefaults = updates.allMappingConfigurations.field_defaults;
@@ -670,9 +676,7 @@ class SystemConfigManager extends EventEmitter {
             if (key === 'allMappingConfigurations') {
                 return;
             }
-            if (save[key]) {
-                save[key] = updates[key];
-            }
+            save[key] = updates[key];
         });
 
         DebugLog('formatTranslationConfigForSave returning', save)

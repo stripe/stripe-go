@@ -130,7 +130,7 @@ export default class PollingStep extends LightningElement {
     @api async connectedCallback() {
         this._initConfigManager();
         const config = await ConfigManager.getCachedTranslationData();
-        if (config.isConnected === false) {
+        if (config === null || config.isConnected === false) {
             Debugger.log('PollingStep', 'Not yet connected...');
             return;
         }
@@ -217,6 +217,7 @@ export default class PollingStep extends LightningElement {
         }
 
         const payload = {
+            enabled: true,
             polling_enabled: this.pollingEnabled,
             sync_start_date: new Date(this.syncStartDate).getTime() / 1000,
         }

@@ -40,7 +40,7 @@ public with sharing class setupAssistant {
     @AuraEnabled
     public static List<Stripe_Account__c> getStripeAccounts() {
         return [
-            SELECT Id, Name, Stripe_ID__c, Is_Live_Mode__c, External_ID__c, Is_Primary__c
+            SELECT Id, Name, Stripe_ID__c, Is_Live_Mode__c, External_ID__c, Connection_Status__c, Is_Primary__c
             FROM Stripe_Account__c
             WITH SECURITY_ENFORCED
             ORDER BY Is_Primary__c DESC, Stripe_ID__c ASC, Is_Live_Mode__c DESC
@@ -140,6 +140,7 @@ public with sharing class setupAssistant {
             String stripe_account_id = data.stripe_account_id;
             String stripe_account_livemode = data.stripe_account_livemode;
             String stripe_account_name = data.stripe_account_name;
+            String csac_id = data.csac_id;
             if (String.isBlank(stripe_account_name)) {
                 stripe_account_name = stripe_account_id;
             }
@@ -154,10 +155,14 @@ public with sharing class setupAssistant {
                     Name = data.stripe_account_name + ' (' + stripe_account_livemode + ')',
                     Stripe_ID__c = stripe_account_id,
                     Is_Live_Mode__c = stripe_account_livemode == 'live',
-                    External_ID__c = stripe_account_id + '|' + stripe_account_livemode
+                    External_ID__c = stripe_account_id + '|' + stripe_account_livemode,
+                    CSAC_ID__c = csac_id,
+                    Connection_Status__c = constants.STRIPE_ACCOUNT_CONN_STATUS_CONNECTED
             );
 
             acct.Is_Primary__c = utilities.getPrimaryStripeAccount() == null;
+            debugger.debug('addStripeAccount acct-data', acct);
+
 
             Database.upsert(acct, Stripe_Account__c.External_ID__c);
 
@@ -312,7 +317,9 @@ public with sharing class setupAssistant {
             if (stripeConnectRec.Id == null) {
                 // NOTE this is a VERY important line! `generatePackageKey` makes another callout and persists the organization-specific API key
                 // on the ruby service. This key is also persisted locally within the salesforce account.
-                utilities.generatePackageKey(stripeConnectRec);
+                if (utilities.shouldInitializeMiddlewareConnection()) {
+                    utilities.generatePackageKey(stripeConnectRec);
+                }
 
                 rd.put(KEY_STRIPE,     STATUS_DISCONNECTED);
                 rd.put(KEY_SALESFORCE, STATUS_DISCONNECTED);
@@ -382,7 +389,10 @@ public with sharing class setupAssistant {
         if (stripeConnectRec.Id == null) {
             // NOTE this is a VERY important line! `generatePackageKey` makes another callout and persists the organization-specific API key
             // on the ruby service. This key is also persisted locally within the salesforce account.
-            utilities.generatePackageKey(stripeConnectRec);
+            if (utilities.shouldInitializeMiddlewareConnection()) {
+                utilities.generatePackageKey(stripeConnectRec);
+            }
+
             rd.put(KEY_SERVICES, new Map<String, String>{
                     KEY_SALESFORCE_SERVICE => STATUS_DISCONNECTED
             });
@@ -398,7 +408,7 @@ public with sharing class setupAssistant {
             List<Stripe_Account__c> stripeAccounts = getStripeAccounts();
             for (Stripe_Account__c stripeAccount : stripeAccounts) {
                 String id = KEY_STRIPE + SERVICE_DELIMINATOR + stripeAccount.External_ID__c;
-                String status = STATUS_CONNECTED;
+                String status = stripeAccount.Connection_Status__c;
                 services.put(id, status);
             }
         }
@@ -506,6 +516,9 @@ public with sharing class setupAssistant {
             in the payload to determine weather the user successfully connected to stripe or not
             */
             responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+            if (utilities.isUsingV2Middleware()) {
+                responseBody = (Map<String,Object>)responseBody.get('statuses');
+            }
             Boolean salesforceConnected;
             Boolean stripeConnected;
             Map<String, String> services = new Map<String, String>();
@@ -548,11 +561,36 @@ public with sharing class setupAssistant {
 
             rd.put(KEY_SERVICES, services);
 
-            debugger.debug('stripeConnectRec', stripeConnectRec);
-
             upsert stripeConnectRec;
             return rd.getJsonString();
         } catch (Exception e) {
+            rd.addError(e);
+        }
+
+        return rd.getJsonString();
+    }
+
+    @AuraEnabled
+    public static Object handleGeneratePackageKeyForV2() {
+        responseData rd = new responseData();
+        Stripe_Connection__c stripeConnectRec = getStripeConnection();
+
+        try {
+            debugger.debug('handleGeneratePackageKeyForV2', 'Attempting to generate package key for v2 middleware: ' + stripeConnectRec);
+            if (utilities.isUsingV2Middleware() && stripeConnectRec.Salesforce_Connected__c == true && stripeConnectRec.Stripe_Connected__c == true) {
+                debugger.debug('handleGeneratePackageKeyForV2', 'All services connected');
+                if (utilities.shouldInitializeMiddlewareConnection()) {
+                    debugger.debug('handleGeneratePackageKeyForV2', 'shouldInitializeMiddlewareConnection');
+                    utilities.generatePackageKey(stripeConnectRec);
+                } else {
+                    debugger.debug('handleGeneratePackageKeyForV2', 'middleware already initialized');
+                }
+                rd.put('status', 'success');
+            }
+
+            return rd.getJsonString();
+        } catch (Exception e) {
+            debugger.debug('handleGeneratePackageKeyForV2', 'error: ' + e);
             rd.addError(e);
         }
 
@@ -634,7 +672,11 @@ public with sharing class setupAssistant {
         Boolean isConnected = false;
         try {
             isConnected = isConnected();
+
             if (isConnected) {
+                //used to store configuration maps from response
+                Map<String, Object> allMappingConfigurations = new Map<String, Object>();
+
                 //construct call out to rubys configuration endpoint
                 String route = UriTargets.getConfigEndpoint();
                 HttpResponse response =  utilities.makeCallout(route,'GET');
@@ -643,7 +685,9 @@ public with sharing class setupAssistant {
                 Map<String, Object> responseBody;
                 if (response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+
                     payloadHelper.extractConfigHash(responseBody, rd);
+
                     payloadHelper.extractFieldMappingData(responseBody, rd, true);
                 } else {
                     errorLogger.create('getMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
@@ -806,6 +850,7 @@ public with sharing class setupAssistant {
     @AuraEnabled
     public static String activatePolling(String syncStartDate, Boolean isConfigEnabled, String configurationHash) {
         responseData rd = new responseData();
+        debugger.debug('activatePolling isConfigEnabled', isConfigEnabled);
         try {
             if (isConnected()) {
                 Map<String, Object> resquestBody = new Map<String, Object> {
@@ -1040,12 +1085,21 @@ public with sharing class setupAssistant {
             String route = UriTargets.getConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route, 'GET');
             Map<String, Object> responseBody = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+            debugger.debug('getTranslationConfig getStatusCode', response.getStatusCode());
+            debugger.debug('getTranslationConfig response', response.getBody());
             if (response.getStatusCode() != 200) {
                 String errorMessage = (String)responseBody.get('error');
                 throw new CalloutException(errorMessage);
             }
+            if (utilities.isUsingV2Middleware()) {
+                responseBody = (Map<String,Object>)responseBody.get(ConfigPayloadHelper.V2_ACCOUNT_CONFIG);
+            }
             payloadHelper.extractConfigHash(responseBody, rd);
-            payloadHelper.extractSettingsData(responseBody, rd, true);
+            if (utilities.isUsingV2Middleware()) {
+                payloadHelper.extractV2SettingsData(responseBody, rd, true);
+            } else {
+                payloadHelper.extractSettingsData(responseBody, rd, true);
+            }
             payloadHelper.extractFieldMappingData(responseBody, rd, true);
             payloadHelper.extractFilterSettingsData(responseBody, rd);
         } catch (Exception e) {
@@ -1074,22 +1128,27 @@ public with sharing class setupAssistant {
         Map<String, Object> conf = (Map<String, Object>) JSON.deserializeUntyped(config);
         debugger.debug('saveTranslationConfig conf', conf);
         Map<String, Object> payload = new Map<String, Object>();
-        ConfigPayloadHelper.ErrorTracker errorTracker = new ConfigPayloadHelper.ErrorTracker();
+        ConfigPayloadHelper.ErrorTracker errors = new ConfigPayloadHelper.ErrorTracker();
         try {
-            Boolean configHashErr = payloadHelper.validateConfigHash(conf, payload, errorTracker);
-            Boolean dataMappingErr = payloadHelper.validateDataMappingConfig(conf, payload, errorTracker);
-            Boolean syncPrefsErr = payloadHelper.validateSyncPreferences(conf, payload, errorTracker);
-            Boolean filtersErr = payloadHelper.validateFilterConfig(conf, payload, errorTracker);
+            Boolean configHashErr = payloadHelper.validateConfigHash(conf, payload, errors);
+            Boolean dataMappingErr = payloadHelper.validateDataMappingConfig(conf, payload, errors);
+            Boolean syncPrefsErr = payloadHelper.validateSyncPreferences(conf, payload, errors);
+            Boolean filtersErr = payloadHelper.validateFilterConfig(conf, payload, errors);
+            debugger.debug('saveTranslationConfig payload', payload);
 
             if (configHashErr || dataMappingErr || filtersErr || syncPrefsErr) {
                 rd.put('isValidationError', true);
                 rd.put('isFiltersSaved', false);
-                rd.put('ValidationErrors', errorTracker.getErrors());
-                debugger.debug('saveTranslationConfig validation errors', errorTracker.getErrors());
+                rd.put('ValidationErrors', errors.errors);
                 return rd.getJsonString();
+            }
+            
+            if (conf.containsKey('enabled')) {
+                payload.put('enabled', conf.get('enabled'));
             }
 
             String jsonPayload = JSON.serialize(payload);
+            debugger.debug('saveTranslationConfig jsonPayload', jsonPayload);
             String route = UriTargets.getConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route, 'PUT', jsonPayload);
             rd = utilities.validateCalloutResponse(response, 'saveConfiguration');
@@ -1421,7 +1480,7 @@ public with sharing class setupAssistant {
         Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
 
         // checks if we have a org-level API key generated, if we don't we should generate one
-        if (stripeConnectRec.Id == null) {
+        if (stripeConnectRec.Id == null && utilities.isUsingV1Middleware()) {
             throw new ConnectionNotInitializedException();
         }
 

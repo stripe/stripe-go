@@ -3,6 +3,7 @@
  */
 import getServiceConnectionStatuses from '@salesforce/apexContinuation/setupAssistant.getServiceConnectionStatuses';
 import checkServiceConnectionStatuses from '@salesforce/apex/setupAssistant.checkServiceConnectionStatuses';
+import handleGeneratePackageKeyForV2 from '@salesforce/apex/setupAssistant.handleGeneratePackageKeyForV2';
 import {ConnectionStatus, ServiceManagerServices, EventEmitter} from "c/systemStatusUtils";
 import Debugger from "c/debugger";
 const DebugLog = Debugger.withContext('ServiceManager');
@@ -95,6 +96,7 @@ class ServiceManager extends EventEmitter {
                         DebugLog('Connection status update complete', { responseData });
                         return resolve(this._processServiceStatusResults(responseData))
                     })
+                    .then(() => handleGeneratePackageKeyForV2({}))
                     .catch(reject);
             }).catch(reject);
         }).catch(error => this._processServiceStatusError)
@@ -147,7 +149,7 @@ class ServiceManager extends EventEmitter {
         this.core_functionality_established = checkCFE;
         this.statuses = newStatuses;
 
-        if (Object.keys(changes).length > 0) {
+        if (this.core_functionality_established[ServiceManagerServices.salesforce] || this.core_functionality_established[ServiceManagerServices.stripe]) {
             DebugLog('firing connection_status_updated event', changes);
             this._fireEvent(ServiceEvents.connection_status_updated, {
                 statuses: this.statuses,

@@ -4,8 +4,8 @@
 
 @IsTest
 public with sharing class Test_Tools {
-    public static String PROFILE_CHATTER_FREE_USER = 'Chatter Free User';
-    public User createUser(String profile, String uniqueId) {
+    public static final String PROFILE_CHATTER_FREE_USER = 'Chatter Free User';
+    public User insertUser(String profile, String uniqueId) {
         Profile p = [SELECT Id FROM Profile WHERE Name = :profile];
         String alias = uniqueId.substring(0, 8);
         User u = new User(
@@ -23,5 +23,17 @@ public with sharing class Test_Tools {
                 IsActive = true);
         insert u;
         return u;
+    }
+
+    public Sync_Record__c createSyncRecord(String uniqueId) {
+        Sync_Record__c testSyncRecord = new Sync_Record__c (
+                Primary_Record_ID__c = '1234' + uniqueId,
+                Primary_Object_Type__c = 'Order',
+                Secondary_Record_ID__c = '4321' + uniqueId,
+                Secondary_Object_Type__c = 'OrderItem',
+                Resolution_Status__c = 'Error',
+                Compound_ID__c = '1234' + uniqueId + '4321' + uniqueId
+        );
+        return testSyncRecord;
     }
 }

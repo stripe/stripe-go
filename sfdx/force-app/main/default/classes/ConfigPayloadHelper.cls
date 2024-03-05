@@ -2,7 +2,7 @@
  * Created by jmather-c on 4/26/23.
  */
 
-public with sharing class ConfigPayloadHelper {
+ public with sharing class ConfigPayloadHelper {
     @TestVisible
     Debug_Helper debugger = new Debug_Helper();
 
@@ -35,6 +35,8 @@ public with sharing class ConfigPayloadHelper {
 
     public static final String INPUT_FILTERS = 'filters';
     public static final String INPUT_SETTINGS = 'settings';
+    public static final String V2_ACCOUNT_CONFIG = 'account_config';
+    public static final String V2_INPUT_SETTINGS = 'connector_settings';
     public static final String ENABLED = 'enabled';
     public static final String INPUT_HIDDEN_SYNC_PREFS_FIELDS = 'hidden_sync_pref_fields';
     public static final String OUTPUT_DEFAULT_CURRENCY = 'default_currency';
@@ -47,6 +49,7 @@ public with sharing class ConfigPayloadHelper {
     public static final String CPQ_PRORATE_PRECISION = 'cpq_prorate_precision';
     public static final String POLLING_ENABLED = 'polling_enabled';
     public static final String STRIPE_ACCOUNT_ID = 'stripe_account_id';
+    public static final String V2_MERCHANT_ID = 'merchant';
     public static final String LAST_SYNCED = 'last_synced';
     public static final String DEFAULT_CURRENCY = 'default_currency';
 
@@ -65,12 +68,28 @@ public with sharing class ConfigPayloadHelper {
             CPQ_PRORATE_PRECISION
     };
 
+    public static final List<String> V2_SETTINGS_STRING_FIELDS = new List<String> {
+            CPQ_TERM_UNIT,
+            CPQ_PRORATE_PRECISION
+    };
+
+    public static final List<String> V2_SETTINGS_NUMERIC_FIELDS = new List<String> {
+            SYNC_RECORD_RETENTION,
+            SYNC_START_DATE,
+            API_PERCENTAGE_LIMIT
+    };
+
     public static final List<String> SETTINGS_BOOLEAN_FIELDS = new List<String> {
             POLLING_ENABLED
     };
 
     public static final List<String> CONNECTION_READ_ONLY_FIELDS = new List<String> {
             STRIPE_ACCOUNT_ID,
+            LAST_SYNCED
+    };
+
+    public static final List<String> V2_CONNECTION_READ_ONLY_FIELDS = new List<String> {
+            V2_MERCHANT_ID,
             LAST_SYNCED
     };
 
@@ -101,7 +120,8 @@ public with sharing class ConfigPayloadHelper {
     }
 
     public void extractFilterSettingsData(Map<String, Object> configPayload, responseData response) {
-        Map<String, Object> settings = (Map<String,Object>)configPayload.get(INPUT_SETTINGS);
+        String field = (utilities.isUsingV2Middleware()) ? V2_INPUT_SETTINGS : INPUT_SETTINGS;
+        Map<String, Object> settings = (Map<String,Object>)configPayload.get(field);
         Map<String, Object> filters = (Map<String,Object>)settings.get(INPUT_FILTERS);
 
         for (String key : IOMap_FilterFields.keySet()) {
@@ -115,6 +135,7 @@ public with sharing class ConfigPayloadHelper {
 
         //gets non read only settings fields from response for frontend
         for (String stringField : SETTINGS_STRING_FIELDS) {
+            debugger.debug('extractSettingsData: stringField', stringField);
             // skip hidden field values
             if (hiddenSyncPrefFields.contains(stringField)) {
                 continue;
@@ -139,6 +160,58 @@ public with sharing class ConfigPayloadHelper {
             Map<String, Object> connectionStatus = (Map<String,Object>)configPayload.get(INPUT_CONNECTION_STATUS);
             for(String readOnlyField : CONNECTION_READ_ONLY_FIELDS) {
                 response.put(readOnlyField, String.valueOf(connectionStatus.get(readOnlyField)));
+            }
+
+            String mappedKey = IOMap_Config.get(INPUT_HIDDEN_SYNC_PREFS_FIELDS);
+            response.put(mappedKey, hiddenSyncPrefFields);
+            response.put(ENABLED, (Boolean)configPayload.get(ENABLED));
+        }
+    }
+
+    public void extractV2SettingsData(Map<String, Object> configPayload, responseData response, Boolean showInternalFields) {
+        List<String> hiddenSyncPrefFields = getHiddenSyncPrefFields(configPayload);
+        Map<String, Object> settings = (Map<String,Object>)configPayload.get(V2_INPUT_SETTINGS);
+
+        //gets non read only settings fields from response for frontend
+        for (String stringField : V2_SETTINGS_STRING_FIELDS) {
+            debugger.debug('extractV2SettingsData: stringField', stringField);
+            // skip hidden field values
+            if (hiddenSyncPrefFields.contains(stringField)) {
+                continue;
+            }
+            response.put(stringField, String.valueOf(settings.get(stringField)));
+        }
+
+        for (String numericField : V2_SETTINGS_NUMERIC_FIELDS) {
+            debugger.debug('extractV2SettingsData: numericField', numericField);
+            // skip hidden field values
+            if (hiddenSyncPrefFields.contains(numericField)) {
+                continue;
+            }
+            response.put(numericField, Integer.valueOf(settings.get(numericField)));
+        }
+
+        //gets boolean connection fields from response for frontend
+        for (String booleanField : SETTINGS_BOOLEAN_FIELDS) {
+            if (settings.get(booleanField) == null) {
+                response.put(booleanField, false);
+            } else {
+                response.put(booleanField, Boolean.valueOf(settings.get(booleanField)));
+            }
+        }
+
+        if (showInternalFields) {
+            response.put(OUTPUT_DEFAULT_CURRENCY, UserInfo.getDefaultCurrency());
+            response.put(OUTPUT_IS_CPQ_INSTALLED, utilities.isCpqEnabled());
+
+            //gets read only connection fields from response for frontend
+            for(String readOnlyField : V2_CONNECTION_READ_ONLY_FIELDS) {
+                // map the merchant id over to the expected name...
+                if (readOnlyField.equals(V2_MERCHANT_ID)) {
+                    response.put(STRIPE_ACCOUNT_ID, String.valueOf(configPayload.get(readOnlyField)));
+                    continue;
+                }
+                response.put(readOnlyField, String.valueOf(configPayload.get(readOnlyField)));
             }
 
             String mappedKey = IOMap_Config.get(INPUT_HIDDEN_SYNC_PREFS_FIELDS);
@@ -323,12 +396,15 @@ public with sharing class ConfigPayloadHelper {
 
     public Boolean validateConfigHash(Map<String, Object> requestPayload, Map<String, Object> savePayload, ErrorTracker errors) {
         // this is static...
+        debugger.debug('validateConfigHash requestPayload', requestPayload);
+
         if (requestPayload.containsKey(OUTPUT_CONFIG_HASH) == false) {
             errors.add(OUTPUT_CONFIG_HASH, 'No value sent for ' + OUTPUT_CONFIG_HASH);
             return true;
         }
 
         savePayload.put(INPUT_CONFIG_HASH, requestPayload.get(OUTPUT_CONFIG_HASH));
+        debugger.debug('validateConfigHash savePayload', savePayload);
         return false;
     }
 
@@ -342,6 +418,8 @@ public with sharing class ConfigPayloadHelper {
             errors.add(OUTPUT_ALL_MAPPING_CONFIGS, 'No value sent for ' + OUTPUT_ALL_MAPPING_CONFIGS);
             return true;
         }
+
+        debugger.debug('validateConfigHash requestPayload', requestPayload);
 
         Map<String, Object> allMappingConfigurations = (Map<String, Object>) requestPayload.get(OUTPUT_ALL_MAPPING_CONFIGS);
 
@@ -371,8 +449,8 @@ public with sharing class ConfigPayloadHelper {
         Boolean requiredError = validateRequiredFields(required_fields, requestPayload, settings, errors);
         Boolean optionalError = validateOptionalFields(optional_fields, requestPayload, settings, errors);
 
+        debugger.debug('validateSyncPreferences settings', settings);
         savePayload.put('settings', settings);
-
         return requiredError || optionalError;
     }
 
@@ -404,8 +482,33 @@ public with sharing class ConfigPayloadHelper {
     }
 
     public Boolean extractValue(String key, Map<String, Object> requestPayload, Map<String, Object> saveTo, ErrorTracker errors) {
+        if (utilities.isUsingV1Middleware()) {
+            return extractValueV1(key, requestPayload, saveTo, errors);
+        }
+
+        return extractValueV2(key, requestPayload, saveTo, errors);
+    }
+
+    public Boolean extractValueV1(String key, Map<String, Object> requestPayload, Map<String, Object> saveTo, ErrorTracker errors) {
         if (SETTINGS_STRING_FIELDS.contains(key)) {
             saveTo.put(key, String.valueOf(requestPayload.get(key)));
+        } else if (SETTINGS_BOOLEAN_FIELDS.contains(key)) {
+            saveTo.put(key, Boolean.valueOf(requestPayload.get(key)));
+        } else if (SETTINGS_OBJECT_FIELDS.contains(key)) {
+            saveTo.put(key, requestPayload.get(key));
+        } else {
+            errors.add(key, 'No definition of how to translate ' + key);
+            return true;
+        }
+
+        return false;
+    }
+
+    public Boolean extractValueV2(String key, Map<String, Object> requestPayload, Map<String, Object> saveTo, ErrorTracker errors) {
+        if (V2_SETTINGS_STRING_FIELDS.contains(key)) {
+            saveTo.put(key, String.valueOf(requestPayload.get(key)));
+        } else if (V2_SETTINGS_NUMERIC_FIELDS.contains(key)) {
+            saveTo.put(key, Integer.valueOf(requestPayload.get(key)));
         } else if (SETTINGS_BOOLEAN_FIELDS.contains(key)) {
             saveTo.put(key, Boolean.valueOf(requestPayload.get(key)));
         } else if (SETTINGS_OBJECT_FIELDS.contains(key)) {
