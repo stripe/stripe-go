@@ -32,7 +32,7 @@ const (
 	TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountAccountTypeSavings  TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountAccountType = "savings"
 )
 
-// The US bank account network used to send funds.
+// The network rails used. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 type TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork string
 
 // List of values that TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork can take
@@ -96,7 +96,7 @@ func (p *TreasuryOutboundTransferListParams) AddExpand(f string) {
 
 // Optional fields for `us_bank_account`.
 type TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams struct {
-	// Designate the OutboundTransfer as using a US bank account network configuration.
+	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network *string `form:"network"`
 }
 
@@ -189,7 +189,7 @@ type TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount struct
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
-	// The US bank account network used to send funds.
+	// The network rails used. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork `json:"network"`
 	// Routing number of the bank account.
 	RoutingNumber string `json:"routing_number"`

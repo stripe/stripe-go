@@ -52,7 +52,7 @@ const (
 	TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountAccountTypeSavings  TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountAccountType = "savings"
 )
 
-// The US bank account network used to debit funds.
+// The network rails used. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 type TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountNetwork string
 
 // List of values that TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountNetwork can take
@@ -161,7 +161,7 @@ type TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccount struct {
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
-	// The US bank account network used to debit funds.
+	// The network rails used. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network TreasuryInboundTransferOriginPaymentMethodDetailsUSBankAccountNetwork `json:"network"`
 	// Routing number of the bank account.
 	RoutingNumber string `json:"routing_number"`
