@@ -835,11 +835,11 @@ export default class DataMappingStep extends LightningElement {
     applyHiddenMapperFieldDataToTopLevel(mappingObjs) {
         const segments = this.hiddenMapperFieldSegments;
 
-        if (segments.objects && Object.keys(segments.objects).length === 0) {
+        if (segments.objects == null || Object.keys(segments.objects).length === 0) {
             return mappingObjs;
         }
 
-        for (let i = 0; i < mappingObjs && mappingObjs.length; i++) {
+        for (let i = 0; mappingObjs != null && i < mappingObjs.length; i++) {
             const mappingObj = mappingObjs[i];
             mappingObj.hidden = segments.objects[mappingObj.object];
         }
@@ -886,7 +886,7 @@ export default class DataMappingStep extends LightningElement {
 
     setFieldMappings(stripeObject, stripeObjectMap, metadataFieldList) {
         // TODO way too many nested for loops, need to simplify this
-        for(let i = 0; i < stripeObjectMap.length; i++) {
+        for(let i = 0; stripeObjectMap != null && i < stripeObjectMap.length; i++) {
             for(let j = 0; j < stripeObjectMap[i].fields.length; j++) {
                 if(this.allMappingConfigurations.default_mappings &&
                     this.allMappingConfigurations.default_mappings[stripeObject] &&

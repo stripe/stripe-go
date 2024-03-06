@@ -541,12 +541,12 @@ class SystemConfigManager extends EventEmitter {
         }
 
         if (this.promises[config_data] === null) {
-            DebugLog('getCached called with, have cashed value', config_data)
+            DebugLog('getCached called with, have cached value', config_data)
             return Promise.resolve(JSON.parse(JSON.stringify(this.config[config_data])));
         }
 
         return new Promise((resolve, reject) => {
-            DebugLog('getCached called with, no cashed value', config_data)
+            DebugLog('getCached called with, no cached value', config_data)
             return this.promises[config_data].then(() => {
                 DebugLog('getCached promise resolved', config_data)
                 const val = JSON.parse(JSON.stringify(this.config[config_data]));

@@ -201,8 +201,8 @@ export default class FirstTimeSetup extends LightningElement {
             DebugLog('Refreshing data dependent items.');
             await handleGeneratePackageKeyForV2({});
             //this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, '');
-            this.template.querySelector('c-sync-preferences-step').connectedCallback();
-            this.template.querySelector('c-polling-step').connectedCallback();
+            //this.template.querySelector('c-sync-preferences-step').connectedCallback();
+            //this.template.querySelector('c-polling-step').connectedCallback();
             this.nextDisabled = false;
         }
     }

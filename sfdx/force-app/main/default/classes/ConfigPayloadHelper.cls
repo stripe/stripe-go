@@ -532,7 +532,7 @@
                     value = null;
                 }
 
-                filters.put(payloadPropertyName, value);
+                filters.put(objectName, value);
 
                 if (value == null) {
                     continue;

@@ -43,6 +43,7 @@ module StripeForce
         SF_ACCOUNT => nil,
         SF_ORDER => "Status = 'Activated'",
         SF_PRODUCT => nil,
+        SF_PRICEBOOK_ENTRY => nil,
       }.stringify_keys.freeze,
     }.stringify_keys.freeze
 

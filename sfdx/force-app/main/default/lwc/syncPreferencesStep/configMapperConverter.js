@@ -1,7 +1,7 @@
 /**
  * Created by jmather-c on 10/20/23.
  */
-import {ConfigManager, ConfigStates, ConfigData, ConfigValidationError} from 'c/systemConfigManager';
+import { ConfigManager } from 'c/systemConfigManager';
 
 /** @typedef {Object} SaveSyncPreferencesArguments
  * @property {boolean} pollingEnabled
@@ -61,22 +61,25 @@ function wrapWithErrorHandling(fn) {
  * @return {Promise<string>}
  */
 async function getSyncPreferencesCore() {
-    const core = await ConfigManager.getCachedCoreData();
-    const config = await ConfigManager.getCachedTranslationData();
     const response = createBaseResponse();
     response.results.enabled = true;
+    
+    const core = await ConfigManager.getCachedCoreData();
+    response.results.isSandbox = core.isSandbox;
+    response.results.isCpqInstalled = core.isCpqInstalled;
+    response.results.default_currency = core.defaultCurrency;
+
+    const config = await ConfigManager.getCachedTranslationData();
     response.results.hiddenSyncPrefsFields = config.hiddenSyncPrefsFields;
     response.results.last_synced = config.last_synced;
     response.results.stripe_account_id = config.stripe_account_id;
-    response.results.isCpqInstalled = core.isCpqInstalled;
-    response.results.default_currency = core.defaultCurrency;
     response.results.polling_enabled = config.polling_enabled;
     response.results.cpq_term_unit = config.cpq_term_unit;
+    response.results.cpq_prorate_precision = config.cpq_prorate_precision;
     response.results.api_percentage_limit = config.api_percentage_limit;
     response.results.sync_start_date = config.sync_start_date;
     response.results.sync_record_retention = config.sync_record_retention;
     response.results.configurationHash = config.configurationHash;
-    response.results.isSandbox = core.isSandbox;
     return JSON.stringify(response);
 }
 
@@ -122,7 +125,7 @@ async function saveSyncPreferencesCore(args) {
         cpq_term_unit: args.cpqTermUnit,
         cpq_prorate_precision: args.cpqProratePrecision,
     };
-    const result =  await ConfigManager.saveTranslationConfig(payload);
+    const result = await ConfigManager.saveTranslationConfig(payload);
     const response = createBaseResponse();
     response.results = result;
     return JSON.stringify(response);
@@ -134,6 +137,7 @@ async function saveSyncPreferencesCore(args) {
  * @return {Promise<string>}
  */
 async function saveFilterSettingsCore(args) {
+    // NOTE: These filter settings keys will be transformed downstream in validateFilterConfig(0)
     const payload = {
         pricebook_entry_filter: args.pricebookEntryFilter,
         product_filter: args.productFilter,
