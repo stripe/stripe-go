@@ -152,16 +152,16 @@
             }
         }
 
+        response.put(OUTPUT_DEFAULT_CURRENCY, UserInfo.getDefaultCurrency());
+        response.put(OUTPUT_IS_CPQ_INSTALLED, utilities.isCpqEnabled());
+
+        //gets read only connection fields from response for frontend
+        Map<String, Object> connectionStatus = (Map<String,Object>)configPayload.get(INPUT_CONNECTION_STATUS);
+        for(String readOnlyField : CONNECTION_READ_ONLY_FIELDS) {
+            response.put(readOnlyField, String.valueOf(connectionStatus.get(readOnlyField)));
+        }
+
         if (showInternalFields) {
-            response.put(OUTPUT_DEFAULT_CURRENCY, UserInfo.getDefaultCurrency());
-            response.put(OUTPUT_IS_CPQ_INSTALLED, utilities.isCpqEnabled());
-
-            //gets read only connection fields from response for frontend
-            Map<String, Object> connectionStatus = (Map<String,Object>)configPayload.get(INPUT_CONNECTION_STATUS);
-            for(String readOnlyField : CONNECTION_READ_ONLY_FIELDS) {
-                response.put(readOnlyField, String.valueOf(connectionStatus.get(readOnlyField)));
-            }
-
             String mappedKey = IOMap_Config.get(INPUT_HIDDEN_SYNC_PREFS_FIELDS);
             response.put(mappedKey, hiddenSyncPrefFields);
             response.put(ENABLED, (Boolean)configPayload.get(ENABLED));
@@ -200,20 +200,20 @@
             }
         }
 
-        if (showInternalFields) {
-            response.put(OUTPUT_DEFAULT_CURRENCY, UserInfo.getDefaultCurrency());
-            response.put(OUTPUT_IS_CPQ_INSTALLED, utilities.isCpqEnabled());
+        response.put(OUTPUT_DEFAULT_CURRENCY, UserInfo.getDefaultCurrency());
+        response.put(OUTPUT_IS_CPQ_INSTALLED, utilities.isCpqEnabled());
 
-            //gets read only connection fields from response for frontend
-            for(String readOnlyField : V2_CONNECTION_READ_ONLY_FIELDS) {
-                // map the merchant id over to the expected name...
-                if (readOnlyField.equals(V2_MERCHANT_ID)) {
-                    response.put(STRIPE_ACCOUNT_ID, String.valueOf(configPayload.get(readOnlyField)));
-                    continue;
-                }
-                response.put(readOnlyField, String.valueOf(configPayload.get(readOnlyField)));
+        //gets read only connection fields from response for frontend
+        for(String readOnlyField : V2_CONNECTION_READ_ONLY_FIELDS) {
+            // map the merchant id over to the expected name...
+            if (readOnlyField.equals(V2_MERCHANT_ID)) {
+                response.put(STRIPE_ACCOUNT_ID, String.valueOf(configPayload.get(readOnlyField)));
+                continue;
             }
+            response.put(readOnlyField, String.valueOf(configPayload.get(readOnlyField)));
+        }
 
+        if (showInternalFields) {
             String mappedKey = IOMap_Config.get(INPUT_HIDDEN_SYNC_PREFS_FIELDS);
             response.put(mappedKey, hiddenSyncPrefFields);
             response.put(ENABLED, (Boolean)configPayload.get(ENABLED));

@@ -685,9 +685,7 @@ public with sharing class setupAssistant {
                 Map<String, Object> responseBody;
                 if (response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-
                     payloadHelper.extractConfigHash(responseBody, rd);
-
                     payloadHelper.extractFieldMappingData(responseBody, rd, true);
                 } else {
                     errorLogger.create('getMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');

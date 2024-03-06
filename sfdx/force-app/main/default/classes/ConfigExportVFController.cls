@@ -121,14 +121,19 @@ public with sharing class ConfigExportVFController {
 
         try {
             //construct call out to rubys configuration endpoint
-            String route = UriTargets.getAuthorizationBaseUri() + '/v1/configuration';
+            String route = UriTargets.getConfigEndpoint();
             HttpResponse response =  utilities.makeCallout(route,'GET');
 
             //if the call out is successful pull out all mapping objects and add to list
             Map<String, Object> responseBody;
             if(response.getStatusCode() == 200) {
                 responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-                payloadHelper.extractSettingsData(responseBody, rd, false);
+                if (utilities.isUsingV2Middleware()) {
+                    responseBody = (Map<String,Object>)responseBody.get(ConfigPayloadHelper.V2_ACCOUNT_CONFIG);
+                    payloadHelper.extractV2SettingsData(responseBody, rd, false);
+                } else {
+                    payloadHelper.extractSettingsData(responseBody, rd, false);
+                }
                 payloadHelper.extractFieldMappingData(responseBody, rd, false);
                 payloadHelper.extractFilterSettingsData(responseBody, rd);
             } else {
