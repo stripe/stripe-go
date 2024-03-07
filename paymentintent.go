@@ -1876,7 +1876,7 @@ type PaymentIntentParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// The client secret of the PaymentIntent. We require it if you use a publishable key to retrieve the source.
 	ClientSecret *string `form:"client_secret"`
-	// Set to `true` to attempt to [confirm this PaymentIntent](https://stripe.com/docs/api/payment_intents/confirm) this PaymentIntent immediately. This parameter defaults to `false`. When creating and confirming a PaymentIntent at the same time, you can also provide the parameters available in the [Confirm API](https://stripe.com/docs/api/payment_intents/confirm).
+	// Set to `true` to attempt to [confirm this PaymentIntent](https://stripe.com/docs/api/payment_intents/confirm) immediately. This parameter defaults to `false`. When creating and confirming a PaymentIntent at the same time, you can also provide the parameters available in the [Confirm API](https://stripe.com/docs/api/payment_intents/confirm).
 	Confirm *bool `form:"confirm"`
 	// Describes whether we can confirm this PaymentIntent automatically, or if it requires customer action to confirm the payment.
 	ConfirmationMethod *string `form:"confirmation_method"`

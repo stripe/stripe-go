@@ -84,6 +84,10 @@ const (
 // Returns a list of credit notes.
 type CreditNoteListParams struct {
 	ListParams `form:"*"`
+	// Only return credit notes that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return credit notes that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return credit notes for the customer specified by this customer ID.
 	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.

@@ -39,7 +39,7 @@ type TestHelpersTreasuryReceivedCreditParams struct {
 	FinancialAccount *string `form:"financial_account"`
 	// Initiating payment method details for the object.
 	InitiatingPaymentMethodDetails *TestHelpersTreasuryReceivedCreditInitiatingPaymentMethodDetailsParams `form:"initiating_payment_method_details"`
-	// The rails used for the object.
+	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network *string `form:"network"`
 }
 
