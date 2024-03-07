@@ -139,7 +139,7 @@ async function saveSyncPreferencesCore(args) {
 async function saveFilterSettingsCore(args) {
     // NOTE: These filter settings keys will be transformed downstream in validateFilterConfig(0)
     const payload = {
-        pricebook_entry_filter: args.pricebookEntryFilter,
+        pricebook_entry_filter: args.priceBookFilter,
         product_filter: args.productFilter,
         account_filter: args.accountFilter,
         order_filter: args.orderFilter,

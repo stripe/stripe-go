@@ -484,7 +484,7 @@ export default class SyncPreferencesStep extends LightningElement {
                     const updatedFilterSettings = await saveFilterSettings({
                         productFilter: this.productFilter,
                         orderFilter: this.orderFilter,
-                        accountFiter: this.accountFilter,
+                        accountFilter: this.accountFilter,
                         priceBookFilter: this.priceBookFilter
                     });
                     const filterResponseData =  JSON.parse(updatedFilterSettings);

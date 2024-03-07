@@ -962,22 +962,20 @@ public with sharing class setupAssistant {
 
     //sends updated sync preference data to the ruby service and saves the values
     @AuraEnabled
-    public static String saveFilterSettings(String productFilter, String orderFilter, String accountFiter, String priceBookFilter) {
+    public static String saveFilterSettings(String productFilter, String orderFilter, String accountFilter, String priceBookFilter) {
         responseData rd = new responseData();
         try {
             Map<String, String> queryFilterMap = new Map<String, String> {
                 'Product2' => productFilter,
                 'Order' => orderFilter,
-                'Account' => accountFiter,
+                'Account' => accountFilter,
                 'PricebookEntry' => priceBookFilter
             };
 
             List<Map<String, Object>> validationErrorMapList = new List<Map<String, Object>> ();
             //Iterate through filters and run query to ensure they are valid
             for (String objectName : queryFilterMap.keySet()) {
-
-                if (String.isBlank(queryFilterMap.get(objectName)) || queryFilterMap.get(objectName) == null) {
-                    queryFilterMap.put(objectName, null);
+                if (queryFilterMap.get(objectName) == null || String.isBlank(queryFilterMap.get(objectName))) {
                     continue;
                 }
 
@@ -1010,13 +1008,13 @@ public with sharing class setupAssistant {
                 return rd.getJsonString();
             }
 
-            Map<String, Object> resquestBody = new Map<String, Object> {
+            Map<String, Object> requestBody = new Map<String, Object> {
                 'settings' => new Map<String, Object> {
                     'filters' => queryFilterMap
                 }
             };
             String route = UriTargets.getConfigEndpoint();
-            HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
+            HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(requestBody));
             rd = utilities.validateCalloutResponse(response, 'saveFilterSettings');
 
             if(response.getStatusCode() != 200) {
