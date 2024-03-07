@@ -506,6 +506,9 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalance struc
 
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
+
+// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct{}
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
@@ -532,6 +535,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	CustomerBalance *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
+	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	SEPADebit *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
@@ -612,7 +617,8 @@ type QuotePreviewInvoiceSubscriptionDetailsPauseCollection struct {
 
 // Details about the subscription that created this invoice.
 type QuotePreviewInvoiceSubscriptionDetails struct {
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will reflect the metadata of the subscription at the time of invoice creation. *Note: This attribute is populated only for invoices created on or after June 29, 2023.*
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) defined as subscription metadata when an invoice is created. Becomes an immutable snapshot of the subscription metadata at the time of invoice finalization.
+	//  *Note: This attribute is populated only for invoices created on or after June 29, 2023.*
 	Metadata map[string]string `json:"metadata"`
 	// If specified, payment collection for this subscription will be paused.
 	PauseCollection *QuotePreviewInvoiceSubscriptionDetailsPauseCollection `json:"pause_collection"`

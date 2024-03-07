@@ -10,9 +10,16 @@
   * Add support for `EnableCustomerCancellation` on `TerminalReaderActionCollectPaymentMethodCollectConfig` and `TerminalReaderCollectPaymentMethodCollectConfigParams`
 * [#1819](https://github.com/stripe/stripe-go/pull/1819) Add helper to set beta version
 
+## 76.19.0 - 2024-02-29
+* [#1818](https://github.com/stripe/stripe-go/pull/1818) Update generated code
+  * Add support for `Number` on `InvoiceParams`
+  * Add support for `EnableCustomerCancellation` on `TerminalReaderActionProcessPaymentIntentProcessConfig`, `TerminalReaderActionProcessSetupIntentProcessConfig`, `TerminalReaderProcessPaymentIntentProcessConfigParams`, and `TerminalReaderProcessSetupIntentProcessConfigParams`
+  * Add support for `RefundPaymentConfig` on `TerminalReaderActionRefundPayment` and `TerminalReaderRefundPaymentParams`
+* [#1820](https://github.com/stripe/stripe-go/pull/1820) Update README to use AddBetaVersion 
+* [#1817](https://github.com/stripe/stripe-go/pull/1817) Fix typo
+
 ## 76.19.0-beta.1 - 2024-02-22
 * [#1815](https://github.com/stripe/stripe-go/pull/1815) Update generated code for beta
-
 
 ## 76.18.0 - 2024-02-22
 * [#1814](https://github.com/stripe/stripe-go/pull/1814) Update generated code

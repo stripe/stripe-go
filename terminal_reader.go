@@ -15,7 +15,7 @@ const (
 	TerminalReaderActionCollectInputsInputSelectionChoiceStyleSecondary TerminalReaderActionCollectInputsInputSelectionChoiceStyle = "secondary"
 )
 
-// Which supported input type will be collected.
+// Type of input being collected.
 type TerminalReaderActionCollectInputsInputType string
 
 // List of values that TerminalReaderActionCollectInputsInputType can take
@@ -388,6 +388,7 @@ func (p *TerminalReaderSetReaderDisplayParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Default text of input being collected.
 type TerminalReaderActionCollectInputsInputCustomText struct {
 	// Customize the default description for this input
 	Description string `json:"description"`
@@ -423,14 +424,17 @@ type TerminalReaderActionCollectInputsInputSignature struct {
 
 // List of inputs to be collected.
 type TerminalReaderActionCollectInputsInput struct {
+	// Default text of input being collected.
 	CustomText *TerminalReaderActionCollectInputsInputCustomText `json:"custom_text"`
-	Required   bool                                              `json:"required"`
+	// Indicate that this input is required, disabling the skip button.
+	Required bool `json:"required"`
 	// Information about a selection being collected using a reader
 	Selection *TerminalReaderActionCollectInputsInputSelection `json:"selection"`
 	// Information about a signature being collected using a reader
 	Signature *TerminalReaderActionCollectInputsInputSignature `json:"signature"`
-	Skipped   bool                                             `json:"skipped"`
-	// Which supported input type will be collected.
+	// Indicate that this input was skipped by the user.
+	Skipped bool `json:"skipped"`
+	// Type of input being collected.
 	Type TerminalReaderActionCollectInputsInputType `json:"type"`
 }
 
