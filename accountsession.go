@@ -115,6 +115,12 @@ type AccountSessionComponentsAccountOnboarding struct {
 	Enabled  bool                                               `json:"enabled"`
 	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
 }
+type AccountSessionComponentsDocumentsFeatures struct{}
+type AccountSessionComponentsDocuments struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                       `json:"enabled"`
+	Features *AccountSessionComponentsDocumentsFeatures `json:"features"`
+}
 type AccountSessionComponentsPaymentDetailsFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments bool `json:"capture_payments"`
@@ -156,6 +162,7 @@ type AccountSessionComponentsPayouts struct {
 }
 type AccountSessionComponents struct {
 	AccountOnboarding *AccountSessionComponentsAccountOnboarding `json:"account_onboarding"`
+	Documents         *AccountSessionComponentsDocuments         `json:"documents"`
 	PaymentDetails    *AccountSessionComponentsPaymentDetails    `json:"payment_details"`
 	Payments          *AccountSessionComponentsPayments          `json:"payments"`
 	Payouts           *AccountSessionComponentsPayouts           `json:"payouts"`
