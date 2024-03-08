@@ -972,7 +972,7 @@ type AccountControllerApplicationParams struct {
 
 // Properties of the account's dashboard.
 type AccountControllerDashboardParams struct {
-	// Whether this account should have access to the full Stripe dashboard (`full`) or no dashboard (`none`).
+	// Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no dashboard (`none`). Defaults to `full`.
 	Type *string `form:"type"`
 }
 
