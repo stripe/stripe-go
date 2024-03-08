@@ -4,6 +4,13 @@
 * [#1822](https://github.com/stripe/stripe-go/pull/1822) Update generated code for beta
   * Add support for new value `billing_period_end` on enum `QuoteLineEndsAtType`
 
+## 76.20.0 - 2024-03-07
+* [#1823](https://github.com/stripe/stripe-go/pull/1823) Update generated code
+  * Add support for `Documents` on `AccountSessionComponentsParams` and `AccountSessionComponents`
+  * Add support for `RequestThreeDSecure` on `CheckoutSessionPaymentMethodOptionsCardParams` and `CheckoutSessionPaymentMethodOptionsCard`
+  * Add support for `Created` on `CreditNoteListParams`
+  * Add support for `SEPADebit` on `InvoicePaymentSettingsPaymentMethodOptionsParams` and `InvoicePaymentSettingsPaymentMethodOptions`
+
 ## 76.20.0-beta.1 - 2024-02-29
 * [#1816](https://github.com/stripe/stripe-go/pull/1816) Update generated code for beta
   * Remove support for resource `Entitlements.Event`
