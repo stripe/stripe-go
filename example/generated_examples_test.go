@@ -27,6 +27,7 @@ import (
 	coupon "github.com/stripe/stripe-go/v76/coupon"
 	customer "github.com/stripe/stripe-go/v76/customer"
 	customerbalancetransaction "github.com/stripe/stripe-go/v76/customerbalancetransaction"
+	customercashbalancetransaction "github.com/stripe/stripe-go/v76/customercashbalancetransaction"
 	customersession "github.com/stripe/stripe-go/v76/customersession"
 	dispute "github.com/stripe/stripe-go/v76/dispute"
 	event "github.com/stripe/stripe-go/v76/event"
@@ -726,6 +727,16 @@ func TestCustomersCashBalancePost(t *testing.T) {
 	result, err := cashbalance.Update(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
+}
+
+func TestCustomersCashBalanceTransactionsGet(t *testing.T) {
+	params := &stripe.CustomerCashBalanceTransactionListParams{
+		Customer: stripe.String("cus_123"),
+	}
+	params.Limit = stripe.Int64(3)
+	result := customercashbalancetransaction.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
 }
 
 func TestCustomersDelete(t *testing.T) {
