@@ -71,6 +71,19 @@ func (c Client) Del(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 	return invoice, err
 }
 
+// AddLines is the method for the `POST /v1/invoices/{invoice}/add_lines` API.
+func AddLines(id string, params *stripe.InvoiceAddLinesParams) (*stripe.Invoice, error) {
+	return getC().AddLines(id, params)
+}
+
+// AddLines is the method for the `POST /v1/invoices/{invoice}/add_lines` API.
+func (c Client) AddLines(id string, params *stripe.InvoiceAddLinesParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/add_lines", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
 // AttachPaymentIntent is the method for the `POST /v1/invoices/{invoice}/attach_payment_intent` API.
 func AttachPaymentIntent(id string, params *stripe.InvoiceAttachPaymentIntentParams) (*stripe.Invoice, error) {
 	return getC().AttachPaymentIntent(id, params)
@@ -141,6 +154,19 @@ func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice
 	return invoice, err
 }
 
+// RemoveLines is the method for the `POST /v1/invoices/{invoice}/remove_lines` API.
+func RemoveLines(id string, params *stripe.InvoiceRemoveLinesParams) (*stripe.Invoice, error) {
+	return getC().RemoveLines(id, params)
+}
+
+// RemoveLines is the method for the `POST /v1/invoices/{invoice}/remove_lines` API.
+func (c Client) RemoveLines(id string, params *stripe.InvoiceRemoveLinesParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/remove_lines", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
 // SendInvoice is the method for the `POST /v1/invoices/{invoice}/send` API.
 func SendInvoice(id string, params *stripe.InvoiceSendInvoiceParams) (*stripe.Invoice, error) {
 	return getC().SendInvoice(id, params)
@@ -169,6 +195,19 @@ func (c Client) Upcoming(params *stripe.InvoiceUpcomingParams) (*stripe.Invoice,
 		params,
 		invoice,
 	)
+	return invoice, err
+}
+
+// UpdateLines is the method for the `POST /v1/invoices/{invoice}/update_lines` API.
+func UpdateLines(id string, params *stripe.InvoiceUpdateLinesParams) (*stripe.Invoice, error) {
+	return getC().UpdateLines(id, params)
+}
+
+// UpdateLines is the method for the `POST /v1/invoices/{invoice}/update_lines` API.
+func (c Client) UpdateLines(id string, params *stripe.InvoiceUpdateLinesParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/update_lines", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
