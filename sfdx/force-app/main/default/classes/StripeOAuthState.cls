@@ -27,7 +27,7 @@ public with sharing class StripeOAuthState {
     private static final String FIELD_PRIMARY_STRIPE_ACCOUNT_ID = 'pst_id';
     private static final String FIELD_PRIMARY_STRIPE_ACCOUNT_LIVEMODE = 'pst_lm';
     private static final String FIELD_LIVEMODE = 'livemode';
-
+    private static final String FIELD_ORG_KEY = 'org_key';
 
 
     public Map<String, Object> data;
@@ -102,6 +102,11 @@ public with sharing class StripeOAuthState {
         set { if (value != null) { data.put(FIELD_LIVEMODE, Boolean.valueOf(value) ? 'true' : 'false'); } }
     }
 
+    public String salesforce_package_key {
+        get { return (String) data.get(FIELD_ORG_KEY); }
+        set { data.put(FIELD_ORG_KEY, value); }
+    }
+
     public static StripeOAuthState create() {
         Stripe_Connection__c conn = utilities.getStripeConnection();
         Stripe_Account__c acct = utilities.getPrimaryStripeAccount();
@@ -111,7 +116,8 @@ public with sharing class StripeOAuthState {
                 UserInfo.getOrganizationId(),
                 EncodingUtil.convertToHex(Crypto.generateAesKey(256)),
                 subdomain,
-                acct);
+                acct,
+                conn);
     }
 
     public static StripeOAuthState from_encrypted_state(String encrypted_state) {
@@ -134,7 +140,7 @@ public with sharing class StripeOAuthState {
         this.data = data;
     }
 
-    public StripeOAuthState(String org_id, String csrf, String salesforce_instance_subdomain, Stripe_Account__c primaryAccount) {
+    public StripeOAuthState(String org_id, String csrf, String salesforce_instance_subdomain, Stripe_Account__c primaryAccount, Stripe_Connection__c conn) {
         this.data = new Map<String, Object>();
         this.org_id = org_id;
         this.csrf = csrf;
@@ -148,6 +154,10 @@ public with sharing class StripeOAuthState {
         this.primary_stripe_account_livemode = (primaryAccount != null && primaryAccount.Is_Live_Mode__c) ? 'true' : 'false';
         this.csac_id = (primaryAccount != null) ? primaryAccount.CSAC_ID__c : null;
         this.salesforce_instance_url = Url.getOrgDomainUrl().toExternalForm();
+        
+        Blob blb = Crypto.generateAesKey(128);
+        String packageKey  = EncodingUtil.convertToHex(blb);
+        this.salesforce_package_key = packageKey;
     }
 
     override public String toString() {

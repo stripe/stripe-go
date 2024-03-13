@@ -631,9 +631,14 @@ class SystemConfigManager extends EventEmitter {
                         this.config.translation = savePayload;
                         this._processUpdate(ConfigData.translation, savePayload);
                         return savePayload;
-                } else if (response.error === "Validation errors") {
-                    Debugger.warn('saveTranslationConfig call warning', response.error, response.results.errors);
-                    throw new ConfigValidationError(response.results.ValidationErrors);
+                } else if (response.results.isValidationError === true) {
+                    Debugger.warn('saveTranslationConfig call warning', response.error, response.results.ValidationErrors);
+                    savePayload.configurationHash = response.results.configurationHash;
+                    savePayload.isConfigSaved = response.results.isConfigSaved;
+                    savePayload.isValidationError = response.results.isValidationError;
+                    savePayload.isFiltersSaved = response.results.isFiltersSaved;
+                    savePayload.ValidationErrors = response.results.ValidationErrors;
+                    return savePayload;
                 }
 
                 Debugger.error('saveTranslationConfig call error', response.error);

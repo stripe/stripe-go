@@ -145,9 +145,21 @@ public with sharing class setupAssistant {
                 stripe_account_name = stripe_account_id;
             }
 
+            Boolean shouldUpsertConn = false;
+
             if (String.isBlank(conn.Primary_Stripe_Account_Id__c)) {
                 conn.Primary_Stripe_Account_Id__c = stripe_account_id;
                 conn.Primary_Stripe_Account_Livemode__c = stripe_account_livemode;
+                shouldUpsertConn = true;
+            }
+            
+            if (utilities.isUsingV2Middleware()) {
+                String salesforce_package_key = data.salesforce_package_key;
+                conn.API_Key__c = salesforce_package_key;
+                shouldUpsertConn = true;
+            }
+            
+            if (shouldUpsertConn) {
                 upsert conn;
             }
 
@@ -284,6 +296,7 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         rd.put('authorization_uri', UriTargets.getStripeAuthorizationUri(liveMode, state));
         rd.put('message_origin_uri', UriTargets.getAuthorizationBaseUri());
+        debugger.debug('getStripeAuthorizationUri state', state);
 
         return rd.getJsonString();
     }
@@ -564,33 +577,6 @@ public with sharing class setupAssistant {
             upsert stripeConnectRec;
             return rd.getJsonString();
         } catch (Exception e) {
-            rd.addError(e);
-        }
-
-        return rd.getJsonString();
-    }
-
-    @AuraEnabled
-    public static Object handleGeneratePackageKeyForV2() {
-        responseData rd = new responseData();
-        Stripe_Connection__c stripeConnectRec = getStripeConnection();
-
-        try {
-            debugger.debug('handleGeneratePackageKeyForV2', 'Attempting to generate package key for v2 middleware: ' + stripeConnectRec);
-            if (utilities.isUsingV2Middleware() && stripeConnectRec.Salesforce_Connected__c == true && stripeConnectRec.Stripe_Connected__c == true) {
-                debugger.debug('handleGeneratePackageKeyForV2', 'All services connected');
-                if (utilities.shouldInitializeMiddlewareConnection()) {
-                    debugger.debug('handleGeneratePackageKeyForV2', 'shouldInitializeMiddlewareConnection');
-                    utilities.generatePackageKey(stripeConnectRec);
-                } else {
-                    debugger.debug('handleGeneratePackageKeyForV2', 'middleware already initialized');
-                }
-                rd.put('status', 'success');
-            }
-
-            return rd.getJsonString();
-        } catch (Exception e) {
-            debugger.debug('handleGeneratePackageKeyForV2', 'error: ' + e);
             rd.addError(e);
         }
 

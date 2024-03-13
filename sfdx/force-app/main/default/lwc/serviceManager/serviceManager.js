@@ -3,7 +3,6 @@
  */
 import getServiceConnectionStatuses from '@salesforce/apexContinuation/setupAssistant.getServiceConnectionStatuses';
 import checkServiceConnectionStatuses from '@salesforce/apex/setupAssistant.checkServiceConnectionStatuses';
-import handleGeneratePackageKeyForV2 from '@salesforce/apex/setupAssistant.handleGeneratePackageKeyForV2';
 import {ConnectionStatus, ServiceManagerServices, EventEmitter} from "c/systemStatusUtils";
 import Debugger from "c/debugger";
 const DebugLog = Debugger.withContext('ServiceManager');
@@ -96,7 +95,6 @@ class ServiceManager extends EventEmitter {
                         DebugLog('Connection status update complete', { responseData });
                         return resolve(this._processServiceStatusResults(responseData))
                     })
-                    .then(() => handleGeneratePackageKeyForV2({}))
                     .catch(reject);
             }).catch(reject);
         }).catch(error => this._processServiceStatusError)

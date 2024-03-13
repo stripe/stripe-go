@@ -400,7 +400,6 @@ export default class SyncPreferencesStep extends LightningElement {
 
     @api async saveModifiedSyncPreferences() {
         Debugger.log('saveModifiedSyncPreferences', 'enter', this.pollingEnabledChanged, this.hasSynced, this.pollingEnabled);
-
         let saveSuccess = false;
         try {
             // confirm they wish to pause polling
