@@ -28,6 +28,16 @@ const (
 	IssuingPhysicalBundleFeaturesCarrierTextUnsupported IssuingPhysicalBundleFeaturesCarrierText = "unsupported"
 )
 
+// The policy for how to use a second line on a card with this physical bundle.
+type IssuingPhysicalBundleFeaturesSecondLine string
+
+// List of values that IssuingPhysicalBundleFeaturesSecondLine can take
+const (
+	IssuingPhysicalBundleFeaturesSecondLineOptional    IssuingPhysicalBundleFeaturesSecondLine = "optional"
+	IssuingPhysicalBundleFeaturesSecondLineRequired    IssuingPhysicalBundleFeaturesSecondLine = "required"
+	IssuingPhysicalBundleFeaturesSecondLineUnsupported IssuingPhysicalBundleFeaturesSecondLine = "unsupported"
+)
+
 // Whether this physical bundle can be used to create cards.
 type IssuingPhysicalBundleStatus string
 
@@ -80,6 +90,8 @@ type IssuingPhysicalBundleFeatures struct {
 	CardLogo IssuingPhysicalBundleFeaturesCardLogo `json:"card_logo"`
 	// The policy for how to use carrier letter text in a card design with this physical bundle.
 	CarrierText IssuingPhysicalBundleFeaturesCarrierText `json:"carrier_text"`
+	// The policy for how to use a second line on a card with this physical bundle.
+	SecondLine IssuingPhysicalBundleFeaturesSecondLine `json:"second_line"`
 }
 
 // A Physical Bundle represents the bundle of physical items - card stock, carrier letter, and envelope - that is shipped to a cardholder when you create a physical card.
