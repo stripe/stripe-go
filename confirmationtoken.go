@@ -224,6 +224,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeKlarna           ConfirmationTokenPaymentMethodPreviewType = "klarna"
 	ConfirmationTokenPaymentMethodPreviewTypeKonbini          ConfirmationTokenPaymentMethodPreviewType = "konbini"
 	ConfirmationTokenPaymentMethodPreviewTypeLink             ConfirmationTokenPaymentMethodPreviewType = "link"
+	ConfirmationTokenPaymentMethodPreviewTypeMultibanco       ConfirmationTokenPaymentMethodPreviewType = "multibanco"
 	ConfirmationTokenPaymentMethodPreviewTypeOXXO             ConfirmationTokenPaymentMethodPreviewType = "oxxo"
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
@@ -625,6 +626,7 @@ type ConfirmationTokenPaymentMethodPreviewLink struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	PersistentToken string `json:"persistent_token"`
 }
+type ConfirmationTokenPaymentMethodPreviewMultibanco struct{}
 type ConfirmationTokenPaymentMethodPreviewOXXO struct{}
 type ConfirmationTokenPaymentMethodPreviewP24 struct {
 	// The customer's bank, if provided.
@@ -751,6 +753,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Klarna           *ConfirmationTokenPaymentMethodPreviewKlarna           `json:"klarna"`
 	Konbini          *ConfirmationTokenPaymentMethodPreviewKonbini          `json:"konbini"`
 	Link             *ConfirmationTokenPaymentMethodPreviewLink             `json:"link"`
+	Multibanco       *ConfirmationTokenPaymentMethodPreviewMultibanco       `json:"multibanco"`
 	OXXO             *ConfirmationTokenPaymentMethodPreviewOXXO             `json:"oxxo"`
 	P24              *ConfirmationTokenPaymentMethodPreviewP24              `json:"p24"`
 	PayNow           *ConfirmationTokenPaymentMethodPreviewPayNow           `json:"paynow"`
