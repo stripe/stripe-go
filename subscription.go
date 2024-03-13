@@ -559,6 +559,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
+// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
+
 // Additional fields for Financial Connections Session creation
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -587,6 +590,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
+	SEPADebit *SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
@@ -829,6 +834,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalance struct {
 
 // This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbini struct{}
+
+// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit struct{}
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
@@ -855,6 +863,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
 	// This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
+	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
+	SEPADebit *SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
