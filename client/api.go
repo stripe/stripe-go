@@ -19,6 +19,10 @@ import (
 	"github.com/stripe/stripe-go/v76/balance"
 	"github.com/stripe/stripe-go/v76/balancetransaction"
 	"github.com/stripe/stripe-go/v76/bankaccount"
+	billingmeter "github.com/stripe/stripe-go/v76/billing/meter"
+	billingmeterevent "github.com/stripe/stripe-go/v76/billing/meterevent"
+	billingmetereventadjustment "github.com/stripe/stripe-go/v76/billing/metereventadjustment"
+	billingmetereventsummary "github.com/stripe/stripe-go/v76/billing/metereventsummary"
 	billingportalconfiguration "github.com/stripe/stripe-go/v76/billingportal/configuration"
 	billingportalsession "github.com/stripe/stripe-go/v76/billingportal/session"
 	"github.com/stripe/stripe-go/v76/capability"
@@ -119,6 +123,7 @@ import (
 	terminalconnectiontoken "github.com/stripe/stripe-go/v76/terminal/connectiontoken"
 	terminallocation "github.com/stripe/stripe-go/v76/terminal/location"
 	terminalreader "github.com/stripe/stripe-go/v76/terminal/reader"
+	testhelpersconfirmationtoken "github.com/stripe/stripe-go/v76/testhelpers/confirmationtoken"
 	testhelperscustomer "github.com/stripe/stripe-go/v76/testhelpers/customer"
 	testhelpersissuingauthorization "github.com/stripe/stripe-go/v76/testhelpers/issuing/authorization"
 	testhelpersissuingcard "github.com/stripe/stripe-go/v76/testhelpers/issuing/card"
@@ -173,6 +178,14 @@ type API struct {
 	BalanceTransactions *balancetransaction.Client
 	// BankAccounts is the client used to invoke bankaccount related APIs.
 	BankAccounts *bankaccount.Client
+	// BillingMeterEventAdjustments is the client used to invoke /billing/meter_event_adjustments APIs.
+	BillingMeterEventAdjustments *billingmetereventadjustment.Client
+	// BillingMeterEvents is the client used to invoke /billing/meter_events APIs.
+	BillingMeterEvents *billingmeterevent.Client
+	// BillingMeterEventSummaries is the client used to invoke /billing/meters/{id}/event_summaries APIs.
+	BillingMeterEventSummaries *billingmetereventsummary.Client
+	// BillingMeters is the client used to invoke /billing/meters APIs.
+	BillingMeters *billingmeter.Client
 	// BillingPortalConfigurations is the client used to invoke /billing_portal/configurations APIs.
 	BillingPortalConfigurations *billingportalconfiguration.Client
 	// BillingPortalSessions is the client used to invoke /billing_portal/sessions APIs.
@@ -373,6 +386,8 @@ type API struct {
 	TerminalLocations *terminallocation.Client
 	// TerminalReaders is the client used to invoke /terminal/readers APIs.
 	TerminalReaders *terminalreader.Client
+	// TestHelpersConfirmationTokens is the client used to invoke /confirmation_tokens APIs.
+	TestHelpersConfirmationTokens *testhelpersconfirmationtoken.Client
 	// TestHelpersCustomers is the client used to invoke /customers APIs.
 	TestHelpersCustomers *testhelperscustomer.Client
 	// TestHelpersIssuingAuthorizations is the client used to invoke /issuing/authorizations APIs.
@@ -455,6 +470,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
+	a.BillingMeterEventAdjustments = &billingmetereventadjustment.Client{B: backends.API, Key: key}
+	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
+	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}
+	a.BillingMeters = &billingmeter.Client{B: backends.API, Key: key}
 	a.BillingPortalConfigurations = &billingportalconfiguration.Client{B: backends.API, Key: key}
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}
@@ -555,6 +574,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
+	a.TestHelpersConfirmationTokens = &testhelpersconfirmationtoken.Client{B: backends.API, Key: key}
 	a.TestHelpersCustomers = &testhelperscustomer.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingAuthorizations = &testhelpersissuingauthorization.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingCards = &testhelpersissuingcard.Client{B: backends.API, Key: key}

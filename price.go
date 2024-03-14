@@ -110,6 +110,8 @@ const (
 type PriceListRecurringParams struct {
 	// Filter by billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
+	// Filter by the price's meter.
+	Meter *string `form:"meter"`
 	// Filter by the usage type for this price. Can be either `metered` or `licensed`.
 	UsageType *string `form:"usage_type"`
 }
@@ -239,6 +241,8 @@ type PriceRecurringParams struct {
 	Interval *string `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
 	IntervalCount *int64 `form:"interval_count"`
+	// The meter tracking the usage of a metered price
+	Meter *string `form:"meter"`
 	// Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
@@ -427,6 +431,8 @@ type PriceRecurring struct {
 	Interval PriceRecurringInterval `json:"interval"`
 	// The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.
 	IntervalCount int64 `json:"interval_count"`
+	// The meter tracking the usage of a metered price
+	Meter string `json:"meter"`
 	// Default number of trial days when subscribing a customer to this price using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
 	TrialPeriodDays int64 `json:"trial_period_days"`
 	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
