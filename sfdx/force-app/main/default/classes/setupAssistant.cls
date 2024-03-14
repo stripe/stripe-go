@@ -145,24 +145,18 @@ public with sharing class setupAssistant {
                 stripe_account_name = stripe_account_id;
             }
 
-            Boolean shouldUpsertConn = false;
-
             if (String.isBlank(conn.Primary_Stripe_Account_Id__c)) {
                 conn.Primary_Stripe_Account_Id__c = stripe_account_id;
                 conn.Primary_Stripe_Account_Livemode__c = stripe_account_livemode;
-                shouldUpsertConn = true;
-            }
-            
-            if (utilities.isUsingV2Middleware()) {
-                String salesforce_package_key = data.salesforce_package_key;
-                conn.API_Key__c = salesforce_package_key;
-                shouldUpsertConn = true;
-            }
-            
-            if (shouldUpsertConn) {
+
+                if (utilities.isUsingV2Middleware()) {
+                    String salesforce_package_key = data.salesforce_package_key;
+                    conn.API_Key__c = salesforce_package_key;
+                }
+
                 upsert conn;
             }
-
+        
             Stripe_Account__c acct = new Stripe_Account__c(
                     Name = data.stripe_account_name + ' (' + stripe_account_livemode + ')',
                     Stripe_ID__c = stripe_account_id,
@@ -1233,6 +1227,8 @@ public with sharing class setupAssistant {
                     translationRecordID
                 }
             };
+
+            debugger.debug('manualTranslation body', body);
 
             HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
             if(response.getStatusCode() == 200) {

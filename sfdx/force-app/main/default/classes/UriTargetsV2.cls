@@ -8,8 +8,8 @@
     public static final String RUBY_SERVICE_CONFIG_URI = '/api/configuration';
     public static final String RUBY_SERVICE_CONNECTION_STATUS_URI = '/api/configuration/connection_statuses';
     public static final String RUBY_MULTI_ACCT_SERVICE_CONNECTION_STATUS_URI = '/api/configuration/multi_connection_statuses';
-    public static final String RUBY_SERVICE_TRANSLATE_URI = '/v1/translate';
-    public static final String RUBY_SERVICE_TRANSLATE_ALL_URI = '/v1/translate_all';
+    public static final String RUBY_SERVICE_TRANSLATE_URI = '/api/translate';
+    public static final String RUBY_SERVICE_TRANSLATE_ALL_URI = '/api/translate_all';
     public static final String RUBY_SERVICE_SALESFORCE_URI = '/api/auth/salesforce';
     public static final String RUBY_SERVICE_STRIPE_URI = '/api/auth/stripe';
     public static final String RUBY_SERVICE_POST_INSTALL_URI = '/api/auth/salesforce/postinstall';

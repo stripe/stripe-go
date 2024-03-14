@@ -154,10 +154,18 @@ public with sharing class StripeOAuthState {
         this.primary_stripe_account_livemode = (primaryAccount != null && primaryAccount.Is_Live_Mode__c) ? 'true' : 'false';
         this.csac_id = (primaryAccount != null) ? primaryAccount.CSAC_ID__c : null;
         this.salesforce_instance_url = Url.getOrgDomainUrl().toExternalForm();
-        
-        Blob blb = Crypto.generateAesKey(128);
-        String packageKey  = EncodingUtil.convertToHex(blb);
-        this.salesforce_package_key = packageKey;
+
+        // On first load, there will be no API_Key__C on the Stripe_Connection__c
+        // object. We need to generate a new key and store it on the account config in V2 auth.
+        // Then in addStripeAccount in setupAssistant, we will store the new package key on the conn
+        if (String.isBlank(conn.API_Key__c)) {
+            Blob blb = Crypto.generateAesKey(128);
+            String packageKey  = EncodingUtil.convertToHex(blb);
+            this.salesforce_package_key = packageKey;
+        } else {
+            // User has already gone through setup and has a package key, use the same key for future auth
+            this.salesforce_package_key = conn.API_Key__c;
+        }
     }
 
     override public String toString() {
