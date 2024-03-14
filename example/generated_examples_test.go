@@ -43,6 +43,8 @@ import (
 	issuing_card "github.com/stripe/stripe-go/v76/issuing/card"
 	issuing_cardholder "github.com/stripe/stripe-go/v76/issuing/cardholder"
 	issuing_dispute "github.com/stripe/stripe-go/v76/issuing/dispute"
+	issuing_personalizationdesign "github.com/stripe/stripe-go/v76/issuing/personalizationdesign"
+	issuing_physicalbundle "github.com/stripe/stripe-go/v76/issuing/physicalbundle"
 	issuing_transaction "github.com/stripe/stripe-go/v76/issuing/transaction"
 	loginlink "github.com/stripe/stripe-go/v76/loginlink"
 	mandate "github.com/stripe/stripe-go/v76/mandate"
@@ -87,6 +89,7 @@ import (
 	testhelpers_customer "github.com/stripe/stripe-go/v76/testhelpers/customer"
 	testhelpers_issuing_authorization "github.com/stripe/stripe-go/v76/testhelpers/issuing/authorization"
 	testhelpers_issuing_card "github.com/stripe/stripe-go/v76/testhelpers/issuing/card"
+	testhelpers_issuing_personalizationdesign "github.com/stripe/stripe-go/v76/testhelpers/issuing/personalizationdesign"
 	testhelpers_issuing_transaction "github.com/stripe/stripe-go/v76/testhelpers/issuing/transaction"
 	testhelpers_refund "github.com/stripe/stripe-go/v76/testhelpers/refund"
 	testhelpers_testclock "github.com/stripe/stripe-go/v76/testhelpers/testclock"
@@ -1491,6 +1494,50 @@ func TestIssuingDisputesPost(t *testing.T) {
 func TestIssuingDisputesSubmitPost(t *testing.T) {
 	params := &stripe.IssuingDisputeSubmitParams{}
 	result, err := issuing_dispute.Submit("idp_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestIssuingPersonalizationDesignsGet(t *testing.T) {
+	params := &stripe.IssuingPersonalizationDesignListParams{}
+	result := issuing_personalizationdesign.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestIssuingPersonalizationDesignsGet2(t *testing.T) {
+	params := &stripe.IssuingPersonalizationDesignParams{}
+	result, err := issuing_personalizationdesign.Get("pd_xyz", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestIssuingPersonalizationDesignsPost(t *testing.T) {
+	params := &stripe.IssuingPersonalizationDesignParams{
+		PhysicalBundle: stripe.String("pb_xyz"),
+	}
+	result, err := issuing_personalizationdesign.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestIssuingPersonalizationDesignsPost2(t *testing.T) {
+	params := &stripe.IssuingPersonalizationDesignParams{}
+	result, err := issuing_personalizationdesign.Update("pd_xyz", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestIssuingPhysicalBundlesGet(t *testing.T) {
+	params := &stripe.IssuingPhysicalBundleListParams{}
+	result := issuing_physicalbundle.List(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestIssuingPhysicalBundlesGet2(t *testing.T) {
+	params := &stripe.IssuingPhysicalBundleParams{}
+	result, err := issuing_physicalbundle.Get("pb_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3210,6 +3257,42 @@ func TestTestHelpersIssuingCardsShippingReturnPost(t *testing.T) {
 func TestTestHelpersIssuingCardsShippingShipPost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingCardShipCardParams{}
 	result, err := testhelpers_issuing_card.ShipCard("card_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingPersonalizationDesignsActivatePost(t *testing.T) {
+	params := &stripe.TestHelpersIssuingPersonalizationDesignActivateParams{}
+	result, err := testhelpers_issuing_personalizationdesign.Activate(
+		"pd_xyz",
+		params,
+	)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingPersonalizationDesignsDeactivatePost(t *testing.T) {
+	params := &stripe.TestHelpersIssuingPersonalizationDesignDeactivateParams{}
+	result, err := testhelpers_issuing_personalizationdesign.Deactivate(
+		"pd_xyz",
+		params,
+	)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTestHelpersIssuingPersonalizationDesignsRejectPost(t *testing.T) {
+	params := &stripe.TestHelpersIssuingPersonalizationDesignRejectParams{
+		RejectionReasons: &stripe.TestHelpersIssuingPersonalizationDesignRejectRejectionReasonsParams{
+			CardLogo: []*string{
+				stripe.String(string(stripe.IssuingPersonalizationDesignRejectionReasonsCardLogoGeographicLocation)),
+			},
+		},
+	}
+	result, err := testhelpers_issuing_personalizationdesign.Reject(
+		"pd_xyz",
+		params,
+	)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
