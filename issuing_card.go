@@ -140,7 +140,8 @@ type IssuingCardListParams struct {
 	// Only return cards that have the given expiration year.
 	ExpYear *int64 `form:"exp_year"`
 	// Only return cards that have the given last four digits.
-	Last4 *string `form:"last4"`
+	Last4                 *string `form:"last4"`
+	PersonalizationDesign *string `form:"personalization_design"`
 	// Only return cards that have the given status. One of `active`, `inactive`, or `canceled`.
 	Status *string `form:"status"`
 	// Only return cards that have the given type. One of `virtual` or `physical`.
@@ -214,6 +215,8 @@ type IssuingCardParams struct {
 	FinancialAccount *string   `form:"financial_account"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// The personalization design object belonging to this card.
+	PersonalizationDesign *string `form:"personalization_design"`
 	// The desired new PIN for this card.
 	PIN *IssuingCardPINParams `form:"pin"`
 	// The card this is meant to be a replacement for (if any).
@@ -355,6 +358,8 @@ type IssuingCard struct {
 	Number string `json:"number"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The personalization design object belonging to this card.
+	PersonalizationDesign *IssuingPersonalizationDesign `json:"personalization_design"`
 	// The latest card that replaces this card, if any.
 	ReplacedBy *IssuingCard `json:"replaced_by"`
 	// The card this card replaces, if any.
