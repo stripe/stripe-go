@@ -495,21 +495,28 @@ public with sharing class utilities {
         debugger.debug('utilities.buildRequest', 'Set default headers');
 
         Stripe_Account__c acct = getPrimaryStripeAccount();
-
-        if (isUsingV2Middleware()) {
+        if (acct != null) {
             debugger.debug('utilities.buildRequest', 'Using V2');
-            request.setHeader('Stripe-Primary-Account-Id', acct.Stripe_ID__c);
-            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Id" to: ' + acct.Stripe_ID__c);
-            String liveMode = acct.Is_Live_Mode__c ? 'true' : 'false';
-            request.setHeader('Stripe-Primary-Account-Livemode', liveMode);
-            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Livemode" to: ' + liveMode);
+            
+            // when we are deleting or setting default account, we need to use the header passed in
+            // otherwise we default to the primary acct
+            String acctId = headers != null && headers.get('Stripe-Primary-Account-Id') != null ? headers.get('Stripe-Primary-Account-Id') : acct.Stripe_ID__c;
+            request.setHeader('Stripe-Primary-Account-Id', acctId);
+            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Id" to: ' + acctId);
+            
+            String acctLivemode = headers != null ? headers.get('Stripe-Primary-Account-Livemode') : null;
+            if (acctLivemode == null) {
+                acctLivemode = acct.Is_Live_Mode__c ? 'true' : 'false';
+            }
+            request.setHeader('Stripe-Primary-Account-Livemode', acctLivemode);
+            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Livemode" to: ' + acctLivemode);
         }
 
         /*
          this only happens in the case the key is passed in after generating
          the package level api key, otherwise we will use the organization-specific api key
          */
-        if (headers != null) {
+        if (headers != null && headers.get('Salesforce-Key') != null) {
             debugger.debug('utilities.buildRequest', 'Set custom headers');
             request.setHeader('Salesforce-Key', headers.get('Salesforce-Key'));
             debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Key" to: ' + redactString(headers.get('Salesforce-Key')));
@@ -525,7 +532,7 @@ public with sharing class utilities {
             This error should only be thrown in a scratch org when unmangaed key is deployed to
             an org and the custom metadata record containing the global key was not created
             */
-            Sentry_Log.logSentry('missing Stripe Connection org default record with api key');
+            Sentry_Log.logSentry('Missing Stripe Connection org default record with api key');
             throw new SetupIsNotCompleteException('Connector is not setup correctly, missing metadata.');
         }
 
@@ -543,13 +550,6 @@ public with sharing class utilities {
                 debugger.debug('utilities.buildRequest', 'Set header "Salesforce-Key" to: ' + redactString(stripeConnectRec.API_Key__c));
             }
         }
-        else if (acct != null) {
-            request.setHeader('Stripe-Primary-Account-Id', acct.Stripe_ID__c);
-            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Id" to: ' + acct.Stripe_ID__c);
-            String liveMode = acct.Is_Live_Mode__c ? 'true' : 'false';
-            request.setHeader('Stripe-Primary-Account-Livemode', liveMode);
-            debugger.debug('utilities.buildRequest', 'Set header "Stripe-Primary-Account-Livemode" to: ' + liveMode);
-        }
         request.setHeader('X-Middleware-Authorization', StripeOAuthState.create().toString());
         debugger.debug('utilities.buildRequest', 'Set header "X-Middleware-Authorization" to: ' + StripeOAuthState.create().toString());
         return request;
@@ -565,7 +565,7 @@ public with sharing class utilities {
         
         if(response.getStatusCode() >= 200 && response.getStatusCode() < 300) {
             rd.put('isConfigSaved', true);
-            if (actionTaken == 'saveSyncPreferences' || actionTaken == 'saveFilterSettings' || actionTaken == 'saveMappingConfigurations' || actionTaken == 'activatePolling' || actionTaken == 'saveConfiguration') {
+            if (actionTaken == 'setStripeAccountAsDefault' || actionTaken == 'deleteStripeAccount' || actionTaken == 'saveSyncPreferences' || actionTaken == 'saveFilterSettings' || actionTaken == 'saveMappingConfigurations' || actionTaken == 'activatePolling' || actionTaken == 'saveConfiguration') {
                 Map<String, Object> responseBody = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
                 configPayloadHelper.extractConfigHash(responseBody, rd);
             }
@@ -574,8 +574,8 @@ public with sharing class utilities {
 
         if((response.getStatusCode() < 200 || response.getStatusCode() >= 300) && (response.getBody() != null)) {
             Map<String, Object> responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-            String errorMessage = (String)responseBody.get('error');
-            throw new CalloutException(errorMessage);
+            Object errorMessage = responseBody.get('error');
+            throw new CalloutException(errorMessage.toString());
         }
         
         errorLogger.create(actionTaken, String.valueOf(response.getStatusCode()), (String)response.getStatus(), '');

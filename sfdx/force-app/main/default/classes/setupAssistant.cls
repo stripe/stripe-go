@@ -49,15 +49,36 @@ public with sharing class setupAssistant {
 
     @AuraEnabled
     public static Boolean setStripeAccountAsDefault(String stripeAccountId, Boolean isLive) {
-        String uri = UriTargets.getAccountSetDefaultEndpoint(stripeAccountId, isLive);
-        HttpResponse response = utilities.makeCallout(uri, 'POST');
+         if(!isConnected()) {
+            throw new CalloutException('Failed to update the primary Stripe account.');
+        }
+        if (utilities.isUsingV2Middleware()) {
+            // Ruby platform should take care of setting the primary account as not primary anymore
+            // we should just send it the new primary account
+            Map<String, Object> requestBody = new Map<String, Object> {
+                'is_default_account_config' => true
+            };
+            
+            Map<String,String> headers = new Map<String,String> {
+                'Stripe-Primary-Account-Id' => stripeAccountId,
+                'Stripe-Primary-Account-Livemode' => isLive.toString()
+            };
 
-        if (response.getStatusCode() > 299) {
-            throw new CalloutException('Failed to set default account: ' + response.getBody());
+            String route = UriTargets.getConfigEndpoint();
+            HttpResponse response = utilities.makeCallout(route, 'PUT', JSON.serialize(requestBody), headers);
+            utilities.validateCalloutResponse(response, 'setStripeAccountAsDefault');
+        } else {
+            String uri = UriTargets.getAccountSetDefaultEndpoint(stripeAccountId, isLive);
+            HttpResponse response = utilities.makeCallout(uri, 'POST');
+
+            if (response.getStatusCode() > 299) {
+                throw new CalloutException('Failed to update the primary Stripe account.');
+            }
         }
 
-        List<Stripe_Account__c> stripeAccounts = getStripeAccounts();
+        // Update the Salesforce custom objects representing this Stripe account
         Boolean found = false;
+        List<Stripe_Account__c> stripeAccounts = getStripeAccounts();
         for (Stripe_Account__c stripeAccount : stripeAccounts) {
             if (stripeAccount.Stripe_ID__c == stripeAccountId && stripeAccount.Is_Live_Mode__c == isLive) {
                 stripeAccount.Is_Primary__c = true;
@@ -78,16 +99,39 @@ public with sharing class setupAssistant {
 
     @AuraEnabled
     public static Boolean deleteStripeAccount(String stripeAccountId, Boolean isLive) {
-        String uri = UriTargets.getAccountEndpoint(stripeAccountId, isLive);
-        HttpResponse response = utilities.makeCallout(uri, 'DELETE');
-
-        if (response.getStatusCode() > 299) {
-            throw new CalloutException('Failed to delete account: ' + response.getBody());
+        if(!isConnected()) {
+            throw new CalloutException('Failed to remove Stripe account');
         }
+        if (utilities.isUsingV2Middleware()) {
+            // in v2, to "delete" an account, we just set enabled to "disabled"
+            try {
+                Map<String, Object> requestBody = new Map<String, Object> {
+                    'enabled' => false
+                };
 
-        List<Stripe_Account__c> stripeAccounts = getStripeAccounts();
+                Map<String,String> headers = new Map<String,String> {
+                    'Stripe-Primary-Account-Id' => stripeAccountId,
+                    'Stripe-Primary-Account-Livemode' => isLive.toString()
+                };
+
+                String route = UriTargets.getConfigEndpoint();
+                HttpResponse response = utilities.makeCallout(route, 'PUT', JSON.serialize(requestBody), headers);
+                utilities.validateCalloutResponse(response, 'deleteStripeAccount');
+            } catch (Exception e) {
+                return false;
+            }
+        } else {
+            String uri = UriTargets.getAccountEndpoint(stripeAccountId, isLive);
+            HttpResponse response = utilities.makeCallout(uri, 'DELETE');
+
+            if (response.getStatusCode() > 299) {
+                throw new CalloutException('Failed to remove Stripe account.');
+            }
+        }
+    
+        // Delete the Salesforce custom object representing this Stripe account
         Stripe_Account__c found = null;
-
+        List<Stripe_Account__c> stripeAccounts = getStripeAccounts();
         for (Stripe_Account__c stripeAccount : stripeAccounts) {
             if (stripeAccount.Stripe_ID__c == stripeAccountId && stripeAccount.Is_Live_Mode__c == isLive) {
                 found = stripeAccount;
@@ -137,10 +181,10 @@ public with sharing class setupAssistant {
             debugger.debug('addStripeAccount state-data', data);
             Stripe_Connection__c conn = utilities.getStripeConnection();
 
+            String csac_id = data.csac_id;
             String stripe_account_id = data.stripe_account_id;
             String stripe_account_livemode = data.stripe_account_livemode;
             String stripe_account_name = data.stripe_account_name;
-            String csac_id = data.csac_id;
             if (String.isBlank(stripe_account_name)) {
                 stripe_account_name = stripe_account_id;
             }
@@ -158,7 +202,7 @@ public with sharing class setupAssistant {
             }
         
             Stripe_Account__c acct = new Stripe_Account__c(
-                    Name = data.stripe_account_name + ' (' + stripe_account_livemode + ')',
+                    Name = stripe_account_name,
                     Stripe_ID__c = stripe_account_id,
                     Is_Live_Mode__c = stripe_account_livemode == 'live',
                     External_ID__c = stripe_account_id + '|' + stripe_account_livemode,
@@ -278,7 +322,6 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         rd.put('authorization_uri', UriTargets.getIntegrationUserAuthorizationUrl(state, forceLogin));
         rd.put('message_origin_uri', UriTargets.getAuthorizationBaseUri());
-
         return rd.getJsonString();
     }
 
@@ -290,8 +333,6 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         rd.put('authorization_uri', UriTargets.getStripeAuthorizationUri(liveMode, state));
         rd.put('message_origin_uri', UriTargets.getAuthorizationBaseUri());
-        debugger.debug('getStripeAuthorizationUri state', state);
-
         return rd.getJsonString();
     }
 
@@ -320,7 +361,6 @@ public with sharing class setupAssistant {
 
             // checks if we have a org-level API key generated, if we don't we should generate one
             // saving this conditional for later down the line...
-//            if (stripeConnectRec.Id == null && stripeConnectRec.Primary_Stripe_Account_Id__c != null) {
             if (stripeConnectRec.Id == null) {
                 // NOTE this is a VERY important line! `generatePackageKey` makes another callout and persists the organization-specific API key
                 // on the ruby service. This key is also persisted locally within the salesforce account.
@@ -665,7 +705,9 @@ public with sharing class setupAssistant {
                 Map<String, Object> responseBody;
                 if (response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+
                     payloadHelper.extractConfigHash(responseBody, rd);
+
                     payloadHelper.extractFieldMappingData(responseBody, rd, true);
                 } else {
                     errorLogger.create('getMappingConfigurations', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
@@ -808,13 +850,13 @@ public with sharing class setupAssistant {
                     settings.put('cpq_term_unit', cpqTermUnit);
                 }
 
-                Map<String, Object> resquestBody = new Map<String, Object> {
+                Map<String, Object> requestBody = new Map<String, Object> {
                     'configuration_hash' => configurationHash,
                     'settings' => settings
                 };
 
                 String route = UriTargets.getConfigEndpoint();
-                HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
+                HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(requestBody));
                 rd = utilities.validateCalloutResponse(response, 'saveSyncPreferences');
 
             }
