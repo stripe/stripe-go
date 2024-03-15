@@ -285,6 +285,7 @@ public with sharing class utilities {
         return true;
     }
 
+    @AuraEnabled(Cacheable=false)
     public static Boolean isUsingV2Middleware() {
         if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
             return setupConfigMetadata[0].Middleware_Infrastructure_Version__c == 'v2';

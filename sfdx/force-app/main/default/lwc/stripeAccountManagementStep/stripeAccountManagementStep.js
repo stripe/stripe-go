@@ -3,6 +3,7 @@ import addStripeAccount from '@salesforce/apex/setupAssistant.addStripeAccount';
 import getStripeAccounts from '@salesforce/apex/setupAssistant.getStripeAccounts';
 import setStripeAccountAsDefault from '@salesforce/apex/setupAssistant.setStripeAccountAsDefault';
 import deleteStripeAccount from '@salesforce/apex/setupAssistant.deleteStripeAccount';
+import isUsingV2Middleware from '@salesforce/apex/utilities.isUsingV2Middleware';
 import {LightningElement, track, api} from 'lwc';
 import {getErrorMessage, createToast, openWindow} from 'c/utils'
 import AddStripeAccountModal from 'c/addStripeAccountModal';
@@ -143,7 +144,7 @@ export default class StripeAccountManagementStep extends LightningElement {
         DebugLog('authorizeIntegrationUser called');
         this.loading = true;
         const result = await AddStripeAccountModal.open({ size: 'small' });
-        if (result === null) {
+        if (result === null || result === undefined) {
             return;
         }
 

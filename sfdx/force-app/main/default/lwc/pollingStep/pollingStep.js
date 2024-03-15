@@ -217,7 +217,6 @@ export default class PollingStep extends LightningElement {
         }
 
         const payload = {
-            enabled: true,
             polling_enabled: this.pollingEnabled,
             sync_start_date: new Date(this.syncStartDate).getTime() / 1000,
         }

@@ -5,45 +5,81 @@
 <!-- Integration User Setup Step -->
 <template>
     <div class="slds-p-horizontal_large slds-p-vertical_xx-large slds-container slds-container_center slds-container_medium">
-        <template lwc:if={isConnected}>
-            <div class="stripe-status slds-theme_success slds-m-top_large slds-m-bottom_small">
-                <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center slds-gutters_x-small">
-                    <div class="slds-col slds-no-flex">
-                        <lightning-icon icon-name="utility:success" size="small" alternative-text="Account Connected" class="slds-current-color"></lightning-icon>
-                    </div>
-                    <div class="slds-col">
-                        Account Connected
+        <template lwc:if={isV2MiddlewareEnabled}>
+            <template lwc:if={isConnected}>
+                <div class="stripe-status slds-theme_success slds-m-top_large slds-m-bottom_small">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center slds-gutters_x-small">
+                        <div class="slds-col slds-no-flex">
+                            <lightning-icon icon-name="utility:success" size="small" alternative-text="Account Connected" class="slds-current-color"></lightning-icon>
+                        </div>
+                        <div class="slds-col">
+                            Account Connected
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="slds-text-align_center slds-m-top_large">
-                <c-stripe-account-connection-modes onselect={updateAccountType}></c-stripe-account-connection-modes>
-            </div>
-            <div class="slds-text-align_center slds-p-top_large">
-                <lightning-button
-                        label="Reauthorize Account"
-                        variant="neutral"
-                        class="slds-button"
-                        onclick={authorizeIntegrationUser}
-                        disabled={loginDisabled}>
-                </lightning-button>
-            </div>
+                <div class="slds-text-align_center">
+                    <lightning-button
+                            label="Reauthorize Account"
+                            variant="neutral"
+                            class="slds-button"
+                            onclick={authorizeIntegrationUser}>
+                    </lightning-button>
+                </div>
+            </template>
+            <template lwc:else>
+                <div class="slds-text-align_center">
+                    <lightning-button
+                            label="Log in to Stripe"
+                            variant="brand"
+                            class="slds-button slds-m-top_medium"
+                            icon-name="utility:new_window"
+                            icon-position="right"
+                            onclick={authorizeIntegrationUser}>
+                    </lightning-button>
+                </div>
+            </template>
         </template>
         <template lwc:else>
-            <div class="slds-text-align_left slds-m-top_large">
-                <c-stripe-account-connection-modes onselect={updateAccountType}></c-stripe-account-connection-modes>
-            </div>
-            <div class="slds-text-align_center slds-p-top_large">
-                <lightning-button
-                        label="Log in to Stripe"
-                        variant="brand"
-                        class="slds-button slds-m-top_medium"
-                        icon-name="utility:new_window"
-                        icon-position="right"
-                        onclick={authorizeIntegrationUser}
-                        disabled={loginDisabled}>
-                </lightning-button>
-            </div>
+            <template lwc:if={isConnected}>
+                <div class="stripe-status slds-theme_success slds-m-top_large slds-m-bottom_small">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-center slds-gutters_x-small">
+                        <div class="slds-col slds-no-flex">
+                            <lightning-icon icon-name="utility:success" size="small" alternative-text="Account Connected" class="slds-current-color"></lightning-icon>
+                        </div>
+                        <div class="slds-col">
+                            Account Connected
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-text-align_center slds-m-top_large">
+                    <c-stripe-account-connection-modes onselect={updateAccountType}></c-stripe-account-connection-modes>
+                </div>
+                <div class="slds-text-align_center slds-p-top_large">
+                    <lightning-button
+                            label="Reauthorize Account"
+                            variant="neutral"
+                            class="slds-button"
+                            onclick={authorizeIntegrationUser}
+                            disabled={loginDisabled}>
+                    </lightning-button>
+                </div>
+            </template>
+            <template lwc:else>
+                <div class="slds-text-align_left slds-m-top_large">
+                    <c-stripe-account-connection-modes onselect={updateAccountType}></c-stripe-account-connection-modes>
+                </div>
+                <div class="slds-text-align_center slds-p-top_large">
+                    <lightning-button
+                            label="Log in to Stripe"
+                            variant="brand"
+                            class="slds-button slds-m-top_medium"
+                            icon-name="utility:new_window"
+                            icon-position="right"
+                            onclick={authorizeIntegrationUser}
+                            disabled={loginDisabled}>
+                    </lightning-button>
+                </div>
+            </template>
         </template>
     </div>
 

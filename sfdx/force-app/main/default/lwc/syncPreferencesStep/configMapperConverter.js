@@ -118,6 +118,7 @@ async function getFilterSettingsCore() {
  */
 async function saveSyncPreferencesCore(args) {
     const payload = {
+        enabled: true,
         polling_enabled: args.pollingEnabled,
         sync_record_retention: args.syncRecordRetention,
         sync_start_date: args.syncStartDate,

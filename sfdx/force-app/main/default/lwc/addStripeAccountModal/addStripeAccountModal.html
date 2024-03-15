@@ -5,11 +5,27 @@
 <!-- Add Stripe Account Modal -->
 <template>
     <lightning-modal-header label="Add A Stripe Account"></lightning-modal-header>
-    <lightning-modal-body>
-        <c-stripe-account-connection-modes onselect={updateAccountType}></c-stripe-account-connection-modes>
-    </lightning-modal-body>
-    <lightning-modal-footer>
-        <lightning-button label="Cancel" onclick={handleCancel} variant="destructive"></lightning-button>
-        <lightning-button class="slds-m-left_small" label="OK" disabled={loginDisabled} variant="brand" onclick={handleSelectType}></lightning-button>
-    </lightning-modal-footer>
+    <template lwc:if={isV2MiddlewareEnabled}>
+        <lightning-modal-body>
+            <div class="slds-text-align_center">
+                <lightning-button
+                    label="Connect to Stripe"
+                    variant="brand"
+                    class="slds-button slds-m-top_medium"
+                    icon-name="utility:new_window"
+                    icon-position="right"
+                    onclick={handleSelectType}>
+                </lightning-button>
+            </div>
+        </lightning-modal-body>
+    </template>
+    <template lwc:else>
+        <lightning-modal-body>
+            <c-stripe-account-connection-modes onselect={updateAccountType}></c-stripe-account-connection-modes>
+        </lightning-modal-body>
+        <lightning-modal-footer>
+            <lightning-button label="Cancel" onclick={handleCancel} variant="destructive"></lightning-button>
+            <lightning-button class="slds-m-left_small" label="OK" disabled={loginDisabled} variant="brand" onclick={handleSelectType}></lightning-button>
+        </lightning-modal-footer>
+    </template>
 </template>

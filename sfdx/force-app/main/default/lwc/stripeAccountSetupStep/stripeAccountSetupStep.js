@@ -1,6 +1,7 @@
 import getStripeAuthorizationUri from '@salesforce/apex/setupAssistant.getStripeAuthorizationUri';
 import addStripeAccount from '@salesforce/apex/setupAssistant.addStripeAccount';
-import {LightningElement, track, api} from 'lwc';
+import isUsingV2Middleware from '@salesforce/apex/utilities.isUsingV2Middleware';
+import {LightningElement, track, api, wire} from 'lwc';
 import {createToast, openWindow} from 'c/utils'
 import Debugger from "c/debugger";
 import {MessageListener, ConnectionStatus, ListenerEvents, ServiceManagerServices} from "c/systemStatusUtils";
@@ -13,6 +14,7 @@ export default class StripeAccountSetupStep extends LightningElement {
     @track loading = false;
     @track modalLoading = false;
     @track status = ConnectionStatus.loading;
+    @track isV2MiddlewareEnabled;
     @track accountType;
     @api hideAction = false;
     @api isSetup = false;
@@ -29,6 +31,7 @@ export default class StripeAccountSetupStep extends LightningElement {
 
         DebugLog('connectedCallback', 'connecting');
         this._boundConnectionStatusUpdated = this._connectionStatusUpdated.bind(this);
+        this.isV2MiddlewareEnabled = await isUsingV2Middleware();
         Manager.on(ServiceEvents.connection_status_updated, this._boundConnectionStatusUpdated);
     }
 
