@@ -13,6 +13,8 @@ type TerminalConfigurationParams struct {
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSEParams `form:"bbpos_wisepos_e"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Name of the configuration
+	Name *string `form:"name"`
 	// Configurations for collecting transactions offline.
 	Offline *TerminalConfigurationOfflineParams `form:"offline"`
 	// Tipping configurations for readers supporting on-reader tips
@@ -382,6 +384,8 @@ type TerminalConfiguration struct {
 	IsAccountDefault bool `json:"is_account_default"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// String indicating the name of the Configuration object, set by the user
+	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object       string                             `json:"object"`
 	Offline      *TerminalConfigurationOffline      `json:"offline"`
