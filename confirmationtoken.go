@@ -819,4 +819,6 @@ type ConfirmationToken struct {
 	SetupIntent string `json:"setup_intent"`
 	// Shipping information collected on this ConfirmationToken.
 	Shipping *ConfirmationTokenShipping `json:"shipping"`
+	// Indicates whether the Stripe SDK is used to handle confirmation flow. Defaults to `true` on ConfirmationToken.
+	UseStripeSDK bool `json:"use_stripe_sdk"`
 }
