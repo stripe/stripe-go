@@ -21,6 +21,7 @@ export default class StripeAccountManagementStep extends LightningElement {
     @track status = ConnectionStatus.loading;
     @track accountType;
     @track accounts = [];
+    @track areMultipleStripeAcctsConnected = false;
     @api hideAction = false;
     @api isSetup = false;
     _connectWindow = null;
@@ -98,6 +99,7 @@ export default class StripeAccountManagementStep extends LightningElement {
         DebugLog('connectedCallback', 'connecting');
         this.dispatchEvent(this.contentLoading);
         await this.getStripeAccounts();
+        this.areMultipleStripeAcctsConnected = this.accounts.length > 1;
         this._boundConnectionStatusUpdated = this._connectionStatusUpdated.bind(this);
         Manager.on(ServiceEvents.connection_status_updated, this._boundConnectionStatusUpdated);
     }
@@ -126,6 +128,7 @@ export default class StripeAccountManagementStep extends LightningElement {
             });
             this.accounts = stripeAccounts;
             this.accountsByExternalId = acctsByExtId;
+            this.areMultipleStripeAcctsConnected = this.accounts.length > 1;
             return stripeAccounts;
         } catch (e) {
             const err = getErrorMessage(e);

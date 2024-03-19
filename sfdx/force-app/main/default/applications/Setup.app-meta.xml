@@ -6,12 +6,12 @@
         <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
-    <description>Manage settings for Stripe Billing in Salesforce</description>
+    <description>Manage settings for Stripe Billing's Connector in Salesforce.</description>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
-    <label>Stripe Billing Setup</label>
+    <label>Stripe Billing Connector</label>
     <navType>Standard</navType>
     <tabs>Setup</tabs>
     <tabs>Sync_Record__c</tabs>

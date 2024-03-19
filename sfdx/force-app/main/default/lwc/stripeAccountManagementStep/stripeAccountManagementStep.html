@@ -14,13 +14,14 @@
                     <th>
                         Primary?
                         <lightning-helptext icon-name="utility:info"
-                            content="Default Stripe Account to sync Salesforce Orders to."></lightning-helptext>
+                            content="The Stripe account Salesforce records will be synced to by default."></lightning-helptext>
                     </th>
                     <th>Stripe Account Name</th>
                     <th>Stripe Account Id</th>
                     <th>Mode</th>
-<!--                    <th>Status</th>-->
+                    <template if:true={areMultipleStripeAcctsConnected}>
                     <th>Actions</th>
+                    </template>
                 </tr>
             </thead>
             <tbody>
