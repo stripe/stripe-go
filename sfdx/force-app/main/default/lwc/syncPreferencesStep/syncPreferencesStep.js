@@ -35,7 +35,7 @@ export default class SyncPreferencesStep extends LightningElement {
     @track priceBookFilter;
     @track isSandbox;
     @track syncProductsDisabled = false; 
-    @track syncPricebooksDisabled = false;
+    @track syncAccountsDisabled = false;
     @track pollingEnabled = false;
     @track pollingEnabledInitialValue = false;
     @track hiddenSyncPrefsFields = [];
@@ -335,16 +335,16 @@ export default class SyncPreferencesStep extends LightningElement {
         this.template.querySelector('.stripe-modal_product-sync').show();
     }
 
-    showPricebookSyncModal() {
-        this.template.querySelector('.stripe-modal_pricebook-sync').show();
+    showAccountSyncModal() {
+        this.template.querySelector('.stripe-modal_account-sync').show();
     }
 
     hideProductSyncModal() {
         this.template.querySelector('.stripe-modal_product-sync').hide();
     }
 
-    hidePricebookSyncModal() {
-        this.template.querySelector('.stripe-modal_pricebook-sync').hide();
+    hideAccountSyncModal() {
+        this.template.querySelector('.stripe-modal_account-sync').hide();
     }
 
     syncProducts() {
@@ -352,9 +352,9 @@ export default class SyncPreferencesStep extends LightningElement {
         this.hideProductSyncModal();
     }
 
-    syncPricebooks() {
-        this.syncAllRecords('PricebookEntry');
-        this.hidePricebookSyncModal();
+    syncAccounts() {
+        this.syncAllRecords('Account');
+        this.hideAccountSyncModal();
     }
 
 
@@ -565,9 +565,9 @@ export default class SyncPreferencesStep extends LightningElement {
             } 
 
             this.showToast('All ' + objectType + ' records have been dispatched to be synced.', 'success');
-            if (objectType === 'PricebookEntry') {
+            if (objectType === 'Account') {
                 //disable Pricebook Entry button 
-                this.syncPricebooksDisabled = true;
+                this.syncAccountsDisabled = true;
                 return
             }
             this.syncProductsDisabled = true;
