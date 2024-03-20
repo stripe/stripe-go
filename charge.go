@@ -1162,6 +1162,8 @@ type ChargePaymentMethodDetailsUSBankAccount struct {
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
+	// Reference number to locate ACH payments with customer's bank.
+	PaymentReference string `json:"payment_reference"`
 	// Routing number of the bank account.
 	RoutingNumber string `json:"routing_number"`
 }
