@@ -130,7 +130,7 @@
     }
 
     public void extractSettingsData(Map<String, Object> configPayload, responseData response, Boolean showInternalFields) {
-        List<String> hiddenSyncPrefFields = getHiddenSyncPrefFields(configPayload);
+        List<String> hiddenSyncPrefFields = getHiddenSyncPrefFields();
         Map<String, Object> settings = (Map<String,Object>)configPayload.get(INPUT_SETTINGS);
 
         //gets non read only settings fields from response for frontend
@@ -169,7 +169,7 @@
     }
 
     public void extractV2SettingsData(Map<String, Object> configPayload, responseData response, Boolean showInternalFields) {
-        List<String> hiddenSyncPrefFields = getHiddenSyncPrefFields(configPayload);
+        List<String> hiddenSyncPrefFields = getHiddenSyncPrefFields();
         Map<String, Object> settings = (Map<String,Object>)configPayload.get(V2_INPUT_SETTINGS);
 
         //gets non read only settings fields from response for frontend
@@ -349,13 +349,8 @@
     }
 
     @TestVisible
-    private List<String> getHiddenSyncPrefFields(Map<String, Object> configPayload) {
-        List<String> hiddenSyncPrefFields = getListFieldFromPayload(INPUT_HIDDEN_SYNC_PREFS_FIELDS, configPayload, false);
-        if (hiddenSyncPrefFields == null) {
-            return new List<String> { 'api_percentage_limit', 'cpq_term_unit' };
-        } else {
-            return hiddenSyncPrefFields;
-        }
+    private List<String> getHiddenSyncPrefFields() {
+        return new List<String> { 'api_percentage_limit', 'cpq_term_unit' };
     }
 
     @TestVisible
