@@ -40,6 +40,8 @@ func (p *EntitlementsFeatureParams) AddExpand(f string) {
 // Features can be assigned to products, and when those products are purchased, Stripe will create an entitlement to the feature for the purchasing customer.
 type EntitlementsFeature struct {
 	APIResource
+	// Inactive features cannot be attached to new products and will not be returned from the features list endpoint.
+	Active bool `json:"active"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
