@@ -803,8 +803,6 @@ type ConfirmationToken struct {
 	Object string `json:"object"`
 	// ID of the PaymentIntent that this ConfirmationToken was used to confirm, or null if this ConfirmationToken has not yet been used.
 	PaymentIntent string `json:"payment_intent"`
-	// ID of an existing PaymentMethod.
-	PaymentMethod *PaymentMethod `json:"payment_method"`
 	// Payment-method-specific configuration for this ConfirmationToken.
 	PaymentMethodOptions *ConfirmationTokenPaymentMethodOptions `json:"payment_method_options"`
 	// Payment details collected by the Payment Element, used to create a PaymentMethod when a PaymentIntent or SetupIntent is confirmed with this ConfirmationToken.
