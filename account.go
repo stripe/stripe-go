@@ -402,6 +402,12 @@ type AccountCapabilitiesLinkPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The mobilepay_payments capability.
+type AccountCapabilitiesMobilepayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The oxxo_payments capability.
 type AccountCapabilitiesOXXOPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -554,6 +560,8 @@ type AccountCapabilitiesParams struct {
 	LegacyPayments *AccountCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The link_payments capability.
 	LinkPayments *AccountCapabilitiesLinkPaymentsParams `form:"link_payments"`
+	// The mobilepay_payments capability.
+	MobilepayPayments *AccountCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
 	// The oxxo_payments capability.
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
@@ -1089,6 +1097,8 @@ type AccountCapabilities struct {
 	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
 	// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
 	LinkPayments AccountCapabilityStatus `json:"link_payments"`
+	// The status of the MobilepPay capability of the account, or whether the account can directly process MobilePay charges.
+	MobilepayPayments AccountCapabilityStatus `json:"mobilepay_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
