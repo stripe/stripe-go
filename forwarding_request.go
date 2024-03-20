@@ -18,11 +18,11 @@ const (
 )
 
 // The HTTP method used to call the destination endpoint.
-type ForwardingRequestRequestDetailsHttpMethod string
+type ForwardingRequestRequestDetailsHTTPMethod string
 
-// List of values that ForwardingRequestRequestDetailsHttpMethod can take
+// List of values that ForwardingRequestRequestDetailsHTTPMethod can take
 const (
-	ForwardingRequestRequestDetailsHttpMethodPOST ForwardingRequestRequestDetailsHttpMethod = "POST"
+	ForwardingRequestRequestDetailsHTTPMethodPOST ForwardingRequestRequestDetailsHTTPMethod = "POST"
 )
 
 // Lists all ForwardingRequest objects.
@@ -100,7 +100,7 @@ type ForwardingRequestRequestDetails struct {
 	// The headers to include in the forwarded request. Can be omitted if no additional headers (excluding Stripe-generated ones such as the Content-Type header) should be included.
 	Headers []*ForwardingRequestRequestDetailsHeader `json:"headers"`
 	// The HTTP method used to call the destination endpoint.
-	HttpMethod ForwardingRequestRequestDetailsHttpMethod `json:"http_method"`
+	HTTPMethod ForwardingRequestRequestDetailsHTTPMethod `json:"http_method"`
 }
 
 // HTTP headers that the destination endpoint returned.
