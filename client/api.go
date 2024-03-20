@@ -28,6 +28,7 @@ import (
 	climateorder "github.com/stripe/stripe-go/v76/climate/order"
 	climateproduct "github.com/stripe/stripe-go/v76/climate/product"
 	climatesupplier "github.com/stripe/stripe-go/v76/climate/supplier"
+	"github.com/stripe/stripe-go/v76/confirmationtoken"
 	"github.com/stripe/stripe-go/v76/countryspec"
 	"github.com/stripe/stripe-go/v76/coupon"
 	"github.com/stripe/stripe-go/v76/creditnote"
@@ -100,6 +101,7 @@ import (
 	terminalconnectiontoken "github.com/stripe/stripe-go/v76/terminal/connectiontoken"
 	terminallocation "github.com/stripe/stripe-go/v76/terminal/location"
 	terminalreader "github.com/stripe/stripe-go/v76/terminal/reader"
+	testhelpersconfirmationtoken "github.com/stripe/stripe-go/v76/testhelpers/confirmationtoken"
 	testhelperscustomer "github.com/stripe/stripe-go/v76/testhelpers/customer"
 	testhelpersissuingauthorization "github.com/stripe/stripe-go/v76/testhelpers/issuing/authorization"
 	testhelpersissuingcard "github.com/stripe/stripe-go/v76/testhelpers/issuing/card"
@@ -172,6 +174,8 @@ type API struct {
 	ClimateProducts *climateproduct.Client
 	// ClimateSuppliers is the client used to invoke /climate/suppliers APIs.
 	ClimateSuppliers *climatesupplier.Client
+	// ConfirmationTokens is the client used to invoke /confirmation_tokens APIs.
+	ConfirmationTokens *confirmationtoken.Client
 	// CountrySpecs is the client used to invoke /country_specs APIs.
 	CountrySpecs *countryspec.Client
 	// Coupons is the client used to invoke /coupons APIs.
@@ -316,6 +320,8 @@ type API struct {
 	TerminalLocations *terminallocation.Client
 	// TerminalReaders is the client used to invoke /terminal/readers APIs.
 	TerminalReaders *terminalreader.Client
+	// TestHelpersConfirmationTokens is the client used to invoke /confirmation_tokens APIs.
+	TestHelpersConfirmationTokens *testhelpersconfirmationtoken.Client
 	// TestHelpersCustomers is the client used to invoke /customers APIs.
 	TestHelpersCustomers *testhelperscustomer.Client
 	// TestHelpersIssuingAuthorizations is the client used to invoke /issuing/authorizations APIs.
@@ -407,6 +413,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ClimateOrders = &climateorder.Client{B: backends.API, Key: key}
 	a.ClimateProducts = &climateproduct.Client{B: backends.API, Key: key}
 	a.ClimateSuppliers = &climatesupplier.Client{B: backends.API, Key: key}
+	a.ConfirmationTokens = &confirmationtoken.Client{B: backends.API, Key: key}
 	a.CountrySpecs = &countryspec.Client{B: backends.API, Key: key}
 	a.Coupons = &coupon.Client{B: backends.API, Key: key}
 	a.CreditNotes = &creditnote.Client{B: backends.API, Key: key}
@@ -479,6 +486,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
+	a.TestHelpersConfirmationTokens = &testhelpersconfirmationtoken.Client{B: backends.API, Key: key}
 	a.TestHelpersCustomers = &testhelperscustomer.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingAuthorizations = &testhelpersissuingauthorization.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingCards = &testhelpersissuingcard.Client{B: backends.API, Key: key}
