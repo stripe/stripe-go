@@ -27,6 +27,8 @@ type EntitlementsFeatureParams struct {
 	Expand []*string `form:"expand"`
 	// A unique key you provide as your own system identifier. This may be up to 80 characters.
 	LookupKey *string `form:"lookup_key"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
 	Name *string `form:"name"`
 }
@@ -34,6 +36,15 @@ type EntitlementsFeatureParams struct {
 // AddExpand appends a new field to expand.
 func (p *EntitlementsFeatureParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *EntitlementsFeatureParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // A feature represents a monetizable ability or functionality in your system.
@@ -48,6 +59,8 @@ type EntitlementsFeature struct {
 	Livemode bool `json:"livemode"`
 	// A unique key you provide as your own system identifier. This may be up to 80 characters.
 	LookupKey string `json:"lookup_key"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// The feature's name, for your own purpose, not meant to be displayable to the customer.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
