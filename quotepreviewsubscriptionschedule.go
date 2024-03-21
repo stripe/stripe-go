@@ -438,7 +438,7 @@ type QuotePreviewSubscriptionSchedulePhaseItem struct {
 	Trial *QuotePreviewSubscriptionSchedulePhaseItemTrial `json:"trial"`
 }
 
-// If specified, payment collection for this subscription will be paused.
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
 type QuotePreviewSubscriptionSchedulePhasePauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior QuotePreviewSubscriptionSchedulePhasePauseCollectionBehavior `json:"behavior"`
@@ -499,7 +499,7 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	Metadata map[string]string `json:"metadata"`
 	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused.
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *QuotePreviewSubscriptionSchedulePhasePauseCollection `json:"pause_collection"`
 	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 	ProrationBehavior QuotePreviewSubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
