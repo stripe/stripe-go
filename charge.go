@@ -1681,6 +1681,21 @@ type ChargePaymentMethodDetailsLink struct {
 	// You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
 }
+type ChargePaymentMethodDetailsMobilepayCard struct {
+	// Brand of the card used in the transaction
+	Brand string `json:"brand"`
+	// Two-letter ISO code representing the country of the card
+	Country string `json:"country"`
+	// Two digit number representing the card's expiration month
+	ExpMonth int64 `json:"exp_month"`
+	// Two digit number representing the card's expiration year
+	ExpYear int64 `json:"exp_year"`
+	// The last 4 digits of the card
+	Last4 string `json:"last4"`
+}
+type ChargePaymentMethodDetailsMobilepay struct {
+	Card *ChargePaymentMethodDetailsMobilepayCard `json:"card"`
+}
 type ChargePaymentMethodDetailsMultibanco struct {
 	// Entity number associated with this Multibanco payment.
 	Entity string `json:"entity"`
@@ -1865,6 +1880,7 @@ type ChargePaymentMethodDetails struct {
 	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna"`
 	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini"`
 	Link               *ChargePaymentMethodDetailsLink               `json:"link"`
+	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay"`
 	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
 	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
