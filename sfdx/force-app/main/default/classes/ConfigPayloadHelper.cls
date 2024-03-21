@@ -69,7 +69,6 @@
     };
 
     public static final List<String> V2_SETTINGS_STRING_FIELDS = new List<String> {
-            CPQ_TERM_UNIT,
             CPQ_PRORATE_PRECISION
     };
 
