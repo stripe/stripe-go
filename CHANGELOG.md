@@ -1,5 +1,19 @@
 # Changelog
 
+## 76.23.0-beta.1 - 2024-03-21
+* [#1827](https://github.com/stripe/stripe-go/pull/1827) Update generated code for beta
+  * Add support for new resources `Entitlements.ActiveEntitlementSummary` and `Entitlements.ActiveEntitlement`
+  * Add support for `List` method on resource `ActiveEntitlement`
+  * Add support for `Mobilepay` on `ConfirmationTokenPaymentMethodDataParams` and `ConfirmationTokenPaymentMethodPreview`
+  * Add support for `UseStripeSDK` on `ConfirmationToken`
+  * Remove support for `PaymentMethod` on `ConfirmationToken`
+  * Change type of `ConfirmationTokenMandateData` from `ConfirmationTokensResourceMandateData` to `nullable(ConfirmationTokensResourceMandateData)`
+  * Add support for new value `mobilepay` on enum `ConfirmationTokenPaymentMethodPreviewType`
+  * Add support for `Metadata` on `EntitlementsFeatureParams` and `EntitlementsFeature`
+  * Add support for `Active` on `EntitlementsFeature`
+  * Add support for new value `entitlements.active_entitlement_summary.updated` on enum `EventType`
+  * Remove support for value `customer.entitlement_summary.updated` from enum `EventType`
+
 ## 76.22.0-beta.1 - 2024-03-14
 * [#1825](https://github.com/stripe/stripe-go/pull/1825) Update generated code for beta
   * Add support for new resources `Billing.MeterEventAdjustment`, `Billing.MeterEvent`, and `Billing.Meter`
