@@ -460,6 +460,9 @@ type SetupIntentPaymentMethodDataKonbiniParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentPaymentMethodDataLinkParams struct{}
 
+// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
+type SetupIntentPaymentMethodDataMobilepayParams struct{}
+
 // If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 type SetupIntentPaymentMethodDataMultibancoParams struct{}
 
@@ -588,6 +591,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Link *SetupIntentPaymentMethodDataLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
+	Mobilepay *SetupIntentPaymentMethodDataMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 	Multibanco *SetupIntentPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
@@ -1074,6 +1079,9 @@ type SetupIntentConfirmPaymentMethodDataKonbiniParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentConfirmPaymentMethodDataLinkParams struct{}
 
+// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
+type SetupIntentConfirmPaymentMethodDataMobilepayParams struct{}
+
 // If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 type SetupIntentConfirmPaymentMethodDataMultibancoParams struct{}
 
@@ -1202,6 +1210,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Link *SetupIntentConfirmPaymentMethodDataLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
+	Mobilepay *SetupIntentConfirmPaymentMethodDataMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 	Multibanco *SetupIntentConfirmPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.

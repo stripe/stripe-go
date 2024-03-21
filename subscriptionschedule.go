@@ -411,7 +411,7 @@ func (p *SubscriptionSchedulePhaseItemParams) AddMetadata(key string, value stri
 	p.Metadata[key] = value
 }
 
-// If specified, payment collection for this subscription will be paused.
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionSchedulePhasePauseCollectionParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior *string `form:"behavior"`
@@ -468,7 +468,7 @@ type SubscriptionSchedulePhaseParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused.
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionSchedulePhasePauseCollectionParams `form:"pause_collection"`
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
@@ -1145,7 +1145,7 @@ type SubscriptionSchedulePhaseItem struct {
 	Trial *SubscriptionSchedulePhaseItemTrial `json:"trial"`
 }
 
-// If specified, payment collection for this subscription will be paused.
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionSchedulePhasePauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior SubscriptionSchedulePhasePauseCollectionBehavior `json:"behavior"`
@@ -1198,7 +1198,7 @@ type SubscriptionSchedulePhase struct {
 	Metadata map[string]string `json:"metadata"`
 	// The account (if any) the charge was made on behalf of for charges associated with the schedule's subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused.
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionSchedulePhasePauseCollection `json:"pause_collection"`
 	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 	ProrationBehavior SubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`

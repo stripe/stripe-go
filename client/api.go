@@ -43,10 +43,9 @@ import (
 	"github.com/stripe/stripe-go/v76/customer"
 	"github.com/stripe/stripe-go/v76/customerbalancetransaction"
 	"github.com/stripe/stripe-go/v76/customercashbalancetransaction"
-	"github.com/stripe/stripe-go/v76/customerentitlement"
-	"github.com/stripe/stripe-go/v76/customerentitlementsummary"
 	"github.com/stripe/stripe-go/v76/customersession"
 	"github.com/stripe/stripe-go/v76/dispute"
+	entitlementsactiveentitlement "github.com/stripe/stripe-go/v76/entitlements/activeentitlement"
 	entitlementsfeature "github.com/stripe/stripe-go/v76/entitlements/feature"
 	"github.com/stripe/stripe-go/v76/ephemeralkey"
 	"github.com/stripe/stripe-go/v76/event"
@@ -57,6 +56,7 @@ import (
 	financialconnectionsaccountinferredbalance "github.com/stripe/stripe-go/v76/financialconnections/accountinferredbalance"
 	financialconnectionssession "github.com/stripe/stripe-go/v76/financialconnections/session"
 	financialconnectionstransaction "github.com/stripe/stripe-go/v76/financialconnections/transaction"
+	forwardingrequest "github.com/stripe/stripe-go/v76/forwarding/request"
 	giftcardscard "github.com/stripe/stripe-go/v76/giftcards/card"
 	giftcardstransaction "github.com/stripe/stripe-go/v76/giftcards/transaction"
 	identityverificationreport "github.com/stripe/stripe-go/v76/identity/verificationreport"
@@ -224,16 +224,14 @@ type API struct {
 	CustomerBalanceTransactions *customerbalancetransaction.Client
 	// CustomerCashBalanceTransactions is the client used to invoke /customers/{customer}/cash_balance_transactions APIs.
 	CustomerCashBalanceTransactions *customercashbalancetransaction.Client
-	// CustomerEntitlements is the client used to invoke /customers/{customer}/entitlements APIs.
-	CustomerEntitlements *customerentitlement.Client
-	// CustomerEntitlementSummaries is the client used to invoke /customers/{customer}/entitlement_summary APIs.
-	CustomerEntitlementSummaries *customerentitlementsummary.Client
 	// Customers is the client used to invoke /customers APIs.
 	Customers *customer.Client
 	// CustomerSessions is the client used to invoke /customer_sessions APIs.
 	CustomerSessions *customersession.Client
 	// Disputes is the client used to invoke /disputes APIs.
 	Disputes *dispute.Client
+	// EntitlementsActiveEntitlements is the client used to invoke /entitlements/active_entitlements APIs.
+	EntitlementsActiveEntitlements *entitlementsactiveentitlement.Client
 	// EntitlementsFeatures is the client used to invoke /entitlements/features APIs.
 	EntitlementsFeatures *entitlementsfeature.Client
 	// EphemeralKeys is the client used to invoke /ephemeral_keys APIs.
@@ -254,6 +252,8 @@ type API struct {
 	FinancialConnectionsSessions *financialconnectionssession.Client
 	// FinancialConnectionsTransactions is the client used to invoke /financial_connections/transactions APIs.
 	FinancialConnectionsTransactions *financialconnectionstransaction.Client
+	// ForwardingRequests is the client used to invoke /forwarding/requests APIs.
+	ForwardingRequests *forwardingrequest.Client
 	// GiftCardsCards is the client used to invoke /gift_cards/cards APIs.
 	GiftCardsCards *giftcardscard.Client
 	// GiftCardsTransactions is the client used to invoke /gift_cards/transactions APIs.
@@ -493,11 +493,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.CreditNotes = &creditnote.Client{B: backends.API, Key: key}
 	a.CustomerBalanceTransactions = &customerbalancetransaction.Client{B: backends.API, Key: key}
 	a.CustomerCashBalanceTransactions = &customercashbalancetransaction.Client{B: backends.API, Key: key}
-	a.CustomerEntitlements = &customerentitlement.Client{B: backends.API, Key: key}
-	a.CustomerEntitlementSummaries = &customerentitlementsummary.Client{B: backends.API, Key: key}
 	a.Customers = &customer.Client{B: backends.API, Key: key}
 	a.CustomerSessions = &customersession.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
+	a.EntitlementsActiveEntitlements = &entitlementsactiveentitlement.Client{B: backends.API, Key: key}
 	a.EntitlementsFeatures = &entitlementsfeature.Client{B: backends.API, Key: key}
 	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
 	a.Events = &event.Client{B: backends.API, Key: key}
@@ -508,6 +507,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.FinancialConnectionsAccounts = &financialconnectionsaccount.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsSessions = &financialconnectionssession.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsTransactions = &financialconnectionstransaction.Client{B: backends.API, Key: key}
+	a.ForwardingRequests = &forwardingrequest.Client{B: backends.API, Key: key}
 	a.GiftCardsCards = &giftcardscard.Client{B: backends.API, Key: key}
 	a.GiftCardsTransactions = &giftcardstransaction.Client{B: backends.API, Key: key}
 	a.IdentityVerificationReports = &identityverificationreport.Client{B: backends.API, Key: key}

@@ -6,21 +6,22 @@
 
 package stripe
 
-// Retrieve a list of entitlements for a customer
-type CustomerEntitlementListParams struct {
+// Retrieve a list of active entitlements for a customer
+type EntitlementsActiveEntitlementListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Included in URL
+	// The ID of the customer.
+	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
 
 // AddExpand appends a new field to expand.
-func (p *CustomerEntitlementListParams) AddExpand(f string) {
+func (p *EntitlementsActiveEntitlementListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A entitlement for a customer describes access to a feature.
-type CustomerEntitlement struct {
+// An active entitlement describes access to a feature for a customer.
+type EntitlementsActiveEntitlement struct {
 	// The feature that the customer is entitled to.
 	Feature string `json:"feature"`
 	// Unique identifier for the object.
@@ -33,9 +34,9 @@ type CustomerEntitlement struct {
 	Object string `json:"object"`
 }
 
-// CustomerEntitlementList is a list of CustomerEntitlements as retrieved from a list endpoint.
-type CustomerEntitlementList struct {
+// EntitlementsActiveEntitlementList is a list of ActiveEntitlements as retrieved from a list endpoint.
+type EntitlementsActiveEntitlementList struct {
 	APIResource
 	ListMeta
-	Data []*CustomerEntitlement `json:"data"`
+	Data []*EntitlementsActiveEntitlement `json:"data"`
 }
