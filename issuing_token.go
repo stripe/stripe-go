@@ -224,7 +224,7 @@ type IssuingToken struct {
 	Card *IssuingCard `json:"card"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// The hashed ID derived from the device ID from the card network associated with the token
+	// The hashed ID derived from the device ID from the card network associated with the token.
 	DeviceFingerprint string `json:"device_fingerprint"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
