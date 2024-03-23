@@ -4,8 +4,8 @@
 
 global class PostInstallClass implements InstallHandler {
     global void onInstall(InstallContext context) {
-        if((constants.NAMESPACE == 'QaStripeConnect' && context.previousVersion()?.compareTo(new Version(1,96)) < 0)
-                || (constants.NAMESPACE == 'stripeConnector' && context.previousVersion()?.compareTo(new Version(2,8)) < 0) || constants.NAMESPACE == 'c') {
+        if(utilities.isUsingV1Middleware() && ((constants.NAMESPACE == 'QaStripeConnect' && context.previousVersion()?.compareTo(new Version(1,96)) < 0)
+                || (constants.NAMESPACE == 'stripeConnector' && context.previousVersion()?.compareTo(new Version(2,8)) < 0) || constants.NAMESPACE == 'c')) {
             //get response structure
             String route = UriTargetsV1.getConfigEndpoint();
             HttpResponse response = utilities.makeCallout(route, 'GET');
