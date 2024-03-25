@@ -101,4 +101,56 @@ public with sharing class ConfigPayloadHelper_Test {
         System.assertEquals(null, brokenRes, 'broken ref is null');
     }
 
+    @IsTest
+    static void testExtractValueV2() {
+        Setup_Connection_Data__mdt testSetupData = test_setupAssistant.getTestStripeConnectionKey();
+        testSetupData.Middleware_Infrastructure_Version__c = 'v2';
+        test_setupAssistant.setTestGlobalKey(testSetupData);
+        test_setupAssistant.insertTestConnectedRecord();
+
+        Boolean isV2 = utilities.isUsingV2Middleware();
+        System.assert(isV2, true);
+
+        ConfigPayloadHelper.ErrorTracker errorTracker = new ConfigPayloadHelper.ErrorTracker();
+        ConfigPayloadHelper configPayloadHelper = new ConfigPayloadHelper();
+        Map<String, Object> requestPayload = new Map<String,Object>{
+            'foo' => 'bar',
+            'cpq_prorate_precision' => 'month'
+
+        };
+        Map<String, Object> saveTo = new Map<String,Object>{};
+
+        Boolean result = configPayloadHelper.extractValue('cpq_prorate_precision', requestPayload, saveTo, errorTracker);
+        System.assert(result == false, 'cpq_prorate_precision should be extracted');
+        System.assert((String)saveTo.get('cpq_prorate_precision') == 'month');
+        
+        result = configPayloadHelper.extractValue('foo', requestPayload, saveTo, errorTracker);
+        System.assert(result == true, 'field food should be missing');
+        System.assert(saveTo.get('foo') == null, 'field food should be missing');
+        
+        result = configPayloadHelper.extractValue('missing', requestPayload, saveTo, errorTracker);
+        System.assert(result == true, 'field missing should be missing');
+        System.assert(saveTo.get('foo') == null, 'field missing should be missing');
+    }
+
+     @IsTest
+     static void testHiddenSyncPrefFields() {
+        ConfigPayloadHelper helper = new ConfigPayloadHelper();
+        List<String> actual = helper.getHiddenSyncPrefFields();
+        List<String> expected = new List<String> { 'api_percentage_limit', 'cpq_term_unit' };
+        System.assert(actual.size() == expected.size(), 'hidden sync pref fields should be the same size');
+    }
+
+    @IsTest
+    static void testGetHiddenMapperFields() {
+        ConfigPayloadHelper configPayloadHelper = new ConfigPayloadHelper();
+
+        Map<String, Object> testConfigPayload = new Map<String, Object> {
+            'a.a' => 'a',
+            'a.b' => 'b',
+            'ab.a' => 'c'
+        };
+        List<String> actual = configPayloadHelper.getHiddenMapperFields(testConfigPayload);
+        System.assert(actual.size() == 0, 'hidden mapper fields should be empty');
+    }
 }

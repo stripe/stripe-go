@@ -356,7 +356,7 @@
     private List<String> getHiddenMapperFields(Map<String, Object> configPayload) {
         List<String> hiddenMapperFields = getListFieldFromPayload(INPUT_HIDDEN_MAPPER_FIELDS, configPayload, false);
         if (hiddenMapperFields == null) {
-            return new List<String> { 'coupon', 'subscription_schedule.prebilling', 'customer.standard.coupon' };
+            return new List<String> { };
         } else {
             return hiddenMapperFields;
         }
