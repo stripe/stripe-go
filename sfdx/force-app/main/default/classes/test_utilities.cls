@@ -92,6 +92,62 @@ public with sharing class test_utilities {
     }
 
     @IsTest
+    static public void getPrimaryStripeAccount() {
+        Stripe_Account__c stripeAccount = new Stripe_Account__c();
+        String stipeAcctId = 'acct_1234567890';
+        stripeAccount.Stripe_ID__c = stipeAcctId;
+        stripeAccount.Is_Live_Mode__c = false;
+        stripeAccount.External_ID__c = stipeAcctId + '|' + stripeAccount.Is_Live_Mode__c;
+        stripeAccount.Name = stipeAcctId;
+        stripeAccount.Is_Primary__c = true;
+        insert(stripeAccount);
+
+        Test.startTest();
+        Stripe_Account__c result = utilities.getPrimaryStripeAccount();
+        Test.stopTest();
+
+        System.assertNotEquals(null, result);
+        System.assertEquals(result.Stripe_ID__c, stipeAcctId);
+    }
+
+    @IsTest
+    static public void idsToQueryString() {
+        Set<Id> ids = new Set<Id> {
+            '001000000000000AAA',
+            '001000000000000BBB',
+            '001000000000000CCC'
+        };
+
+        String query = utilities.idsToQueryString(ids);
+        System.assertEquals('(\'001000000000000AAA\',\'001000000000000BBB\',\'001000000000000CCC\')', query);
+    }
+    
+    @IsTest
+    static public void isUsingV2Middleware() {
+        Setup_Connection_Data__mdt testSetupData = test_setupAssistant.getTestStripeConnectionKey();
+        testSetupData.Middleware_Infrastructure_Version__c = 'v2';
+        test_setupAssistant.setTestGlobalKey(testSetupData);
+        test_setupAssistant.insertTestConnectedRecord();
+        Test.setMock(HttpCalloutMock.class, new test_setupAssistant.UnifiedConfigMock());
+
+        Test.startTest();
+        Boolean isV2 = utilities.isUsingV2Middleware();
+        Test.stopTest();
+
+        System.assert(isV2, true);
+    }
+
+    @IsTest
+    static public void isCPQEnabled() {
+        Test.startTest();
+        Boolean isCpqEnabled = utilities.isCpqEnabled();
+        Test.stopTest();
+
+        System.assert(isCpqEnabled, true);
+    }
+
+
+    @IsTest
     static public void testPackageVersion() {
         Test.startTest();
         String packageVersion = utilities.getPackageVersion();

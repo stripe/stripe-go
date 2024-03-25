@@ -18,9 +18,23 @@ public with sharing class PostInstallClassTest {
         Test.testInstall(postinstall, new Version(1,0), true);
         Test.stopTest();
 
-        List<Stripe_Account__c> stripeAccs = [SELECT Id, Stripe_ID__c, Is_Live_Mode__c FROM Stripe_Account__c];
-        System.assertNotEquals(0, stripeAccs.size(), 'No Stripe Account found');
+        List<Stripe_Account__c> stripeAccts = [SELECT Id, Stripe_ID__c, Is_Live_Mode__c FROM Stripe_Account__c];
+        System.assertNotEquals(0, stripeAccts.size(), 'No Stripe Account found');
     }
 
+    @IsTest
+    static void testInstallScriptPackage() {
+        Setup_Connection_Data__mdt testSetupData = test_setupAssistant.getTestStripeConnectionKey();
+        testSetupData.Middleware_Infrastructure_Version__c = 'v2';
+        test_setupAssistant.setTestGlobalKey(testSetupData);
+        test_setupAssistant.insertTestConnectedRecord();
+       
+        PostInstallClass postinstall = new PostInstallClass();
+        Test.startTest();
+        Test.testInstall(postinstall, new Version(3,0), true);
+        Test.stopTest();
 
+        List<Stripe_Account__c> stripeAccts = [SELECT Id, Stripe_ID__c, Is_Live_Mode__c FROM Stripe_Account__c];
+        System.assertNotEquals(0, stripeAccts.size(), 'No Stripe Account found');
+    }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <label>Default</label>
-    <protected>true</protected>
+    <protected>false</protected>
     <values>
         <field>DSN__c</field>
         <value xsi:type="xsd:string">https://d6ee94001b6349538f2360ba267d62de:68f0a97c848642b7b28a3d5108f6dc76@errors.prod.stripe.io/1006</value>

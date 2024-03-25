@@ -84,7 +84,6 @@
         }
 
         while (message.length() > 0) {
-//            Integer nextLen = message.length() < lengthLimit ? message.length() : lengthLimit;
             if (message.length() > lengthLimit) {
                 String nextMsg = message.substring(0, lengthLimit);
                 message = message.substring(lengthLimit);
