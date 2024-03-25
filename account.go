@@ -264,6 +264,12 @@ type AccountCapabilitiesAfterpayClearpayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The amazon_pay_payments capability.
+type AccountCapabilitiesAmazonPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The au_becs_debit_payments capability.
 type AccountCapabilitiesAUBECSDebitPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -488,6 +494,8 @@ type AccountCapabilitiesParams struct {
 	AffirmPayments *AccountCapabilitiesAffirmPaymentsParams `form:"affirm_payments"`
 	// The afterpay_clearpay_payments capability.
 	AfterpayClearpayPayments *AccountCapabilitiesAfterpayClearpayPaymentsParams `form:"afterpay_clearpay_payments"`
+	// The amazon_pay_payments capability.
+	AmazonPayPayments *AccountCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments"`
 	// The au_becs_debit_payments capability.
 	AUBECSDebitPayments *AccountCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments"`
 	// The bacs_debit_payments capability.
@@ -987,6 +995,8 @@ type AccountCapabilities struct {
 	AffirmPayments AccountCapabilityStatus `json:"affirm_payments"`
 	// The status of the Afterpay Clearpay capability of the account, or whether the account can directly process Afterpay Clearpay charges.
 	AfterpayClearpayPayments AccountCapabilityStatus `json:"afterpay_clearpay_payments"`
+	// The status of the AmazonPay capability of the account, or whether the account can directly process AmazonPay payments.
+	AmazonPayPayments AccountCapabilityStatus `json:"amazon_pay_payments"`
 	// The status of the BECS Direct Debit (AU) payments capability of the account, or whether the account can directly process BECS Direct Debit (AU) charges.
 	AUBECSDebitPayments AccountCapabilityStatus `json:"au_becs_debit_payments"`
 	// The status of the Bacs Direct Debits payments capability of the account, or whether the account can directly process Bacs Direct Debits charges.
