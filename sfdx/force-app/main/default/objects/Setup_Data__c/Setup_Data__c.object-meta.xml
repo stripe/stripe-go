@@ -162,5 +162,5 @@
     <pluralLabel>Setup Data</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
-    <visibility>Public</visibility>
+    <visibility>Protected</visibility>
 </CustomObject>

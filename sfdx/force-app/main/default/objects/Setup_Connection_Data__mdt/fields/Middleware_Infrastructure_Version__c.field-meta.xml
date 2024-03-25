@@ -5,7 +5,7 @@
     <description>This is the version of middleware infrastructure to use for making calls to the middleware. Currently defaults to v1 if no value is set.</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <inlineHelpText>This is the version of middleware infrastructure to use for making calls to the middleware. Currently defaults to v1 if no value is set.</inlineHelpText>
+    <inlineHelpText>This is the version of middleware infrastructure to use for making calls to the middleware. Currently defaults to v2. if no value is set.</inlineHelpText>
     <label>Middleware Infrastructure Version</label>
     <required>false</required>
     <type>Picklist</type>
@@ -15,12 +15,12 @@
             <sorted>false</sorted>
             <value>
                 <fullName>v1</fullName>
-                <default>true</default>
+                <default>false</default>
                 <label>v1</label>
             </value>
             <value>
                 <fullName>v2</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>v2</label>
             </value>
         </valueSetDefinition>
