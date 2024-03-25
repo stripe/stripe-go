@@ -23,6 +23,11 @@
                 <label>disconnected</label>
             </value>
             <value>
+                <fullName>deleted</fullName>
+                <default>false</default>
+                <label>deleted</label>
+            </value>
+            <value>
                 <fullName>failed</fullName>
                 <default>false</default>
                 <label>failed</label>

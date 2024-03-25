@@ -58,6 +58,7 @@ public with sharing class constants {
 
     public static final String STRIPE_ACCOUNT_CONN_STATUS_CONNECTED = 'connected';
     public static final String STRIPE_ACCOUNT_CONN_STATUS_DISCONNECTED = 'disconnected';
+    public static final String STRIPE_ACCOUNT_CONN_STATUS_DELETED = 'deleted';
     public static final String STRIPE_ACCOUNT_CONN_STATUS_BROKEN = 'broken';
 
     public constants() {

@@ -59,7 +59,7 @@ export default class StripeAccountManagementStep extends LightningElement {
                 confConfig.message = `Are you sure you want to set ${context.account.Stripe_ID__c} as the primary account?`;
             } else if (context.action === 'Delete') {
                 fn = deleteStripeAccount;
-                confConfig.message = `Are you sure you want to delete ${context.account.Stripe_ID__c}?`;
+                confConfig.message = `Deleting this Stripe account will disable you from syncing to this Stripe account. Are you sure you want to delete ${context.account.Stripe_ID__c}?`;
             } else {
                 DebugLog('handleRowAction', 'unknown action', context.action);
                 this._showToast('Unknown action', 'error', 'sticky');

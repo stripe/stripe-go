@@ -39,9 +39,11 @@ public with sharing class setupAssistant {
 
     @AuraEnabled
     public static List<Stripe_Account__c> getStripeAccounts() {
+        String deletedStatus = constants.STRIPE_ACCOUNT_CONN_STATUS_DELETED;
         return [
             SELECT Id, Name, Stripe_ID__c, Is_Live_Mode__c, External_ID__c, Connection_Status__c, Is_Primary__c
             FROM Stripe_Account__c
+            WHERE Connection_Status__c != :deletedStatus
             WITH SECURITY_ENFORCED
             ORDER BY Is_Primary__c DESC, Stripe_ID__c ASC, Is_Live_Mode__c DESC
         ];
@@ -118,6 +120,7 @@ public with sharing class setupAssistant {
                 HttpResponse response = utilities.makeCallout(route, 'PUT', JSON.serialize(requestBody), headers);
                 utilities.validateCalloutResponse(response, 'deleteStripeAccount');
             } catch (Exception e) {
+                debugger.debug('deleteStripeAccount exception', e);
                 return false;
             }
         } else {
@@ -138,7 +141,9 @@ public with sharing class setupAssistant {
             }
         }
         if (found != null) {
-            delete found;
+            debugger.debug('deleteStripeAccount found', found);
+            found.Connection_Status__c = constants.STRIPE_ACCOUNT_CONN_STATUS_DELETED;
+            update found;
         }
         return found != null;
     }
