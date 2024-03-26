@@ -4,8 +4,8 @@ public with sharing class test_updateOrderCouponTrigger {
     private static final Integer COUPON_NAME_LENGTH = COUPON_NAME.length();
     private static final Integer COUPON_PERCENT_OFF = 55;
     private static final String COUPON_DURATION = 'once';
-    private static final String ORDER_STATUS_ACTIVATED = 'Activated';
-    private static final String ORDER_STATUS_DRAFT = 'Draft';
+    public static final String ORDER_STATUS_ACTIVATED = 'Activated';
+    public static final String ORDER_STATUS_DRAFT = 'Draft';
     private static final String FIELD_CURRENCY_ISO_CODE = constants.FIELD_CURRENCY_ISO_CODE;
 
     @IsTest

@@ -5,6 +5,13 @@
 @IsTest
 public with sharing class Test_Tools {
     public static final String PROFILE_CHATTER_FREE_USER = 'Chatter Free User';
+    
+    // Include this for backwards compatibility
+    // Deleting this prevents us from rolling our new QA packages
+    public User createUser(String profile, String uniqueId) {
+        return insertUser(profile, uniqueId);
+    }
+
     public User insertUser(String profile, String uniqueId) {
         Profile p = [SELECT Id FROM Profile WHERE Name = :profile];
         String alias = uniqueId.substring(0, 8);
