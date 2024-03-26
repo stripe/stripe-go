@@ -282,7 +282,7 @@ public with sharing class utilities {
             return setupConfigMetadata[0].Middleware_Infrastructure_Version__c != 'v2';
         }
 
-        return true;
+        return false;
     }
 
     @AuraEnabled(Cacheable=false)
@@ -291,7 +291,7 @@ public with sharing class utilities {
             return setupConfigMetadata[0].Middleware_Infrastructure_Version__c == 'v2';
         }
 
-        return false;
+        return true;
     }
 
     public static Blob getOAuthStateSigningKey() {
