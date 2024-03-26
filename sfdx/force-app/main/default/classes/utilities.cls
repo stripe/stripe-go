@@ -259,8 +259,8 @@ public with sharing class utilities {
     public static Boolean shouldInitializeMiddlewareConnection() {
         if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
             debugger.debug('utilities.shouldInitializeMiddlewareConnection', 'Initializing middleware connection');
-            Boolean isV1 = setupConfigMetadata[0].Middleware_Infrastructure_Version__c != 'v2';
-            Boolean isV2 = setupConfigMetadata[0].Middleware_Infrastructure_Version__c == 'v2';
+            Boolean isV1 = setupConfigMetadata[0].Middleware_Infrastructure_Version__c == 'v1';
+            Boolean isV2 = !isV1;
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();
             Stripe_Account__c acct = getPrimaryStripeAccount();
             Boolean needsAPIKey = stripeConnectRec.API_Key__c == null || String.isBlank(stripeConnectRec.API_Key__c);
@@ -278,11 +278,17 @@ public with sharing class utilities {
     }
 
     public static Boolean isUsingV1Middleware() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0].Middleware_Infrastructure_Version__c == 'v1';
+        }
         return false;
     }
 
     @AuraEnabled(Cacheable=false)
     public static Boolean isUsingV2Middleware() {
+        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
+            return setupConfigMetadata[0].Middleware_Infrastructure_Version__c != 'v1';
+        }
         return true;
     }
 

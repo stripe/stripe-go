@@ -247,6 +247,9 @@ class StripeForce::Translate
       phases.each do |phase|
         self.sanitize_subscription_schedule_phase_discounts(phase)
         Integrations::Utilities::StripeUtil.delete_nil_fields_from_stripe_object(phase)
+        if phase[:automatic_tax]
+          Integrations::Utilities::StripeUtil.delete_nil_fields_from_stripe_object(phase[:automatic_tax])
+        end
       end
 
       # (Status 400) (Request req_6sXw1ulKg8naEO) You may only specify one of these parameters: end_date, iterations.>

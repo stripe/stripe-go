@@ -800,8 +800,8 @@ public with sharing class test_setupAssistant {
 
     public static Setup_Connection_Data__mdt getTestStripeConnectionKey() {
         Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields = (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
 
+        Map<String,Object> fields = (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
         fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
         fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
         fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
