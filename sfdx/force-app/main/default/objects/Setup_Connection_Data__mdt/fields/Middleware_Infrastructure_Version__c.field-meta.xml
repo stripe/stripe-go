@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Middleware_Infrastructure_Version__c</fullName>
-    <defaultValue>&quot;v1&quot;</defaultValue>
-    <description>This is the version of middleware infrastructure to use for making calls to the middleware. Currently defaults to v1 if no value is set.</description>
+    <defaultValue>&quot;v2&quot;</defaultValue>
+    <description>This is the version of middleware infrastructure to use for making calls to the middleware. Currently defaults to v2 if no value is set.</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>This is the version of middleware infrastructure to use for making calls to the middleware. Currently defaults to v2. if no value is set.</inlineHelpText>
