@@ -278,19 +278,11 @@ public with sharing class utilities {
     }
 
     public static Boolean isUsingV1Middleware() {
-        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
-            return setupConfigMetadata[0].Middleware_Infrastructure_Version__c != 'v2';
-        }
-
         return false;
     }
 
     @AuraEnabled(Cacheable=false)
     public static Boolean isUsingV2Middleware() {
-        if (setupConfigMetadata != null && setupConfigMetadata.isEmpty() == false) {
-            return setupConfigMetadata[0].Middleware_Infrastructure_Version__c == 'v2';
-        }
-
         return true;
     }
 
