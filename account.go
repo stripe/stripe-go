@@ -172,7 +172,7 @@ type AccountParams struct {
 	Capabilities *AccountCapabilitiesParams `form:"capabilities"`
 	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/docs/api/account_links) or [Account Session](https://stripe.com/docs/api/account_sessions), this property can only be updated for Custom accounts.
 	Company *AccountCompanyParams `form:"company"`
-	// The configuration of the account when `type` is not provided.
+	// A hash of configuration describing the account controller's attributes.
 	Controller *AccountControllerParams `form:"controller"`
 	// The country in which the account holder resides, or in which the business is legally established. This should be an ISO 3166-1 alpha-2 country code. For example, if you are in the United States and the business for which you're creating an account is legally represented in Canada, you would use `CA` as the country for the account being created. Available countries include [Stripe's global markets](https://stripe.com/global) as well as countries where [cross-border payouts](https://stripe.com/docs/connect/cross-border-payouts) are supported.
 	Country *string `form:"country"`
@@ -992,7 +992,7 @@ type AccountControllerDashboardParams struct {
 	Type *string `form:"type"`
 }
 
-// The configuration of the account when `type` is not provided.
+// A hash of configuration describing the account controller's attributes.
 type AccountControllerParams struct {
 	// The documentation for the application hash.
 	Application *AccountControllerApplicationParams `form:"application"`
