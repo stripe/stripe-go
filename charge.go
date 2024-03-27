@@ -1485,7 +1485,7 @@ type ChargePaymentMethodDetailsCardPresentReceipt struct {
 	AuthorizationCode string `json:"authorization_code"`
 	// EMV tag 8A. A code returned by the card issuer.
 	AuthorizationResponseCode string `json:"authorization_response_code"`
-	// How the cardholder verified ownership of the card.
+	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
 	CardholderVerificationMethod string `json:"cardholder_verification_method"`
 	// EMV tag 84. Similar to the application identifier stored on the integrated circuit chip.
 	DedicatedFileName string `json:"dedicated_file_name"`
@@ -1609,7 +1609,7 @@ type ChargePaymentMethodDetailsInteracPresentReceipt struct {
 	AuthorizationCode string `json:"authorization_code"`
 	// EMV tag 8A. A code returned by the card issuer.
 	AuthorizationResponseCode string `json:"authorization_response_code"`
-	// How the cardholder verified ownership of the card.
+	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
 	CardholderVerificationMethod string `json:"cardholder_verification_method"`
 	// EMV tag 84. Similar to the application identifier stored on the integrated circuit chip.
 	DedicatedFileName string `json:"dedicated_file_name"`
