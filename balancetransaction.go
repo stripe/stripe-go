@@ -118,10 +118,6 @@ const (
 	BalanceTransactionTypeTransferCancel               BalanceTransactionType = "transfer_cancel"
 	BalanceTransactionTypeTransferFailure              BalanceTransactionType = "transfer_failure"
 	BalanceTransactionTypeTransferRefund               BalanceTransactionType = "transfer_refund"
-	BalanceTransactionTypeObligationInbound            BalanceTransactionType = "obligation_inbound"
-	BalanceTransactionTypeObligationPayout             BalanceTransactionType = "obligation_payout"
-	BalanceTransactionTypeObligationPayoutFailure      BalanceTransactionType = "obligation_payout_failure"
-	BalanceTransactionTypeObligationReversalOutbound   BalanceTransactionType = "obligation_reversal_outbound"
 )
 
 // Returns a list of transactions that have contributed to the Stripe account balance (e.g., charges, transfers, and so forth). The transactions are returned in sorted order, with the most recent transactions appearing first.
