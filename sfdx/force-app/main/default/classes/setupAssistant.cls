@@ -848,11 +848,16 @@ public with sharing class setupAssistant {
                     'sync_start_date' => syncStartDate,
                     'sync_record_retention' => syncRecordRetention,
                     'default_currency' => UserInfo.getDefaultCurrency(),
+                    'cpq_term_unit' => cpqTermUnit,
                     'cpq_prorate_precision' => cpqProratePrecision
                 };
 
                 if (apiPercentageLimit != null) {
                     settings.put('api_percentage_limit', apiPercentageLimit);
+                }
+
+                if (cpqTermUnit != null) {
+                    settings.put('cpq_term_unit', cpqTermUnit);
                 }
 
                 Map<String, Object> requestBody = new Map<String, Object> {
