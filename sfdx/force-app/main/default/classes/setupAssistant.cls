@@ -38,6 +38,11 @@ public with sharing class setupAssistant {
     }
 
     @AuraEnabled
+    public static String getNamespacePrefix() {
+        return constants.NAMESPACE_API;
+    }
+
+    @AuraEnabled
     public static List<Stripe_Account__c> getStripeAccounts() {
         String deletedStatus = constants.STRIPE_ACCOUNT_CONN_STATUS_DELETED;
         return [

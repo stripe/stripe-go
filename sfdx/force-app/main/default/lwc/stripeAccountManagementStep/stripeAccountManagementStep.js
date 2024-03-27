@@ -3,9 +3,9 @@ import addStripeAccount from '@salesforce/apex/setupAssistant.addStripeAccount';
 import getStripeAccounts from '@salesforce/apex/setupAssistant.getStripeAccounts';
 import setStripeAccountAsDefault from '@salesforce/apex/setupAssistant.setStripeAccountAsDefault';
 import deleteStripeAccount from '@salesforce/apex/setupAssistant.deleteStripeAccount';
-import isUsingV2Middleware from '@salesforce/apex/utilities.isUsingV2Middleware';
+import getNamespacePrefix from '@salesforce/apex/setupAssistant.getNamespacePrefix';
 import {LightningElement, track, api} from 'lwc';
-import {getErrorMessage, createToast, openWindow} from 'c/utils'
+import { getErrorMessage, createToast, openWindow } from 'c/utils'
 import AddStripeAccountModal from 'c/addStripeAccountModal';
 import Debugger from "c/debugger";
 import {MessageListener, ConnectionStatus, ListenerEvents} from "c/systemStatusUtils";
@@ -99,7 +99,6 @@ export default class StripeAccountManagementStep extends LightningElement {
         DebugLog('connectedCallback', 'connecting');
         this.dispatchEvent(this.contentLoading);
         await this.getStripeAccounts();
-        this.areMultipleStripeAcctsConnected = this.accounts.length > 1;
         this._boundConnectionStatusUpdated = this._connectionStatusUpdated.bind(this);
         Manager.on(ServiceEvents.connection_status_updated, this._boundConnectionStatusUpdated);
     }
@@ -120,16 +119,24 @@ export default class StripeAccountManagementStep extends LightningElement {
 
     async getStripeAccounts() {
         try {
-            const stripeAccounts = await getStripeAccounts();
             const acctsByExtId = {};
+            const namespacePrefix = await getNamespacePrefix();
+
+            const stripeAccounts = await getStripeAccounts();
             stripeAccounts.forEach(acct => {
+                acct.Is_Live_Mode__c = acct[namespacePrefix + 'Is_Live_Mode__c'];
                 acct.livemode = acct.Is_Live_Mode__c === true ? 'live' : 'test';
+                acct.Stripe_ID__c = acct[namespacePrefix + 'Stripe_ID__c'];
+                acct.Is_Primary__c = acct[namespacePrefix + 'Is_Primary__c'];
+                acct.External_ID__c = acct[namespacePrefix + 'External_ID__c'];
+                acct.Connection_Status__c = acct[namespacePrefix + 'Connection_Status__c'];
+                acct.CSAC_ID__c = acct[namespacePrefix + 'CSAC_ID__c'];
                 acctsByExtId[acct.External_ID__c] = acct;
             });
             this.accounts = stripeAccounts;
             this.accountsByExternalId = acctsByExtId;
             this.areMultipleStripeAcctsConnected = this.accounts.length > 1;
-            return stripeAccounts;
+            return this.accounts;
         } catch (e) {
             const err = getErrorMessage(e);
             this.showToast(err, 'error', 'sticky');
