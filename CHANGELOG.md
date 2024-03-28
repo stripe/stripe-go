@@ -1,5 +1,10 @@
 # Changelog
 
+## 76.24.0-beta.1 - 2024-03-28
+* [#1831](https://github.com/stripe/stripe-go/pull/1831) Update generated code for beta
+  * Add support for `FinancialAccountTransactions`, `FinancialAccount`, `IssuingCard`, and `IssuingCardsList` on `AccountSessionComponentsParams`
+  * Remove support for `SubscriptionBillingCycleAnchor`, `SubscriptionCancelAtPeriodEnd`, `SubscriptionCancelAt`, `SubscriptionCancelNow`, `SubscriptionDefaultTaxRates`, `SubscriptionItems`, `SubscriptionPrebilling`, `SubscriptionProrationBehavior`, `SubscriptionProrationDate`, `SubscriptionResumeAt`, `SubscriptionStartDate`, and `SubscriptionTrialEnd` on `InvoiceCreatePreviewParams`
+
 ## 76.23.0 - 2024-03-28
 * [#1830](https://github.com/stripe/stripe-go/pull/1830) Update generated code
   * Add support for new resources `Billing.MeterEventAdjustment`, `Billing.MeterEvent`, and `Billing.Meter`
