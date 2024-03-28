@@ -95,6 +95,8 @@ type PlanParams struct {
 	IntervalCount *int64 `form:"interval_count"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// The meter tracking the usage of a metered price
+	Meter *string `form:"meter"`
 	// A brief description of the plan, hidden from customers.
 	Nickname *string `form:"nickname"`
 	// The product the plan belongs to. This cannot be changed once it has been used in a subscription or subscription schedule.
@@ -268,6 +270,8 @@ type Plan struct {
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// The meter tracking the usage of a metered price
+	Meter string `json:"meter"`
 	// A brief description of the plan, hidden from customers.
 	Nickname string `json:"nickname"`
 	// String representing the object's type. Objects of the same type share the same value.

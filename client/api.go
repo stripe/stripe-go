@@ -18,6 +18,10 @@ import (
 	"github.com/stripe/stripe-go/v76/balance"
 	"github.com/stripe/stripe-go/v76/balancetransaction"
 	"github.com/stripe/stripe-go/v76/bankaccount"
+	billingmeter "github.com/stripe/stripe-go/v76/billing/meter"
+	billingmeterevent "github.com/stripe/stripe-go/v76/billing/meterevent"
+	billingmetereventadjustment "github.com/stripe/stripe-go/v76/billing/metereventadjustment"
+	billingmetereventsummary "github.com/stripe/stripe-go/v76/billing/metereventsummary"
 	billingportalconfiguration "github.com/stripe/stripe-go/v76/billingportal/configuration"
 	billingportalsession "github.com/stripe/stripe-go/v76/billingportal/session"
 	"github.com/stripe/stripe-go/v76/capability"
@@ -155,6 +159,14 @@ type API struct {
 	BalanceTransactions *balancetransaction.Client
 	// BankAccounts is the client used to invoke bankaccount related APIs.
 	BankAccounts *bankaccount.Client
+	// BillingMeterEventAdjustments is the client used to invoke /billing/meter_event_adjustments APIs.
+	BillingMeterEventAdjustments *billingmetereventadjustment.Client
+	// BillingMeterEvents is the client used to invoke /billing/meter_events APIs.
+	BillingMeterEvents *billingmeterevent.Client
+	// BillingMeterEventSummaries is the client used to invoke /billing/meters/{id}/event_summaries APIs.
+	BillingMeterEventSummaries *billingmetereventsummary.Client
+	// BillingMeters is the client used to invoke /billing/meters APIs.
+	BillingMeters *billingmeter.Client
 	// BillingPortalConfigurations is the client used to invoke /billing_portal/configurations APIs.
 	BillingPortalConfigurations *billingportalconfiguration.Client
 	// BillingPortalSessions is the client used to invoke /billing_portal/sessions APIs.
@@ -406,6 +418,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
+	a.BillingMeterEventAdjustments = &billingmetereventadjustment.Client{B: backends.API, Key: key}
+	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
+	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}
+	a.BillingMeters = &billingmeter.Client{B: backends.API, Key: key}
 	a.BillingPortalConfigurations = &billingportalconfiguration.Client{B: backends.API, Key: key}
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}

@@ -223,6 +223,8 @@ type IssuingCardParams struct {
 	ReplacementFor *string `form:"replacement_for"`
 	// If `replacement_for` is specified, this should indicate why that card is being replaced.
 	ReplacementReason *string `form:"replacement_reason"`
+	// The second line to print on the card.
+	SecondLine *string `form:"second_line"`
 	// The address where the card will be shipped.
 	Shipping *IssuingCardShippingParams `form:"shipping"`
 	// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.

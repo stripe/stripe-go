@@ -135,6 +135,8 @@ type ForwardingRequestResponseDetails struct {
 //
 // Forwarding Requests are synchronous requests that return a response or time out according to
 // Stripe's limits.
+//
+// Related guide: [Forward card details to third-party API endpoints](https://docs.stripe.com/payments/forwarding).
 type ForwardingRequest struct {
 	APIResource
 	// The Forwarding Config used when making the forwarded request. The config specifes the HTTP method, merchant credentials, connection settings, and supported destination URLs.
