@@ -13,7 +13,7 @@ type BillingMeterEventParams struct {
 	EventName *string `form:"event_name"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A unique identifier for the event. If not provided, one will be generated.
+	// A unique identifier for the event. If not provided, one will be generated. We recommend using a globally unique identifier for this. We'll enforce uniqueness within a rolling 24 hour period.
 	Identifier *string `form:"identifier"`
 	// The payload of the event. This must contain a field with the event's numerical value and a field to map the event to a customer.
 	Payload map[string]string `form:"payload"`
