@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v76"
+	stripe "github.com/stripe/stripe-go/v77"
 )
 
 // Client is used to invoke /ephemeral_keys APIs.

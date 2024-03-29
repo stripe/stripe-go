@@ -10,8 +10,8 @@ package outboundtransfer
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v76"
-	"github.com/stripe/stripe-go/v76/form"
+	stripe "github.com/stripe/stripe-go/v77"
+	"github.com/stripe/stripe-go/v77/form"
 )
 
 // Client is used to invoke /treasury/outbound_transfers APIs.

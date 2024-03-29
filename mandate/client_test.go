@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	_ "github.com/stripe/stripe-go/v76/testing"
+	_ "github.com/stripe/stripe-go/v77/testing"
 )
 
 func TestMandateMethodGet(t *testing.T) {
