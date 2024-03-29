@@ -23,6 +23,8 @@ func (p *EntitlementsFeatureListParams) AddExpand(f string) {
 // Creates a feature
 type EntitlementsFeatureParams struct {
 	Params `form:"*"`
+	// Inactive features cannot be attached to new products and will not be returned from the features list endpoint.
+	Active *bool `form:"active"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// A unique key you provide as your own system identifier. This may be up to 80 characters.
