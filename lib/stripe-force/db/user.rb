@@ -183,6 +183,7 @@ module StripeForce
       if stripe_credentials_valid.nil?
         check_credentials_stripe
       else
+        log.info 'using cached stripe connection status', stripe_credentials_valid: stripe_credentials_valid
         stripe_credentials_valid
       end
     end
@@ -190,6 +191,7 @@ module StripeForce
     def check_credentials_stripe
       if self.stripe_account_id.nil?
         self.cache_connection_status(StripeForce::Constants::Platforms::STRIPE, false)
+        log.info "stripe_account_id is nil. invalid Stripe credentials"
         return false
       end
       Stripe::Account.retrieve(

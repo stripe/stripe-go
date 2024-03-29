@@ -37,7 +37,7 @@ class StripeForce::AccountPoller < StripeForce::PollerBase
       SalesforceTranslateRecordJob.work(@user, sf_account_id)
     end
 
-    log.info 'poll complete', poll_size: sf_account_ids_to_sync.count
+    log.info 'account polling complete', poll_size: sf_account_ids_to_sync.count
 
     poll_record.update(last_polled_at: current_execution_time)
 

@@ -43,7 +43,7 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
 
     # TODO updating the line item does NOT update the order, do we need to worry about this?
 
-    log.info 'poll complete', poll_size: updated_order_ids.count
+    log.info 'order polling complete', poll_size: updated_order_ids.count
 
     poll_record.update(last_polled_at: execution_time)
 

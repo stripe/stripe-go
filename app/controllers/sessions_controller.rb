@@ -242,19 +242,13 @@ class SessionsController < ApplicationController
     user.salesforce_refresh_token = sf_refresh_token
     user.salesforce_instance_url = sf_instance_url
     user.salesforce_token = sf_token
-
     user.salesforce_instance_type = determine_instance_type(sf_instance_url, state)
     user.salesforce_namespace = state.salesforce_namespace
-
-    # puts user.to_json
-
     user.name = sf_auth["extra"]["display_name"]
     user.email = sf_auth["extra"]["email"]
-
     user.save
 
     user.cache_connection_status(StripeForce::Constants::Platforms::SALESFORCE, true)
-
     user.id
   end
 
@@ -304,48 +298,53 @@ class SessionsController < ApplicationController
     state.livemode = livemode if state.stripe_account_livemode?
 
     # Either the user is:
-    # -- making the first call to auth a Stripe acct in a new Salesforce org
-    # -- authorizing a new user (MSA)
-    # -- reauthing an existing user
-    user = StripeForce::User.find(id: state.user_id)
-    if user.nil?
-      # This should really never happen but it is currently happening when we re-auth a user in v1 (pre-MSA org)
-      log.info 'could not find user based off user_id so finding user based off trio'
-      user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, stripe_account_id: state.stripe_account_id, livemode: livemode, is_default_account_config: true,)
-    end
-    default_user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true)
-    if user.nil? || (!user.stripe_account_id.nil? && user.stripe_account_id != stripe_account_id)
-      # this condition should primarily be hit when authing a non default stripe account
-      # second conditional picks up whether the user that we have is a different one than the one we're trying to auth
-      # user can be picked up from state.user_id, which will be our existing user
-      log.info 'creating new user', stripe_account_id: stripe_account_id, salesforce_account_id: state.salesforce_account_id, is_default_account_config: default_user.nil?
-      user = StripeForce::User.new(salesforce_account_id: state.salesforce_account_id, stripe_account_id: stripe_account_id, livemode: livemode, is_default_account_config: default_user.nil?)
-      log.info 'created new user', id: user.id
+    # -- PATH 1: making the first call to auth a Stripe acct in a new Salesforce org
+    # -- PATH 2: authorizing a new user (MSA)
+    # -- PATH 3: reauthing an existing user (pre MSA)
+    # Logically, Path 1 & 3 are the same since all we do is update the stripe id on the existing user.
+    default_user = StripeForce::User.find(id: state.user_id)
+    if default_user.nil?
+      # If state can't pick up the default user, ie. we are in PATH 2 or 3
+      log.info 'could not find an existing user based off user_id so finding default user', salesforce_account_id: state.salesforce_account_id
+      default_user = StripeForce::User.find(salesforce_account_id: state.salesforce_account_id, is_default_account_config: true)
     end
 
-    # connected a new Stripe acct that is not the default_account_config
-    if default_user.present? && user.stripe_account_id != default_user.stripe_account_id
-      # When we create a new user, we need to copy over the field mappings and the feature flags so they don't need to be reset
-      log.info "updating user's (#{user.id}) account config to match default user (#{default_user.id})"
-
-      user.connector_settings = default_user.connector_settings
-      user.feature_flags = default_user.feature_flags
-      user.field_defaults = default_user.field_defaults
-      user.field_mappings = default_user.field_mappings
-      user.salesforce_object_prefix_mappings = default_user.salesforce_object_prefix_mappings
-      user.salesforce_token = default_user.salesforce_token
-      user.salesforce_refresh_token = default_user.salesforce_refresh_token
-      user.salesforce_organization_key = default_user.salesforce_organization_key
-      user.save
+    if default_user.nil?
+      log.info "default user not picked up from state"
+      return
     end
 
-    if user.stripe_account_id && user.stripe_account_id != stripe_account_id
+    if default_user.feature_enabled?(FeatureFlags::MULTI_STRIPE_ACCOUNT) && default_user.stripe_account_id != stripe_account_id
+      # PATH 2
+      log.info 'creating a new user', stripe_account_id: stripe_account_id, salesforce_account_id: state.salesforce_account_id, is_default_account_config: default_user.nil?
+      new_user = StripeForce::User.new(salesforce_account_id: state.salesforce_account_id, stripe_account_id: stripe_account_id, livemode: livemode, is_default_account_config: default_user.nil?)
+      log.info 'created a new user', id: new_user.id
+
+      # created a new Stripe acct that is not the default_account_config
+      if default_user.present? && new_user.stripe_account_id != default_user.stripe_account_id
+        # When we create a new user, we need to copy over the field mappings and the feature flags so they don't need to be reset
+        log.info "updating new user (#{new_user.id}) account config to match default user (#{default_user.id})"
+        new_user.connector_settings = default_user.connector_settings
+        new_user.feature_flags = default_user.feature_flags
+        new_user.field_defaults = default_user.field_defaults
+        new_user.field_mappings = default_user.field_mappings
+        new_user.salesforce_object_prefix_mappings = default_user.salesforce_object_prefix_mappings
+        new_user.salesforce_token = default_user.salesforce_token
+        new_user.salesforce_refresh_token = default_user.salesforce_refresh_token
+        new_user.salesforce_organization_key = default_user.salesforce_organization_key
+        new_user.save
+      end
+      return new_user.id
+    end
+
+    if default_user.stripe_account_id && default_user.stripe_account_id != stripe_account_id
       Integrations::ErrorContext.report_edge_case("Stripe account ID already set, overwriting.")
     end
-    log.info 'updating stripe account ID', user_id: user.id, stripe_account_id: stripe_account_id
-    user.update(stripe_account_id: stripe_account_id, livemode: livemode)
 
-    user.id
+    # PATH 1 or 3
+    log.info 'updating existing (default) user stripe account ID', user_id: default_user.id, stripe_account_id: stripe_account_id
+    default_user.update(stripe_account_id: stripe_account_id, livemode: livemode)
+    default_user.id
   end
 
   def sf_v1_callback_response(state)
