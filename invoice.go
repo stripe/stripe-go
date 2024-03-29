@@ -338,9 +338,9 @@ type InvoiceAutomaticTaxParams struct {
 
 // A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
 type InvoiceCustomFieldParams struct {
-	// The name of the custom field. This may be up to 30 characters.
+	// The name of the custom field. This may be up to 40 characters.
 	Name *string `form:"name"`
-	// The value of the custom field. This may be up to 30 characters.
+	// The value of the custom field. This may be up to 140 characters.
 	Value *string `form:"value"`
 }
 
@@ -761,7 +761,7 @@ type InvoiceUpcomingIssuerParams struct {
 //
 // Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
 //
-// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass a proration_date parameter when doing the actual subscription update. The value passed in should be the same as the subscription_proration_date returned on the upcoming invoice resource. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_proration_date on the upcoming invoice resource.
+// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_proration_date value passed in the request.
 type InvoiceUpcomingParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
