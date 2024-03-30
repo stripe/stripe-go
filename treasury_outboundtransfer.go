@@ -165,6 +165,8 @@ type TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount struct
 	Fingerprint string `json:"fingerprint"`
 	// Last four digits of the bank account number.
 	Last4 string `json:"last4"`
+	// ID of the mandate used to make this payment.
+	Mandate *Mandate `json:"mandate"`
 	// The network rails used. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountNetwork `json:"network"`
 	// Routing number of the bank account.

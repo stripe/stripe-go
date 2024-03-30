@@ -1062,7 +1062,7 @@ type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 type PaymentIntentPaymentMethodOptionsAffirmParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	//
-	// If provided, this parameter will override the top-level `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
@@ -1082,7 +1082,7 @@ type PaymentIntentPaymentMethodOptionsAffirmParams struct {
 type PaymentIntentPaymentMethodOptionsAfterpayClearpayParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	//
-	// If provided, this parameter will override the top-level `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
@@ -1281,7 +1281,7 @@ type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
 type PaymentIntentPaymentMethodOptionsCardParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	//
-	// If provided, this parameter will override the top-level `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
@@ -1340,7 +1340,7 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 type PaymentIntentPaymentMethodOptionsCashAppParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	//
-	// If provided, this parameter will override the top-level `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
@@ -1455,7 +1455,7 @@ type PaymentIntentPaymentMethodOptionsInteracPresentParams struct{}
 type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	//
-	// If provided, this parameter will override the top-level `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
@@ -1495,7 +1495,7 @@ type PaymentIntentPaymentMethodOptionsKonbiniParams struct {
 type PaymentIntentPaymentMethodOptionsLinkParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	//
-	// If provided, this parameter will override the top-level `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
@@ -1515,7 +1515,7 @@ type PaymentIntentPaymentMethodOptionsLinkParams struct {
 type PaymentIntentPaymentMethodOptionsMobilepayParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	//
-	// If provided, this parameter will override the top-level `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
