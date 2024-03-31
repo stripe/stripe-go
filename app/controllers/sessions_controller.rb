@@ -231,13 +231,13 @@ class SessionsController < ApplicationController
     sf_refresh_token = sf_credentials['refresh_token']
     sf_instance_url = sf_credentials["instance_url"]
     sf_token = sf_credentials["token"]
-    # puts sf_credentials.to_json
 
     # TODO it seems possible for a user to auth against the wrong account, need to investigate further
     if !user.new? && user.salesforce_account_id != sf_account_id
       # this likely means a user is trying to auth to Salesforce Org A but most recently logged into Salesforce Org B
       raise "User already exists and Salesforce Account ID is not equal. This should never happen."
     end
+
     user.salesforce_account_id = sf_account_id
     user.salesforce_refresh_token = sf_refresh_token
     user.salesforce_instance_url = sf_instance_url
