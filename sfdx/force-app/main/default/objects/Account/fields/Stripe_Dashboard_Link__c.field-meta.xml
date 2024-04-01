@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Stripe_Dashboard_Link__c</fullName>
-    <description>Provides a direct link to the Customer object for the Account represented in Salesforce.</description>
+    <description>Provides a direct link to the Stripe Customer corresponding to this Salesforce Account.</description>
     <externalId>false</externalId>
-    <formula>&quot;https://dashboard.stripe.com/&quot; &amp; IF($Setup.Organization_Type__c.isSandbox__c, &quot;test/&quot;, &quot;&quot;) &amp; &quot;id/&quot;&amp;Stripe_ID__c</formula>
+    <formula>&quot;https://dashboard.stripe.com/&quot; &amp; IF($Setup.Stripe_Connection__c.Primary_Stripe_Account_Livemode__c == "live", &quot;&quot;, &quot;test/&quot;) &amp; &quot;id/&quot;&amp;Stripe_ID__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>This link takes you to the Customer Record in the Stripe Dashboard.</inlineHelpText>
     <label>Stripe Dashboard Link</label>
