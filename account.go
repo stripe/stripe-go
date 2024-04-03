@@ -192,6 +192,8 @@ type AccountParams struct {
 	Individual *PersonParams `form:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+	RiskControls *AccountRiskControlsParams `form:"risk_controls"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountSettingsParams `form:"settings"`
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/docs/connect/updating-accounts#tos-acceptance) This property can only be updated for Custom accounts.
@@ -804,6 +806,28 @@ func (p *AccountExternalAccountParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+type AccountRiskControlsChargesParams struct {
+	// To request to pause a risk control, pass `true`. To request to unpause a risk control, pass `false`.
+	// There can be a delay before the risk control is paused or unpaused.
+	PauseRequested *bool `form:"pause_requested"`
+}
+
+// Represents the risk control status of payouts. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+type AccountRiskControlsPayoutsParams struct {
+	// To request to pause a risk control, pass `true`. To request to unpause a risk control, pass `false`.
+	// There can be a delay before the risk control is paused or unpaused.
+	PauseRequested *bool `form:"pause_requested"`
+}
+
+// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+type AccountRiskControlsParams struct {
+	// Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+	Charges *AccountRiskControlsChargesParams `form:"charges"`
+	// Represents the risk control status of payouts. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+	Payouts *AccountRiskControlsPayoutsParams `form:"payouts"`
+}
+
 // Settings specific to Bacs Direct Debit payments.
 type AccountSettingsBACSDebitPaymentsParams struct {
 	// The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
@@ -1334,6 +1358,16 @@ type AccountRequirements struct {
 	// Fields that may become required depending on the results of verification or review. Will be an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due`, `currently_due`, or `past_due`.
 	PendingVerification []string `json:"pending_verification"`
 }
+type AccountRiskControlsCharges struct {
+	PauseRequested bool `json:"pause_requested"`
+}
+type AccountRiskControlsPayouts struct {
+	PauseRequested bool `json:"pause_requested"`
+}
+type AccountRiskControls struct {
+	Charges *AccountRiskControlsCharges `json:"charges"`
+	Payouts *AccountRiskControlsPayouts `json:"payouts"`
+}
 type AccountSettingsBACSDebitPayments struct {
 	// The Bacs Direct Debit display name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. The fee appears 5 business days after requesting Bacs. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
 	DisplayName string `json:"display_name"`
@@ -1508,6 +1542,7 @@ type Account struct {
 	// Whether Stripe can send payouts to this account.
 	PayoutsEnabled bool                 `json:"payouts_enabled"`
 	Requirements   *AccountRequirements `json:"requirements"`
+	RiskControls   *AccountRiskControls `json:"risk_controls"`
 	// Options for customizing how the account functions within Stripe.
 	Settings      *AccountSettings      `json:"settings"`
 	TOSAcceptance *AccountTOSAcceptance `json:"tos_acceptance"`
