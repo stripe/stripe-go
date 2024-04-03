@@ -52,7 +52,7 @@ type TokenAccountParams struct {
 	Company *AccountCompanyParams `form:"company"`
 	// Information about the person represented by the account.
 	Individual *PersonParams `form:"individual"`
-	// Whether the user described by the data in the token has been shown [the Stripe Connected Account Agreement](https://stripe.com/docs/connect/account-tokens#stripe-connected-account-agreement). When creating an account token to create a new Connect account, this value must be `true`.
+	// Whether the user described by the data in the token has been shown [the Stripe Connected Account Agreement](https://docs.stripe.com/connect/account-tokens#stripe-connected-account-agreement). When creating an account token to create a new Connect account, this value must be `true`.
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
