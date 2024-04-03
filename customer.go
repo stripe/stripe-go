@@ -77,7 +77,7 @@ type CustomerParams struct {
 	Phone *string `form:"phone"`
 	// Customer's preferred languages, ordered by preference.
 	PreferredLocales []*string `form:"preferred_locales"`
-	// The API ID of a promotion code to apply to the customer. The customer will have a discount applied on all recurring payments. Charges you create through the API will not have the discount.
+	// The ID of a promotion code to apply to the customer. The customer will have a discount applied on all recurring payments. Charges you create through the API will not have the discount.
 	PromotionCode *string `form:"promotion_code"`
 	// The customer's shipping information. Appears on invoices emailed to this customer.
 	Shipping *CustomerShippingParams `form:"shipping"`
