@@ -1,8 +1,4 @@
 /**
- * Created by jmather-c on 3/14/23.
- */
-
-/**
  * Handles taking in a root object, and a dot-separated path, and figuring out if it leads to a queryable field.
  */
 public with sharing class RelationshipMapper {

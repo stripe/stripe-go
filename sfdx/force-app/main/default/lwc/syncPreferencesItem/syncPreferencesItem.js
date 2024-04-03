@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 3/24/23.
- */
-
 import { LightningElement, api } from 'lwc';
 import Debugger from "c/debugger";
 

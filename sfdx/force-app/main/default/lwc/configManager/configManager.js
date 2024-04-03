@@ -1,6 +1,3 @@
-/**
- * Created by jmather-c on 10/3/23.
- */
 import getCoreData from '@salesforce/apex/setupAssistant.getCoreData';
 import getSetupData from '@salesforce/apex/setupAssistant.getSetupData';
 import getDataMapperLayout from '@salesforce/apex/setupAssistant.getDataMapperLayout';

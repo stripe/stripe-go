@@ -1,6 +1,3 @@
-/**
- * Created by jmather-c on 10/20/23.
- */
 import { ConfigManager } from 'c/systemConfigManager';
 
 /** @typedef {Object} SaveSyncPreferencesArguments

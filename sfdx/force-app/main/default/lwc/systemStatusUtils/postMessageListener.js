@@ -1,6 +1,3 @@
-/**
- * Created by jmather-c on 8/30/23.
- */
 import validateSharedState from '@salesforce/apex/setupAssistant.validateSharedState';
 import Debugger from "c/debugger";
 import {EventEmitter} from "./eventEmitter";

@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 11/7/22.
- */
-
 public with sharing class Rest_Service_Helper {
     public String fieldsToQueryString(Set<String> s) {
         return String.join((Iterable<String>)s, ',');

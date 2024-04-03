@@ -1,8 +1,3 @@
-
-/**
- * Created by jmather-c on 3/14/23.
- */
-
 @IsTest
 public with sharing class RelationshipMapper_Test {
     private static Test_Tools testTools = new Test_Tools();

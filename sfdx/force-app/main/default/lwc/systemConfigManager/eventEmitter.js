@@ -1,8 +1,4 @@
 /**
- * Created by jmather-c on 8/31/23.
- */
-
-/**
  *
  * @param {string[]} events
  * @return {Object<String, Array>}

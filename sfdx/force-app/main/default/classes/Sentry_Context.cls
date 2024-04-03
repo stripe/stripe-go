@@ -1,7 +1,3 @@
-/**
- * Created by Jacob Mather <jmather@jmather.com> on 2019-03-25.
- */
-
 public abstract class Sentry_Context {
     public static Map<String, Object> create() {
         return new Map<String, Object>();

@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 2/17/23.
- */
-
 public with sharing class QuoteCouponAssociationTriggerHandler {
     // allows us to bypass the trigger in tests
     @TestVisible

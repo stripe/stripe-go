@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 8/18/23.
- */
-
 public with sharing class StripeOAuthState {
 
     public class OAuthInvalidStateException extends Sentry_Exception {}

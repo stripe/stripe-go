@@ -1,7 +1,3 @@
-/**
- * Created by Jacob Mather <jmather@jmather.com> on 2019-06-25.
- */
-
 public with sharing class Sentry_Environment {
     public enum InstanceType { PRODUCTION, TRIAL, SANDBOX, SCRATCH_ORG }
 

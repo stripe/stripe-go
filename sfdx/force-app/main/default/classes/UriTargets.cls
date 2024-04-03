@@ -1,8 +1,4 @@
-/**
- * Created by jmather-c on 9/1/23.
- */
-
- public with sharing class UriTargets {
+public with sharing class UriTargets {
     public static String getTranslateAllEndpoint() {
         if (utilities.isUsingV1Middleware()) {
             return UriTargetsV1.getTranslateAllEndpoint();

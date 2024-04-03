@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 5/1/23.
- */
-
 @IsTest
 public with sharing class ConfigExportVFCont_Test {
     @IsTest

@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 3/9/23.
- */
-
 @IsTest
 public with sharing class Test_Tools {
     public static final String PROFILE_CHATTER_FREE_USER = 'Chatter Free User';

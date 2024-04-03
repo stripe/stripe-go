@@ -1,8 +1,4 @@
-/**
- * Created by jmather-c on 4/26/23.
- */
-
- public with sharing class ConfigPayloadHelper {
+public with sharing class ConfigPayloadHelper {
     @TestVisible
     Debug_Helper debugger = new Debug_Helper();
 
@@ -207,7 +203,12 @@
         for(String readOnlyField : V2_CONNECTION_READ_ONLY_FIELDS) {
             // map the merchant id over to the expected name...
             if (readOnlyField.equals(V2_MERCHANT_ID)) {
-                response.put(STRIPE_ACCOUNT_ID, String.valueOf(configPayload.get(readOnlyField)));
+                List<String> li = new List<String> {};
+                List<Stripe_Account__c> stripeAccountList = setupAssistant.getStripeAccounts();
+                for (Stripe_Account__c acct: stripeAccountList) {
+                    li.add(acct.Stripe_Id__c);
+                }
+                response.put(STRIPE_ACCOUNT_ID, String.join(li, ', '));
                 continue;
             }
             response.put(readOnlyField, String.valueOf(configPayload.get(readOnlyField)));

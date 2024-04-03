@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 8/31/23.
- */
-
 function initializeEvents(events) {
     const eventContainer = {};
     for (const event_name in events) {

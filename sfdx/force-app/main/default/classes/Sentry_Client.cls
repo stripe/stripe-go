@@ -1,8 +1,3 @@
-/**
- * Created by Jacob Mather <jmather@jmather.com> on 2019-03-18.
- * Modified by Stripe on 2022-02-10 (added error handeling)
- */
-
 public with sharing class Sentry_Client {
     private static Sentry_Dsn dsn = Sentry_Config.getDsn();
 

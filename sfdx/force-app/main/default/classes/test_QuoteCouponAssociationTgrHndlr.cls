@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 2/17/23.
- */
-
 // the name is shortened because of 40 char class name limit
 @IsTest
 public with sharing class test_QuoteCouponAssociationTgrHndlr {

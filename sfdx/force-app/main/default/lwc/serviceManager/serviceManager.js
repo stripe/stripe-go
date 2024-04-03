@@ -1,6 +1,3 @@
-/**
- * Created by jmather-c on 8/31/23.
- */
 import getServiceConnectionStatuses from '@salesforce/apexContinuation/setupAssistant.getServiceConnectionStatuses';
 import checkServiceConnectionStatuses from '@salesforce/apex/setupAssistant.checkServiceConnectionStatuses';
 import {ConnectionStatus, ServiceManagerServices, EventEmitter} from "c/systemStatusUtils";

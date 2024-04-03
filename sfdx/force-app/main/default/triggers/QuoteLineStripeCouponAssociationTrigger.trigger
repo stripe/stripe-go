@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 2/17/23.
- */
-
 trigger QuoteLineStripeCouponAssociationTrigger on Quote_Line_Stripe_Coupon_Association__c (before insert, before update) {
     if (UserInfo.isMultiCurrencyOrganization()) {
         QuoteCouponAssociationTriggerHandler th = new QuoteCouponAssociationTriggerHandler();

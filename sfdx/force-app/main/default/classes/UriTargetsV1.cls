@@ -1,8 +1,4 @@
-/**
- * Created by jmather-c on 9/1/23.
- */
-
- public with sharing class UriTargetsV1 {
+public with sharing class UriTargetsV1 {
     static final Debug_Helper debugger = new Debug_Helper();
 
     public static String getTranslateAllEndpoint() {

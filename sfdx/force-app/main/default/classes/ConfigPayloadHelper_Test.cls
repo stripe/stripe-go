@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 4/26/23.
- */
-
 @IsTest
 public with sharing class ConfigPayloadHelper_Test {
     @IsTest

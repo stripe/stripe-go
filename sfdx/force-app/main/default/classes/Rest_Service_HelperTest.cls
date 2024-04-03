@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 11/14/22.
- */
-
 @IsTest
 public with sharing class Rest_Service_HelperTest {
     private static Test_Tools testTools = new Test_Tools();

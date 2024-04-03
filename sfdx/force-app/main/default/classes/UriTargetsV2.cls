@@ -1,8 +1,4 @@
-/**
- * Created by jmather-c on 9/1/23.
- */
-
- public with sharing class UriTargetsV2 {
+public with sharing class UriTargetsV2 {
     public static final String RUBY_SERVICE_BASE_URI = 'https://salesforce-connector.stripe.com';
     public static final String RUBY_SERVICE_LOCAL_BASE_URI = 'http://localhost:3100';
     public static final String RUBY_SERVICE_CONFIG_URI = '/api/configuration';

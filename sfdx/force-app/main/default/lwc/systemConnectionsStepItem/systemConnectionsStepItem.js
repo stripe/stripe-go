@@ -1,8 +1,4 @@
-/**
- * Created by jmather-c on 8/10/23.
- */
-
-import {LightningElement, api, track} from 'lwc';
+import {LightningElement, api} from 'lwc';
 
 /**
  * @enum {string}

@@ -1,7 +1,3 @@
-/**
- * Created by Jacob Mather <jmather@jmather.com> on 2019-03-25.
- */
-
 public with sharing class Sentry_Dsn {
     public String privateKey;
     public String publicKey;

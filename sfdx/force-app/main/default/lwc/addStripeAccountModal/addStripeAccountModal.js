@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 12/4/23.
- */
-
 import {track} from 'lwc';
 import LightningModal from 'lightning/modal';
 import isUsingV2Middleware from '@salesforce/apex/utilities.isUsingV2Middleware';

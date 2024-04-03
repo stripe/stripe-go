@@ -1,7 +1,3 @@
-<!--
- - Created by jmather-c on 4/27/23.
- -->
-
 <apex:page
         id="ConfigExportDownload"
         controller="ConfigExportVFController"

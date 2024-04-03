@@ -1,7 +1,3 @@
-/**
- * Created by Jacob Mather <jmather@jmather.com> on 2019-06-25.
- */
-
 global virtual with sharing class Sentry_Exception extends Exception {
     global Map<String, Object> context = new Map<String, Object>();
     private List<String> stackTrace;

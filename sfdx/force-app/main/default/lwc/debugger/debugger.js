@@ -1,6 +1,3 @@
-/**
- * Created by jmather-c on 6/1/23.
- */
 import isJSDebugEnabled from '@salesforce/apex/setupAssistant.isJSDebugEnabled';
 import isOAuthAutoCloseWindowEnabled from '@salesforce/apex/setupAssistant.isOAuthAutoCloseWindowEnabled';
 

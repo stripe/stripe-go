@@ -1,11 +1,6 @@
-/**
- * Created by jmather-c on 3/28/23.
- */
 
-import activatePolling from '@salesforce/apex/setupAssistant.activatePolling';
-import getSyncPreferences from '@salesforce/apex/setupAssistant.getSyncPreferences';
-import {ConfigManager, ConfigStates, ConfigData, ConfigValidationError} from 'c/systemConfigManager';
-import { LightningElement, api, track } from 'lwc';
+import {ConfigManager, ConfigStates, ConfigData} from 'c/systemConfigManager';
+import { LightningElement, api } from 'lwc';
 import LightningConfirm from 'lightning/confirm';
 import Debugger from "c/debugger";
 

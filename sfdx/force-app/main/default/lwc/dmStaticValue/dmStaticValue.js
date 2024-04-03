@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 5/11/23.
- */
-
 import {LightningElement, api} from 'lwc';
 
 export default class DmStaticValue extends LightningElement {

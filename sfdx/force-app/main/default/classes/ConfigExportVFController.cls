@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 4/27/23.
- */
-
 public with sharing class ConfigExportVFController {
     ConfigPayloadHelper payloadHelper = new ConfigPayloadHelper();
     Rest_Service_Helper restServiceHelper = new Rest_Service_Helper();

@@ -1,8 +1,4 @@
-/**
- * Created by jmather-c on 1/4/23.
- */
-
- public with sharing class Debug_Helper {
+public with sharing class Debug_Helper {
     // This should always be null going to production.
     // We leave this configurable for developers to expose debug logs during development.
     @TestVisible

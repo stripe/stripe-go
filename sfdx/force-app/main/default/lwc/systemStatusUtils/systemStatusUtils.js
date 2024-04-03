@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 8/30/23.
- */
-
 import { MessageListener, ListenerEvents } from "./postMessageListener";
 import {EventEmitter} from "./eventEmitter";
 

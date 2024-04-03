@@ -1,7 +1,3 @@
-/**
- * Created by jmather-c on 1/4/23.
- */
-
 @IsTest
 public with sharing class Debug_Helper_Test {
     public class TestOutputService implements Debug_Helper.OutputService {
