@@ -766,7 +766,7 @@ type InvoiceUpcomingParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
-	// The code of the coupon to apply. If `subscription` or `subscription_items` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer's subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency"`
@@ -774,7 +774,7 @@ type InvoiceUpcomingParams struct {
 	Customer *string `form:"customer"`
 	// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 	CustomerDetails *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
-	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
+	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -889,7 +889,7 @@ type InvoiceUpcomingLinesCustomerDetailsParams struct {
 	TaxIDs []*InvoiceUpcomingLinesCustomerDetailsTaxIDParams `form:"tax_ids"`
 }
 
-// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
+// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 type InvoiceUpcomingLinesDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
@@ -990,6 +990,16 @@ type InvoiceUpcomingLinesSubscriptionItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
+// The coupons to redeem into discounts for the subscription item.
+type InvoiceUpcomingLinesSubscriptionItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
 // The recurring components of a price such as `interval` and `interval_count`.
 type InvoiceUpcomingLinesSubscriptionItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
@@ -1022,6 +1032,8 @@ type InvoiceUpcomingLinesSubscriptionItemParams struct {
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*InvoiceUpcomingLinesSubscriptionItemDiscountParams `form:"discounts"`
 	// Subscription item to update.
 	ID *string `form:"id"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1052,7 +1064,7 @@ type InvoiceUpcomingLinesParams struct {
 	ListParams `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceUpcomingLinesAutomaticTaxParams `form:"automatic_tax"`
-	// The code of the coupon to apply. If `subscription` or `subscription_items` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer's subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency"`
@@ -1060,7 +1072,7 @@ type InvoiceUpcomingLinesParams struct {
 	Customer *string `form:"customer"`
 	// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 	CustomerDetails *InvoiceUpcomingLinesCustomerDetailsParams `form:"customer_details"`
-	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
+	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceUpcomingLinesDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

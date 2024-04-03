@@ -38,6 +38,8 @@ type Discount struct {
 	Start int64 `json:"start"`
 	// The subscription that this coupon is applied to, if it is applied to a particular subscription.
 	Subscription string `json:"subscription"`
+	// The subscription item that this coupon is applied to, if it is applied to a particular subscription item.
+	SubscriptionItem string `json:"subscription_item"`
 }
 
 // UnmarshalJSON handles deserialization of a Discount.

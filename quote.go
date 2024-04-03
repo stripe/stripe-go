@@ -202,6 +202,14 @@ type QuoteInvoiceSettingsParams struct {
 	Issuer *QuoteInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// The discounts applied to this line item.
+type QuoteLineItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
 // The recurring components of a price such as `interval` and `interval_count`.
 type QuoteLineItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
@@ -228,6 +236,8 @@ type QuoteLineItemPriceDataParams struct {
 
 // A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 type QuoteLineItemParams struct {
+	// The discounts applied to this line item.
+	Discounts []*QuoteLineItemDiscountParams `form:"discounts"`
 	// The ID of an existing line item on the quote.
 	ID *string `form:"id"`
 	// The ID of the price object. One of `price` or `price_data` is required.

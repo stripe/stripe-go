@@ -15,6 +15,8 @@ type SubscriptionItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
 	ClearUsage *bool `form:"clear_usage"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*SubscriptionItemDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -66,6 +68,16 @@ func (p *SubscriptionItemParams) AddMetadata(key string, value string) {
 type SubscriptionItemBillingThresholdsParams struct {
 	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
 	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// The coupons to redeem into discounts for the subscription item.
+type SubscriptionItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -136,6 +148,8 @@ type SubscriptionItem struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	Deleted bool  `json:"deleted"`
+	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
+	Discounts []*Discount `json:"discounts"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

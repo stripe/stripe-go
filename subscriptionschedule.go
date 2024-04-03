@@ -155,8 +155,20 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
 
+// The coupons to redeem into discounts for the item.
+type SubscriptionSchedulePhaseAddInvoiceItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase. You may pass up to 20 items.
 type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
+	// The coupons to redeem into discounts for the item.
+	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscountParams `form:"discounts"`
 	// The ID of the price object.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
@@ -183,6 +195,16 @@ type SubscriptionSchedulePhaseAutomaticTaxParams struct {
 	Liability *SubscriptionSchedulePhaseAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
+type SubscriptionSchedulePhaseDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionSchedulePhaseInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -201,10 +223,22 @@ type SubscriptionSchedulePhaseInvoiceSettingsParams struct {
 	Issuer *SubscriptionSchedulePhaseInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// The coupons to redeem into discounts for the subscription item.
+type SubscriptionSchedulePhaseItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*SubscriptionSchedulePhaseItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The plan ID to subscribe to. You may specify the same ID in `plan` and `price`.
@@ -242,7 +276,7 @@ type SubscriptionSchedulePhaseParams struct {
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
-	// The identifier of the coupon to apply to this phase of the subscription schedule.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -252,6 +286,8 @@ type SubscriptionSchedulePhaseParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
+	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
+	Discounts []*SubscriptionSchedulePhaseDiscountParams `form:"discounts"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
@@ -417,14 +453,36 @@ type SubscriptionScheduleDefaultSettings struct {
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 }
 
+// The stackable discounts that will be applied to the item.
+type SubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *Coupon `json:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *Discount `json:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
+}
+
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 type SubscriptionSchedulePhaseAddInvoiceItem struct {
+	// The stackable discounts that will be applied to the item.
+	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscount `json:"discounts"`
 	// ID of the price used to generate the invoice item.
 	Price *Price `json:"price"`
 	// The quantity of the invoice item.
 	Quantity int64 `json:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
 	TaxRates []*TaxRate `json:"tax_rates"`
+}
+
+// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
+type SubscriptionSchedulePhaseDiscount struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *Coupon `json:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *Discount `json:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -445,10 +503,22 @@ type SubscriptionSchedulePhaseInvoiceSettings struct {
 	Issuer *SubscriptionSchedulePhaseInvoiceSettingsIssuer `json:"issuer"`
 }
 
+// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
+type SubscriptionSchedulePhaseItemDiscount struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *Coupon `json:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *Discount `json:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *PromotionCode `json:"promotion_code"`
+}
+
 // Subscription items to configure the subscription to during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItem struct {
 	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
+	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
+	Discounts []*SubscriptionSchedulePhaseItemDiscount `json:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
 	Metadata map[string]string `json:"metadata"`
 	// ID of the plan to which the customer should be subscribed.
@@ -484,6 +554,8 @@ type SubscriptionSchedulePhase struct {
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
 	// Subscription description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
+	// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
+	Discounts []*SubscriptionSchedulePhaseDiscount `json:"discounts"`
 	// The end of this phase of the subscription schedule.
 	EndDate int64 `json:"end_date"`
 	// The invoice settings applicable during this phase.

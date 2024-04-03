@@ -302,7 +302,7 @@ type SubscriptionParams struct {
 	CancellationDetails *SubscriptionCancellationDetailsParams `form:"cancellation_details"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
 	CollectionMethod *string `form:"collection_method"`
-	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription.
+	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -318,6 +318,8 @@ type SubscriptionParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
+	// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
+	Discounts []*SubscriptionDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// All invoices will be billed using the specified settings.
@@ -348,7 +350,7 @@ type SubscriptionParams struct {
 	PaymentSettings *SubscriptionPaymentSettingsParams `form:"payment_settings"`
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://stripe.com/docs/api#create_invoice) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
-	// The API ID of a promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription.
+	// The ID of a promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	PromotionCode *string `form:"promotion_code"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
@@ -394,8 +396,20 @@ func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+// The coupons to redeem into discounts for the item.
+type SubscriptionAddInvoiceItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionAddInvoiceItemParams struct {
+	// The coupons to redeem into discounts for the item.
+	Discounts []*SubscriptionAddInvoiceItemDiscountParams `form:"discounts"`
 	// The ID of the price object.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
@@ -438,6 +452,16 @@ type SubscriptionCancellationDetailsParams struct {
 	Feedback *string `form:"feedback"`
 }
 
+// The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
+type SubscriptionDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -463,6 +487,8 @@ type SubscriptionItemsParams struct {
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*SubscriptionItemDiscountParams `form:"discounts"`
 	// Subscription item to update.
 	ID *string `form:"id"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -969,8 +995,10 @@ type Subscription struct {
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
-	// Describes the current discount applied to this subscription, if there is one. When billing, a discount applied to a subscription overrides a discount applied on a customer-wide basis.
+	// Describes the current discount applied to this subscription, if there is one. When billing, a discount applied to a subscription overrides a discount applied on a customer-wide basis. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Discount *Discount `json:"discount"`
+	// The discounts applied to the subscription. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
+	Discounts []*Discount `json:"discounts"`
 	// If the subscription has ended, the date the subscription ended.
 	EndedAt int64 `json:"ended_at"`
 	// Unique identifier for the object.
