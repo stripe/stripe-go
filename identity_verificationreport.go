@@ -38,6 +38,24 @@ const (
 )
 
 // A short machine-readable string giving the reason for the verification failure.
+type IdentityVerificationReportEmailErrorCode string
+
+// List of values that IdentityVerificationReportEmailErrorCode can take
+const (
+	IdentityVerificationReportEmailErrorCodeEmailUnverifiedOther      IdentityVerificationReportEmailErrorCode = "email_unverified_other"
+	IdentityVerificationReportEmailErrorCodeEmailVerificationDeclined IdentityVerificationReportEmailErrorCode = "email_verification_declined"
+)
+
+// Status of this `email` check.
+type IdentityVerificationReportEmailStatus string
+
+// List of values that IdentityVerificationReportEmailStatus can take
+const (
+	IdentityVerificationReportEmailStatusUnverified IdentityVerificationReportEmailStatus = "unverified"
+	IdentityVerificationReportEmailStatusVerified   IdentityVerificationReportEmailStatus = "verified"
+)
+
+// A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportIDNumberErrorCode string
 
 // List of values that IdentityVerificationReportIDNumberErrorCode can take
@@ -77,6 +95,24 @@ const (
 )
 
 // A short machine-readable string giving the reason for the verification failure.
+type IdentityVerificationReportPhoneErrorCode string
+
+// List of values that IdentityVerificationReportPhoneErrorCode can take
+const (
+	IdentityVerificationReportPhoneErrorCodePhoneUnverifiedOther      IdentityVerificationReportPhoneErrorCode = "phone_unverified_other"
+	IdentityVerificationReportPhoneErrorCodePhoneVerificationDeclined IdentityVerificationReportPhoneErrorCode = "phone_verification_declined"
+)
+
+// Status of this `phone` check.
+type IdentityVerificationReportPhoneStatus string
+
+// List of values that IdentityVerificationReportPhoneStatus can take
+const (
+	IdentityVerificationReportPhoneStatusUnverified IdentityVerificationReportPhoneStatus = "unverified"
+	IdentityVerificationReportPhoneStatusVerified   IdentityVerificationReportPhoneStatus = "verified"
+)
+
+// A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportSelfieErrorCode string
 
 // List of values that IdentityVerificationReportSelfieErrorCode can take
@@ -101,8 +137,9 @@ type IdentityVerificationReportType string
 
 // List of values that IdentityVerificationReportType can take
 const (
-	IdentityVerificationReportTypeDocument IdentityVerificationReportType = "document"
-	IdentityVerificationReportTypeIDNumber IdentityVerificationReportType = "id_number"
+	IdentityVerificationReportTypeDocument         IdentityVerificationReportType = "document"
+	IdentityVerificationReportTypeIDNumber         IdentityVerificationReportType = "id_number"
+	IdentityVerificationReportTypeVerificationFlow IdentityVerificationReportType = "verification_flow"
 )
 
 // List all verification reports.
@@ -205,6 +242,24 @@ type IdentityVerificationReportDocument struct {
 	Type IdentityVerificationReportDocumentType `json:"type"`
 }
 
+// Details on the verification error. Present when status is `unverified`.
+type IdentityVerificationReportEmailError struct {
+	// A short machine-readable string giving the reason for the verification failure.
+	Code IdentityVerificationReportEmailErrorCode `json:"code"`
+	// A human-readable message giving the reason for the failure. These messages can be shown to your users.
+	Reason string `json:"reason"`
+}
+
+// Result from a email check
+type IdentityVerificationReportEmail struct {
+	// Email to be verified.
+	Email string `json:"email"`
+	// Details on the verification error. Present when status is `unverified`.
+	Error *IdentityVerificationReportEmailError `json:"error"`
+	// Status of this `email` check.
+	Status IdentityVerificationReportEmailStatus `json:"status"`
+}
+
 // Date of birth.
 type IdentityVerificationReportIDNumberDOB struct {
 	// Numerical day between 1 and 31.
@@ -257,6 +312,24 @@ type IdentityVerificationReportOptions struct {
 }
 
 // Details on the verification error. Present when status is `unverified`.
+type IdentityVerificationReportPhoneError struct {
+	// A short machine-readable string giving the reason for the verification failure.
+	Code IdentityVerificationReportPhoneErrorCode `json:"code"`
+	// A human-readable message giving the reason for the failure. These messages can be shown to your users.
+	Reason string `json:"reason"`
+}
+
+// Result from a phone check
+type IdentityVerificationReportPhone struct {
+	// Details on the verification error. Present when status is `unverified`.
+	Error *IdentityVerificationReportPhoneError `json:"error"`
+	// Phone to be verified.
+	Phone string `json:"phone"`
+	// Status of this `phone` check.
+	Status IdentityVerificationReportPhoneStatus `json:"status"`
+}
+
+// Details on the verification error. Present when status is `unverified`.
 type IdentityVerificationReportSelfieError struct {
 	// A short machine-readable string giving the reason for the verification failure.
 	Code IdentityVerificationReportSelfieErrorCode `json:"code"`
@@ -295,6 +368,8 @@ type IdentityVerificationReport struct {
 	Created int64 `json:"created"`
 	// Result from a document check
 	Document *IdentityVerificationReportDocument `json:"document"`
+	// Result from a email check
+	Email *IdentityVerificationReportEmail `json:"email"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Result from an id_number check
@@ -304,10 +379,14 @@ type IdentityVerificationReport struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object  string                             `json:"object"`
 	Options *IdentityVerificationReportOptions `json:"options"`
+	// Result from a phone check
+	Phone *IdentityVerificationReportPhone `json:"phone"`
 	// Result from a selfie check
 	Selfie *IdentityVerificationReportSelfie `json:"selfie"`
 	// Type of report.
 	Type IdentityVerificationReportType `json:"type"`
+	// The configuration token of a Verification Flow from the dashboard.
+	VerificationFlow string `json:"verification_flow"`
 	// ID of the VerificationSession that created this report.
 	VerificationSession string `json:"verification_session"`
 }
