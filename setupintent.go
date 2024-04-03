@@ -758,6 +758,9 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 	ThreeDSecure *SetupIntentPaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure"`
 }
 
+// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
+type SetupIntentPaymentMethodOptionsCardPresentParams struct{}
+
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentPaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
@@ -854,6 +857,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
+	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
+	CardPresent *SetupIntentPaymentMethodOptionsCardPresentParams `form:"card_present"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentPaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
@@ -1429,6 +1434,7 @@ type SetupIntentPaymentMethodOptionsCard struct {
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
+type SetupIntentPaymentMethodOptionsCardPresent struct{}
 type SetupIntentPaymentMethodOptionsLink struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	PersistentToken string `json:"persistent_token"`
@@ -1492,6 +1498,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
+	CardPresent   *SetupIntentPaymentMethodOptionsCardPresent   `json:"card_present"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
 	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal"`
 	Payto         *SetupIntentPaymentMethodOptionsPayto         `json:"payto"`
