@@ -1000,7 +1000,7 @@ func (p *AccountListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The documentation for the application hash.
+// A hash of configuration describing the Connect application that controls the account.
 type AccountControllerApplicationParams struct {
 	// Whether the controller is liable for losses on this account. For details, see [Understanding Connect Account Balances](https://stripe.com/docs/connect/account-balances).
 	LossLiable *bool `form:"loss_liable"`
@@ -1012,13 +1012,13 @@ type AccountControllerApplicationParams struct {
 
 // Properties of the account's dashboard.
 type AccountControllerDashboardParams struct {
-	// Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no dashboard (`none`). Defaults to `full`.
+	// Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no Stripe-hosted dashboard (`none`). Defaults to `full`.
 	Type *string `form:"type"`
 }
 
 // A hash of configuration describing the account controller's attributes.
 type AccountControllerParams struct {
-	// The documentation for the application hash.
+	// A hash of configuration describing the Connect application that controls the account.
 	Application *AccountControllerApplicationParams `form:"application"`
 	// Properties of the account's dashboard.
 	Dashboard *AccountControllerDashboardParams `form:"dashboard"`
