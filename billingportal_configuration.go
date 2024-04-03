@@ -161,6 +161,12 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
+// Information about pausing subscriptions in the portal.
+type BillingPortalConfigurationFeaturesSubscriptionPauseParams struct {
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
 // Information about the features available in the portal.
 type BillingPortalConfigurationFeaturesParams struct {
 	// Information about updating the customer details in the portal.
@@ -171,6 +177,8 @@ type BillingPortalConfigurationFeaturesParams struct {
 	PaymentMethodUpdate *BillingPortalConfigurationFeaturesPaymentMethodUpdateParams `form:"payment_method_update"`
 	// Information about canceling subscriptions in the portal.
 	SubscriptionCancel *BillingPortalConfigurationFeaturesSubscriptionCancelParams `form:"subscription_cancel"`
+	// Information about pausing subscriptions in the portal.
+	SubscriptionPause *BillingPortalConfigurationFeaturesSubscriptionPauseParams `form:"subscription_pause"`
 	// Information about updating subscriptions in the portal.
 	SubscriptionUpdate *BillingPortalConfigurationFeaturesSubscriptionUpdateParams `form:"subscription_update"`
 }
@@ -271,11 +279,16 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdate struct {
 	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. Defaults to a value of `none` if you don't set it during creation.
 	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior `json:"proration_behavior"`
 }
+type BillingPortalConfigurationFeaturesSubscriptionPause struct {
+	// Whether the feature is enabled.
+	Enabled bool `json:"enabled"`
+}
 type BillingPortalConfigurationFeatures struct {
 	CustomerUpdate      *BillingPortalConfigurationFeaturesCustomerUpdate      `json:"customer_update"`
 	InvoiceHistory      *BillingPortalConfigurationFeaturesInvoiceHistory      `json:"invoice_history"`
 	PaymentMethodUpdate *BillingPortalConfigurationFeaturesPaymentMethodUpdate `json:"payment_method_update"`
 	SubscriptionCancel  *BillingPortalConfigurationFeaturesSubscriptionCancel  `json:"subscription_cancel"`
+	SubscriptionPause   *BillingPortalConfigurationFeaturesSubscriptionPause   `json:"subscription_pause"`
 	SubscriptionUpdate  *BillingPortalConfigurationFeaturesSubscriptionUpdate  `json:"subscription_update"`
 }
 type BillingPortalConfigurationLoginPage struct {
