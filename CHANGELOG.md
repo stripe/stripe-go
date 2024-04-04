@@ -1,5 +1,11 @@
 # Changelog
 
+## 76.25.0-beta.1 - 2024-04-04
+* [#1839](https://github.com/stripe/stripe-go/pull/1839) Update generated code for beta
+  * Add support for `Update` method on resource `Entitlements.Feature`
+  * Add support for `RiskControls` on `AccountParams` and `Account`
+  * Add support for `PromotionCode` on `InvoiceAddLinesLinesDiscountsParams`, `InvoiceUpdateLinesLinesDiscountsParams`, `QuoteLineItemsDiscountsParams`, `QuoteLinesActionsAddDiscountParams`, and `QuotePhasesLineItemsDiscountsParams`
+
 ## 76.24.0-beta.1 - 2024-03-28
 * [#1831](https://github.com/stripe/stripe-go/pull/1831) Update generated code for beta
   * Add support for `FinancialAccountTransactions`, `FinancialAccount`, `IssuingCard`, and `IssuingCardsList` on `AccountSessionComponentsParams`
