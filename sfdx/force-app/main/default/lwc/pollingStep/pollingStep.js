@@ -1,4 +1,3 @@
-
 import {ConfigManager, ConfigStates, ConfigData} from 'c/systemConfigManager';
 import { LightningElement, api } from 'lwc';
 import LightningConfirm from 'lightning/confirm';

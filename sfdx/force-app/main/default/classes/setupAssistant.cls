@@ -223,9 +223,7 @@ public with sharing class setupAssistant {
             acct.Is_Primary__c = utilities.getPrimaryStripeAccount() == null;
             debugger.debug('addStripeAccount acct-data', acct);
 
-
             Database.upsert(acct, Stripe_Account__c.External_ID__c);
-
             return acct;
         } catch (Exception e) {
             errorLogger.create('Adding stripe account failed', e);
@@ -365,7 +363,7 @@ public with sharing class setupAssistant {
         config.put('state', state.toString());
 
         try {
-            // gets custom setting record to determin if we are in a sandbox or production org
+            // gets custom setting record to determine if we are in a sandbox or production org
 
             Stripe_Connection__c stripeConnectRec = utilities.getStripeConnection();
 
@@ -386,7 +384,6 @@ public with sharing class setupAssistant {
             // make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
             String route = UriTargets.getConfigEndpoint();
             HttpResponse response = utilities.makeCallout(route, 'GET');
-
             Map<String, Object> responseBody;
 
             /*
@@ -902,7 +899,7 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
-    //sends records to be synced to ruby service called from quick action button on record detail page
+    // sends records to be synced to ruby service called from quick action button on record detail page
     @AuraEnabled
     public static String manualRetry(Id recordId) {
         responseData rd = new responseData();
@@ -921,11 +918,9 @@ public with sharing class setupAssistant {
                     rd.put('isSyncRecordDispactched', isSyncRecordDispactched);
                     return rd.getJsonString();
                 }
-
                 Sync_Record__c recordToSync = syncRecordList[0];
                 
                 String route = UriTargets.getTranslateEndpoint();
-
                 Map<String, Object> body = new Map<String, Object>{
                     'object_type' => (String)recordToSync.Primary_Object_Type__c,
                     'object_ids' => new List<String> {
@@ -934,7 +929,6 @@ public with sharing class setupAssistant {
                 };
 
                 HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
-
                 if (response.getStatusCode() == 200) {
                     isSyncRecordDispactched = true;
                 } else {

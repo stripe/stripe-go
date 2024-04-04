@@ -9,7 +9,9 @@
                             Live Syncing
                         </h4>
                         <p>
-                            Enable or disable the realtime syncing of orders to Stripe. Disabling this will effectively pause your integration, while allowing you to still use the manual translation features below.
+                            Enable or disable the realtime syncing of Salesforce Orders to Stripe. Enabling this will result in live syncing for all
+                            connected Stripe accounts. Disabling this will effectively pause your
+                            integration, while allowing you to still use the manual translation feature below.
                         </p>
                     </div>
                     <div class="slds-col slds-p-left_xx-large slds-size_1-of-3 slds-text-align_right">
@@ -25,19 +27,20 @@
                     </div>
                 </div>
 
-                <div class="stripe-settings__item slds-grid">
+                <!-- <div class="stripe-settings__item slds-grid">
                     <div class="slds-col_bump-right">
                         <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
                             Stripe Account
                         </h4>
                         <p>
-                            The Stripe account connected to Salesforce. This account contains Stripe data being synced from your Salesforce account.
+                            The Stripe accounts connected to this Salesforce org. Manage or change these connected accounts in the "Stripe
+                            Accounts" tab.
                         </p>
                     </div>
                     <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
                         <lightning-input type="text" label="Stripe Account" value={stripeAccountId} variant="label-hidden" placeholder="No Stripe Account Found" disabled></lightning-input>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="stripe-settings__item slds-grid">
                     <div class="slds-col_bump-right">
@@ -53,7 +56,7 @@
                     </div>
                 </div>
 
-                <div class="stripe-settings__item slds-grid">
+                <!-- <div class="stripe-settings__item slds-grid">
                     <div class="slds-col_bump-right">
                         <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
                             Last Synced
@@ -65,7 +68,7 @@
                     <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
                         <lightning-input label="Last Synced" type="text" variant="label-hidden" value={lastSynced} placeholder="N/A" disabled></lightning-input>
                     </div>
-                </div>
+                </div> -->
             </lightning-accordion-section>
             <lightning-accordion-section name="Management" label="Management Settings">
                 <div class="stripe-settings__item slds-grid">
@@ -246,7 +249,13 @@
                             Sync All Accounts
                         </h4>
                         <p>
-                            Initiate a sync of all accounts in Salesforce to your Stripe account. This process will run in the background and can take a few minutes to complete depending on the number of accounts present. All accounts will be synced regardless of how recently they were updated. Be aware that accounts in Stripe will NOT be deleted or archived if they have been deleted in Salesforce.
+                            Initiate a sync of all Salesforce accounts to your primary Stripe account. This process will run in the background and
+                            can take
+                            a few minutes to complete depending on the number of Salesforce accounts present. All Salesforce accounts will be synced
+                            regardless
+                            of how recently they were updated. Be aware that the corresponding Stripe customer will NOT be deleted or archived if
+                            they have
+                            been deleted in Salesforce.
                         </p>
                     </div>
                     <div class="slds-col slds-p-left_xx-large slds-size_1-of-3 slds-text-align_right">
@@ -260,7 +269,13 @@
                             Sync All Products
                         </h4>
                         <p>
-                            Initiate a sync of all products in Salesforce to your Stripe account. This process will run in the background and can take a few minutes to complete depending on the number of products present. All products will be synced regardless of how recently they were updated. Be aware that products in Stripe will NOT be deleted or archived if they have been deleted in Salesforce.
+                            Initiate a sync of all Salesforce products to your primary Stripe account. This process will run in the background and
+                            can take a few minutes to complete depending on the number of Salesforce products present. AllSalesforce products will
+                            be synced
+                            regardless
+                            of how recently they were updated. Be aware that the corresponding Stripe products will NOT be deleted or archived if
+                            they have been
+                            deleted in Salesforce.
                         </p>
                     </div>
                     <div class="slds-col slds-p-left_xx-large slds-size_1-of-3 slds-text-align_right">
@@ -272,12 +287,13 @@
                     <div class="stripe-settings__item slds-grid">
                         <div class="slds-col_bump-right">
                             <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
-                                Manual Translation
+                                Sync a Salesforce Record
                             </h4>
                             <p>
-                                Provide a Salesforce Record Id to be synced to Stripe. By default, the record will
-                                sync to your primary Stripe account unless otherwise specified on the Salesforce record using the
-                                Stripe_Account__c field.
+                                Provide a Salesforce record Id to be synced to Stripe. By default, all Salesforce records will
+                                sync to your primary Stripe account unless otherwise specified on the Salesforce record. To sync to a non-primary
+                                Stripe account,specify the Stripe Account Id on the
+                                Stripe_Account__c field on the Salesforce Order.
                             </p>
                         </div>
                         <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">

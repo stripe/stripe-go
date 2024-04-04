@@ -8,8 +8,9 @@ export default class ResyncQuickAction extends LightningElement {
     isExecuting = false;
 
     @api async invoke() {
-        if (this.isExecuting) {
-            this.showToast('Resync Error', 'A resync is already in process.', 'error');
+        // This happens when someone clicks the button multiple times
+        if (this.isExecuting === true) {
+            this.showToast('Resync in progress', 'A resync is already in process.', 'error');
             return;
         }
         try { 
@@ -17,11 +18,9 @@ export default class ResyncQuickAction extends LightningElement {
             const manualRetryRequest = await manualRetry({
                 recordId: this.recordId
             });
-            const responseData =  JSON.parse(manualRetryRequest);
-            if(responseData.isSuccess && responseData.results.isSyncRecordDispactched) {
-                this.showToast('Resync successfully scheduled', 'This record has successfully been scheduled for resynchronization.', 'success');
-            } else if(!responseData.results.isSyncRecordDispactched) {
-                this.showToast('Resync Error', 'There was an error scheduling the resynchronization, please try again.', 'error');
+            const responseData = JSON.parse(manualRetryRequest);
+             if(responseData.isSuccess && responseData.results.isSyncRecordDispactched) {
+                this.showToast('Resync successfully scheduled', 'This record has been successfully queued for resynchronization.', 'success');
             } else {
                 this.showToast('Resync Error', responseData.error, 'error');
             }

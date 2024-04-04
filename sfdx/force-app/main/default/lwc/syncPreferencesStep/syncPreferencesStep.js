@@ -8,9 +8,9 @@ import Debugger from "c/debugger";
 import {ConfigData, ConfigManager, ConfigStates} from "c/systemConfigManager";
 
 const POLLING_FIRST_ENABLE_ALERT_TITLE = 'Are you sure?';
-const POLLING_FIRST_ENABLE_ALERT_TEMPLATE = `You are activating live syncing for your integration, meaning we will begin creating Stripe subscriptions for all Salesforce orders activated on or after SYNC_START_DATE. You can pause this in the future in the 'Sync Preferences' menu.`
+const POLLING_FIRST_ENABLE_ALERT_TEMPLATE = `You are activating live syncing for your integration, meaning we will begin syncing all Salesforce orders activated on or after SYNC_START_DATE to Stripe. You can pause this in the future.`
 const POLLING_DISABLE_ALERT_TITLE = 'Confirm Disable Syncing';
-const POLLING_DISABLE_ALERT = 'Disabling syncing will halt all order processing. Are you sure you want to continue?';
+const POLLING_DISABLE_ALERT = 'Disabling syncing will halt all Salesforce order processing. Are you sure you want to continue?';
 
 export default class SyncPreferencesStep extends LightningElement {
     isDev = false;
@@ -361,9 +361,8 @@ export default class SyncPreferencesStep extends LightningElement {
     get apiLimitCount() {
         if (this.apiPercentageLimit > 0) {
             return Math.floor(this.totalApiCalls * (this.apiPercentageLimit / 100));
-        } else {
-            return 0;
-        }
+        } 
+        return 0;
     }
 
     get hasAccountFilterError() {
