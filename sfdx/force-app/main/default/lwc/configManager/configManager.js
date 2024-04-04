@@ -183,7 +183,7 @@ import EventEmitter from './eventEmitter';
  * @property {string} configurationHash
  * @property {string} cpq_term_unit
  * @property {string} default_currency
- * @property {string} stripe_account_id
+ * @property {Array<string>} stripe_account_id
  * @property {String} sync_record_retention
  * @property {boolean} enabled
  * @property {null} last_synced
@@ -204,7 +204,7 @@ import EventEmitter from './eventEmitter';
  * @property {string} api_percentage_limit
  * @property {string} cpq_term_unit
  * @property {string} default_currency
- * @property {string} stripe_account_id
+ * @property {Array<string>} stripe_account_id
  * @property {String} sync_record_retention
  * @property {boolean} enabled
  * @property {boolean} polling_enabled

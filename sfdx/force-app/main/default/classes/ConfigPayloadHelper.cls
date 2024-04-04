@@ -208,7 +208,7 @@ public with sharing class ConfigPayloadHelper {
                 for (Stripe_Account__c acct: stripeAccountList) {
                     li.add(acct.Stripe_Id__c);
                 }
-                response.put(STRIPE_ACCOUNT_ID, String.join(li, ', '));
+                response.put(STRIPE_ACCOUNT_ID, li);
                 continue;
             }
             response.put(readOnlyField, String.valueOf(configPayload.get(readOnlyField)));

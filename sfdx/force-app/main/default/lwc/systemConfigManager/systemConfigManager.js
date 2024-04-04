@@ -199,7 +199,7 @@ const DebugLog = Debugger.withContext('SystemConfigManager');
  * @property {string} configurationHash
  * @property {string} cpq_term_unit
  * @property {string} default_currency
- * @property {string} stripe_account_id
+ * @property {Array<string>} stripe_account_id
  * @property {String} sync_record_retention
  * @property {boolean} enabled
  * @property {string|null} last_synced
