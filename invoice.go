@@ -293,7 +293,7 @@ type InvoiceParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// An arbitrary string attached to the object. Often useful for displaying to users. Referenced as 'memo' in the Dashboard.
 	Description *string `form:"description"`
-	// The coupons to redeem into discounts for the invoice. If not specified, inherits the discount from the invoice's customer. Pass an empty string to avoid inheriting any discounts.
+	// The coupons and promotion codes to redeem into discounts for the invoice. If not specified, inherits the discount from the invoice's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
 	// The date on which payment for this invoice is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
 	DueDate *int64 `form:"due_date"`
@@ -377,9 +377,9 @@ type InvoiceAutomaticTaxParams struct {
 
 // A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
 type InvoiceCustomFieldParams struct {
-	// The name of the custom field. This may be up to 30 characters.
+	// The name of the custom field. This may be up to 40 characters.
 	Name *string `form:"name"`
-	// The value of the custom field. This may be up to 30 characters.
+	// The value of the custom field. This may be up to 140 characters.
 	Value *string `form:"value"`
 }
 
@@ -1393,7 +1393,7 @@ type InvoiceUpcomingScheduleDetailsPhaseParams struct {
 	BillingThresholds *InvoiceUpcomingScheduleDetailsPhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
-	// The identifier of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -1665,12 +1665,12 @@ type InvoiceUpcomingSubscriptionPrebillingParams struct {
 //
 // Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
 //
-// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass a proration_date parameter when doing the actual subscription update. The value passed in should be the same as the subscription_proration_date returned on the upcoming invoice resource. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_proration_date on the upcoming invoice resource.
+// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_proration_date value passed in the request.
 type InvoiceUpcomingParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
-	// The identifier of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency"`
@@ -1678,7 +1678,7 @@ type InvoiceUpcomingParams struct {
 	Customer *string `form:"customer"`
 	// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 	CustomerDetails *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
-	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
+	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the subscription or customer. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -1817,7 +1817,7 @@ type InvoiceUpcomingLinesDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
-// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
+// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the subscription or customer. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 type InvoiceUpcomingLinesDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
@@ -2511,7 +2511,7 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseParams struct {
 	BillingThresholds *InvoiceUpcomingLinesScheduleDetailsPhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
-	// The identifier of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -2879,7 +2879,7 @@ type InvoiceUpcomingLinesParams struct {
 	ListParams `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceUpcomingLinesAutomaticTaxParams `form:"automatic_tax"`
-	// The identifier of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency"`
@@ -2887,7 +2887,7 @@ type InvoiceUpcomingLinesParams struct {
 	Customer *string `form:"customer"`
 	// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 	CustomerDetails *InvoiceUpcomingLinesCustomerDetailsParams `form:"customer_details"`
-	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
+	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the subscription or customer. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceUpcomingLinesDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -2972,7 +2972,7 @@ type InvoiceAddLinesLineDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
-// The coupons & existing discounts which apply to the line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
+// The coupons, promotion codes & existing discounts which apply to the line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
 type InvoiceAddLinesLineDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
@@ -2980,6 +2980,8 @@ type InvoiceAddLinesLineDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceAddLinesLineDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
@@ -3071,7 +3073,7 @@ type InvoiceAddLinesLineParams struct {
 	Description *string `form:"description"`
 	// Controls whether discounts apply to this line item. Defaults to false for prorations or negative line items, and true for all other line items. Cannot be set to true for prorations.
 	Discountable *bool `form:"discountable"`
-	// The coupons & existing discounts which apply to the line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
+	// The coupons, promotion codes & existing discounts which apply to the line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
 	Discounts []*InvoiceAddLinesLineDiscountParams `form:"discounts"`
 	// ID of an unassigned invoice item to assign to this invoice. If not provided, a new item will be created.
 	InvoiceItem *string `form:"invoice_item"`
@@ -3250,7 +3252,7 @@ type InvoiceUpdateLinesLineDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
-// The coupons & existing discounts which apply to the line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
+// The coupons, promotion codes & existing discounts which apply to the line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
 type InvoiceUpdateLinesLineDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
@@ -3258,6 +3260,8 @@ type InvoiceUpdateLinesLineDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *InvoiceUpdateLinesLineDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
@@ -3349,7 +3353,7 @@ type InvoiceUpdateLinesLineParams struct {
 	Description *string `form:"description"`
 	// Controls whether discounts apply to this line item. Defaults to false for prorations or negative line items, and true for all other line items. Cannot be set to true for prorations.
 	Discountable *bool `form:"discountable"`
-	// The coupons & existing discounts which apply to the line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
+	// The coupons, promotion codes & existing discounts which apply to the line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
 	Discounts []*InvoiceUpdateLinesLineDiscountParams `form:"discounts"`
 	// ID of an existing line item on the invoice.
 	ID *string `form:"id"`
@@ -3482,7 +3486,7 @@ type InvoiceCreatePreviewDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
-// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
+// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the subscription or customer. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 type InvoiceCreatePreviewDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
@@ -4176,7 +4180,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	BillingThresholds *InvoiceCreatePreviewScheduleDetailsPhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
-	// The identifier of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -4442,12 +4446,12 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Valu
 //
 // Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
 //
-// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass a proration_date parameter when doing the actual subscription update. The value passed in should be the same as the subscription_proration_date returned on the upcoming invoice resource. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_proration_date on the upcoming invoice resource.
+// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_details.proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_details.proration_date value passed in the request.
 type InvoiceCreatePreviewParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceCreatePreviewAutomaticTaxParams `form:"automatic_tax"`
-	// The identifier of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency"`
@@ -4455,7 +4459,7 @@ type InvoiceCreatePreviewParams struct {
 	Customer *string `form:"customer"`
 	// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 	CustomerDetails *InvoiceCreatePreviewCustomerDetailsParams `form:"customer_details"`
-	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
+	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the subscription or customer. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceCreatePreviewDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
