@@ -657,6 +657,7 @@ class SystemConfigManager extends EventEmitter {
         const save = JSON.parse(JSON.stringify(this.config.translation));
         let fieldDefaults = save.allMappingConfigurations.field_defaults;
         let fieldMappings = save.allMappingConfigurations.field_mappings;
+        let defaultMapping = save.allMappingConfigurations.default_mappings;
         if (updates.allMappingConfigurations) {
             if (updates.allMappingConfigurations.field_defaults) {
                 fieldDefaults = updates.allMappingConfigurations.field_defaults;
@@ -664,11 +665,15 @@ class SystemConfigManager extends EventEmitter {
             if (updates.allMappingConfigurations.field_mappings) {
                 fieldMappings = updates.allMappingConfigurations.field_mappings;
             }
+            if (updates.allMappingConfigurations.defaultMapping) {
+                fieldMappings = updates.allMappingConfigurations.defaultMapping;
+            }
         }
 
         save.allMappingConfigurations = {
             field_defaults: fieldDefaults,
             field_mappings: fieldMappings,
+            default_mappings: defaultMapping
         }
 
 
