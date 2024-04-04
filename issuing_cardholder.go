@@ -169,8 +169,12 @@ type IssuingCardholderSpendingControlsSpendingLimitParams struct {
 type IssuingCardholderSpendingControlsParams struct {
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []*string `form:"allowed_categories"`
+	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
+	AllowedMerchantCountries []*string `form:"allowed_merchant_countries"`
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []*string `form:"blocked_categories"`
+	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
+	BlockedMerchantCountries []*string `form:"blocked_merchant_countries"`
 	// Limit spending with amount-based rules that apply across this cardholder's cards.
 	SpendingLimits []*IssuingCardholderSpendingControlsSpendingLimitParams `form:"spending_limits"`
 	// Currency of amounts within `spending_limits`. Defaults to your merchant country's currency.
@@ -305,8 +309,12 @@ type IssuingCardholderSpendingControlsSpendingLimit struct {
 type IssuingCardholderSpendingControls struct {
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
 	AllowedCategories []string `json:"allowed_categories"`
+	// Array of strings containing representing countries from which authorizations will be allowed. Authorizations from merchants in all other countries will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `blocked_merchant_countries`. Provide an empty value to unset this control.
+	AllowedMerchantCountries []string `json:"allowed_merchant_countries"`
 	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
 	BlockedCategories []string `json:"blocked_categories"`
+	// Array of strings containing representing countries from which authorizations will be declined. Country codes should be ISO 3166 alpha-2 country codes (e.g. `US`). Cannot be set with `allowed_merchant_countries`. Provide an empty value to unset this control.
+	BlockedMerchantCountries []string `json:"blocked_merchant_countries"`
 	// Limit spending with amount-based rules that apply across this cardholder's cards.
 	SpendingLimits []*IssuingCardholderSpendingControlsSpendingLimit `json:"spending_limits"`
 	// Currency of the amounts within `spending_limits`.

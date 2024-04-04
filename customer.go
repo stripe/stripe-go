@@ -77,7 +77,7 @@ type CustomerParams struct {
 	Phone *string `form:"phone"`
 	// Customer's preferred languages, ordered by preference.
 	PreferredLocales []*string `form:"preferred_locales"`
-	// The API ID of a promotion code to apply to the customer. The customer will have a discount applied on all recurring payments. Charges you create through the API will not have the discount.
+	// The ID of a promotion code to apply to the customer. The customer will have a discount applied on all recurring payments. Charges you create through the API will not have the discount.
 	PromotionCode *string `form:"promotion_code"`
 	// The customer's shipping information. Appears on invoices emailed to this customer.
 	Shipping *CustomerShippingParams `form:"shipping"`
@@ -123,9 +123,9 @@ type CustomerCashBalanceParams struct {
 
 // The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
 type CustomerInvoiceSettingsCustomFieldParams struct {
-	// The name of the custom field. This may be up to 30 characters.
+	// The name of the custom field. This may be up to 40 characters.
 	Name *string `form:"name"`
-	// The value of the custom field. This may be up to 30 characters.
+	// The value of the custom field. This may be up to 140 characters.
 	Value *string `form:"value"`
 }
 

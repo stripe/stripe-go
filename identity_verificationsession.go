@@ -18,9 +18,13 @@ const (
 	IdentityVerificationSessionLastErrorCodeDocumentExpired                  IdentityVerificationSessionLastErrorCode = "document_expired"
 	IdentityVerificationSessionLastErrorCodeDocumentTypeNotSupported         IdentityVerificationSessionLastErrorCode = "document_type_not_supported"
 	IdentityVerificationSessionLastErrorCodeDocumentUnverifiedOther          IdentityVerificationSessionLastErrorCode = "document_unverified_other"
+	IdentityVerificationSessionLastErrorCodeEmailUnverifiedOther             IdentityVerificationSessionLastErrorCode = "email_unverified_other"
+	IdentityVerificationSessionLastErrorCodeEmailVerificationDeclined        IdentityVerificationSessionLastErrorCode = "email_verification_declined"
 	IdentityVerificationSessionLastErrorCodeIDNumberInsufficientDocumentData IdentityVerificationSessionLastErrorCode = "id_number_insufficient_document_data"
 	IdentityVerificationSessionLastErrorCodeIDNumberMismatch                 IdentityVerificationSessionLastErrorCode = "id_number_mismatch"
 	IdentityVerificationSessionLastErrorCodeIDNumberUnverifiedOther          IdentityVerificationSessionLastErrorCode = "id_number_unverified_other"
+	IdentityVerificationSessionLastErrorCodePhoneUnverifiedOther             IdentityVerificationSessionLastErrorCode = "phone_unverified_other"
+	IdentityVerificationSessionLastErrorCodePhoneVerificationDeclined        IdentityVerificationSessionLastErrorCode = "phone_verification_declined"
 	IdentityVerificationSessionLastErrorCodeSelfieDocumentMissingPhoto       IdentityVerificationSessionLastErrorCode = "selfie_document_missing_photo"
 	IdentityVerificationSessionLastErrorCodeSelfieFaceMismatch               IdentityVerificationSessionLastErrorCode = "selfie_face_mismatch"
 	IdentityVerificationSessionLastErrorCodeSelfieManipulated                IdentityVerificationSessionLastErrorCode = "selfie_manipulated"
@@ -63,8 +67,9 @@ type IdentityVerificationSessionType string
 
 // List of values that IdentityVerificationSessionType can take
 const (
-	IdentityVerificationSessionTypeDocument IdentityVerificationSessionType = "document"
-	IdentityVerificationSessionTypeIDNumber IdentityVerificationSessionType = "id_number"
+	IdentityVerificationSessionTypeDocument         IdentityVerificationSessionType = "document"
+	IdentityVerificationSessionTypeIDNumber         IdentityVerificationSessionType = "id_number"
+	IdentityVerificationSessionTypeVerificationFlow IdentityVerificationSessionType = "verification_flow"
 )
 
 // The user's verified id number type.
@@ -109,10 +114,34 @@ type IdentityVerificationSessionOptionsDocumentParams struct {
 	RequireMatchingSelfie *bool `form:"require_matching_selfie"`
 }
 
+// Options that apply to the email check.
+type IdentityVerificationSessionOptionsEmailParams struct {
+	// Request one time password verification of `provided_details.email`.
+	RequireVerification *bool `form:"require_verification"`
+}
+
+// Options that apply to the phone check.
+type IdentityVerificationSessionOptionsPhoneParams struct {
+	// Request one time password verification of `provided_details.phone`.
+	RequireVerification *bool `form:"require_verification"`
+}
+
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionOptionsParams struct {
 	// Options that apply to the [document check](https://stripe.com/docs/identity/verification-checks?type=document).
 	Document *IdentityVerificationSessionOptionsDocumentParams `form:"document"`
+	// Options that apply to the email check.
+	Email *IdentityVerificationSessionOptionsEmailParams `form:"email"`
+	// Options that apply to the phone check.
+	Phone *IdentityVerificationSessionOptionsPhoneParams `form:"phone"`
+}
+
+// Details provided about the user being verified. These details may be shown to the user.
+type IdentityVerificationSessionProvidedDetailsParams struct {
+	// Email of user being verified
+	Email *string `form:"email"`
+	// Phone number of user being verified
+	Phone *string `form:"phone"`
 }
 
 // Creates a VerificationSession object.
@@ -132,10 +161,14 @@ type IdentityVerificationSessionParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// A set of options for the session's verification checks.
 	Options *IdentityVerificationSessionOptionsParams `form:"options"`
+	// Details provided about the user being verified. These details may be shown to the user.
+	ProvidedDetails *IdentityVerificationSessionProvidedDetailsParams `form:"provided_details"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed.
 	Type *string `form:"type"`
+	// The ID of a Verification Flow from the Dashboard.
+	VerificationFlow *string `form:"verification_flow"`
 }
 
 // AddExpand appends a new field to expand.
@@ -213,12 +246,30 @@ type IdentityVerificationSessionOptionsDocument struct {
 	// Capture a face image and perform a [selfie check](https://stripe.com/docs/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user's face. [Learn more](https://stripe.com/docs/identity/selfie).
 	RequireMatchingSelfie bool `json:"require_matching_selfie"`
 }
+type IdentityVerificationSessionOptionsEmail struct {
+	// Request one time password verification of `provided_details.email`.
+	RequireVerification bool `json:"require_verification"`
+}
 type IdentityVerificationSessionOptionsIDNumber struct{}
+type IdentityVerificationSessionOptionsPhone struct {
+	// Request one time password verification of `provided_details.phone`.
+	RequireVerification bool `json:"require_verification"`
+}
 
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionOptions struct {
 	Document *IdentityVerificationSessionOptionsDocument `json:"document"`
+	Email    *IdentityVerificationSessionOptionsEmail    `json:"email"`
 	IDNumber *IdentityVerificationSessionOptionsIDNumber `json:"id_number"`
+	Phone    *IdentityVerificationSessionOptionsPhone    `json:"phone"`
+}
+
+// Details provided about the user being verified. These details may be shown to the user.
+type IdentityVerificationSessionProvidedDetails struct {
+	// Email of user being verified
+	Email string `json:"email"`
+	// Phone number of user being verified
+	Phone string `json:"phone"`
 }
 
 // Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
@@ -243,6 +294,8 @@ type IdentityVerificationSessionVerifiedOutputs struct {
 	Address *Address `json:"address"`
 	// The user's verified date of birth.
 	DOB *IdentityVerificationSessionVerifiedOutputsDOB `json:"dob"`
+	// The user's verified email address
+	Email string `json:"email"`
 	// The user's verified first name.
 	FirstName string `json:"first_name"`
 	// The user's verified id number.
@@ -251,6 +304,8 @@ type IdentityVerificationSessionVerifiedOutputs struct {
 	IDNumberType IdentityVerificationSessionVerifiedOutputsIDNumberType `json:"id_number_type"`
 	// The user's verified last name.
 	LastName string `json:"last_name"`
+	// The user's verified phone number
+	Phone string `json:"phone"`
 }
 
 // A VerificationSession guides you through the process of collecting and verifying the identities
@@ -286,6 +341,8 @@ type IdentityVerificationSession struct {
 	Object string `json:"object"`
 	// A set of options for the session's verification checks.
 	Options *IdentityVerificationSessionOptions `json:"options"`
+	// Details provided about the user being verified. These details may be shown to the user.
+	ProvidedDetails *IdentityVerificationSessionProvidedDetails `json:"provided_details"`
 	// Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
 	Redaction *IdentityVerificationSessionRedaction `json:"redaction"`
 	// Status of this VerificationSession. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
@@ -294,6 +351,8 @@ type IdentityVerificationSession struct {
 	Type IdentityVerificationSessionType `json:"type"`
 	// The short-lived URL that you use to redirect a user to Stripe to submit their identity information. This URL expires after 48 hours and can only be used once. Don't store it, log it, send it in emails or expose it to anyone other than the user. Refer to our docs on [verifying identity documents](https://stripe.com/docs/identity/verify-identity-documents?platform=web&type=redirect) to learn how to redirect users to Stripe.
 	URL string `json:"url"`
+	// The configuration token of a Verification Flow from the dashboard.
+	VerificationFlow string `json:"verification_flow"`
 	// The user's verified data.
 	VerifiedOutputs *IdentityVerificationSessionVerifiedOutputs `json:"verified_outputs"`
 }
