@@ -400,6 +400,8 @@ type QuoteDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
@@ -452,6 +454,8 @@ type QuoteLineItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuoteLineItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
@@ -510,6 +514,8 @@ type QuoteLineActionAddDiscountParams struct {
 	DiscountEnd *QuoteLineActionAddDiscountDiscountEndParams `form:"discount_end"`
 	// The index, starting at 0, at which to position the new discount. When not supplied, Stripe defaults to appending the discount to the end of the `discounts` array.
 	Index *int64 `form:"index"`
+	// The promotion code to redeem.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // Time span for the redeemed discount.
@@ -862,6 +868,8 @@ type QuotePhaseLineItemDiscountParams struct {
 	Discount *string `form:"discount"`
 	// Details to determine how long the discount should be applied for.
 	DiscountEnd *QuotePhaseLineItemDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
 }
 
 // The recurring components of a price such as `interval` and `interval_count`.
