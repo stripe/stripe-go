@@ -680,9 +680,6 @@ export default class DataMappingStep extends LightningElement {
             const errorMessage = getErrorMessage(error);
             this.showToast(errorMessage, 'error');
         } finally {
-            this.activeObject = 'customer';
-            this.activeObjectDescription = this.ACTIVE_OBJECT_INFO[this.activeObject]['description'];
-            this.activeObjectAlerts = this.ACTIVE_OBJECT_INFO[this.activeObject]['alerts'];
             DebugLog('activeMappings', this.activeStripeObjectMappings);
         }
     }
