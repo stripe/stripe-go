@@ -3701,6 +3701,8 @@ type PaymentIntentNextActionMultibancoDisplayDetails struct {
 	Entity string `json:"entity"`
 	// The timestamp at which the Multibanco voucher expires.
 	ExpiresAt int64 `json:"expires_at"`
+	// The URL for the hosted Multibanco voucher page, which allows customers to view a Multibanco voucher.
+	HostedVoucherURL string `json:"hosted_voucher_url"`
 	// Reference number associated with this Multibanco payment.
 	Reference string `json:"reference"`
 }
