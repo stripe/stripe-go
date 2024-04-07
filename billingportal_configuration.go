@@ -141,12 +141,6 @@ type BillingPortalConfigurationFeaturesSubscriptionCancelParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
-// Information about pausing subscriptions in the portal.
-type BillingPortalConfigurationFeaturesSubscriptionPauseParams struct {
-	// Whether the feature is enabled.
-	Enabled *bool `form:"enabled"`
-}
-
 // The list of up to 10 products that support subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams struct {
 	// The list of price IDs for the product that a subscription can be updated to.
@@ -165,6 +159,12 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
 	Products []*BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams `form:"products"`
 	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
 	ProrationBehavior *string `form:"proration_behavior"`
+}
+
+// Information about pausing subscriptions in the portal.
+type BillingPortalConfigurationFeaturesSubscriptionPauseParams struct {
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
 }
 
 // Information about the features available in the portal.
@@ -261,10 +261,6 @@ type BillingPortalConfigurationFeaturesSubscriptionCancel struct {
 	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`.
 	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior `json:"proration_behavior"`
 }
-type BillingPortalConfigurationFeaturesSubscriptionPause struct {
-	// Whether the feature is enabled.
-	Enabled bool `json:"enabled"`
-}
 
 // The list of up to 10 products that support subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProduct struct {
@@ -282,6 +278,10 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdate struct {
 	Products []*BillingPortalConfigurationFeaturesSubscriptionUpdateProduct `json:"products"`
 	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`. Defaults to a value of `none` if you don't set it during creation.
 	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior `json:"proration_behavior"`
+}
+type BillingPortalConfigurationFeaturesSubscriptionPause struct {
+	// Whether the feature is enabled.
+	Enabled bool `json:"enabled"`
 }
 type BillingPortalConfigurationFeatures struct {
 	CustomerUpdate      *BillingPortalConfigurationFeaturesCustomerUpdate      `json:"customer_update"`

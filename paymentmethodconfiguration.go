@@ -1086,6 +1086,18 @@ type PaymentMethodConfigurationWeChatPayParams struct {
 	DisplayPreference *PaymentMethodConfigurationWeChatPayDisplayPreferenceParams `form:"display_preference"`
 }
 
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationZipDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://stripe.com/docs/payments/zip) for more details like country availability.
+type PaymentMethodConfigurationZipParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationZipDisplayPreferenceParams `form:"display_preference"`
+}
+
 // Creates a payment method configuration
 type PaymentMethodConfigurationParams struct {
 	Params `form:"*"`
@@ -1167,6 +1179,8 @@ type PaymentMethodConfigurationParams struct {
 	USBankAccount *PaymentMethodConfigurationUSBankAccountParams `form:"us_bank_account"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://stripe.com/docs/payments/wechat-pay) for more details.
 	WeChatPay *PaymentMethodConfigurationWeChatPayParams `form:"wechat_pay"`
+	// Zip gives your customers a way to split purchases over a series of payments. Check this [page](https://stripe.com/docs/payments/zip) for more details like country availability.
+	Zip *PaymentMethodConfigurationZipParams `form:"zip"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1683,6 +1697,7 @@ type PaymentMethodConfiguration struct {
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort"`
 	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account"`
 	WeChatPay     *PaymentMethodConfigurationWeChatPay     `json:"wechat_pay"`
+	Zip           *PaymentMethodConfigurationZip           `json:"zip"`
 }
 
 // PaymentMethodConfigurationList is a list of PaymentMethodConfigurations as retrieved from a list endpoint.

@@ -266,7 +266,7 @@ type InvoiceParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// An arbitrary string attached to the object. Often useful for displaying to users. Referenced as 'memo' in the Dashboard.
 	Description *string `form:"description"`
-	// The coupons to redeem into discounts for the invoice. If not specified, inherits the discount from the invoice's customer. Pass an empty string to avoid inheriting any discounts.
+	// The coupons and promotion codes to redeem into discounts for the invoice. If not specified, inherits the discount from the invoice's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
 	// The date on which payment for this invoice is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
 	DueDate *int64 `form:"due_date"`
@@ -338,9 +338,9 @@ type InvoiceAutomaticTaxParams struct {
 
 // A list of up to 4 custom fields to be displayed on the invoice. If a value for `custom_fields` is specified, the list specified will replace the existing custom field list on this invoice. Pass an empty string to remove previously-defined fields.
 type InvoiceCustomFieldParams struct {
-	// The name of the custom field. This may be up to 30 characters.
+	// The name of the custom field. This may be up to 40 characters.
 	Name *string `form:"name"`
-	// The value of the custom field. This may be up to 30 characters.
+	// The value of the custom field. This may be up to 140 characters.
 	Value *string `form:"value"`
 }
 
@@ -761,12 +761,12 @@ type InvoiceUpcomingIssuerParams struct {
 //
 // Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
 //
-// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass a proration_date parameter when doing the actual subscription update. The value passed in should be the same as the subscription_proration_date returned on the upcoming invoice resource. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_proration_date on the upcoming invoice resource.
+// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_proration_date value passed in the request.
 type InvoiceUpcomingParams struct {
 	Params `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
-	// The code of the coupon to apply. If `subscription` or `subscription_items` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer's subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency"`
@@ -774,7 +774,7 @@ type InvoiceUpcomingParams struct {
 	Customer *string `form:"customer"`
 	// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 	CustomerDetails *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
-	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
+	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the subscription or customer. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -889,7 +889,7 @@ type InvoiceUpcomingLinesCustomerDetailsParams struct {
 	TaxIDs []*InvoiceUpcomingLinesCustomerDetailsTaxIDParams `form:"tax_ids"`
 }
 
-// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
+// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the subscription or customer. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 type InvoiceUpcomingLinesDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
@@ -990,6 +990,16 @@ type InvoiceUpcomingLinesSubscriptionItemBillingThresholdsParams struct {
 	UsageGTE *int64 `form:"usage_gte"`
 }
 
+// The coupons to redeem into discounts for the subscription item.
+type InvoiceUpcomingLinesSubscriptionItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
 // The recurring components of a price such as `interval` and `interval_count`.
 type InvoiceUpcomingLinesSubscriptionItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
@@ -1022,6 +1032,8 @@ type InvoiceUpcomingLinesSubscriptionItemParams struct {
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*InvoiceUpcomingLinesSubscriptionItemDiscountParams `form:"discounts"`
 	// Subscription item to update.
 	ID *string `form:"id"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1052,7 +1064,7 @@ type InvoiceUpcomingLinesParams struct {
 	ListParams `form:"*"`
 	// Settings for automatic tax lookup for this invoice preview.
 	AutomaticTax *InvoiceUpcomingLinesAutomaticTaxParams `form:"automatic_tax"`
-	// The code of the coupon to apply. If `subscription` or `subscription_items` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer's subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string.
+	// The ID of the coupon to apply to this phase of the subscription schedule. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	Coupon *string `form:"coupon"`
 	// The currency to preview this invoice in. Defaults to that of `customer` if not specified.
 	Currency *string `form:"currency"`
@@ -1060,7 +1072,7 @@ type InvoiceUpcomingLinesParams struct {
 	Customer *string `form:"customer"`
 	// Details about the customer you want to invoice or overrides for an existing customer. If `automatic_tax` is enabled then one of `customer`, `customer_details`, `subscription`, or `schedule` must be set.
 	CustomerDetails *InvoiceUpcomingLinesCustomerDetailsParams `form:"customer_details"`
-	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the customer or subscription. This only works for coupons directly applied to the invoice. To apply a coupon to a subscription, you must use the `coupon` parameter instead. Pass an empty string to avoid inheriting any discounts. To preview the upcoming invoice for a subscription that hasn't been created, use `coupon` instead.
+	// The coupons to redeem into discounts for the invoice preview. If not specified, inherits the discount from the subscription or customer. This works for both coupons directly applied to an invoice and coupons applied to a subscription. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceUpcomingLinesDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
