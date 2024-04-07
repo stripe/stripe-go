@@ -652,6 +652,25 @@ const (
 	PaymentMethodConfigurationWeChatPayDisplayPreferenceValueOn  PaymentMethodConfigurationWeChatPayDisplayPreferenceValue = "on"
 )
 
+// The account's display preference.
+type PaymentMethodConfigurationZipDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationZipDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationZipDisplayPreferencePreferenceNone PaymentMethodConfigurationZipDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationZipDisplayPreferencePreferenceOff  PaymentMethodConfigurationZipDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationZipDisplayPreferencePreferenceOn   PaymentMethodConfigurationZipDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationZipDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationZipDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationZipDisplayPreferenceValueOff PaymentMethodConfigurationZipDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationZipDisplayPreferenceValueOn  PaymentMethodConfigurationZipDisplayPreferenceValue = "on"
+)
+
 // List payment method configurations
 type PaymentMethodConfigurationListParams struct {
 	ListParams `form:"*"`
@@ -1629,6 +1648,19 @@ type PaymentMethodConfigurationWeChatPay struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationWeChatPayDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationZipDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationZipDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationZipDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationZip struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                            `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationZipDisplayPreference `json:"display_preference"`
 }
 
 // PaymentMethodConfigurations control which payment methods are displayed to your customers when you don't explicitly specify payment method types. You can have multiple configurations with different sets of payment methods for different scenarios.
