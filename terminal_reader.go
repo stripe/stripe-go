@@ -15,6 +15,24 @@ const (
 	TerminalReaderActionCollectInputsInputSelectionChoiceStyleSecondary TerminalReaderActionCollectInputsInputSelectionChoiceStyle = "secondary"
 )
 
+// The toggle's default value
+type TerminalReaderActionCollectInputsInputToggleDefaultValue string
+
+// List of values that TerminalReaderActionCollectInputsInputToggleDefaultValue can take
+const (
+	TerminalReaderActionCollectInputsInputToggleDefaultValueDisabled TerminalReaderActionCollectInputsInputToggleDefaultValue = "disabled"
+	TerminalReaderActionCollectInputsInputToggleDefaultValueEnabled  TerminalReaderActionCollectInputsInputToggleDefaultValue = "enabled"
+)
+
+// The toggle's collected value
+type TerminalReaderActionCollectInputsInputToggleValue string
+
+// List of values that TerminalReaderActionCollectInputsInputToggleValue can take
+const (
+	TerminalReaderActionCollectInputsInputToggleValueDisabled TerminalReaderActionCollectInputsInputToggleValue = "disabled"
+	TerminalReaderActionCollectInputsInputToggleValueEnabled  TerminalReaderActionCollectInputsInputToggleValue = "enabled"
+)
+
 // Type of input being collected.
 type TerminalReaderActionCollectInputsInputType string
 
@@ -171,6 +189,16 @@ type TerminalReaderCollectInputsInputSelectionParams struct {
 	Choices []*TerminalReaderCollectInputsInputSelectionChoiceParams `form:"choices"`
 }
 
+// List of toggles to be displayed and customization for the toggles
+type TerminalReaderCollectInputsInputToggleParams struct {
+	// The default value of the toggle
+	DefaultValue *string `form:"default_value"`
+	// The description which will be displayed for the toggle
+	Description *string `form:"description"`
+	// The title which will be displayed for the toggle
+	Title *string `form:"title"`
+}
+
 // List of inputs to be collected using the Reader
 type TerminalReaderCollectInputsInputParams struct {
 	// Customize the text which will be displayed while collecting this input
@@ -179,6 +207,8 @@ type TerminalReaderCollectInputsInputParams struct {
 	Required *bool `form:"required"`
 	// Options for the `selection` input
 	Selection *TerminalReaderCollectInputsInputSelectionParams `form:"selection"`
+	// List of toggles to be displayed and customization for the toggles
+	Toggles []*TerminalReaderCollectInputsInputToggleParams `form:"toggles"`
 	// The type of input to collect
 	Type *string `form:"type"`
 }
@@ -401,6 +431,24 @@ type TerminalReaderActionCollectInputsInputCustomText struct {
 	Title string `json:"title"`
 }
 
+// Information about a email being collected using a reader
+type TerminalReaderActionCollectInputsInputEmail struct {
+	// The collected email address
+	Value string `json:"value"`
+}
+
+// Information about a number being collected using a reader
+type TerminalReaderActionCollectInputsInputNumeric struct {
+	// The collected number
+	Value string `json:"value"`
+}
+
+// Information about a phone number being collected using a reader
+type TerminalReaderActionCollectInputsInputPhone struct {
+	// The collected phone number
+	Value string `json:"value"`
+}
+
 // List of possible choices to be selected
 type TerminalReaderActionCollectInputsInputSelectionChoice struct {
 	// The button style for the choice
@@ -423,10 +471,34 @@ type TerminalReaderActionCollectInputsInputSignature struct {
 	Value string `json:"value"`
 }
 
+// Information about text being collected using a reader
+type TerminalReaderActionCollectInputsInputText struct {
+	// The collected text value
+	Value string `json:"value"`
+}
+
+// List of toggles being collected. Values are present if collection is complete.
+type TerminalReaderActionCollectInputsInputToggle struct {
+	// The toggle's default value
+	DefaultValue TerminalReaderActionCollectInputsInputToggleDefaultValue `json:"default_value"`
+	// The toggle's description text
+	Description string `json:"description"`
+	// The toggle's title text
+	Title string `json:"title"`
+	// The toggle's collected value
+	Value TerminalReaderActionCollectInputsInputToggleValue `json:"value"`
+}
+
 // List of inputs to be collected.
 type TerminalReaderActionCollectInputsInput struct {
 	// Default text of input being collected.
 	CustomText *TerminalReaderActionCollectInputsInputCustomText `json:"custom_text"`
+	// Information about a email being collected using a reader
+	Email *TerminalReaderActionCollectInputsInputEmail `json:"email"`
+	// Information about a number being collected using a reader
+	Numeric *TerminalReaderActionCollectInputsInputNumeric `json:"numeric"`
+	// Information about a phone number being collected using a reader
+	Phone *TerminalReaderActionCollectInputsInputPhone `json:"phone"`
 	// Indicate that this input is required, disabling the skip button.
 	Required bool `json:"required"`
 	// Information about a selection being collected using a reader
@@ -435,6 +507,10 @@ type TerminalReaderActionCollectInputsInput struct {
 	Signature *TerminalReaderActionCollectInputsInputSignature `json:"signature"`
 	// Indicate that this input was skipped by the user.
 	Skipped bool `json:"skipped"`
+	// Information about text being collected using a reader
+	Text *TerminalReaderActionCollectInputsInputText `json:"text"`
+	// List of toggles being collected. Values are present if collection is complete.
+	Toggles []*TerminalReaderActionCollectInputsInputToggle `json:"toggles"`
 	// Type of input being collected.
 	Type TerminalReaderActionCollectInputsInputType `json:"type"`
 }
