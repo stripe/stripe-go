@@ -96,7 +96,6 @@ func (p *ProductParams) AddMetadata(key string, value string) {
 
 // A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://stripe.com/docs/payments/checkout/pricing-table).
 type ProductFeatureParams struct {
-	Feature *string `form:"feature"`
 	// The marketing feature name. Up to 80 characters long.
 	Name *string `form:"name"`
 }
@@ -247,7 +246,6 @@ func (p *ProductSearchParams) AddExpand(f string) {
 
 // A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://stripe.com/docs/payments/checkout/pricing-table).
 type ProductFeature struct {
-	Feature *EntitlementsFeature `json:"feature"`
 	// The marketing feature name. Up to 80 characters long.
 	Name string `json:"name"`
 }

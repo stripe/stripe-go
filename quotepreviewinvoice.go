@@ -563,12 +563,6 @@ type QuotePreviewInvoiceRendering struct {
 	PDF *QuotePreviewInvoiceRenderingPDF `json:"pdf"`
 }
 
-// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
-type QuotePreviewInvoiceRenderingOptions struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
-	AmountTaxDisplay string `json:"amount_tax_display"`
-}
-
 // The taxes applied to the shipping rate.
 type QuotePreviewInvoiceShippingCostTax struct {
 	// Amount of tax applied for this rate.
@@ -835,8 +829,6 @@ type QuotePreviewInvoice struct {
 	ReceiptNumber string `json:"receipt_number"`
 	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
 	Rendering *QuotePreviewInvoiceRendering `json:"rendering"`
-	// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
-	RenderingOptions *QuotePreviewInvoiceRenderingOptions `json:"rendering_options"`
 	// The details of the cost of shipping, including the ShippingRate applied on the invoice.
 	ShippingCost *QuotePreviewInvoiceShippingCost `json:"shipping_cost"`
 	// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
