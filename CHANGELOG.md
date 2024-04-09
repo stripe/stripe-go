@@ -1,5 +1,16 @@
 # Changelog
 
+## 76.25.0 - 2024-04-09
+* [#1844](https://github.com/stripe/stripe-go/pull/1844) Update generated code
+  * Add support for new resources `Entitlements.ActiveEntitlement` and `Entitlements.Feature`
+  * Add support for `Get` and `List` methods on resource `ActiveEntitlement`
+  * Add support for `Get`, `List`, `New`, and `Update` methods on resource `Feature`
+  * Add support for `Controller` on `AccountParams`
+  * Add support for `Fees`, `Losses`, `RequirementCollection`, and `StripeDashboard` on `AccountController`
+  * Add support for new value `none` on enum `AccountType`
+  * Add support for `EventName` on `BillingMeterEventAdjustmentParams` and `BillingMeterEventAdjustment`
+  * Add support for `Cancel` and `Type` on `BillingMeterEventAdjustment`
+
 ## 76.24.0 - 2024-04-04
 * [#1838](https://github.com/stripe/stripe-go/pull/1838) Update generated code
   * Change type of `CheckoutSessionPaymentMethodOptionsSwishReferenceParams` from `emptyable(string)` to `string`
