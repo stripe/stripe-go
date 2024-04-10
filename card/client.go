@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v77"
-	"github.com/stripe/stripe-go/v77/form"
+	stripe "github.com/stripe/stripe-go/v78"
+	"github.com/stripe/stripe-go/v78/form"
 )
 
 // Client is used to invoke card related APIs.

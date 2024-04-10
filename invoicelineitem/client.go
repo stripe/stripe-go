@@ -10,7 +10,7 @@ package invoicelineitem
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v77"
+	stripe "github.com/stripe/stripe-go/v78"
 )
 
 // Client is used to invoke /invoices/{invoice}/lines APIs.

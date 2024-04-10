@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v77/form"
+	"github.com/stripe/stripe-go/v78/form"
 )
 
 func TestBankAccount_UnmarshalJSON(t *testing.T) {

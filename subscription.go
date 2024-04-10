@@ -9,7 +9,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/v77/form"
+	"github.com/stripe/stripe-go/v78/form"
 )
 
 // Type of the account referenced.

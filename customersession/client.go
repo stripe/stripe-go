@@ -10,7 +10,7 @@ package customersession
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v77"
+	stripe "github.com/stripe/stripe-go/v78"
 )
 
 // Client is used to invoke /customer_sessions APIs.

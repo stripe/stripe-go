@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v77"
+	stripe "github.com/stripe/stripe-go/v78"
 )
 
 type APIResource = stripe.APIResource

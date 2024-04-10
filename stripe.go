@@ -22,7 +22,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stripe/stripe-go/v77/form"
+	"github.com/stripe/stripe-go/v78/form"
 )
 
 //
@@ -1279,7 +1279,7 @@ func StringSlice(v []string) []*string {
 //
 
 // clientversion is the binding version
-const clientversion = "76.25.0"
+const clientversion = "78.0.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
