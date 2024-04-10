@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v76/form"
+	"github.com/stripe/stripe-go/v77/form"
 )
 
 // Type of the account referenced.
@@ -292,8 +292,6 @@ type InvoiceParams struct {
 	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior"`
 	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
 	Rendering *InvoiceRenderingParams `form:"rendering"`
-	// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
-	RenderingOptions *InvoiceRenderingOptionsParams `form:"rendering_options"`
 	// Settings for the cost of shipping for this invoice.
 	ShippingCost *InvoiceShippingCostParams `form:"shipping_cost"`
 	// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.
@@ -500,12 +498,6 @@ type InvoiceRenderingParams struct {
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 	// Invoice pdf rendering options
 	PDF *InvoiceRenderingPDFParams `form:"pdf"`
-}
-
-// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
-type InvoiceRenderingOptionsParams struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
-	AmountTaxDisplay *string `form:"amount_tax_display"`
 }
 
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
@@ -1375,12 +1367,6 @@ type InvoiceRendering struct {
 	PDF *InvoiceRenderingPDF `json:"pdf"`
 }
 
-// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
-type InvoiceRenderingOptions struct {
-	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
-	AmountTaxDisplay string `json:"amount_tax_display"`
-}
-
 // The taxes applied to the shipping rate.
 type InvoiceShippingCostTax struct {
 	// Amount of tax applied for this rate.
@@ -1634,8 +1620,6 @@ type Invoice struct {
 	ReceiptNumber string `json:"receipt_number"`
 	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
 	Rendering *InvoiceRendering `json:"rendering"`
-	// This is a legacy field that will be removed soon. For details about `rendering_options`, refer to `rendering` instead. Options for invoice PDF rendering.
-	RenderingOptions *InvoiceRenderingOptions `json:"rendering_options"`
 	// The details of the cost of shipping, including the ShippingRate applied on the invoice.
 	ShippingCost *InvoiceShippingCost `json:"shipping_cost"`
 	// Shipping details for the invoice. The Invoice PDF will use the `shipping_details` value if it is set, otherwise the PDF will render the shipping address from the customer.

@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v76/form"
+	"github.com/stripe/stripe-go/v77/form"
 )
 
 func TestUsageRecordParams_AppendTo(t *testing.T) {

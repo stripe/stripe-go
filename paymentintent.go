@@ -919,9 +919,6 @@ type PaymentIntentMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
-// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
-type PaymentIntentPaymentMethodDataAffirmParams struct{}
-
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type PaymentIntentPaymentMethodDataBillingDetailsParams struct {
 	// Billing address.
@@ -934,58 +931,11 @@ type PaymentIntentPaymentMethodDataBillingDetailsParams struct {
 	Phone *string `form:"phone"`
 }
 
-// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
-type PaymentIntentPaymentMethodDataBLIKParams struct{}
-
-// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-type PaymentIntentPaymentMethodDataCashAppParams struct{}
-
-// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
-type PaymentIntentPaymentMethodDataCustomerBalanceParams struct{}
-
-// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
-type PaymentIntentPaymentMethodDataKonbiniParams struct{}
-
-// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
-type PaymentIntentPaymentMethodDataLinkParams struct{}
-
-// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
-type PaymentIntentPaymentMethodDataPayNowParams struct{}
-
-// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
-type PaymentIntentPaymentMethodDataPaypalParams struct{}
-
-// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
-type PaymentIntentPaymentMethodDataPixParams struct{}
-
-// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-type PaymentIntentPaymentMethodDataPromptPayParams struct{}
-
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type PaymentIntentPaymentMethodDataRadarOptionsParams struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session *string `form:"session"`
 }
-
-// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
-type PaymentIntentPaymentMethodDataRevolutPayParams struct{}
-
-// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
-type PaymentIntentPaymentMethodDataUSBankAccountParams struct {
-	// Account holder type: individual or company.
-	AccountHolderType *string `form:"account_holder_type"`
-	// Account number of the bank account.
-	AccountNumber *string `form:"account_number"`
-	// Account type: checkings or savings. Defaults to checking if omitted.
-	AccountType *string `form:"account_type"`
-	// The ID of a Financial Connections Account to use as a payment method.
-	FinancialConnectionsAccount *string `form:"financial_connections_account"`
-	// Routing number of the bank account.
-	RoutingNumber *string `form:"routing_number"`
-}
-
-// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
-type PaymentIntentPaymentMethodDataZipParams struct{}
 
 // If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
 // in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
@@ -994,7 +944,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
 	ACSSDebit *PaymentMethodACSSDebitParams `form:"acss_debit"`
 	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
-	Affirm *PaymentIntentPaymentMethodDataAffirmParams `form:"affirm"`
+	Affirm *PaymentMethodAffirmParams `form:"affirm"`
 	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
 	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
@@ -1008,13 +958,13 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentIntentPaymentMethodDataBillingDetailsParams `form:"billing_details"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
-	BLIK *PaymentIntentPaymentMethodDataBLIKParams `form:"blik"`
+	BLIK *PaymentMethodBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
-	CashApp *PaymentIntentPaymentMethodDataCashAppParams `form:"cashapp"`
+	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
-	CustomerBalance *PaymentIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
+	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodEPSParams `form:"eps"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
@@ -1030,9 +980,9 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *PaymentMethodKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
-	Konbini *PaymentIntentPaymentMethodDataKonbiniParams `form:"konbini"`
+	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
-	Link *PaymentIntentPaymentMethodDataLinkParams `form:"link"`
+	Link *PaymentMethodLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -1042,17 +992,17 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *PaymentMethodP24Params `form:"p24"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
-	PayNow *PaymentIntentPaymentMethodDataPayNowParams `form:"paynow"`
+	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
-	Paypal *PaymentIntentPaymentMethodDataPaypalParams `form:"paypal"`
+	Paypal *PaymentMethodPaypalParams `form:"paypal"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
-	Pix *PaymentIntentPaymentMethodDataPixParams `form:"pix"`
+	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
-	PromptPay *PaymentIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
+	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
-	RevolutPay *PaymentIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
+	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -1062,11 +1012,11 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
-	USBankAccount *PaymentIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
+	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WeChatPay *PaymentMethodWeChatPayParams `form:"wechat_pay"`
 	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
-	Zip *PaymentIntentPaymentMethodDataZipParams `form:"zip"`
+	Zip *PaymentMethodZipParams `form:"zip"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1382,8 +1332,6 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
-	// This field was released by mistake and will be removed in the next major version
-	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
 }
