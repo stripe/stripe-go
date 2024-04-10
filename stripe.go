@@ -1006,16 +1006,12 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		}
 	}
 
-	// 500 Internal Server Error
+	// Retry on 500, 503, and other internal errors.
 	//
-	// We only bother retrying these for non-POST requests. POSTs end up being
-	// cached by the idempotency layer so there's no purpose in retrying them.
-	if resp.StatusCode >= http.StatusInternalServerError && req.Method != http.MethodPost {
-		return true, ""
-	}
-
-	// 503 Service Unavailable
-	if resp.StatusCode == http.StatusServiceUnavailable {
+	// Note that we expect the stripe-should-retry header to be false
+	// in most cases when a 500 is returned, since our idempotency framework
+	// would typically replay it anyway.
+	if resp.StatusCode >= http.StatusInternalServerError {
 		return true, ""
 	}
 
