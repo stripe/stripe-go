@@ -83,6 +83,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationAmazonPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationAmazonPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationAmazonPayDisplayPreferencePreferenceNone PaymentMethodConfigurationAmazonPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationAmazonPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationAmazonPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationAmazonPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationAmazonPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationAmazonPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationAmazonPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationAmazonPayDisplayPreferenceValueOff PaymentMethodConfigurationAmazonPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationAmazonPayDisplayPreferenceValueOn  PaymentMethodConfigurationAmazonPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationApplePayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationApplePayDisplayPreferencePreference can take
@@ -734,6 +753,18 @@ type PaymentMethodConfigurationAlipayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationAmazonPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
+type PaymentMethodConfigurationAmazonPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationAmazonPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationApplePayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1130,6 +1161,8 @@ type PaymentMethodConfigurationParams struct {
 	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// Alipay is a digital wallet in China that has more than a billion active users worldwide. Alipay users can pay on the web or on a mobile device using login credentials or their Alipay app. Alipay has a low dispute rate and reduces fraud by authenticating payments using the customer's login credentials. Check this [page](https://stripe.com/docs/payments/alipay) for more details.
 	Alipay *PaymentMethodConfigurationAlipayParams `form:"alipay"`
+	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
+	AmazonPay *PaymentMethodConfigurationAmazonPayParams `form:"amazon_pay"`
 	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 	ApplePay *PaymentMethodConfigurationApplePayParams `form:"apple_pay"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
@@ -1258,6 +1291,19 @@ type PaymentMethodConfigurationAlipay struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationAlipayDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationAmazonPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationAmazonPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationAmazonPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationAmazonPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                  `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationAmazonPayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationApplePayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -1685,6 +1731,7 @@ type PaymentMethodConfiguration struct {
 	Affirm           *PaymentMethodConfigurationAffirm           `json:"affirm"`
 	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodConfigurationAlipay           `json:"alipay"`
+	AmazonPay        *PaymentMethodConfigurationAmazonPay        `json:"amazon_pay"`
 	ApplePay         *PaymentMethodConfigurationApplePay         `json:"apple_pay"`
 	// For child configs, the Connect application associated with the configuration.
 	Application     string                                     `json:"application"`

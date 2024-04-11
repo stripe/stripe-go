@@ -182,6 +182,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch st
 // List of values that SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch can take
 const (
 	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchBalances     SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "balances"
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchOwnership    SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "ownership"
 	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetchTransactions SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPrefetch = "transactions"
 )
 
@@ -308,6 +309,9 @@ type SetupIntentPaymentMethodDataAfterpayClearpayParams struct{}
 
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentPaymentMethodDataAlipayParams struct{}
+
+// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+type SetupIntentPaymentMethodDataAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 type SetupIntentPaymentMethodDataAUBECSDebitParams struct {
@@ -485,6 +489,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	AfterpayClearpay *SetupIntentPaymentMethodDataAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 	Alipay *SetupIntentPaymentMethodDataAlipayParams `form:"alipay"`
+	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	AmazonPay *SetupIntentPaymentMethodDataAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *SetupIntentPaymentMethodDataAUBECSDebitParams `form:"au_becs_debit"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
@@ -589,6 +595,9 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
+
+// If this is a `amazon_pay` SetupIntent, this sub-hash contains details about the AmazonPay payment method options.
+type SetupIntentPaymentMethodOptionsAmazonPayParams struct{}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
@@ -744,6 +753,8 @@ type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
 type SetupIntentPaymentMethodOptionsParams struct {
 	// If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	// If this is a `amazon_pay` SetupIntent, this sub-hash contains details about the AmazonPay payment method options.
+	AmazonPay *SetupIntentPaymentMethodOptionsAmazonPayParams `form:"amazon_pay"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
@@ -873,6 +884,9 @@ type SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams struct{}
 
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentConfirmPaymentMethodDataAlipayParams struct{}
+
+// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+type SetupIntentConfirmPaymentMethodDataAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 type SetupIntentConfirmPaymentMethodDataAUBECSDebitParams struct {
@@ -1050,6 +1064,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	AfterpayClearpay *SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 	Alipay *SetupIntentConfirmPaymentMethodDataAlipayParams `form:"alipay"`
+	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	AmazonPay *SetupIntentConfirmPaymentMethodDataAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *SetupIntentConfirmPaymentMethodDataAUBECSDebitParams `form:"au_becs_debit"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
@@ -1267,6 +1283,7 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	// Bank account verification method.
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
+type SetupIntentPaymentMethodOptionsAmazonPay struct{}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
@@ -1334,6 +1351,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 // Payment method-specific configuration for this SetupIntent.
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
+	AmazonPay     *SetupIntentPaymentMethodOptionsAmazonPay     `json:"amazon_pay"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	CardPresent   *SetupIntentPaymentMethodOptionsCardPresent   `json:"card_present"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
