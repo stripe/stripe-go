@@ -206,6 +206,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeAffirm           ConfirmationTokenPaymentMethodPreviewType = "affirm"
 	ConfirmationTokenPaymentMethodPreviewTypeAfterpayClearpay ConfirmationTokenPaymentMethodPreviewType = "afterpay_clearpay"
 	ConfirmationTokenPaymentMethodPreviewTypeAlipay           ConfirmationTokenPaymentMethodPreviewType = "alipay"
+	ConfirmationTokenPaymentMethodPreviewTypeAmazonPay        ConfirmationTokenPaymentMethodPreviewType = "amazon_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeAUBECSDebit      ConfirmationTokenPaymentMethodPreviewType = "au_becs_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeBACSDebit        ConfirmationTokenPaymentMethodPreviewType = "bacs_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeBancontact       ConfirmationTokenPaymentMethodPreviewType = "bancontact"
@@ -373,6 +374,7 @@ type ConfirmationTokenPaymentMethodPreviewACSSDebit struct {
 type ConfirmationTokenPaymentMethodPreviewAffirm struct{}
 type ConfirmationTokenPaymentMethodPreviewAfterpayClearpay struct{}
 type ConfirmationTokenPaymentMethodPreviewAlipay struct{}
+type ConfirmationTokenPaymentMethodPreviewAmazonPay struct{}
 type ConfirmationTokenPaymentMethodPreviewAUBECSDebit struct {
 	// Six-digit number identifying bank and branch associated with this bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -736,6 +738,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Affirm           *ConfirmationTokenPaymentMethodPreviewAffirm           `json:"affirm"`
 	AfterpayClearpay *ConfirmationTokenPaymentMethodPreviewAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *ConfirmationTokenPaymentMethodPreviewAlipay           `json:"alipay"`
+	AmazonPay        *ConfirmationTokenPaymentMethodPreviewAmazonPay        `json:"amazon_pay"`
 	AUBECSDebit      *ConfirmationTokenPaymentMethodPreviewAUBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *ConfirmationTokenPaymentMethodPreviewBACSDebit        `json:"bacs_debit"`
 	Bancontact       *ConfirmationTokenPaymentMethodPreviewBancontact       `json:"bancontact"`
