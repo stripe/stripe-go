@@ -624,6 +624,7 @@ type ChargePaymentMethodDetailsAlipay struct {
 	// Transaction ID of this particular Alipay transaction.
 	TransactionID string `json:"transaction_id"`
 }
+type ChargePaymentMethodDetailsAmazonPay struct{}
 type ChargePaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -1201,6 +1202,7 @@ type ChargePaymentMethodDetails struct {
 	Affirm             *ChargePaymentMethodDetailsAffirm             `json:"affirm"`
 	AfterpayClearpay   *ChargePaymentMethodDetailsAfterpayClearpay   `json:"afterpay_clearpay"`
 	Alipay             *ChargePaymentMethodDetailsAlipay             `json:"alipay"`
+	AmazonPay          *ChargePaymentMethodDetailsAmazonPay          `json:"amazon_pay"`
 	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
 	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
 	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`

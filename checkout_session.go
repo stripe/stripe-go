@@ -1244,6 +1244,16 @@ type CheckoutSessionPaymentMethodOptionsAlipayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the AmazonPay payment method options.
+type CheckoutSessionPaymentMethodOptionsAmazonPayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // contains details about the AU Becs Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsAUBECSDebitParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1577,6 +1587,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	AfterpayClearpay *CheckoutSessionPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// contains details about the Alipay payment method options.
 	Alipay *CheckoutSessionPaymentMethodOptionsAlipayParams `form:"alipay"`
+	// contains details about the AmazonPay payment method options.
+	AmazonPay *CheckoutSessionPaymentMethodOptionsAmazonPayParams `form:"amazon_pay"`
 	// contains details about the AU Becs Debit payment method options.
 	AUBECSDebit *CheckoutSessionPaymentMethodOptionsAUBECSDebitParams `form:"au_becs_debit"`
 	// contains details about the Bacs Debit payment method options.
@@ -2289,6 +2301,7 @@ type CheckoutSessionPaymentMethodOptionsAlipay struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsAlipaySetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsAmazonPay struct{}
 type CheckoutSessionPaymentMethodOptionsAUBECSDebit struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -2531,6 +2544,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Affirm           *CheckoutSessionPaymentMethodOptionsAffirm           `json:"affirm"`
 	AfterpayClearpay *CheckoutSessionPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *CheckoutSessionPaymentMethodOptionsAlipay           `json:"alipay"`
+	AmazonPay        *CheckoutSessionPaymentMethodOptionsAmazonPay        `json:"amazon_pay"`
 	AUBECSDebit      *CheckoutSessionPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *CheckoutSessionPaymentMethodOptionsBACSDebit        `json:"bacs_debit"`
 	Bancontact       *CheckoutSessionPaymentMethodOptionsBancontact       `json:"bancontact"`
