@@ -7,7 +7,24 @@
 package stripe
 
 // The list of features enabled in the embedded component.
-type AccountSessionComponentsAccountOnboardingFeaturesParams struct{}
+type AccountSessionComponentsAccountManagementFeaturesParams struct {
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection *bool `form:"external_account_collection"`
+}
+
+// Configuration for the account management embedded component.
+type AccountSessionComponentsAccountManagementParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsAccountManagementFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsAccountOnboardingFeaturesParams struct {
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection *bool `form:"external_account_collection"`
+}
 
 // Configuration for the account onboarding embedded component.
 type AccountSessionComponentsAccountOnboardingParams struct {
@@ -87,6 +104,20 @@ type AccountSessionComponentsIssuingCardsListParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsNotificationBannerFeaturesParams struct {
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection *bool `form:"external_account_collection"`
+}
+
+// Configuration for the notification banner embedded component.
+type AccountSessionComponentsNotificationBannerParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsNotificationBannerFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentDetailsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
@@ -146,6 +177,8 @@ type AccountSessionComponentsPayoutsParams struct {
 
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
+	// Configuration for the account management embedded component.
+	AccountManagement *AccountSessionComponentsAccountManagementParams `form:"account_management"`
 	// Configuration for the account onboarding embedded component.
 	AccountOnboarding         *AccountSessionComponentsAccountOnboardingParams         `form:"account_onboarding"`
 	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
@@ -159,6 +192,8 @@ type AccountSessionComponentsParams struct {
 	IssuingCard *AccountSessionComponentsIssuingCardParams `form:"issuing_card"`
 	// Configuration for the issuing cards list component.
 	IssuingCardsList *AccountSessionComponentsIssuingCardsListParams `form:"issuing_cards_list"`
+	// Configuration for the notification banner embedded component.
+	NotificationBanner *AccountSessionComponentsNotificationBannerParams `form:"notification_banner"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
 	// Configuration for the payments embedded component.
@@ -183,7 +218,19 @@ func (p *AccountSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-type AccountSessionComponentsAccountOnboardingFeatures struct{}
+type AccountSessionComponentsAccountManagementFeatures struct {
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection bool `json:"external_account_collection"`
+}
+type AccountSessionComponentsAccountManagement struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                               `json:"enabled"`
+	Features *AccountSessionComponentsAccountManagementFeatures `json:"features"`
+}
+type AccountSessionComponentsAccountOnboardingFeatures struct {
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection bool `json:"external_account_collection"`
+}
 type AccountSessionComponentsAccountOnboarding struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                               `json:"enabled"`
@@ -200,6 +247,15 @@ type AccountSessionComponentsDocuments struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                       `json:"enabled"`
 	Features *AccountSessionComponentsDocumentsFeatures `json:"features"`
+}
+type AccountSessionComponentsNotificationBannerFeatures struct {
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection bool `json:"external_account_collection"`
+}
+type AccountSessionComponentsNotificationBanner struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                `json:"enabled"`
+	Features *AccountSessionComponentsNotificationBannerFeatures `json:"features"`
 }
 type AccountSessionComponentsPaymentDetailsFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
@@ -245,9 +301,11 @@ type AccountSessionComponentsPayouts struct {
 	Features *AccountSessionComponentsPayoutsFeatures `json:"features"`
 }
 type AccountSessionComponents struct {
+	AccountManagement         *AccountSessionComponentsAccountManagement         `json:"account_management"`
 	AccountOnboarding         *AccountSessionComponentsAccountOnboarding         `json:"account_onboarding"`
 	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotion `json:"capital_financing_promotion"`
 	Documents                 *AccountSessionComponentsDocuments                 `json:"documents"`
+	NotificationBanner        *AccountSessionComponentsNotificationBanner        `json:"notification_banner"`
 	PaymentDetails            *AccountSessionComponentsPaymentDetails            `json:"payment_details"`
 	Payments                  *AccountSessionComponentsPayments                  `json:"payments"`
 	Payouts                   *AccountSessionComponentsPayouts                   `json:"payouts"`

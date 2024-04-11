@@ -38,6 +38,19 @@ func (c Client) New(params *stripe.EntitlementsFeatureParams) (*stripe.Entitleme
 	return feature, err
 }
 
+// Get returns the details of an entitlements feature.
+func Get(id string, params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
+	return getC().Get(id, params)
+}
+
+// Get returns the details of an entitlements feature.
+func (c Client) Get(id string, params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
+	path := stripe.FormatURLPath("/v1/entitlements/features/%s", id)
+	feature := &stripe.EntitlementsFeature{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, feature)
+	return feature, err
+}
+
 // Update updates an entitlements feature's properties.
 func Update(id string, params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	return getC().Update(id, params)

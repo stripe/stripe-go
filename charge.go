@@ -378,7 +378,7 @@ type ChargeParams struct {
 	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount         *int64 `form:"amount"`
 	ApplicationFee *int64 `form:"application_fee"`
-	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/connect/direct-charges#collecting-fees).
+	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/connect/direct-charges#collect-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://stripe.com/docs/api#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://stripe.com/docs/charges/placing-a-hold) documentation.
 	Capture *bool `form:"capture"`
@@ -397,7 +397,7 @@ type ChargeParams struct {
 	Level3       *ChargeLevel3Params       `form:"level3"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The Stripe account ID for which these funds are intended. Automatically set if you use the `destination` parameter. For details, see [Creating Separate Charges and Transfers](https://stripe.com/docs/connect/separate-charges-and-transfers#on-behalf-of).
+	// The Stripe account ID for which these funds are intended. Automatically set if you use the `destination` parameter. For details, see [Creating Separate Charges and Transfers](https://stripe.com/docs/connect/separate-charges-and-transfers#settlement-merchant).
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// Provides industry-specific information about the charge.
 	PaymentDetails *ChargePaymentDetailsParams `form:"payment_details"`
@@ -1257,6 +1257,7 @@ type ChargePaymentMethodDetailsAlipay struct {
 	// Transaction ID of this particular Alipay transaction.
 	TransactionID string `json:"transaction_id"`
 }
+type ChargePaymentMethodDetailsAmazonPay struct{}
 type ChargePaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -1864,6 +1865,7 @@ type ChargePaymentMethodDetails struct {
 	Affirm             *ChargePaymentMethodDetailsAffirm             `json:"affirm"`
 	AfterpayClearpay   *ChargePaymentMethodDetailsAfterpayClearpay   `json:"afterpay_clearpay"`
 	Alipay             *ChargePaymentMethodDetailsAlipay             `json:"alipay"`
+	AmazonPay          *ChargePaymentMethodDetailsAmazonPay          `json:"amazon_pay"`
 	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
 	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
 	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
@@ -1936,9 +1938,9 @@ type Charge struct {
 	AmountRefunded int64 `json:"amount_refunded"`
 	// ID of the Connect application that created the charge.
 	Application *Application `json:"application"`
-	// The application fee (if any) for the charge. [See the Connect documentation](https://stripe.com/docs/connect/direct-charges#collecting-fees) for details.
+	// The application fee (if any) for the charge. [See the Connect documentation](https://stripe.com/docs/connect/direct-charges#collect-fees) for details.
 	ApplicationFee *ApplicationFee `json:"application_fee"`
-	// The amount of the application fee (if any) requested for the charge. [See the Connect documentation](https://stripe.com/docs/connect/direct-charges#collecting-fees) for details.
+	// The amount of the application fee (if any) requested for the charge. [See the Connect documentation](https://stripe.com/docs/connect/direct-charges#collect-fees) for details.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// Authorization code on the charge.
 	AuthorizationCode string `json:"authorization_code"`

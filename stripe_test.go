@@ -325,7 +325,7 @@ func TestShouldRetry(t *testing.T) {
 		assert.False(t, shouldRetry)
 	})
 
-	// 500 Internal Server Error -- retry if non-POST
+	// 500 Internal Server Error -- retry
 	t.Run("RetryOn500NonPost", func(t *testing.T) {
 		shouldRetry, _ := c.shouldRetry(
 			nil,
@@ -334,17 +334,6 @@ func TestShouldRetry(t *testing.T) {
 			0,
 		)
 		assert.True(t, shouldRetry)
-	})
-
-	// 500 Internal Server Error -- don't retry POST
-	t.Run("DontRetryOn500Post", func(t *testing.T) {
-		shouldRetry, _ := c.shouldRetry(
-			nil,
-			&http.Request{Method: http.MethodPost},
-			&http.Response{StatusCode: http.StatusInternalServerError},
-			0,
-		)
-		assert.False(t, shouldRetry)
 	})
 
 	// 503 Service Unavailable

@@ -93,6 +93,46 @@ const (
 	AccountControllerDashboardTypeNone    AccountControllerDashboardType = "none"
 )
 
+// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this account.
+type AccountControllerFeesPayer string
+
+// List of values that AccountControllerFeesPayer can take
+const (
+	AccountControllerFeesPayerAccount                        AccountControllerFeesPayer = "account"
+	AccountControllerFeesPayerApplication                    AccountControllerFeesPayer = "application"
+	AccountControllerFeesPayerApplicationCustom              AccountControllerFeesPayer = "application_custom"
+	AccountControllerFeesPayerApplicationExpress             AccountControllerFeesPayer = "application_express"
+	AccountControllerFeesPayerApplicationUnifiedAccountsBeta AccountControllerFeesPayer = "application_unified_accounts_beta"
+)
+
+// A value indicating who is liable when this account can't pay back negative balances from payments.
+type AccountControllerLossesPayments string
+
+// List of values that AccountControllerLossesPayments can take
+const (
+	AccountControllerLossesPaymentsApplication AccountControllerLossesPayments = "application"
+	AccountControllerLossesPaymentsStripe      AccountControllerLossesPayments = "stripe"
+)
+
+// A value indicating responsibility for collecting requirements on this account. Only returned when the Connect application retrieving the resource controls the account.
+type AccountControllerRequirementCollection string
+
+// List of values that AccountControllerRequirementCollection can take
+const (
+	AccountControllerRequirementCollectionApplication AccountControllerRequirementCollection = "application"
+	AccountControllerRequirementCollectionStripe      AccountControllerRequirementCollection = "stripe"
+)
+
+// A value indicating the Stripe dashboard this account has access to independent of the Connect application.
+type AccountControllerStripeDashboardType string
+
+// List of values that AccountControllerStripeDashboardType can take
+const (
+	AccountControllerStripeDashboardTypeExpress AccountControllerStripeDashboardType = "express"
+	AccountControllerStripeDashboardTypeFull    AccountControllerStripeDashboardType = "full"
+	AccountControllerStripeDashboardTypeNone    AccountControllerStripeDashboardType = "none"
+)
+
 // The controller type. Can be `application`, if a Connect application controls the account, or `account`, if the account controls itself.
 type AccountControllerType string
 
@@ -152,6 +192,7 @@ type AccountType string
 const (
 	AccountTypeCustom   AccountType = "custom"
 	AccountTypeExpress  AccountType = "express"
+	AccountTypeNone     AccountType = "none"
 	AccountTypeStandard AccountType = "standard"
 )
 
@@ -1016,12 +1057,38 @@ type AccountControllerDashboardParams struct {
 	Type *string `form:"type"`
 }
 
+// A hash of configuration for who pays Stripe fees for product usage on this account.
+type AccountControllerFeesParams struct {
+	// A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`.
+	Payer *string `form:"payer"`
+}
+
+// A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
+type AccountControllerLossesParams struct {
+	// A value indicating who is liable when this account can't pay back negative balances resulting from payments. Defaults to `stripe`.
+	Payments *string `form:"payments"`
+}
+
+// A hash of configuration for Stripe-hosted dashboards.
+type AccountControllerStripeDashboardParams struct {
+	// Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no Stripe-hosted dashboard (`none`). Defaults to `full`.
+	Type *string `form:"type"`
+}
+
 // A hash of configuration describing the account controller's attributes.
 type AccountControllerParams struct {
 	// A hash of configuration describing the Connect application that controls the account.
 	Application *AccountControllerApplicationParams `form:"application"`
 	// Properties of the account's dashboard.
 	Dashboard *AccountControllerDashboardParams `form:"dashboard"`
+	// A hash of configuration for who pays Stripe fees for product usage on this account.
+	Fees *AccountControllerFeesParams `form:"fees"`
+	// A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
+	Losses *AccountControllerLossesParams `form:"losses"`
+	// A value indicating responsibility for collecting updated information when requirements on the account are due or change. Defaults to `stripe`.
+	RequirementCollection *string `form:"requirement_collection"`
+	// A hash of configuration for Stripe-hosted dashboards.
+	StripeDashboard *AccountControllerStripeDashboardParams `form:"stripe_dashboard"`
 }
 
 // With [Connect](https://stripe.com/docs/connect), you may flag accounts as suspicious.
@@ -1278,11 +1345,28 @@ type AccountControllerDashboard struct {
 	// Whether this account has access to the full Stripe dashboard (`full`), to the Express dashboard (`express`), or to no dashboard (`none`).
 	Type AccountControllerDashboardType `json:"type"`
 }
+type AccountControllerFees struct {
+	// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this account.
+	Payer AccountControllerFeesPayer `json:"payer"`
+}
+type AccountControllerLosses struct {
+	// A value indicating who is liable when this account can't pay back negative balances from payments.
+	Payments AccountControllerLossesPayments `json:"payments"`
+}
+type AccountControllerStripeDashboard struct {
+	// A value indicating the Stripe dashboard this account has access to independent of the Connect application.
+	Type AccountControllerStripeDashboardType `json:"type"`
+}
 type AccountController struct {
 	Application *AccountControllerApplication `json:"application"`
 	Dashboard   *AccountControllerDashboard   `json:"dashboard"`
+	Fees        *AccountControllerFees        `json:"fees"`
 	// `true` if the Connect application retrieving the resource controls the account and can therefore exercise [platform controls](https://stripe.com/docs/connect/platform-controls-for-standard-accounts). Otherwise, this field is null.
-	IsController bool `json:"is_controller"`
+	IsController bool                     `json:"is_controller"`
+	Losses       *AccountControllerLosses `json:"losses"`
+	// A value indicating responsibility for collecting requirements on this account. Only returned when the Connect application retrieving the resource controls the account.
+	RequirementCollection AccountControllerRequirementCollection `json:"requirement_collection"`
+	StripeDashboard       *AccountControllerStripeDashboard      `json:"stripe_dashboard"`
 	// The controller type. Can be `application`, if a Connect application controls the account, or `account`, if the account controls itself.
 	Type AccountControllerType `json:"type"`
 }
@@ -1319,7 +1403,7 @@ type AccountFutureRequirements struct {
 	EventuallyDue []string `json:"eventually_due"`
 	// Fields that weren't collected by `requirements.current_deadline`. These fields need to be collected to enable the capability on the account. New fields will never appear here; `future_requirements.past_due` will always be a subset of `requirements.past_due`.
 	PastDue []string `json:"past_due"`
-	// Fields that may become required depending on the results of verification or review. Will be an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due` or `currently_due`.
+	// Fields that might become required depending on the results of verification or review. It's an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due` or `currently_due`. Fields might appear in `eventually_due` or `currently_due` and in `pending_verification` if verification fails but another verification is still pending.
 	PendingVerification []string `json:"pending_verification"`
 }
 
@@ -1355,7 +1439,7 @@ type AccountRequirements struct {
 	EventuallyDue []string `json:"eventually_due"`
 	// Fields that weren't collected by `current_deadline`. These fields need to be collected to enable the account.
 	PastDue []string `json:"past_due"`
-	// Fields that may become required depending on the results of verification or review. Will be an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due`, `currently_due`, or `past_due`.
+	// Fields that might become required depending on the results of verification or review. It's an empty array unless an asynchronous verification is pending. If verification fails, these fields move to `eventually_due`, `currently_due`, or `past_due`. Fields might appear in `eventually_due`, `currently_due`, or `past_due` and in `pending_verification` if verification fails but another verification is still pending.
 	PendingVerification []string `json:"pending_verification"`
 }
 type AccountRiskControlsCharges struct {

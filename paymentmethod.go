@@ -146,6 +146,7 @@ const (
 	PaymentMethodTypeAffirm           PaymentMethodType = "affirm"
 	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
 	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
+	PaymentMethodTypeAmazonPay        PaymentMethodType = "amazon_pay"
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
@@ -276,6 +277,9 @@ type PaymentMethodAfterpayClearpayParams struct{}
 
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type PaymentMethodAlipayParams struct{}
+
+// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+type PaymentMethodAmazonPayParams struct{}
 
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 type PaymentMethodAUBECSDebitParams struct {
@@ -493,6 +497,8 @@ type PaymentMethodParams struct {
 	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 	Alipay *PaymentMethodAlipayParams `form:"alipay"`
+	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
@@ -645,6 +651,7 @@ type PaymentMethodACSSDebit struct {
 type PaymentMethodAffirm struct{}
 type PaymentMethodAfterpayClearpay struct{}
 type PaymentMethodAlipay struct{}
+type PaymentMethodAmazonPay struct{}
 type PaymentMethodAUBECSDebit struct {
 	// Six-digit number identifying bank and branch associated with this bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -1021,6 +1028,7 @@ type PaymentMethod struct {
 	Affirm           *PaymentMethodAffirm           `json:"affirm"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipay           `json:"alipay"`
+	AmazonPay        *PaymentMethodAmazonPay        `json:"amazon_pay"`
 	AUBECSDebit      *PaymentMethodAUBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *PaymentMethodBACSDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentMethodBancontact       `json:"bancontact"`

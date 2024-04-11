@@ -83,6 +83,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationAmazonPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationAmazonPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationAmazonPayDisplayPreferencePreferenceNone PaymentMethodConfigurationAmazonPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationAmazonPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationAmazonPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationAmazonPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationAmazonPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationAmazonPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationAmazonPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationAmazonPayDisplayPreferenceValueOff PaymentMethodConfigurationAmazonPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationAmazonPayDisplayPreferenceValueOn  PaymentMethodConfigurationAmazonPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationApplePayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationApplePayDisplayPreferencePreference can take
@@ -690,82 +709,6 @@ const (
 	PaymentMethodConfigurationZipDisplayPreferenceValueOn  PaymentMethodConfigurationZipDisplayPreferenceValue = "on"
 )
 
-// The account's display preference.
-type PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference string
-
-// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference can take
-const (
-	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceNone PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "none"
-	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOff  PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "off"
-	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOn   PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "on"
-)
-
-// The effective display preference value.
-type PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue string
-
-// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue can take
-const (
-	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOff PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "off"
-	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOn  PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "on"
-)
-
-// The account's display preference.
-type PaymentMethodConfigurationNetbankingDisplayPreferencePreference string
-
-// List of values that PaymentMethodConfigurationNetbankingDisplayPreferencePreference can take
-const (
-	PaymentMethodConfigurationNetbankingDisplayPreferencePreferenceNone PaymentMethodConfigurationNetbankingDisplayPreferencePreference = "none"
-	PaymentMethodConfigurationNetbankingDisplayPreferencePreferenceOff  PaymentMethodConfigurationNetbankingDisplayPreferencePreference = "off"
-	PaymentMethodConfigurationNetbankingDisplayPreferencePreferenceOn   PaymentMethodConfigurationNetbankingDisplayPreferencePreference = "on"
-)
-
-// The effective display preference value.
-type PaymentMethodConfigurationNetbankingDisplayPreferenceValue string
-
-// List of values that PaymentMethodConfigurationNetbankingDisplayPreferenceValue can take
-const (
-	PaymentMethodConfigurationNetbankingDisplayPreferenceValueOff PaymentMethodConfigurationNetbankingDisplayPreferenceValue = "off"
-	PaymentMethodConfigurationNetbankingDisplayPreferenceValueOn  PaymentMethodConfigurationNetbankingDisplayPreferenceValue = "on"
-)
-
-// The account's display preference.
-type PaymentMethodConfigurationPayByBankDisplayPreferencePreference string
-
-// List of values that PaymentMethodConfigurationPayByBankDisplayPreferencePreference can take
-const (
-	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceNone PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "none"
-	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceOff  PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "off"
-	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceOn   PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "on"
-)
-
-// The effective display preference value.
-type PaymentMethodConfigurationPayByBankDisplayPreferenceValue string
-
-// List of values that PaymentMethodConfigurationPayByBankDisplayPreferenceValue can take
-const (
-	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOff PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "off"
-	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOn  PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "on"
-)
-
-// The account's display preference.
-type PaymentMethodConfigurationUpiDisplayPreferencePreference string
-
-// List of values that PaymentMethodConfigurationUpiDisplayPreferencePreference can take
-const (
-	PaymentMethodConfigurationUpiDisplayPreferencePreferenceNone PaymentMethodConfigurationUpiDisplayPreferencePreference = "none"
-	PaymentMethodConfigurationUpiDisplayPreferencePreferenceOff  PaymentMethodConfigurationUpiDisplayPreferencePreference = "off"
-	PaymentMethodConfigurationUpiDisplayPreferencePreferenceOn   PaymentMethodConfigurationUpiDisplayPreferencePreference = "on"
-)
-
-// The effective display preference value.
-type PaymentMethodConfigurationUpiDisplayPreferenceValue string
-
-// List of values that PaymentMethodConfigurationUpiDisplayPreferenceValue can take
-const (
-	PaymentMethodConfigurationUpiDisplayPreferenceValueOff PaymentMethodConfigurationUpiDisplayPreferenceValue = "off"
-	PaymentMethodConfigurationUpiDisplayPreferenceValueOn  PaymentMethodConfigurationUpiDisplayPreferenceValue = "on"
-)
-
 // List payment method configurations
 type PaymentMethodConfigurationListParams struct {
 	ListParams `form:"*"`
@@ -826,6 +769,18 @@ type PaymentMethodConfigurationAlipayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationAlipayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationAlipayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationAmazonPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
+type PaymentMethodConfigurationAmazonPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationAmazonPayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1237,6 +1192,8 @@ type PaymentMethodConfigurationParams struct {
 	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// Alipay is a digital wallet in China that has more than a billion active users worldwide. Alipay users can pay on the web or on a mobile device using login credentials or their Alipay app. Alipay has a low dispute rate and reduces fraud by authenticating payments using the customer's login credentials. Check this [page](https://stripe.com/docs/payments/alipay) for more details.
 	Alipay *PaymentMethodConfigurationAlipayParams `form:"alipay"`
+	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
+	AmazonPay *PaymentMethodConfigurationAmazonPayParams `form:"amazon_pay"`
 	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 	ApplePay *PaymentMethodConfigurationApplePayParams `form:"apple_pay"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
@@ -1367,6 +1324,19 @@ type PaymentMethodConfigurationAlipay struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationAlipayDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationAmazonPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationAmazonPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationAmazonPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationAmazonPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                  `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationAmazonPayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationApplePayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -1784,58 +1754,6 @@ type PaymentMethodConfigurationZip struct {
 	Available         bool                                            `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationZipDisplayPreference `json:"display_preference"`
 }
-type PaymentMethodConfigurationIDBankTransferDisplayPreference struct {
-	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
-	Overridable bool `json:"overridable"`
-	// The account's display preference.
-	Preference PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference `json:"preference"`
-	// The effective display preference value.
-	Value PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue `json:"value"`
-}
-type PaymentMethodConfigurationIDBankTransfer struct {
-	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
-	Available         bool                                                       `json:"available"`
-	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreference `json:"display_preference"`
-}
-type PaymentMethodConfigurationNetbankingDisplayPreference struct {
-	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
-	Overridable bool `json:"overridable"`
-	// The account's display preference.
-	Preference PaymentMethodConfigurationNetbankingDisplayPreferencePreference `json:"preference"`
-	// The effective display preference value.
-	Value PaymentMethodConfigurationNetbankingDisplayPreferenceValue `json:"value"`
-}
-type PaymentMethodConfigurationNetbanking struct {
-	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
-	Available         bool                                                   `json:"available"`
-	DisplayPreference *PaymentMethodConfigurationNetbankingDisplayPreference `json:"display_preference"`
-}
-type PaymentMethodConfigurationPayByBankDisplayPreference struct {
-	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
-	Overridable bool `json:"overridable"`
-	// The account's display preference.
-	Preference PaymentMethodConfigurationPayByBankDisplayPreferencePreference `json:"preference"`
-	// The effective display preference value.
-	Value PaymentMethodConfigurationPayByBankDisplayPreferenceValue `json:"value"`
-}
-type PaymentMethodConfigurationPayByBank struct {
-	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
-	Available         bool                                                  `json:"available"`
-	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreference `json:"display_preference"`
-}
-type PaymentMethodConfigurationUpiDisplayPreference struct {
-	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
-	Overridable bool `json:"overridable"`
-	// The account's display preference.
-	Preference PaymentMethodConfigurationUpiDisplayPreferencePreference `json:"preference"`
-	// The effective display preference value.
-	Value PaymentMethodConfigurationUpiDisplayPreferenceValue `json:"value"`
-}
-type PaymentMethodConfigurationUpi struct {
-	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
-	Available         bool                                            `json:"available"`
-	DisplayPreference *PaymentMethodConfigurationUpiDisplayPreference `json:"display_preference"`
-}
 
 // PaymentMethodConfigurations control which payment methods are displayed to your customers when you don't explicitly specify payment method types. You can have multiple configurations with different sets of payment methods for different scenarios.
 //
@@ -1859,6 +1777,7 @@ type PaymentMethodConfiguration struct {
 	Affirm           *PaymentMethodConfigurationAffirm           `json:"affirm"`
 	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodConfigurationAlipay           `json:"alipay"`
+	AmazonPay        *PaymentMethodConfigurationAmazonPay        `json:"amazon_pay"`
 	ApplePay         *PaymentMethodConfigurationApplePay         `json:"apple_pay"`
 	// For child configs, the Connect application associated with the configuration.
 	Application     string                                     `json:"application"`
@@ -1877,9 +1796,8 @@ type PaymentMethodConfiguration struct {
 	GooglePay       *PaymentMethodConfigurationGooglePay       `json:"google_pay"`
 	Grabpay         *PaymentMethodConfigurationGrabpay         `json:"grabpay"`
 	// Unique identifier for the object.
-	ID             string                                    `json:"id"`
-	IDBankTransfer *PaymentMethodConfigurationIDBankTransfer `json:"id_bank_transfer"`
-	IDEAL          *PaymentMethodConfigurationIDEAL          `json:"ideal"`
+	ID    string                           `json:"id"`
+	IDEAL *PaymentMethodConfigurationIDEAL `json:"ideal"`
 	// The default configuration is used whenever a payment method configuration is not specified.
 	IsDefault bool                               `json:"is_default"`
 	JCB       *PaymentMethodConfigurationJCB     `json:"jcb"`
@@ -1890,22 +1808,19 @@ type PaymentMethodConfiguration struct {
 	Livemode   bool                                  `json:"livemode"`
 	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco"`
 	// The configuration's name.
-	Name       string                                `json:"name"`
-	Netbanking *PaymentMethodConfigurationNetbanking `json:"netbanking"`
+	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string                          `json:"object"`
 	OXXO   *PaymentMethodConfigurationOXXO `json:"oxxo"`
 	P24    *PaymentMethodConfigurationP24  `json:"p24"`
 	// For child configs, the configuration's parent configuration.
 	Parent        string                                   `json:"parent"`
-	PayByBank     *PaymentMethodConfigurationPayByBank     `json:"pay_by_bank"`
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort"`
-	Upi           *PaymentMethodConfigurationUpi           `json:"upi"`
 	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account"`
 	WeChatPay     *PaymentMethodConfigurationWeChatPay     `json:"wechat_pay"`
 	Zip           *PaymentMethodConfigurationZip           `json:"zip"`

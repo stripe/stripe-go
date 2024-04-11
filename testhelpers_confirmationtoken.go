@@ -25,6 +25,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataAfterpayClearpayParams struct{
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataAlipayParams struct{}
 
+// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataAmazonPayParams struct{}
+
 // If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 type TestHelpersConfirmationTokenPaymentMethodDataAUBECSDebitParams struct {
 	// The account number for the bank account.
@@ -216,6 +219,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	AfterpayClearpay *TestHelpersConfirmationTokenPaymentMethodDataAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 	Alipay *TestHelpersConfirmationTokenPaymentMethodDataAlipayParams `form:"alipay"`
+	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	AmazonPay *TestHelpersConfirmationTokenPaymentMethodDataAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
 	AUBECSDebit *TestHelpersConfirmationTokenPaymentMethodDataAUBECSDebitParams `form:"au_becs_debit"`
 	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.

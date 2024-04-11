@@ -20,6 +20,19 @@ type Client struct {
 	Key string
 }
 
+// Get returns the details of an entitlements active entitlement.
+func Get(id string, params *stripe.EntitlementsActiveEntitlementParams) (*stripe.EntitlementsActiveEntitlement, error) {
+	return getC().Get(id, params)
+}
+
+// Get returns the details of an entitlements active entitlement.
+func (c Client) Get(id string, params *stripe.EntitlementsActiveEntitlementParams) (*stripe.EntitlementsActiveEntitlement, error) {
+	path := stripe.FormatURLPath("/v1/entitlements/active_entitlements/%s", id)
+	activeentitlement := &stripe.EntitlementsActiveEntitlement{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, activeentitlement)
+	return activeentitlement, err
+}
+
 // List returns a list of entitlements active entitlements.
 func List(params *stripe.EntitlementsActiveEntitlementListParams) *Iter {
 	return getC().List(params)
