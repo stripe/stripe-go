@@ -15,7 +15,7 @@ const (
 	BillingMeterEventAdjustmentStatusPending  BillingMeterEventAdjustmentStatus = "pending"
 )
 
-// Specifies whether to cancel a single event or a range of events for a time period.
+// Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
 type BillingMeterEventAdjustmentType string
 
 // List of values that BillingMeterEventAdjustmentType can take
@@ -38,7 +38,7 @@ type BillingMeterEventAdjustmentParams struct {
 	EventName *string `form:"event_name"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Specifies whether to cancel a single event or a range of events for a time period.
+	// Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
 	Type *string `form:"type"`
 }
 
@@ -47,14 +47,16 @@ func (p *BillingMeterEventAdjustmentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Specifies which event to cancel.
 type BillingMeterEventAdjustmentCancel struct {
 	// Unique identifier for the event.
 	Identifier string `json:"identifier"`
 }
 
-// A billing meter event adjustment represents the status of a meter event adjustment.
+// A billing meter event adjustment is a resource that allows you to cancel a meter event. For example, you might create a billing meter event adjustment to cancel a meter event that was created in error or attached to the wrong customer.
 type BillingMeterEventAdjustment struct {
 	APIResource
+	// Specifies which event to cancel.
 	Cancel *BillingMeterEventAdjustmentCancel `json:"cancel"`
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
 	EventName string `json:"event_name"`
@@ -64,6 +66,6 @@ type BillingMeterEventAdjustment struct {
 	Object string `json:"object"`
 	// The meter event adjustment's status.
 	Status BillingMeterEventAdjustmentStatus `json:"status"`
-	// Specifies whether to cancel a single event or a range of events for a time period.
+	// Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
 	Type BillingMeterEventAdjustmentType `json:"type"`
 }
