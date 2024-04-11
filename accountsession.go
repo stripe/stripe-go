@@ -7,7 +7,10 @@
 package stripe
 
 // The list of features enabled in the embedded component.
-type AccountSessionComponentsAccountOnboardingFeaturesParams struct{}
+type AccountSessionComponentsAccountOnboardingFeaturesParams struct {
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection *bool `form:"external_account_collection"`
+}
 
 // Configuration for the account onboarding embedded component.
 type AccountSessionComponentsAccountOnboardingParams struct {
@@ -183,7 +186,10 @@ func (p *AccountSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-type AccountSessionComponentsAccountOnboardingFeatures struct{}
+type AccountSessionComponentsAccountOnboardingFeatures struct {
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection bool `json:"external_account_collection"`
+}
 type AccountSessionComponentsAccountOnboarding struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                               `json:"enabled"`
