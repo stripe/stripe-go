@@ -4,7 +4,7 @@ package preview
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v76"
+	stripe "github.com/stripe/stripe-go/v78"
 )
 
 func getDefaultRequestOptions(params *stripe.RawParams) *stripe.RawParams {

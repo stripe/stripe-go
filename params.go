@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/stripe/stripe-go/v76/form"
+	"github.com/stripe/stripe-go/v78/form"
 )
 
 //

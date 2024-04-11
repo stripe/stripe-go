@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/stripe/stripe-go/v76/webhook"
+	"github.com/stripe/stripe-go/v78/webhook"
 )
 
 func Example() {

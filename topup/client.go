@@ -10,8 +10,8 @@ package topup
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v76"
-	"github.com/stripe/stripe-go/v76/form"
+	stripe "github.com/stripe/stripe-go/v78"
+	"github.com/stripe/stripe-go/v78/form"
 )
 
 // Client is used to invoke /topups APIs.

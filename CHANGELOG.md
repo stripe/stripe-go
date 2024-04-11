@@ -1,5 +1,14 @@
 # Changelog
 
+## 78.2.0-beta.1 - 2024-04-11
+* [#1843](https://github.com/stripe/stripe-go/pull/1843) Update generated code for beta
+  * Add support for `Get` method on resources `Entitlements.ActiveEntitlement` and `Entitlements.Feature`
+  * Add support for `Fees`, `Losses`, `RequirementCollection`, and `StripeDashboard` on `AccountControllerParams`
+  * Add support for new values `bh_vat`, `kz_bin`, `ng_tin`, and `om_vat` on enum `OrderTaxDetailsTaxIdsType`
+  * Add support for `HostedVoucherURL` on `PaymentIntentNextActionMultibancoDisplayDetails`
+  * Add support for `Toggles` on `TerminalReaderActionCollectInputsInputs` and `TerminalReaderCollectInputsInputsParams`
+  * Add support for `Email`, `Numeric`, `Phone`, and `Text` on `TerminalReaderActionCollectInputsInputs`
+
 ## 78.1.0 - 2024-04-11
 * [#1846](https://github.com/stripe/stripe-go/pull/1846) Update generated code
   * Add support for `AccountManagement` and `NotificationBanner` on `AccountSessionComponentsParams` and `AccountSessionComponents`
