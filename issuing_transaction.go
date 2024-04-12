@@ -27,6 +27,7 @@ type IssuingTransactionPurchaseDetailsFuelUnit string
 const (
 	IssuingTransactionPurchaseDetailsFuelUnitLiter    IssuingTransactionPurchaseDetailsFuelUnit = "liter"
 	IssuingTransactionPurchaseDetailsFuelUnitUSGallon IssuingTransactionPurchaseDetailsFuelUnit = "us_gallon"
+	IssuingTransactionPurchaseDetailsFuelUnitOther    IssuingTransactionPurchaseDetailsFuelUnit = "other"
 )
 
 // The nature of the transaction.
