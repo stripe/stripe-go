@@ -54,8 +54,6 @@ type AccountSessionComponentsDocumentsParams struct {
 	Features *AccountSessionComponentsDocumentsFeaturesParams `form:"features"`
 }
 type AccountSessionComponentsFinancialAccountFeaturesParams struct {
-	// Whether to allow external accounts to be linked for money transfer.
-	ExternalAccountCollection *bool `form:"external_account_collection"`
 	// Whether to allow money movement features.
 	MoneyMovement *bool `form:"money_movement"`
 }
