@@ -17,7 +17,7 @@ type BillingMeterEventParams struct {
 	Identifier *string `form:"identifier"`
 	// The payload of the event. This must contain a field with the event's numerical value and a field to map the event to a customer.
 	Payload map[string]string `form:"payload"`
-	// The time of the event. Measured in seconds since the Unix epoch.
+	// The time of the event. Measured in seconds since the Unix epoch. Defaults to current timestamp if not specified.
 	Timestamp *int64 `form:"timestamp"`
 }
 
