@@ -84,6 +84,7 @@ const (
 	EventTypeCustomerTaxIDUpdated                               EventType = "customer.tax_id.updated"
 	EventTypeCustomerUpdated                                    EventType = "customer.updated"
 	EventTypeCustomerCashBalanceTransactionCreated              EventType = "customer_cash_balance_transaction.created"
+	EventTypeEntitlementsActiveEntitlementSummaryUpdated        EventType = "entitlements.active_entitlement_summary.updated"
 	EventTypeFileCreated                                        EventType = "file.created"
 	EventTypeFinancialConnectionsAccountCreated                 EventType = "financial_connections.account.created"
 	EventTypeFinancialConnectionsAccountDeactivated             EventType = "financial_connections.account.deactivated"
