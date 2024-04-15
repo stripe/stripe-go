@@ -58,8 +58,6 @@ type ForwardingRequestRequestParams struct {
 // Creates a ForwardingRequest object.
 type ForwardingRequestParams struct {
 	Params `form:"*"`
-	// The Forwarding Config used when making the forwarded request. The config specifes the HTTP method, merchant credentials, connection settings, and supported destination URLs.
-	Config *string `form:"config"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The PaymentMethod to insert into the forwarded request. Forwarding previously consumed PaymentMethods is allowed.
@@ -121,9 +119,9 @@ type ForwardingRequestResponseDetails struct {
 	Status int64 `json:"status"`
 }
 
-// Instructs Stripe to make a request on your behalf using the destination URL and HTTP method in the config.
-// A config is set up for each destination URL by Stripe at the time of onboarding. Stripe verifies requests with
-// your credentials in the config, and injects card details from the payment_method into the request.
+// Instructs Stripe to make a request on your behalf using the destination URL. The destination URL
+// is activated by Stripe at the time of onboarding. Stripe verifies requests with your credentials
+// provided during onboarding, and injects card details from the payment_method into the request.
 //
 // Stripe redacts all sensitive fields and headers, including authentication credentials and card numbers,
 // before storing the request and response data in the forwarding Request object, which are subject to a
@@ -139,8 +137,6 @@ type ForwardingRequestResponseDetails struct {
 // Related guide: [Forward card details to third-party API endpoints](https://docs.stripe.com/payments/forwarding).
 type ForwardingRequest struct {
 	APIResource
-	// The Forwarding Config used when making the forwarded request. The config specifes the HTTP method, merchant credentials, connection settings, and supported destination URLs.
-	Config string `json:"config"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Unique identifier for the object.
