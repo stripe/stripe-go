@@ -388,8 +388,6 @@ type DisputeEvidenceDetails struct {
 	// The number of times evidence has been submitted. Typically, you may only submit evidence once.
 	SubmissionCount int64 `json:"submission_count"`
 }
-
-// Card specific dispute details.
 type DisputePaymentMethodDetailsCard struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
@@ -397,7 +395,6 @@ type DisputePaymentMethodDetailsCard struct {
 	NetworkReasonCode string `json:"network_reason_code"`
 }
 type DisputePaymentMethodDetails struct {
-	// Card specific dispute details.
 	Card *DisputePaymentMethodDetailsCard `json:"card"`
 	// Payment method type.
 	Type DisputePaymentMethodDetailsType `json:"type"`
