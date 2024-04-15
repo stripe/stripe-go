@@ -653,6 +653,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationSwishDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationSwishDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationSwishDisplayPreferencePreferenceNone PaymentMethodConfigurationSwishDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationSwishDisplayPreferencePreferenceOff  PaymentMethodConfigurationSwishDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationSwishDisplayPreferencePreferenceOn   PaymentMethodConfigurationSwishDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationSwishDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationSwishDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationSwishDisplayPreferenceValueOff PaymentMethodConfigurationSwishDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationSwishDisplayPreferenceValueOn  PaymentMethodConfigurationSwishDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationUSBankAccountDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationUSBankAccountDisplayPreferencePreference can take
@@ -1144,6 +1163,18 @@ type PaymentMethodConfigurationSofortParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationSwishDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Swish is a [real-time](https://stripe.com/docs/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://stripe.com/docs/payments/swish) for more details.
+type PaymentMethodConfigurationSwishParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationSwishDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUSBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1260,6 +1291,8 @@ type PaymentMethodConfigurationParams struct {
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://stripe.com/docs/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationSofortParams `form:"sofort"`
+	// Swish is a [real-time](https://stripe.com/docs/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://stripe.com/docs/payments/swish) for more details.
+	Swish *PaymentMethodConfigurationSwishParams `form:"swish"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://stripe.com/docs/payments/ach-debit) for more details.
 	USBankAccount *PaymentMethodConfigurationUSBankAccountParams `form:"us_bank_account"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://stripe.com/docs/payments/wechat-pay) for more details.
@@ -1715,6 +1748,19 @@ type PaymentMethodConfigurationSofort struct {
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationSofortDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationSwishDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationSwishDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationSwishDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationSwish struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationSwishDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationUSBankAccountDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1821,6 +1867,7 @@ type PaymentMethodConfiguration struct {
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort"`
+	Swish         *PaymentMethodConfigurationSwish         `json:"swish"`
 	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account"`
 	WeChatPay     *PaymentMethodConfigurationWeChatPay     `json:"wechat_pay"`
 	Zip           *PaymentMethodConfigurationZip           `json:"zip"`
