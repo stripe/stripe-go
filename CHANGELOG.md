@@ -1,5 +1,14 @@
 # Changelog
 
+## 78.2.0 - 2024-04-16
+* [#1847](https://github.com/stripe/stripe-go/pull/1847) Update generated code
+  * Add support for new resource `Entitlements.ActiveEntitlementSummary`
+  * Add support for `Balances` and `PayoutsList` on `AccountSessionComponentsParams` and `AccountSessionComponents`
+  * Add support for new value `entitlements.active_entitlement_summary.updated` on enum `EventType`
+  * Remove support for `Config` on `ForwardingRequestParams` and `ForwardingRequest`. This field is no longer used by the Forwarding Request API.
+  * Add support for `CaptureMethod` on `PaymentIntentConfirmPaymentMethodOptionsRevolutPayParams`, `PaymentIntentPaymentMethodOptionsRevolutPayParams`, and `PaymentIntentPaymentMethodOptionsRevolutPay`
+  * Add support for `Swish` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+
 ## 78.1.0 - 2024-04-11
 * [#1846](https://github.com/stripe/stripe-go/pull/1846) Update generated code
   * Add support for `AccountManagement` and `NotificationBanner` on `AccountSessionComponentsParams` and `AccountSessionComponents`
