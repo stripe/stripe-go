@@ -35,6 +35,24 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsBalancesFeaturesParams struct {
+	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
+	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	InstantPayouts *bool `form:"instant_payouts"`
+	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	StandardPayouts *bool `form:"standard_payouts"`
+}
+
+// Configuration for the balances embedded component.
+type AccountSessionComponentsBalancesParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsBalancesFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsDocumentsFeaturesParams struct{}
 
 // Configuration for the documents embedded component.
@@ -117,12 +135,25 @@ type AccountSessionComponentsPayoutsParams struct {
 	Features *AccountSessionComponentsPayoutsFeaturesParams `form:"features"`
 }
 
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsPayoutsListFeaturesParams struct{}
+
+// Configuration for the payouts list embedded component.
+type AccountSessionComponentsPayoutsListParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPayoutsListFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the account management embedded component.
 	AccountManagement *AccountSessionComponentsAccountManagementParams `form:"account_management"`
 	// Configuration for the account onboarding embedded component.
 	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
+	// Configuration for the balances embedded component.
+	Balances *AccountSessionComponentsBalancesParams `form:"balances"`
 	// Configuration for the documents embedded component.
 	Documents *AccountSessionComponentsDocumentsParams `form:"documents"`
 	// Configuration for the notification banner embedded component.
@@ -133,6 +164,8 @@ type AccountSessionComponentsParams struct {
 	Payments *AccountSessionComponentsPaymentsParams `form:"payments"`
 	// Configuration for the payouts embedded component.
 	Payouts *AccountSessionComponentsPayoutsParams `form:"payouts"`
+	// Configuration for the payouts list embedded component.
+	PayoutsList *AccountSessionComponentsPayoutsListParams `form:"payouts_list"`
 }
 
 // Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
@@ -168,6 +201,19 @@ type AccountSessionComponentsAccountOnboarding struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                               `json:"enabled"`
 	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
+}
+type AccountSessionComponentsBalancesFeatures struct {
+	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	EditPayoutSchedule bool `json:"edit_payout_schedule"`
+	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	InstantPayouts bool `json:"instant_payouts"`
+	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	StandardPayouts bool `json:"standard_payouts"`
+}
+type AccountSessionComponentsBalances struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                      `json:"enabled"`
+	Features *AccountSessionComponentsBalancesFeatures `json:"features"`
 }
 type AccountSessionComponentsDocumentsFeatures struct{}
 type AccountSessionComponentsDocuments struct {
@@ -227,14 +273,22 @@ type AccountSessionComponentsPayouts struct {
 	Enabled  bool                                     `json:"enabled"`
 	Features *AccountSessionComponentsPayoutsFeatures `json:"features"`
 }
+type AccountSessionComponentsPayoutsListFeatures struct{}
+type AccountSessionComponentsPayoutsList struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                         `json:"enabled"`
+	Features *AccountSessionComponentsPayoutsListFeatures `json:"features"`
+}
 type AccountSessionComponents struct {
 	AccountManagement  *AccountSessionComponentsAccountManagement  `json:"account_management"`
 	AccountOnboarding  *AccountSessionComponentsAccountOnboarding  `json:"account_onboarding"`
+	Balances           *AccountSessionComponentsBalances           `json:"balances"`
 	Documents          *AccountSessionComponentsDocuments          `json:"documents"`
 	NotificationBanner *AccountSessionComponentsNotificationBanner `json:"notification_banner"`
 	PaymentDetails     *AccountSessionComponentsPaymentDetails     `json:"payment_details"`
 	Payments           *AccountSessionComponentsPayments           `json:"payments"`
 	Payouts            *AccountSessionComponentsPayouts            `json:"payouts"`
+	PayoutsList        *AccountSessionComponentsPayoutsList        `json:"payouts_list"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.
