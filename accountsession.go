@@ -62,6 +62,17 @@ type AccountSessionComponentsCapitalFinancingPromotionParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsCapitalOverviewFeaturesParams struct{}
+
+// Configuration for the capital overview embedded component.
+type AccountSessionComponentsCapitalOverviewParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsCapitalOverviewFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsDocumentsFeaturesParams struct{}
 
 // Configuration for the documents embedded component.
@@ -237,6 +248,8 @@ type AccountSessionComponentsParams struct {
 	// Configuration for the balances embedded component.
 	Balances                  *AccountSessionComponentsBalancesParams                  `form:"balances"`
 	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
+	// Configuration for the capital overview embedded component.
+	CapitalOverview *AccountSessionComponentsCapitalOverviewParams `form:"capital_overview"`
 	// Configuration for the documents embedded component.
 	Documents *AccountSessionComponentsDocumentsParams `form:"documents"`
 	// Configuration for the financial account component.
