@@ -1,5 +1,11 @@
 # Changelog
 
+## 78.4.0-beta.1 - 2024-04-18
+* [#1848](https://github.com/stripe/stripe-go/pull/1848) Update generated code for beta
+  * Add support for `CapitalOverview`, `TaxRegistrations`, and `TaxSettings` on `AccountSessionComponentsParams`
+  * Add support for `ExternalAccountCollection` on `AccountSessionComponentsFinancialAccountFeaturesParams`
+  * Add support for `SubscriptionTrialFromPlan` on `InvoiceUpcomingLinesParams` and `InvoiceUpcomingParams`
+
 ## 78.2.0 - 2024-04-16
 * [#1847](https://github.com/stripe/stripe-go/pull/1847) Update generated code
   * Add support for new resource `Entitlements.ActiveEntitlementSummary`
