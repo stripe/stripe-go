@@ -557,6 +557,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	AfterpayClearpay *SetupIntentPaymentMethodDataAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 	Alipay *SetupIntentPaymentMethodDataAlipayParams `form:"alipay"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
+	AllowRedisplay *string `form:"allow_redisplay"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentPaymentMethodDataAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -1191,6 +1193,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	AfterpayClearpay *SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 	Alipay *SetupIntentConfirmPaymentMethodDataAlipayParams `form:"alipay"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
+	AllowRedisplay *string `form:"allow_redisplay"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentConfirmPaymentMethodDataAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -1528,13 +1532,13 @@ type SetupIntentPaymentMethodOptions struct {
 //
 // Create a SetupIntent when you're ready to collect your customer's payment credentials.
 // Don't maintain long-lived, unconfirmed SetupIntents because they might not be valid.
-// The SetupIntent transitions through multiple [statuses](https://stripe.com/docs/payments/intents#intent-statuses) as it guides
+// The SetupIntent transitions through multiple [statuses](https://docs.stripe.com/payments/intents#intent-statuses) as it guides
 // you through the setup process.
 //
 // Successful SetupIntents result in payment credentials that are optimized for future payments.
 // For example, cardholders in [certain regions](https://stripe.com/guides/strong-customer-authentication) might need to be run through
-// [Strong Customer Authentication](https://stripe.com/docs/strong-customer-authentication) during payment method collection
-// to streamline later [off-session payments](https://stripe.com/docs/payments/setup-intents).
+// [Strong Customer Authentication](https://docs.stripe.com/strong-customer-authentication) during payment method collection
+// to streamline later [off-session payments](https://docs.stripe.com/payments/setup-intents).
 // If you use the SetupIntent with a [Customer](https://stripe.com/docs/api#setup_intent_object-customer),
 // it automatically attaches the resulting payment method to that Customer after successful setup.
 // We recommend using SetupIntents or [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) on
@@ -1542,7 +1546,7 @@ type SetupIntentPaymentMethodOptions struct {
 //
 // By using SetupIntents, you can reduce friction for your customers, even as regulations change over time.
 //
-// Related guide: [Setup Intents API](https://stripe.com/docs/payments/setup-intents)
+// Related guide: [Setup Intents API](https://docs.stripe.com/payments/setup-intents)
 type SetupIntent struct {
 	APIResource
 	// ID of the Connect application that created the SetupIntent.

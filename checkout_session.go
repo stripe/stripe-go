@@ -555,6 +555,18 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsMobilepaySetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsMobilepaySetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsMobilepaySetupFutureUsageNone CheckoutSessionPaymentMethodOptionsMobilepaySetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 type CheckoutSessionPaymentMethodOptionsOXXOSetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsOXXOSetupFutureUsage can take
@@ -706,6 +718,25 @@ const (
 	CheckoutSessionRedirectOnCompletionAlways     CheckoutSessionRedirectOnCompletion = "always"
 	CheckoutSessionRedirectOnCompletionIfRequired CheckoutSessionRedirectOnCompletion = "if_required"
 	CheckoutSessionRedirectOnCompletionNever      CheckoutSessionRedirectOnCompletion = "never"
+)
+
+// Controls which payment methods are eligible to be redisplayed to returning customers. Corresponds to `allow_redisplay` on the payment method.
+type CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter string
+
+// List of values that CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter can take
+const (
+	CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilterAlways      CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter = "always"
+	CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilterLimited     CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter = "limited"
+	CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilterUnspecified CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter = "unspecified"
+)
+
+// Enable customers to choose if they wish to save their payment method for future use.
+type CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave string
+
+// List of values that CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave can take
+const (
+	CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSaveDisabled CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave = "disabled"
+	CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSaveEnabled  CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave = "enabled"
 )
 
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
@@ -1192,6 +1223,12 @@ func (p *CheckoutSessionPaymentIntentDataParams) AddMetadata(key string, value s
 	p.Metadata[key] = value
 }
 
+// This parameter allows you to set some attributes on the payment method created during a Checkout session.
+type CheckoutSessionPaymentMethodDataParams struct {
+	// Allow redisplay will be set on the payment method on confirmation and indicates whether this payment method can be shown again to the customer in a checkout flow. Only set this field if you wish to override the allow_redisplay value determined by Checkout.
+	AllowRedisplay *string `form:"allow_redisplay"`
+}
+
 // Additional fields for Mandate creation
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// A URL for custom mandate text to render during confirmation step.
@@ -1455,6 +1492,16 @@ type CheckoutSessionPaymentMethodOptionsLinkParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// contains details about the Mobilepay payment method options.
+type CheckoutSessionPaymentMethodOptionsMobilepayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // contains details about the OXXO payment method options.
 type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
 	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
@@ -1633,6 +1680,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Konbini *CheckoutSessionPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// contains details about the Link payment method options.
 	Link *CheckoutSessionPaymentMethodOptionsLinkParams `form:"link"`
+	// contains details about the Mobilepay payment method options.
+	Mobilepay *CheckoutSessionPaymentMethodOptionsMobilepayParams `form:"mobilepay"`
 	// contains details about the OXXO payment method options.
 	OXXO *CheckoutSessionPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// contains details about the P24 payment method options.
@@ -1664,6 +1713,14 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 type CheckoutSessionPhoneNumberCollectionParams struct {
 	// Set to `true` to enable phone number collection.
 	Enabled *bool `form:"enabled"`
+}
+
+// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
+type CheckoutSessionSavedPaymentMethodOptionsParams struct {
+	// Controls which payment methods are eligible to be redisplayed to returning customers. Corresponds to `allow_redisplay` on the payment method.
+	AllowRedisplayFilters []*string `form:"allow_redisplay_filters"`
+	// Enable customers to choose if they wish to save their payment method for future use.
+	PaymentMethodSave *string `form:"payment_method_save"`
 }
 
 // A subset of parameters to be passed to SetupIntent creation for Checkout Sessions in `setup` mode.
@@ -1939,6 +1996,8 @@ type CheckoutSessionParams struct {
 	PaymentMethodCollection *string `form:"payment_method_collection"`
 	// The ID of the payment method configuration to use with this Checkout session.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
+	// This parameter allows you to set some attributes on the payment method created during a Checkout session.
+	PaymentMethodData *CheckoutSessionPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptionsParams `form:"payment_method_options"`
 	// A list of the types of payment methods (e.g., `card`) this Checkout Session can accept.
@@ -1964,6 +2023,8 @@ type CheckoutSessionParams struct {
 	// payment method's app or site. This parameter is required if ui_mode is `embedded`
 	// and redirect-based payment methods are enabled on the session.
 	ReturnURL *string `form:"return_url"`
+	// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
+	SavedPaymentMethodOptions *CheckoutSessionSavedPaymentMethodOptionsParams `form:"saved_payment_method_options"`
 	// A subset of parameters to be passed to SetupIntent creation for Checkout Sessions in `setup` mode.
 	SetupIntentData *CheckoutSessionSetupIntentDataParams `form:"setup_intent_data"`
 	// When set, provides configuration for Checkout to collect a shipping address from a customer.
@@ -2467,6 +2528,14 @@ type CheckoutSessionPaymentMethodOptionsLink struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsLinkSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsMobilepay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsMobilepaySetupFutureUsage `json:"setup_future_usage"`
+}
 type CheckoutSessionPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -2581,6 +2650,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Klarna           *CheckoutSessionPaymentMethodOptionsKlarna           `json:"klarna"`
 	Konbini          *CheckoutSessionPaymentMethodOptionsKonbini          `json:"konbini"`
 	Link             *CheckoutSessionPaymentMethodOptionsLink             `json:"link"`
+	Mobilepay        *CheckoutSessionPaymentMethodOptionsMobilepay        `json:"mobilepay"`
 	OXXO             *CheckoutSessionPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *CheckoutSessionPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *CheckoutSessionPaymentMethodOptionsPayNow           `json:"paynow"`
@@ -2595,6 +2665,14 @@ type CheckoutSessionPaymentMethodOptions struct {
 type CheckoutSessionPhoneNumberCollection struct {
 	// Indicates whether phone number collection is enabled for the session
 	Enabled bool `json:"enabled"`
+}
+
+// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
+type CheckoutSessionSavedPaymentMethodOptions struct {
+	// Controls which payment methods are eligible to be redisplayed to returning customers. Corresponds to `allow_redisplay` on the payment method.
+	AllowRedisplayFilters []CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter `json:"allow_redisplay_filters"`
+	// Enable customers to choose if they wish to save their payment method for future use.
+	PaymentMethodSave CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave `json:"payment_method_save"`
 }
 
 // When set, provides configuration for Checkout to collect a shipping address from a customer.
@@ -2793,6 +2871,8 @@ type CheckoutSession struct {
 	RedirectOnCompletion CheckoutSessionRedirectOnCompletion `json:"redirect_on_completion"`
 	// Applies to Checkout Sessions with `ui_mode: embedded`. The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
 	ReturnURL string `json:"return_url"`
+	// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
+	SavedPaymentMethodOptions *CheckoutSessionSavedPaymentMethodOptions `json:"saved_payment_method_options"`
 	// The ID of the SetupIntent for Checkout Sessions in `setup` mode.
 	SetupIntent *SetupIntent `json:"setup_intent"`
 	// When set, provides configuration for Checkout to collect a shipping address from a customer.

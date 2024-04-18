@@ -12,11 +12,11 @@ type BillingMeterEventSummaryListParams struct {
 	ID         *string `form:"-"` // Included in URL
 	// The customer for which to fetch event summaries.
 	Customer *string `form:"customer"`
-	// The timestamp from when to stop aggregating usage events (exclusive).
+	// The timestamp from when to stop aggregating meter events (exclusive).
 	EndTime *int64 `form:"end_time"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The timestamp from when to start aggregating usage events (inclusive).
+	// The timestamp from when to start aggregating meter events (inclusive).
 	StartTime *int64 `form:"start_time"`
 	// Specifies what granularity to use when generating event summaries. If not specified, a single event summary would be returned for the specified time range.
 	ValueGroupingWindow *string `form:"value_grouping_window"`
@@ -30,19 +30,19 @@ func (p *BillingMeterEventSummaryListParams) AddExpand(f string) {
 // A billing meter event summary represents an aggregated view of a customer's billing meter events within a specified timeframe. It indicates how much
 // usage was accrued by a customer for that period.
 type BillingMeterEventSummary struct {
-	// Aggregated value of all the events within start_time (inclusive) and end_time (inclusive). The aggregation strategy is defined on meter via `default_aggregation``.
+	// Aggregated value of all the events within `start_time` (inclusive) and `end_time` (inclusive). The aggregation strategy is defined on meter via `default_aggregation`.
 	AggregatedValue float64 `json:"aggregated_value"`
-	// End timestamp for this usage summary (inclusive).
+	// End timestamp for this event summary (inclusive).
 	EndTime int64 `json:"end_time"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
-	// The meter associated with this usage summary.
+	// The meter associated with this event summary.
 	Meter string `json:"meter"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Start timestamp for this usage summary (inclusive).
+	// Start timestamp for this event summary (inclusive).
 	StartTime int64 `json:"start_time"`
 }
 

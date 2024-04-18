@@ -20,13 +20,14 @@ const (
 	IssuingTransactionPurchaseDetailsFuelTypeUnleadedSuper   IssuingTransactionPurchaseDetailsFuelType = "unleaded_super"
 )
 
-// The units for `volume_decimal`. One of `us_gallon` or `liter`.
+// The units for `volume_decimal`. One of `liter`, `us_gallon`, or `other`.
 type IssuingTransactionPurchaseDetailsFuelUnit string
 
 // List of values that IssuingTransactionPurchaseDetailsFuelUnit can take
 const (
 	IssuingTransactionPurchaseDetailsFuelUnitLiter    IssuingTransactionPurchaseDetailsFuelUnit = "liter"
 	IssuingTransactionPurchaseDetailsFuelUnitUSGallon IssuingTransactionPurchaseDetailsFuelUnit = "us_gallon"
+	IssuingTransactionPurchaseDetailsFuelUnitOther    IssuingTransactionPurchaseDetailsFuelUnit = "other"
 )
 
 // The nature of the transaction.
@@ -145,7 +146,7 @@ type IssuingTransactionPurchaseDetailsFlight struct {
 type IssuingTransactionPurchaseDetailsFuel struct {
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 	Type IssuingTransactionPurchaseDetailsFuelType `json:"type"`
-	// The units for `volume_decimal`. One of `us_gallon` or `liter`.
+	// The units for `volume_decimal`. One of `liter`, `us_gallon`, or `other`.
 	Unit IssuingTransactionPurchaseDetailsFuelUnit `json:"unit"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
 	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
