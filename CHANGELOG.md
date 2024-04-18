@@ -1,5 +1,14 @@
 # Changelog
 
+## 78.3.0 - 2024-04-18
+* [#1849](https://github.com/stripe/stripe-go/pull/1849) Update generated code
+  * Add support for `CreatePreview` method on resource `Invoice`
+  * Add support for `PaymentMethodData` on `CheckoutSessionParams`
+  * Add support for `SavedPaymentMethodOptions` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Mobilepay` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for `AllowRedisplay` on `ConfirmationTokenPaymentMethodDataParams`, `CustomerListPaymentMethodsParams`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentMethodParams`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `ScheduleDetails` and `SubscriptionDetails` on `InvoiceUpcomingLinesParams` and `InvoiceUpcomingParams`
+
 ## 78.2.0 - 2024-04-16
 * [#1847](https://github.com/stripe/stripe-go/pull/1847) Update generated code
   * Add support for new resource `Entitlements.ActiveEntitlementSummary`
