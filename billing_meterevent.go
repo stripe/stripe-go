@@ -17,7 +17,7 @@ type BillingMeterEventParams struct {
 	Identifier *string `form:"identifier"`
 	// The payload of the event. This must contain the fields corresponding to a meter's `customer_mapping.event_payload_key` (default is `stripe_customer_id`) and `value_settings.event_payload_key` (default is `value`). Read more about the [payload](https://docs.stripe.com/billing/subscriptions/usage-based/recording-usage#payload-key-overrides).
 	Payload map[string]string `form:"payload"`
-	// The time of the event. Measured in seconds since the Unix epoch. Defaults to current timestamp if not specified.
+	// The time of the event. Measured in seconds since the Unix epoch. Must be within the past 35 calendar days or up to 5 minutes in the future. Defaults to current timestamp if not specified.
 	Timestamp *int64 `form:"timestamp"`
 }
 
