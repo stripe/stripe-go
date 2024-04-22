@@ -169,6 +169,17 @@ type AccountSessionComponentsPaymentDetailsParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsPaymentMethodSettingsFeaturesParams struct{}
+
+// Configuration for the payment method settings embedded component.
+type AccountSessionComponentsPaymentMethodSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPaymentMethodSettingsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
@@ -264,6 +275,8 @@ type AccountSessionComponentsParams struct {
 	NotificationBanner *AccountSessionComponentsNotificationBannerParams `form:"notification_banner"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
+	// Configuration for the payment method settings embedded component.
+	PaymentMethodSettings *AccountSessionComponentsPaymentMethodSettingsParams `form:"payment_method_settings"`
 	// Configuration for the payments embedded component.
 	Payments *AccountSessionComponentsPaymentsParams `form:"payments"`
 	// Configuration for the payouts embedded component.
