@@ -114,26 +114,10 @@ type IdentityVerificationSessionOptionsDocumentParams struct {
 	RequireMatchingSelfie *bool `form:"require_matching_selfie"`
 }
 
-// Options that apply to the email check.
-type IdentityVerificationSessionOptionsEmailParams struct {
-	// Request one time password verification of `provided_details.email`.
-	RequireVerification *bool `form:"require_verification"`
-}
-
-// Options that apply to the phone check.
-type IdentityVerificationSessionOptionsPhoneParams struct {
-	// Request one time password verification of `provided_details.phone`.
-	RequireVerification *bool `form:"require_verification"`
-}
-
 // A set of options for the session's verification checks.
 type IdentityVerificationSessionOptionsParams struct {
 	// Options that apply to the [document check](https://stripe.com/docs/identity/verification-checks?type=document).
 	Document *IdentityVerificationSessionOptionsDocumentParams `form:"document"`
-	// Options that apply to the email check.
-	Email *IdentityVerificationSessionOptionsEmailParams `form:"email"`
-	// Options that apply to the phone check.
-	Phone *IdentityVerificationSessionOptionsPhoneParams `form:"phone"`
 }
 
 // Details provided about the user being verified. These details may be shown to the user.
@@ -165,9 +149,9 @@ type IdentityVerificationSessionParams struct {
 	ProvidedDetails *IdentityVerificationSessionProvidedDetailsParams `form:"provided_details"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
-	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed.
+	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
 	Type *string `form:"type"`
-	// The ID of a Verification Flow from the Dashboard.
+	// The ID of a Verification Flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows.
 	VerificationFlow *string `form:"verification_flow"`
 }
 
