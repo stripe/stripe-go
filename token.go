@@ -85,18 +85,19 @@ type TokenPIIParams struct {
 //
 // You can't store or use tokens more than once. To store card or bank account
 // information for later use, create [Customer](https://stripe.com/docs/api#customers)
-// objects or [Custom accounts](https://stripe.com/docs/api#external_accounts).
+// objects or [External accounts](https://stripe.com/api#external_accounts).
 // [Radar](https://stripe.com/docs/radar), our integrated solution for automatic fraud protection,
 // performs best with integrations that use client-side tokenization.
 type Token struct {
 	APIResource
 	// These bank accounts are payment methods on `Customer` objects.
 	//
-	// On the other hand [External Accounts](https://stripe.com/docs/api#external_accounts) are transfer
-	// destinations on `Account` objects for [Custom accounts](https://stripe.com/docs/connect/custom-accounts).
+	// On the other hand [External Accounts](https://stripe.com/api#external_accounts) are transfer
+	// destinations on `Account` objects for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
+	// is `application`, which includes [Custom accounts](https://stripe.com/connect/custom-accounts).
 	// They can be bank accounts or debit cards as well, and are documented in the links above.
 	//
-	// Related guide: [Bank debits and transfers](https://stripe.com/docs/payments/bank-debits-transfers)
+	// Related guide: [Bank debits and transfers](https://stripe.com/payments/bank-debits-transfers)
 	BankAccount *BankAccount `json:"bank_account"`
 	// You can store multiple cards on a customer in order to charge the customer
 	// later. You can also store multiple debit cards on a recipient in order to

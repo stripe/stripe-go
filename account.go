@@ -11,7 +11,7 @@ import (
 	"github.com/stripe/stripe-go/v78/form"
 )
 
-// The business type. Once you create an [Account Link](https://stripe.com/docs/api/account_links) or [Account Session](https://stripe.com/docs/api/account_sessions), this property is only returned for Custom accounts.
+// The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 type AccountBusinessType string
 
 // List of values that AccountBusinessType can take
@@ -174,7 +174,7 @@ const (
 	AccountTOSAcceptanceServiceAgreementRecipient AccountTOSAcceptanceServiceAgreement = "recipient"
 )
 
-// The Stripe account type. Can be `standard`, `express`, or `custom`.
+// The Stripe account type. Can be `standard`, `express`, `custom`, or `none`.
 type AccountType string
 
 // List of values that AccountType can take
@@ -185,9 +185,11 @@ const (
 	AccountTypeStandard AccountType = "standard"
 )
 
-// With [Connect](https://stripe.com/docs/connect), you can delete accounts you manage.
+// With [Connect](https://stripe.com/connect), you can delete accounts you manage.
 //
-// Accounts created using test-mode keys can be deleted at any time. Standard accounts created using live-mode keys cannot be deleted. Custom or Express accounts created using live-mode keys can only be deleted once all balances are zero.
+// Test-mode accounts can be deleted at any time.
+//
+// Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://stripe.com/api/balance/balanace_object) are zero.
 //
 // If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
 type AccountParams struct {
@@ -196,11 +198,18 @@ type AccountParams struct {
 	AccountToken *string `form:"account_token"`
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
-	// The business type. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for Custom accounts.
+	// The business type. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	BusinessType *string `form:"business_type"`
-	// Each key of the dictionary represents a capability, and each capability maps to its settings (e.g. whether it has been requested or not). Each capability will be inactive until you have provided its specific requirements and Stripe has verified them. An account may have some of its requested capabilities be active and some be inactive.
+	// Each key of the dictionary represents a capability, and each capability
+	// maps to its settings (for example, whether it has been requested or not). Each
+	// capability is inactive until you have provided its specific
+	// requirements and Stripe has verified them. An account might have some
+	// of its requested capabilities be active and some be inactive.
+	//
+	// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+	// is `none`, which includes Custom accounts.
 	Capabilities *AccountCapabilitiesParams `form:"capabilities"`
-	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for Custom accounts.
+	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Company *AccountCompanyParams `form:"company"`
 	// A hash of configuration describing the account controller's attributes.
 	Controller *AccountControllerParams `form:"controller"`
@@ -210,21 +219,21 @@ type AccountParams struct {
 	DefaultCurrency *string `form:"default_currency"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *AccountDocumentsParams `form:"documents"`
-	// The email address of the account holder. This is only to make the account easier to identify to you. Stripe only emails Custom accounts with your consent.
+	// The email address of the account holder. This is only to make the account easier to identify to you. If [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, Stripe doesn't email the account without your consent.
 	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A card or bank account to attach to the account for receiving [payouts](https://docs.stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://docs.stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://docs.stripe.com/api#account_create_bank_account) creation.
+	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
 	//
-	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://docs.stripe.com/api#account_create_bank_account) or [card creation](https://docs.stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for Custom accounts.
+	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
-	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for Custom accounts.
+	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountSettingsParams `form:"settings"`
-	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance) This property can only be updated for Custom accounts.
+	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
 	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
 	Type *string `form:"type"`
@@ -528,7 +537,14 @@ type AccountCapabilitiesZipPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// Each key of the dictionary represents a capability, and each capability maps to its settings (e.g. whether it has been requested or not). Each capability will be inactive until you have provided its specific requirements and Stripe has verified them. An account may have some of its requested capabilities be active and some be inactive.
+// Each key of the dictionary represents a capability, and each capability
+// maps to its settings (for example, whether it has been requested or not). Each
+// capability is inactive until you have provided its specific
+// requirements and Stripe has verified them. An account might have some
+// of its requested capabilities be active and some be inactive.
+//
+// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+// is `none`, which includes Custom accounts.
 type AccountCapabilitiesParams struct {
 	// The acss_debit_payments capability.
 	ACSSDebitPayments *AccountCapabilitiesACSSDebitPaymentsParams `form:"acss_debit_payments"`
@@ -672,7 +688,7 @@ type AccountCompanyVerificationParams struct {
 	Document *AccountCompanyVerificationDocumentParams `form:"document"`
 }
 
-// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for Custom accounts.
+// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 type AccountCompanyParams struct {
 	// The company's primary address.
 	Address *AddressParams `form:"address"`
@@ -946,7 +962,7 @@ type AccountSettingsParams struct {
 	Treasury *AccountSettingsTreasuryParams `form:"treasury"`
 }
 
-// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance) This property can only be updated for Custom accounts.
+// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 type AccountTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted their service agreement.
 	Date *int64 `form:"date"`
@@ -1004,9 +1020,9 @@ type AccountControllerParams struct {
 	StripeDashboard *AccountControllerStripeDashboardParams `form:"stripe_dashboard"`
 }
 
-// With [Connect](https://stripe.com/docs/connect), you may flag accounts as suspicious.
+// With [Connect](https://stripe.com/connect), you can reject accounts that you have flagged as suspicious.
 //
-// Test-mode Custom and Express accounts can be rejected at any time. Accounts created using live-mode keys may only be rejected once all balances are zero.
+// Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
 type AccountRejectParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -1410,7 +1426,7 @@ type AccountSettingsPayoutsSchedule struct {
 	WeeklyAnchor string `json:"weekly_anchor"`
 }
 type AccountSettingsPayouts struct {
-	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See our [Understanding Connect Account Balances](https://stripe.com/docs/connect/account-balances) documentation for details. Default value is `false` for Custom accounts, otherwise `true`.
+	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.
 	DebitNegativeBalances bool                            `json:"debit_negative_balances"`
 	Schedule              *AccountSettingsPayoutsSchedule `json:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
@@ -1460,14 +1476,19 @@ type AccountTOSAcceptance struct {
 // properties on the account like its current requirements or if the account is
 // enabled to make live charges or receive payouts.
 //
-// For Custom accounts, the properties below are always returned. For other accounts, some properties are returned until that
-// account has started to go through Connect Onboarding. Once you create an [Account Link](https://stripe.com/docs/api/account_links) or [Account Session](https://stripe.com/docs/api/account_sessions),
-// some properties are only returned for Custom accounts. Learn about the differences [between accounts](https://stripe.com/docs/connect/accounts).
+// For accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
+// is `application`, which includes Custom accounts, the properties below are always
+// returned.
+//
+// For accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
+// is `stripe`, which includes Standard and Express accounts, some properties are only returned
+// until you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions)
+// to start Connect Onboarding. Learn about the [differences between accounts](https://stripe.com/connect/accounts).
 type Account struct {
 	APIResource
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfile `json:"business_profile"`
-	// The business type. Once you create an [Account Link](https://stripe.com/docs/api/account_links) or [Account Session](https://stripe.com/docs/api/account_sessions), this property is only returned for Custom accounts.
+	// The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	BusinessType AccountBusinessType  `json:"business_type"`
 	Capabilities *AccountCapabilities `json:"capabilities"`
 	// Whether the account can create live charges.
@@ -1481,7 +1502,7 @@ type Account struct {
 	// Three-letter ISO currency code representing the default currency for the account. This must be a currency that [Stripe supports in the account's country](https://stripe.com/docs/payouts).
 	DefaultCurrency Currency `json:"default_currency"`
 	Deleted         bool     `json:"deleted"`
-	// Whether account details have been submitted. Standard accounts cannot receive payouts before this is true.
+	// Whether account details have been submitted. Accounts with Stripe Dashboard access, which includes Standard accounts, cannot receive payouts before this is true.
 	DetailsSubmitted bool `json:"details_submitted"`
 	// An email address associated with the account. It's not used for authentication and Stripe doesn't market to this field without explicit approval from the platform.
 	Email string `json:"email"`
@@ -1492,10 +1513,9 @@ type Account struct {
 	ID string `json:"id"`
 	// This is an object representing a person associated with a Stripe account.
 	//
-	// A platform cannot access a Standard or Express account's persons after the account starts onboarding, such as after generating an account link for the account.
-	// See the [Standard onboarding](https://stripe.com/docs/connect/standard-accounts) or [Express onboarding documentation](https://stripe.com/docs/connect/express-accounts) for information about platform prefilling and account onboarding steps.
+	// A platform cannot access a person for an account where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
 	//
-	// Related guide: [Handling identity verification with the API](https://stripe.com/docs/connect/handling-api-verification#person-information)
+	// See the [Standard onboarding](https://stripe.com/connect/standard-accounts) or [Express onboarding](https://stripe.com/connect/express-accounts) documentation for information about prefilling information and account onboarding steps. Learn more about [handling identity verification with the API](https://stripe.com/connect/handling-api-verification#person-information).
 	Individual *Person `json:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
@@ -1507,7 +1527,7 @@ type Account struct {
 	// Options for customizing how the account functions within Stripe.
 	Settings      *AccountSettings      `json:"settings"`
 	TOSAcceptance *AccountTOSAcceptance `json:"tos_acceptance"`
-	// The Stripe account type. Can be `standard`, `express`, or `custom`.
+	// The Stripe account type. Can be `standard`, `express`, `custom`, or `none`.
 	Type AccountType `json:"type"`
 }
 type AccountExternalAccount struct {

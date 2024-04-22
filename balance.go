@@ -58,7 +58,7 @@ type Balance struct {
 	APIResource
 	// Available funds that you can transfer or pay out automatically by Stripe or explicitly through the [Transfers API](https://stripe.com/docs/api#transfers) or [Payouts API](https://stripe.com/docs/api#payouts). You can find the available balance for each currency and payment type in the `source_types` property.
 	Available []*Amount `json:"available"`
-	// Funds held due to negative balances on connected Custom accounts. You can find the connect reserve balance for each currency and payment type in the `source_types` property.
+	// Funds held due to negative balances on connected accounts where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. You can find the connect reserve balance for each currency and payment type in the `source_types` property.
 	ConnectReserved []*Amount `json:"connect_reserved"`
 	// Funds that you can pay out using Instant Payouts.
 	InstantAvailable []*Amount       `json:"instant_available"`
