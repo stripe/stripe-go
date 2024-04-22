@@ -100,6 +100,14 @@ const (
 	QuoteLineBillingCycleAnchorLineStartsAt QuoteLineBillingCycleAnchor = "line_starts_at"
 )
 
+// Timestamp helper to cancel the underlying schedule on the accompanying line's start date. Must be set to `line_starts_at`.
+type QuoteLineCancelSubscriptionScheduleCancelAt string
+
+// List of values that QuoteLineCancelSubscriptionScheduleCancelAt can take
+const (
+	QuoteLineCancelSubscriptionScheduleCancelAtLineStartsAt QuoteLineCancelSubscriptionScheduleCancelAt = "line_starts_at"
+)
+
 // Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
 type QuoteLineEndsAtDurationInterval string
 
@@ -374,6 +382,16 @@ type QuoteLineAppliesTo struct {
 	Type QuoteLineAppliesToType `json:"type"`
 }
 
+// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for metadata modifications.
+type QuoteLineCancelSubscriptionSchedule struct {
+	// Timestamp helper to cancel the underlying schedule on the accompanying line's start date. Must be set to `line_starts_at`.
+	CancelAt QuoteLineCancelSubscriptionScheduleCancelAt `json:"cancel_at"`
+	// If the subscription schedule is `active`, indicates if a final invoice will be generated that contains any un-invoiced metered usage and new/pending proration invoice items. Boolean that defaults to `true`.
+	InvoiceNow bool `json:"invoice_now"`
+	// If the subscription schedule is `active`, indicates if the cancellation should be prorated. Boolean that defaults to `true`.
+	Prorate bool `json:"prorate"`
+}
+
 // Use the `end` time of a given discount.
 type QuoteLineEndsAtDiscountEnd struct {
 	// The ID of a specific discount.
@@ -462,6 +480,8 @@ type QuoteLine struct {
 	AppliesTo *QuoteLineAppliesTo `json:"applies_to"`
 	// For a point-in-time operation, this attribute lets you set or update whether the subscription's billing cycle anchor is reset at the `starts_at` timestamp.
 	BillingCycleAnchor QuoteLineBillingCycleAnchor `json:"billing_cycle_anchor"`
+	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for metadata modifications.
+	CancelSubscriptionSchedule *QuoteLineCancelSubscriptionSchedule `json:"cancel_subscription_schedule"`
 	// Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 	EndsAt *QuoteLineEndsAt `json:"ends_at"`
 	// Unique identifier for the object.
