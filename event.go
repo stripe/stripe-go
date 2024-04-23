@@ -343,7 +343,7 @@ type EventReasonAutomationActionStripeSendWebhookCustomEvent struct {
 type EventReasonAutomationAction struct {
 	StripeSendWebhookCustomEvent *EventReasonAutomationActionStripeSendWebhookCustomEvent `json:"stripe_send_webhook_custom_event"`
 	// The trigger name of the automation that triggered this action.
-	//  Please visit [Revenue and retention automations](https://stripe.com/docs/billing/revenue-recovery/automations#choose-a-trigger) for all possible trigger names.
+	//  Please visit [Revenue and retention automations](https://stripe.com/docs/billing/automations#choose-a-trigger) for all possible trigger names.
 	Trigger string `json:"trigger"`
 	// The type of the `automation_action`.
 	Type EventReasonAutomationActionType `json:"type"`
@@ -355,7 +355,7 @@ type EventReasonRequest struct {
 	IdempotencyKey string `json:"idempotency_key"`
 }
 
-// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://stripe.com/docs/billing/revenue-recovery/automations) action.
+// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://stripe.com/docs/billing/automations) action.
 type EventReason struct {
 	AutomationAction *EventReasonAutomationAction `json:"automation_action"`
 	Request          *EventReasonRequest          `json:"request"`
@@ -424,7 +424,7 @@ type Event struct {
 	Object string `json:"object"`
 	// Number of webhooks that haven't been successfully delivered (for example, to return a 20x response) to the URLs you specify.
 	PendingWebhooks int64 `json:"pending_webhooks"`
-	// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://stripe.com/docs/billing/revenue-recovery/automations) action.
+	// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://stripe.com/docs/billing/automations) action.
 	Reason *EventReason `json:"reason"`
 	// Information on the API request that triggers the event.
 	Request *EventRequest `json:"request"`
