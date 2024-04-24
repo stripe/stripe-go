@@ -134,6 +134,7 @@ func (p *SetupAttemptListParams) AddExpand(f string) {
 }
 
 type SetupAttemptPaymentMethodDetailsACSSDebit struct{}
+type SetupAttemptPaymentMethodDetailsAmazonPay struct{}
 type SetupAttemptPaymentMethodDetailsAUBECSDebit struct{}
 type SetupAttemptPaymentMethodDetailsBACSDebit struct{}
 type SetupAttemptPaymentMethodDetailsBancontact struct {
@@ -261,6 +262,7 @@ type SetupAttemptPaymentMethodDetailsKlarna struct{}
 type SetupAttemptPaymentMethodDetailsLink struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsPayto struct{}
+type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
 type SetupAttemptPaymentMethodDetailsSofort struct {
 	// Bank code of bank associated with the bank account.
@@ -285,6 +287,7 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
 type SetupAttemptPaymentMethodDetails struct {
 	ACSSDebit   *SetupAttemptPaymentMethodDetailsACSSDebit   `json:"acss_debit"`
+	AmazonPay   *SetupAttemptPaymentMethodDetailsAmazonPay   `json:"amazon_pay"`
 	AUBECSDebit *SetupAttemptPaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
 	BACSDebit   *SetupAttemptPaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
 	Bancontact  *SetupAttemptPaymentMethodDetailsBancontact  `json:"bancontact"`
@@ -297,6 +300,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	Link        *SetupAttemptPaymentMethodDetailsLink        `json:"link"`
 	Paypal      *SetupAttemptPaymentMethodDetailsPaypal      `json:"paypal"`
 	Payto       *SetupAttemptPaymentMethodDetailsPayto       `json:"payto"`
+	RevolutPay  *SetupAttemptPaymentMethodDetailsRevolutPay  `json:"revolut_pay"`
 	SEPADebit   *SetupAttemptPaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
 	Sofort      *SetupAttemptPaymentMethodDetailsSofort      `json:"sofort"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
