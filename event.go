@@ -292,7 +292,7 @@ const (
 	EventTypeTreasuryReceivedDebitCreated                         EventType = "treasury.received_debit.created"
 )
 
-// List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://stripe.com/docs/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
+// List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
 type EventListParams struct {
 	ListParams `form:"*"`
 	// Only return events that were created during the given date interval.
@@ -343,7 +343,7 @@ type EventReasonAutomationActionStripeSendWebhookCustomEvent struct {
 type EventReasonAutomationAction struct {
 	StripeSendWebhookCustomEvent *EventReasonAutomationActionStripeSendWebhookCustomEvent `json:"stripe_send_webhook_custom_event"`
 	// The trigger name of the automation that triggered this action.
-	//  Please visit [Revenue and retention automations](https://stripe.com/docs/billing/automations#choose-a-trigger) for all possible trigger names.
+	//  Please visit [Revenue and retention automations](https://docs.stripe.com/billing/automations#choose-a-trigger) for all possible trigger names.
 	Trigger string `json:"trigger"`
 	// The type of the `automation_action`.
 	Type EventReasonAutomationActionType `json:"type"`
@@ -355,7 +355,7 @@ type EventReasonRequest struct {
 	IdempotencyKey string `json:"idempotency_key"`
 }
 
-// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://stripe.com/docs/billing/automations) action.
+// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://docs.stripe.com/billing/automations) action.
 type EventReason struct {
 	AutomationAction *EventReasonAutomationAction `json:"automation_action"`
 	Request          *EventReasonRequest          `json:"request"`
@@ -398,10 +398,10 @@ type EventRequest struct {
 // `Event` objects directly to an endpoint on your server. You can manage
 // webhooks in your
 // [account settings](https://dashboard.stripe.com/account/webhooks). Learn how
-// to [listen for events](https://stripe.com/docs/webhooks)
+// to [listen for events](https://docs.stripe.com/webhooks)
 // so that your integration can automatically trigger reactions.
 //
-// When using [Connect](https://stripe.com/docs/connect), you can also receive event notifications
+// When using [Connect](https://docs.stripe.com/connect), you can also receive event notifications
 // that occur in connected accounts. For these events, there's an
 // additional `account` attribute in the received `Event` object.
 //
@@ -424,7 +424,7 @@ type Event struct {
 	Object string `json:"object"`
 	// Number of webhooks that haven't been successfully delivered (for example, to return a 20x response) to the URLs you specify.
 	PendingWebhooks int64 `json:"pending_webhooks"`
-	// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://stripe.com/docs/billing/automations) action.
+	// Information about the action that causes the event. Only present when the event is triggered by an API request or an [Automation](https://docs.stripe.com/billing/automations) action.
 	Reason *EventReason `json:"reason"`
 	// Information on the API request that triggers the event.
 	Request *EventRequest `json:"request"`
