@@ -482,6 +482,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationMobilepayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationMobilepayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationMobilepayDisplayPreferencePreferenceNone PaymentMethodConfigurationMobilepayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationMobilepayDisplayPreferencePreferenceOff  PaymentMethodConfigurationMobilepayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationMobilepayDisplayPreferencePreferenceOn   PaymentMethodConfigurationMobilepayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationMobilepayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationMobilepayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationMobilepayDisplayPreferenceValueOff PaymentMethodConfigurationMobilepayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationMobilepayDisplayPreferenceValueOn  PaymentMethodConfigurationMobilepayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationOXXODisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationOXXODisplayPreferencePreference can take
@@ -1036,6 +1055,18 @@ type PaymentMethodConfigurationLinkParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationMobilepayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
+type PaymentMethodConfigurationMobilepayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationMobilepayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationOXXODisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1238,6 +1269,8 @@ type PaymentMethodConfigurationParams struct {
 	Konbini *PaymentMethodConfigurationKonbiniParams `form:"konbini"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationLinkParams `form:"link"`
+	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
+	Mobilepay *PaymentMethodConfigurationMobilepayParams `form:"mobilepay"`
 	// Configuration name.
 	Name *string `form:"name"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://stripe.com/docs/payments/oxxo) for more details.
@@ -1598,6 +1631,19 @@ type PaymentMethodConfigurationLink struct {
 	Available         bool                                             `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationLinkDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationMobilepayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationMobilepayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationMobilepayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationMobilepay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                  `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationMobilepayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationOXXODisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1805,7 +1851,8 @@ type PaymentMethodConfiguration struct {
 	Konbini   *PaymentMethodConfigurationKonbini `json:"konbini"`
 	Link      *PaymentMethodConfigurationLink    `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-	Livemode bool `json:"livemode"`
+	Livemode  bool                                 `json:"livemode"`
+	Mobilepay *PaymentMethodConfigurationMobilepay `json:"mobilepay"`
 	// The configuration's name.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
