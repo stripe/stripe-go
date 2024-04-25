@@ -1,5 +1,10 @@
 # Changelog
 
+## 78.5.0-beta.1 - 2024-04-25
+* [#1850](https://github.com/stripe/stripe-go/pull/1850) Update generated code for beta
+  * Add support for `PaymentMethodSettings` on `AccountSessionComponentsParams`
+  * Add support for `CancelSubscriptionSchedule` on `QuoteLine` and `QuoteLinesParams`
+
 ## 78.4.0-beta.1 - 2024-04-18
 * [#1848](https://github.com/stripe/stripe-go/pull/1848) Update generated code for beta
   * Add support for `CapitalOverview`, `TaxRegistrations`, and `TaxSettings` on `AccountSessionComponentsParams`
