@@ -294,7 +294,7 @@ type CardNetworks struct {
 // Related guide: [Card payments with Sources](https://stripe.com/docs/sources/cards)
 type Card struct {
 	APIResource
-	// The account this card belongs to. This attribute will not be in the card object if the card belongs to a customer or recipient instead.
+	// The account this card belongs to. This attribute will not be in the card object if the card belongs to a customer or recipient instead. This property is only available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Account *Account `json:"account"`
 	// City/District/Suburb/Town/Village.
 	AddressCity string `json:"address_city"`
@@ -318,13 +318,13 @@ type Card struct {
 	Brand CardBrand `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
-	// Three-letter [ISO code for currency](https://stripe.com/docs/payouts). Only applicable on accounts (not customers or recipients). The card can be used as a transfer destination for funds in this currency.
+	// Three-letter [ISO code for currency](https://stripe.com/docs/payouts). Only applicable on accounts (not customers or recipients). The card can be used as a transfer destination for funds in this currency. This property is only available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Currency Currency `json:"currency"`
 	// The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.
 	Customer *Customer `json:"customer"`
 	// If a CVC was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`. A result of unchecked indicates that CVC was provided but hasn't been checked yet. Checks are typically performed when attaching a card to a Customer object, or when creating a charge. For more details, see [Check if a card is valid without a charge](https://support.stripe.com/questions/check-if-a-card-is-valid-without-a-charge).
 	CVCCheck CardCVCCheck `json:"cvc_check"`
-	// Whether this card is the default external account for its currency.
+	// Whether this card is the default external account for its currency. This property is only available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	DefaultForCurrency bool `json:"default_for_currency"`
 	Deleted            bool `json:"deleted"`
 	// Description is a succinct summary of the card's information.

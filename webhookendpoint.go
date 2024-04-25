@@ -55,13 +55,13 @@ func (p *WebhookEndpointListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// You can configure [webhook endpoints](https://stripe.com/docs/webhooks/) via the API to be
+// You can configure [webhook endpoints](https://docs.stripe.com/webhooks/) via the API to be
 // notified about events that happen in your Stripe account or connected
 // accounts.
 //
 // Most users configure webhooks from [the dashboard](https://dashboard.stripe.com/webhooks), which provides a user interface for registering and testing your webhook endpoints.
 //
-// Related guide: [Setting up webhooks](https://stripe.com/docs/webhooks/configure)
+// Related guide: [Setting up webhooks](https://docs.stripe.com/webhooks/configure)
 type WebhookEndpoint struct {
 	APIResource
 	// The API version events are rendered as for this webhook endpoint.
@@ -83,7 +83,7 @@ type WebhookEndpoint struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The endpoint's secret, used to generate [webhook signatures](https://stripe.com/docs/webhooks/signatures). Only returned at creation.
+	// The endpoint's secret, used to generate [webhook signatures](https://docs.stripe.com/webhooks/signatures). Only returned at creation.
 	Secret string `json:"secret"`
 	// The status of the webhook. It can be `enabled` or `disabled`.
 	Status string `json:"status"`

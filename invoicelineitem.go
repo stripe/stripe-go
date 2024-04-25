@@ -145,7 +145,7 @@ type InvoiceLineItemParams struct {
 	Expand []*string `form:"expand"`
 	// The IDs of the margins to apply to the line item. When set, the `default_margins` on the invoice do not apply to this line item.
 	Margins []*string `form:"margins"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`. For `type=recurring` line items, the incoming metadata specified on the request is directly used to set this value, in contrast to `type=invoiceitem` line items, where any existing metadata on the invoice line is merged with the incoming data.
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceLineItemPeriodParams `form:"period"`
@@ -232,7 +232,7 @@ type InvoiceLineItem struct {
 	MarginAmounts []*InvoiceLineItemMarginAmount `json:"margin_amounts"`
 	// The margins applied to the line item. When set, the `default_margins` on the invoice do not apply to the line item. Use `expand[]=margins` to expand each margin.
 	Margins []*Margin `json:"margins"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with `type=subscription` this will reflect the metadata of the subscription that caused the line item to be created.
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with `type=subscription`, `metadata` reflects the current metadata from the subscription associated with the line item, unless the invoice line was directly updated with different metadata after creation.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string  `json:"object"`

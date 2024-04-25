@@ -190,6 +190,7 @@ type MandatePaymentMethodDetailsACSSDebit struct {
 	// Transaction type of the mandate.
 	TransactionType MandatePaymentMethodDetailsACSSDebitTransactionType `json:"transaction_type"`
 }
+type MandatePaymentMethodDetailsAmazonPay struct{}
 type MandatePaymentMethodDetailsAUBECSDebit struct {
 	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
 	URL string `json:"url"`
@@ -234,6 +235,7 @@ type MandatePaymentMethodDetailsPayto struct {
 	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
 	StartDate string `json:"start_date"`
 }
+type MandatePaymentMethodDetailsRevolutPay struct{}
 type MandatePaymentMethodDetailsSEPADebit struct {
 	// The unique reference of the mandate.
 	Reference string `json:"reference"`
@@ -246,6 +248,7 @@ type MandatePaymentMethodDetailsUSBankAccount struct {
 }
 type MandatePaymentMethodDetails struct {
 	ACSSDebit   *MandatePaymentMethodDetailsACSSDebit   `json:"acss_debit"`
+	AmazonPay   *MandatePaymentMethodDetailsAmazonPay   `json:"amazon_pay"`
 	AUBECSDebit *MandatePaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
 	BACSDebit   *MandatePaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
 	Card        *MandatePaymentMethodDetailsCard        `json:"card"`
@@ -253,6 +256,7 @@ type MandatePaymentMethodDetails struct {
 	Link        *MandatePaymentMethodDetailsLink        `json:"link"`
 	Paypal      *MandatePaymentMethodDetailsPaypal      `json:"paypal"`
 	Payto       *MandatePaymentMethodDetailsPayto       `json:"payto"`
+	RevolutPay  *MandatePaymentMethodDetailsRevolutPay  `json:"revolut_pay"`
 	SEPADebit   *MandatePaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
 	// This mandate corresponds with a specific payment method type. The `payment_method_details` includes an additional hash with the same name and contains mandate information that's specific to that payment method.
 	Type          MandatePaymentMethodDetailsType           `json:"type"`
