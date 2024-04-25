@@ -93,7 +93,7 @@ const (
 	AccountControllerDashboardTypeNone    AccountControllerDashboardType = "none"
 )
 
-// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this account.
+// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this account. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior).
 type AccountControllerFeesPayer string
 
 // List of values that AccountControllerFeesPayer can take
@@ -1075,7 +1075,7 @@ type AccountControllerDashboardParams struct {
 
 // A hash of configuration for who pays Stripe fees for product usage on this account.
 type AccountControllerFeesParams struct {
-	// A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`.
+	// A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior).
 	Payer *string `form:"payer"`
 }
 
@@ -1362,7 +1362,7 @@ type AccountControllerDashboard struct {
 	Type AccountControllerDashboardType `json:"type"`
 }
 type AccountControllerFees struct {
-	// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this account.
+	// A value indicating the responsible payer of a bundle of Stripe fees for pricing-control eligible products on this account. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior).
 	Payer AccountControllerFeesPayer `json:"payer"`
 }
 type AccountControllerLosses struct {
