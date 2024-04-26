@@ -270,7 +270,7 @@ type TaxCalculationLineItemParams struct {
 	TaxCode *string `form:"tax_code"`
 }
 
-// Details about the address from which the goods are being shippped.
+// Details about the address from which the goods are being shipped.
 type TaxCalculationShipFromDetailsParams struct {
 	// The address from which the goods are being shipped from.
 	Address *AddressParams `form:"address"`
@@ -301,7 +301,7 @@ type TaxCalculationParams struct {
 	Expand []*string `form:"expand"`
 	// A list of items the customer is purchasing.
 	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
-	// Details about the address from which the goods are being shippped.
+	// Details about the address from which the goods are being shipped.
 	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details"`
 	// Shipping cost details to be used for the calculation.
 	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
