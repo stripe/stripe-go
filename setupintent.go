@@ -773,6 +773,7 @@ type SetupIntentPaymentMethodOptionsCardPresentParams struct{}
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentPaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated: This property is deprecated, please refer to the description for details.
 	PersistentToken *string `form:"persistent_token"`
 }
 
@@ -1456,6 +1457,7 @@ type SetupIntentPaymentMethodOptionsCard struct {
 type SetupIntentPaymentMethodOptionsCardPresent struct{}
 type SetupIntentPaymentMethodOptionsLink struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated: This property is deprecated, please refer to the description for details.
 	PersistentToken string `json:"persistent_token"`
 }
 type SetupIntentPaymentMethodOptionsPaypal struct {

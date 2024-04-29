@@ -908,6 +908,7 @@ type PaymentMethodLink struct {
 	// Account owner's email address.
 	Email string `json:"email"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated: This property is deprecated, please refer to the description for details.
 	PersistentToken string `json:"persistent_token"`
 }
 type PaymentMethodMobilepay struct{}

@@ -2041,6 +2041,7 @@ type PaymentIntentPaymentMethodOptionsLinkParams struct {
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated: This property is deprecated, please refer to the description for details.
 	PersistentToken *string `form:"persistent_token"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -4291,6 +4292,7 @@ type PaymentIntentPaymentMethodOptionsLink struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsLinkCaptureMethod `json:"capture_method"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated: This property is deprecated, please refer to the description for details.
 	PersistentToken string `json:"persistent_token"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
