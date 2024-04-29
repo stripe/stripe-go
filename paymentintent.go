@@ -3343,6 +3343,8 @@ type PaymentIntentConfirmParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	// The list of payment method types (for example, a card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
