@@ -1682,6 +1682,8 @@ type ChargePaymentMethodDetailsLink struct {
 	// You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
 }
+
+// Internal card details
 type ChargePaymentMethodDetailsMobilepayCard struct {
 	// Brand of the card used in the transaction
 	Brand string `json:"brand"`
@@ -1695,6 +1697,7 @@ type ChargePaymentMethodDetailsMobilepayCard struct {
 	Last4 string `json:"last4"`
 }
 type ChargePaymentMethodDetailsMobilepay struct {
+	// Internal card details
 	Card *ChargePaymentMethodDetailsMobilepayCard `json:"card"`
 }
 type ChargePaymentMethodDetailsMultibanco struct {
