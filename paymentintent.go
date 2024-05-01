@@ -1512,6 +1512,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
+	// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -2205,6 +2207,12 @@ type PaymentIntentPaymentMethodOptionsPromptPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `Rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
+type PaymentIntentPaymentMethodOptionsRechnungParams struct {
+	// A unique identifier that correlates each transaction with the collected risk data.
+	RiskCorrelationID *string `form:"risk_correlation_id"`
+}
+
 // If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Revolut Pay payment method options.
 type PaymentIntentPaymentMethodOptionsRevolutPayParams struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -2412,6 +2420,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Pix *PaymentIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
 	PromptPay *PaymentIntentPaymentMethodOptionsPromptPayParams `form:"promptpay"`
+	// If this is a `Rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
+	Rechnung *PaymentIntentPaymentMethodOptionsRechnungParams `form:"rechnung"`
 	// If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Revolut Pay payment method options.
 	RevolutPay *PaymentIntentPaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
@@ -4408,6 +4418,10 @@ type PaymentIntentPaymentMethodOptionsPromptPay struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsRechnung struct {
+	// A unique identifier that correlates each transaction with the collected risk data.
+	RiskCorrelationID string `json:"risk_correlation_id"`
+}
 type PaymentIntentPaymentMethodOptionsRevolutPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsRevolutPayCaptureMethod `json:"capture_method"`
@@ -4534,6 +4548,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Payto            *PaymentIntentPaymentMethodOptionsPayto            `json:"payto"`
 	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
+	Rechnung         *PaymentIntentPaymentMethodOptionsRechnung         `json:"rechnung"`
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`

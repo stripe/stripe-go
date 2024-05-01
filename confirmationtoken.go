@@ -234,6 +234,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypePayto            ConfirmationTokenPaymentMethodPreviewType = "payto"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
+	ConfirmationTokenPaymentMethodPreviewTypeRechnung         ConfirmationTokenPaymentMethodPreviewType = "rechnung"
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
@@ -660,6 +661,17 @@ type ConfirmationTokenPaymentMethodPreviewPayto struct {
 }
 type ConfirmationTokenPaymentMethodPreviewPix struct{}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
+type ConfirmationTokenPaymentMethodPreviewRechnungDOB struct {
+	// The day of birth, between 1 and 31.
+	Day int64 `json:"day"`
+	// The month of birth, between 1 and 12.
+	Month int64 `json:"month"`
+	// The four-digit year of birth.
+	Year int64 `json:"year"`
+}
+type ConfirmationTokenPaymentMethodPreviewRechnung struct {
+	DOB *ConfirmationTokenPaymentMethodPreviewRechnungDOB `json:"dob"`
+}
 type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
 
 // Information about the object that generated this PaymentMethod.
@@ -768,6 +780,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Payto            *ConfirmationTokenPaymentMethodPreviewPayto            `json:"payto"`
 	Pix              *ConfirmationTokenPaymentMethodPreviewPix              `json:"pix"`
 	PromptPay        *ConfirmationTokenPaymentMethodPreviewPromptPay        `json:"promptpay"`
+	Rechnung         *ConfirmationTokenPaymentMethodPreviewRechnung         `json:"rechnung"`
 	RevolutPay       *ConfirmationTokenPaymentMethodPreviewRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *ConfirmationTokenPaymentMethodPreviewSEPADebit        `json:"sepa_debit"`
 	Sofort           *ConfirmationTokenPaymentMethodPreviewSofort           `json:"sofort"`
