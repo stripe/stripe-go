@@ -505,6 +505,22 @@ type SetupIntentPaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
+// Customer's date of birth
+type SetupIntentPaymentMethodDataRechnungDOBParams struct {
+	// The day of birth, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of birth, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of birth.
+	Year *int64 `form:"year"`
+}
+
+// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+type SetupIntentPaymentMethodDataRechnungParams struct {
+	// Customer's date of birth
+	DOB *SetupIntentPaymentMethodDataRechnungDOBParams `form:"dob"`
+}
+
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type SetupIntentPaymentMethodDataRevolutPayParams struct{}
 
@@ -617,6 +633,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	PromptPay *SetupIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
+	// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+	Rechnung *SetupIntentPaymentMethodDataRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -773,6 +791,7 @@ type SetupIntentPaymentMethodOptionsCardPresentParams struct{}
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentPaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated:
 	PersistentToken *string `form:"persistent_token"`
 }
 
@@ -1141,6 +1160,22 @@ type SetupIntentConfirmPaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
+// Customer's date of birth
+type SetupIntentConfirmPaymentMethodDataRechnungDOBParams struct {
+	// The day of birth, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of birth, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of birth.
+	Year *int64 `form:"year"`
+}
+
+// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+type SetupIntentConfirmPaymentMethodDataRechnungParams struct {
+	// Customer's date of birth
+	DOB *SetupIntentConfirmPaymentMethodDataRechnungDOBParams `form:"dob"`
+}
+
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type SetupIntentConfirmPaymentMethodDataRevolutPayParams struct{}
 
@@ -1253,6 +1288,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	PromptPay *SetupIntentConfirmPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options"`
+	// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+	Rechnung *SetupIntentConfirmPaymentMethodDataRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentConfirmPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -1456,6 +1493,7 @@ type SetupIntentPaymentMethodOptionsCard struct {
 type SetupIntentPaymentMethodOptionsCardPresent struct{}
 type SetupIntentPaymentMethodOptionsLink struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated:
 	PersistentToken string `json:"persistent_token"`
 }
 type SetupIntentPaymentMethodOptionsPaypal struct {

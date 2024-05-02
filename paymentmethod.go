@@ -174,6 +174,7 @@ const (
 	PaymentMethodTypePayto            PaymentMethodType = "payto"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
+	PaymentMethodTypeRechnung         PaymentMethodType = "rechnung"
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
@@ -443,6 +444,22 @@ type PaymentMethodRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
+// Customer's date of birth
+type PaymentMethodRechnungDOBParams struct {
+	// The day of birth, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of birth, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of birth.
+	Year *int64 `form:"year"`
+}
+
+// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+type PaymentMethodRechnungParams struct {
+	// Customer's date of birth
+	DOB *PaymentMethodRechnungDOBParams `form:"dob"`
+}
+
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type PaymentMethodRevolutPayParams struct{}
 
@@ -561,6 +578,8 @@ type PaymentMethodParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
+	// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -908,6 +927,7 @@ type PaymentMethodLink struct {
 	// Account owner's email address.
 	Email string `json:"email"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated:
 	PersistentToken string `json:"persistent_token"`
 }
 type PaymentMethodMobilepay struct{}
@@ -945,6 +965,17 @@ type PaymentMethodPromptPay struct{}
 type PaymentMethodRadarOptions struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
 	Session string `json:"session"`
+}
+type PaymentMethodRechnungDOB struct {
+	// The day of birth, between 1 and 31.
+	Day int64 `json:"day"`
+	// The month of birth, between 1 and 12.
+	Month int64 `json:"month"`
+	// The four-digit year of birth.
+	Year int64 `json:"year"`
+}
+type PaymentMethodRechnung struct {
+	DOB *PaymentMethodRechnungDOB `json:"dob"`
 }
 type PaymentMethodRevolutPay struct{}
 
@@ -1073,6 +1104,7 @@ type PaymentMethod struct {
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptions `json:"radar_options"`
+	Rechnung     *PaymentMethodRechnung     `json:"rechnung"`
 	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay"`
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
 	Sofort       *PaymentMethodSofort       `json:"sofort"`

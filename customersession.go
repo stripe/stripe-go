@@ -6,7 +6,7 @@
 
 package stripe
 
-// Controls whether the Payment Element allows the removal of a saved payment method.
+// Controls whether the Payment Element displays the option to remove a saved payment method.
 type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove string
 
 // List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove can take
@@ -15,7 +15,7 @@ const (
 	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemoveEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove = "enabled"
 )
 
-// Controls whether the Payment Element offers to save a new payment method.
+// Controls whether the Payment Element displays a checkbox offering to save a new payment method.
 type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave string
 
 // List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave can take
@@ -24,7 +24,7 @@ const (
 	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSaveEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave = "enabled"
 )
 
-// Controls whether the Payment Element offers to set a payment method as the default.
+// Controls whether the Payment Element displays a checkbox offering to set a saved payment method as the default.
 type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault string
 
 // List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault can take
@@ -33,7 +33,7 @@ const (
 	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefaultEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault = "enabled"
 )
 
-// Controls whether the Payment Element allows the updating of a saved payment method.
+// Controls whether the Payment Element displays the option to update a saved payment method.
 type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate string
 
 // List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate can take
@@ -50,13 +50,13 @@ type CustomerSessionComponentsBuyButtonParams struct {
 
 // This hash defines whether the payment element supports certain features.
 type CustomerSessionComponentsPaymentElementFeaturesParams struct {
-	// Controls whether the Payment Element allows the removal of a saved payment method.
+	// Controls whether the Payment Element displays the option to remove a saved payment method.
 	PaymentMethodRemove *string `form:"payment_method_remove"`
-	// Controls whether the Payment Element offers to save a new payment method.
+	// Controls whether the Payment Element displays a checkbox offering to save a new payment method.
 	PaymentMethodSave *string `form:"payment_method_save"`
-	// Controls whether the Payment Element offers to set a payment method as the default.
+	// Controls whether the Payment Element displays a checkbox offering to set a saved payment method as the default.
 	PaymentMethodSetAsDefault *string `form:"payment_method_set_as_default"`
-	// Controls whether the Payment Element allows the updating of a saved payment method.
+	// Controls whether the Payment Element displays the option to update a saved payment method.
 	PaymentMethodUpdate *string `form:"payment_method_update"`
 }
 
@@ -108,13 +108,13 @@ type CustomerSessionComponentsBuyButton struct {
 
 // This hash defines whether the payment element supports certain features.
 type CustomerSessionComponentsPaymentElementFeatures struct {
-	// Controls whether the Payment Element allows the removal of a saved payment method.
+	// Controls whether the Payment Element displays the option to remove a saved payment method.
 	PaymentMethodRemove CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRemove `json:"payment_method_remove"`
-	// Controls whether the Payment Element offers to save a new payment method.
+	// Controls whether the Payment Element displays a checkbox offering to save a new payment method.
 	PaymentMethodSave CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave `json:"payment_method_save"`
-	// Controls whether the Payment Element offers to set a payment method as the default.
+	// Controls whether the Payment Element displays a checkbox offering to set a saved payment method as the default.
 	PaymentMethodSetAsDefault CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault `json:"payment_method_set_as_default"`
-	// Controls whether the Payment Element allows the updating of a saved payment method.
+	// Controls whether the Payment Element displays the option to update a saved payment method.
 	PaymentMethodUpdate CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate `json:"payment_method_update"`
 }
 

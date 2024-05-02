@@ -5,6 +5,16 @@
   * Add support for `PaymentMethodSettings` on `AccountSessionComponentsParams`
   * Add support for `CancelSubscriptionSchedule` on `QuoteLine` and `QuoteLinesParams`
 
+## 78.4.0 - 2024-04-25
+* [#1852](https://github.com/stripe/stripe-go/pull/1852) Update generated code
+  * Add support for `SetupFutureUsage` on `CheckoutSessionPaymentMethodOptionsAmazonPay`, `CheckoutSessionPaymentMethodOptionsRevolutPay`, `PaymentIntentPaymentMethodOptionsAmazonPay`, and `PaymentIntentPaymentMethodOptionsRevolutPay`
+  * Change type of `EntitlementsActiveEntitlementFeature` from `string` to `*EntitlementsFeature`
+  * Remove support for inadvertently released identity verification features `Email` and `Phone` on `IdentityVerificationSessionOptionsParams`
+  * Add support for new values `amazon_pay` and `revolut_pay` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for `AmazonPay` and `RevolutPay` on `MandatePaymentMethodDetails` and `SetupAttemptPaymentMethodDetails`
+  * Add support for `EndingBefore`, `Limit`, and `StartingAfter` on `PaymentMethodConfigurationListParams`
+  * Add support for `Mobilepay` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+
 ## 78.4.0-beta.1 - 2024-04-18
 * [#1848](https://github.com/stripe/stripe-go/pull/1848) Update generated code for beta
   * Add support for `CapitalOverview`, `TaxRegistrations`, and `TaxSettings` on `AccountSessionComponentsParams`
