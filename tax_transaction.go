@@ -329,6 +329,11 @@ type TaxTransactionReversal struct {
 	// The `id` of the reversed `Transaction` object.
 	OriginalTransaction string `json:"original_transaction"`
 }
+
+// The details of the ship from location, such as the address.
+type TaxTransactionShipFromDetails struct {
+	Address *Address `json:"address"`
+}
 type TaxTransactionShippingCostTaxBreakdownJurisdiction struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country string `json:"country"`
@@ -407,6 +412,8 @@ type TaxTransaction struct {
 	Reference string `json:"reference"`
 	// If `type=reversal`, contains information about what was reversed.
 	Reversal *TaxTransactionReversal `json:"reversal"`
+	// The details of the ship from location, such as the address.
+	ShipFromDetails *TaxTransactionShipFromDetails `json:"ship_from_details"`
 	// The shipping cost details for the transaction.
 	ShippingCost *TaxTransactionShippingCost `json:"shipping_cost"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation.
