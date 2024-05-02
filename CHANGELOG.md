@@ -1,5 +1,12 @@
 # Changelog
 
+## 78.6.0-beta.1 - 2024-05-02
+* [#1854](https://github.com/stripe/stripe-go/pull/1854) Update generated code for beta
+  * Add support for `RechnungPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `Rechnung` on `ChargePaymentMethodDetails`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `Multibanco` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for new value `rechnung` on enums `ConfirmationTokenPaymentMethodPreviewType` and `PaymentMethodType`
+
 ## 78.5.0-beta.1 - 2024-04-25
 * [#1850](https://github.com/stripe/stripe-go/pull/1850) Update generated code for beta
   * Add support for `PaymentMethodSettings` on `AccountSessionComponentsParams`
