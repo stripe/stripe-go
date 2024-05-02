@@ -1,5 +1,18 @@
 # Changelog
 
+## 78.5.0 - 2024-05-02
+* [#1853](https://github.com/stripe/stripe-go/pull/1853) Update generated code
+  * Add support for new value `shipping_address_invalid` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `Paypal` on `DisputePaymentMethodDetails`
+  * Change type of `DisputePaymentMethodDetailsType` from `literal('card')` to `enum('card'|'paypal')`
+  * Change type of `EntitlementsFeatureMetadataParams` from `map(string: string)` to `emptyable(map(string: string))`
+  * Add support for `PaymentMethodTypes` on `PaymentIntentConfirmParams`
+  * Add support for `ShipFromDetails` on `TaxCalculationParams`, `TaxCalculation`, and `TaxTransaction`
+  * Add support for `Bh`, `Eg`, `Ge`, `Ke`, `Kz`, `Ng`, and `Om` on `TaxRegistrationCountryOptionsParams` and `TaxRegistrationCountryOptions`
+* [#1856](https://github.com/stripe/stripe-go/pull/1856) Deprecate Go methods and Params
+  - Mark as deprecated the `Approve` and `Decline` methods on `issuing/authorization/client.go`.  Instead, [respond directly to the webhook request to approve an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
+  - Mark as deprecated the `persistent_token` property on `ConfirmationTokenPaymentMethodPreviewLink.persistent_token`, `PaymentIntentPaymentMethodOptionsLink`, `PaymentIntentPaymentMethodOptionsLinkParams`, `PaymentMethodLink`, `SetupIntentPaymentMethodOptionsCard`, `SetupIntentPaymentMethodOptionsLinkParams`. This is a legacy parameter that no longer has any function.
+
 ## 78.4.0 - 2024-04-25
 * [#1852](https://github.com/stripe/stripe-go/pull/1852) Update generated code
   * Add support for `SetupFutureUsage` on `CheckoutSessionPaymentMethodOptionsAmazonPay`, `CheckoutSessionPaymentMethodOptionsRevolutPay`, `PaymentIntentPaymentMethodOptionsAmazonPay`, and `PaymentIntentPaymentMethodOptionsRevolutPay`
