@@ -13,7 +13,8 @@ type DisputePaymentMethodDetailsType string
 
 // List of values that DisputePaymentMethodDetailsType can take
 const (
-	DisputePaymentMethodDetailsTypeCard DisputePaymentMethodDetailsType = "card"
+	DisputePaymentMethodDetailsTypeCard   DisputePaymentMethodDetailsType = "card"
+	DisputePaymentMethodDetailsTypePaypal DisputePaymentMethodDetailsType = "paypal"
 )
 
 // Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://stripe.com/docs/disputes/categories).
@@ -225,8 +226,15 @@ type DisputePaymentMethodDetailsCard struct {
 	// The card network's specific dispute reason code, which maps to one of Stripe's primary dispute categories to simplify response guidance. The [Network code map](https://stripe.com/docs/disputes/categories#network-code-map) lists all available dispute reason codes by network.
 	NetworkReasonCode string `json:"network_reason_code"`
 }
+type DisputePaymentMethodDetailsPaypal struct {
+	// The ID of the dispute in PayPal.
+	CaseID string `json:"case_id"`
+	// The reason for the dispute as defined by PayPal
+	ReasonCode string `json:"reason_code"`
+}
 type DisputePaymentMethodDetails struct {
-	Card *DisputePaymentMethodDetailsCard `json:"card"`
+	Card   *DisputePaymentMethodDetailsCard   `json:"card"`
+	Paypal *DisputePaymentMethodDetailsPaypal `json:"paypal"`
 	// Payment method type.
 	Type DisputePaymentMethodDetailsType `json:"type"`
 }

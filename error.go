@@ -175,6 +175,7 @@ const (
 	ErrorCodeSetupIntentMandateInvalid                                   ErrorCode = "setup_intent_mandate_invalid"
 	ErrorCodeSetupIntentSetupAttemptExpired                              ErrorCode = "setup_intent_setup_attempt_expired"
 	ErrorCodeSetupIntentUnexpectedState                                  ErrorCode = "setup_intent_unexpected_state"
+	ErrorCodeShippingAddressInvalid                                      ErrorCode = "shipping_address_invalid"
 	ErrorCodeShippingCalculationFailed                                   ErrorCode = "shipping_calculation_failed"
 	ErrorCodeStateUnsupported                                            ErrorCode = "state_unsupported"
 	ErrorCodeStatusTransitionInvalid                                     ErrorCode = "status_transition_invalid"

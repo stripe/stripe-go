@@ -270,6 +270,12 @@ type TaxCalculationLineItemParams struct {
 	TaxCode *string `form:"tax_code"`
 }
 
+// Details about the address from which the goods are being shipped.
+type TaxCalculationShipFromDetailsParams struct {
+	// The address from which the goods are being shipped from.
+	Address *AddressParams `form:"address"`
+}
+
 // Shipping cost details to be used for the calculation.
 type TaxCalculationShippingCostParams struct {
 	// A positive integer in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) representing the shipping charge. If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
@@ -295,6 +301,8 @@ type TaxCalculationParams struct {
 	Expand []*string `form:"expand"`
 	// A list of items the customer is purchasing.
 	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
+	// Details about the address from which the goods are being shipped.
+	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details"`
 	// Shipping cost details to be used for the calculation.
 	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
@@ -324,6 +332,11 @@ type TaxCalculationCustomerDetails struct {
 	TaxabilityOverride TaxCalculationCustomerDetailsTaxabilityOverride `json:"taxability_override"`
 	// The customer's tax IDs (for example, EU VAT numbers).
 	TaxIDs []*TaxCalculationCustomerDetailsTaxID `json:"tax_ids"`
+}
+
+// The details of the ship from location, such as the address.
+type TaxCalculationShipFromDetails struct {
+	Address *Address `json:"address"`
 }
 type TaxCalculationShippingCostTaxBreakdownJurisdiction struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
@@ -422,6 +435,8 @@ type TaxCalculation struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The details of the ship from location, such as the address.
+	ShipFromDetails *TaxCalculationShipFromDetails `json:"ship_from_details"`
 	// The shipping cost details for the calculation.
 	ShippingCost *TaxCalculationShippingCost `json:"shipping_cost"`
 	// The amount of tax to be collected on top of the line item prices.
