@@ -628,7 +628,7 @@ type ConfirmationTokenPaymentMethodPreviewLink struct {
 	// Account owner's email address.
 	Email string `json:"email"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
-	// Deprecated: This property is deprecated, please refer to the description for details.
+	// Deprecated:
 	PersistentToken string `json:"persistent_token"`
 }
 type ConfirmationTokenPaymentMethodPreviewMobilepay struct{}

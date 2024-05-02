@@ -47,13 +47,13 @@ func (c Client) Update(id string, params *stripe.IssuingAuthorizationParams) (*s
 }
 
 // Approve is the method for the `POST /v1/issuing/authorizations/{authorization}/approve` API.
-// Deprecated: This method is deprecated, please refer to the description for details.
+// Deprecated:
 func Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Approve(id, params)
 }
 
 // Approve is the method for the `POST /v1/issuing/authorizations/{authorization}/approve` API.
-// Deprecated: This method is deprecated, please refer to the description for details.
+// Deprecated:
 func (c Client) Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/approve", id)
 	authorization := &stripe.IssuingAuthorization{}
@@ -62,13 +62,13 @@ func (c Client) Approve(id string, params *stripe.IssuingAuthorizationApprovePar
 }
 
 // Decline is the method for the `POST /v1/issuing/authorizations/{authorization}/decline` API.
-// Deprecated: This method is deprecated, please refer to the description for details.
+// Deprecated:
 func Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Decline(id, params)
 }
 
 // Decline is the method for the `POST /v1/issuing/authorizations/{authorization}/decline` API.
-// Deprecated: This method is deprecated, please refer to the description for details.
+// Deprecated:
 func (c Client) Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/decline", id)
 	authorization := &stripe.IssuingAuthorization{}
