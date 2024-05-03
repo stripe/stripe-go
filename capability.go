@@ -6,13 +6,11 @@
 
 package stripe
 
-// If the capability is disabled, this string describes why. Can be `requirements.fields_needed`, `pending.onboarding`, `pending.review`, `rejected.fraud`, `rejected.other`, `platform_paused`, `action_required.requested_capabilities`, `rejected.inactivty`, or `rejected.unsupported_business`.
+// If the capability is disabled, this string describes why. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification). Can be `requirements.fields_needed`, `pending.onboarding`, `pending.review`, `rejected.other`, `platform_paused`, `rejected.inactivty`, or `rejected.unsupported_business`.
 //
 // `rejected.unsupported_business` means that the account's business is not supported by the capability. For example, payment methods may restrict the businesses they support in their terms of service, such as in [Afterpay Clearpay's terms of service](https://stripe.com/afterpay-clearpay/legal#restricted-businesses).
 //
 // `rejected.inactivity` means that the capability has been paused for inactivity. This disabled reason currently only applies to the Issuing capability. See [Issuing: Managing Inactive Connects](https://support.stripe.com/questions/issuing-managing-inactive-connect-accounts) for more details.
-//
-// If you believe that a rejection is in error, please contact support at https://support.stripe.com/contact/ for assistance.
 type CapabilityDisabledReason string
 
 // List of values that CapabilityDisabledReason can take
@@ -117,13 +115,11 @@ type CapabilityRequirements struct {
 	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be collected to keep the capability enabled. If not collected by `current_deadline`, these fields appear in `past_due` as well, and the capability is disabled.
 	CurrentlyDue []string `json:"currently_due"`
-	// If the capability is disabled, this string describes why. Can be `requirements.fields_needed`, `pending.onboarding`, `pending.review`, `rejected.fraud`, `rejected.other`, `platform_paused`, `action_required.requested_capabilities`, `rejected.inactivty`, or `rejected.unsupported_business`.
+	// If the capability is disabled, this string describes why. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification). Can be `requirements.fields_needed`, `pending.onboarding`, `pending.review`, `rejected.other`, `platform_paused`, `rejected.inactivty`, or `rejected.unsupported_business`.
 	//
 	// `rejected.unsupported_business` means that the account's business is not supported by the capability. For example, payment methods may restrict the businesses they support in their terms of service, such as in [Afterpay Clearpay's terms of service](https://stripe.com/afterpay-clearpay/legal#restricted-businesses).
 	//
 	// `rejected.inactivity` means that the capability has been paused for inactivity. This disabled reason currently only applies to the Issuing capability. See [Issuing: Managing Inactive Connects](https://support.stripe.com/questions/issuing-managing-inactive-connect-accounts) for more details.
-	//
-	// If you believe that a rejection is in error, please contact support at https://support.stripe.com/contact/ for assistance.
 	DisabledReason CapabilityDisabledReason `json:"disabled_reason"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
