@@ -792,7 +792,7 @@ type QuoteLineTrialSettingsParams struct {
 	EndBehavior *QuoteLineTrialSettingsEndBehaviorParams `form:"end_behavior"`
 }
 
-// A list of lines on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
+// A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 type QuoteLineParams struct {
 	// An array of operations the quote line performs.
 	Actions []*QuoteLineActionParams `form:"actions"`
@@ -1175,7 +1175,7 @@ type QuoteParams struct {
 	InvoiceSettings *QuoteInvoiceSettingsParams `form:"invoice_settings"`
 	// A list of line items the customer is being quoted for. Each line item includes information about the product, the quantity, and the resulting cost.
 	LineItems []*QuoteLineItemParams `form:"line_items"`
-	// A list of lines on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
+	// A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 	Lines []*QuoteLineParams `form:"lines"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
@@ -1846,7 +1846,7 @@ type Quote struct {
 	InvoiceSettings *QuoteInvoiceSettings `json:"invoice_settings"`
 	// A list of items the customer is being quoted for.
 	LineItems *LineItemList `json:"line_items"`
-	// A list of lines on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
+	// A list of [quote lines](https://docs.stripe.com/api/quote_lines) on the quote. These lines describe changes, in the order provided, that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 	Lines []string `json:"lines"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
