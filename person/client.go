@@ -21,12 +21,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new person.
+// Creates a new person.
 func New(params *stripe.PersonParams) (*stripe.Person, error) {
 	return getC().New(params)
 }
 
-// New creates a new person.
+// Creates a new person.
 func (c Client) New(params *stripe.PersonParams) (*stripe.Person, error) {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/persons",
@@ -37,12 +37,12 @@ func (c Client) New(params *stripe.PersonParams) (*stripe.Person, error) {
 	return person, err
 }
 
-// Get returns the details of a person.
+// Retrieves an existing person.
 func Get(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a person.
+// Retrieves an existing person.
 func (c Client) Get(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
@@ -59,12 +59,12 @@ func (c Client) Get(id string, params *stripe.PersonParams) (*stripe.Person, err
 	return person, err
 }
 
-// Update updates a person's properties.
+// Updates an existing person.
 func Update(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a person's properties.
+// Updates an existing person.
 func (c Client) Update(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/persons/%s",
@@ -76,12 +76,12 @@ func (c Client) Update(id string, params *stripe.PersonParams) (*stripe.Person, 
 	return person, err
 }
 
-// Del removes a person.
+// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the account_opener. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
 func Del(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a person.
+// Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the account_opener. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
 func (c Client) Del(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/persons/%s",
@@ -93,12 +93,12 @@ func (c Client) Del(id string, params *stripe.PersonParams) (*stripe.Person, err
 	return person, err
 }
 
-// List returns a list of persons.
+// Returns a list of people associated with the account's legal entity. The people are returned sorted by creation date, with the most recent people appearing first.
 func List(params *stripe.PersonListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of persons.
+// Returns a list of people associated with the account's legal entity. The people are returned sorted by creation date, with the most recent people appearing first.
 func (c Client) List(listParams *stripe.PersonListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/persons",

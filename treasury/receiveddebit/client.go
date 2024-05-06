@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a treasury received debit.
+// Retrieves the details of an existing ReceivedDebit by passing the unique ReceivedDebit ID from the ReceivedDebit list
 func Get(id string, params *stripe.TreasuryReceivedDebitParams) (*stripe.TreasuryReceivedDebit, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a treasury received debit.
+// Retrieves the details of an existing ReceivedDebit by passing the unique ReceivedDebit ID from the ReceivedDebit list
 func (c Client) Get(id string, params *stripe.TreasuryReceivedDebitParams) (*stripe.TreasuryReceivedDebit, error) {
 	path := stripe.FormatURLPath("/v1/treasury/received_debits/%s", id)
 	receiveddebit := &stripe.TreasuryReceivedDebit{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.TreasuryReceivedDebitParams) (*str
 	return receiveddebit, err
 }
 
-// List returns a list of treasury received debits.
+// Returns a list of ReceivedDebits.
 func List(params *stripe.TreasuryReceivedDebitListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of treasury received debits.
+// Returns a list of ReceivedDebits.
 func (c Client) List(listParams *stripe.TreasuryReceivedDebitListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

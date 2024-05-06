@@ -20,12 +20,16 @@ type Client struct {
 	Key string
 }
 
-// New creates a new payment method.
+// Creates a PaymentMethod object. Read the [Stripe.js reference](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
+//
+// Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
 func New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 	return getC().New(params)
 }
 
-// New creates a new payment method.
+// Creates a PaymentMethod object. Read the [Stripe.js reference](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
+//
+// Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
 func (c Client) New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 	paymentmethod := &stripe.PaymentMethod{}
 	err := c.B.Call(
@@ -38,12 +42,12 @@ func (c Client) New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, 
 	return paymentmethod, err
 }
 
-// Get returns the details of a payment method.
+// Retrieves a PaymentMethod object attached to the StripeAccount. To retrieve a payment method attached to a Customer, you should use [Retrieve a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer)
 func Get(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a payment method.
+// Retrieves a PaymentMethod object attached to the StripeAccount. To retrieve a payment method attached to a Customer, you should use [Retrieve a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer)
 func (c Client) Get(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 	path := stripe.FormatURLPath("/v1/payment_methods/%s", id)
 	paymentmethod := &stripe.PaymentMethod{}
@@ -51,12 +55,12 @@ func (c Client) Get(id string, params *stripe.PaymentMethodParams) (*stripe.Paym
 	return paymentmethod, err
 }
 
-// Update updates a payment method's properties.
+// Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.
 func Update(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a payment method's properties.
+// Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.
 func (c Client) Update(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 	path := stripe.FormatURLPath("/v1/payment_methods/%s", id)
 	paymentmethod := &stripe.PaymentMethod{}
@@ -64,12 +68,36 @@ func (c Client) Update(id string, params *stripe.PaymentMethodParams) (*stripe.P
 	return paymentmethod, err
 }
 
-// Attach is the method for the `POST /v1/payment_methods/{payment_method}/attach` API.
+// Attaches a PaymentMethod object to a Customer.
+//
+// To attach a new PaymentMethod to a customer for future payments, we recommend you use a [SetupIntent](https://stripe.com/docs/api/setup_intents)
+// or a PaymentIntent with [setup_future_usage](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-setup_future_usage).
+// These approaches will perform any necessary steps to set up the PaymentMethod for future payments. Using the /v1/payment_methods/:id/attach
+// endpoint without first using a SetupIntent or PaymentIntent with setup_future_usage does not optimize the PaymentMethod for
+// future use, which makes later declines and payment friction more likely.
+// See [Optimizing cards for future payments](https://stripe.com/docs/payments/payment-intents#future-usage) for more information about setting up
+// future payments.
+//
+// To use this PaymentMethod as the default for invoice or subscription payments,
+// set [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method),
+// on the Customer to the PaymentMethod's ID.
 func Attach(id string, params *stripe.PaymentMethodAttachParams) (*stripe.PaymentMethod, error) {
 	return getC().Attach(id, params)
 }
 
-// Attach is the method for the `POST /v1/payment_methods/{payment_method}/attach` API.
+// Attaches a PaymentMethod object to a Customer.
+//
+// To attach a new PaymentMethod to a customer for future payments, we recommend you use a [SetupIntent](https://stripe.com/docs/api/setup_intents)
+// or a PaymentIntent with [setup_future_usage](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-setup_future_usage).
+// These approaches will perform any necessary steps to set up the PaymentMethod for future payments. Using the /v1/payment_methods/:id/attach
+// endpoint without first using a SetupIntent or PaymentIntent with setup_future_usage does not optimize the PaymentMethod for
+// future use, which makes later declines and payment friction more likely.
+// See [Optimizing cards for future payments](https://stripe.com/docs/payments/payment-intents#future-usage) for more information about setting up
+// future payments.
+//
+// To use this PaymentMethod as the default for invoice or subscription payments,
+// set [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method),
+// on the Customer to the PaymentMethod's ID.
 func (c Client) Attach(id string, params *stripe.PaymentMethodAttachParams) (*stripe.PaymentMethod, error) {
 	path := stripe.FormatURLPath("/v1/payment_methods/%s/attach", id)
 	paymentmethod := &stripe.PaymentMethod{}
@@ -77,12 +105,12 @@ func (c Client) Attach(id string, params *stripe.PaymentMethodAttachParams) (*st
 	return paymentmethod, err
 }
 
-// Detach is the method for the `POST /v1/payment_methods/{payment_method}/detach` API.
+// Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
 func Detach(id string, params *stripe.PaymentMethodDetachParams) (*stripe.PaymentMethod, error) {
 	return getC().Detach(id, params)
 }
 
-// Detach is the method for the `POST /v1/payment_methods/{payment_method}/detach` API.
+// Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
 func (c Client) Detach(id string, params *stripe.PaymentMethodDetachParams) (*stripe.PaymentMethod, error) {
 	path := stripe.FormatURLPath("/v1/payment_methods/%s/detach", id)
 	paymentmethod := &stripe.PaymentMethod{}
@@ -90,12 +118,12 @@ func (c Client) Detach(id string, params *stripe.PaymentMethodDetachParams) (*st
 	return paymentmethod, err
 }
 
-// List returns a list of payment methods.
+// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
 func List(params *stripe.PaymentMethodListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of payment methods.
+// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
 func (c Client) List(listParams *stripe.PaymentMethodListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

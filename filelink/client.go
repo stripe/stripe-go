@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new file link.
+// Creates a new file link object.
 func New(params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	return getC().New(params)
 }
 
-// New creates a new file link.
+// Creates a new file link object.
 func (c Client) New(params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	filelink := &stripe.FileLink{}
 	err := c.B.Call(http.MethodPost, "/v1/file_links", c.Key, params, filelink)
 	return filelink, err
 }
 
-// Get returns the details of a file link.
+// Retrieves the file link with the given ID.
 func Get(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a file link.
+// Retrieves the file link with the given ID.
 func (c Client) Get(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	path := stripe.FormatURLPath("/v1/file_links/%s", id)
 	filelink := &stripe.FileLink{}
@@ -45,12 +45,12 @@ func (c Client) Get(id string, params *stripe.FileLinkParams) (*stripe.FileLink,
 	return filelink, err
 }
 
-// Update updates a file link's properties.
+// Updates an existing file link object. Expired links can no longer be updated.
 func Update(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a file link's properties.
+// Updates an existing file link object. Expired links can no longer be updated.
 func (c Client) Update(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	path := stripe.FormatURLPath("/v1/file_links/%s", id)
 	filelink := &stripe.FileLink{}
@@ -58,12 +58,12 @@ func (c Client) Update(id string, params *stripe.FileLinkParams) (*stripe.FileLi
 	return filelink, err
 }
 
-// List returns a list of file links.
+// Returns a list of file links.
 func List(params *stripe.FileLinkListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of file links.
+// Returns a list of file links.
 func (c Client) List(listParams *stripe.FileLinkListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

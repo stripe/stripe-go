@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a confirmation token.
+// Retrieves an existing ConfirmationToken object
 func Get(id string, params *stripe.ConfirmationTokenParams) (*stripe.ConfirmationToken, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a confirmation token.
+// Retrieves an existing ConfirmationToken object
 func (c Client) Get(id string, params *stripe.ConfirmationTokenParams) (*stripe.ConfirmationToken, error) {
 	path := stripe.FormatURLPath("/v1/confirmation_tokens/%s", id)
 	confirmationtoken := &stripe.ConfirmationToken{}

@@ -20,12 +20,16 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a radar early fraud warning.
+// Retrieves the details of an early fraud warning that has previously been created.
+//
+// Please refer to the [early fraud warning](https://stripe.com/docs/api#early_fraud_warning_object) object reference for more details.
 func Get(id string, params *stripe.RadarEarlyFraudWarningParams) (*stripe.RadarEarlyFraudWarning, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a radar early fraud warning.
+// Retrieves the details of an early fraud warning that has previously been created.
+//
+// Please refer to the [early fraud warning](https://stripe.com/docs/api#early_fraud_warning_object) object reference for more details.
 func (c Client) Get(id string, params *stripe.RadarEarlyFraudWarningParams) (*stripe.RadarEarlyFraudWarning, error) {
 	path := stripe.FormatURLPath("/v1/radar/early_fraud_warnings/%s", id)
 	earlyfraudwarning := &stripe.RadarEarlyFraudWarning{}
@@ -33,12 +37,12 @@ func (c Client) Get(id string, params *stripe.RadarEarlyFraudWarningParams) (*st
 	return earlyfraudwarning, err
 }
 
-// List returns a list of radar early fraud warnings.
+// Returns a list of early fraud warnings.
 func List(params *stripe.RadarEarlyFraudWarningListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of radar early fraud warnings.
+// Returns a list of early fraud warnings.
 func (c Client) List(listParams *stripe.RadarEarlyFraudWarningListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

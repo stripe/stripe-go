@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a review.
+// Retrieves a Review object.
 func Get(id string, params *stripe.ReviewParams) (*stripe.Review, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a review.
+// Retrieves a Review object.
 func (c Client) Get(id string, params *stripe.ReviewParams) (*stripe.Review, error) {
 	path := stripe.FormatURLPath("/v1/reviews/%s", id)
 	review := &stripe.Review{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.ReviewParams) (*stripe.Review, err
 	return review, err
 }
 
-// Approve is the method for the `POST /v1/reviews/{review}/approve` API.
+// Approves a Review object, closing it and removing it from the list of reviews.
 func Approve(id string, params *stripe.ReviewApproveParams) (*stripe.Review, error) {
 	return getC().Approve(id, params)
 }
 
-// Approve is the method for the `POST /v1/reviews/{review}/approve` API.
+// Approves a Review object, closing it and removing it from the list of reviews.
 func (c Client) Approve(id string, params *stripe.ReviewApproveParams) (*stripe.Review, error) {
 	path := stripe.FormatURLPath("/v1/reviews/%s/approve", id)
 	review := &stripe.Review{}
@@ -46,12 +46,12 @@ func (c Client) Approve(id string, params *stripe.ReviewApproveParams) (*stripe.
 	return review, err
 }
 
-// List returns a list of reviews.
+// Returns a list of Review objects that have open set to true. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func List(params *stripe.ReviewListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of reviews.
+// Returns a list of Review objects that have open set to true. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c Client) List(listParams *stripe.ReviewListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

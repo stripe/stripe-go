@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new tax id.
+// Creates a new tax_id object for a customer.
 func New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	return getC().New(params)
 }
 
-// New creates a new tax id.
+// Creates a new tax_id object for a customer.
 func (c Client) New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	path := "/v1/tax_ids"
 	if params.Customer != nil {
@@ -39,12 +39,12 @@ func (c Client) New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	return taxid, err
 }
 
-// Get returns the details of a tax id.
+// Retrieves the tax_id object with the given identifier.
 func Get(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a tax id.
+// Retrieves the tax_id object with the given identifier.
 func (c Client) Get(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	path := stripe.FormatURLPath(
 		"/v1/tax_ids/%s",
@@ -62,12 +62,12 @@ func (c Client) Get(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error
 	return taxid, err
 }
 
-// Del removes a tax id.
+// Deletes an existing tax_id object.
 func Del(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a tax id.
+// Deletes an existing tax_id object.
 func (c Client) Del(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	path := stripe.FormatURLPath(
 		"/v1/tax_ids/%s",
@@ -85,12 +85,12 @@ func (c Client) Del(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error
 	return taxid, err
 }
 
-// List returns a list of tax ids.
+// Returns a list of tax IDs for a customer.
 func List(params *stripe.TaxIDListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of tax ids.
+// Returns a list of tax IDs for a customer.
 func (c Client) List(listParams *stripe.TaxIDListParams) *Iter {
 	path := "/v1/tax_ids"
 	if listParams != nil && listParams.Customer != nil {

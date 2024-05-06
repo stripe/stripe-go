@@ -21,12 +21,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a sigma scheduled query run.
+// Retrieves the details of an scheduled query run.
 func Get(id string, params *stripe.SigmaScheduledQueryRunParams) (*stripe.SigmaScheduledQueryRun, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a sigma scheduled query run.
+// Retrieves the details of an scheduled query run.
 func (c Client) Get(id string, params *stripe.SigmaScheduledQueryRunParams) (*stripe.SigmaScheduledQueryRun, error) {
 	path := stripe.FormatURLPath("/v1/sigma/scheduled_query_runs/%s", id)
 	scheduledqueryrun := &stripe.SigmaScheduledQueryRun{}
@@ -34,12 +34,12 @@ func (c Client) Get(id string, params *stripe.SigmaScheduledQueryRunParams) (*st
 	return scheduledqueryrun, err
 }
 
-// List returns a list of sigma scheduled query runs.
+// Returns a list of scheduled query runs.
 func List(params *stripe.SigmaScheduledQueryRunListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of sigma scheduled query runs.
+// Returns a list of scheduled query runs.
 func (c Client) List(listParams *stripe.SigmaScheduledQueryRunListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

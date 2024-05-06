@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new treasury debit reversal.
+// Reverses a ReceivedDebit and creates a DebitReversal object.
 func New(params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitReversal, error) {
 	return getC().New(params)
 }
 
-// New creates a new treasury debit reversal.
+// Reverses a ReceivedDebit and creates a DebitReversal object.
 func (c Client) New(params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitReversal, error) {
 	debitreversal := &stripe.TreasuryDebitReversal{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.TreasuryDebitReversalParams) (*stripe.Treasur
 	return debitreversal, err
 }
 
-// Get returns the details of a treasury debit reversal.
+// Retrieves a DebitReversal object.
 func Get(id string, params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitReversal, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a treasury debit reversal.
+// Retrieves a DebitReversal object.
 func (c Client) Get(id string, params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitReversal, error) {
 	path := stripe.FormatURLPath("/v1/treasury/debit_reversals/%s", id)
 	debitreversal := &stripe.TreasuryDebitReversal{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.TreasuryDebitReversalParams) (*str
 	return debitreversal, err
 }
 
-// List returns a list of treasury debit reversals.
+// Returns a list of DebitReversals.
 func List(params *stripe.TreasuryDebitReversalListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of treasury debit reversals.
+// Returns a list of DebitReversals.
 func (c Client) List(listParams *stripe.TreasuryDebitReversalListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

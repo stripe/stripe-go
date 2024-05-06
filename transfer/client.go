@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new transfer.
+// To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 func New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().New(params)
 }
 
-// New creates a new transfer.
+// To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	transfer := &stripe.Transfer{}
 	err := c.B.Call(http.MethodPost, "/v1/transfers", c.Key, params, transfer)
 	return transfer, err
 }
 
-// Get returns the details of a transfer.
+// Retrieves the details of an existing transfer. Supply the unique transfer ID from either a transfer creation request or the transfer list, and Stripe will return the corresponding transfer information.
 func Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a transfer.
+// Retrieves the details of an existing transfer. Supply the unique transfer ID from either a transfer creation request or the transfer list, and Stripe will return the corresponding transfer information.
 func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	path := stripe.FormatURLPath("/v1/transfers/%s", id)
 	transfer := &stripe.Transfer{}
@@ -45,12 +45,16 @@ func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer,
 	return transfer, err
 }
 
-// Update updates a transfer's properties.
+// Updates the specified transfer by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+//
+// This request accepts only metadata as an argument.
 func Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a transfer's properties.
+// Updates the specified transfer by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+//
+// This request accepts only metadata as an argument.
 func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	path := stripe.FormatURLPath("/v1/transfers/%s", id)
 	transfer := &stripe.Transfer{}
@@ -58,12 +62,12 @@ func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transf
 	return transfer, err
 }
 
-// List returns a list of transfers.
+// Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
 func List(params *stripe.TransferListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of transfers.
+// Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
 func (c Client) List(listParams *stripe.TransferListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

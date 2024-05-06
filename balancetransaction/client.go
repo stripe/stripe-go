@@ -20,12 +20,16 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a balance transaction.
+// Retrieves the balance transaction with the given ID.
+//
+// Note that this endpoint previously used the path /v1/balance/history/:id.
 func Get(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a balance transaction.
+// Retrieves the balance transaction with the given ID.
+//
+// Note that this endpoint previously used the path /v1/balance/history/:id.
 func (c Client) Get(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
 	path := stripe.FormatURLPath("/v1/balance_transactions/%s", id)
 	balancetransaction := &stripe.BalanceTransaction{}
@@ -33,12 +37,16 @@ func (c Client) Get(id string, params *stripe.BalanceTransactionParams) (*stripe
 	return balancetransaction, err
 }
 
-// List returns a list of balance transactions.
+// Returns a list of transactions that have contributed to the Stripe account balance (e.g., charges, transfers, and so forth). The transactions are returned in sorted order, with the most recent transactions appearing first.
+//
+// Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
 func List(params *stripe.BalanceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of balance transactions.
+// Returns a list of transactions that have contributed to the Stripe account balance (e.g., charges, transfers, and so forth). The transactions are returned in sorted order, with the most recent transactions appearing first.
+//
+// Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
 func (c Client) List(listParams *stripe.BalanceTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

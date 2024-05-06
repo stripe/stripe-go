@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new account session.
+// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 func New(params *stripe.AccountSessionParams) (*stripe.AccountSession, error) {
 	return getC().New(params)
 }
 
-// New creates a new account session.
+// Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
 func (c Client) New(params *stripe.AccountSessionParams) (*stripe.AccountSession, error) {
 	accountsession := &stripe.AccountSession{}
 	err := c.B.Call(

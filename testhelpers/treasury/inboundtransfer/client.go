@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// Fail is the method for the `POST /v1/test_helpers/treasury/inbound_transfers/{id}/fail` API.
+// Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
 func Fail(id string, params *stripe.TestHelpersTreasuryInboundTransferFailParams) (*stripe.TreasuryInboundTransfer, error) {
 	return getC().Fail(id, params)
 }
 
-// Fail is the method for the `POST /v1/test_helpers/treasury/inbound_transfers/{id}/fail` API.
+// Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
 func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryInboundTransferFailParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/inbound_transfers/%s/fail",
@@ -35,12 +35,12 @@ func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryInboundTransfe
 	return inboundtransfer, err
 }
 
-// ReturnInboundTransfer is the method for the `POST /v1/test_helpers/treasury/inbound_transfers/{id}/return` API.
+// Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
 func ReturnInboundTransfer(id string, params *stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	return getC().ReturnInboundTransfer(id, params)
 }
 
-// ReturnInboundTransfer is the method for the `POST /v1/test_helpers/treasury/inbound_transfers/{id}/return` API.
+// Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
 func (c Client) ReturnInboundTransfer(id string, params *stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/inbound_transfers/%s/return",
@@ -51,12 +51,12 @@ func (c Client) ReturnInboundTransfer(id string, params *stripe.TestHelpersTreas
 	return inboundtransfer, err
 }
 
-// Succeed is the method for the `POST /v1/test_helpers/treasury/inbound_transfers/{id}/succeed` API.
+// Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
 func Succeed(id string, params *stripe.TestHelpersTreasuryInboundTransferSucceedParams) (*stripe.TreasuryInboundTransfer, error) {
 	return getC().Succeed(id, params)
 }
 
-// Succeed is the method for the `POST /v1/test_helpers/treasury/inbound_transfers/{id}/succeed` API.
+// Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
 func (c Client) Succeed(id string, params *stripe.TestHelpersTreasuryInboundTransferSucceedParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/inbound_transfers/%s/succeed",

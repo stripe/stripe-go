@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// FundCashBalance is the method for the `POST /v1/test_helpers/customers/{customer}/fund_cash_balance` API.
+// Create an incoming testmode bank transfer
 func FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanceParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	return getC().FundCashBalance(id, params)
 }
 
-// FundCashBalance is the method for the `POST /v1/test_helpers/customers/{customer}/fund_cash_balance` API.
+// Create an incoming testmode bank transfer
 func (c Client) FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanceParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/customers/%s/fund_cash_balance",

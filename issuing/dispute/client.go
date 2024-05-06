@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new issuing dispute.
+// Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
 func New(params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	return getC().New(params)
 }
 
-// New creates a new issuing dispute.
+// Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
 func (c Client) New(params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	dispute := &stripe.IssuingDispute{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute
 	return dispute, err
 }
 
-// Get returns the details of an issuing dispute.
+// Retrieves an Issuing Dispute object.
 func Get(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an issuing dispute.
+// Retrieves an Issuing Dispute object.
 func (c Client) Get(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	path := stripe.FormatURLPath("/v1/issuing/disputes/%s", id)
 	dispute := &stripe.IssuingDispute{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.IssuingDisputeParams) (*stripe.Iss
 	return dispute, err
 }
 
-// Update updates an issuing dispute's properties.
+// Updates the specified Issuing Dispute object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Properties on the evidence object can be unset by passing in an empty string.
 func Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an issuing dispute's properties.
+// Updates the specified Issuing Dispute object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Properties on the evidence object can be unset by passing in an empty string.
 func (c Client) Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	path := stripe.FormatURLPath("/v1/issuing/disputes/%s", id)
 	dispute := &stripe.IssuingDispute{}
@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.IssuingDisputeParams) (*stripe.
 	return dispute, err
 }
 
-// Submit is the method for the `POST /v1/issuing/disputes/{dispute}/submit` API.
+// Submits an Issuing Dispute to the card network. Stripe validates that all evidence fields required for the dispute's reason are present. For more details, see [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence).
 func Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
 	return getC().Submit(id, params)
 }
 
-// Submit is the method for the `POST /v1/issuing/disputes/{dispute}/submit` API.
+// Submits an Issuing Dispute to the card network. Stripe validates that all evidence fields required for the dispute's reason are present. For more details, see [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence).
 func (c Client) Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
 	path := stripe.FormatURLPath("/v1/issuing/disputes/%s/submit", id)
 	dispute := &stripe.IssuingDispute{}
@@ -77,12 +77,12 @@ func (c Client) Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*s
 	return dispute, err
 }
 
-// List returns a list of issuing disputes.
+// Returns a list of Issuing Dispute objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func List(params *stripe.IssuingDisputeListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of issuing disputes.
+// Returns a list of Issuing Dispute objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c Client) List(listParams *stripe.IssuingDisputeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

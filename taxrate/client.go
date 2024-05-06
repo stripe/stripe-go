@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new tax rate.
+// Creates a new tax rate.
 func New(params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 	return getC().New(params)
 }
 
-// New creates a new tax rate.
+// Creates a new tax rate.
 func (c Client) New(params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 	taxrate := &stripe.TaxRate{}
 	err := c.B.Call(http.MethodPost, "/v1/tax_rates", c.Key, params, taxrate)
 	return taxrate, err
 }
 
-// Get returns the details of a tax rate.
+// Retrieves a tax rate with the given ID
 func Get(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a tax rate.
+// Retrieves a tax rate with the given ID
 func (c Client) Get(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 	path := stripe.FormatURLPath("/v1/tax_rates/%s", id)
 	taxrate := &stripe.TaxRate{}
@@ -45,12 +45,12 @@ func (c Client) Get(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, e
 	return taxrate, err
 }
 
-// Update updates a tax rate's properties.
+// Updates an existing tax rate.
 func Update(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a tax rate's properties.
+// Updates an existing tax rate.
 func (c Client) Update(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 	path := stripe.FormatURLPath("/v1/tax_rates/%s", id)
 	taxrate := &stripe.TaxRate{}
@@ -58,12 +58,12 @@ func (c Client) Update(id string, params *stripe.TaxRateParams) (*stripe.TaxRate
 	return taxrate, err
 }
 
-// List returns a list of tax rates.
+// Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
 func List(params *stripe.TaxRateListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of tax rates.
+// Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
 func (c Client) List(listParams *stripe.TaxRateListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
