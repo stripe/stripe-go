@@ -19,6 +19,22 @@ type Client struct {
 	Key string
 }
 
+// Update updates a treasury outbound payment's properties.
+func Update(id string, params *stripe.TestHelpersTreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates a treasury outbound payment's properties.
+func (c Client) Update(id string, params *stripe.TestHelpersTreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
+	path := stripe.FormatURLPath(
+		"/v1/test_helpers/treasury/outbound_payments/%s",
+		id,
+	)
+	outboundpayment := &stripe.TreasuryOutboundPayment{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, outboundpayment)
+	return outboundpayment, err
+}
+
 // Fail is the method for the `POST /v1/test_helpers/treasury/outbound_payments/{id}/fail` API.
 func Fail(id string, params *stripe.TestHelpersTreasuryOutboundPaymentFailParams) (*stripe.TreasuryOutboundPayment, error) {
 	return getC().Fail(id, params)
