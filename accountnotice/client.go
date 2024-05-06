@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an account notice.
+// Retrieves an AccountNotice object.
 func Get(id string, params *stripe.AccountNoticeParams) (*stripe.AccountNotice, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an account notice.
+// Retrieves an AccountNotice object.
 func (c Client) Get(id string, params *stripe.AccountNoticeParams) (*stripe.AccountNotice, error) {
 	path := stripe.FormatURLPath("/v1/account_notices/%s", id)
 	accountnotice := &stripe.AccountNotice{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.AccountNoticeParams) (*stripe.Acco
 	return accountnotice, err
 }
 
-// Update updates an account notice's properties.
+// Updates an AccountNotice object.
 func Update(id string, params *stripe.AccountNoticeParams) (*stripe.AccountNotice, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an account notice's properties.
+// Updates an AccountNotice object.
 func (c Client) Update(id string, params *stripe.AccountNoticeParams) (*stripe.AccountNotice, error) {
 	path := stripe.FormatURLPath("/v1/account_notices/%s", id)
 	accountnotice := &stripe.AccountNotice{}
@@ -46,12 +46,12 @@ func (c Client) Update(id string, params *stripe.AccountNoticeParams) (*stripe.A
 	return accountnotice, err
 }
 
-// List returns a list of account notices.
+// Retrieves a list of AccountNotice objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
 func List(params *stripe.AccountNoticeListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of account notices.
+// Retrieves a list of AccountNotice objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
 func (c Client) List(listParams *stripe.AccountNoticeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

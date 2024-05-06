@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new treasury received credit.
+// Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredits initiated by third parties.
 func New(params *stripe.TestHelpersTreasuryReceivedCreditParams) (*stripe.TreasuryReceivedCredit, error) {
 	return getC().New(params)
 }
 
-// New creates a new treasury received credit.
+// Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredits initiated by third parties.
 func (c Client) New(params *stripe.TestHelpersTreasuryReceivedCreditParams) (*stripe.TreasuryReceivedCredit, error) {
 	receivedcredit := &stripe.TreasuryReceivedCredit{}
 	err := c.B.Call(

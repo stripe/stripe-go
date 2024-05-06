@@ -21,24 +21,24 @@ type Client struct {
 	Key      string
 }
 
-// New creates a new quote.
+// A quote models prices and services for a customer. Default options for header, description, footer, and expires_at can be set in the dashboard via the [quote template](https://dashboard.stripe.com/settings/billing/quote).
 func New(params *stripe.QuoteParams) (*stripe.Quote, error) {
 	return getC().New(params)
 }
 
-// New creates a new quote.
+// A quote models prices and services for a customer. Default options for header, description, footer, and expires_at can be set in the dashboard via the [quote template](https://dashboard.stripe.com/settings/billing/quote).
 func (c Client) New(params *stripe.QuoteParams) (*stripe.Quote, error) {
 	quote := &stripe.Quote{}
 	err := c.B.Call(http.MethodPost, "/v1/quotes", c.Key, params, quote)
 	return quote, err
 }
 
-// Get returns the details of a quote.
+// Retrieves the quote with the given ID.
 func Get(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a quote.
+// Retrieves the quote with the given ID.
 func (c Client) Get(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s", id)
 	quote := &stripe.Quote{}
@@ -46,12 +46,12 @@ func (c Client) Get(id string, params *stripe.QuoteParams) (*stripe.Quote, error
 	return quote, err
 }
 
-// Update updates a quote's properties.
+// A quote models prices and services for a customer.
 func Update(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a quote's properties.
+// A quote models prices and services for a customer.
 func (c Client) Update(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s", id)
 	quote := &stripe.Quote{}
@@ -59,12 +59,12 @@ func (c Client) Update(id string, params *stripe.QuoteParams) (*stripe.Quote, er
 	return quote, err
 }
 
-// Accept is the method for the `POST /v1/quotes/{quote}/accept` API.
+// Accepts the specified quote.
 func Accept(id string, params *stripe.QuoteAcceptParams) (*stripe.Quote, error) {
 	return getC().Accept(id, params)
 }
 
-// Accept is the method for the `POST /v1/quotes/{quote}/accept` API.
+// Accepts the specified quote.
 func (c Client) Accept(id string, params *stripe.QuoteAcceptParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/accept", id)
 	quote := &stripe.Quote{}
@@ -72,12 +72,12 @@ func (c Client) Accept(id string, params *stripe.QuoteAcceptParams) (*stripe.Quo
 	return quote, err
 }
 
-// Cancel is the method for the `POST /v1/quotes/{quote}/cancel` API.
+// Cancels the quote.
 func Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quote, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel is the method for the `POST /v1/quotes/{quote}/cancel` API.
+// Cancels the quote.
 func (c Client) Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/cancel", id)
 	quote := &stripe.Quote{}
@@ -85,12 +85,12 @@ func (c Client) Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quo
 	return quote, err
 }
 
-// FinalizeQuote is the method for the `POST /v1/quotes/{quote}/finalize` API.
+// Finalizes the quote.
 func FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams) (*stripe.Quote, error) {
 	return getC().FinalizeQuote(id, params)
 }
 
-// FinalizeQuote is the method for the `POST /v1/quotes/{quote}/finalize` API.
+// Finalizes the quote.
 func (c Client) FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/finalize", id)
 	quote := &stripe.Quote{}
@@ -98,12 +98,12 @@ func (c Client) FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams
 	return quote, err
 }
 
-// MarkDraft is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
+// Converts a stale quote to draft.
 func MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stripe.Quote, error) {
 	return getC().MarkDraft(id, params)
 }
 
-// MarkDraft is the method for the `POST /v1/quotes/{quote}/mark_draft` API.
+// Converts a stale quote to draft.
 func (c Client) MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/mark_draft", id)
 	quote := &stripe.Quote{}
@@ -111,12 +111,12 @@ func (c Client) MarkDraft(id string, params *stripe.QuoteMarkDraftParams) (*stri
 	return quote, err
 }
 
-// MarkStale is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
+// Converts a draft or open quote to stale.
 func MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stripe.Quote, error) {
 	return getC().MarkStale(id, params)
 }
 
-// MarkStale is the method for the `POST /v1/quotes/{quote}/mark_stale` API.
+// Converts a draft or open quote to stale.
 func (c Client) MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/mark_stale", id)
 	quote := &stripe.Quote{}
@@ -124,12 +124,12 @@ func (c Client) MarkStale(id string, params *stripe.QuoteMarkStaleParams) (*stri
 	return quote, err
 }
 
-// PDF is the method for the `GET /v1/quotes/{quote}/pdf` API.
+// Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.corp.stripe.com/quotes/overview#quote_pdf)
 func PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	return getC().PDF(id, params)
 }
 
-// PDF is the method for the `GET /v1/quotes/{quote}/pdf` API.
+// Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.corp.stripe.com/quotes/overview#quote_pdf)
 func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/pdf", id)
 	stream := &stripe.APIStream{}
@@ -137,12 +137,12 @@ func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream
 	return stream, err
 }
 
-// Reestimate is the method for the `POST /v1/quotes/{quote}/reestimate` API.
+// Recompute the upcoming invoice estimate for the quote.
 func Reestimate(id string, params *stripe.QuoteReestimateParams) (*stripe.Quote, error) {
 	return getC().Reestimate(id, params)
 }
 
-// Reestimate is the method for the `POST /v1/quotes/{quote}/reestimate` API.
+// Recompute the upcoming invoice estimate for the quote.
 func (c Client) Reestimate(id string, params *stripe.QuoteReestimateParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/reestimate", id)
 	quote := &stripe.Quote{}
@@ -150,12 +150,12 @@ func (c Client) Reestimate(id string, params *stripe.QuoteReestimateParams) (*st
 	return quote, err
 }
 
-// List returns a list of quotes.
+// Returns a list of your quotes.
 func List(params *stripe.QuoteListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of quotes.
+// Returns a list of your quotes.
 func (c Client) List(listParams *stripe.QuoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -189,12 +189,12 @@ func (i *Iter) QuoteList() *stripe.QuoteList {
 	return i.List().(*stripe.QuoteList)
 }
 
-// ListComputedUpfrontLineItems is the method for the `GET /v1/quotes/{quote}/computed_upfront_line_items` API.
+// When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 func ListComputedUpfrontLineItems(params *stripe.QuoteListComputedUpfrontLineItemsParams) *LineItemIter {
 	return getC().ListComputedUpfrontLineItems(params)
 }
 
-// ListComputedUpfrontLineItems is the method for the `GET /v1/quotes/{quote}/computed_upfront_line_items` API.
+// When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 func (c Client) ListComputedUpfrontLineItems(listParams *stripe.QuoteListComputedUpfrontLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/computed_upfront_line_items",
@@ -232,12 +232,12 @@ func (i *LineItemIter) LineItemList() *stripe.LineItemList {
 	return i.List().(*stripe.LineItemList)
 }
 
-// ListLineItems is the method for the `GET /v1/quotes/{quote}/line_items` API.
+// When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func ListLineItems(params *stripe.QuoteListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)
 }
 
-// ListLineItems is the method for the `GET /v1/quotes/{quote}/line_items` API.
+// When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLineItems(listParams *stripe.QuoteListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/line_items",
@@ -258,12 +258,12 @@ func (c Client) ListLineItems(listParams *stripe.QuoteListLineItemsParams) *Line
 	}
 }
 
-// ListLines is the method for the `GET /v1/quotes/{quote}/lines` API.
+// Retrieves a paginated list of lines for a quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 func ListLines(params *stripe.QuoteListLinesParams) *LineIter {
 	return getC().ListLines(params)
 }
 
-// ListLines is the method for the `GET /v1/quotes/{quote}/lines` API.
+// Retrieves a paginated list of lines for a quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 func (c Client) ListLines(listParams *stripe.QuoteListLinesParams) *LineIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/lines",
@@ -301,12 +301,12 @@ func (i *LineIter) QuoteLineList() *stripe.QuoteLineList {
 	return i.List().(*stripe.QuoteLineList)
 }
 
-// ListPreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
+// Preview the invoice line items that would be generated by accepting the quote.
 func ListPreviewInvoiceLines(params *stripe.QuoteListPreviewInvoiceLinesParams) *InvoiceLineItemIter {
 	return getC().ListPreviewInvoiceLines(params)
 }
 
-// ListPreviewInvoiceLines is the method for the `GET /v1/quotes/{quote}/preview_invoices/{preview_invoice}/lines` API.
+// Preview the invoice line items that would be generated by accepting the quote.
 func (c Client) ListPreviewInvoiceLines(listParams *stripe.QuoteListPreviewInvoiceLinesParams) *InvoiceLineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/preview_invoices/%s/lines",

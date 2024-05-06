@@ -22,12 +22,16 @@ type Client struct {
 	Key      string
 }
 
-// New creates a new file.
+// To upload a file to Stripe, you need to send a request of type multipart/form-data. Include the file you want to upload in the request, and the parameters for creating a file.
+//
+// All of Stripe's officially supported Client libraries support sending multipart/form-data.
 func New(params *stripe.FileParams) (*stripe.File, error) {
 	return getC().New(params)
 }
 
-// New creates a new file.
+// To upload a file to Stripe, you need to send a request of type multipart/form-data. Include the file you want to upload in the request, and the parameters for creating a file.
+//
+// All of Stripe's officially supported Client libraries support sending multipart/form-data.
 func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
@@ -46,12 +50,12 @@ func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 	return file, err
 }
 
-// Get returns the details of a file.
+// Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://stripe.com/docs/file-upload#download-file-contents).
 func Get(id string, params *stripe.FileParams) (*stripe.File, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a file.
+// Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://stripe.com/docs/file-upload#download-file-contents).
 func (c Client) Get(id string, params *stripe.FileParams) (*stripe.File, error) {
 	path := stripe.FormatURLPath("/v1/files/%s", id)
 	file := &stripe.File{}
@@ -59,12 +63,12 @@ func (c Client) Get(id string, params *stripe.FileParams) (*stripe.File, error) 
 	return file, err
 }
 
-// List returns a list of files.
+// Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.
 func List(params *stripe.FileListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of files.
+// Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.
 func (c Client) List(listParams *stripe.FileListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

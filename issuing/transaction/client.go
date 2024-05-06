@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an issuing transaction.
+// Retrieves an Issuing Transaction object.
 func Get(id string, params *stripe.IssuingTransactionParams) (*stripe.IssuingTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an issuing transaction.
+// Retrieves an Issuing Transaction object.
 func (c Client) Get(id string, params *stripe.IssuingTransactionParams) (*stripe.IssuingTransaction, error) {
 	path := stripe.FormatURLPath("/v1/issuing/transactions/%s", id)
 	transaction := &stripe.IssuingTransaction{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.IssuingTransactionParams) (*stripe
 	return transaction, err
 }
 
-// Update updates an issuing transaction's properties.
+// Updates the specified Issuing Transaction object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func Update(id string, params *stripe.IssuingTransactionParams) (*stripe.IssuingTransaction, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an issuing transaction's properties.
+// Updates the specified Issuing Transaction object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c Client) Update(id string, params *stripe.IssuingTransactionParams) (*stripe.IssuingTransaction, error) {
 	path := stripe.FormatURLPath("/v1/issuing/transactions/%s", id)
 	transaction := &stripe.IssuingTransaction{}
@@ -46,12 +46,12 @@ func (c Client) Update(id string, params *stripe.IssuingTransactionParams) (*str
 	return transaction, err
 }
 
-// List returns a list of issuing transactions.
+// Returns a list of Issuing Transaction objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func List(params *stripe.IssuingTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of issuing transactions.
+// Returns a list of Issuing Transaction objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c Client) List(listParams *stripe.IssuingTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new price.
+// Creates a new price for an existing product. The price can be recurring or one-time.
 func New(params *stripe.PriceParams) (*stripe.Price, error) {
 	return getC().New(params)
 }
 
-// New creates a new price.
+// Creates a new price for an existing product. The price can be recurring or one-time.
 func (c Client) New(params *stripe.PriceParams) (*stripe.Price, error) {
 	price := &stripe.Price{}
 	err := c.B.Call(http.MethodPost, "/v1/prices", c.Key, params, price)
 	return price, err
 }
 
-// Get returns the details of a price.
+// Retrieves the price with the given ID.
 func Get(id string, params *stripe.PriceParams) (*stripe.Price, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a price.
+// Retrieves the price with the given ID.
 func (c Client) Get(id string, params *stripe.PriceParams) (*stripe.Price, error) {
 	path := stripe.FormatURLPath("/v1/prices/%s", id)
 	price := &stripe.Price{}
@@ -45,12 +45,12 @@ func (c Client) Get(id string, params *stripe.PriceParams) (*stripe.Price, error
 	return price, err
 }
 
-// Update updates a price's properties.
+// Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.
 func Update(id string, params *stripe.PriceParams) (*stripe.Price, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a price's properties.
+// Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.
 func (c Client) Update(id string, params *stripe.PriceParams) (*stripe.Price, error) {
 	path := stripe.FormatURLPath("/v1/prices/%s", id)
 	price := &stripe.Price{}
@@ -58,12 +58,12 @@ func (c Client) Update(id string, params *stripe.PriceParams) (*stripe.Price, er
 	return price, err
 }
 
-// List returns a list of prices.
+// Returns a list of your active prices, excluding [inline prices](https://stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
 func List(params *stripe.PriceListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of prices.
+// Returns a list of your active prices, excluding [inline prices](https://stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
 func (c Client) List(listParams *stripe.PriceListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -97,12 +97,18 @@ func (i *Iter) PriceList() *stripe.PriceList {
 	return i.List().(*stripe.PriceList)
 }
 
-// Search returns a search result containing prices.
+// Search for prices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
 func Search(params *stripe.PriceSearchParams) *SearchIter {
 	return getC().Search(params)
 }
 
-// Search returns a search result containing prices.
+// Search for prices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
 func (c Client) Search(params *stripe.PriceSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {

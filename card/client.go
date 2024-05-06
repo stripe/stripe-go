@@ -21,12 +21,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new card.
+// New creates a new card
 func New(params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().New(params)
 }
 
-// New creates a new card.
+// New creates a new card
 func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -81,12 +81,12 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	return card, err
 }
 
-// Update updates a card's properties.
+// Update a specified source for a given customer.
 func Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a card's properties.
+// Update a specified source for a given customer.
 func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -106,12 +106,12 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	return card, err
 }
 
-// Del removes a card.
+// Delete a specified source for a given customer.
 func Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a card.
+// Delete a specified source for a given customer.
 func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -130,13 +130,10 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, card)
 	return card, err
 }
-
-// List returns a list of cards.
 func List(params *stripe.CardListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of cards.
 func (c Client) List(listParams *stripe.CardListParams) *Iter {
 	var path string
 	var outerErr error

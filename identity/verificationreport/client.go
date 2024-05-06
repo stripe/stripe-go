@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an identity verification report.
+// Retrieves an existing VerificationReport
 func Get(id string, params *stripe.IdentityVerificationReportParams) (*stripe.IdentityVerificationReport, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an identity verification report.
+// Retrieves an existing VerificationReport
 func (c Client) Get(id string, params *stripe.IdentityVerificationReportParams) (*stripe.IdentityVerificationReport, error) {
 	path := stripe.FormatURLPath("/v1/identity/verification_reports/%s", id)
 	verificationreport := &stripe.IdentityVerificationReport{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.IdentityVerificationReportParams) 
 	return verificationreport, err
 }
 
-// List returns a list of identity verification reports.
+// List all verification reports.
 func List(params *stripe.IdentityVerificationReportListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of identity verification reports.
+// List all verification reports.
 func (c Client) List(listParams *stripe.IdentityVerificationReportListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

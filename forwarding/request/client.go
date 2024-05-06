@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new forwarding request.
+// Creates a ForwardingRequest object.
 func New(params *stripe.ForwardingRequestParams) (*stripe.ForwardingRequest, error) {
 	return getC().New(params)
 }
 
-// New creates a new forwarding request.
+// Creates a ForwardingRequest object.
 func (c Client) New(params *stripe.ForwardingRequestParams) (*stripe.ForwardingRequest, error) {
 	request := &stripe.ForwardingRequest{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.ForwardingRequestParams) (*stripe.ForwardingR
 	return request, err
 }
 
-// Get returns the details of a forwarding request.
+// Retrieves a ForwardingRequest object.
 func Get(id string, params *stripe.ForwardingRequestParams) (*stripe.ForwardingRequest, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a forwarding request.
+// Retrieves a ForwardingRequest object.
 func (c Client) Get(id string, params *stripe.ForwardingRequestParams) (*stripe.ForwardingRequest, error) {
 	path := stripe.FormatURLPath("/v1/forwarding/requests/%s", id)
 	request := &stripe.ForwardingRequest{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.ForwardingRequestParams) (*stripe.
 	return request, err
 }
 
-// List returns a list of forwarding requests.
+// Lists all ForwardingRequest objects.
 func List(params *stripe.ForwardingRequestListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of forwarding requests.
+// Lists all ForwardingRequest objects.
 func (c Client) List(listParams *stripe.ForwardingRequestListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

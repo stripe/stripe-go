@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new financial connections session.
+// To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
 func New(params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialConnectionsSession, error) {
 	return getC().New(params)
 }
 
-// New creates a new financial connections session.
+// To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
 func (c Client) New(params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialConnectionsSession, error) {
 	session := &stripe.FinancialConnectionsSession{}
 	err := c.B.Call(
@@ -37,12 +37,12 @@ func (c Client) New(params *stripe.FinancialConnectionsSessionParams) (*stripe.F
 	return session, err
 }
 
-// Get returns the details of a financial connections session.
+// Retrieves the details of a Financial Connections Session
 func Get(id string, params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialConnectionsSession, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a financial connections session.
+// Retrieves the details of a Financial Connections Session
 func (c Client) Get(id string, params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialConnectionsSession, error) {
 	path := stripe.FormatURLPath("/v1/financial_connections/sessions/%s", id)
 	session := &stripe.FinancialConnectionsSession{}

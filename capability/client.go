@@ -21,12 +21,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a capability.
+// Retrieves information about the specified Account Capability.
 func Get(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a capability.
+// Retrieves information about the specified Account Capability.
 func (c Client) Get(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
@@ -43,12 +43,12 @@ func (c Client) Get(id string, params *stripe.CapabilityParams) (*stripe.Capabil
 	return capability, err
 }
 
-// Update updates a capability's properties.
+// Updates an existing Account Capability. Request or remove a capability by updating its requested parameter.
 func Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a capability's properties.
+// Updates an existing Account Capability. Request or remove a capability by updating its requested parameter.
 func (c Client) Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/capabilities/%s",
@@ -60,12 +60,12 @@ func (c Client) Update(id string, params *stripe.CapabilityParams) (*stripe.Capa
 	return capability, err
 }
 
-// List returns a list of capabilities.
+// Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.
 func List(params *stripe.CapabilityListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of capabilities.
+// Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.
 func (c Client) List(listParams *stripe.CapabilityListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/capabilities",

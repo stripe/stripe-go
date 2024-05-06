@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a capital financing offer.
+// Get the details of the financing offer
 func Get(id string, params *stripe.CapitalFinancingOfferParams) (*stripe.CapitalFinancingOffer, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a capital financing offer.
+// Get the details of the financing offer
 func (c Client) Get(id string, params *stripe.CapitalFinancingOfferParams) (*stripe.CapitalFinancingOffer, error) {
 	path := stripe.FormatURLPath("/v1/capital/financing_offers/%s", id)
 	financingoffer := &stripe.CapitalFinancingOffer{}
@@ -33,12 +33,14 @@ func (c Client) Get(id string, params *stripe.CapitalFinancingOfferParams) (*str
 	return financingoffer, err
 }
 
-// MarkDelivered is the method for the `POST /v1/capital/financing_offers/{financing_offer}/mark_delivered` API.
+// Acknowledges that platform has received and delivered the financing_offer to
+// the intended merchant recipient.
 func MarkDelivered(id string, params *stripe.CapitalFinancingOfferMarkDeliveredParams) (*stripe.CapitalFinancingOffer, error) {
 	return getC().MarkDelivered(id, params)
 }
 
-// MarkDelivered is the method for the `POST /v1/capital/financing_offers/{financing_offer}/mark_delivered` API.
+// Acknowledges that platform has received and delivered the financing_offer to
+// the intended merchant recipient.
 func (c Client) MarkDelivered(id string, params *stripe.CapitalFinancingOfferMarkDeliveredParams) (*stripe.CapitalFinancingOffer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/capital/financing_offers/%s/mark_delivered",
@@ -49,12 +51,12 @@ func (c Client) MarkDelivered(id string, params *stripe.CapitalFinancingOfferMar
 	return financingoffer, err
 }
 
-// List returns a list of capital financing offers.
+// Retrieves the financing offers available for Connected accounts that belong to your platform.
 func List(params *stripe.CapitalFinancingOfferListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of capital financing offers.
+// Retrieves the financing offers available for Connected accounts that belong to your platform.
 func (c Client) List(listParams *stripe.CapitalFinancingOfferListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

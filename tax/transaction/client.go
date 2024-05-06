@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a tax transaction.
+// Retrieves a Tax Transaction object.
 func Get(id string, params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a tax transaction.
+// Retrieves a Tax Transaction object.
 func (c Client) Get(id string, params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
 	path := stripe.FormatURLPath("/v1/tax/transactions/%s", id)
 	transaction := &stripe.TaxTransaction{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.TaxTransactionParams) (*stripe.Tax
 	return transaction, err
 }
 
-// CreateFromCalculation is the method for the `POST /v1/tax/transactions/create_from_calculation` API.
+// Creates a Tax Transaction from a calculation.
 func CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
 	return getC().CreateFromCalculation(params)
 }
 
-// CreateFromCalculation is the method for the `POST /v1/tax/transactions/create_from_calculation` API.
+// Creates a Tax Transaction from a calculation.
 func (c Client) CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
 	err := c.B.Call(
@@ -51,12 +51,12 @@ func (c Client) CreateFromCalculation(params *stripe.TaxTransactionCreateFromCal
 	return transaction, err
 }
 
-// CreateReversal is the method for the `POST /v1/tax/transactions/create_reversal` API.
+// Partially or fully reverses a previously created Transaction.
 func CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.TaxTransaction, error) {
 	return getC().CreateReversal(params)
 }
 
-// CreateReversal is the method for the `POST /v1/tax/transactions/create_reversal` API.
+// Partially or fully reverses a previously created Transaction.
 func (c Client) CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
 	err := c.B.Call(
@@ -69,12 +69,12 @@ func (c Client) CreateReversal(params *stripe.TaxTransactionCreateReversalParams
 	return transaction, err
 }
 
-// ListLineItems is the method for the `GET /v1/tax/transactions/{transaction}/line_items` API.
+// Retrieves the line items of a committed standalone transaction as a collection.
 func ListLineItems(params *stripe.TaxTransactionListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)
 }
 
-// ListLineItems is the method for the `GET /v1/tax/transactions/{transaction}/line_items` API.
+// Retrieves the line items of a committed standalone transaction as a collection.
 func (c Client) ListLineItems(listParams *stripe.TaxTransactionListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/tax/transactions/%s/line_items",

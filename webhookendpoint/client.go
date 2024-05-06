@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new webhook endpoint.
+// A webhook endpoint must have a url and a list of enabled_events. You may optionally specify the Boolean connect parameter. If set to true, then a Connect webhook endpoint that notifies the specified url about events from all connected accounts is created; otherwise an account webhook endpoint that notifies the specified url only about events from your account is created. You can also create webhook endpoints in the [webhooks settings](https://dashboard.stripe.com/account/webhooks) section of the Dashboard.
 func New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	return getC().New(params)
 }
 
-// New creates a new webhook endpoint.
+// A webhook endpoint must have a url and a list of enabled_events. You may optionally specify the Boolean connect parameter. If set to true, then a Connect webhook endpoint that notifies the specified url about events from all connected accounts is created; otherwise an account webhook endpoint that notifies the specified url only about events from your account is created. You can also create webhook endpoints in the [webhooks settings](https://dashboard.stripe.com/account/webhooks) section of the Dashboard.
 func (c Client) New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	webhookendpoint := &stripe.WebhookEndpoint{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoi
 	return webhookendpoint, err
 }
 
-// Get returns the details of a webhook endpoint.
+// Retrieves the webhook endpoint with the given ID.
 func Get(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a webhook endpoint.
+// Retrieves the webhook endpoint with the given ID.
 func (c Client) Get(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	webhookendpoint := &stripe.WebhookEndpoint{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.WebhookEndpointParams) (*stripe.We
 	return webhookendpoint, err
 }
 
-// Update updates a webhook endpoint's properties.
+// Updates the webhook endpoint. You may edit the url, the list of enabled_events, and the status of your endpoint.
 func Update(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a webhook endpoint's properties.
+// Updates the webhook endpoint. You may edit the url, the list of enabled_events, and the status of your endpoint.
 func (c Client) Update(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	webhookendpoint := &stripe.WebhookEndpoint{}
@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.WebhookEndpointParams) (*stripe
 	return webhookendpoint, err
 }
 
-// Del removes a webhook endpoint.
+// You can also delete webhook endpoints via the [webhook endpoint management](https://dashboard.stripe.com/account/webhooks) page of the Stripe dashboard.
 func Del(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a webhook endpoint.
+// You can also delete webhook endpoints via the [webhook endpoint management](https://dashboard.stripe.com/account/webhooks) page of the Stripe dashboard.
 func (c Client) Del(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	webhookendpoint := &stripe.WebhookEndpoint{}
@@ -77,12 +77,12 @@ func (c Client) Del(id string, params *stripe.WebhookEndpointParams) (*stripe.We
 	return webhookendpoint, err
 }
 
-// List returns a list of webhook endpoints.
+// Returns a list of your webhook endpoints.
 func List(params *stripe.WebhookEndpointListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of webhook endpoints.
+// Returns a list of your webhook endpoints.
 func (c Client) List(listParams *stripe.WebhookEndpointListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

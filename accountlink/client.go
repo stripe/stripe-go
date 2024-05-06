@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new account link.
+// Creates an AccountLink object that includes a single-use Stripe URL that the platform can redirect their user to in order to take them through the Connect Onboarding flow.
 func New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
 	return getC().New(params)
 }
 
-// New creates a new account link.
+// Creates an AccountLink object that includes a single-use Stripe URL that the platform can redirect their user to in order to take them through the Connect Onboarding flow.
 func (c Client) New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
 	accountlink := &stripe.AccountLink{}
 	err := c.B.Call(

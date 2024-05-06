@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// List returns a list of financial connections account inferred balances.
+// Lists the recorded inferred balances for a Financial Connections Account.
 func List(params *stripe.FinancialConnectionsAccountInferredBalanceListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of financial connections account inferred balances.
+// Lists the recorded inferred balances for a Financial Connections Account.
 func (c Client) List(listParams *stripe.FinancialConnectionsAccountInferredBalanceListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/financial_connections/accounts/%s/inferred_balances",

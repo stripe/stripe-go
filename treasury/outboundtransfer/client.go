@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new treasury outbound transfer.
+// Creates an OutboundTransfer.
 func New(params *stripe.TreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().New(params)
 }
 
-// New creates a new treasury outbound transfer.
+// Creates an OutboundTransfer.
 func (c Client) New(params *stripe.TreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	outboundtransfer := &stripe.TreasuryOutboundTransfer{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.TreasuryOutboundTransferParams) (*stripe.Trea
 	return outboundtransfer, err
 }
 
-// Get returns the details of a treasury outbound transfer.
+// Retrieves the details of an existing OutboundTransfer by passing the unique OutboundTransfer ID from either the OutboundTransfer creation request or OutboundTransfer list.
 func Get(id string, params *stripe.TreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a treasury outbound transfer.
+// Retrieves the details of an existing OutboundTransfer by passing the unique OutboundTransfer ID from either the OutboundTransfer creation request or OutboundTransfer list.
 func (c Client) Get(id string, params *stripe.TreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath("/v1/treasury/outbound_transfers/%s", id)
 	outboundtransfer := &stripe.TreasuryOutboundTransfer{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.TreasuryOutboundTransferParams) (*
 	return outboundtransfer, err
 }
 
-// Cancel is the method for the `POST /v1/treasury/outbound_transfers/{outbound_transfer}/cancel` API.
+// An OutboundTransfer can be canceled if the funds have not yet been paid out.
 func Cancel(id string, params *stripe.TreasuryOutboundTransferCancelParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel is the method for the `POST /v1/treasury/outbound_transfers/{outbound_transfer}/cancel` API.
+// An OutboundTransfer can be canceled if the funds have not yet been paid out.
 func (c Client) Cancel(id string, params *stripe.TreasuryOutboundTransferCancelParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath("/v1/treasury/outbound_transfers/%s/cancel", id)
 	outboundtransfer := &stripe.TreasuryOutboundTransfer{}
@@ -64,12 +64,12 @@ func (c Client) Cancel(id string, params *stripe.TreasuryOutboundTransferCancelP
 	return outboundtransfer, err
 }
 
-// List returns a list of treasury outbound transfers.
+// Returns a list of OutboundTransfers sent from the specified FinancialAccount.
 func List(params *stripe.TreasuryOutboundTransferListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of treasury outbound transfers.
+// Returns a list of OutboundTransfers sent from the specified FinancialAccount.
 func (c Client) List(listParams *stripe.TreasuryOutboundTransferListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

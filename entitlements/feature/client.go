@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new entitlements feature.
+// Creates a feature
 func New(params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	return getC().New(params)
 }
 
-// New creates a new entitlements feature.
+// Creates a feature
 func (c Client) New(params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	feature := &stripe.EntitlementsFeature{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.EntitlementsFeatureParams) (*stripe.Entitleme
 	return feature, err
 }
 
-// Get returns the details of an entitlements feature.
+// Retrieves a feature
 func Get(id string, params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an entitlements feature.
+// Retrieves a feature
 func (c Client) Get(id string, params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	path := stripe.FormatURLPath("/v1/entitlements/features/%s", id)
 	feature := &stripe.EntitlementsFeature{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.EntitlementsFeatureParams) (*strip
 	return feature, err
 }
 
-// Update updates an entitlements feature's properties.
+// Update a feature's metadata or permanently deactivate it.
 func Update(id string, params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an entitlements feature's properties.
+// Update a feature's metadata or permanently deactivate it.
 func (c Client) Update(id string, params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	path := stripe.FormatURLPath("/v1/entitlements/features/%s", id)
 	feature := &stripe.EntitlementsFeature{}
@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.EntitlementsFeatureParams) (*st
 	return feature, err
 }
 
-// List returns a list of entitlements features.
+// Retrieve a list of features
 func List(params *stripe.EntitlementsFeatureListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of entitlements features.
+// Retrieve a list of features
 func (c Client) List(listParams *stripe.EntitlementsFeatureListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

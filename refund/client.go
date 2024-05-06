@@ -20,24 +20,44 @@ type Client struct {
 	Key string
 }
 
-// New creates a new refund.
+// When you create a new refund, you must specify a Charge or a PaymentIntent object on which to create it.
+//
+// Creating a new refund will refund a charge that has previously been created but not yet refunded.
+// Funds will be refunded to the credit or debit card that was originally charged.
+//
+// You can optionally refund only part of a charge.
+// You can do so multiple times, until the entire charge has been refunded.
+//
+// Once entirely refunded, a charge can't be refunded again.
+// This method will raise an error when called on an already-refunded charge,
+// or when trying to refund more money than is left on a charge.
 func New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().New(params)
 }
 
-// New creates a new refund.
+// When you create a new refund, you must specify a Charge or a PaymentIntent object on which to create it.
+//
+// Creating a new refund will refund a charge that has previously been created but not yet refunded.
+// Funds will be refunded to the credit or debit card that was originally charged.
+//
+// You can optionally refund only part of a charge.
+// You can do so multiple times, until the entire charge has been refunded.
+//
+// Once entirely refunded, a charge can't be refunded again.
+// This method will raise an error when called on an already-refunded charge,
+// or when trying to refund more money than is left on a charge.
 func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	refund := &stripe.Refund{}
 	err := c.B.Call(http.MethodPost, "/v1/refunds", c.Key, params, refund)
 	return refund, err
 }
 
-// Get returns the details of a refund.
+// Retrieves the details of an existing refund.
 func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a refund.
+// Retrieves the details of an existing refund.
 func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/v1/refunds/%s", id)
 	refund := &stripe.Refund{}
@@ -45,12 +65,16 @@ func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, err
 	return refund, err
 }
 
-// Update updates a refund's properties.
+// Updates the refund that you specify by setting the values of the passed parameters. Any parameters that you don't provide remain unchanged.
+//
+// This request only accepts metadata as an argument.
 func Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a refund's properties.
+// Updates the refund that you specify by setting the values of the passed parameters. Any parameters that you don't provide remain unchanged.
+//
+// This request only accepts metadata as an argument.
 func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/v1/refunds/%s", id)
 	refund := &stripe.Refund{}
@@ -58,12 +82,16 @@ func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, 
 	return refund, err
 }
 
-// Cancel is the method for the `POST /v1/refunds/{refund}/cancel` API.
+// Cancels a refund with a status of requires_action.
+//
+// You can't cancel refunds in other states. Only refunds for payment methods that require customer action can enter the requires_action state.
 func Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Refund, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel is the method for the `POST /v1/refunds/{refund}/cancel` API.
+// Cancels a refund with a status of requires_action.
+//
+// You can't cancel refunds in other states. Only refunds for payment methods that require customer action can enter the requires_action state.
 func (c Client) Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/v1/refunds/%s/cancel", id)
 	refund := &stripe.Refund{}
@@ -71,12 +99,12 @@ func (c Client) Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Re
 	return refund, err
 }
 
-// List returns a list of refunds.
+// Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first The 10 most recent refunds are always available by default on the Charge object.
 func List(params *stripe.RefundListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of refunds.
+// Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first The 10 most recent refunds are always available by default on the Charge object.
 func (c Client) List(listParams *stripe.RefundListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

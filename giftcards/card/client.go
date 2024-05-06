@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new gift cards card.
+// Creates a new gift card object.
 func New(params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	return getC().New(params)
 }
 
-// New creates a new gift cards card.
+// Creates a new gift card object.
 func (c Client) New(params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	card := &stripe.GiftCardsCard{}
 	err := c.B.Call(http.MethodPost, "/v1/gift_cards/cards", c.Key, params, card)
 	return card, err
 }
 
-// Get returns the details of a gift cards card.
+// Retrieve a gift card by id
 func Get(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a gift cards card.
+// Retrieve a gift card by id
 func (c Client) Get(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/cards/%s", id)
 	card := &stripe.GiftCardsCard{}
@@ -45,12 +45,12 @@ func (c Client) Get(id string, params *stripe.GiftCardsCardParams) (*stripe.Gift
 	return card, err
 }
 
-// Update updates a gift cards card's properties.
+// Update a gift card
 func Update(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a gift cards card's properties.
+// Update a gift card
 func (c Client) Update(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/cards/%s", id)
 	card := &stripe.GiftCardsCard{}
@@ -58,12 +58,12 @@ func (c Client) Update(id string, params *stripe.GiftCardsCardParams) (*stripe.G
 	return card, err
 }
 
-// Validate is the method for the `POST /v1/gift_cards/cards/validate` API.
+// Validates a gift card code, returning the matching gift card object if it exists.
 func Validate(params *stripe.GiftCardsCardValidateParams) (*stripe.GiftCardsCard, error) {
 	return getC().Validate(params)
 }
 
-// Validate is the method for the `POST /v1/gift_cards/cards/validate` API.
+// Validates a gift card code, returning the matching gift card object if it exists.
 func (c Client) Validate(params *stripe.GiftCardsCardValidateParams) (*stripe.GiftCardsCard, error) {
 	card := &stripe.GiftCardsCard{}
 	err := c.B.Call(
@@ -76,12 +76,12 @@ func (c Client) Validate(params *stripe.GiftCardsCardValidateParams) (*stripe.Gi
 	return card, err
 }
 
-// List returns a list of gift cards cards.
+// List gift cards for an account
 func List(params *stripe.GiftCardsCardListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of gift cards cards.
+// List gift cards for an account
 func (c Client) List(listParams *stripe.GiftCardsCardListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new payment link.
+// Creates a payment link.
 func New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	return getC().New(params)
 }
 
-// New creates a new payment link.
+// Creates a payment link.
 func (c Client) New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	paymentlink := &stripe.PaymentLink{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, erro
 	return paymentlink, err
 }
 
-// Get returns the details of a payment link.
+// Retrieve a payment link.
 func Get(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a payment link.
+// Retrieve a payment link.
 func (c Client) Get(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	path := stripe.FormatURLPath("/v1/payment_links/%s", id)
 	paymentlink := &stripe.PaymentLink{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.PaymentLinkParams) (*stripe.Paymen
 	return paymentlink, err
 }
 
-// Update updates a payment link's properties.
+// Updates a payment link.
 func Update(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a payment link's properties.
+// Updates a payment link.
 func (c Client) Update(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	path := stripe.FormatURLPath("/v1/payment_links/%s", id)
 	paymentlink := &stripe.PaymentLink{}
@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.PaymentLinkParams) (*stripe.Pay
 	return paymentlink, err
 }
 
-// List returns a list of payment links.
+// Returns a list of your payment links.
 func List(params *stripe.PaymentLinkListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of payment links.
+// Returns a list of your payment links.
 func (c Client) List(listParams *stripe.PaymentLinkListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -103,12 +103,12 @@ func (i *Iter) PaymentLinkList() *stripe.PaymentLinkList {
 	return i.List().(*stripe.PaymentLinkList)
 }
 
-// ListLineItems is the method for the `GET /v1/payment_links/{payment_link}/line_items` API.
+// When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func ListLineItems(params *stripe.PaymentLinkListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)
 }
 
-// ListLineItems is the method for the `GET /v1/payment_links/{payment_link}/line_items` API.
+// When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLineItems(listParams *stripe.PaymentLinkListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/payment_links/%s/line_items",

@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// Update updates a treasury outbound transfer's properties.
+// Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
 func Update(id string, params *stripe.TestHelpersTreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a treasury outbound transfer's properties.
+// Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
 func (c Client) Update(id string, params *stripe.TestHelpersTreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/outbound_transfers/%s",
@@ -35,12 +35,12 @@ func (c Client) Update(id string, params *stripe.TestHelpersTreasuryOutboundTran
 	return outboundtransfer, err
 }
 
-// Fail is the method for the `POST /v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/fail` API.
+// Transitions a test mode created OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
 func Fail(id string, params *stripe.TestHelpersTreasuryOutboundTransferFailParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().Fail(id, params)
 }
 
-// Fail is the method for the `POST /v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/fail` API.
+// Transitions a test mode created OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
 func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryOutboundTransferFailParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/outbound_transfers/%s/fail",
@@ -51,12 +51,12 @@ func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryOutboundTransf
 	return outboundtransfer, err
 }
 
-// Post is the method for the `POST /v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/post` API.
+// Transitions a test mode created OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
 func Post(id string, params *stripe.TestHelpersTreasuryOutboundTransferPostParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().Post(id, params)
 }
 
-// Post is the method for the `POST /v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/post` API.
+// Transitions a test mode created OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
 func (c Client) Post(id string, params *stripe.TestHelpersTreasuryOutboundTransferPostParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/outbound_transfers/%s/post",
@@ -67,12 +67,12 @@ func (c Client) Post(id string, params *stripe.TestHelpersTreasuryOutboundTransf
 	return outboundtransfer, err
 }
 
-// ReturnOutboundTransfer is the method for the `POST /v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/return` API.
+// Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.
 func ReturnOutboundTransfer(id string, params *stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	return getC().ReturnOutboundTransfer(id, params)
 }
 
-// ReturnOutboundTransfer is the method for the `POST /v1/test_helpers/treasury/outbound_transfers/{outbound_transfer}/return` API.
+// Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.
 func (c Client) ReturnOutboundTransfer(id string, params *stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/outbound_transfers/%s/return",

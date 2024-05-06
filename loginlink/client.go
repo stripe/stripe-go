@@ -20,12 +20,16 @@ type Client struct {
 	Key string
 }
 
-// New creates a new login link.
+// Creates a single-use login link for a connected account to access the Express Dashboard.
+//
+// You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
 func New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 	return getC().New(params)
 }
 
-// New creates a new login link.
+// Creates a single-use login link for a connected account to access the Express Dashboard.
+//
+// You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
 func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 	if params.Account == nil {
 		return nil, fmt.Errorf("Invalid login link params: Account must be set")

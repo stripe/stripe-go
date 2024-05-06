@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a customer cash balance transaction.
+// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
 func Get(id string, params *stripe.CustomerCashBalanceTransactionParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a customer cash balance transaction.
+// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
 func (c Client) Get(id string, params *stripe.CustomerCashBalanceTransactionParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/cash_balance_transactions/%s",
@@ -43,12 +43,12 @@ func (c Client) Get(id string, params *stripe.CustomerCashBalanceTransactionPara
 	return customercashbalancetransaction, err
 }
 
-// List returns a list of customer cash balance transactions.
+// Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
 func List(params *stripe.CustomerCashBalanceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of customer cash balance transactions.
+// Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
 func (c Client) List(listParams *stripe.CustomerCashBalanceTransactionListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/cash_balance_transactions",

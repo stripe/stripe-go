@@ -19,24 +19,24 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a tax settings.
+// Retrieves Tax Settings for a merchant.
 func Get(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 	return getC().Get(params)
 }
 
-// Get returns the details of a tax settings.
+// Retrieves Tax Settings for a merchant.
 func (c Client) Get(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 	settings := &stripe.TaxSettings{}
 	err := c.B.Call(http.MethodGet, "/v1/tax/settings", c.Key, params, settings)
 	return settings, err
 }
 
-// Update updates a tax settings's properties.
+// Updates Tax Settings parameters used in tax calculations. All parameters are editable but none can be removed once set.
 func Update(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 	return getC().Update(params)
 }
 
-// Update updates a tax settings's properties.
+// Updates Tax Settings parameters used in tax calculations. All parameters are editable but none can be removed once set.
 func (c Client) Update(params *stripe.TaxSettingsParams) (*stripe.TaxSettings, error) {
 	settings := &stripe.TaxSettings{}
 	err := c.B.Call(http.MethodPost, "/v1/tax/settings", c.Key, params, settings)
