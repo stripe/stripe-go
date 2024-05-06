@@ -20,24 +20,26 @@ type Client struct {
 	Key string
 }
 
-// New creates a new climate order.
+// Creates a Climate order object for a given Climate product. The order will be processed immediately
+// after creation and payment will be deducted your Stripe balance.
 func New(params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 	return getC().New(params)
 }
 
-// New creates a new climate order.
+// Creates a Climate order object for a given Climate product. The order will be processed immediately
+// after creation and payment will be deducted your Stripe balance.
 func (c Client) New(params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 	order := &stripe.ClimateOrder{}
 	err := c.B.Call(http.MethodPost, "/v1/climate/orders", c.Key, params, order)
 	return order, err
 }
 
-// Get returns the details of a climate order.
+// Retrieves the details of a Climate order object with the given ID.
 func Get(id string, params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a climate order.
+// Retrieves the details of a Climate order object with the given ID.
 func (c Client) Get(id string, params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 	path := stripe.FormatURLPath("/v1/climate/orders/%s", id)
 	order := &stripe.ClimateOrder{}
@@ -45,12 +47,12 @@ func (c Client) Get(id string, params *stripe.ClimateOrderParams) (*stripe.Clima
 	return order, err
 }
 
-// Update updates a climate order's properties.
+// Updates the specified order by setting the values of the parameters passed.
 func Update(id string, params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a climate order's properties.
+// Updates the specified order by setting the values of the parameters passed.
 func (c Client) Update(id string, params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 	path := stripe.FormatURLPath("/v1/climate/orders/%s", id)
 	order := &stripe.ClimateOrder{}
@@ -58,12 +60,18 @@ func (c Client) Update(id string, params *stripe.ClimateOrderParams) (*stripe.Cl
 	return order, err
 }
 
-// Cancel is the method for the `POST /v1/climate/orders/{order}/cancel` API.
+// Cancels a Climate order. You can cancel an order within 30 days of creation. Stripe refunds the
+// reservation amount_subtotal, but not the amount_fees for user-triggered cancellations. Frontier
+// might cancel reservations if suppliers fail to deliver. If Frontier cancels the reservation, Stripe
+// provides 90 days advance notice and refunds the amount_total.
 func Cancel(id string, params *stripe.ClimateOrderCancelParams) (*stripe.ClimateOrder, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel is the method for the `POST /v1/climate/orders/{order}/cancel` API.
+// Cancels a Climate order. You can cancel an order within 30 days of creation. Stripe refunds the
+// reservation amount_subtotal, but not the amount_fees for user-triggered cancellations. Frontier
+// might cancel reservations if suppliers fail to deliver. If Frontier cancels the reservation, Stripe
+// provides 90 days advance notice and refunds the amount_total.
 func (c Client) Cancel(id string, params *stripe.ClimateOrderCancelParams) (*stripe.ClimateOrder, error) {
 	path := stripe.FormatURLPath("/v1/climate/orders/%s/cancel", id)
 	order := &stripe.ClimateOrder{}
@@ -71,12 +79,14 @@ func (c Client) Cancel(id string, params *stripe.ClimateOrderCancelParams) (*str
 	return order, err
 }
 
-// List returns a list of climate orders.
+// Lists all Climate order objects. The orders are returned sorted by creation date, with the
+// most recently created orders appearing first.
 func List(params *stripe.ClimateOrderListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of climate orders.
+// Lists all Climate order objects. The orders are returned sorted by creation date, with the
+// most recently created orders appearing first.
 func (c Client) List(listParams *stripe.ClimateOrderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

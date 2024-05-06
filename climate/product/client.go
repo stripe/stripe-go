@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a climate product.
+// Retrieves the details of a Climate product with the given ID.
 func Get(id string, params *stripe.ClimateProductParams) (*stripe.ClimateProduct, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a climate product.
+// Retrieves the details of a Climate product with the given ID.
 func (c Client) Get(id string, params *stripe.ClimateProductParams) (*stripe.ClimateProduct, error) {
 	path := stripe.FormatURLPath("/v1/climate/products/%s", id)
 	product := &stripe.ClimateProduct{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.ClimateProductParams) (*stripe.Cli
 	return product, err
 }
 
-// List returns a list of climate products.
+// Lists all available Climate product objects.
 func List(params *stripe.ClimateProductListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of climate products.
+// Lists all available Climate product objects.
 func (c Client) List(listParams *stripe.ClimateProductListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

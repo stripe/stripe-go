@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an entitlements active entitlement.
+// Retrieve an active entitlement
 func Get(id string, params *stripe.EntitlementsActiveEntitlementParams) (*stripe.EntitlementsActiveEntitlement, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an entitlements active entitlement.
+// Retrieve an active entitlement
 func (c Client) Get(id string, params *stripe.EntitlementsActiveEntitlementParams) (*stripe.EntitlementsActiveEntitlement, error) {
 	path := stripe.FormatURLPath("/v1/entitlements/active_entitlements/%s", id)
 	activeentitlement := &stripe.EntitlementsActiveEntitlement{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.EntitlementsActiveEntitlementParam
 	return activeentitlement, err
 }
 
-// List returns a list of entitlements active entitlements.
+// Retrieve a list of active entitlements for a customer
 func List(params *stripe.EntitlementsActiveEntitlementListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of entitlements active entitlements.
+// Retrieve a list of active entitlements for a customer
 func (c Client) List(listParams *stripe.EntitlementsActiveEntitlementListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

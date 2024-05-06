@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new issuing card.
+// Creates an Issuing Card object.
 func New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	return getC().New(params)
 }
 
-// New creates a new issuing card.
+// Creates an Issuing Card object.
 func (c Client) New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	card := &stripe.IssuingCard{}
 	err := c.B.Call(http.MethodPost, "/v1/issuing/cards", c.Key, params, card)
 	return card, err
 }
 
-// Get returns the details of an issuing card.
+// Retrieves an Issuing Card object.
 func Get(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an issuing card.
+// Retrieves an Issuing Card object.
 func (c Client) Get(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
@@ -45,12 +45,12 @@ func (c Client) Get(id string, params *stripe.IssuingCardParams) (*stripe.Issuin
 	return card, err
 }
 
-// Update updates an issuing card's properties.
+// Updates the specified Issuing Card object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an issuing card's properties.
+// Updates the specified Issuing Card object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c Client) Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
@@ -58,12 +58,12 @@ func (c Client) Update(id string, params *stripe.IssuingCardParams) (*stripe.Iss
 	return card, err
 }
 
-// List returns a list of issuing cards.
+// Returns a list of Issuing Card objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func List(params *stripe.IssuingCardListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of issuing cards.
+// Returns a list of Issuing Card objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c Client) List(listParams *stripe.IssuingCardListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

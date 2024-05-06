@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new payment method configuration.
+// Creates a payment method configuration
 func New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	return getC().New(params)
 }
 
-// New creates a new payment method configuration.
+// Creates a payment method configuration
 func (c Client) New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.PaymentMethodConfigurationParams) (*stripe.Pa
 	return paymentmethodconfiguration, err
 }
 
-// Get returns the details of a payment method configuration.
+// Retrieve payment method configuration
 func Get(id string, params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a payment method configuration.
+// Retrieve payment method configuration
 func (c Client) Get(id string, params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
@@ -57,12 +57,12 @@ func (c Client) Get(id string, params *stripe.PaymentMethodConfigurationParams) 
 	return paymentmethodconfiguration, err
 }
 
-// Update updates a payment method configuration's properties.
+// Update payment method configuration
 func Update(id string, params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a payment method configuration's properties.
+// Update payment method configuration
 func (c Client) Update(id string, params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
@@ -76,12 +76,12 @@ func (c Client) Update(id string, params *stripe.PaymentMethodConfigurationParam
 	return paymentmethodconfiguration, err
 }
 
-// List returns a list of payment method configurations.
+// List payment method configurations
 func List(params *stripe.PaymentMethodConfigurationListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of payment method configurations.
+// List payment method configurations
 func (c Client) List(listParams *stripe.PaymentMethodConfigurationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

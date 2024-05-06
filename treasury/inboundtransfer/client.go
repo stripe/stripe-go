@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new treasury inbound transfer.
+// Creates an InboundTransfer.
 func New(params *stripe.TreasuryInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	return getC().New(params)
 }
 
-// New creates a new treasury inbound transfer.
+// Creates an InboundTransfer.
 func (c Client) New(params *stripe.TreasuryInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.TreasuryInboundTransferParams) (*stripe.Treas
 	return inboundtransfer, err
 }
 
-// Get returns the details of a treasury inbound transfer.
+// Retrieves the details of an existing InboundTransfer.
 func Get(id string, params *stripe.TreasuryInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a treasury inbound transfer.
+// Retrieves the details of an existing InboundTransfer.
 func (c Client) Get(id string, params *stripe.TreasuryInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath("/v1/treasury/inbound_transfers/%s", id)
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.TreasuryInboundTransferParams) (*s
 	return inboundtransfer, err
 }
 
-// Cancel is the method for the `POST /v1/treasury/inbound_transfers/{inbound_transfer}/cancel` API.
+// Cancels an InboundTransfer.
 func Cancel(id string, params *stripe.TreasuryInboundTransferCancelParams) (*stripe.TreasuryInboundTransfer, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel is the method for the `POST /v1/treasury/inbound_transfers/{inbound_transfer}/cancel` API.
+// Cancels an InboundTransfer.
 func (c Client) Cancel(id string, params *stripe.TreasuryInboundTransferCancelParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath("/v1/treasury/inbound_transfers/%s/cancel", id)
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
@@ -64,12 +64,12 @@ func (c Client) Cancel(id string, params *stripe.TreasuryInboundTransferCancelPa
 	return inboundtransfer, err
 }
 
-// List returns a list of treasury inbound transfers.
+// Returns a list of InboundTransfers sent from the specified FinancialAccount.
 func List(params *stripe.TreasuryInboundTransferListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of treasury inbound transfers.
+// Returns a list of InboundTransfers sent from the specified FinancialAccount.
 func (c Client) List(listParams *stripe.TreasuryInboundTransferListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

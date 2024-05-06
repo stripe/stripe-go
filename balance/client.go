@@ -19,12 +19,16 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a balance.
+// Retrieves the current account balance, based on the authentication that was used to make the request.
+//
+//	For a sample request, see [Accounting for negative balances](https://stripe.com/docs/connect/account-balances#accounting-for-negative-balances).
 func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	return getC().Get(params)
 }
 
-// Get returns the details of a balance.
+// Retrieves the current account balance, based on the authentication that was used to make the request.
+//
+//	For a sample request, see [Accounting for negative balances](https://stripe.com/docs/connect/account-balances#accounting-for-negative-balances).
 func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	balance := &stripe.Balance{}
 	err := c.B.Call(http.MethodGet, "/v1/balance", c.Key, params, balance)

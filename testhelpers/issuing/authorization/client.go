@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new issuing authorization.
+// Create a test-mode authorization.
 func New(params *stripe.TestHelpersIssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	return getC().New(params)
 }
 
-// New creates a new issuing authorization.
+// Create a test-mode authorization.
 func (c Client) New(params *stripe.TestHelpersIssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	authorization := &stripe.IssuingAuthorization{}
 	err := c.B.Call(
@@ -37,12 +37,12 @@ func (c Client) New(params *stripe.TestHelpersIssuingAuthorizationParams) (*stri
 	return authorization, err
 }
 
-// Capture is the method for the `POST /v1/test_helpers/issuing/authorizations/{authorization}/capture` API.
+// Capture a test-mode authorization.
 func Capture(id string, params *stripe.TestHelpersIssuingAuthorizationCaptureParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Capture(id, params)
 }
 
-// Capture is the method for the `POST /v1/test_helpers/issuing/authorizations/{authorization}/capture` API.
+// Capture a test-mode authorization.
 func (c Client) Capture(id string, params *stripe.TestHelpersIssuingAuthorizationCaptureParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/issuing/authorizations/%s/capture",
@@ -53,12 +53,12 @@ func (c Client) Capture(id string, params *stripe.TestHelpersIssuingAuthorizatio
 	return authorization, err
 }
 
-// Expire is the method for the `POST /v1/test_helpers/issuing/authorizations/{authorization}/expire` API.
+// Expire a test-mode Authorization.
 func Expire(id string, params *stripe.TestHelpersIssuingAuthorizationExpireParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Expire(id, params)
 }
 
-// Expire is the method for the `POST /v1/test_helpers/issuing/authorizations/{authorization}/expire` API.
+// Expire a test-mode Authorization.
 func (c Client) Expire(id string, params *stripe.TestHelpersIssuingAuthorizationExpireParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/issuing/authorizations/%s/expire",
@@ -69,12 +69,12 @@ func (c Client) Expire(id string, params *stripe.TestHelpersIssuingAuthorization
 	return authorization, err
 }
 
-// Increment is the method for the `POST /v1/test_helpers/issuing/authorizations/{authorization}/increment` API.
+// Increment a test-mode Authorization.
 func Increment(id string, params *stripe.TestHelpersIssuingAuthorizationIncrementParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Increment(id, params)
 }
 
-// Increment is the method for the `POST /v1/test_helpers/issuing/authorizations/{authorization}/increment` API.
+// Increment a test-mode Authorization.
 func (c Client) Increment(id string, params *stripe.TestHelpersIssuingAuthorizationIncrementParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/issuing/authorizations/%s/increment",
@@ -85,12 +85,12 @@ func (c Client) Increment(id string, params *stripe.TestHelpersIssuingAuthorizat
 	return authorization, err
 }
 
-// Reverse is the method for the `POST /v1/test_helpers/issuing/authorizations/{authorization}/reverse` API.
+// Reverse a test-mode Authorization.
 func Reverse(id string, params *stripe.TestHelpersIssuingAuthorizationReverseParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Reverse(id, params)
 }
 
-// Reverse is the method for the `POST /v1/test_helpers/issuing/authorizations/{authorization}/reverse` API.
+// Reverse a test-mode Authorization.
 func (c Client) Reverse(id string, params *stripe.TestHelpersIssuingAuthorizationReverseParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/issuing/authorizations/%s/reverse",

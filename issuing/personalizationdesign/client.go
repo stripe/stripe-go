@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new issuing personalization design.
+// Creates a personalization design object.
 func New(params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	return getC().New(params)
 }
 
-// New creates a new issuing personalization design.
+// Creates a personalization design object.
 func (c Client) New(params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.IssuingPersonalizationDesignParams) (*stripe.
 	return personalizationdesign, err
 }
 
-// Get returns the details of an issuing personalization design.
+// Retrieves a personalization design object.
 func Get(id string, params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an issuing personalization design.
+// Retrieves a personalization design object.
 func (c Client) Get(id string, params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	path := stripe.FormatURLPath("/v1/issuing/personalization_designs/%s", id)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.IssuingPersonalizationDesignParams
 	return personalizationdesign, err
 }
 
-// Update updates an issuing personalization design's properties.
+// Updates a card personalization object.
 func Update(id string, params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an issuing personalization design's properties.
+// Updates a card personalization object.
 func (c Client) Update(id string, params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	path := stripe.FormatURLPath("/v1/issuing/personalization_designs/%s", id)
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.IssuingPersonalizationDesignPar
 	return personalizationdesign, err
 }
 
-// List returns a list of issuing personalization designs.
+// Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func List(params *stripe.IssuingPersonalizationDesignListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of issuing personalization designs.
+// Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c Client) List(listParams *stripe.IssuingPersonalizationDesignListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

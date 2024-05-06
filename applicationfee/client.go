@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an application fee.
+// Retrieves the details of an application fee that your account has collected. The same information is returned when refunding the application fee.
 func Get(id string, params *stripe.ApplicationFeeParams) (*stripe.ApplicationFee, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an application fee.
+// Retrieves the details of an application fee that your account has collected. The same information is returned when refunding the application fee.
 func (c Client) Get(id string, params *stripe.ApplicationFeeParams) (*stripe.ApplicationFee, error) {
 	path := stripe.FormatURLPath("/v1/application_fees/%s", id)
 	applicationfee := &stripe.ApplicationFee{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.ApplicationFeeParams) (*stripe.App
 	return applicationfee, err
 }
 
-// List returns a list of application fees.
+// Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
 func List(params *stripe.ApplicationFeeListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of application fees.
+// Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
 func (c Client) List(listParams *stripe.ApplicationFeeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

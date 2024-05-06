@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new terminal configuration.
+// Creates a new Configuration object.
 func New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	return getC().New(params)
 }
 
-// New creates a new terminal configuration.
+// Creates a new Configuration object.
 func (c Client) New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	configuration := &stripe.TerminalConfiguration{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.TerminalConfigurationParams) (*stripe.Termina
 	return configuration, err
 }
 
-// Get returns the details of a terminal configuration.
+// Retrieves a Configuration object.
 func Get(id string, params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a terminal configuration.
+// Retrieves a Configuration object.
 func (c Client) Get(id string, params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/terminal/configurations/%s", id)
 	configuration := &stripe.TerminalConfiguration{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.TerminalConfigurationParams) (*str
 	return configuration, err
 }
 
-// Update updates a terminal configuration's properties.
+// Updates a new Configuration object.
 func Update(id string, params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a terminal configuration's properties.
+// Updates a new Configuration object.
 func (c Client) Update(id string, params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/terminal/configurations/%s", id)
 	configuration := &stripe.TerminalConfiguration{}
@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.TerminalConfigurationParams) (*
 	return configuration, err
 }
 
-// Del removes a terminal configuration.
+// Deletes a Configuration object.
 func Del(id string, params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a terminal configuration.
+// Deletes a Configuration object.
 func (c Client) Del(id string, params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	path := stripe.FormatURLPath("/v1/terminal/configurations/%s", id)
 	configuration := &stripe.TerminalConfiguration{}
@@ -77,12 +77,12 @@ func (c Client) Del(id string, params *stripe.TerminalConfigurationParams) (*str
 	return configuration, err
 }
 
-// List returns a list of terminal configurations.
+// Returns a list of Configuration objects.
 func List(params *stripe.TerminalConfigurationListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of terminal configurations.
+// Returns a list of Configuration objects.
 func (c Client) List(listParams *stripe.TerminalConfigurationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

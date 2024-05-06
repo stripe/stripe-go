@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a financial connections transaction.
+// Retrieves the details of a Financial Connections Transaction
 func Get(id string, params *stripe.FinancialConnectionsTransactionParams) (*stripe.FinancialConnectionsTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a financial connections transaction.
+// Retrieves the details of a Financial Connections Transaction
 func (c Client) Get(id string, params *stripe.FinancialConnectionsTransactionParams) (*stripe.FinancialConnectionsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/financial_connections/transactions/%s", id)
 	transaction := &stripe.FinancialConnectionsTransaction{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.FinancialConnectionsTransactionPar
 	return transaction, err
 }
 
-// List returns a list of financial connections transactions.
+// Returns a list of Financial Connections Transaction objects.
 func List(params *stripe.FinancialConnectionsTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of financial connections transactions.
+// Returns a list of Financial Connections Transaction objects.
 func (c Client) List(listParams *stripe.FinancialConnectionsTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

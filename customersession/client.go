@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new customer session.
+// Creates a customer session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
 func New(params *stripe.CustomerSessionParams) (*stripe.CustomerSession, error) {
 	return getC().New(params)
 }
 
-// New creates a new customer session.
+// Creates a customer session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
 func (c Client) New(params *stripe.CustomerSessionParams) (*stripe.CustomerSession, error) {
 	customersession := &stripe.CustomerSession{}
 	err := c.B.Call(

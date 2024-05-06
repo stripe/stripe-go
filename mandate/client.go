@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a mandate.
+// Retrieves a Mandate object.
 func Get(id string, params *stripe.MandateParams) (*stripe.Mandate, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a mandate.
+// Retrieves a Mandate object.
 func (c Client) Get(id string, params *stripe.MandateParams) (*stripe.Mandate, error) {
 	path := stripe.FormatURLPath("/v1/mandates/%s", id)
 	mandate := &stripe.Mandate{}

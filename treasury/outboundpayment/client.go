@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new treasury outbound payment.
+// Creates an OutboundPayment.
 func New(params *stripe.TreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
 	return getC().New(params)
 }
 
-// New creates a new treasury outbound payment.
+// Creates an OutboundPayment.
 func (c Client) New(params *stripe.TreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.TreasuryOutboundPaymentParams) (*stripe.Treas
 	return outboundpayment, err
 }
 
-// Get returns the details of a treasury outbound payment.
+// Retrieves the details of an existing OutboundPayment by passing the unique OutboundPayment ID from either the OutboundPayment creation request or OutboundPayment list.
 func Get(id string, params *stripe.TreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a treasury outbound payment.
+// Retrieves the details of an existing OutboundPayment by passing the unique OutboundPayment ID from either the OutboundPayment creation request or OutboundPayment list.
 func (c Client) Get(id string, params *stripe.TreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
 	path := stripe.FormatURLPath("/v1/treasury/outbound_payments/%s", id)
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.TreasuryOutboundPaymentParams) (*s
 	return outboundpayment, err
 }
 
-// Cancel is the method for the `POST /v1/treasury/outbound_payments/{id}/cancel` API.
+// Cancel an OutboundPayment.
 func Cancel(id string, params *stripe.TreasuryOutboundPaymentCancelParams) (*stripe.TreasuryOutboundPayment, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel is the method for the `POST /v1/treasury/outbound_payments/{id}/cancel` API.
+// Cancel an OutboundPayment.
 func (c Client) Cancel(id string, params *stripe.TreasuryOutboundPaymentCancelParams) (*stripe.TreasuryOutboundPayment, error) {
 	path := stripe.FormatURLPath("/v1/treasury/outbound_payments/%s/cancel", id)
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
@@ -64,12 +64,12 @@ func (c Client) Cancel(id string, params *stripe.TreasuryOutboundPaymentCancelPa
 	return outboundpayment, err
 }
 
-// List returns a list of treasury outbound payments.
+// Returns a list of OutboundPayments sent from the specified FinancialAccount.
 func List(params *stripe.TreasuryOutboundPaymentListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of treasury outbound payments.
+// Returns a list of OutboundPayments sent from the specified FinancialAccount.
 func (c Client) List(listParams *stripe.TreasuryOutboundPaymentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

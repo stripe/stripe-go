@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an issuing physical bundle.
+// Retrieves a physical bundle object.
 func Get(id string, params *stripe.IssuingPhysicalBundleParams) (*stripe.IssuingPhysicalBundle, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an issuing physical bundle.
+// Retrieves a physical bundle object.
 func (c Client) Get(id string, params *stripe.IssuingPhysicalBundleParams) (*stripe.IssuingPhysicalBundle, error) {
 	path := stripe.FormatURLPath("/v1/issuing/physical_bundles/%s", id)
 	physicalbundle := &stripe.IssuingPhysicalBundle{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.IssuingPhysicalBundleParams) (*str
 	return physicalbundle, err
 }
 
-// List returns a list of issuing physical bundles.
+// Returns a list of physical bundle objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func List(params *stripe.IssuingPhysicalBundleListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of issuing physical bundles.
+// Returns a list of physical bundle objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c Client) List(listParams *stripe.IssuingPhysicalBundleListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
