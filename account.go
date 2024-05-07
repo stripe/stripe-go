@@ -1634,7 +1634,7 @@ type Account struct {
 	// Three-letter ISO currency code representing the default currency for the account. This must be a currency that [Stripe supports in the account's country](https://stripe.com/docs/payouts).
 	DefaultCurrency Currency `json:"default_currency"`
 	Deleted         bool     `json:"deleted"`
-	// Whether account details have been submitted. Accounts with Stripe Dashboard access, which includes Standard accounts, cannot receive payouts before this is true.
+	// Whether account details have been submitted. Accounts with Stripe Dashboard access, which includes Standard accounts, cannot receive payouts before this is true. Accounts where this is false should be directed to [an onboarding flow](https://stripe.com/connect/onboarding) to finish submitting account details.
 	DetailsSubmitted bool `json:"details_submitted"`
 	// An email address associated with the account. It's not used for authentication and Stripe doesn't market to this field without explicit approval from the platform.
 	Email string `json:"email"`
