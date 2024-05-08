@@ -156,12 +156,12 @@ func (i *Iter) CreditNoteList() *stripe.CreditNoteList {
 	return i.List().(*stripe.CreditNoteList)
 }
 
-// When retrieving a credit note, you'll get a lines property containing the the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+// When retrieving a credit note, you'll get a lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func ListLines(params *stripe.CreditNoteListLinesParams) *LineItemIter {
 	return getC().ListLines(params)
 }
 
-// When retrieving a credit note, you'll get a lines property containing the the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+// When retrieving a credit note, you'll get a lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/credit_notes/%s/lines",
