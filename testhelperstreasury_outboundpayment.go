@@ -68,7 +68,7 @@ func (p *TestHelpersTreasuryOutboundPaymentPostParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Optional hash to set the the return code.
+// Optional hash to set the return code.
 type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParams struct {
 	// The return code to be set on the OutboundPayment object.
 	Code *string `form:"code"`
@@ -79,7 +79,7 @@ type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Optional hash to set the the return code.
+	// Optional hash to set the return code.
 	ReturnedDetails *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParams `form:"returned_details"`
 }
 
