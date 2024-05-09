@@ -20,12 +20,14 @@ type Client struct {
 	Key string
 }
 
-// New creates a new terminal location.
+// Creates a new Location object.
+// For further details, including which address fields are required in each country, see the [Manage locations](https://stripe.com/docs/terminal/fleet/locations) guide.
 func New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	return getC().New(params)
 }
 
-// New creates a new terminal location.
+// Creates a new Location object.
+// For further details, including which address fields are required in each country, see the [Manage locations](https://stripe.com/docs/terminal/fleet/locations) guide.
 func (c Client) New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	location := &stripe.TerminalLocation{}
 	err := c.B.Call(
@@ -38,12 +40,12 @@ func (c Client) New(params *stripe.TerminalLocationParams) (*stripe.TerminalLoca
 	return location, err
 }
 
-// Get returns the details of a terminal location.
+// Retrieves a Location object.
 func Get(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a terminal location.
+// Retrieves a Location object.
 func (c Client) Get(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	path := stripe.FormatURLPath("/v1/terminal/locations/%s", id)
 	location := &stripe.TerminalLocation{}
@@ -51,12 +53,12 @@ func (c Client) Get(id string, params *stripe.TerminalLocationParams) (*stripe.T
 	return location, err
 }
 
-// Update updates a terminal location's properties.
+// Updates a Location object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func Update(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a terminal location's properties.
+// Updates a Location object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c Client) Update(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	path := stripe.FormatURLPath("/v1/terminal/locations/%s", id)
 	location := &stripe.TerminalLocation{}
@@ -64,12 +66,12 @@ func (c Client) Update(id string, params *stripe.TerminalLocationParams) (*strip
 	return location, err
 }
 
-// Del removes a terminal location.
+// Deletes a Location object.
 func Del(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a terminal location.
+// Deletes a Location object.
 func (c Client) Del(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	path := stripe.FormatURLPath("/v1/terminal/locations/%s", id)
 	location := &stripe.TerminalLocation{}
@@ -77,12 +79,12 @@ func (c Client) Del(id string, params *stripe.TerminalLocationParams) (*stripe.T
 	return location, err
 }
 
-// List returns a list of terminal locations.
+// Returns a list of Location objects.
 func List(params *stripe.TerminalLocationListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of terminal locations.
+// Returns a list of Location objects.
 func (c Client) List(listParams *stripe.TerminalLocationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

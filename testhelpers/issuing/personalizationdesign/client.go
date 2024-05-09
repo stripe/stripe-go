@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// Activate is the method for the `POST /v1/test_helpers/issuing/personalization_designs/{personalization_design}/activate` API.
+// Updates the status of the specified testmode personalization design object to active.
 func Activate(id string, params *stripe.TestHelpersIssuingPersonalizationDesignActivateParams) (*stripe.IssuingPersonalizationDesign, error) {
 	return getC().Activate(id, params)
 }
 
-// Activate is the method for the `POST /v1/test_helpers/issuing/personalization_designs/{personalization_design}/activate` API.
+// Updates the status of the specified testmode personalization design object to active.
 func (c Client) Activate(id string, params *stripe.TestHelpersIssuingPersonalizationDesignActivateParams) (*stripe.IssuingPersonalizationDesign, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/issuing/personalization_designs/%s/activate",
@@ -35,12 +35,12 @@ func (c Client) Activate(id string, params *stripe.TestHelpersIssuingPersonaliza
 	return personalizationdesign, err
 }
 
-// Deactivate is the method for the `POST /v1/test_helpers/issuing/personalization_designs/{personalization_design}/deactivate` API.
+// Updates the status of the specified testmode personalization design object to inactive.
 func Deactivate(id string, params *stripe.TestHelpersIssuingPersonalizationDesignDeactivateParams) (*stripe.IssuingPersonalizationDesign, error) {
 	return getC().Deactivate(id, params)
 }
 
-// Deactivate is the method for the `POST /v1/test_helpers/issuing/personalization_designs/{personalization_design}/deactivate` API.
+// Updates the status of the specified testmode personalization design object to inactive.
 func (c Client) Deactivate(id string, params *stripe.TestHelpersIssuingPersonalizationDesignDeactivateParams) (*stripe.IssuingPersonalizationDesign, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/issuing/personalization_designs/%s/deactivate",
@@ -51,12 +51,12 @@ func (c Client) Deactivate(id string, params *stripe.TestHelpersIssuingPersonali
 	return personalizationdesign, err
 }
 
-// Reject is the method for the `POST /v1/test_helpers/issuing/personalization_designs/{personalization_design}/reject` API.
+// Updates the status of the specified testmode personalization design object to rejected.
 func Reject(id string, params *stripe.TestHelpersIssuingPersonalizationDesignRejectParams) (*stripe.IssuingPersonalizationDesign, error) {
 	return getC().Reject(id, params)
 }
 
-// Reject is the method for the `POST /v1/test_helpers/issuing/personalization_designs/{personalization_design}/reject` API.
+// Updates the status of the specified testmode personalization design object to rejected.
 func (c Client) Reject(id string, params *stripe.TestHelpersIssuingPersonalizationDesignRejectParams) (*stripe.IssuingPersonalizationDesign, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/issuing/personalization_designs/%s/reject",

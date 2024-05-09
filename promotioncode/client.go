@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new promotion code.
+// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 func New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	return getC().New(params)
 }
 
-// New creates a new promotion code.
+// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 func (c Client) New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	promotioncode := &stripe.PromotionCode{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, 
 	return promotioncode, err
 }
 
-// Get returns the details of a promotion code.
+// Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
 func Get(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a promotion code.
+// Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
 func (c Client) Get(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	path := stripe.FormatURLPath("/v1/promotion_codes/%s", id)
 	promotioncode := &stripe.PromotionCode{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.PromotionCodeParams) (*stripe.Prom
 	return promotioncode, err
 }
 
-// Update updates a promotion code's properties.
+// Updates the specified promotion code by setting the values of the parameters passed. Most fields are, by design, not editable.
 func Update(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a promotion code's properties.
+// Updates the specified promotion code by setting the values of the parameters passed. Most fields are, by design, not editable.
 func (c Client) Update(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	path := stripe.FormatURLPath("/v1/promotion_codes/%s", id)
 	promotioncode := &stripe.PromotionCode{}
@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.PromotionCodeParams) (*stripe.P
 	return promotioncode, err
 }
 
-// List returns a list of promotion codes.
+// Returns a list of your promotion codes.
 func List(params *stripe.PromotionCodeListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of promotion codes.
+// Returns a list of your promotion codes.
 func (c Client) List(listParams *stripe.PromotionCodeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

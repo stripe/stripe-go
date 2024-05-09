@@ -21,12 +21,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new customer balance transaction.
+// Creates an immutable transaction that updates the customer's credit [balance](https://stripe.com/docs/billing/customer/balance).
 func New(params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	return getC().New(params)
 }
 
-// New creates a new customer balance transaction.
+// Creates an immutable transaction that updates the customer's credit [balance](https://stripe.com/docs/billing/customer/balance).
 func (c Client) New(params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
@@ -48,12 +48,12 @@ func (c Client) New(params *stripe.CustomerBalanceTransactionParams) (*stripe.Cu
 	return customerbalancetransaction, err
 }
 
-// Get returns the details of a customer balance transaction.
+// Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 func Get(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a customer balance transaction.
+// Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 func (c Client) Get(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
@@ -76,12 +76,12 @@ func (c Client) Get(id string, params *stripe.CustomerBalanceTransactionParams) 
 	return customerbalancetransaction, err
 }
 
-// Update updates a customer balance transaction's properties.
+// Most credit balance transaction fields are immutable, but you may update its description and metadata.
 func Update(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a customer balance transaction's properties.
+// Most credit balance transaction fields are immutable, but you may update its description and metadata.
 func (c Client) Update(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/balance_transactions/%s",
@@ -99,12 +99,12 @@ func (c Client) Update(id string, params *stripe.CustomerBalanceTransactionParam
 	return customerbalancetransaction, err
 }
 
-// List returns a list of customer balance transactions.
+// Returns a list of transactions that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 func List(params *stripe.CustomerBalanceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of customer balance transactions.
+// Returns a list of transactions that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 func (c Client) List(listParams *stripe.CustomerBalanceTransactionListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/balance_transactions",

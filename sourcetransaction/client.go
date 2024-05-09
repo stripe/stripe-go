@@ -21,12 +21,12 @@ type Client struct {
 	Key string
 }
 
-// List returns a list of source transactions.
+// List source transactions for a given source.
 func List(params *stripe.SourceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of source transactions.
+// List source transactions for a given source.
 func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 	if listParams == nil || listParams.Source == nil {
 		return &Iter{

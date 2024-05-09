@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new plan.
+// You can now model subscriptions more flexibly using the [Prices API](https://stripe.com/docs/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
 func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().New(params)
 }
 
-// New creates a new plan.
+// You can now model subscriptions more flexibly using the [Prices API](https://stripe.com/docs/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	plan := &stripe.Plan{}
 	err := c.B.Call(http.MethodPost, "/v1/plans", c.Key, params, plan)
 	return plan, err
 }
 
-// Get returns the details of a plan.
+// Retrieves the plan with the given ID.
 func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a plan.
+// Retrieves the plan with the given ID.
 func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
@@ -45,12 +45,12 @@ func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 	return plan, err
 }
 
-// Update updates a plan's properties.
+// Updates the specified plan by setting the values of the parameters passed. Any parameters not provided are left unchanged. By design, you cannot change a plan's ID, amount, currency, or billing cycle.
 func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a plan's properties.
+// Updates the specified plan by setting the values of the parameters passed. Any parameters not provided are left unchanged. By design, you cannot change a plan's ID, amount, currency, or billing cycle.
 func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
@@ -58,12 +58,12 @@ func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, erro
 	return plan, err
 }
 
-// Del removes a plan.
+// Deleting plans means new subscribers can't be added. Existing subscribers aren't affected.
 func Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a plan.
+// Deleting plans means new subscribers can't be added. Existing subscribers aren't affected.
 func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
@@ -71,12 +71,12 @@ func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 	return plan, err
 }
 
-// List returns a list of plans.
+// Returns a list of your plans.
 func List(params *stripe.PlanListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of plans.
+// Returns a list of your plans.
 func (c Client) List(listParams *stripe.PlanListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

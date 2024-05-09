@@ -78,6 +78,15 @@ const (
 	TreasuryOutboundTransferStatusReturned   TreasuryOutboundTransferStatus = "returned"
 )
 
+// The US bank account network used to send funds.
+type TreasuryOutboundTransferTrackingDetailsType string
+
+// List of values that TreasuryOutboundTransferTrackingDetailsType can take
+const (
+	TreasuryOutboundTransferTrackingDetailsTypeACH            TreasuryOutboundTransferTrackingDetailsType = "ach"
+	TreasuryOutboundTransferTrackingDetailsTypeUSDomesticWire TreasuryOutboundTransferTrackingDetailsType = "us_domestic_wire"
+)
+
 // Returns a list of OutboundTransfers sent from the specified FinancialAccount.
 type TreasuryOutboundTransferListParams struct {
 	ListParams `form:"*"`
@@ -234,6 +243,24 @@ type TreasuryOutboundTransferStatusTransitions struct {
 	// Timestamp describing when an OutboundTransfer changed status to `returned`
 	ReturnedAt int64 `json:"returned_at"`
 }
+type TreasuryOutboundTransferTrackingDetailsACH struct {
+	// ACH trace ID of the OutboundTransfer for transfers sent over the `ach` network.
+	TraceID string `json:"trace_id"`
+}
+type TreasuryOutboundTransferTrackingDetailsUSDomesticWire struct {
+	// IMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network.
+	Imad string `json:"imad"`
+	// OMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network.
+	Omad string `json:"omad"`
+}
+
+// Details about network-specific tracking information if available.
+type TreasuryOutboundTransferTrackingDetails struct {
+	ACH *TreasuryOutboundTransferTrackingDetailsACH `json:"ach"`
+	// The US bank account network used to send funds.
+	Type           TreasuryOutboundTransferTrackingDetailsType            `json:"type"`
+	USDomesticWire *TreasuryOutboundTransferTrackingDetailsUSDomesticWire `json:"us_domestic_wire"`
+}
 
 // Use OutboundTransfers to transfer funds from a [FinancialAccount](https://stripe.com/docs/api#financial_accounts) to a PaymentMethod belonging to the same entity. To send funds to a different party, use [OutboundPayments](https://stripe.com/docs/api#outbound_payments) instead. You can send funds over ACH rails or through a domestic wire transfer to a user's own external bank account.
 //
@@ -276,6 +303,8 @@ type TreasuryOutboundTransfer struct {
 	// Current status of the OutboundTransfer: `processing`, `failed`, `canceled`, `posted`, `returned`. An OutboundTransfer is `processing` if it has been created and is pending. The status changes to `posted` once the OutboundTransfer has been "confirmed" and funds have left the account, or to `failed` or `canceled`. If an OutboundTransfer fails to arrive at its destination, its status will change to `returned`.
 	Status            TreasuryOutboundTransferStatus             `json:"status"`
 	StatusTransitions *TreasuryOutboundTransferStatusTransitions `json:"status_transitions"`
+	// Details about network-specific tracking information if available.
+	TrackingDetails *TreasuryOutboundTransferTrackingDetails `json:"tracking_details"`
 	// The Transaction associated with this object.
 	Transaction *TreasuryTransaction `json:"transaction"`
 }

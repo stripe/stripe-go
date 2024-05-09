@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a capital financing summary.
+// Retrieve the financing state for the account that was authenticated in the request.
 func Get(params *stripe.CapitalFinancingSummaryParams) (*stripe.CapitalFinancingSummary, error) {
 	return getC().Get(params)
 }
 
-// Get returns the details of a capital financing summary.
+// Retrieve the financing state for the account that was authenticated in the request.
 func (c Client) Get(params *stripe.CapitalFinancingSummaryParams) (*stripe.CapitalFinancingSummary, error) {
 	financingsummary := &stripe.CapitalFinancingSummary{}
 	err := c.B.Call(

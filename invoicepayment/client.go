@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an invoice payment.
+// Retrieves the invoice payment with the given ID.
 func Get(id string, params *stripe.InvoicePaymentParams) (*stripe.InvoicePayment, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an invoice payment.
+// Retrieves the invoice payment with the given ID.
 func (c Client) Get(id string, params *stripe.InvoicePaymentParams) (*stripe.InvoicePayment, error) {
 	path := stripe.FormatURLPath(
 		"/v1/invoices/%s/payments/%s",
@@ -37,12 +37,12 @@ func (c Client) Get(id string, params *stripe.InvoicePaymentParams) (*stripe.Inv
 	return invoicepayment, err
 }
 
-// List returns a list of invoice payments.
+// When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
 func List(params *stripe.InvoicePaymentListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of invoice payments.
+// When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
 func (c Client) List(listParams *stripe.InvoicePaymentListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/invoices/%s/payments",

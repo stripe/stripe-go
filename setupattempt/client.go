@@ -21,12 +21,12 @@ type Client struct {
 	Key string
 }
 
-// List returns a list of setup attempts.
+// Returns a list of SetupAttempts that associate with a provided SetupIntent.
 func List(params *stripe.SetupAttemptListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of setup attempts.
+// Returns a list of SetupAttempts that associate with a provided SetupIntent.
 func (c Client) List(listParams *stripe.SetupAttemptListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

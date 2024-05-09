@@ -20,12 +20,18 @@ type Client struct {
 	Key string
 }
 
-// New creates a new setup intent.
+// Creates a SetupIntent object.
+//
+// After you create the SetupIntent, attach a payment method and [confirm](https://stripe.com/docs/api/setup_intents/confirm)
+// it to collect any required permissions to charge the payment method later.
 func New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	return getC().New(params)
 }
 
-// New creates a new setup intent.
+// Creates a SetupIntent object.
+//
+// After you create the SetupIntent, attach a payment method and [confirm](https://stripe.com/docs/api/setup_intents/confirm)
+// it to collect any required permissions to charge the payment method later.
 func (c Client) New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	setupintent := &stripe.SetupIntent{}
 	err := c.B.Call(
@@ -38,12 +44,20 @@ func (c Client) New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, erro
 	return setupintent, err
 }
 
-// Get returns the details of a setup intent.
+// Retrieves the details of a SetupIntent that has previously been created.
+//
+// Client-side retrieval using a publishable key is allowed when the client_secret is provided in the query string.
+//
+// When retrieved with a publishable key, only a subset of properties will be returned. Please refer to the [SetupIntent](https://stripe.com/docs/api#setup_intent_object) object reference for more details.
 func Get(id string, params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a setup intent.
+// Retrieves the details of a SetupIntent that has previously been created.
+//
+// Client-side retrieval using a publishable key is allowed when the client_secret is provided in the query string.
+//
+// When retrieved with a publishable key, only a subset of properties will be returned. Please refer to the [SetupIntent](https://stripe.com/docs/api#setup_intent_object) object reference for more details.
 func (c Client) Get(id string, params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s", id)
 	setupintent := &stripe.SetupIntent{}
@@ -51,12 +65,12 @@ func (c Client) Get(id string, params *stripe.SetupIntentParams) (*stripe.SetupI
 	return setupintent, err
 }
 
-// Update updates a setup intent's properties.
+// Updates a SetupIntent object.
 func Update(id string, params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a setup intent's properties.
+// Updates a SetupIntent object.
 func (c Client) Update(id string, params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s", id)
 	setupintent := &stripe.SetupIntent{}
@@ -64,12 +78,16 @@ func (c Client) Update(id string, params *stripe.SetupIntentParams) (*stripe.Set
 	return setupintent, err
 }
 
-// Cancel is the method for the `POST /v1/setup_intents/{intent}/cancel` API.
+// You can cancel a SetupIntent object when it's in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
+//
+// After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error.
 func Cancel(id string, params *stripe.SetupIntentCancelParams) (*stripe.SetupIntent, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel is the method for the `POST /v1/setup_intents/{intent}/cancel` API.
+// You can cancel a SetupIntent object when it's in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
+//
+// After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error.
 func (c Client) Cancel(id string, params *stripe.SetupIntentCancelParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s/cancel", id)
 	setupintent := &stripe.SetupIntent{}
@@ -77,12 +95,38 @@ func (c Client) Cancel(id string, params *stripe.SetupIntentCancelParams) (*stri
 	return setupintent, err
 }
 
-// Confirm is the method for the `POST /v1/setup_intents/{intent}/confirm` API.
+// Confirm that your customer intends to set up the current or
+// provided payment method. For example, you would confirm a SetupIntent
+// when a customer hits the “Save” button on a payment method management
+// page on your website.
+//
+// If the selected payment method does not require any additional
+// steps from the customer, the SetupIntent will transition to the
+// succeeded status.
+//
+// Otherwise, it will transition to the requires_action status and
+// suggest additional actions via next_action. If setup fails,
+// the SetupIntent will transition to the
+// requires_payment_method status or the canceled status if the
+// confirmation limit is reached.
 func Confirm(id string, params *stripe.SetupIntentConfirmParams) (*stripe.SetupIntent, error) {
 	return getC().Confirm(id, params)
 }
 
-// Confirm is the method for the `POST /v1/setup_intents/{intent}/confirm` API.
+// Confirm that your customer intends to set up the current or
+// provided payment method. For example, you would confirm a SetupIntent
+// when a customer hits the “Save” button on a payment method management
+// page on your website.
+//
+// If the selected payment method does not require any additional
+// steps from the customer, the SetupIntent will transition to the
+// succeeded status.
+//
+// Otherwise, it will transition to the requires_action status and
+// suggest additional actions via next_action. If setup fails,
+// the SetupIntent will transition to the
+// requires_payment_method status or the canceled status if the
+// confirmation limit is reached.
 func (c Client) Confirm(id string, params *stripe.SetupIntentConfirmParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s/confirm", id)
 	setupintent := &stripe.SetupIntent{}
@@ -90,12 +134,12 @@ func (c Client) Confirm(id string, params *stripe.SetupIntentConfirmParams) (*st
 	return setupintent, err
 }
 
-// VerifyMicrodeposits is the method for the `POST /v1/setup_intents/{intent}/verify_microdeposits` API.
+// Verifies microdeposits on a SetupIntent object.
 func VerifyMicrodeposits(id string, params *stripe.SetupIntentVerifyMicrodepositsParams) (*stripe.SetupIntent, error) {
 	return getC().VerifyMicrodeposits(id, params)
 }
 
-// VerifyMicrodeposits is the method for the `POST /v1/setup_intents/{intent}/verify_microdeposits` API.
+// Verifies microdeposits on a SetupIntent object.
 func (c Client) VerifyMicrodeposits(id string, params *stripe.SetupIntentVerifyMicrodepositsParams) (*stripe.SetupIntent, error) {
 	path := stripe.FormatURLPath("/v1/setup_intents/%s/verify_microdeposits", id)
 	setupintent := &stripe.SetupIntent{}
@@ -103,12 +147,12 @@ func (c Client) VerifyMicrodeposits(id string, params *stripe.SetupIntentVerifyM
 	return setupintent, err
 }
 
-// List returns a list of setup intents.
+// Returns a list of SetupIntents.
 func List(params *stripe.SetupIntentListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of setup intents.
+// Returns a list of SetupIntents.
 func (c Client) List(listParams *stripe.SetupIntentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

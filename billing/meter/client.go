@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new billing meter.
+// Creates a billing meter
 func New(params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 	return getC().New(params)
 }
 
-// New creates a new billing meter.
+// Creates a billing meter
 func (c Client) New(params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 	meter := &stripe.BillingMeter{}
 	err := c.B.Call(http.MethodPost, "/v1/billing/meters", c.Key, params, meter)
 	return meter, err
 }
 
-// Get returns the details of a billing meter.
+// Retrieves a billing meter given an ID
 func Get(id string, params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a billing meter.
+// Retrieves a billing meter given an ID
 func (c Client) Get(id string, params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 	path := stripe.FormatURLPath("/v1/billing/meters/%s", id)
 	meter := &stripe.BillingMeter{}
@@ -45,12 +45,12 @@ func (c Client) Get(id string, params *stripe.BillingMeterParams) (*stripe.Billi
 	return meter, err
 }
 
-// Update updates a billing meter's properties.
+// Updates a billing meter
 func Update(id string, params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a billing meter's properties.
+// Updates a billing meter
 func (c Client) Update(id string, params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 	path := stripe.FormatURLPath("/v1/billing/meters/%s", id)
 	meter := &stripe.BillingMeter{}
@@ -58,12 +58,12 @@ func (c Client) Update(id string, params *stripe.BillingMeterParams) (*stripe.Bi
 	return meter, err
 }
 
-// Deactivate is the method for the `POST /v1/billing/meters/{id}/deactivate` API.
+// Deactivates a billing meter
 func Deactivate(id string, params *stripe.BillingMeterDeactivateParams) (*stripe.BillingMeter, error) {
 	return getC().Deactivate(id, params)
 }
 
-// Deactivate is the method for the `POST /v1/billing/meters/{id}/deactivate` API.
+// Deactivates a billing meter
 func (c Client) Deactivate(id string, params *stripe.BillingMeterDeactivateParams) (*stripe.BillingMeter, error) {
 	path := stripe.FormatURLPath("/v1/billing/meters/%s/deactivate", id)
 	meter := &stripe.BillingMeter{}
@@ -71,12 +71,12 @@ func (c Client) Deactivate(id string, params *stripe.BillingMeterDeactivateParam
 	return meter, err
 }
 
-// Reactivate is the method for the `POST /v1/billing/meters/{id}/reactivate` API.
+// Reactivates a billing meter
 func Reactivate(id string, params *stripe.BillingMeterReactivateParams) (*stripe.BillingMeter, error) {
 	return getC().Reactivate(id, params)
 }
 
-// Reactivate is the method for the `POST /v1/billing/meters/{id}/reactivate` API.
+// Reactivates a billing meter
 func (c Client) Reactivate(id string, params *stripe.BillingMeterReactivateParams) (*stripe.BillingMeter, error) {
 	path := stripe.FormatURLPath("/v1/billing/meters/%s/reactivate", id)
 	meter := &stripe.BillingMeter{}
@@ -84,12 +84,12 @@ func (c Client) Reactivate(id string, params *stripe.BillingMeterReactivateParam
 	return meter, err
 }
 
-// List returns a list of billing meters.
+// Retrieve a list of billing meters.
 func List(params *stripe.BillingMeterListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of billing meters.
+// Retrieve a list of billing meters.
 func (c Client) List(listParams *stripe.BillingMeterListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

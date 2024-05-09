@@ -21,12 +21,12 @@ type Client struct {
 	Key      string
 }
 
-// Get returns the details of a tax form.
+// Retrieves the details of a tax form that has previously been created. Supply the unique tax form ID that was returned from your previous request, and Stripe will return the corresponding tax form information.
 func Get(id string, params *stripe.TaxFormParams) (*stripe.TaxForm, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a tax form.
+// Retrieves the details of a tax form that has previously been created. Supply the unique tax form ID that was returned from your previous request, and Stripe will return the corresponding tax form information.
 func (c Client) Get(id string, params *stripe.TaxFormParams) (*stripe.TaxForm, error) {
 	path := stripe.FormatURLPath("/v1/tax/forms/%s", id)
 	form := &stripe.TaxForm{}
@@ -34,12 +34,12 @@ func (c Client) Get(id string, params *stripe.TaxFormParams) (*stripe.TaxForm, e
 	return form, err
 }
 
-// PDF is the method for the `GET /v1/tax/forms/{id}/pdf` API.
+// Download the PDF for a tax form.
 func PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStream, error) {
 	return getC().PDF(id, params)
 }
 
-// PDF is the method for the `GET /v1/tax/forms/{id}/pdf` API.
+// Download the PDF for a tax form.
 func (c Client) PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/tax/forms/%s/pdf", id)
 	stream := &stripe.APIStream{}
@@ -47,12 +47,12 @@ func (c Client) PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStre
 	return stream, err
 }
 
-// List returns a list of tax forms.
+// Returns a list of tax forms which were previously created. The tax forms are returned in sorted order, with the oldest tax forms appearing first.
 func List(params *stripe.TaxFormListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of tax forms.
+// Returns a list of tax forms which were previously created. The tax forms are returned in sorted order, with the oldest tax forms appearing first.
 func (c Client) List(listParams *stripe.TaxFormListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

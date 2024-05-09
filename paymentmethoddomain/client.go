@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new payment method domain.
+// Creates a payment method domain.
 func New(params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	return getC().New(params)
 }
 
-// New creates a new payment method domain.
+// Creates a payment method domain.
 func (c Client) New(params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMe
 	return paymentmethoddomain, err
 }
 
-// Get returns the details of a payment method domain.
+// Retrieves the details of an existing payment method domain.
 func Get(id string, params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a payment method domain.
+// Retrieves the details of an existing payment method domain.
 func (c Client) Get(id string, params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_domains/%s", id)
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.PaymentMethodDomainParams) (*strip
 	return paymentmethoddomain, err
 }
 
-// Update updates a payment method domain's properties.
+// Updates an existing payment method domain.
 func Update(id string, params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a payment method domain's properties.
+// Updates an existing payment method domain.
 func (c Client) Update(id string, params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_domains/%s", id)
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
@@ -64,12 +64,22 @@ func (c Client) Update(id string, params *stripe.PaymentMethodDomainParams) (*st
 	return paymentmethoddomain, err
 }
 
-// Validate is the method for the `POST /v1/payment_method_domains/{payment_method_domain}/validate` API.
+// Some payment methods such as Apple Pay require additional steps to verify a domain. If the requirements weren't satisfied when the domain was created, the payment method will be inactive on the domain.
+// The payment method doesn't appear in Elements for this domain until it is active.
+//
+// To activate a payment method on an existing payment method domain, complete the required validation steps specific to the payment method, and then validate the payment method domain with this endpoint.
+//
+// Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
 func Validate(id string, params *stripe.PaymentMethodDomainValidateParams) (*stripe.PaymentMethodDomain, error) {
 	return getC().Validate(id, params)
 }
 
-// Validate is the method for the `POST /v1/payment_method_domains/{payment_method_domain}/validate` API.
+// Some payment methods such as Apple Pay require additional steps to verify a domain. If the requirements weren't satisfied when the domain was created, the payment method will be inactive on the domain.
+// The payment method doesn't appear in Elements for this domain until it is active.
+//
+// To activate a payment method on an existing payment method domain, complete the required validation steps specific to the payment method, and then validate the payment method domain with this endpoint.
+//
+// Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
 func (c Client) Validate(id string, params *stripe.PaymentMethodDomainValidateParams) (*stripe.PaymentMethodDomain, error) {
 	path := stripe.FormatURLPath("/v1/payment_method_domains/%s/validate", id)
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
@@ -77,12 +87,12 @@ func (c Client) Validate(id string, params *stripe.PaymentMethodDomainValidatePa
 	return paymentmethoddomain, err
 }
 
-// List returns a list of payment method domains.
+// Lists the details of existing payment method domains.
 func List(params *stripe.PaymentMethodDomainListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of payment method domains.
+// Lists the details of existing payment method domains.
 func (c Client) List(listParams *stripe.PaymentMethodDomainListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

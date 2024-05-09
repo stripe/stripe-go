@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a tax code.
+// Retrieves the details of an existing tax code. Supply the unique tax code ID and Stripe will return the corresponding tax code information.
 func Get(id string, params *stripe.TaxCodeParams) (*stripe.TaxCode, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a tax code.
+// Retrieves the details of an existing tax code. Supply the unique tax code ID and Stripe will return the corresponding tax code information.
 func (c Client) Get(id string, params *stripe.TaxCodeParams) (*stripe.TaxCode, error) {
 	path := stripe.FormatURLPath("/v1/tax_codes/%s", id)
 	taxcode := &stripe.TaxCode{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.TaxCodeParams) (*stripe.TaxCode, e
 	return taxcode, err
 }
 
-// List returns a list of tax codes.
+// A list of [all tax codes available](https://stripe.com/docs/tax/tax-categories) to add to Products in order to allow specific tax calculations.
 func List(params *stripe.TaxCodeListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of tax codes.
+// A list of [all tax codes available](https://stripe.com/docs/tax/tax-categories) to add to Products in order to allow specific tax calculations.
 func (c Client) List(listParams *stripe.TaxCodeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

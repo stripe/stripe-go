@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new order.
+// Creates a new open order object.
 func New(params *stripe.OrderParams) (*stripe.Order, error) {
 	return getC().New(params)
 }
 
-// New creates a new order.
+// Creates a new open order object.
 func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 	order := &stripe.Order{}
 	err := c.B.Call(http.MethodPost, "/v1/orders", c.Key, params, order)
 	return order, err
 }
 
-// Get returns the details of an order.
+// Retrieves the details of an existing order. Supply the unique order ID from either an order creation request or the order list, and Stripe will return the corresponding order information.
 func Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an order.
+// Retrieves the details of an existing order. Supply the unique order ID from either an order creation request or the order list, and Stripe will return the corresponding order information.
 func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/v1/orders/%s", id)
 	order := &stripe.Order{}
@@ -45,12 +45,12 @@ func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error
 	return order, err
 }
 
-// Update updates an order's properties.
+// Updates the specific order by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func Update(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an order's properties.
+// Updates the specific order by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c Client) Update(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/v1/orders/%s", id)
 	order := &stripe.Order{}
@@ -58,12 +58,12 @@ func (c Client) Update(id string, params *stripe.OrderParams) (*stripe.Order, er
 	return order, err
 }
 
-// Cancel is the method for the `POST /v1/orders/{id}/cancel` API.
+// Cancels the order as well as the payment intent if one is attached.
 func Cancel(id string, params *stripe.OrderCancelParams) (*stripe.Order, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel is the method for the `POST /v1/orders/{id}/cancel` API.
+// Cancels the order as well as the payment intent if one is attached.
 func (c Client) Cancel(id string, params *stripe.OrderCancelParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/v1/orders/%s/cancel", id)
 	order := &stripe.Order{}
@@ -71,12 +71,12 @@ func (c Client) Cancel(id string, params *stripe.OrderCancelParams) (*stripe.Ord
 	return order, err
 }
 
-// Reopen is the method for the `POST /v1/orders/{id}/reopen` API.
+// Reopens a submitted order.
 func Reopen(id string, params *stripe.OrderReopenParams) (*stripe.Order, error) {
 	return getC().Reopen(id, params)
 }
 
-// Reopen is the method for the `POST /v1/orders/{id}/reopen` API.
+// Reopens a submitted order.
 func (c Client) Reopen(id string, params *stripe.OrderReopenParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/v1/orders/%s/reopen", id)
 	order := &stripe.Order{}
@@ -84,12 +84,12 @@ func (c Client) Reopen(id string, params *stripe.OrderReopenParams) (*stripe.Ord
 	return order, err
 }
 
-// Submit is the method for the `POST /v1/orders/{id}/submit` API.
+// Submitting an Order transitions the status to processing and creates a PaymentIntent object so the order can be paid. If the Order has an amount_total of 0, no PaymentIntent object will be created. Once the order is submitted, its contents cannot be changed, unless the [reopen](https://stripe.com/docs/api#reopen_order) method is called.
 func Submit(id string, params *stripe.OrderSubmitParams) (*stripe.Order, error) {
 	return getC().Submit(id, params)
 }
 
-// Submit is the method for the `POST /v1/orders/{id}/submit` API.
+// Submitting an Order transitions the status to processing and creates a PaymentIntent object so the order can be paid. If the Order has an amount_total of 0, no PaymentIntent object will be created. Once the order is submitted, its contents cannot be changed, unless the [reopen](https://stripe.com/docs/api#reopen_order) method is called.
 func (c Client) Submit(id string, params *stripe.OrderSubmitParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/v1/orders/%s/submit", id)
 	order := &stripe.Order{}
@@ -97,12 +97,12 @@ func (c Client) Submit(id string, params *stripe.OrderSubmitParams) (*stripe.Ord
 	return order, err
 }
 
-// List returns a list of orders.
+// Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.
 func List(params *stripe.OrderListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of orders.
+// Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.
 func (c Client) List(listParams *stripe.OrderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -136,12 +136,12 @@ func (i *Iter) OrderList() *stripe.OrderList {
 	return i.List().(*stripe.OrderList)
 }
 
-// ListLineItems is the method for the `GET /v1/orders/{id}/line_items` API.
+// When retrieving an order, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func ListLineItems(params *stripe.OrderListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)
 }
 
-// ListLineItems is the method for the `GET /v1/orders/{id}/line_items` API.
+// When retrieving an order, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLineItems(listParams *stripe.OrderListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/orders/%s/line_items",

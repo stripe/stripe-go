@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a country spec.
+// Returns a Country Spec for a given Country code.
 func Get(id string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a country spec.
+// Returns a Country Spec for a given Country code.
 func (c Client) Get(id string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
 	path := stripe.FormatURLPath("/v1/country_specs/%s", id)
 	countryspec := &stripe.CountrySpec{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.CountrySpecParams) (*stripe.Countr
 	return countryspec, err
 }
 
-// List returns a list of country specs.
+// Lists all Country Spec objects available in the API.
 func List(params *stripe.CountrySpecListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of country specs.
+// Lists all Country Spec objects available in the API.
 func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

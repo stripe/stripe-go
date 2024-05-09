@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// Expire is the method for the `POST /v1/test_helpers/refunds/{refund}/expire` API.
+// Expire a refund with a status of requires_action.
 func Expire(id string, params *stripe.TestHelpersRefundExpireParams) (*stripe.Refund, error) {
 	return getC().Expire(id, params)
 }
 
-// Expire is the method for the `POST /v1/test_helpers/refunds/{refund}/expire` API.
+// Expire a refund with a status of requires_action.
 func (c Client) Expire(id string, params *stripe.TestHelpersRefundExpireParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/v1/test_helpers/refunds/%s/expire", id)
 	refund := &stripe.Refund{}

@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an issuing authorization.
+// Retrieves an Issuing Authorization object.
 func Get(id string, params *stripe.IssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an issuing authorization.
+// Retrieves an Issuing Authorization object.
 func (c Client) Get(id string, params *stripe.IssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s", id)
 	authorization := &stripe.IssuingAuthorization{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.IssuingAuthorizationParams) (*stri
 	return authorization, err
 }
 
-// Update updates an issuing authorization's properties.
+// Updates the specified Issuing Authorization object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func Update(id string, params *stripe.IssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an issuing authorization's properties.
+// Updates the specified Issuing Authorization object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c Client) Update(id string, params *stripe.IssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s", id)
 	authorization := &stripe.IssuingAuthorization{}
@@ -46,13 +46,15 @@ func (c Client) Update(id string, params *stripe.IssuingAuthorizationParams) (*s
 	return authorization, err
 }
 
-// Approve is the method for the `POST /v1/issuing/authorizations/{authorization}/approve` API.
+// [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// This method is deprecated. Instead, [respond directly to the webhook request to approve an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 // Deprecated:
 func Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Approve(id, params)
 }
 
-// Approve is the method for the `POST /v1/issuing/authorizations/{authorization}/approve` API.
+// [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// This method is deprecated. Instead, [respond directly to the webhook request to approve an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 // Deprecated:
 func (c Client) Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/approve", id)
@@ -61,13 +63,15 @@ func (c Client) Approve(id string, params *stripe.IssuingAuthorizationApprovePar
 	return authorization, err
 }
 
-// Decline is the method for the `POST /v1/issuing/authorizations/{authorization}/decline` API.
+// [Deprecated] Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// This method is deprecated. Instead, [respond directly to the webhook request to decline an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 // Deprecated:
 func Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Decline(id, params)
 }
 
-// Decline is the method for the `POST /v1/issuing/authorizations/{authorization}/decline` API.
+// [Deprecated] Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// This method is deprecated. Instead, [respond directly to the webhook request to decline an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 // Deprecated:
 func (c Client) Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/decline", id)
@@ -76,12 +80,12 @@ func (c Client) Decline(id string, params *stripe.IssuingAuthorizationDeclinePar
 	return authorization, err
 }
 
-// List returns a list of issuing authorizations.
+// Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func List(params *stripe.IssuingAuthorizationListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of issuing authorizations.
+// Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c Client) List(listParams *stripe.IssuingAuthorizationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

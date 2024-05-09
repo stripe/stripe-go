@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new confirmation token.
+// Creates a test mode Confirmation Token server side for your integration tests.
 func New(params *stripe.TestHelpersConfirmationTokenParams) (*stripe.ConfirmationToken, error) {
 	return getC().New(params)
 }
 
-// New creates a new confirmation token.
+// Creates a test mode Confirmation Token server side for your integration tests.
 func (c Client) New(params *stripe.TestHelpersConfirmationTokenParams) (*stripe.ConfirmationToken, error) {
 	confirmationtoken := &stripe.ConfirmationToken{}
 	err := c.B.Call(

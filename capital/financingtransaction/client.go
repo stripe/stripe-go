@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a capital financing transaction.
+// Retrieves a financing transaction for a financing offer.
 func Get(id string, params *stripe.CapitalFinancingTransactionParams) (*stripe.CapitalFinancingTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a capital financing transaction.
+// Retrieves a financing transaction for a financing offer.
 func (c Client) Get(id string, params *stripe.CapitalFinancingTransactionParams) (*stripe.CapitalFinancingTransaction, error) {
 	path := stripe.FormatURLPath("/v1/capital/financing_transactions/%s", id)
 	financingtransaction := &stripe.CapitalFinancingTransaction{}
@@ -33,12 +33,14 @@ func (c Client) Get(id string, params *stripe.CapitalFinancingTransactionParams)
 	return financingtransaction, err
 }
 
-// List returns a list of capital financing transactions.
+// Returns a list of financing transactions. The transactions are returned in sorted order,
+// with the most recent transactions appearing first.
 func List(params *stripe.CapitalFinancingTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of capital financing transactions.
+// Returns a list of financing transactions. The transactions are returned in sorted order,
+// with the most recent transactions appearing first.
 func (c Client) List(listParams *stripe.CapitalFinancingTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

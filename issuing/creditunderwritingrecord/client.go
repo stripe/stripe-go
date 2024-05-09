@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an issuing credit underwriting record.
+// Retrieves a CreditUnderwritingRecord object.
 func Get(id string, params *stripe.IssuingCreditUnderwritingRecordParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an issuing credit underwriting record.
+// Retrieves a CreditUnderwritingRecord object.
 func (c Client) Get(id string, params *stripe.IssuingCreditUnderwritingRecordParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	path := stripe.FormatURLPath("/v1/issuing/credit_underwriting_records/%s", id)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.IssuingCreditUnderwritingRecordPar
 	return creditunderwritingrecord, err
 }
 
-// Correct is the method for the `POST /v1/issuing/credit_underwriting_records/{credit_underwriting_record}/correct` API.
+// Update a CreditUnderwritingRecord object to correct mistakes.
 func Correct(id string, params *stripe.IssuingCreditUnderwritingRecordCorrectParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	return getC().Correct(id, params)
 }
 
-// Correct is the method for the `POST /v1/issuing/credit_underwriting_records/{credit_underwriting_record}/correct` API.
+// Update a CreditUnderwritingRecord object to correct mistakes.
 func (c Client) Correct(id string, params *stripe.IssuingCreditUnderwritingRecordCorrectParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	path := stripe.FormatURLPath(
 		"/v1/issuing/credit_underwriting_records/%s/correct",
@@ -55,12 +55,12 @@ func (c Client) Correct(id string, params *stripe.IssuingCreditUnderwritingRecor
 	return creditunderwritingrecord, err
 }
 
-// CreateFromApplication is the method for the `POST /v1/issuing/credit_underwriting_records/create_from_application` API.
+// Creates a CreditUnderwritingRecord object with information about a credit application submission.
 func CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateFromApplicationParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	return getC().CreateFromApplication(params)
 }
 
-// CreateFromApplication is the method for the `POST /v1/issuing/credit_underwriting_records/create_from_application` API.
+// Creates a CreditUnderwritingRecord object with information about a credit application submission.
 func (c Client) CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateFromApplicationParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
@@ -73,12 +73,12 @@ func (c Client) CreateFromApplication(params *stripe.IssuingCreditUnderwritingRe
 	return creditunderwritingrecord, err
 }
 
-// CreateFromProactiveReview is the method for the `POST /v1/issuing/credit_underwriting_records/create_from_proactive_review` API.
+// Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder.
 func CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	return getC().CreateFromProactiveReview(params)
 }
 
-// CreateFromProactiveReview is the method for the `POST /v1/issuing/credit_underwriting_records/create_from_proactive_review` API.
+// Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder.
 func (c Client) CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
@@ -91,12 +91,12 @@ func (c Client) CreateFromProactiveReview(params *stripe.IssuingCreditUnderwriti
 	return creditunderwritingrecord, err
 }
 
-// ReportDecision is the method for the `POST /v1/issuing/credit_underwriting_records/{credit_underwriting_record}/report_decision` API.
+// Update a CreditUnderwritingRecord object from a decision made on a credit application.
 func ReportDecision(id string, params *stripe.IssuingCreditUnderwritingRecordReportDecisionParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	return getC().ReportDecision(id, params)
 }
 
-// ReportDecision is the method for the `POST /v1/issuing/credit_underwriting_records/{credit_underwriting_record}/report_decision` API.
+// Update a CreditUnderwritingRecord object from a decision made on a credit application.
 func (c Client) ReportDecision(id string, params *stripe.IssuingCreditUnderwritingRecordReportDecisionParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	path := stripe.FormatURLPath(
 		"/v1/issuing/credit_underwriting_records/%s/report_decision",
@@ -113,12 +113,12 @@ func (c Client) ReportDecision(id string, params *stripe.IssuingCreditUnderwriti
 	return creditunderwritingrecord, err
 }
 
-// List returns a list of issuing credit underwriting records.
+// Retrieves a list of CreditUnderwritingRecord objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
 func List(params *stripe.IssuingCreditUnderwritingRecordListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of issuing credit underwriting records.
+// Retrieves a list of CreditUnderwritingRecord objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
 func (c Client) List(listParams *stripe.IssuingCreditUnderwritingRecordListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// List returns a list of billing meter event summaries.
+// Retrieve a list of billing meter event summaries.
 func List(params *stripe.BillingMeterEventSummaryListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of billing meter event summaries.
+// Retrieve a list of billing meter event summaries.
 func (c Client) List(listParams *stripe.BillingMeterEventSummaryListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/billing/meters/%s/event_summaries",

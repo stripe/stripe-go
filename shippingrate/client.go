@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new shipping rate.
+// Creates a new shipping rate object.
 func New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	return getC().New(params)
 }
 
-// New creates a new shipping rate.
+// Creates a new shipping rate object.
 func (c Client) New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	shippingrate := &stripe.ShippingRate{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, er
 	return shippingrate, err
 }
 
-// Get returns the details of a shipping rate.
+// Returns the shipping rate object with the given ID.
 func Get(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a shipping rate.
+// Returns the shipping rate object with the given ID.
 func (c Client) Get(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	path := stripe.FormatURLPath("/v1/shipping_rates/%s", id)
 	shippingrate := &stripe.ShippingRate{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.ShippingRateParams) (*stripe.Shipp
 	return shippingrate, err
 }
 
-// Update updates a shipping rate's properties.
+// Updates an existing shipping rate object.
 func Update(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a shipping rate's properties.
+// Updates an existing shipping rate object.
 func (c Client) Update(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	path := stripe.FormatURLPath("/v1/shipping_rates/%s", id)
 	shippingrate := &stripe.ShippingRate{}
@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.ShippingRateParams) (*stripe.Sh
 	return shippingrate, err
 }
 
-// List returns a list of shipping rates.
+// Returns a list of your shipping rates.
 func List(params *stripe.ShippingRateListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of shipping rates.
+// Returns a list of your shipping rates.
 func (c Client) List(listParams *stripe.ShippingRateListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

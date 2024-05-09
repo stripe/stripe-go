@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a cash balance.
+// Retrieves a customer's cash balance.
 func Get(params *stripe.CashBalanceParams) (*stripe.CashBalance, error) {
 	return getC().Get(params)
 }
 
-// Get returns the details of a cash balance.
+// Retrieves a customer's cash balance.
 func (c Client) Get(params *stripe.CashBalanceParams) (*stripe.CashBalance, error) {
 	if params == nil || params.Customer == nil {
 		return nil, fmt.Errorf(
@@ -41,12 +41,12 @@ func (c Client) Get(params *stripe.CashBalanceParams) (*stripe.CashBalance, erro
 	return cashbalance, err
 }
 
-// Update updates a cash balance's properties.
+// Changes the settings on a customer's cash balance.
 func Update(params *stripe.CashBalanceParams) (*stripe.CashBalance, error) {
 	return getC().Update(params)
 }
 
-// Update updates a cash balance's properties.
+// Changes the settings on a customer's cash balance.
 func (c Client) Update(params *stripe.CashBalanceParams) (*stripe.CashBalance, error) {
 	if params == nil || params.Customer == nil {
 		return nil, fmt.Errorf(

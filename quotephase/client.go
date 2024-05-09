@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of a quote phase.
+// Retrieves the quote phase with the given ID.
 func Get(id string, params *stripe.QuotePhaseParams) (*stripe.QuotePhase, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a quote phase.
+// Retrieves the quote phase with the given ID.
 func (c Client) Get(id string, params *stripe.QuotePhaseParams) (*stripe.QuotePhase, error) {
 	path := stripe.FormatURLPath("/v1/quote_phases/%s", id)
 	quotephase := &stripe.QuotePhase{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.QuotePhaseParams) (*stripe.QuotePh
 	return quotephase, err
 }
 
-// List returns a list of quote phases.
+// Returns a list of quote phases.
 func List(params *stripe.QuotePhaseListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of quote phases.
+// Returns a list of quote phases.
 func (c Client) List(listParams *stripe.QuotePhaseListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -72,12 +72,12 @@ func (i *Iter) QuotePhaseList() *stripe.QuotePhaseList {
 	return i.List().(*stripe.QuotePhaseList)
 }
 
-// ListLineItems is the method for the `GET /v1/quote_phases/{quote_phase}/line_items` API.
+// When retrieving a quote phase, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func ListLineItems(params *stripe.QuotePhaseListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)
 }
 
-// ListLineItems is the method for the `GET /v1/quote_phases/{quote_phase}/line_items` API.
+// When retrieving a quote phase, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLineItems(listParams *stripe.QuotePhaseListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/quote_phases/%s/line_items",

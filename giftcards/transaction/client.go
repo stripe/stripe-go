@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new gift cards transaction.
+// Create a gift card transaction
 func New(params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	return getC().New(params)
 }
 
-// New creates a new gift cards transaction.
+// Create a gift card transaction
 func (c Client) New(params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	transaction := &stripe.GiftCardsTransaction{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.GiftCardsTransactionParams) (*stripe.GiftCard
 	return transaction, err
 }
 
-// Get returns the details of a gift cards transaction.
+// Retrieves the gift card transaction.
 func Get(id string, params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a gift cards transaction.
+// Retrieves the gift card transaction.
 func (c Client) Get(id string, params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/transactions/%s", id)
 	transaction := &stripe.GiftCardsTransaction{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.GiftCardsTransactionParams) (*stri
 	return transaction, err
 }
 
-// Update updates a gift cards transaction's properties.
+// Update a gift card transaction
 func Update(id string, params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a gift cards transaction's properties.
+// Update a gift card transaction
 func (c Client) Update(id string, params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/transactions/%s", id)
 	transaction := &stripe.GiftCardsTransaction{}
@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.GiftCardsTransactionParams) (*s
 	return transaction, err
 }
 
-// Cancel is the method for the `POST /v1/gift_cards/transactions/{id}/cancel` API.
+// Cancel a gift card transaction
 func Cancel(id string, params *stripe.GiftCardsTransactionCancelParams) (*stripe.GiftCardsTransaction, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel is the method for the `POST /v1/gift_cards/transactions/{id}/cancel` API.
+// Cancel a gift card transaction
 func (c Client) Cancel(id string, params *stripe.GiftCardsTransactionCancelParams) (*stripe.GiftCardsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/transactions/%s/cancel", id)
 	transaction := &stripe.GiftCardsTransaction{}
@@ -77,12 +77,12 @@ func (c Client) Cancel(id string, params *stripe.GiftCardsTransactionCancelParam
 	return transaction, err
 }
 
-// Confirm is the method for the `POST /v1/gift_cards/transactions/{id}/confirm` API.
+// Confirm a gift card transaction
 func Confirm(id string, params *stripe.GiftCardsTransactionConfirmParams) (*stripe.GiftCardsTransaction, error) {
 	return getC().Confirm(id, params)
 }
 
-// Confirm is the method for the `POST /v1/gift_cards/transactions/{id}/confirm` API.
+// Confirm a gift card transaction
 func (c Client) Confirm(id string, params *stripe.GiftCardsTransactionConfirmParams) (*stripe.GiftCardsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/transactions/%s/confirm", id)
 	transaction := &stripe.GiftCardsTransaction{}
@@ -90,12 +90,12 @@ func (c Client) Confirm(id string, params *stripe.GiftCardsTransactionConfirmPar
 	return transaction, err
 }
 
-// List returns a list of gift cards transactions.
+// List gift card transactions for a gift card
 func List(params *stripe.GiftCardsTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of gift cards transactions.
+// List gift card transactions for a gift card
 func (c Client) List(listParams *stripe.GiftCardsTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

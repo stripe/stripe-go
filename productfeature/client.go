@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new product feature.
+// Creates a product_feature, which represents a feature attachment to a product
 func New(params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	return getC().New(params)
 }
 
-// New creates a new product feature.
+// Creates a product_feature, which represents a feature attachment to a product
 func (c Client) New(params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	path := stripe.FormatURLPath(
 		"/v1/products/%s/features",
@@ -36,12 +36,12 @@ func (c Client) New(params *stripe.ProductFeatureParams) (*stripe.ProductFeature
 	return productfeature, err
 }
 
-// Get returns the details of a product feature.
+// Retrieves a product_feature, which represents a feature attachment to a product
 func Get(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a product feature.
+// Retrieves a product_feature, which represents a feature attachment to a product
 func (c Client) Get(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	path := stripe.FormatURLPath(
 		"/v1/products/%s/features/%s",
@@ -53,12 +53,12 @@ func (c Client) Get(id string, params *stripe.ProductFeatureParams) (*stripe.Pro
 	return productfeature, err
 }
 
-// Del removes a product feature.
+// Deletes the feature attachment to a product
 func Del(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a product feature.
+// Deletes the feature attachment to a product
 func (c Client) Del(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	path := stripe.FormatURLPath(
 		"/v1/products/%s/features/%s",
@@ -70,12 +70,12 @@ func (c Client) Del(id string, params *stripe.ProductFeatureParams) (*stripe.Pro
 	return productfeature, err
 }
 
-// List returns a list of product features.
+// Retrieve a list of features for a product
 func List(params *stripe.ProductFeatureListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of product features.
+// Retrieve a list of features for a product
 func (c Client) List(listParams *stripe.ProductFeatureListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/products/%s/features",

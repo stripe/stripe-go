@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// CreateForceCapture is the method for the `POST /v1/test_helpers/issuing/transactions/create_force_capture` API.
+// Allows the user to capture an arbitrary amount, also known as a forced capture.
 func CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceCaptureParams) (*stripe.IssuingTransaction, error) {
 	return getC().CreateForceCapture(params)
 }
 
-// CreateForceCapture is the method for the `POST /v1/test_helpers/issuing/transactions/create_force_capture` API.
+// Allows the user to capture an arbitrary amount, also known as a forced capture.
 func (c Client) CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceCaptureParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
 	err := c.B.Call(
@@ -37,12 +37,12 @@ func (c Client) CreateForceCapture(params *stripe.TestHelpersIssuingTransactionC
 	return transaction, err
 }
 
-// CreateUnlinkedRefund is the method for the `POST /v1/test_helpers/issuing/transactions/create_unlinked_refund` API.
+// Allows the user to refund an arbitrary amount, also known as a unlinked refund.
 func CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams) (*stripe.IssuingTransaction, error) {
 	return getC().CreateUnlinkedRefund(params)
 }
 
-// CreateUnlinkedRefund is the method for the `POST /v1/test_helpers/issuing/transactions/create_unlinked_refund` API.
+// Allows the user to refund an arbitrary amount, also known as a unlinked refund.
 func (c Client) CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
 	err := c.B.Call(
@@ -55,12 +55,12 @@ func (c Client) CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactio
 	return transaction, err
 }
 
-// Refund is the method for the `POST /v1/test_helpers/issuing/transactions/{transaction}/refund` API.
+// Refund a test-mode Transaction.
 func Refund(id string, params *stripe.TestHelpersIssuingTransactionRefundParams) (*stripe.IssuingTransaction, error) {
 	return getC().Refund(id, params)
 }
 
-// Refund is the method for the `POST /v1/test_helpers/issuing/transactions/{transaction}/refund` API.
+// Refund a test-mode Transaction.
 func (c Client) Refund(id string, params *stripe.TestHelpersIssuingTransactionRefundParams) (*stripe.IssuingTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/issuing/transactions/%s/refund",

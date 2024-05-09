@@ -20,24 +20,24 @@ type Client struct {
 	Key string
 }
 
-// New creates a new margin.
+// Create a margin object to be used with invoices, invoice items, and invoice line items for a customer to represent a partner discount.A margin has a percent_off which is the percent that will be taken off the subtotal after all items and other discounts and promotions) of any invoices for a customer. Calculation of prorations do not include any partner margins applied on the original invoice item.
 func New(params *stripe.MarginParams) (*stripe.Margin, error) {
 	return getC().New(params)
 }
 
-// New creates a new margin.
+// Create a margin object to be used with invoices, invoice items, and invoice line items for a customer to represent a partner discount.A margin has a percent_off which is the percent that will be taken off the subtotal after all items and other discounts and promotions) of any invoices for a customer. Calculation of prorations do not include any partner margins applied on the original invoice item.
 func (c Client) New(params *stripe.MarginParams) (*stripe.Margin, error) {
 	margin := &stripe.Margin{}
 	err := c.B.Call(http.MethodPost, "/v1/billing/margins", c.Key, params, margin)
 	return margin, err
 }
 
-// Get returns the details of a margin.
+// Retrieve a margin object with the given ID.
 func Get(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a margin.
+// Retrieve a margin object with the given ID.
 func (c Client) Get(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 	path := stripe.FormatURLPath("/v1/billing/margins/%s", id)
 	margin := &stripe.Margin{}
@@ -45,12 +45,12 @@ func (c Client) Get(id string, params *stripe.MarginParams) (*stripe.Margin, err
 	return margin, err
 }
 
-// Update updates a margin's properties.
+// Update the specified margin object. Certain fields of the margin object are not editable.
 func Update(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a margin's properties.
+// Update the specified margin object. Certain fields of the margin object are not editable.
 func (c Client) Update(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 	path := stripe.FormatURLPath("/v1/billing/margins/%s", id)
 	margin := &stripe.Margin{}
@@ -58,12 +58,12 @@ func (c Client) Update(id string, params *stripe.MarginParams) (*stripe.Margin, 
 	return margin, err
 }
 
-// List returns a list of margins.
+// Retrieve a list of your margins.
 func List(params *stripe.MarginListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of margins.
+// Retrieve a list of your margins.
 func (c Client) List(listParams *stripe.MarginListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

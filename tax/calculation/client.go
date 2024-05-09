@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new tax calculation.
+// Calculates tax based on input and returns a Tax Calculation object.
 func New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	return getC().New(params)
 }
 
-// New creates a new tax calculation.
+// Calculates tax based on input and returns a Tax Calculation object.
 func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	calculation := &stripe.TaxCalculation{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation
 	return calculation, err
 }
 
-// ListLineItems is the method for the `GET /v1/tax/calculations/{calculation}/line_items` API.
+// Retrieves the line items of a persisted tax calculation as a collection.
 func ListLineItems(params *stripe.TaxCalculationListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)
 }
 
-// ListLineItems is the method for the `GET /v1/tax/calculations/{calculation}/line_items` API.
+// Retrieves the line items of a persisted tax calculation as a collection.
 func (c Client) ListLineItems(listParams *stripe.TaxCalculationListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/tax/calculations/%s/line_items",
