@@ -1,5 +1,10 @@
 # Changelog
 
+## 78.7.0-beta.1 - 2024-05-09
+* [#1857](https://github.com/stripe/stripe-go/pull/1857) Update generated code for beta
+  * No new beta features. Merging changes from the main branch.
+
+
 ## 78.6.0-beta.1 - 2024-05-02
 * [#1854](https://github.com/stripe/stripe-go/pull/1854) Update generated code for beta
   * Add support for `RechnungPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
