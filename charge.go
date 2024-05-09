@@ -1530,6 +1530,8 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	Offline *ChargePaymentMethodDetailsCardPresentOffline `json:"offline"`
 	// Defines whether the authorized amount can be over-captured or not
 	OvercaptureSupported bool `json:"overcapture_supported"`
+	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
 	ReadMethod string `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.

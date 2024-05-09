@@ -62,6 +62,7 @@ const (
 	IssuingDisputeEvidenceReasonDuplicate                 IssuingDisputeEvidenceReason = "duplicate"
 	IssuingDisputeEvidenceReasonFraudulent                IssuingDisputeEvidenceReason = "fraudulent"
 	IssuingDisputeEvidenceReasonMerchandiseNotAsDescribed IssuingDisputeEvidenceReason = "merchandise_not_as_described"
+	IssuingDisputeEvidenceReasonNoValidAuthorization      IssuingDisputeEvidenceReason = "no_valid_authorization"
 	IssuingDisputeEvidenceReasonNotReceived               IssuingDisputeEvidenceReason = "not_received"
 	IssuingDisputeEvidenceReasonOther                     IssuingDisputeEvidenceReason = "other"
 	IssuingDisputeEvidenceReasonServiceNotAsDescribed     IssuingDisputeEvidenceReason = "service_not_as_described"
@@ -163,6 +164,14 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribedParams struct {
 	ReturnStatus *string `form:"return_status"`
 }
 
+// Evidence provided when `reason` is 'no_valid_authorization'.
+type IssuingDisputeEvidenceNoValidAuthorizationParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+}
+
 // Evidence provided when `reason` is 'not_received'.
 type IssuingDisputeEvidenceNotReceivedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
@@ -215,6 +224,8 @@ type IssuingDisputeEvidenceParams struct {
 	MerchandiseNotAsDescribed *IssuingDisputeEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described"`
 	// Evidence provided when `reason` is 'not_received'.
 	NotReceived *IssuingDisputeEvidenceNotReceivedParams `form:"not_received"`
+	// Evidence provided when `reason` is 'no_valid_authorization'.
+	NoValidAuthorization *IssuingDisputeEvidenceNoValidAuthorizationParams `form:"no_valid_authorization"`
 	// Evidence provided when `reason` is 'other'.
 	Other *IssuingDisputeEvidenceOtherParams `form:"other"`
 	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
@@ -339,6 +350,12 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribed struct {
 	// Result of cardholder's attempt to return the product.
 	ReturnStatus IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus `json:"return_status"`
 }
+type IssuingDisputeEvidenceNoValidAuthorization struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *File `json:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation string `json:"explanation"`
+}
 type IssuingDisputeEvidenceNotReceived struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *File `json:"additional_documentation"`
@@ -379,6 +396,7 @@ type IssuingDisputeEvidence struct {
 	Fraudulent                *IssuingDisputeEvidenceFraudulent                `json:"fraudulent"`
 	MerchandiseNotAsDescribed *IssuingDisputeEvidenceMerchandiseNotAsDescribed `json:"merchandise_not_as_described"`
 	NotReceived               *IssuingDisputeEvidenceNotReceived               `json:"not_received"`
+	NoValidAuthorization      *IssuingDisputeEvidenceNoValidAuthorization      `json:"no_valid_authorization"`
 	Other                     *IssuingDisputeEvidenceOther                     `json:"other"`
 	// The reason for filing the dispute. Its value will match the field containing the evidence.
 	Reason                IssuingDisputeEvidenceReason                 `json:"reason"`
