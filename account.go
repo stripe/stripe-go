@@ -1469,9 +1469,11 @@ type AccountRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 type AccountRiskControlsCharges struct {
+	// Whether a pause of the risk control has been requested.
 	PauseRequested bool `json:"pause_requested"`
 }
 type AccountRiskControlsPayouts struct {
+	// Whether a pause of the risk control has been requested.
 	PauseRequested bool `json:"pause_requested"`
 }
 type AccountRiskControls struct {
