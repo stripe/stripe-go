@@ -1,5 +1,14 @@
 # Changelog
 
+## 78.6.0 - 2024-05-09
+* [#1858](https://github.com/stripe/stripe-go/pull/1858) Update generated code
+  * Add support for `Update` test helper method on resources `Treasury.OutboundPayment` and `Treasury.OutboundTransfer`
+  * Add support for `AllowRedisplay` on `ConfirmationTokenPaymentMethodPreview` and `PaymentMethod`
+  * Add support for new values `treasury.outbound_payment.tracking_details_updated` and `treasury.outbound_transfer.tracking_details_updated` on enum `EventType`
+  * Add support for `PreviewMode` on `InvoiceCreatePreviewParams`, `InvoiceUpcomingLinesParams`, and `InvoiceUpcomingParams`
+  * Add support for `TrackingDetails` on `TreasuryOutboundPayment` and `TreasuryOutboundTransfer`
+* [#1859](https://github.com/stripe/stripe-go/pull/1859) Update method descriptions to reflect OpenAPI
+
 ## 78.5.0 - 2024-05-02
 * [#1853](https://github.com/stripe/stripe-go/pull/1853) Update generated code
   * Add support for new value `shipping_address_invalid` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
