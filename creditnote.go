@@ -373,7 +373,7 @@ func (p *CreditNoteVoidCreditNoteParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// When retrieving a credit note, you'll get a lines property containing the the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+// When retrieving a credit note, you'll get a lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CreditNoteListLinesParams struct {
 	ListParams `form:"*"`
 	CreditNote *string `form:"-"` // Included in URL

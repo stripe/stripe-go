@@ -8,6 +8,16 @@ package stripe
 
 import "encoding/json"
 
+// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
+type PaymentMethodAllowRedisplay string
+
+// List of values that PaymentMethodAllowRedisplay can take
+const (
+	PaymentMethodAllowRedisplayAlways      PaymentMethodAllowRedisplay = "always"
+	PaymentMethodAllowRedisplayLimited     PaymentMethodAllowRedisplay = "limited"
+	PaymentMethodAllowRedisplayUnspecified PaymentMethodAllowRedisplay = "unspecified"
+)
+
 // Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type PaymentMethodCardBrand string
 
@@ -989,16 +999,18 @@ type PaymentMethod struct {
 	Affirm           *PaymentMethodAffirm           `json:"affirm"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipay           `json:"alipay"`
-	AmazonPay        *PaymentMethodAmazonPay        `json:"amazon_pay"`
-	AUBECSDebit      *PaymentMethodAUBECSDebit      `json:"au_becs_debit"`
-	BACSDebit        *PaymentMethodBACSDebit        `json:"bacs_debit"`
-	Bancontact       *PaymentMethodBancontact       `json:"bancontact"`
-	BillingDetails   *PaymentMethodBillingDetails   `json:"billing_details"`
-	BLIK             *PaymentMethodBLIK             `json:"blik"`
-	Boleto           *PaymentMethodBoleto           `json:"boleto"`
-	Card             *PaymentMethodCard             `json:"card"`
-	CardPresent      *PaymentMethodCardPresent      `json:"card_present"`
-	CashApp          *PaymentMethodCashApp          `json:"cashapp"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
+	AllowRedisplay PaymentMethodAllowRedisplay  `json:"allow_redisplay"`
+	AmazonPay      *PaymentMethodAmazonPay      `json:"amazon_pay"`
+	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
+	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit"`
+	Bancontact     *PaymentMethodBancontact     `json:"bancontact"`
+	BillingDetails *PaymentMethodBillingDetails `json:"billing_details"`
+	BLIK           *PaymentMethodBLIK           `json:"blik"`
+	Boleto         *PaymentMethodBoleto         `json:"boleto"`
+	Card           *PaymentMethodCard           `json:"card"`
+	CardPresent    *PaymentMethodCardPresent    `json:"card_present"`
+	CashApp        *PaymentMethodCashApp        `json:"cashapp"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.

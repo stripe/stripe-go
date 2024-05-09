@@ -746,7 +746,7 @@ const (
 	CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilterUnspecified CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter = "unspecified"
 )
 
-// Enable customers to choose if they wish to save their payment method for future use.
+// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 type CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave string
 
 // List of values that CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave can take
@@ -1731,7 +1731,7 @@ type CheckoutSessionPhoneNumberCollectionParams struct {
 type CheckoutSessionSavedPaymentMethodOptionsParams struct {
 	// Controls which payment methods are eligible to be redisplayed to returning customers. Corresponds to `allow_redisplay` on the payment method.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters"`
-	// Enable customers to choose if they wish to save their payment method for future use.
+	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave *string `form:"payment_method_save"`
 }
 
@@ -2690,7 +2690,7 @@ type CheckoutSessionPhoneNumberCollection struct {
 type CheckoutSessionSavedPaymentMethodOptions struct {
 	// Controls which payment methods are eligible to be redisplayed to returning customers. Corresponds to `allow_redisplay` on the payment method.
 	AllowRedisplayFilters []CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter `json:"allow_redisplay_filters"`
-	// Enable customers to choose if they wish to save their payment method for future use.
+	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave `json:"payment_method_save"`
 }
 

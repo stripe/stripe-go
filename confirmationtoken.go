@@ -6,6 +6,16 @@
 
 package stripe
 
+// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
+type ConfirmationTokenPaymentMethodPreviewAllowRedisplay string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewAllowRedisplay can take
+const (
+	ConfirmationTokenPaymentMethodPreviewAllowRedisplayAlways      ConfirmationTokenPaymentMethodPreviewAllowRedisplay = "always"
+	ConfirmationTokenPaymentMethodPreviewAllowRedisplayLimited     ConfirmationTokenPaymentMethodPreviewAllowRedisplay = "limited"
+	ConfirmationTokenPaymentMethodPreviewAllowRedisplayUnspecified ConfirmationTokenPaymentMethodPreviewAllowRedisplay = "unspecified"
+)
+
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 type ConfirmationTokenPaymentMethodPreviewCardWalletType string
 
@@ -707,37 +717,39 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Affirm           *ConfirmationTokenPaymentMethodPreviewAffirm           `json:"affirm"`
 	AfterpayClearpay *ConfirmationTokenPaymentMethodPreviewAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *ConfirmationTokenPaymentMethodPreviewAlipay           `json:"alipay"`
-	AmazonPay        *ConfirmationTokenPaymentMethodPreviewAmazonPay        `json:"amazon_pay"`
-	AUBECSDebit      *ConfirmationTokenPaymentMethodPreviewAUBECSDebit      `json:"au_becs_debit"`
-	BACSDebit        *ConfirmationTokenPaymentMethodPreviewBACSDebit        `json:"bacs_debit"`
-	Bancontact       *ConfirmationTokenPaymentMethodPreviewBancontact       `json:"bancontact"`
-	BillingDetails   *ConfirmationTokenPaymentMethodPreviewBillingDetails   `json:"billing_details"`
-	BLIK             *ConfirmationTokenPaymentMethodPreviewBLIK             `json:"blik"`
-	Boleto           *ConfirmationTokenPaymentMethodPreviewBoleto           `json:"boleto"`
-	Card             *ConfirmationTokenPaymentMethodPreviewCard             `json:"card"`
-	CardPresent      *ConfirmationTokenPaymentMethodPreviewCardPresent      `json:"card_present"`
-	CashApp          *ConfirmationTokenPaymentMethodPreviewCashApp          `json:"cashapp"`
-	CustomerBalance  *ConfirmationTokenPaymentMethodPreviewCustomerBalance  `json:"customer_balance"`
-	EPS              *ConfirmationTokenPaymentMethodPreviewEPS              `json:"eps"`
-	FPX              *ConfirmationTokenPaymentMethodPreviewFPX              `json:"fpx"`
-	Giropay          *ConfirmationTokenPaymentMethodPreviewGiropay          `json:"giropay"`
-	Grabpay          *ConfirmationTokenPaymentMethodPreviewGrabpay          `json:"grabpay"`
-	IDEAL            *ConfirmationTokenPaymentMethodPreviewIDEAL            `json:"ideal"`
-	InteracPresent   *ConfirmationTokenPaymentMethodPreviewInteracPresent   `json:"interac_present"`
-	Klarna           *ConfirmationTokenPaymentMethodPreviewKlarna           `json:"klarna"`
-	Konbini          *ConfirmationTokenPaymentMethodPreviewKonbini          `json:"konbini"`
-	Link             *ConfirmationTokenPaymentMethodPreviewLink             `json:"link"`
-	Mobilepay        *ConfirmationTokenPaymentMethodPreviewMobilepay        `json:"mobilepay"`
-	OXXO             *ConfirmationTokenPaymentMethodPreviewOXXO             `json:"oxxo"`
-	P24              *ConfirmationTokenPaymentMethodPreviewP24              `json:"p24"`
-	PayNow           *ConfirmationTokenPaymentMethodPreviewPayNow           `json:"paynow"`
-	Paypal           *ConfirmationTokenPaymentMethodPreviewPaypal           `json:"paypal"`
-	Pix              *ConfirmationTokenPaymentMethodPreviewPix              `json:"pix"`
-	PromptPay        *ConfirmationTokenPaymentMethodPreviewPromptPay        `json:"promptpay"`
-	RevolutPay       *ConfirmationTokenPaymentMethodPreviewRevolutPay       `json:"revolut_pay"`
-	SEPADebit        *ConfirmationTokenPaymentMethodPreviewSEPADebit        `json:"sepa_debit"`
-	Sofort           *ConfirmationTokenPaymentMethodPreviewSofort           `json:"sofort"`
-	Swish            *ConfirmationTokenPaymentMethodPreviewSwish            `json:"swish"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
+	AllowRedisplay  ConfirmationTokenPaymentMethodPreviewAllowRedisplay   `json:"allow_redisplay"`
+	AmazonPay       *ConfirmationTokenPaymentMethodPreviewAmazonPay       `json:"amazon_pay"`
+	AUBECSDebit     *ConfirmationTokenPaymentMethodPreviewAUBECSDebit     `json:"au_becs_debit"`
+	BACSDebit       *ConfirmationTokenPaymentMethodPreviewBACSDebit       `json:"bacs_debit"`
+	Bancontact      *ConfirmationTokenPaymentMethodPreviewBancontact      `json:"bancontact"`
+	BillingDetails  *ConfirmationTokenPaymentMethodPreviewBillingDetails  `json:"billing_details"`
+	BLIK            *ConfirmationTokenPaymentMethodPreviewBLIK            `json:"blik"`
+	Boleto          *ConfirmationTokenPaymentMethodPreviewBoleto          `json:"boleto"`
+	Card            *ConfirmationTokenPaymentMethodPreviewCard            `json:"card"`
+	CardPresent     *ConfirmationTokenPaymentMethodPreviewCardPresent     `json:"card_present"`
+	CashApp         *ConfirmationTokenPaymentMethodPreviewCashApp         `json:"cashapp"`
+	CustomerBalance *ConfirmationTokenPaymentMethodPreviewCustomerBalance `json:"customer_balance"`
+	EPS             *ConfirmationTokenPaymentMethodPreviewEPS             `json:"eps"`
+	FPX             *ConfirmationTokenPaymentMethodPreviewFPX             `json:"fpx"`
+	Giropay         *ConfirmationTokenPaymentMethodPreviewGiropay         `json:"giropay"`
+	Grabpay         *ConfirmationTokenPaymentMethodPreviewGrabpay         `json:"grabpay"`
+	IDEAL           *ConfirmationTokenPaymentMethodPreviewIDEAL           `json:"ideal"`
+	InteracPresent  *ConfirmationTokenPaymentMethodPreviewInteracPresent  `json:"interac_present"`
+	Klarna          *ConfirmationTokenPaymentMethodPreviewKlarna          `json:"klarna"`
+	Konbini         *ConfirmationTokenPaymentMethodPreviewKonbini         `json:"konbini"`
+	Link            *ConfirmationTokenPaymentMethodPreviewLink            `json:"link"`
+	Mobilepay       *ConfirmationTokenPaymentMethodPreviewMobilepay       `json:"mobilepay"`
+	OXXO            *ConfirmationTokenPaymentMethodPreviewOXXO            `json:"oxxo"`
+	P24             *ConfirmationTokenPaymentMethodPreviewP24             `json:"p24"`
+	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`
+	Paypal          *ConfirmationTokenPaymentMethodPreviewPaypal          `json:"paypal"`
+	Pix             *ConfirmationTokenPaymentMethodPreviewPix             `json:"pix"`
+	PromptPay       *ConfirmationTokenPaymentMethodPreviewPromptPay       `json:"promptpay"`
+	RevolutPay      *ConfirmationTokenPaymentMethodPreviewRevolutPay      `json:"revolut_pay"`
+	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit"`
+	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort"`
+	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          ConfirmationTokenPaymentMethodPreviewType           `json:"type"`
 	USBankAccount *ConfirmationTokenPaymentMethodPreviewUSBankAccount `json:"us_bank_account"`

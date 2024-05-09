@@ -1151,6 +1151,8 @@ type InvoiceUpcomingParams struct {
 	Issuer *InvoiceUpcomingIssuerParams `form:"issuer"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Customizes the types of values to include when calculating the invoice. Defaults to `next` if unspecified.
+	PreviewMode *string `form:"preview_mode"`
 	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
@@ -1822,6 +1824,8 @@ type InvoiceUpcomingLinesParams struct {
 	Issuer *InvoiceUpcomingLinesIssuerParams `form:"issuer"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Customizes the types of values to include when calculating the invoice. Defaults to `next` if unspecified.
+	PreviewMode *string `form:"preview_mode"`
 	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
@@ -2504,6 +2508,8 @@ type InvoiceCreatePreviewParams struct {
 	Issuer *InvoiceCreatePreviewIssuerParams `form:"issuer"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// Customizes the types of values to include when calculating the invoice. Defaults to `next` if unspecified.
+	PreviewMode *string `form:"preview_mode"`
 	// The identifier of the schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// The schedule creation or modification params to apply as a preview. Cannot be used with `subscription` or `subscription_` prefixed fields.
