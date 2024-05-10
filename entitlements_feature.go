@@ -11,8 +11,12 @@ import "encoding/json"
 // Retrieve a list of features
 type EntitlementsFeatureListParams struct {
 	ListParams `form:"*"`
+	// If set, filter results to only include features with the given archive status.
+	Archived *bool `form:"archived"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// If set, filter results to only include features with the given lookup_key.
+	LookupKey *string `form:"lookup_key"`
 }
 
 // AddExpand appends a new field to expand.
