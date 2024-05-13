@@ -459,12 +459,6 @@ type SetupIntentPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type SetupIntentPaymentMethodDataKonbiniParams struct{}
 
-// If this is a KrMarket PaymentMethod, this hash contains details about the KrMarket payment method.
-type SetupIntentPaymentMethodDataKrMarketParams struct {
-	// Underlying payment method that the buyer selected.
-	UnderlyingPaymentMethod *string `form:"underlying_payment_method"`
-}
-
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentPaymentMethodDataLinkParams struct{}
 
@@ -615,8 +609,6 @@ type SetupIntentPaymentMethodDataParams struct {
 	Klarna *SetupIntentPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *SetupIntentPaymentMethodDataKonbiniParams `form:"konbini"`
-	// If this is a KrMarket PaymentMethod, this hash contains details about the KrMarket payment method.
-	KrMarket *SetupIntentPaymentMethodDataKrMarketParams `form:"kr_market"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentPaymentMethodDataLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1122,12 +1114,6 @@ type SetupIntentConfirmPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type SetupIntentConfirmPaymentMethodDataKonbiniParams struct{}
 
-// If this is a KrMarket PaymentMethod, this hash contains details about the KrMarket payment method.
-type SetupIntentConfirmPaymentMethodDataKrMarketParams struct {
-	// Underlying payment method that the buyer selected.
-	UnderlyingPaymentMethod *string `form:"underlying_payment_method"`
-}
-
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentConfirmPaymentMethodDataLinkParams struct{}
 
@@ -1278,8 +1264,6 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Klarna *SetupIntentConfirmPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *SetupIntentConfirmPaymentMethodDataKonbiniParams `form:"konbini"`
-	// If this is a KrMarket PaymentMethod, this hash contains details about the KrMarket payment method.
-	KrMarket *SetupIntentConfirmPaymentMethodDataKrMarketParams `form:"kr_market"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentConfirmPaymentMethodDataLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

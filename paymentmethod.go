@@ -147,40 +147,6 @@ const (
 	PaymentMethodInteracPresentReadMethodMagneticStripeTrack2     PaymentMethodInteracPresentReadMethod = "magnetic_stripe_track2"
 )
 
-// Underlying payment method buyer selected to complete the payment.
-type PaymentMethodKrMarketUnderlyingPaymentMethod string
-
-// List of values that PaymentMethodKrMarketUnderlyingPaymentMethod can take
-const (
-	PaymentMethodKrMarketUnderlyingPaymentMethodBc            PaymentMethodKrMarketUnderlyingPaymentMethod = "bc"
-	PaymentMethodKrMarketUnderlyingPaymentMethodCiti          PaymentMethodKrMarketUnderlyingPaymentMethod = "citi"
-	PaymentMethodKrMarketUnderlyingPaymentMethodHana          PaymentMethodKrMarketUnderlyingPaymentMethod = "hana"
-	PaymentMethodKrMarketUnderlyingPaymentMethodHyundai       PaymentMethodKrMarketUnderlyingPaymentMethod = "hyundai"
-	PaymentMethodKrMarketUnderlyingPaymentMethodJeju          PaymentMethodKrMarketUnderlyingPaymentMethod = "jeju"
-	PaymentMethodKrMarketUnderlyingPaymentMethodJeonbuk       PaymentMethodKrMarketUnderlyingPaymentMethod = "jeonbuk"
-	PaymentMethodKrMarketUnderlyingPaymentMethodKakaobank     PaymentMethodKrMarketUnderlyingPaymentMethod = "kakaobank"
-	PaymentMethodKrMarketUnderlyingPaymentMethodKakaopay      PaymentMethodKrMarketUnderlyingPaymentMethod = "kakaopay"
-	PaymentMethodKrMarketUnderlyingPaymentMethodKbank         PaymentMethodKrMarketUnderlyingPaymentMethod = "kbank"
-	PaymentMethodKrMarketUnderlyingPaymentMethodKdbbank       PaymentMethodKrMarketUnderlyingPaymentMethod = "kdbbank"
-	PaymentMethodKrMarketUnderlyingPaymentMethodKookmin       PaymentMethodKrMarketUnderlyingPaymentMethod = "kookmin"
-	PaymentMethodKrMarketUnderlyingPaymentMethodKwangju       PaymentMethodKrMarketUnderlyingPaymentMethod = "kwangju"
-	PaymentMethodKrMarketUnderlyingPaymentMethodLotte         PaymentMethodKrMarketUnderlyingPaymentMethod = "lotte"
-	PaymentMethodKrMarketUnderlyingPaymentMethodMg            PaymentMethodKrMarketUnderlyingPaymentMethod = "mg"
-	PaymentMethodKrMarketUnderlyingPaymentMethodNaverpaycard  PaymentMethodKrMarketUnderlyingPaymentMethod = "naverpaycard"
-	PaymentMethodKrMarketUnderlyingPaymentMethodNaverpaypoint PaymentMethodKrMarketUnderlyingPaymentMethod = "naverpaypoint"
-	PaymentMethodKrMarketUnderlyingPaymentMethodNh            PaymentMethodKrMarketUnderlyingPaymentMethod = "nh"
-	PaymentMethodKrMarketUnderlyingPaymentMethodPayco         PaymentMethodKrMarketUnderlyingPaymentMethod = "payco"
-	PaymentMethodKrMarketUnderlyingPaymentMethodPost          PaymentMethodKrMarketUnderlyingPaymentMethod = "post"
-	PaymentMethodKrMarketUnderlyingPaymentMethodSamsung       PaymentMethodKrMarketUnderlyingPaymentMethod = "samsung"
-	PaymentMethodKrMarketUnderlyingPaymentMethodSamsungpay    PaymentMethodKrMarketUnderlyingPaymentMethod = "samsungpay"
-	PaymentMethodKrMarketUnderlyingPaymentMethodSavingsbank   PaymentMethodKrMarketUnderlyingPaymentMethod = "savingsbank"
-	PaymentMethodKrMarketUnderlyingPaymentMethodShinhan       PaymentMethodKrMarketUnderlyingPaymentMethod = "shinhan"
-	PaymentMethodKrMarketUnderlyingPaymentMethodShinhyup      PaymentMethodKrMarketUnderlyingPaymentMethod = "shinhyup"
-	PaymentMethodKrMarketUnderlyingPaymentMethodSuhyup        PaymentMethodKrMarketUnderlyingPaymentMethod = "suhyup"
-	PaymentMethodKrMarketUnderlyingPaymentMethodTossbank      PaymentMethodKrMarketUnderlyingPaymentMethod = "tossbank"
-	PaymentMethodKrMarketUnderlyingPaymentMethodWoori         PaymentMethodKrMarketUnderlyingPaymentMethod = "woori"
-)
-
 // The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 type PaymentMethodType string
 
@@ -208,7 +174,6 @@ const (
 	PaymentMethodTypeInteracPresent   PaymentMethodType = "interac_present"
 	PaymentMethodTypeKlarna           PaymentMethodType = "klarna"
 	PaymentMethodTypeKonbini          PaymentMethodType = "konbini"
-	PaymentMethodTypeKrMarket         PaymentMethodType = "kr_market"
 	PaymentMethodTypeLink             PaymentMethodType = "link"
 	PaymentMethodTypeMobilepay        PaymentMethodType = "mobilepay"
 	PaymentMethodTypeMultibanco       PaymentMethodType = "multibanco"
@@ -443,12 +408,6 @@ type PaymentMethodKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type PaymentMethodKonbiniParams struct{}
 
-// If this is a KrMarket PaymentMethod, this hash contains details about the KrMarket payment method.
-type PaymentMethodKrMarketParams struct {
-	// Underlying payment method that the buyer selected.
-	UnderlyingPaymentMethod *string `form:"underlying_payment_method"`
-}
-
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type PaymentMethodLinkParams struct{}
 
@@ -605,8 +564,6 @@ type PaymentMethodParams struct {
 	Klarna *PaymentMethodKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
-	// If this is a KrMarket PaymentMethod, this hash contains details about the KrMarket payment method.
-	KrMarket *PaymentMethodKrMarketParams `form:"kr_market"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -978,10 +935,6 @@ type PaymentMethodKlarna struct {
 	DOB *PaymentMethodKlarnaDOB `json:"dob"`
 }
 type PaymentMethodKonbini struct{}
-type PaymentMethodKrMarket struct {
-	// Underlying payment method buyer selected to complete the payment.
-	UnderlyingPaymentMethod PaymentMethodKrMarketUnderlyingPaymentMethod `json:"underlying_payment_method"`
-}
 type PaymentMethodLink struct {
 	// Account owner's email address.
 	Email string `json:"email"`
@@ -1147,7 +1100,6 @@ type PaymentMethod struct {
 	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`
 	Klarna         *PaymentMethodKlarna         `json:"klarna"`
 	Konbini        *PaymentMethodKonbini        `json:"konbini"`
-	KrMarket       *PaymentMethodKrMarket       `json:"kr_market"`
 	Link           *PaymentMethodLink           `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
