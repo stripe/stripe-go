@@ -122,12 +122,6 @@ type TestHelpersConfirmationTokenPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataKonbiniParams struct{}
 
-// If this is a KrMarket PaymentMethod, this hash contains details about the KrMarket payment method.
-type TestHelpersConfirmationTokenPaymentMethodDataKrMarketParams struct {
-	// Underlying payment method that the buyer selected.
-	UnderlyingPaymentMethod *string `form:"underlying_payment_method"`
-}
-
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataLinkParams struct{}
 
@@ -245,8 +239,6 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Klarna *TestHelpersConfirmationTokenPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *TestHelpersConfirmationTokenPaymentMethodDataKonbiniParams `form:"konbini"`
-	// If this is a KrMarket PaymentMethod, this hash contains details about the KrMarket payment method.
-	KrMarket *TestHelpersConfirmationTokenPaymentMethodDataKrMarketParams `form:"kr_market"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *TestHelpersConfirmationTokenPaymentMethodDataLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.

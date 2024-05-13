@@ -259,7 +259,6 @@ type SetupAttemptPaymentMethodDetailsIDEAL struct {
 	VerifiedName string `json:"verified_name"`
 }
 type SetupAttemptPaymentMethodDetailsKlarna struct{}
-type SetupAttemptPaymentMethodDetailsKrMarket struct{}
 type SetupAttemptPaymentMethodDetailsLink struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
@@ -297,7 +296,6 @@ type SetupAttemptPaymentMethodDetails struct {
 	CashApp     *SetupAttemptPaymentMethodDetailsCashApp     `json:"cashapp"`
 	IDEAL       *SetupAttemptPaymentMethodDetailsIDEAL       `json:"ideal"`
 	Klarna      *SetupAttemptPaymentMethodDetailsKlarna      `json:"klarna"`
-	KrMarket    *SetupAttemptPaymentMethodDetailsKrMarket    `json:"kr_market"`
 	Link        *SetupAttemptPaymentMethodDetailsLink        `json:"link"`
 	Paypal      *SetupAttemptPaymentMethodDetailsPaypal      `json:"paypal"`
 	RevolutPay  *SetupAttemptPaymentMethodDetailsRevolutPay  `json:"revolut_pay"`

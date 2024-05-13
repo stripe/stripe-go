@@ -174,40 +174,6 @@ const (
 	ConfirmationTokenPaymentMethodPreviewInteracPresentReadMethodMagneticStripeTrack2     ConfirmationTokenPaymentMethodPreviewInteracPresentReadMethod = "magnetic_stripe_track2"
 )
 
-// Underlying payment method buyer selected to complete the payment.
-type ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod string
-
-// List of values that ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod can take
-const (
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodBc            ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "bc"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodCiti          ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "citi"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodHana          ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "hana"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodHyundai       ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "hyundai"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodJeju          ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "jeju"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodJeonbuk       ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "jeonbuk"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodKakaobank     ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "kakaobank"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodKakaopay      ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "kakaopay"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodKbank         ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "kbank"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodKdbbank       ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "kdbbank"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodKookmin       ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "kookmin"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodKwangju       ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "kwangju"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodLotte         ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "lotte"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodMg            ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "mg"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodNaverpaycard  ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "naverpaycard"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodNaverpaypoint ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "naverpaypoint"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodNh            ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "nh"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodPayco         ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "payco"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodPost          ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "post"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodSamsung       ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "samsung"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodSamsungpay    ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "samsungpay"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodSavingsbank   ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "savingsbank"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodShinhan       ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "shinhan"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodShinhyup      ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "shinhyup"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodSuhyup        ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "suhyup"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodTossbank      ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "tossbank"
-	ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethodWoori         ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod = "woori"
-)
-
 // The customer's bank, if provided.
 type ConfirmationTokenPaymentMethodPreviewP24Bank string
 
@@ -268,7 +234,6 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeInteracPresent   ConfirmationTokenPaymentMethodPreviewType = "interac_present"
 	ConfirmationTokenPaymentMethodPreviewTypeKlarna           ConfirmationTokenPaymentMethodPreviewType = "klarna"
 	ConfirmationTokenPaymentMethodPreviewTypeKonbini          ConfirmationTokenPaymentMethodPreviewType = "konbini"
-	ConfirmationTokenPaymentMethodPreviewTypeKrMarket         ConfirmationTokenPaymentMethodPreviewType = "kr_market"
 	ConfirmationTokenPaymentMethodPreviewTypeLink             ConfirmationTokenPaymentMethodPreviewType = "link"
 	ConfirmationTokenPaymentMethodPreviewTypeMobilepay        ConfirmationTokenPaymentMethodPreviewType = "mobilepay"
 	ConfirmationTokenPaymentMethodPreviewTypeOXXO             ConfirmationTokenPaymentMethodPreviewType = "oxxo"
@@ -655,10 +620,6 @@ type ConfirmationTokenPaymentMethodPreviewKlarna struct {
 	DOB *ConfirmationTokenPaymentMethodPreviewKlarnaDOB `json:"dob"`
 }
 type ConfirmationTokenPaymentMethodPreviewKonbini struct{}
-type ConfirmationTokenPaymentMethodPreviewKrMarket struct {
-	// Underlying payment method buyer selected to complete the payment.
-	UnderlyingPaymentMethod ConfirmationTokenPaymentMethodPreviewKrMarketUnderlyingPaymentMethod `json:"underlying_payment_method"`
-}
 type ConfirmationTokenPaymentMethodPreviewLink struct {
 	// Account owner's email address.
 	Email string `json:"email"`
@@ -779,7 +740,6 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	InteracPresent  *ConfirmationTokenPaymentMethodPreviewInteracPresent  `json:"interac_present"`
 	Klarna          *ConfirmationTokenPaymentMethodPreviewKlarna          `json:"klarna"`
 	Konbini         *ConfirmationTokenPaymentMethodPreviewKonbini         `json:"konbini"`
-	KrMarket        *ConfirmationTokenPaymentMethodPreviewKrMarket        `json:"kr_market"`
 	Link            *ConfirmationTokenPaymentMethodPreviewLink            `json:"link"`
 	Mobilepay       *ConfirmationTokenPaymentMethodPreviewMobilepay       `json:"mobilepay"`
 	OXXO            *ConfirmationTokenPaymentMethodPreviewOXXO            `json:"oxxo"`
