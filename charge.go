@@ -1679,6 +1679,7 @@ type ChargePaymentMethodDetailsKonbini struct {
 	// If the payment succeeded, this contains the details of the convenience store where the payment was completed.
 	Store *ChargePaymentMethodDetailsKonbiniStore `json:"store"`
 }
+type ChargePaymentMethodDetailsKrMarket struct{}
 type ChargePaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment.
 	// You could use this attribute to get a sense of international fees.
@@ -1889,6 +1890,7 @@ type ChargePaymentMethodDetails struct {
 	InteracPresent     *ChargePaymentMethodDetailsInteracPresent     `json:"interac_present"`
 	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna"`
 	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini"`
+	KrMarket           *ChargePaymentMethodDetailsKrMarket           `json:"kr_market"`
 	Link               *ChargePaymentMethodDetailsLink               `json:"link"`
 	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay"`
 	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`

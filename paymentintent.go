@@ -656,6 +656,19 @@ const (
 	PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsageNone PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage = "none"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsKrMarketSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsKrMarketSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsKrMarketSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsKrMarketSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsKrMarketSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsKrMarketSetupFutureUsage = "off_session"
+)
+
 // Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsLinkCaptureMethod string
 
@@ -1488,6 +1501,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Klarna *PaymentMethodKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
+	// If this is a KrMarket PaymentMethod, this hash contains details about the KrMarket payment method.
+	KrMarket *PaymentMethodKrMarketParams `form:"kr_market"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -2034,6 +2049,16 @@ type PaymentIntentPaymentMethodOptionsKonbiniParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `kr_market` PaymentMethod, this sub-hash contains details about the KR Market payment method options.
+type PaymentIntentPaymentMethodOptionsKrMarketParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type PaymentIntentPaymentMethodOptionsLinkParams struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -2400,6 +2425,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Klarna *PaymentIntentPaymentMethodOptionsKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
 	Konbini *PaymentIntentPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	// If this is a `kr_market` PaymentMethod, this sub-hash contains details about the KR Market payment method options.
+	KrMarket *PaymentIntentPaymentMethodOptionsKrMarketParams `form:"kr_market"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *PaymentIntentPaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `MobilePay` PaymentMethod, this sub-hash contains details about the MobilePay payment method options.
@@ -4300,6 +4327,14 @@ type PaymentIntentPaymentMethodOptionsKonbini struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsKrMarket struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsKrMarketSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsLink struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsLinkCaptureMethod `json:"capture_method"`
@@ -4538,6 +4573,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`
 	Konbini          *PaymentIntentPaymentMethodOptionsKonbini          `json:"konbini"`
+	KrMarket         *PaymentIntentPaymentMethodOptionsKrMarket         `json:"kr_market"`
 	Link             *PaymentIntentPaymentMethodOptionsLink             `json:"link"`
 	Mobilepay        *PaymentIntentPaymentMethodOptionsMobilepay        `json:"mobilepay"`
 	Multibanco       *PaymentIntentPaymentMethodOptionsMultibanco       `json:"multibanco"`
