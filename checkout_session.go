@@ -736,7 +736,7 @@ const (
 	CheckoutSessionRedirectOnCompletionNever      CheckoutSessionRedirectOnCompletion = "never"
 )
 
-// Controls which payment methods are eligible to be redisplayed to returning customers. Corresponds to `allow_redisplay` on the payment method.
+// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 type CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter string
 
 // List of values that CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter can take
@@ -1729,7 +1729,7 @@ type CheckoutSessionPhoneNumberCollectionParams struct {
 
 // Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
 type CheckoutSessionSavedPaymentMethodOptionsParams struct {
-	// Controls which payment methods are eligible to be redisplayed to returning customers. Corresponds to `allow_redisplay` on the payment method.
+	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave *string `form:"payment_method_save"`
@@ -2688,7 +2688,7 @@ type CheckoutSessionPhoneNumberCollection struct {
 
 // Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
 type CheckoutSessionSavedPaymentMethodOptions struct {
-	// Controls which payment methods are eligible to be redisplayed to returning customers. Corresponds to `allow_redisplay` on the payment method.
+	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter `json:"allow_redisplay_filters"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave `json:"payment_method_save"`
