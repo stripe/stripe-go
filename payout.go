@@ -190,6 +190,10 @@ type Payout struct {
 	APIResource
 	// The amount (in cents (or local equivalent)) that transfers to your bank account or debit card.
 	Amount int64 `json:"amount"`
+	// The application fee (if any) for the payout. [See the Connect documentation](https://stripe.com/docs/connect/instant-payouts#monetization-and-fees) for details.
+	ApplicationFee *ApplicationFee `json:"application_fee"`
+	// The amount of the application fee (if any) requested for the payout. [See the Connect documentation](https://stripe.com/docs/connect/instant-payouts#monetization-and-fees) for details.
+	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// Date that you can expect the payout to arrive in the bank. This factors in delays to account for weekends or bank holidays.
 	ArrivalDate int64 `json:"arrival_date"`
 	// Returns `true` if the payout is created by an [automated payout schedule](https://stripe.com/docs/payouts#payout-schedule) and `false` if it's [requested manually](https://stripe.com/docs/payouts#manual-payouts).
