@@ -68,6 +68,33 @@ const (
 	IssuingDisputeEvidenceReasonServiceNotAsDescribed     IssuingDisputeEvidenceReason = "service_not_as_described"
 )
 
+// The enum that describes the dispute loss outcome. If the dispute is not lost, this field will be absent. New enum values may be added in the future, so be sure to handle unknown values.
+type IssuingDisputeLossReason string
+
+// List of values that IssuingDisputeLossReason can take
+const (
+	IssuingDisputeLossReasonCardholderAuthenticationIssuerLiability       IssuingDisputeLossReason = "cardholder_authentication_issuer_liability"
+	IssuingDisputeLossReasonEci5TokenTransactionWithTavv                  IssuingDisputeLossReason = "eci5_token_transaction_with_tavv"
+	IssuingDisputeLossReasonExcessDisputesInTimeframe                     IssuingDisputeLossReason = "excess_disputes_in_timeframe"
+	IssuingDisputeLossReasonHasNotMetTheMinimumDisputeAmountRequirements  IssuingDisputeLossReason = "has_not_met_the_minimum_dispute_amount_requirements"
+	IssuingDisputeLossReasonInvalidDuplicateDispute                       IssuingDisputeLossReason = "invalid_duplicate_dispute"
+	IssuingDisputeLossReasonInvalidIncorrectAmountDispute                 IssuingDisputeLossReason = "invalid_incorrect_amount_dispute"
+	IssuingDisputeLossReasonInvalidNoAuthorization                        IssuingDisputeLossReason = "invalid_no_authorization"
+	IssuingDisputeLossReasonInvalidUseOfDisputes                          IssuingDisputeLossReason = "invalid_use_of_disputes"
+	IssuingDisputeLossReasonMerchandiseDeliveredOrShipped                 IssuingDisputeLossReason = "merchandise_delivered_or_shipped"
+	IssuingDisputeLossReasonMerchandiseOrServiceAsDescribed               IssuingDisputeLossReason = "merchandise_or_service_as_described"
+	IssuingDisputeLossReasonNotCancelled                                  IssuingDisputeLossReason = "not_cancelled"
+	IssuingDisputeLossReasonOther                                         IssuingDisputeLossReason = "other"
+	IssuingDisputeLossReasonRefundIssued                                  IssuingDisputeLossReason = "refund_issued"
+	IssuingDisputeLossReasonSubmittedBeyondAllowableTimeLimit             IssuingDisputeLossReason = "submitted_beyond_allowable_time_limit"
+	IssuingDisputeLossReasonTransaction3dsRequired                        IssuingDisputeLossReason = "transaction_3ds_required"
+	IssuingDisputeLossReasonTransactionApprovedAfterPriorFraudDispute     IssuingDisputeLossReason = "transaction_approved_after_prior_fraud_dispute"
+	IssuingDisputeLossReasonTransactionAuthorized                         IssuingDisputeLossReason = "transaction_authorized"
+	IssuingDisputeLossReasonTransactionElectronicallyRead                 IssuingDisputeLossReason = "transaction_electronically_read"
+	IssuingDisputeLossReasonTransactionQualifiesForVisaEasyPaymentService IssuingDisputeLossReason = "transaction_qualifies_for_visa_easy_payment_service"
+	IssuingDisputeLossReasonTransactionUnattended                         IssuingDisputeLossReason = "transaction_unattended"
+)
+
 // Current status of the dispute.
 type IssuingDisputeStatus string
 
@@ -429,6 +456,8 @@ type IssuingDispute struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// The enum that describes the dispute loss outcome. If the dispute is not lost, this field will be absent. New enum values may be added in the future, so be sure to handle unknown values.
+	LossReason IssuingDisputeLossReason `json:"loss_reason"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
