@@ -17,6 +17,8 @@ type TerminalConfigurationParams struct {
 	Name *string `form:"name"`
 	// Configurations for collecting transactions offline.
 	Offline *TerminalConfigurationOfflineParams `form:"offline"`
+	// An object containing device type specific settings for Stripe S700 readers
+	StripeS700 *TerminalConfigurationStripeS700Params `form:"stripe_s700"`
 	// Tipping configurations for readers supporting on-reader tips
 	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers
@@ -38,6 +40,12 @@ type TerminalConfigurationBBPOSWisePOSEParams struct {
 type TerminalConfigurationOfflineParams struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
 	Enabled *bool `form:"enabled"`
+}
+
+// An object containing device type specific settings for Stripe S700 readers
+type TerminalConfigurationStripeS700Params struct {
+	// A File ID representing an image you would like displayed on the reader.
+	Splashscreen *string `form:"splashscreen"`
 }
 
 // Tipping configuration for AUD
@@ -240,6 +248,10 @@ type TerminalConfigurationOffline struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
 	Enabled bool `json:"enabled"`
 }
+type TerminalConfigurationStripeS700 struct {
+	// A File ID representing an image you would like displayed on the reader.
+	Splashscreen *File `json:"splashscreen"`
+}
 type TerminalConfigurationTippingAUD struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
@@ -389,6 +401,7 @@ type TerminalConfiguration struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object       string                             `json:"object"`
 	Offline      *TerminalConfigurationOffline      `json:"offline"`
+	StripeS700   *TerminalConfigurationStripeS700   `json:"stripe_s700"`
 	Tipping      *TerminalConfigurationTipping      `json:"tipping"`
 	VerifoneP400 *TerminalConfigurationVerifoneP400 `json:"verifone_p400"`
 }
