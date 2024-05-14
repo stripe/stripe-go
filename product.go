@@ -68,7 +68,7 @@ type ProductParams struct {
 	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
 	//
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
-	//  It must contain at least one letter. May only be set if `type=service`.
+	//  It must contain at least one letter. May only be set if `type=service`. Only used for subscription payments.
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
@@ -319,7 +319,7 @@ type Product struct {
 	Provisioning *ProductProvisioning `json:"provisioning"`
 	// Whether this product is shipped (i.e., physical goods).
 	Shippable bool `json:"shippable"`
-	// Extra information about a product which will appear on your customer's credit card statement. In the case that multiple products are billed at once, the first statement descriptor will be used.
+	// Extra information about a product which will appear on your customer's credit card statement. In the case that multiple products are billed at once, the first statement descriptor will be used. Only used for subscription payments.
 	StatementDescriptor string `json:"statement_descriptor"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *TaxCode `json:"tax_code"`
