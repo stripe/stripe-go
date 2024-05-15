@@ -429,6 +429,15 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
 )
 
+// Requested routing priority
+type PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority can take
+const (
+	PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriorityDomestic      PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority = "domestic"
+	PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriorityInternational PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority = "international"
+)
+
 // Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsCashAppCaptureMethod string
 
@@ -1391,12 +1400,20 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	ThreeDSecure *PaymentIntentPaymentMethodOptionsCardThreeDSecureParams `form:"three_d_secure"`
 }
 
+// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
+type PaymentIntentPaymentMethodOptionsCardPresentRoutingParams struct {
+	// Routing requested priority
+	RequestedPriority *string `form:"requested_priority"`
+}
+
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
+	// Network routing priority on co-branded EMV cards supporting domestic debit and international card schemes.
+	Routing *PaymentIntentPaymentMethodOptionsCardPresentRoutingParams `form:"routing"`
 }
 
 // If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
@@ -2820,11 +2837,16 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	// Provides information about a card payment that customers see on their statements. Concatenated with the Kanji prefix (shortened Kanji descriptor) or Kanji statement descriptor that's set on the account to form the complete statement descriptor. Maximum 17 characters. On card statements, the *concatenation* of both prefix and suffix (including separators) will appear truncated to 17 characters.
 	StatementDescriptorSuffixKanji string `json:"statement_descriptor_suffix_kanji"`
 }
+type PaymentIntentPaymentMethodOptionsCardPresentRouting struct {
+	// Requested routing priority
+	RequestedPriority PaymentIntentPaymentMethodOptionsCardPresentRoutingRequestedPriority `json:"requested_priority"`
+}
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
 	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
-	RequestIncrementalAuthorizationSupport bool `json:"request_incremental_authorization_support"`
+	RequestIncrementalAuthorizationSupport bool                                                 `json:"request_incremental_authorization_support"`
+	Routing                                *PaymentIntentPaymentMethodOptionsCardPresentRouting `json:"routing"`
 }
 type PaymentIntentPaymentMethodOptionsCashApp struct {
 	// Controls when the funds will be captured from the customer's account.
