@@ -850,6 +850,8 @@ type PaymentMethodCardPresent struct {
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
 	Networks *PaymentMethodCardPresentNetworks `json:"networks"`
+	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
 	ReadMethod PaymentMethodCardPresentReadMethod `json:"read_method"`
 }

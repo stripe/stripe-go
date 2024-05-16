@@ -1254,7 +1254,7 @@ type AccountCapabilities struct {
 	Transfers AccountCapabilityStatus `json:"transfers"`
 	// The status of the banking capability, or whether the account can have bank accounts.
 	Treasury AccountCapabilityStatus `json:"treasury"`
-	// The status of the Twint capability of the account, or whether the account can directly process Twint charges.
+	// The status of the TWINT capability of the account, or whether the account can directly process TWINT charges.
 	TWINTPayments AccountCapabilityStatus `json:"twint_payments"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments"`
@@ -1469,9 +1469,11 @@ type AccountRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 type AccountRiskControlsCharges struct {
+	// Whether a pause of the risk control has been requested.
 	PauseRequested bool `json:"pause_requested"`
 }
 type AccountRiskControlsPayouts struct {
+	// Whether a pause of the risk control has been requested.
 	PauseRequested bool `json:"pause_requested"`
 }
 type AccountRiskControls struct {

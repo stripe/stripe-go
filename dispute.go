@@ -65,6 +65,7 @@ type DisputePaymentMethodDetailsType string
 // List of values that DisputePaymentMethodDetailsType can take
 const (
 	DisputePaymentMethodDetailsTypeCard   DisputePaymentMethodDetailsType = "card"
+	DisputePaymentMethodDetailsTypeKlarna DisputePaymentMethodDetailsType = "klarna"
 	DisputePaymentMethodDetailsTypePaypal DisputePaymentMethodDetailsType = "paypal"
 )
 
@@ -395,6 +396,10 @@ type DisputePaymentMethodDetailsCard struct {
 	// The card network's specific dispute reason code, which maps to one of Stripe's primary dispute categories to simplify response guidance. The [Network code map](https://stripe.com/docs/disputes/categories#network-code-map) lists all available dispute reason codes by network.
 	NetworkReasonCode string `json:"network_reason_code"`
 }
+type DisputePaymentMethodDetailsKlarna struct {
+	// The reason for the dispute as defined by Klarna
+	ReasonCode string `json:"reason_code"`
+}
 type DisputePaymentMethodDetailsPaypal struct {
 	// The ID of the dispute in PayPal.
 	CaseID string `json:"case_id"`
@@ -403,6 +408,7 @@ type DisputePaymentMethodDetailsPaypal struct {
 }
 type DisputePaymentMethodDetails struct {
 	Card   *DisputePaymentMethodDetailsCard   `json:"card"`
+	Klarna *DisputePaymentMethodDetailsKlarna `json:"klarna"`
 	Paypal *DisputePaymentMethodDetailsPaypal `json:"paypal"`
 	// Payment method type.
 	Type DisputePaymentMethodDetailsType `json:"type"`

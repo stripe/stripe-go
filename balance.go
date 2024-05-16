@@ -35,8 +35,27 @@ type Amount struct {
 	// Balance amount.
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency    Currency                    `json:"currency"`
-	SourceTypes map[BalanceSourceType]int64 `json:"source_types"`
+	Currency Currency `json:"currency"`
+	// Breakdown of balance by destination.
+	NetAvailable []*BalanceInstantAvailableNetAvailable `json:"net_available"`
+	SourceTypes  map[BalanceSourceType]int64            `json:"source_types"`
+}
+type BalanceInstantAvailableNetAvailableSourceTypes struct {
+	// Amount for bank account.
+	BankAccount int64 `json:"bank_account"`
+	// Amount for card.
+	Card int64 `json:"card"`
+	// Amount for FPX.
+	FPX int64 `json:"fpx"`
+}
+
+// Breakdown of balance by destination.
+type BalanceInstantAvailableNetAvailable struct {
+	// Net balance amount, subtracting fees from platform-set pricing.
+	Amount int64 `json:"amount"`
+	// ID of the external account for this net balance (not expandable).
+	Destination string                                          `json:"destination"`
+	SourceTypes *BalanceInstantAvailableNetAvailableSourceTypes `json:"source_types"`
 }
 type BalanceIssuing struct {
 	// Funds that are available for use.
