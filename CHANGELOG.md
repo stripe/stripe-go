@@ -1,5 +1,9 @@
 # Changelog
 
+## 78.8.0-beta.1 - 2024-05-16
+* [#1861](https://github.com/stripe/stripe-go/pull/1861) Update generated code for beta
+
+
 ## 78.7.0-beta.1 - 2024-05-09
 * [#1857](https://github.com/stripe/stripe-go/pull/1857) Update generated code for beta
   * No new beta features. Merging changes from the main branch.
