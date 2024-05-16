@@ -121,7 +121,7 @@ type PriceListParams struct {
 	Currency *string `form:"currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Only return the price with these lookup_keys, if any exist.
+	// Only return the price with these lookup_keys, if any exist. You can specify up to 10 lookup_keys.
 	LookupKeys []*string `form:"lookup_keys"`
 	// Only return prices for the given product.
 	Product *string `form:"product"`
