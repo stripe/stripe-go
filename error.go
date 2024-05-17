@@ -190,6 +190,7 @@ const (
 	ErrorCodeTerminalLocationCountryUnsupported                          ErrorCode = "terminal_location_country_unsupported"
 	ErrorCodeTerminalReaderBusy                                          ErrorCode = "terminal_reader_busy"
 	ErrorCodeTerminalReaderHardwareFault                                 ErrorCode = "terminal_reader_hardware_fault"
+	ErrorCodeTerminalReaderInvalidLocationForPayment                     ErrorCode = "terminal_reader_invalid_location_for_payment"
 	ErrorCodeTerminalReaderOffline                                       ErrorCode = "terminal_reader_offline"
 	ErrorCodeTerminalReaderTimeout                                       ErrorCode = "terminal_reader_timeout"
 	ErrorCodeTestmodeChargesOnly                                         ErrorCode = "testmode_charges_only"

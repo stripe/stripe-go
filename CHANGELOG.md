@@ -3,6 +3,20 @@
 ## 78.8.0-beta.1 - 2024-05-16
 * [#1861](https://github.com/stripe/stripe-go/pull/1861) Update generated code for beta
 
+## 78.7.0 - 2024-05-16
+* [#1862](https://github.com/stripe/stripe-go/pull/1862) Update generated code
+  * Add support for `FeeSource` on `ApplicationFee`
+  * Add support for `NetAvailable` on `BalanceInstantAvailable`
+  * Add support for `PreferredLocales` on `ChargePaymentMethodDetailsCardPresent`, `ConfirmationTokenPaymentMethodPreviewCardPresent`, and `PaymentMethodCardPresent`
+  * Add support for `Klarna` on `DisputePaymentMethodDetails`
+  * Add support for new value `klarna` on enum `DisputePaymentMethodDetailsType`
+  * Add support for `Archived` and `LookupKey` on `EntitlementsFeatureListParams`
+  * Add support for `NoValidAuthorization` on `IssuingDisputeEvidenceParams` and `IssuingDisputeEvidence`
+  * Add support for `LossReason` on `IssuingDispute`
+  * Add support for new value `no_valid_authorization` on enum `IssuingDisputeEvidenceReason`
+  * Add support for `Routing` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+  * Add support for `ApplicationFeeAmount` and `ApplicationFee` on `Payout`
+  * Add support for `StripeS700` on `TerminalConfigurationParams` and `TerminalConfiguration`
 
 ## 78.7.0-beta.1 - 2024-05-09
 * [#1857](https://github.com/stripe/stripe-go/pull/1857) Update generated code for beta
