@@ -202,7 +202,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataSofortParams struct {
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSwishParams struct{}
 
-// If this is a Twint PaymentMethod, this hash contains details about the Twint payment method.
+// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataTWINTParams struct{}
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
@@ -305,7 +305,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Sofort *TestHelpersConfirmationTokenPaymentMethodDataSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *TestHelpersConfirmationTokenPaymentMethodDataSwishParams `form:"swish"`
-	// If this is a Twint PaymentMethod, this hash contains details about the Twint payment method.
+	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
 	TWINT *TestHelpersConfirmationTokenPaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
