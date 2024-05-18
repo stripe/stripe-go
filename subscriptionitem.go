@@ -151,7 +151,7 @@ func (p *SubscriptionItemListParams) AddExpand(f string) {
 
 // Options that configure the trial on the subscription item.
 type SubscriptionItemTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`

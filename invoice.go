@@ -944,7 +944,7 @@ type InvoiceUpcomingScheduleDetailsAmendmentItemActionAddDiscountParams struct {
 
 // Options that configure the trial on the subscription item.
 type InvoiceUpcomingScheduleDetailsAmendmentItemActionAddTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -1013,7 +1013,7 @@ type InvoiceUpcomingScheduleDetailsAmendmentItemActionSetDiscountParams struct {
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type InvoiceUpcomingScheduleDetailsAmendmentItemActionSetTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -1310,7 +1310,7 @@ type InvoiceUpcomingScheduleDetailsPhaseItemPriceDataParams struct {
 
 // Options that configure the trial on the subscription item.
 type InvoiceUpcomingScheduleDetailsPhaseItemTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -2066,7 +2066,7 @@ type InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionAddDiscountParams str
 
 // Options that configure the trial on the subscription item.
 type InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionAddTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -2135,7 +2135,7 @@ type InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionSetDiscountParams str
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionSetTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -2432,7 +2432,7 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseItemPriceDataParams struct {
 
 // Options that configure the trial on the subscription item.
 type InvoiceUpcomingLinesScheduleDetailsPhaseItemTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -3737,7 +3737,7 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountParams str
 
 // Options that configure the trial on the subscription item.
 type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -3806,7 +3806,7 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountParams str
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -4103,7 +4103,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataParams struct {
 
 // Options that configure the trial on the subscription item.
 type InvoiceCreatePreviewScheduleDetailsPhaseItemTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
