@@ -1127,7 +1127,7 @@ type AccountCapabilities struct {
 	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
 	// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
 	LinkPayments AccountCapabilityStatus `json:"link_payments"`
-	// The status of the MobilepPay capability of the account, or whether the account can directly process MobilePay charges.
+	// The status of the MobilePay capability of the account, or whether the account can directly process MobilePay charges.
 	MobilepayPayments AccountCapabilityStatus `json:"mobilepay_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
