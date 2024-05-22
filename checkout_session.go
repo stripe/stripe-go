@@ -768,6 +768,15 @@ const (
 	CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilterUnspecified CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter = "unspecified"
 )
 
+// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
+type CheckoutSessionSavedPaymentMethodOptionsPaymentMethodRemove string
+
+// List of values that CheckoutSessionSavedPaymentMethodOptionsPaymentMethodRemove can take
+const (
+	CheckoutSessionSavedPaymentMethodOptionsPaymentMethodRemoveDisabled CheckoutSessionSavedPaymentMethodOptionsPaymentMethodRemove = "disabled"
+	CheckoutSessionSavedPaymentMethodOptionsPaymentMethodRemoveEnabled  CheckoutSessionSavedPaymentMethodOptionsPaymentMethodRemove = "enabled"
+)
+
 // Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 type CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave string
 
@@ -2744,6 +2753,8 @@ type CheckoutSessionPhoneNumberCollection struct {
 type CheckoutSessionSavedPaymentMethodOptions struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []CheckoutSessionSavedPaymentMethodOptionsAllowRedisplayFilter `json:"allow_redisplay_filters"`
+	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
+	PaymentMethodRemove CheckoutSessionSavedPaymentMethodOptionsPaymentMethodRemove `json:"payment_method_remove"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave CheckoutSessionSavedPaymentMethodOptionsPaymentMethodSave `json:"payment_method_save"`
 }
