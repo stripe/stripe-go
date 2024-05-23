@@ -268,9 +268,9 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscountParams struct {
 type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionSchedulePhaseAddInvoiceItemDiscountParams `form:"discounts"`
-	// The ID of the price object.
+	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	// Quantity for this item. Defaults to 1.
 	Quantity *int64 `form:"quantity"`
@@ -374,7 +374,7 @@ type SubscriptionSchedulePhaseItemDiscountParams struct {
 
 // Options that configure the trial on the subscription item.
 type SubscriptionSchedulePhaseItemTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -701,7 +701,7 @@ type SubscriptionScheduleAmendAmendmentItemActionAddDiscountParams struct {
 
 // Options that configure the trial on the subscription item.
 type SubscriptionScheduleAmendAmendmentItemActionAddTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -770,7 +770,7 @@ type SubscriptionScheduleAmendAmendmentItemActionSetDiscountParams struct {
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type SubscriptionScheduleAmendAmendmentItemActionSetTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`

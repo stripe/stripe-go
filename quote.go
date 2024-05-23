@@ -550,7 +550,7 @@ type QuoteLineActionAddItemDiscountParams struct {
 
 // Options that configure the trial on the subscription item.
 type QuoteLineActionAddItemTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
@@ -639,7 +639,7 @@ type QuoteLineActionSetItemDiscountParams struct {
 
 // If an item with the `price` already exists, passing this will override the `trial` configuration on the subscription item that matches that price. Otherwise, the `items` array is cleared and a single new item is added with the supplied `trial`.
 type QuoteLineActionSetItemTrialParams struct {
-	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
