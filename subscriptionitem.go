@@ -34,9 +34,9 @@ type SubscriptionItemParams struct {
 	PaymentBehavior *string `form:"payment_behavior"`
 	// The identifier of the new plan for this subscription item.
 	Plan *string `form:"plan"`
-	// The ID of the price object. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
@@ -88,7 +88,7 @@ type SubscriptionItemPriceDataRecurringParams struct {
 	IntervalCount *int64 `form:"interval_count"`
 }
 
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type SubscriptionItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`

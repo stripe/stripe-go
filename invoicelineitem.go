@@ -56,7 +56,7 @@ func (p *InvoiceLineItemPriceDataProductDataParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 type InvoiceLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -127,9 +127,9 @@ type InvoiceLineItemParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceLineItemPeriodParams `form:"period"`
-	// The ID of the price object.
+	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *InvoiceLineItemPriceDataParams `form:"price_data"`
 	// Non-negative integer. The quantity of units for the line item.
 	Quantity *int64 `form:"quantity"`

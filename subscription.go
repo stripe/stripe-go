@@ -414,9 +414,9 @@ type SubscriptionAddInvoiceItemDiscountParams struct {
 type SubscriptionAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionAddInvoiceItemDiscountParams `form:"discounts"`
-	// The ID of the price object.
+	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	// Quantity for this item. Defaults to 1.
 	Quantity *int64 `form:"quantity"`
@@ -499,9 +499,9 @@ type SubscriptionItemsParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Plan ID for this item, as a string.
 	Plan *string `form:"plan"`
-	// The ID of the price object. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *SubscriptionItemPriceDataParams `form:"price_data"`
 	// Quantity for this item.
 	Quantity *int64 `form:"quantity"`

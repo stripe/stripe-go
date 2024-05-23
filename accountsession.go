@@ -38,6 +38,8 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 type AccountSessionComponentsBalancesFeaturesParams struct {
 	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection *bool `form:"external_account_collection"`
 	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
@@ -121,6 +123,8 @@ type AccountSessionComponentsPaymentsParams struct {
 type AccountSessionComponentsPayoutsFeaturesParams struct {
 	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection *bool `form:"external_account_collection"`
 	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	InstantPayouts *bool `form:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
@@ -205,6 +209,8 @@ type AccountSessionComponentsAccountOnboarding struct {
 type AccountSessionComponentsBalancesFeatures struct {
 	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection bool `json:"external_account_collection"`
 	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	InstantPayouts bool `json:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
@@ -263,6 +269,8 @@ type AccountSessionComponentsPayments struct {
 type AccountSessionComponentsPayoutsFeatures struct {
 	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
+	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for custom accounts (or accounts where the platform is compliance owner). Otherwise, bank account collection is determined by compliance requirements.
+	ExternalAccountCollection bool `json:"external_account_collection"`
 	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	InstantPayouts bool `json:"instant_payouts"`
 	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
