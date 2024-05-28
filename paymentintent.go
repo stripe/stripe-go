@@ -1116,11 +1116,11 @@ type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 
 // If this is an `affirm` PaymentMethod, this sub-hash contains details about the Affirm payment method options.
 type PaymentIntentPaymentMethodOptionsAffirmParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// Preferred language of the Affirm authorization page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
@@ -1136,11 +1136,11 @@ type PaymentIntentPaymentMethodOptionsAffirmParams struct {
 
 // If this is a `afterpay_clearpay` PaymentMethod, this sub-hash contains details about the Afterpay Clearpay payment method options.
 type PaymentIntentPaymentMethodOptionsAfterpayClearpayParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// An internal identifier or reference that this payment corresponds to. You must limit the identifier to 128 characters, and it can only contain letters, numbers, underscores, backslashes, and dashes.
 	// This field differs from the statement descriptor and item name.
@@ -1169,11 +1169,11 @@ type PaymentIntentPaymentMethodOptionsAlipayParams struct {
 
 // If this is a `amazon_pay` PaymentMethod, this sub-hash contains details about the Amazon Pay payment method options.
 type PaymentIntentPaymentMethodOptionsAmazonPayParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1351,11 +1351,11 @@ type PaymentIntentPaymentMethodOptionsCardThreeDSecureParams struct {
 
 // Configuration for any card payments attempted on this PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// A single-use `cvc_update` Token that represents a card CVC value. When provided, the CVC value will be verified during the card payment attempt. This parameter can only be provided during confirmation.
 	CVCToken *string `form:"cvc_token"`
@@ -1418,11 +1418,11 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 
 // If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
 type PaymentIntentPaymentMethodOptionsCashAppParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1533,11 +1533,11 @@ type PaymentIntentPaymentMethodOptionsInteracPresentParams struct{}
 
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
 	PreferredLocale *string `form:"preferred_locale"`
@@ -1573,11 +1573,11 @@ type PaymentIntentPaymentMethodOptionsKonbiniParams struct {
 
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type PaymentIntentPaymentMethodOptionsLinkParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
@@ -1594,11 +1594,11 @@ type PaymentIntentPaymentMethodOptionsLinkParams struct {
 
 // If this is a `MobilePay` PaymentMethod, this sub-hash contains details about the MobilePay payment method options.
 type PaymentIntentPaymentMethodOptionsMobilepayParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -1700,11 +1700,11 @@ type PaymentIntentPaymentMethodOptionsPromptPayParams struct {
 
 // If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Revolut Pay payment method options.
 type PaymentIntentPaymentMethodOptionsRevolutPayParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
