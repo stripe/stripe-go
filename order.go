@@ -758,11 +758,11 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 
 // If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// An internal identifier or reference this payment corresponds to. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
 	Reference *string `form:"reference"`
@@ -864,11 +864,11 @@ type OrderPaymentSettingsPaymentMethodOptionsIDEALParams struct {
 
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
 	PreferredLocale *string `form:"preferred_locale"`
@@ -884,11 +884,11 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsLinkParams struct {
-	// Controls when the funds will be captured from the customer's account.
+	// Controls when the funds are captured from the customer's account.
 	//
-	// If provided, this parameter will override the top level behavior of `capture_method` when finalizing the payment with this payment method type.
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
 	//
-	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter will unset the stored value for this payment method type.
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
