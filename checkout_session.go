@@ -1818,7 +1818,7 @@ type CheckoutSessionShippingOptionShippingRateDataFixedAmountParams struct {
 	CurrencyOptions map[string]*CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
 
-// Parameters to be passed to Shipping Rate creation for this shipping option
+// Parameters to be passed to Shipping Rate creation for this shipping option.
 type CheckoutSessionShippingOptionShippingRateDataParams struct {
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DeliveryEstimate *CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
@@ -1849,7 +1849,7 @@ func (p *CheckoutSessionShippingOptionShippingRateDataParams) AddMetadata(key st
 type CheckoutSessionShippingOptionParams struct {
 	// The ID of the Shipping Rate to use for this shipping option.
 	ShippingRate *string `form:"shipping_rate"`
-	// Parameters to be passed to Shipping Rate creation for this shipping option
+	// Parameters to be passed to Shipping Rate creation for this shipping option.
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
