@@ -958,6 +958,8 @@ type CheckoutSessionCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type CheckoutSessionCustomFieldDropdownParams struct {
+	// The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array.
+	DefaultValue *string `form:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCustomFieldDropdownOptionParams `form:"options"`
 }
@@ -972,6 +974,8 @@ type CheckoutSessionCustomFieldLabelParams struct {
 
 // Configuration for `type=numeric` fields.
 type CheckoutSessionCustomFieldNumericParams struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
@@ -980,6 +984,8 @@ type CheckoutSessionCustomFieldNumericParams struct {
 
 // Configuration for `type=text` fields.
 type CheckoutSessionCustomFieldTextParams struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
@@ -1850,7 +1856,7 @@ type CheckoutSessionShippingOptionShippingRateDataFixedAmountParams struct {
 	CurrencyOptions map[string]*CheckoutSessionShippingOptionShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
 }
 
-// Parameters to be passed to Shipping Rate creation for this shipping option
+// Parameters to be passed to Shipping Rate creation for this shipping option.
 type CheckoutSessionShippingOptionShippingRateDataParams struct {
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DeliveryEstimate *CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
@@ -1881,7 +1887,7 @@ func (p *CheckoutSessionShippingOptionShippingRateDataParams) AddMetadata(key st
 type CheckoutSessionShippingOptionParams struct {
 	// The ID of the Shipping Rate to use for this shipping option.
 	ShippingRate *string `form:"shipping_rate"`
-	// Parameters to be passed to Shipping Rate creation for this shipping option
+	// Parameters to be passed to Shipping Rate creation for this shipping option.
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
@@ -2234,6 +2240,8 @@ type CheckoutSessionCustomFieldDropdownOption struct {
 	Value string `json:"value"`
 }
 type CheckoutSessionCustomFieldDropdown struct {
+	// The value that will pre-fill on the payment page.
+	DefaultValue string `json:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*CheckoutSessionCustomFieldDropdownOption `json:"options"`
 	// The option selected by the customer. This will be the `value` for the option.
@@ -2246,6 +2254,8 @@ type CheckoutSessionCustomFieldLabel struct {
 	Type CheckoutSessionCustomFieldLabelType `json:"type"`
 }
 type CheckoutSessionCustomFieldNumeric struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
@@ -2254,6 +2264,8 @@ type CheckoutSessionCustomFieldNumeric struct {
 	Value string `json:"value"`
 }
 type CheckoutSessionCustomFieldText struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
 	// The minimum character length requirement for the customer's input.

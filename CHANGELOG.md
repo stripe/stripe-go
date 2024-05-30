@@ -3,6 +3,11 @@
 ## 78.9.0-beta.1 - 2024-05-23
 * [#1865](https://github.com/stripe/stripe-go/pull/1865) Update generated code for beta
 
+## 78.8.0 - 2024-05-23
+* [#1864](https://github.com/stripe/stripe-go/pull/1864) Update generated code
+  * Add support for `ExternalAccountCollection` on `AccountSessionComponentsBalancesFeaturesParams`, `AccountSessionComponentsBalancesFeatures`, `AccountSessionComponentsPayoutsFeaturesParams`, and `AccountSessionComponentsPayoutsFeatures`
+  * Add support for new value `terminal_reader_invalid_location_for_payment` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `PaymentMethodRemove` on `CheckoutSessionSavedPaymentMethodOptions`
 
 ## 78.8.0-beta.1 - 2024-05-16
 * [#1861](https://github.com/stripe/stripe-go/pull/1861) Update generated code for beta
