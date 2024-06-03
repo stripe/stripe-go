@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.TaxTransactionParams) (*stripe.Tax
 	return transaction, err
 }
 
-// Creates a Tax Transaction from a calculation.
+// Creates a Tax Transaction from a calculation, if that calculation hasn't expired. Calculations expire after 90 days.
 func CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
 	return getC().CreateFromCalculation(params)
 }
 
-// Creates a Tax Transaction from a calculation.
+// Creates a Tax Transaction from a calculation, if that calculation hasn't expired. Calculations expire after 90 days.
 func (c Client) CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
 	err := c.B.Call(
