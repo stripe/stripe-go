@@ -406,6 +406,12 @@ type AccountCapabilitiesFPXPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The gb_bank_transfer_payments capability.
+type AccountCapabilitiesGBBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The giropay_payments capability.
 type AccountCapabilitiesGiropayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -436,6 +442,12 @@ type AccountCapabilitiesJCBPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The jp_bank_transfer_payments capability.
+type AccountCapabilitiesJPBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The klarna_payments capability.
 type AccountCapabilitiesKlarnaPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -462,6 +474,12 @@ type AccountCapabilitiesLinkPaymentsParams struct {
 
 // The mobilepay_payments capability.
 type AccountCapabilitiesMobilepayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The mx_bank_transfer_payments capability.
+type AccountCapabilitiesMXBankTransferPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -510,6 +528,12 @@ type AccountCapabilitiesRechnungPaymentsParams struct {
 
 // The revolut_pay_payments capability.
 type AccountCapabilitiesRevolutPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The sepa_bank_transfer_payments capability.
+type AccountCapabilitiesSEPABankTransferPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -568,6 +592,12 @@ type AccountCapabilitiesUSBankAccountACHPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The us_bank_transfer_payments capability.
+type AccountCapabilitiesUSBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The zip_payments capability.
 type AccountCapabilitiesZipPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -615,6 +645,8 @@ type AccountCapabilitiesParams struct {
 	EPSPayments *AccountCapabilitiesEPSPaymentsParams `form:"eps_payments"`
 	// The fpx_payments capability.
 	FPXPayments *AccountCapabilitiesFPXPaymentsParams `form:"fpx_payments"`
+	// The gb_bank_transfer_payments capability.
+	GBBankTransferPayments *AccountCapabilitiesGBBankTransferPaymentsParams `form:"gb_bank_transfer_payments"`
 	// The giropay_payments capability.
 	GiropayPayments *AccountCapabilitiesGiropayPaymentsParams `form:"giropay_payments"`
 	// The grabpay_payments capability.
@@ -625,6 +657,8 @@ type AccountCapabilitiesParams struct {
 	IndiaInternationalPayments *AccountCapabilitiesIndiaInternationalPaymentsParams `form:"india_international_payments"`
 	// The jcb_payments capability.
 	JCBPayments *AccountCapabilitiesJCBPaymentsParams `form:"jcb_payments"`
+	// The jp_bank_transfer_payments capability.
+	JPBankTransferPayments *AccountCapabilitiesJPBankTransferPaymentsParams `form:"jp_bank_transfer_payments"`
 	// The klarna_payments capability.
 	KlarnaPayments *AccountCapabilitiesKlarnaPaymentsParams `form:"klarna_payments"`
 	// The konbini_payments capability.
@@ -635,6 +669,8 @@ type AccountCapabilitiesParams struct {
 	LinkPayments *AccountCapabilitiesLinkPaymentsParams `form:"link_payments"`
 	// The mobilepay_payments capability.
 	MobilepayPayments *AccountCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
+	// The mx_bank_transfer_payments capability.
+	MXBankTransferPayments *AccountCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments"`
 	// The oxxo_payments capability.
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
@@ -651,6 +687,8 @@ type AccountCapabilitiesParams struct {
 	RechnungPayments *AccountCapabilitiesRechnungPaymentsParams `form:"rechnung_payments"`
 	// The revolut_pay_payments capability.
 	RevolutPayPayments *AccountCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments"`
+	// The sepa_bank_transfer_payments capability.
+	SEPABankTransferPayments *AccountCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
 	// The sofort_payments capability.
@@ -669,6 +707,8 @@ type AccountCapabilitiesParams struct {
 	TWINTPayments *AccountCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
+	// The us_bank_transfer_payments capability.
+	USBankTransferPayments *AccountCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments"`
 	// The zip_payments capability.
 	ZipPayments *AccountCapabilitiesZipPaymentsParams `form:"zip_payments"`
 }
@@ -1204,6 +1244,8 @@ type AccountCapabilities struct {
 	EPSPayments AccountCapabilityStatus `json:"eps_payments"`
 	// The status of the FPX payments capability of the account, or whether the account can directly process FPX charges.
 	FPXPayments AccountCapabilityStatus `json:"fpx_payments"`
+	// The status of the GB customer_balance payments (GBP currency) capability of the account, or whether the account can directly process GB customer_balance charges.
+	GBBankTransferPayments AccountCapabilityStatus `json:"gb_bank_transfer_payments"`
 	// The status of the giropay payments capability of the account, or whether the account can directly process giropay charges.
 	GiropayPayments AccountCapabilityStatus `json:"giropay_payments"`
 	// The status of the GrabPay payments capability of the account, or whether the account can directly process GrabPay charges.
@@ -1214,6 +1256,8 @@ type AccountCapabilities struct {
 	IndiaInternationalPayments AccountCapabilityStatus `json:"india_international_payments"`
 	// The status of the JCB payments capability of the account, or whether the account (Japan only) can directly process JCB credit card charges in JPY currency.
 	JCBPayments AccountCapabilityStatus `json:"jcb_payments"`
+	// The status of the Japanese customer_balance payments (JPY currency) capability of the account, or whether the account can directly process Japanese customer_balance charges.
+	JPBankTransferPayments AccountCapabilityStatus `json:"jp_bank_transfer_payments"`
 	// The status of the Klarna payments capability of the account, or whether the account can directly process Klarna charges.
 	KlarnaPayments AccountCapabilityStatus `json:"klarna_payments"`
 	// The status of the konbini payments capability of the account, or whether the account can directly process konbini charges.
@@ -1224,6 +1268,8 @@ type AccountCapabilities struct {
 	LinkPayments AccountCapabilityStatus `json:"link_payments"`
 	// The status of the MobilePay capability of the account, or whether the account can directly process MobilePay charges.
 	MobilepayPayments AccountCapabilityStatus `json:"mobilepay_payments"`
+	// The status of the Mexican customer_balance payments (MXN currency) capability of the account, or whether the account can directly process Mexican customer_balance charges.
+	MXBankTransferPayments AccountCapabilityStatus `json:"mx_bank_transfer_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
@@ -1240,6 +1286,8 @@ type AccountCapabilities struct {
 	RechnungPayments AccountCapabilityStatus `json:"rechnung_payments"`
 	// The status of the RevolutPay capability of the account, or whether the account can directly process RevolutPay payments.
 	RevolutPayPayments AccountCapabilityStatus `json:"revolut_pay_payments"`
+	// The status of the SEPA customer_balance payments (EUR currency) capability of the account, or whether the account can directly process SEPA customer_balance charges.
+	SEPABankTransferPayments AccountCapabilityStatus `json:"sepa_bank_transfer_payments"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.
@@ -1258,6 +1306,8 @@ type AccountCapabilities struct {
 	TWINTPayments AccountCapabilityStatus `json:"twint_payments"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments"`
+	// The status of the US customer_balance payments (USD currency) capability of the account, or whether the account can directly process US customer_balance charges.
+	USBankTransferPayments AccountCapabilityStatus `json:"us_bank_transfer_payments"`
 	// The status of the Zip capability of the account, or whether the account can directly process Zip charges.
 	ZipPayments AccountCapabilityStatus `json:"zip_payments"`
 }
