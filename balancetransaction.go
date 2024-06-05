@@ -61,6 +61,7 @@ const (
 	BalanceTransactionSourceTypeTopup                          BalanceTransactionSourceType = "topup"
 	BalanceTransactionSourceTypeTransfer                       BalanceTransactionSourceType = "transfer"
 	BalanceTransactionSourceTypeTransferReversal               BalanceTransactionSourceType = "transfer_reversal"
+	BalanceTransactionSourceTypePlatformTaxFee                 BalanceTransactionSourceType = "platform_tax_fee"
 )
 
 // The transaction's net funds status in the Stripe balance, which are either `available` or `pending`.
@@ -224,6 +225,7 @@ type BalanceTransactionSource struct {
 	IssuingDispute                 *IssuingDispute                 `json:"-"`
 	IssuingTransaction             *IssuingTransaction             `json:"-"`
 	Payout                         *Payout                         `json:"-"`
+	PlatformTaxFee                 *PlatformTaxFee                 `json:"-"`
 	Refund                         *Refund                         `json:"-"`
 	ReserveTransaction             *ReserveTransaction             `json:"-"`
 	TaxDeductedAtSource            *TaxDeductedAtSource            `json:"-"`
@@ -309,6 +311,8 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.Transfer)
 	case BalanceTransactionSourceTypeTransferReversal:
 		err = json.Unmarshal(data, &b.TransferReversal)
+	case BalanceTransactionSourceTypePlatformTaxFee:
+		err = json.Unmarshal(data, &b.PlatformTaxFee)
 	}
 	return err
 }
