@@ -55,13 +55,13 @@ const (
 	BalanceTransactionSourceTypeIssuingDispute                 BalanceTransactionSourceType = "issuing.dispute"
 	BalanceTransactionSourceTypeIssuingTransaction             BalanceTransactionSourceType = "issuing.transaction"
 	BalanceTransactionSourceTypePayout                         BalanceTransactionSourceType = "payout"
+	BalanceTransactionSourceTypePlatformTaxFee                 BalanceTransactionSourceType = "platform_tax_fee"
 	BalanceTransactionSourceTypeRefund                         BalanceTransactionSourceType = "refund"
 	BalanceTransactionSourceTypeReserveTransaction             BalanceTransactionSourceType = "reserve_transaction"
 	BalanceTransactionSourceTypeTaxDeductedAtSource            BalanceTransactionSourceType = "tax_deducted_at_source"
 	BalanceTransactionSourceTypeTopup                          BalanceTransactionSourceType = "topup"
 	BalanceTransactionSourceTypeTransfer                       BalanceTransactionSourceType = "transfer"
 	BalanceTransactionSourceTypeTransferReversal               BalanceTransactionSourceType = "transfer_reversal"
-	BalanceTransactionSourceTypePlatformTaxFee                 BalanceTransactionSourceType = "platform_tax_fee"
 )
 
 // The transaction's net funds status in the Stripe balance, which are either `available` or `pending`.
@@ -299,6 +299,8 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.IssuingTransaction)
 	case BalanceTransactionSourceTypePayout:
 		err = json.Unmarshal(data, &b.Payout)
+	case BalanceTransactionSourceTypePlatformTaxFee:
+		err = json.Unmarshal(data, &b.PlatformTaxFee)
 	case BalanceTransactionSourceTypeRefund:
 		err = json.Unmarshal(data, &b.Refund)
 	case BalanceTransactionSourceTypeReserveTransaction:
@@ -311,8 +313,6 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.Transfer)
 	case BalanceTransactionSourceTypeTransferReversal:
 		err = json.Unmarshal(data, &b.TransferReversal)
-	case BalanceTransactionSourceTypePlatformTaxFee:
-		err = json.Unmarshal(data, &b.PlatformTaxFee)
 	}
 	return err
 }
