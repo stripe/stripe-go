@@ -209,7 +209,7 @@ func (p *TaxTransactionListLineItemsParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Creates a Tax Transaction from a calculation.
+// Creates a Tax Transaction from a calculation, if that calculation hasn't expired. Calculations expire after 90 days.
 type TaxTransactionCreateFromCalculationParams struct {
 	Params `form:"*"`
 	// Tax Calculation ID to be used as input when creating the transaction.

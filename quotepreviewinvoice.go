@@ -299,6 +299,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSEPADebit          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sepa_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSofort             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sofort"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSwish              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "swish"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUSBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "us_bank_account"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeWeChatPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "wechat_pay"
 )
