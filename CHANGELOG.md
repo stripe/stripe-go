@@ -1,5 +1,9 @@
 # Changelog
 
+## 78.11.0-beta.1 - 2024-06-06
+* [#1869](https://github.com/stripe/stripe-go/pull/1869) Update generated code for beta
+  * Add support for `TWINT` on `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+
 ## 78.10.0-beta.1 - 2024-05-30
 * [#1867](https://github.com/stripe/stripe-go/pull/1867) Update generated code for beta
   * Keeping up with the changes from version 78.9.0
