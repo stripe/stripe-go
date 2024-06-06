@@ -4,6 +4,11 @@
 * [#1869](https://github.com/stripe/stripe-go/pull/1869) Update generated code for beta
   * Add support for `TWINT` on `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
 
+## 78.10.0 - 2024-06-06
+* [#1870](https://github.com/stripe/stripe-go/pull/1870) Update generated code
+  * Add support for `GBBankTransferPayments`, `JPBankTransferPayments`, `MXBankTransferPayments`, `SEPABankTransferPayments`, and `USBankTransferPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for new value `swish` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+
 ## 78.10.0-beta.1 - 2024-05-30
 * [#1867](https://github.com/stripe/stripe-go/pull/1867) Update generated code for beta
   * Keeping up with the changes from version 78.9.0
