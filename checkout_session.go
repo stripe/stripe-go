@@ -2890,7 +2890,7 @@ type CheckoutSession struct {
 	Mode CheckoutSessionMode `json:"mode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The ID of the PaymentIntent for Checkout Sessions in `payment` mode.
+	// The ID of the PaymentIntent for Checkout Sessions in `payment` mode. You can't confirm or cancel the PaymentIntent for a Checkout Session. To cancel, [expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The ID of the Payment Link that created this Session.
 	PaymentLink *PaymentLink `json:"payment_link"`
@@ -2915,7 +2915,7 @@ type CheckoutSession struct {
 	ReturnURL string `json:"return_url"`
 	// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
 	SavedPaymentMethodOptions *CheckoutSessionSavedPaymentMethodOptions `json:"saved_payment_method_options"`
-	// The ID of the SetupIntent for Checkout Sessions in `setup` mode.
+	// The ID of the SetupIntent for Checkout Sessions in `setup` mode. You can't confirm or cancel the SetupIntent for a Checkout Session. To cancel, [expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
 	SetupIntent *SetupIntent `json:"setup_intent"`
 	// When set, provides configuration for Checkout to collect a shipping address from a customer.
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
