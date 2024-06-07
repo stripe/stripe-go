@@ -1124,7 +1124,7 @@ type OrderShippingCostShippingRateDataParams struct {
 	TaxBehavior *string `form:"tax_behavior"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *string `form:"tax_code"`
-	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
+	// The type of calculation to use on the shipping rate.
 	Type *string `form:"type"`
 }
 
