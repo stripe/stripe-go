@@ -278,9 +278,9 @@ type SubscriptionCancelParams struct {
 	CancellationDetails *SubscriptionCancelCancellationDetailsParams `form:"cancellation_details"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Will generate a final invoice that invoices for any un-invoiced metered usage and new/pending proration invoice items.
+	// Will generate a final invoice that invoices for any un-invoiced metered usage and new/pending proration invoice items. Defaults to `true`.
 	InvoiceNow *bool `form:"invoice_now"`
-	// Will generate a proration invoice item that credits remaining unused time until the subscription period end.
+	// Will generate a proration invoice item that credits remaining unused time until the subscription period end. Defaults to `false`.
 	Prorate *bool `form:"prorate"`
 }
 
