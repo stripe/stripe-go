@@ -25,9 +25,14 @@ type IssuingTransactionPurchaseDetailsFuelUnit string
 
 // List of values that IssuingTransactionPurchaseDetailsFuelUnit can take
 const (
-	IssuingTransactionPurchaseDetailsFuelUnitLiter    IssuingTransactionPurchaseDetailsFuelUnit = "liter"
-	IssuingTransactionPurchaseDetailsFuelUnitUSGallon IssuingTransactionPurchaseDetailsFuelUnit = "us_gallon"
-	IssuingTransactionPurchaseDetailsFuelUnitOther    IssuingTransactionPurchaseDetailsFuelUnit = "other"
+	IssuingTransactionPurchaseDetailsFuelUnitChargingMinute IssuingTransactionPurchaseDetailsFuelUnit = "charging_minute"
+	IssuingTransactionPurchaseDetailsFuelUnitImperialGallon IssuingTransactionPurchaseDetailsFuelUnit = "imperial_gallon"
+	IssuingTransactionPurchaseDetailsFuelUnitKilogram       IssuingTransactionPurchaseDetailsFuelUnit = "kilogram"
+	IssuingTransactionPurchaseDetailsFuelUnitKilowattHour   IssuingTransactionPurchaseDetailsFuelUnit = "kilowatt_hour"
+	IssuingTransactionPurchaseDetailsFuelUnitLiter          IssuingTransactionPurchaseDetailsFuelUnit = "liter"
+	IssuingTransactionPurchaseDetailsFuelUnitPound          IssuingTransactionPurchaseDetailsFuelUnit = "pound"
+	IssuingTransactionPurchaseDetailsFuelUnitUSGallon       IssuingTransactionPurchaseDetailsFuelUnit = "us_gallon"
+	IssuingTransactionPurchaseDetailsFuelUnitOther          IssuingTransactionPurchaseDetailsFuelUnit = "other"
 )
 
 // The nature of the transaction.
