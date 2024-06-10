@@ -128,6 +128,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataLinkParams struct{}
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataMobilepayParams struct{}
 
+// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataMultibancoParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataOXXOParams struct{}
 
@@ -245,6 +248,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *TestHelpersConfirmationTokenPaymentMethodDataMobilepayParams `form:"mobilepay"`
+	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+	Multibanco *TestHelpersConfirmationTokenPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *TestHelpersConfirmationTokenPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.

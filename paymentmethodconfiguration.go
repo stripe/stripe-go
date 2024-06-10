@@ -501,6 +501,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationMultibancoDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationMultibancoDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationMultibancoDisplayPreferencePreferenceNone PaymentMethodConfigurationMultibancoDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationMultibancoDisplayPreferencePreferenceOff  PaymentMethodConfigurationMultibancoDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationMultibancoDisplayPreferencePreferenceOn   PaymentMethodConfigurationMultibancoDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationMultibancoDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationMultibancoDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationMultibancoDisplayPreferenceValueOff PaymentMethodConfigurationMultibancoDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationMultibancoDisplayPreferenceValueOn  PaymentMethodConfigurationMultibancoDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationOXXODisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationOXXODisplayPreferencePreference can take
@@ -1067,6 +1086,18 @@ type PaymentMethodConfigurationMobilepayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationMultibancoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
+type PaymentMethodConfigurationMultibancoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationOXXODisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1271,6 +1302,8 @@ type PaymentMethodConfigurationParams struct {
 	Link *PaymentMethodConfigurationLinkParams `form:"link"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
 	Mobilepay *PaymentMethodConfigurationMobilepayParams `form:"mobilepay"`
+	// Stripe users in Europe and the United States can accept Multibanco payments from customers in Portugal using [Sources](https://stripe.com/docs/sources)—a single integration path for creating payments using any supported method.
+	Multibanco *PaymentMethodConfigurationMultibancoParams `form:"multibanco"`
 	// Configuration name.
 	Name *string `form:"name"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://stripe.com/docs/payments/oxxo) for more details.
@@ -1644,6 +1677,19 @@ type PaymentMethodConfigurationMobilepay struct {
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationMobilepayDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationMultibancoDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationMultibancoDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationMultibancoDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationMultibanco struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                   `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationOXXODisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1851,8 +1897,9 @@ type PaymentMethodConfiguration struct {
 	Konbini   *PaymentMethodConfigurationKonbini `json:"konbini"`
 	Link      *PaymentMethodConfigurationLink    `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-	Livemode  bool                                 `json:"livemode"`
-	Mobilepay *PaymentMethodConfigurationMobilepay `json:"mobilepay"`
+	Livemode   bool                                  `json:"livemode"`
+	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay"`
+	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco"`
 	// The configuration's name.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.

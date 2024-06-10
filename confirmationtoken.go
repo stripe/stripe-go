@@ -259,6 +259,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeKonbini          ConfirmationTokenPaymentMethodPreviewType = "konbini"
 	ConfirmationTokenPaymentMethodPreviewTypeLink             ConfirmationTokenPaymentMethodPreviewType = "link"
 	ConfirmationTokenPaymentMethodPreviewTypeMobilepay        ConfirmationTokenPaymentMethodPreviewType = "mobilepay"
+	ConfirmationTokenPaymentMethodPreviewTypeMultibanco       ConfirmationTokenPaymentMethodPreviewType = "multibanco"
 	ConfirmationTokenPaymentMethodPreviewTypeOXXO             ConfirmationTokenPaymentMethodPreviewType = "oxxo"
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
@@ -746,6 +747,7 @@ type ConfirmationTokenPaymentMethodPreviewLink struct {
 	PersistentToken string `json:"persistent_token"`
 }
 type ConfirmationTokenPaymentMethodPreviewMobilepay struct{}
+type ConfirmationTokenPaymentMethodPreviewMultibanco struct{}
 type ConfirmationTokenPaymentMethodPreviewOXXO struct{}
 type ConfirmationTokenPaymentMethodPreviewP24 struct {
 	// The customer's bank, if provided.
@@ -860,6 +862,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Konbini         *ConfirmationTokenPaymentMethodPreviewKonbini         `json:"konbini"`
 	Link            *ConfirmationTokenPaymentMethodPreviewLink            `json:"link"`
 	Mobilepay       *ConfirmationTokenPaymentMethodPreviewMobilepay       `json:"mobilepay"`
+	Multibanco      *ConfirmationTokenPaymentMethodPreviewMultibanco      `json:"multibanco"`
 	OXXO            *ConfirmationTokenPaymentMethodPreviewOXXO            `json:"oxxo"`
 	P24             *ConfirmationTokenPaymentMethodPreviewP24             `json:"p24"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`

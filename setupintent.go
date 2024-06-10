@@ -413,6 +413,9 @@ type SetupIntentPaymentMethodDataLinkParams struct{}
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type SetupIntentPaymentMethodDataMobilepayParams struct{}
 
+// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+type SetupIntentPaymentMethodDataMultibancoParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentPaymentMethodDataOXXOParams struct{}
 
@@ -531,6 +534,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *SetupIntentPaymentMethodDataMobilepayParams `form:"mobilepay"`
+	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+	Multibanco *SetupIntentPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -991,6 +996,9 @@ type SetupIntentConfirmPaymentMethodDataLinkParams struct{}
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type SetupIntentConfirmPaymentMethodDataMobilepayParams struct{}
 
+// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+type SetupIntentConfirmPaymentMethodDataMultibancoParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentConfirmPaymentMethodDataOXXOParams struct{}
 
@@ -1109,6 +1117,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *SetupIntentConfirmPaymentMethodDataMobilepayParams `form:"mobilepay"`
+	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+	Multibanco *SetupIntentConfirmPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentConfirmPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
