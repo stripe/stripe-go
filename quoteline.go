@@ -91,7 +91,7 @@ const (
 	QuoteLineAppliesToTypeSubscriptionSchedule QuoteLineAppliesToType = "subscription_schedule"
 )
 
-// For a point-in-time operation, this attribute lets you set or update whether the subscription's billing cycle anchor is reset at the `starts_at` timestamp.
+// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp.For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
 type QuoteLineBillingCycleAnchor string
 
 // List of values that QuoteLineBillingCycleAnchor can take
@@ -478,7 +478,7 @@ type QuoteLine struct {
 	Actions []*QuoteLineAction `json:"actions"`
 	// Details to identify the subscription schedule the quote line applies to.
 	AppliesTo *QuoteLineAppliesTo `json:"applies_to"`
-	// For a point-in-time operation, this attribute lets you set or update whether the subscription's billing cycle anchor is reset at the `starts_at` timestamp.
+	// For point-in-time quote lines (having no `ends_at` timestamp), this attribute lets you set or remove whether the subscription's billing cycle anchor is reset at the Quote Line `starts_at` timestamp.For time-span based quote lines (having both `starts_at` and `ends_at`), the only valid value is `automatic`, which removes any previously configured billing cycle anchor resets during the window of time spanning the quote line.
 	BillingCycleAnchor QuoteLineBillingCycleAnchor `json:"billing_cycle_anchor"`
 	// A point-in-time operation that cancels an existing subscription schedule at the line's starts_at timestamp. Currently only compatible with `quote_acceptance_date` for `starts_at`. When using cancel_subscription_schedule, the subscription schedule on the quote remains unalterable, except for modifications to the metadata, collection_method or invoice_settings.
 	CancelSubscriptionSchedule *QuoteLineCancelSubscriptionSchedule `json:"cancel_subscription_schedule"`
