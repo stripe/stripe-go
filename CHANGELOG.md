@@ -1,5 +1,9 @@
 # Changelog
 
+## 78.12.0-beta.1 - 2024-06-13
+* [#1872](https://github.com/stripe/stripe-go/pull/1872) Update generated code for beta
+  * Add support for new value `de_stn` on enum `OrderTaxDetailsTaxIdsType`
+
 ## 78.11.0 - 2024-06-13
 * [#1871](https://github.com/stripe/stripe-go/pull/1871) Update generated code
   * Add support for `MultibancoPayments` and `TWINTPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
