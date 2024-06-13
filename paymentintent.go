@@ -647,6 +647,18 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsMultibancoSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsMultibancoSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsMultibancoSetupFutureUsageNone PaymentIntentPaymentMethodOptionsMultibancoSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 type PaymentIntentPaymentMethodOptionsOXXOSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsOXXOSetupFutureUsage can take
@@ -781,6 +793,18 @@ type PaymentIntentPaymentMethodOptionsSwishSetupFutureUsage string
 // List of values that PaymentIntentPaymentMethodOptionsSwishSetupFutureUsage can take
 const (
 	PaymentIntentPaymentMethodOptionsSwishSetupFutureUsageNone PaymentIntentPaymentMethodOptionsSwishSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsageNone PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage = "none"
 )
 
 // The list of permissions to request. The `payment_method` permission must be included.
@@ -1043,6 +1067,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *PaymentMethodMobilepayParams `form:"mobilepay"`
+	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+	Multibanco *PaymentMethodMultibancoParams `form:"multibanco"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -1065,6 +1091,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish"`
+	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
+	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
@@ -1610,6 +1638,18 @@ type PaymentIntentPaymentMethodOptionsMobilepayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `multibanco` PaymentMethod, this sub-hash contains details about the Multibanco payment method options.
+type PaymentIntentPaymentMethodOptionsMultibancoParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // If this is a `oxxo` PaymentMethod, this sub-hash contains details about the OXXO payment method options.
 type PaymentIntentPaymentMethodOptionsOXXOParams struct {
 	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
@@ -1759,6 +1799,18 @@ type PaymentIntentPaymentMethodOptionsSwishParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
+type PaymentIntentPaymentMethodOptionsTWINTParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Additional fields for Financial Connections Session creation
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -1881,6 +1933,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Link *PaymentIntentPaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `MobilePay` PaymentMethod, this sub-hash contains details about the MobilePay payment method options.
 	Mobilepay *PaymentIntentPaymentMethodOptionsMobilepayParams `form:"mobilepay"`
+	// If this is a `multibanco` PaymentMethod, this sub-hash contains details about the Multibanco payment method options.
+	Multibanco *PaymentIntentPaymentMethodOptionsMultibancoParams `form:"multibanco"`
 	// If this is a `oxxo` PaymentMethod, this sub-hash contains details about the OXXO payment method options.
 	OXXO *PaymentIntentPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this sub-hash contains details about the Przelewy24 payment method options.
@@ -1901,6 +1955,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Sofort *PaymentIntentPaymentMethodOptionsSofortParams `form:"sofort"`
 	// If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
 	Swish *PaymentIntentPaymentMethodOptionsSwishParams `form:"swish"`
+	// If this is a `twint` PaymentMethod, this sub-hash contains details about the TWINT payment method options.
+	TWINT *PaymentIntentPaymentMethodOptionsTWINTParams `form:"twint"`
 	// If this is a `us_bank_account` PaymentMethod, this sub-hash contains details about the US bank account payment method options.
 	USBankAccount *PaymentIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// If this is a `wechat_pay` PaymentMethod, this sub-hash contains details about the WeChat Pay payment method options.
@@ -2514,6 +2570,16 @@ type PaymentIntentNextActionKonbiniDisplayDetails struct {
 	HostedVoucherURL string                                              `json:"hosted_voucher_url"`
 	Stores           *PaymentIntentNextActionKonbiniDisplayDetailsStores `json:"stores"`
 }
+type PaymentIntentNextActionMultibancoDisplayDetails struct {
+	// Entity number associated with this Multibanco payment.
+	Entity string `json:"entity"`
+	// The timestamp at which the Multibanco voucher expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The URL for the hosted Multibanco voucher page, which allows customers to view a Multibanco voucher.
+	HostedVoucherURL string `json:"hosted_voucher_url"`
+	// Reference number associated with this Multibanco payment.
+	Reference string `json:"reference"`
+}
 type PaymentIntentNextActionOXXODisplayDetails struct {
 	// The timestamp after which the OXXO voucher expires.
 	ExpiresAfter int64 `json:"expires_after"`
@@ -2627,6 +2693,7 @@ type PaymentIntentNextAction struct {
 	CashAppHandleRedirectOrDisplayQRCode *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
 	DisplayBankTransferInstructions      *PaymentIntentNextActionDisplayBankTransferInstructions      `json:"display_bank_transfer_instructions"`
 	KonbiniDisplayDetails                *PaymentIntentNextActionKonbiniDisplayDetails                `json:"konbini_display_details"`
+	MultibancoDisplayDetails             *PaymentIntentNextActionMultibancoDisplayDetails             `json:"multibanco_display_details"`
 	OXXODisplayDetails                   *PaymentIntentNextActionOXXODisplayDetails                   `json:"oxxo_display_details"`
 	PayNowDisplayQRCode                  *PaymentIntentNextActionPayNowDisplayQRCode                  `json:"paynow_display_qr_code"`
 	PixDisplayQRCode                     *PaymentIntentNextActionPixDisplayQRCode                     `json:"pix_display_qr_code"`
@@ -2974,6 +3041,14 @@ type PaymentIntentPaymentMethodOptionsMobilepay struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsMobilepaySetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsMultibanco struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsMultibancoSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -3074,6 +3149,14 @@ type PaymentIntentPaymentMethodOptionsSwish struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsSwishSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsTWINT struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
@@ -3147,6 +3230,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Konbini          *PaymentIntentPaymentMethodOptionsKonbini          `json:"konbini"`
 	Link             *PaymentIntentPaymentMethodOptionsLink             `json:"link"`
 	Mobilepay        *PaymentIntentPaymentMethodOptionsMobilepay        `json:"mobilepay"`
+	Multibanco       *PaymentIntentPaymentMethodOptionsMultibanco       `json:"multibanco"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
@@ -3157,6 +3241,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	Swish            *PaymentIntentPaymentMethodOptionsSwish            `json:"swish"`
+	TWINT            *PaymentIntentPaymentMethodOptionsTWINT            `json:"twint"`
 	USBankAccount    *PaymentIntentPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 	WeChatPay        *PaymentIntentPaymentMethodOptionsWeChatPay        `json:"wechat_pay"`
 	Zip              *PaymentIntentPaymentMethodOptionsZip              `json:"zip"`

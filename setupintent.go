@@ -413,6 +413,9 @@ type SetupIntentPaymentMethodDataLinkParams struct{}
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type SetupIntentPaymentMethodDataMobilepayParams struct{}
 
+// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+type SetupIntentPaymentMethodDataMultibancoParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentPaymentMethodDataOXXOParams struct{}
 
@@ -457,6 +460,9 @@ type SetupIntentPaymentMethodDataSofortParams struct {
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentPaymentMethodDataSwishParams struct{}
+
+// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
+type SetupIntentPaymentMethodDataTWINTParams struct{}
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentPaymentMethodDataUSBankAccountParams struct {
@@ -531,6 +537,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *SetupIntentPaymentMethodDataMobilepayParams `form:"mobilepay"`
+	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+	Multibanco *SetupIntentPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -553,6 +561,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Sofort *SetupIntentPaymentMethodDataSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentPaymentMethodDataSwishParams `form:"swish"`
+	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
+	TWINT *SetupIntentPaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
@@ -991,6 +1001,9 @@ type SetupIntentConfirmPaymentMethodDataLinkParams struct{}
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type SetupIntentConfirmPaymentMethodDataMobilepayParams struct{}
 
+// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+type SetupIntentConfirmPaymentMethodDataMultibancoParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentConfirmPaymentMethodDataOXXOParams struct{}
 
@@ -1035,6 +1048,9 @@ type SetupIntentConfirmPaymentMethodDataSofortParams struct {
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type SetupIntentConfirmPaymentMethodDataSwishParams struct{}
+
+// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
+type SetupIntentConfirmPaymentMethodDataTWINTParams struct{}
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
@@ -1109,6 +1125,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *SetupIntentConfirmPaymentMethodDataMobilepayParams `form:"mobilepay"`
+	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+	Multibanco *SetupIntentConfirmPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentConfirmPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -1131,6 +1149,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Sofort *SetupIntentConfirmPaymentMethodDataSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *SetupIntentConfirmPaymentMethodDataSwishParams `form:"swish"`
+	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
+	TWINT *SetupIntentConfirmPaymentMethodDataTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.

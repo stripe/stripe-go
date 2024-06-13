@@ -259,6 +259,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeKonbini          ConfirmationTokenPaymentMethodPreviewType = "konbini"
 	ConfirmationTokenPaymentMethodPreviewTypeLink             ConfirmationTokenPaymentMethodPreviewType = "link"
 	ConfirmationTokenPaymentMethodPreviewTypeMobilepay        ConfirmationTokenPaymentMethodPreviewType = "mobilepay"
+	ConfirmationTokenPaymentMethodPreviewTypeMultibanco       ConfirmationTokenPaymentMethodPreviewType = "multibanco"
 	ConfirmationTokenPaymentMethodPreviewTypeOXXO             ConfirmationTokenPaymentMethodPreviewType = "oxxo"
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
@@ -269,6 +270,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
+	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
 	ConfirmationTokenPaymentMethodPreviewTypeWeChatPay        ConfirmationTokenPaymentMethodPreviewType = "wechat_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeZip              ConfirmationTokenPaymentMethodPreviewType = "zip"
@@ -746,6 +748,7 @@ type ConfirmationTokenPaymentMethodPreviewLink struct {
 	PersistentToken string `json:"persistent_token"`
 }
 type ConfirmationTokenPaymentMethodPreviewMobilepay struct{}
+type ConfirmationTokenPaymentMethodPreviewMultibanco struct{}
 type ConfirmationTokenPaymentMethodPreviewOXXO struct{}
 type ConfirmationTokenPaymentMethodPreviewP24 struct {
 	// The customer's bank, if provided.
@@ -789,6 +792,7 @@ type ConfirmationTokenPaymentMethodPreviewSofort struct {
 	Country string `json:"country"`
 }
 type ConfirmationTokenPaymentMethodPreviewSwish struct{}
+type ConfirmationTokenPaymentMethodPreviewTWINT struct{}
 
 // Contains information about US bank account networks that can be used.
 type ConfirmationTokenPaymentMethodPreviewUSBankAccountNetworks struct {
@@ -860,6 +864,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Konbini         *ConfirmationTokenPaymentMethodPreviewKonbini         `json:"konbini"`
 	Link            *ConfirmationTokenPaymentMethodPreviewLink            `json:"link"`
 	Mobilepay       *ConfirmationTokenPaymentMethodPreviewMobilepay       `json:"mobilepay"`
+	Multibanco      *ConfirmationTokenPaymentMethodPreviewMultibanco      `json:"multibanco"`
 	OXXO            *ConfirmationTokenPaymentMethodPreviewOXXO            `json:"oxxo"`
 	P24             *ConfirmationTokenPaymentMethodPreviewP24             `json:"p24"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`
@@ -870,6 +875,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort"`
 	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish"`
+	TWINT           *ConfirmationTokenPaymentMethodPreviewTWINT           `json:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          ConfirmationTokenPaymentMethodPreviewType           `json:"type"`
 	USBankAccount *ConfirmationTokenPaymentMethodPreviewUSBankAccount `json:"us_bank_account"`

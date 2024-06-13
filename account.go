@@ -465,6 +465,12 @@ type AccountCapabilitiesMobilepayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The multibanco_payments capability.
+type AccountCapabilitiesMultibancoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The mx_bank_transfer_payments capability.
 type AccountCapabilitiesMXBankTransferPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -545,6 +551,12 @@ type AccountCapabilitiesTransfersParams struct {
 
 // The treasury capability.
 type AccountCapabilitiesTreasuryParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The twint_payments capability.
+type AccountCapabilitiesTWINTPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -632,6 +644,8 @@ type AccountCapabilitiesParams struct {
 	LinkPayments *AccountCapabilitiesLinkPaymentsParams `form:"link_payments"`
 	// The mobilepay_payments capability.
 	MobilepayPayments *AccountCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
+	// The multibanco_payments capability.
+	MultibancoPayments *AccountCapabilitiesMultibancoPaymentsParams `form:"multibanco_payments"`
 	// The mx_bank_transfer_payments capability.
 	MXBankTransferPayments *AccountCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments"`
 	// The oxxo_payments capability.
@@ -660,6 +674,8 @@ type AccountCapabilitiesParams struct {
 	Transfers *AccountCapabilitiesTransfersParams `form:"transfers"`
 	// The treasury capability.
 	Treasury *AccountCapabilitiesTreasuryParams `form:"treasury"`
+	// The twint_payments capability.
+	TWINTPayments *AccountCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
 	// The us_bank_account_ach_payments capability.
 	USBankAccountACHPayments *AccountCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
 	// The us_bank_transfer_payments capability.
@@ -1173,6 +1189,8 @@ type AccountCapabilities struct {
 	LinkPayments AccountCapabilityStatus `json:"link_payments"`
 	// The status of the MobilePay capability of the account, or whether the account can directly process MobilePay charges.
 	MobilepayPayments AccountCapabilityStatus `json:"mobilepay_payments"`
+	// The status of the Multibanco payments capability of the account, or whether the account can directly process Multibanco charges.
+	MultibancoPayments AccountCapabilityStatus `json:"multibanco_payments"`
 	// The status of the Mexican customer_balance payments (MXN currency) capability of the account, or whether the account can directly process Mexican customer_balance charges.
 	MXBankTransferPayments AccountCapabilityStatus `json:"mx_bank_transfer_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
@@ -1201,6 +1219,8 @@ type AccountCapabilities struct {
 	Transfers AccountCapabilityStatus `json:"transfers"`
 	// The status of the banking capability, or whether the account can have bank accounts.
 	Treasury AccountCapabilityStatus `json:"treasury"`
+	// The status of the TWINT capability of the account, or whether the account can directly process TWINT charges.
+	TWINTPayments AccountCapabilityStatus `json:"twint_payments"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
 	USBankAccountACHPayments AccountCapabilityStatus `json:"us_bank_account_ach_payments"`
 	// The status of the US customer_balance payments (USD currency) capability of the account, or whether the account can directly process US customer_balance charges.

@@ -199,6 +199,7 @@ const (
 	PaymentMethodTypeKonbini          PaymentMethodType = "konbini"
 	PaymentMethodTypeLink             PaymentMethodType = "link"
 	PaymentMethodTypeMobilepay        PaymentMethodType = "mobilepay"
+	PaymentMethodTypeMultibanco       PaymentMethodType = "multibanco"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
@@ -209,6 +210,7 @@ const (
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
+	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
 	PaymentMethodTypeWeChatPay        PaymentMethodType = "wechat_pay"
 	PaymentMethodTypeZip              PaymentMethodType = "zip"
@@ -433,6 +435,9 @@ type PaymentMethodLinkParams struct{}
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type PaymentMethodMobilepayParams struct{}
 
+// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+type PaymentMethodMultibancoParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type PaymentMethodOXXOParams struct{}
 
@@ -477,6 +482,9 @@ type PaymentMethodSofortParams struct {
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 type PaymentMethodSwishParams struct{}
+
+// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
+type PaymentMethodTWINTParams struct{}
 
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUSBankAccountParams struct {
@@ -557,6 +565,8 @@ type PaymentMethodParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 	Mobilepay *PaymentMethodMobilepayParams `form:"mobilepay"`
+	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+	Multibanco *PaymentMethodMultibancoParams `form:"multibanco"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -579,6 +589,8 @@ type PaymentMethodParams struct {
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish"`
+	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
+	TWINT *PaymentMethodTWINTParams `form:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
@@ -1017,6 +1029,7 @@ type PaymentMethodLink struct {
 	PersistentToken string `json:"persistent_token"`
 }
 type PaymentMethodMobilepay struct{}
+type PaymentMethodMultibanco struct{}
 type PaymentMethodOXXO struct{}
 type PaymentMethodP24 struct {
 	// The customer's bank, if provided.
@@ -1066,6 +1079,7 @@ type PaymentMethodSofort struct {
 	Country string `json:"country"`
 }
 type PaymentMethodSwish struct{}
+type PaymentMethodTWINT struct{}
 
 // Contains information about US bank account networks that can be used.
 type PaymentMethodUSBankAccountNetworks struct {
@@ -1150,8 +1164,9 @@ type PaymentMethod struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata  map[string]string       `json:"metadata"`
-	Mobilepay *PaymentMethodMobilepay `json:"mobilepay"`
+	Metadata   map[string]string        `json:"metadata"`
+	Mobilepay  *PaymentMethodMobilepay  `json:"mobilepay"`
+	Multibanco *PaymentMethodMultibanco `json:"multibanco"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object    string                  `json:"object"`
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
@@ -1166,6 +1181,7 @@ type PaymentMethod struct {
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
 	Sofort       *PaymentMethodSofort       `json:"sofort"`
 	Swish        *PaymentMethodSwish        `json:"swish"`
+	TWINT        *PaymentMethodTWINT        `json:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`
