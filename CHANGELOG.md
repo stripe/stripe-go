@@ -1,8 +1,23 @@
 # Changelog
 
+## 78.11.0 - 2024-06-13
+* [#1871](https://github.com/stripe/stripe-go/pull/1871) Update generated code
+  * Add support for `MultibancoPayments` and `TWINTPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `TWINT` on `ChargePaymentMethodDetails`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `Multibanco` on `CheckoutSessionPaymentMethodOptionsParams`, `CheckoutSessionPaymentMethodOptions`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `RefundDestinationDetails`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for new value `de_stn` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, `TaxIdType`, and `TaxTransactionCustomerDetailsTaxIdsType`
+  * Add support for new values `multibanco` and `twint` on enums `ConfirmationTokenPaymentMethodPreviewType` and `PaymentMethodType`
+  * Add support for `MultibancoDisplayDetails` on `PaymentIntentNextAction`
+  * Add support for `InvoiceSettings` on `Subscription`
+
 ## 78.11.0-beta.1 - 2024-06-06
 * [#1869](https://github.com/stripe/stripe-go/pull/1869) Update generated code for beta
   * Add support for `TWINT` on `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+
+## 78.10.0 - 2024-06-06
+* [#1870](https://github.com/stripe/stripe-go/pull/1870) Update generated code
+  * Add support for `GBBankTransferPayments`, `JPBankTransferPayments`, `MXBankTransferPayments`, `SEPABankTransferPayments`, and `USBankTransferPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for new value `swish` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
 
 ## 78.10.0-beta.1 - 2024-05-30
 * [#1867](https://github.com/stripe/stripe-go/pull/1867) Update generated code for beta
