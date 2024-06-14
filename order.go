@@ -634,7 +634,7 @@ type OrderLineItemPriceDataParams struct {
 	Currency *string `form:"currency"`
 	// ID of the product this price belongs to.
 	//
-	// Use this to implement a variable-pricing model in your integration. This is required if `product_data` is not specifed.
+	// Use this to implement a variable-pricing model in your integration. This is required if `product_data` is not specified.
 	Product *string `form:"product"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
