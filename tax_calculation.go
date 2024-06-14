@@ -217,7 +217,7 @@ const (
 	TaxCalculationTaxBreakdownTaxabilityReasonZeroRated            TaxCalculationTaxBreakdownTaxabilityReason = "zero_rated"
 )
 
-// Retrieves the line items of a persisted tax calculation as a collection.
+// Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 type TaxCalculationListLineItemsParams struct {
 	ListParams  `form:"*"`
 	Calculation *string `form:"-"` // Included in URL
