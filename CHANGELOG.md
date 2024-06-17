@@ -1,5 +1,10 @@
 # Changelog
 
+## 78.12.0 - 2024-06-17
+* [#1876](https://github.com/stripe/stripe-go/pull/1876) Update generated code
+  * Add support for `TaxIDCollection` on `PaymentLinkParams`
+  * Add support for new value `mobilepay` on enum `PaymentLinkPaymentMethodTypes`
+
 ## 78.11.0 - 2024-06-13
 * [#1871](https://github.com/stripe/stripe-go/pull/1871) Update generated code
   * Add support for `MultibancoPayments` and `TWINTPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
