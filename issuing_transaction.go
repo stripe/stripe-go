@@ -20,7 +20,7 @@ const (
 	IssuingTransactionPurchaseDetailsFuelTypeUnleadedSuper   IssuingTransactionPurchaseDetailsFuelType = "unleaded_super"
 )
 
-// The units for `volume_decimal`. One of `liter`, `us_gallon`, or `other`.
+// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
 type IssuingTransactionPurchaseDetailsFuelUnit string
 
 // List of values that IssuingTransactionPurchaseDetailsFuelUnit can take
@@ -149,14 +149,14 @@ type IssuingTransactionPurchaseDetailsFlight struct {
 
 // Information about fuel that was purchased with this transaction.
 type IssuingTransactionPurchaseDetailsFuel struct {
+	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
+	QuantityDecimal float64 `json:"quantity_decimal,string"`
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 	Type IssuingTransactionPurchaseDetailsFuelType `json:"type"`
-	// The units for `volume_decimal`. One of `liter`, `us_gallon`, or `other`.
+	// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
 	Unit IssuingTransactionPurchaseDetailsFuelUnit `json:"unit"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
 	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
-	// The volume of the fuel that was pumped, represented as a decimal string with at most 12 decimal places.
-	VolumeDecimal float64 `json:"volume_decimal,string"`
 }
 
 // Information about lodging that was purchased with this transaction.

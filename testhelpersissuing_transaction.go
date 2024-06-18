@@ -74,14 +74,14 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightParams 
 
 // Information about fuel that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams struct {
+	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 	Type *string `form:"type"`
-	// The units for `volume_decimal`. One of `liter`, `us_gallon`, or `other`.
+	// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
 	Unit *string `form:"unit"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
 	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision"`
-	// The volume of the fuel that was pumped, represented as a decimal string with at most 12 decimal places.
-	VolumeDecimal *float64 `form:"volume_decimal,high_precision"`
 }
 
 // Information about lodging that was purchased with this transaction.
@@ -190,14 +190,14 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightParam
 
 // Information about fuel that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams struct {
+	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 	Type *string `form:"type"`
-	// The units for `volume_decimal`. One of `liter`, `us_gallon`, or `other`.
+	// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
 	Unit *string `form:"unit"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
 	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision"`
-	// The volume of the fuel that was pumped, represented as a decimal string with at most 12 decimal places.
-	VolumeDecimal *float64 `form:"volume_decimal,high_precision"`
 }
 
 // Information about lodging that was purchased with this transaction.
