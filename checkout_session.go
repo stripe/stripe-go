@@ -1970,9 +1970,9 @@ func (p *CheckoutSessionSubscriptionDataParams) AddMetadata(key string, value st
 	p.Metadata[key] = value
 }
 
-// Controls tax ID collection settings for the session.
+// Controls tax ID collection during checkout.
 type CheckoutSessionTaxIDCollectionParams struct {
-	// Set to true to enable Tax ID collection.
+	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled"`
 }
 
@@ -2109,7 +2109,7 @@ type CheckoutSessionParams struct {
 	// information from the successful Checkout Session on your page, read the
 	// guide on [customizing your success page](https://stripe.com/docs/payments/checkout/custom-success-page).
 	SuccessURL *string `form:"success_url"`
-	// Controls tax ID collection settings for the session.
+	// Controls tax ID collection during checkout.
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
 	// The UI mode of the Session. Defaults to `hosted`.
 	UIMode *string `form:"ui_mode"`
