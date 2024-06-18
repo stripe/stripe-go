@@ -559,7 +559,7 @@ func (p *PaymentLinkSubscriptionDataParams) AddMetadata(key string, value string
 
 // Controls tax ID collection during checkout.
 type PaymentLinkTaxIDCollectionParams struct {
-	// Set to `true` to enable tax ID collection.
+	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled"`
 }
 
