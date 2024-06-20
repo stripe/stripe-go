@@ -28,15 +28,6 @@ const (
 	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSaveEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave = "enabled"
 )
 
-// Controls whether the Payment Element displays a checkbox offering to set a saved payment method as the default.
-type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault string
-
-// List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault can take
-const (
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefaultDisabled CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault = "disabled"
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefaultEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault = "enabled"
-)
-
 // Controls whether the Payment Element displays the option to update a saved payment method.
 type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate string
 
@@ -62,8 +53,6 @@ type CustomerSessionComponentsPaymentElementFeaturesParams struct {
 	//
 	// If a customer checks the box, the [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) value on the PaymentMethod is set to `'always'` at confirmation time. For PaymentIntents, the [`setup_future_usage`](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-setup_future_usage) value is also set to the value defined in `payment_method_save_usage`.
 	PaymentMethodSave *string `form:"payment_method_save"`
-	// Controls whether the Payment Element displays a checkbox offering to set a saved payment method as the default.
-	PaymentMethodSetAsDefault *string `form:"payment_method_set_as_default"`
 	// Controls whether the Payment Element displays the option to update a saved payment method.
 	PaymentMethodUpdate *string `form:"payment_method_update"`
 }
@@ -124,8 +113,6 @@ type CustomerSessionComponentsPaymentElementFeatures struct {
 	//
 	// If a customer checks the box, the [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) value on the PaymentMethod is set to `'always'` at confirmation time. For PaymentIntents, the [`setup_future_usage`](https://docs.stripe.com/api/payment_intents/object#payment_intent_object-setup_future_usage) value is also set to the value defined in `payment_method_save_usage`.
 	PaymentMethodSave CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSave `json:"payment_method_save"`
-	// Controls whether the Payment Element displays a checkbox offering to set a saved payment method as the default.
-	PaymentMethodSetAsDefault CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSetAsDefault `json:"payment_method_set_as_default"`
 	// Controls whether the Payment Element displays the option to update a saved payment method.
 	PaymentMethodUpdate CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate `json:"payment_method_update"`
 }
