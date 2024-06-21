@@ -289,7 +289,7 @@ type TaxCalculationShippingCostParams struct {
 	TaxCode *string `form:"tax_code"`
 }
 
-// Calculates tax based on input and returns a Tax Calculation object.
+// Calculates tax based on the input and returns a Tax Calculation object.
 type TaxCalculationParams struct {
 	Params `form:"*"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
