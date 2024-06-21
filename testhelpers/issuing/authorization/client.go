@@ -69,6 +69,22 @@ func (c Client) Expire(id string, params *stripe.TestHelpersIssuingAuthorization
 	return authorization, err
 }
 
+// Finalize the amount on an Authorization prior to capture, when the initial authorization was for an estimated amount.
+func FinalizeAmount(id string, params *stripe.TestHelpersIssuingAuthorizationFinalizeAmountParams) (*stripe.IssuingAuthorization, error) {
+	return getC().FinalizeAmount(id, params)
+}
+
+// Finalize the amount on an Authorization prior to capture, when the initial authorization was for an estimated amount.
+func (c Client) FinalizeAmount(id string, params *stripe.TestHelpersIssuingAuthorizationFinalizeAmountParams) (*stripe.IssuingAuthorization, error) {
+	path := stripe.FormatURLPath(
+		"/v1/test_helpers/issuing/authorizations/%s/finalize_amount",
+		id,
+	)
+	authorization := &stripe.IssuingAuthorization{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	return authorization, err
+}
+
 // Increment a test-mode Authorization.
 func Increment(id string, params *stripe.TestHelpersIssuingAuthorizationIncrementParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Increment(id, params)
