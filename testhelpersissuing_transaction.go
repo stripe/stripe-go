@@ -42,6 +42,62 @@ type TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams struct {
 	URL *string `form:"url"`
 }
 
+// Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry.
+type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetCardholderPromptDataParams struct {
+	// Driver ID.
+	DriverID *string `form:"driver_id"`
+	// Odometer reading.
+	Odometer *int64 `form:"odometer"`
+	// An alphanumeric ID. This field is used when a vehicle ID, driver ID, or generic ID is entered by the cardholder, but the merchant or card network did not specify the prompt type.
+	UnspecifiedID *string `form:"unspecified_id"`
+	// User ID.
+	UserID *string `form:"user_id"`
+	// Vehicle number.
+	VehicleNumber *string `form:"vehicle_number"`
+}
+
+// Breakdown of fuel portion of the purchase.
+type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownFuelParams struct {
+	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision"`
+}
+
+// Breakdown of non-fuel portion of the purchase.
+type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownNonFuelParams struct {
+	// Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes.
+	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision"`
+}
+
+// Information about tax included in this transaction.
+type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownTaxParams struct {
+	// Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax.
+	LocalAmountDecimal *float64 `form:"local_amount_decimal,high_precision"`
+	// Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax.
+	NationalAmountDecimal *float64 `form:"national_amount_decimal,high_precision"`
+}
+
+// More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
+type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownParams struct {
+	// Breakdown of fuel portion of the purchase.
+	Fuel *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownFuelParams `form:"fuel"`
+	// Breakdown of non-fuel portion of the purchase.
+	NonFuel *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownNonFuelParams `form:"non_fuel"`
+	// Information about tax included in this transaction.
+	Tax *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownTaxParams `form:"tax"`
+}
+
+// Fleet-specific information for transactions using Fleet cards.
+type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetParams struct {
+	// Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry.
+	CardholderPromptData *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetCardholderPromptDataParams `form:"cardholder_prompt_data"`
+	// The type of purchase. One of `fuel_purchase`, `non_fuel_purchase`, or `fuel_and_non_fuel_purchase`.
+	PurchaseType *string `form:"purchase_type"`
+	// More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
+	ReportedBreakdown *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetReportedBreakdownParams `form:"reported_breakdown"`
+	// The type of fuel service. One of `non_fuel_transaction`, `full_service`, or `self_service`.
+	ServiceType *string `form:"service_type"`
+}
+
 // The legs of the trip.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightSegmentParams struct {
 	// The three-letter IATA airport code of the flight's destination.
@@ -74,6 +130,8 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightParams 
 
 // Information about fuel that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams struct {
+	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
+	IndustryProductCode *string `form:"industry_product_code"`
 	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
 	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
@@ -102,6 +160,8 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams
 
 // Additional purchase information that is optionally provided by the merchant.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsParams struct {
+	// Fleet-specific information for transactions using Fleet cards.
+	Fleet *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFleetParams `form:"fleet"`
 	// Information about the flight that was purchased with this transaction.
 	Flight *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightParams `form:"flight"`
 	// Information about fuel that was purchased with this transaction.
@@ -158,6 +218,62 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams struct 
 	URL *string `form:"url"`
 }
 
+// Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry.
+type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetCardholderPromptDataParams struct {
+	// Driver ID.
+	DriverID *string `form:"driver_id"`
+	// Odometer reading.
+	Odometer *int64 `form:"odometer"`
+	// An alphanumeric ID. This field is used when a vehicle ID, driver ID, or generic ID is entered by the cardholder, but the merchant or card network did not specify the prompt type.
+	UnspecifiedID *string `form:"unspecified_id"`
+	// User ID.
+	UserID *string `form:"user_id"`
+	// Vehicle number.
+	VehicleNumber *string `form:"vehicle_number"`
+}
+
+// Breakdown of fuel portion of the purchase.
+type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownFuelParams struct {
+	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision"`
+}
+
+// Breakdown of non-fuel portion of the purchase.
+type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownNonFuelParams struct {
+	// Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes.
+	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision"`
+}
+
+// Information about tax included in this transaction.
+type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownTaxParams struct {
+	// Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax.
+	LocalAmountDecimal *float64 `form:"local_amount_decimal,high_precision"`
+	// Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax.
+	NationalAmountDecimal *float64 `form:"national_amount_decimal,high_precision"`
+}
+
+// More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
+type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownParams struct {
+	// Breakdown of fuel portion of the purchase.
+	Fuel *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownFuelParams `form:"fuel"`
+	// Breakdown of non-fuel portion of the purchase.
+	NonFuel *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownNonFuelParams `form:"non_fuel"`
+	// Information about tax included in this transaction.
+	Tax *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownTaxParams `form:"tax"`
+}
+
+// Fleet-specific information for transactions using Fleet cards.
+type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetParams struct {
+	// Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry.
+	CardholderPromptData *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetCardholderPromptDataParams `form:"cardholder_prompt_data"`
+	// The type of purchase. One of `fuel_purchase`, `non_fuel_purchase`, or `fuel_and_non_fuel_purchase`.
+	PurchaseType *string `form:"purchase_type"`
+	// More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
+	ReportedBreakdown *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetReportedBreakdownParams `form:"reported_breakdown"`
+	// The type of fuel service. One of `non_fuel_transaction`, `full_service`, or `self_service`.
+	ServiceType *string `form:"service_type"`
+}
+
 // The legs of the trip.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightSegmentParams struct {
 	// The three-letter IATA airport code of the flight's destination.
@@ -190,6 +306,8 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightParam
 
 // Information about fuel that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams struct {
+	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
+	IndustryProductCode *string `form:"industry_product_code"`
 	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
 	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
@@ -218,6 +336,8 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptPara
 
 // Additional purchase information that is optionally provided by the merchant.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsParams struct {
+	// Fleet-specific information for transactions using Fleet cards.
+	Fleet *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFleetParams `form:"fleet"`
 	// Information about the flight that was purchased with this transaction.
 	Flight *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightParams `form:"flight"`
 	// Information about fuel that was purchased with this transaction.
