@@ -3118,7 +3118,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
 				UnitCostDecimal: stripe.Float64(3.5),
-				VolumeDecimal:   stripe.Float64(10),
+				QuantityDecimal: stripe.Float64(10),
 			},
 			Lodging: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1633651200),
@@ -3315,7 +3315,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
 				UnitCostDecimal: stripe.Float64(3.5),
-				VolumeDecimal:   stripe.Float64(10),
+				QuantityDecimal: stripe.Float64(10),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),
@@ -3373,7 +3373,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 				Type:            stripe.String("diesel"),
 				Unit:            stripe.String("liter"),
 				UnitCostDecimal: stripe.Float64(3.5),
-				VolumeDecimal:   stripe.Float64(10),
+				QuantityDecimal: stripe.Float64(10),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams{
 				CheckInAt: stripe.Int64(1533651200),

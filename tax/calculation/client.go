@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Calculates tax based on input and returns a Tax Calculation object.
+// Calculates tax based on the input and returns a Tax Calculation object.
 func New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	return getC().New(params)
 }
 
-// Calculates tax based on input and returns a Tax Calculation object.
+// Calculates tax based on the input and returns a Tax Calculation object.
 func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	calculation := &stripe.TaxCalculation{}
 	err := c.B.Call(
