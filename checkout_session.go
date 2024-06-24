@@ -141,7 +141,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeCAPSTMB  CheckoutSessionCustomerDetailsTaxIDType = "ca_pst_mb"
 	CheckoutSessionCustomerDetailsTaxIDTypeCAPSTSK  CheckoutSessionCustomerDetailsTaxIDType = "ca_pst_sk"
 	CheckoutSessionCustomerDetailsTaxIDTypeCAQST    CheckoutSessionCustomerDetailsTaxIDType = "ca_qst"
-	CheckoutSessionCustomerDetailsTaxIDTypeChUid    CheckoutSessionCustomerDetailsTaxIDType = "ch_uid"
+	CheckoutSessionCustomerDetailsTaxIDTypeCHUID    CheckoutSessionCustomerDetailsTaxIDType = "ch_uid"
 	CheckoutSessionCustomerDetailsTaxIDTypeCHVAT    CheckoutSessionCustomerDetailsTaxIDType = "ch_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeCLTIN    CheckoutSessionCustomerDetailsTaxIDType = "cl_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeCNTIN    CheckoutSessionCustomerDetailsTaxIDType = "cn_tin"

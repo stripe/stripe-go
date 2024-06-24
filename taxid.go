@@ -40,7 +40,7 @@ const (
 	TaxIDTypeCAPSTMB  TaxIDType = "ca_pst_mb"
 	TaxIDTypeCAPSTSK  TaxIDType = "ca_pst_sk"
 	TaxIDTypeCAQST    TaxIDType = "ca_qst"
-	TaxIDTypeChUid    TaxIDType = "ch_uid"
+	TaxIDTypeCHUID    TaxIDType = "ch_uid"
 	TaxIDTypeCHVAT    TaxIDType = "ch_vat"
 	TaxIDTypeCLTIN    TaxIDType = "cl_tin"
 	TaxIDTypeCNTIN    TaxIDType = "cn_tin"
