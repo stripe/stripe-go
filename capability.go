@@ -36,7 +36,6 @@ const (
 	CapabilityDisabledReasonPlatformPaused              CapabilityDisabledReason = "platform_paused"
 	CapabilityDisabledReasonRejectedInactivity          CapabilityDisabledReason = "rejected.inactivity"
 	CapabilityDisabledReasonRejectedOther               CapabilityDisabledReason = "rejected.other"
-	CapabilityDisabledReasonRequirementsFieldsNeeded    CapabilityDisabledReason = "requirement.fields_needed"
 	CapabilityDisabledReasonRejectedUnsupportedBusiness CapabilityDisabledReason = "rejected.unsupported_business"
 	CapabilityDisabledReasonRequirementsFieldsNeeded    CapabilityDisabledReason = "requirements.fields_needed"
 )
