@@ -1,5 +1,24 @@
 # Changelog
 
+## 79.0.0 - 2024-06-24
+* [#1878](https://github.com/stripe/stripe-go/pull/1878) Update generated code
+  
+  This release changes the pinned API version to 2024-06-20. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2024-06-20) and carefully review the API changes before upgrading.
+  
+  ### ⚠️ Breaking changes
+  
+    * Remove the unused resource `PlatformTaxFee`
+    * Rename `VolumeDecimal` to `QuantityDecimal` on `IssuingTransactionPurchaseDetailsFuel`, `TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams`, `TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams`, and `TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams`
+    
+  ## Additions
+  
+  * Add support for `FinalizeAmount` test helper method on resource `Issuing.Authorization`
+  * Add support for new value `ch_uid` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, `TaxIdType`, and `TaxTransactionCustomerDetailsTaxIdsType`
+  * Add support for `Fleet` on `IssuingAuthorizationParams`, `IssuingAuthorization`, `IssuingTransactionPurchaseDetails`, `TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams`, `TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsParams`, and `TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsParams`
+  * Add support for `Fuel` on `IssuingAuthorizationParams` and `IssuingAuthorization`
+  * Add support for `IndustryProductCode` and `QuantityDecimal` on `IssuingTransactionPurchaseDetailsFuel`, `TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams`, `TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams`, and `TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams`
+  * Add support for new values `card_canceled`, `card_expired`, `cardholder_blocked`, `insecure_authorization_method`, and `pin_blocked` on enum `IssuingAuthorizationRequestHistoryReason`
+
 ## 78.12.0 - 2024-06-17
 * [#1876](https://github.com/stripe/stripe-go/pull/1876) Update generated code
   * Add support for `TaxIDCollection` on `PaymentLinkParams`

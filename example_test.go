@@ -3,11 +3,11 @@ package stripe_test
 import (
 	"log"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/charge"
-	"github.com/stripe/stripe-go/v78/customer"
-	"github.com/stripe/stripe-go/v78/invoice"
-	"github.com/stripe/stripe-go/v78/plan"
+	stripe "github.com/stripe/stripe-go/v79"
+	"github.com/stripe/stripe-go/v79/charge"
+	"github.com/stripe/stripe-go/v79/customer"
+	"github.com/stripe/stripe-go/v79/invoice"
+	"github.com/stripe/stripe-go/v79/plan"
 )
 
 func ExampleCharge_new() {

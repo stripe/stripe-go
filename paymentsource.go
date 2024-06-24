@@ -9,7 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stripe/stripe-go/v78/form"
+	"github.com/stripe/stripe-go/v79/form"
 )
 
 type PaymentSourceType string

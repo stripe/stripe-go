@@ -6,7 +6,7 @@
 
 package stripe
 
-import "github.com/stripe/stripe-go/v78/form"
+import "github.com/stripe/stripe-go/v79/form"
 
 // Possible values for the action parameter on usage record creation.
 const (
