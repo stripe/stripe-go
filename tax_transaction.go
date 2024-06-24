@@ -36,7 +36,7 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeCAPSTMB  TaxTransactionCustomerDetailsTaxIDType = "ca_pst_mb"
 	TaxTransactionCustomerDetailsTaxIDTypeCAPSTSK  TaxTransactionCustomerDetailsTaxIDType = "ca_pst_sk"
 	TaxTransactionCustomerDetailsTaxIDTypeCAQST    TaxTransactionCustomerDetailsTaxIDType = "ca_qst"
-	TaxTransactionCustomerDetailsTaxIDTypeChUid    TaxTransactionCustomerDetailsTaxIDType = "ch_uid"
+	TaxTransactionCustomerDetailsTaxIDTypeCHUID    TaxTransactionCustomerDetailsTaxIDType = "ch_uid"
 	TaxTransactionCustomerDetailsTaxIDTypeCHVAT    TaxTransactionCustomerDetailsTaxIDType = "ch_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeCLTIN    TaxTransactionCustomerDetailsTaxIDType = "cl_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeCNTIN    TaxTransactionCustomerDetailsTaxIDType = "cn_tin"

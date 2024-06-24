@@ -36,7 +36,7 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeCAPSTMB  TaxCalculationCustomerDetailsTaxIDType = "ca_pst_mb"
 	TaxCalculationCustomerDetailsTaxIDTypeCAPSTSK  TaxCalculationCustomerDetailsTaxIDType = "ca_pst_sk"
 	TaxCalculationCustomerDetailsTaxIDTypeCAQST    TaxCalculationCustomerDetailsTaxIDType = "ca_qst"
-	TaxCalculationCustomerDetailsTaxIDTypeChUid    TaxCalculationCustomerDetailsTaxIDType = "ch_uid"
+	TaxCalculationCustomerDetailsTaxIDTypeCHUID    TaxCalculationCustomerDetailsTaxIDType = "ch_uid"
 	TaxCalculationCustomerDetailsTaxIDTypeCHVAT    TaxCalculationCustomerDetailsTaxIDType = "ch_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeCLTIN    TaxCalculationCustomerDetailsTaxIDType = "cl_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeCNTIN    TaxCalculationCustomerDetailsTaxIDType = "cn_tin"

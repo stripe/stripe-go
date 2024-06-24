@@ -108,7 +108,7 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeCAPSTMB  QuotePreviewInvoiceCustomerTaxIDType = "ca_pst_mb"
 	QuotePreviewInvoiceCustomerTaxIDTypeCAPSTSK  QuotePreviewInvoiceCustomerTaxIDType = "ca_pst_sk"
 	QuotePreviewInvoiceCustomerTaxIDTypeCAQST    QuotePreviewInvoiceCustomerTaxIDType = "ca_qst"
-	QuotePreviewInvoiceCustomerTaxIDTypeChUid    QuotePreviewInvoiceCustomerTaxIDType = "ch_uid"
+	QuotePreviewInvoiceCustomerTaxIDTypeCHUID    QuotePreviewInvoiceCustomerTaxIDType = "ch_uid"
 	QuotePreviewInvoiceCustomerTaxIDTypeCHVAT    QuotePreviewInvoiceCustomerTaxIDType = "ch_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeCLTIN    QuotePreviewInvoiceCustomerTaxIDType = "cl_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeCNTIN    QuotePreviewInvoiceCustomerTaxIDType = "cn_tin"

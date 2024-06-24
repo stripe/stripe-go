@@ -485,7 +485,7 @@ const (
 	OrderTaxDetailsTaxIDTypeCAPSTMB  OrderTaxDetailsTaxIDType = "ca_pst_mb"
 	OrderTaxDetailsTaxIDTypeCAPSTSK  OrderTaxDetailsTaxIDType = "ca_pst_sk"
 	OrderTaxDetailsTaxIDTypeCAQST    OrderTaxDetailsTaxIDType = "ca_qst"
-	OrderTaxDetailsTaxIDTypeChUid    OrderTaxDetailsTaxIDType = "ch_uid"
+	OrderTaxDetailsTaxIDTypeCHUID    OrderTaxDetailsTaxIDType = "ch_uid"
 	OrderTaxDetailsTaxIDTypeCHVAT    OrderTaxDetailsTaxIDType = "ch_vat"
 	OrderTaxDetailsTaxIDTypeCLTIN    OrderTaxDetailsTaxIDType = "cl_tin"
 	OrderTaxDetailsTaxIDTypeCNTIN    OrderTaxDetailsTaxIDType = "cn_tin"
