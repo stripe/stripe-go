@@ -381,12 +381,12 @@ type BankAccountDocumentsParams struct {
 }
 type BankAccountListParams struct {
 	ListParams `form:"*"`
-	// The identifier of the parent account under which the bank accounts are
-	// nested. Either Account or Customer should be populated.
-	Account *string `form:"-"` // Included in URL
 	// The identifier of the parent customer under which the bank accounts are
 	// nested. Either Account or Customer should be populated.
 	Customer *string `form:"-"` // Included in URL
+	// The identifier of the parent account under which the bank accounts are
+	// nested. Either Account or Customer should be populated.
+	Account *string `form:"-"` // Included in URL
 }
 
 // AppendTo implements custom encoding logic for BankAccountListParams
