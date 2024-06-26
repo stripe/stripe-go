@@ -269,8 +269,9 @@ type CardOwnerParams struct {
 }
 type CardListParams struct {
 	ListParams `form:"*"`
-	Account    *string `form:"-"` // Included in URL
 	Customer   *string `form:"-"` // Included in URL
+	Account    *string `form:"-"` // Included in URL
+	Object     *string `form:"object"`
 }
 
 // AppendTo implements custom encoding logic for CardListParams
