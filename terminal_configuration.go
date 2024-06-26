@@ -17,6 +17,8 @@ type TerminalConfigurationParams struct {
 	Name *string `form:"name"`
 	// Configurations for collecting transactions offline.
 	Offline *TerminalConfigurationOfflineParams `form:"offline"`
+	// Reboot time settings for readers that support customized reboot time configuration.
+	RebootWindow *TerminalConfigurationRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers
 	StripeS700 *TerminalConfigurationStripeS700Params `form:"stripe_s700"`
 	// Tipping configurations for readers supporting on-reader tips
@@ -40,6 +42,14 @@ type TerminalConfigurationBBPOSWisePOSEParams struct {
 type TerminalConfigurationOfflineParams struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
 	Enabled *bool `form:"enabled"`
+}
+
+// Reboot time settings for readers that support customized reboot time configuration.
+type TerminalConfigurationRebootWindowParams struct {
+	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
+	EndHour *int64 `form:"end_hour"`
+	// Integer between 0 to 23 that represents the start hour of the reboot time window.
+	StartHour *int64 `form:"start_hour"`
 }
 
 // An object containing device type specific settings for Stripe S700 readers
@@ -248,6 +258,12 @@ type TerminalConfigurationOffline struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
 	Enabled bool `json:"enabled"`
 }
+type TerminalConfigurationRebootWindow struct {
+	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
+	EndHour int64 `json:"end_hour"`
+	// Integer between 0 to 23 that represents the start hour of the reboot time window.
+	StartHour int64 `json:"start_hour"`
+}
 type TerminalConfigurationStripeS700 struct {
 	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *File `json:"splashscreen"`
@@ -401,6 +417,7 @@ type TerminalConfiguration struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object       string                             `json:"object"`
 	Offline      *TerminalConfigurationOffline      `json:"offline"`
+	RebootWindow *TerminalConfigurationRebootWindow `json:"reboot_window"`
 	StripeS700   *TerminalConfigurationStripeS700   `json:"stripe_s700"`
 	Tipping      *TerminalConfigurationTipping      `json:"tipping"`
 	VerifoneP400 *TerminalConfigurationVerifoneP400 `json:"verifone_p400"`
