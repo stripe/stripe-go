@@ -167,6 +167,8 @@ type CreditNoteParams struct {
 	CreditAmount *int64 `form:"credit_amount"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
 	EffectiveAt *int64 `form:"effective_at"`
+	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
+	EmailType *string `form:"email_type"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// ID of the invoice.
@@ -260,6 +262,8 @@ type CreditNotePreviewParams struct {
 	CreditAmount *int64 `form:"credit_amount"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
 	EffectiveAt *int64 `form:"effective_at"`
+	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
+	EmailType *string `form:"email_type"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// ID of the invoice.
@@ -353,6 +357,8 @@ type CreditNotePreviewLinesParams struct {
 	CreditAmount *int64 `form:"credit_amount"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
 	EffectiveAt *int64 `form:"effective_at"`
+	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
+	EmailType *string `form:"email_type"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// ID of the invoice.
