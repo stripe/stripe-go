@@ -387,6 +387,8 @@ type BankAccountListParams struct {
 	// The identifier of the parent account under which the bank accounts are
 	// nested. Either Account or Customer should be populated.
 	Account *string `form:"-"` // Included in URL
+	// Filter according to a particular object type. Valid values are "bank_account" or "card".
+	Object *string `form:"object"`
 }
 
 // AppendTo implements custom encoding logic for BankAccountListParams
