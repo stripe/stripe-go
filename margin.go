@@ -11,7 +11,7 @@ import "encoding/json"
 // Retrieve a list of your margins.
 type MarginListParams struct {
 	ListParams `form:"*"`
-	// Only return margins that are active or inactive, i.e., pass false to list all inactive margins.
+	// Only return margins that are active or inactive. For example, pass `true` to only list active margins.
 	Active *bool `form:"active"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
