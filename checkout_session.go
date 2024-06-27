@@ -685,6 +685,15 @@ const (
 	CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage = "none"
 )
 
+// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory can take
+const (
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategoryChecking CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "checking"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategorySavings  CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "savings"
+)
+
 // The list of permissions to request. The `payment_method` permission must be included.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
 
@@ -2682,7 +2691,12 @@ type CheckoutSessionPaymentMethodOptionsSwish struct {
 	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
 	Reference string `json:"reference"`
 }
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
+	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+	AccountSubcategories []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+}
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	Filters *CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters"`
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
 	// Data features requested to be retrieved upon account creation.

@@ -152,6 +152,7 @@ const (
 	PaymentLinkPaymentMethodTypeKonbini          PaymentLinkPaymentMethodType = "konbini"
 	PaymentLinkPaymentMethodTypeLink             PaymentLinkPaymentMethodType = "link"
 	PaymentLinkPaymentMethodTypeMobilepay        PaymentLinkPaymentMethodType = "mobilepay"
+	PaymentLinkPaymentMethodTypeMultibanco       PaymentLinkPaymentMethodType = "multibanco"
 	PaymentLinkPaymentMethodTypeOXXO             PaymentLinkPaymentMethodType = "oxxo"
 	PaymentLinkPaymentMethodTypeP24              PaymentLinkPaymentMethodType = "p24"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
@@ -161,8 +162,10 @@ const (
 	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeSwish            PaymentLinkPaymentMethodType = "swish"
+	PaymentLinkPaymentMethodTypeTWINT            PaymentLinkPaymentMethodType = "twint"
 	PaymentLinkPaymentMethodTypeUSBankAccount    PaymentLinkPaymentMethodType = "us_bank_account"
 	PaymentLinkPaymentMethodTypeWeChatPay        PaymentLinkPaymentMethodType = "wechat_pay"
+	PaymentLinkPaymentMethodTypeZip              PaymentLinkPaymentMethodType = "zip"
 )
 
 // Indicates the type of transaction being performed which customizes relevant text on the page, such as the submit button.
