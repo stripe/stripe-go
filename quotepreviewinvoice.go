@@ -238,6 +238,15 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
 )
 
+// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
+
+// List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory can take
+const (
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategoryChecking QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "checking"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategorySavings  QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "savings"
+)
+
 // The list of permissions to request. The `payment_method` permission must be included.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
 
@@ -518,7 +527,12 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct{}
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
+	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+	AccountSubcategories []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+}
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	Filters *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters"`
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
 	// Data features requested to be retrieved upon account creation.

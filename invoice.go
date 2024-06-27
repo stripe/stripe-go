@@ -119,6 +119,15 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
 )
 
+// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
+
+// List of values that InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory can take
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategoryChecking InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "checking"
+	InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategorySavings  InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "savings"
+)
+
 // The list of permissions to request. The `payment_method` permission must be included.
 type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission string
 
@@ -502,8 +511,16 @@ type InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
 
+// Provide filters for the linked accounts that the customer can select for the payment method.
+type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
+	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
+	AccountSubcategories []*string `form:"account_subcategories"`
+}
+
 // Additional fields for Financial Connections Session creation
 type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// Provide filters for the linked accounts that the customer can select for the payment method.
+	Filters *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
 	// List of data features that you would like to retrieve upon account creation.
@@ -4617,7 +4634,12 @@ type InvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct{}
+type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
+	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+	AccountSubcategories []InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+}
 type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	Filters *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters"`
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
 	// Data features requested to be retrieved upon account creation.

@@ -685,6 +685,15 @@ const (
 	CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsSofortSetupFutureUsage = "none"
 )
 
+// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory can take
+const (
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategoryChecking CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "checking"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategorySavings  CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "savings"
+)
+
 // Settings for configuring manual entry of account details.
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode string
 
@@ -2698,11 +2707,16 @@ type CheckoutSessionPaymentMethodOptionsSwish struct {
 	// The order reference that will be displayed to customers in the Swish application. Defaults to the `id` of the Payment Intent.
 	Reference string `json:"reference"`
 }
+type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
+	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+	AccountSubcategories []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+}
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry struct {
 	// Settings for configuring manual entry of account details.
 	Mode CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode `json:"mode"`
 }
 type CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	Filters     *CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters     `json:"filters"`
 	ManualEntry *CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry `json:"manual_entry"`
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []CheckoutSessionPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`
