@@ -1,5 +1,15 @@
 # Changelog
 
+## 79.1.0 - 2024-06-27
+* [#1879](https://github.com/stripe/stripe-go/pull/1879) Update generated code
+  * Add support for `Filters` on `CheckoutSessionPaymentMethodOptionsUsBankAccountFinancialConnections`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`, `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SetupIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`
+  * Add support for `EmailType` on `CreditNoteParams`, `CreditNotePreviewLinesParams`, and `CreditNotePreviewParams`
+  * Add support for `AccountSubcategories` on `FinancialConnectionsSessionFiltersParams` and `FinancialConnectionsSessionFilters`
+  * Add support for new values `multibanco`, `twint`, and `zip` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for `RebootWindow` on `TerminalConfigurationParams` and `TerminalConfiguration`
+* [#1880](https://github.com/stripe/stripe-go/pull/1880) Add object param to list method for BankAccount/Card
+  * Add support to `object` in `BankAccountListParams` and `CardListParams`
+
 ## 79.0.0 - 2024-06-24
 * [#1878](https://github.com/stripe/stripe-go/pull/1878) Update generated code
   
