@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v78"
-	_ "github.com/stripe/stripe-go/v78/testing"
+	stripe "github.com/stripe/stripe-go/v79"
+	_ "github.com/stripe/stripe-go/v79/testing"
 )
 
 func TestTaxRateGet(t *testing.T) {

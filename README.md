@@ -549,8 +549,8 @@ If you would like to send a request to an undocumented API (for example you are 
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	"github.com/stripe/stripe-go/v79"
+	"github.com/stripe/stripe-go/v79/form"
 )
 
 // Form-encode request params

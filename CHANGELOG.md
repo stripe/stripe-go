@@ -1,5 +1,10 @@
 # Changelog
 
+## 79.2.0-beta.1 - 2024-06-27
+* [#1877](https://github.com/stripe/stripe-go/pull/1877) Update generated code for beta
+  * Remove support for `PaymentMethodSetAsDefault` on `CustomerSessionComponentsPaymentElementFeaturesParams` and `CustomerSessionComponentsPaymentElementFeatures`
+  * Add support for new value `ch_uid` on enum `OrderTaxDetailsTaxIdsType`
+
 ## 79.1.0 - 2024-06-27
 * [#1879](https://github.com/stripe/stripe-go/pull/1879) Update generated code
   * Add support for `Filters` on `CheckoutSessionPaymentMethodOptionsUsBankAccountFinancialConnections`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`, `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SetupIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`

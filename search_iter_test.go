@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v78/form"
+	"github.com/stripe/stripe-go/v79/form"
 )
 
 var nextPageTestToken = "next_page_test_token"
