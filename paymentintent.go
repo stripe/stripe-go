@@ -926,6 +926,15 @@ const (
 	PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsageNone PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage = "none"
 )
 
+// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
+
+// List of values that PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory can take
+const (
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategoryChecking PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "checking"
+	PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategorySavings  PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "savings"
+)
+
 // Settings for configuring manual entry of account details.
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode string
 
@@ -2315,6 +2324,12 @@ type PaymentIntentPaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Provide filters for the linked accounts that the customer can select for the payment method
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
+	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
+	AccountSubcategories []*string `form:"account_subcategories"`
+}
+
 // Customize manual entry behavior
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryParams struct {
 	// Settings for configuring manual entry of account details.
@@ -2323,6 +2338,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEnt
 
 // Additional fields for Financial Connections Session creation
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// Provide filters for the linked accounts that the customer can select for the payment method
+	Filters *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters"`
 	// Customize manual entry behavior
 	ManualEntry *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryParams `form:"manual_entry"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -4518,11 +4535,16 @@ type PaymentIntentPaymentMethodOptionsTWINT struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsTWINTSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
+	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+	AccountSubcategories []PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+}
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry struct {
 	// Settings for configuring manual entry of account details.
 	Mode PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode `json:"mode"`
 }
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	Filters     *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters     `json:"filters"`
 	ManualEntry *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry `json:"manual_entry"`
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`

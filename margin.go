@@ -11,7 +11,7 @@ import "encoding/json"
 // Retrieve a list of your margins.
 type MarginListParams struct {
 	ListParams `form:"*"`
-	// Only return margins that are active or inactive, i.e., pass false to list all inactive margins.
+	// Only return margins that are active or inactive. For example, pass `true` to only list active margins.
 	Active *bool `form:"active"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -22,7 +22,7 @@ func (p *MarginListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Create a margin object to be used with invoices, invoice items, and invoice line items for a customer to represent a partner discount.A margin has a percent_off which is the percent that will be taken off the subtotal after all items and other discounts and promotions) of any invoices for a customer. Calculation of prorations do not include any partner margins applied on the original invoice item.
+// Create a margin object to be used with invoices, invoice items, and invoice line items for a customer to represent a partner discount. A margin has a percent_off which is the percent that will be taken off the subtotal after all items and other discounts and promotions) of any invoices for a customer. Calculation of prorations do not include any partner margins applied on the original invoice item.
 type MarginParams struct {
 	Params `form:"*"`
 	// Whether the margin can be applied to invoices, invoice items, or invoice line items or not. Defaults to `true`.

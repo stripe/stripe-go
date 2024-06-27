@@ -1,5 +1,39 @@
 # Changelog
 
+## 79.1.0 - 2024-06-27
+* [#1879](https://github.com/stripe/stripe-go/pull/1879) Update generated code
+  * Add support for `Filters` on `CheckoutSessionPaymentMethodOptionsUsBankAccountFinancialConnections`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`, `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SetupIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`
+  * Add support for `EmailType` on `CreditNoteParams`, `CreditNotePreviewLinesParams`, and `CreditNotePreviewParams`
+  * Add support for `AccountSubcategories` on `FinancialConnectionsSessionFiltersParams` and `FinancialConnectionsSessionFilters`
+  * Add support for new values `multibanco`, `twint`, and `zip` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for `RebootWindow` on `TerminalConfigurationParams` and `TerminalConfiguration`
+* [#1880](https://github.com/stripe/stripe-go/pull/1880) Add object param to list method for BankAccount/Card
+  * Add support to `object` in `BankAccountListParams` and `CardListParams`
+
+## 79.0.0 - 2024-06-24
+* [#1878](https://github.com/stripe/stripe-go/pull/1878) Update generated code
+  
+  This release changes the pinned API version to 2024-06-20. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2024-06-20) and carefully review the API changes before upgrading.
+  
+  ### ⚠️ Breaking changes
+  
+    * Remove the unused resource `PlatformTaxFee`
+    * Rename `VolumeDecimal` to `QuantityDecimal` on `IssuingTransactionPurchaseDetailsFuel`, `TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams`, `TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams`, and `TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams`
+    
+  ## Additions
+  
+  * Add support for `FinalizeAmount` test helper method on resource `Issuing.Authorization`
+  * Add support for new value `ch_uid` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, `TaxIdType`, and `TaxTransactionCustomerDetailsTaxIdsType`
+  * Add support for `Fleet` on `IssuingAuthorizationParams`, `IssuingAuthorization`, `IssuingTransactionPurchaseDetails`, `TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams`, `TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsParams`, and `TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsParams`
+  * Add support for `Fuel` on `IssuingAuthorizationParams` and `IssuingAuthorization`
+  * Add support for `IndustryProductCode` and `QuantityDecimal` on `IssuingTransactionPurchaseDetailsFuel`, `TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams`, `TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams`, and `TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams`
+  * Add support for new values `card_canceled`, `card_expired`, `cardholder_blocked`, `insecure_authorization_method`, and `pin_blocked` on enum `IssuingAuthorizationRequestHistoryReason`
+
+## 78.12.0 - 2024-06-17
+* [#1876](https://github.com/stripe/stripe-go/pull/1876) Update generated code
+  * Add support for `TaxIDCollection` on `PaymentLinkParams`
+  * Add support for new value `mobilepay` on enum `PaymentLinkPaymentMethodTypes`
+
 ## 78.12.0-beta.1 - 2024-06-13
 * [#1872](https://github.com/stripe/stripe-go/pull/1872) Update generated code for beta
   * Add support for new value `de_stn` on enum `OrderTaxDetailsTaxIdsType`

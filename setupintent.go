@@ -207,6 +207,15 @@ const (
 	SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurposeUtility          SetupIntentPaymentMethodOptionsPaytoMandateOptionsPurpose = "utility"
 )
 
+// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
+
+// List of values that SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory can take
+const (
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategoryChecking SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "checking"
+	SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategorySavings  SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory = "savings"
+)
+
 // Settings for configuring manual entry of account details.
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode string
 
@@ -837,6 +846,12 @@ type SetupIntentPaymentMethodOptionsSEPADebitParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
+// Provide filters for the linked accounts that the customer can select for the payment method
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
+	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
+	AccountSubcategories []*string `form:"account_subcategories"`
+}
+
 // Customize manual entry behavior
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryParams struct {
 	// Settings for configuring manual entry of account details.
@@ -845,6 +860,8 @@ type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry
 
 // Additional fields for Financial Connections Session creation
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
+	// Provide filters for the linked accounts that the customer can select for the payment method
+	Filters *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters"`
 	// Customize manual entry behavior
 	ManualEntry *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryParams `form:"manual_entry"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
@@ -1527,11 +1544,16 @@ type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type SetupIntentPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 }
+type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
+	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
+	AccountSubcategories []SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+}
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry struct {
 	// Settings for configuring manual entry of account details.
 	Mode SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryMode `json:"mode"`
 }
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnections struct {
+	Filters     *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters     `json:"filters"`
 	ManualEntry *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry `json:"manual_entry"`
 	// The list of permissions to request. The `payment_method` permission must be included.
 	Permissions []SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsPermission `json:"permissions"`

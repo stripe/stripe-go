@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Calculates tax based on input and returns a Tax Calculation object.
+// Calculates tax based on the input and returns a Tax Calculation object.
 func New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	return getC().New(params)
 }
 
-// Calculates tax based on input and returns a Tax Calculation object.
+// Calculates tax based on the input and returns a Tax Calculation object.
 func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	calculation := &stripe.TaxCalculation{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation
 	return calculation, err
 }
 
-// Retrieves the line items of a persisted tax calculation as a collection.
+// Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 func ListLineItems(params *stripe.TaxCalculationListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)
 }
 
-// Retrieves the line items of a persisted tax calculation as a collection.
+// Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 func (c Client) ListLineItems(listParams *stripe.TaxCalculationListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/tax/calculations/%s/line_items",
