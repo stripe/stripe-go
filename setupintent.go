@@ -850,6 +850,8 @@ type SetupIntentPaymentMethodOptionsSEPADebitParams struct {
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []*string `form:"account_subcategories"`
+	// ID of the institution to use to filter for selectable accounts.
+	Institution *string `form:"institution"`
 }
 
 // Customize manual entry behavior
@@ -1547,6 +1549,8 @@ type SetupIntentPaymentMethodOptionsSEPADebit struct {
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+	// The institution to use to filter for possible accounts to link.
+	Institution string `json:"institution"`
 }
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry struct {
 	// Settings for configuring manual entry of account details.

@@ -530,6 +530,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct{}
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+	// The institution to use to filter for possible accounts to link.
+	Institution string `json:"institution"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	Filters *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters"`

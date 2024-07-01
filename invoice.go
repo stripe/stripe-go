@@ -515,6 +515,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
 type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []*string `form:"account_subcategories"`
+	// ID of the institution to use to filter for selectable accounts.
+	Institution *string `form:"institution"`
 }
 
 // Additional fields for Financial Connections Session creation
@@ -4637,6 +4639,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct{}
 type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+	// The institution to use to filter for possible accounts to link.
+	Institution string `json:"institution"`
 }
 type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnections struct {
 	Filters *InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters `json:"filters"`
