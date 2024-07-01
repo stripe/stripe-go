@@ -117,6 +117,7 @@ type FinancialConnectionsAccountSubscription string
 
 // List of values that FinancialConnectionsAccountSubscription can take
 const (
+	FinancialConnectionsAccountSubscriptionBalance          FinancialConnectionsAccountSubscription = "balance"
 	FinancialConnectionsAccountSubscriptionInferredBalances FinancialConnectionsAccountSubscription = "inferred_balances"
 	FinancialConnectionsAccountSubscriptionTransactions     FinancialConnectionsAccountSubscription = "transactions"
 )

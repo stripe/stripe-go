@@ -54,6 +54,7 @@ import (
 	"github.com/stripe/stripe-go/v79/filelink"
 	financialconnectionsaccount "github.com/stripe/stripe-go/v79/financialconnections/account"
 	financialconnectionsaccountinferredbalance "github.com/stripe/stripe-go/v79/financialconnections/accountinferredbalance"
+	financialconnectionsinstitution "github.com/stripe/stripe-go/v79/financialconnections/institution"
 	financialconnectionssession "github.com/stripe/stripe-go/v79/financialconnections/session"
 	financialconnectionstransaction "github.com/stripe/stripe-go/v79/financialconnections/transaction"
 	forwardingrequest "github.com/stripe/stripe-go/v79/forwarding/request"
@@ -249,6 +250,8 @@ type API struct {
 	FinancialConnectionsAccountInferredBalances *financialconnectionsaccountinferredbalance.Client
 	// FinancialConnectionsAccounts is the client used to invoke /financial_connections/accounts APIs.
 	FinancialConnectionsAccounts *financialconnectionsaccount.Client
+	// FinancialConnectionsInstitutions is the client used to invoke /financial_connections/institutions APIs.
+	FinancialConnectionsInstitutions *financialconnectionsinstitution.Client
 	// FinancialConnectionsSessions is the client used to invoke /financial_connections/sessions APIs.
 	FinancialConnectionsSessions *financialconnectionssession.Client
 	// FinancialConnectionsTransactions is the client used to invoke /financial_connections/transactions APIs.
@@ -508,6 +511,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Files = &file.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
 	a.FinancialConnectionsAccountInferredBalances = &financialconnectionsaccountinferredbalance.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsAccounts = &financialconnectionsaccount.Client{B: backends.API, Key: key}
+	a.FinancialConnectionsInstitutions = &financialconnectionsinstitution.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsSessions = &financialconnectionssession.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsTransactions = &financialconnectionstransaction.Client{B: backends.API, Key: key}
 	a.ForwardingRequests = &forwardingrequest.Client{B: backends.API, Key: key}

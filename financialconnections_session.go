@@ -113,6 +113,8 @@ type FinancialConnectionsSessionFiltersParams struct {
 	AccountSubcategories []*string `form:"account_subcategories"`
 	// List of countries from which to collect accounts.
 	Countries []*string `form:"countries"`
+	// Stripe ID of the institution with which the customer should be directed to log in.
+	Institution *string `form:"institution"`
 }
 
 // Settings for configuring Session-specific limits.
@@ -141,6 +143,8 @@ type FinancialConnectionsSessionFilters struct {
 	AccountSubcategories []FinancialConnectionsSessionFiltersAccountSubcategory `json:"account_subcategories"`
 	// List of countries from which to filter accounts.
 	Countries []string `json:"countries"`
+	// Stripe ID of the institution with which the customer should be directed to log in.
+	Institution string `json:"institution"`
 }
 type FinancialConnectionsSessionLimits struct {
 	// The number of accounts that can be linked in this Session.

@@ -2328,6 +2328,8 @@ type PaymentIntentPaymentMethodOptionsTWINTParams struct {
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []*string `form:"account_subcategories"`
+	// ID of the institution to use to filter for selectable accounts.
+	Institution *string `form:"institution"`
 }
 
 // Customize manual entry behavior
@@ -4538,6 +4540,8 @@ type PaymentIntentPaymentMethodOptionsTWINT struct {
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
+	// The institution to use to filter for possible accounts to link.
+	Institution string `json:"institution"`
 }
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntry struct {
 	// Settings for configuring manual entry of account details.

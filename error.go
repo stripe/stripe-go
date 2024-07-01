@@ -74,6 +74,7 @@ const (
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
 	ErrorCodeFinancialConnectionsAccountInactive                         ErrorCode = "financial_connections_account_inactive"
+	ErrorCodeFinancialConnectionsInstitutionUnavailable                  ErrorCode = "financial_connections_institution_unavailable"
 	ErrorCodeFinancialConnectionsNoSuccessfulTransactionRefresh          ErrorCode = "financial_connections_no_successful_transaction_refresh"
 	ErrorCodeForwardingAPIInactive                                       ErrorCode = "forwarding_api_inactive"
 	ErrorCodeForwardingAPIInvalidParameter                               ErrorCode = "forwarding_api_invalid_parameter"
