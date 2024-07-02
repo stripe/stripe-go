@@ -39,15 +39,6 @@ const (
 	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSaveUsageOnSession  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSaveUsage = "on_session"
 )
 
-// Controls whether the Payment Element displays the option to update a saved payment method. This parameter defaults to `disabled`.
-type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate string
-
-// List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate can take
-const (
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdateDisabled CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate = "disabled"
-	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdateEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate = "enabled"
-)
-
 // Configuration for buy button.
 type CustomerSessionComponentsBuyButtonParams struct {
 	// Whether the buy button is enabled.
@@ -68,8 +59,6 @@ type CustomerSessionComponentsPaymentElementFeaturesParams struct {
 	//
 	// When using SetupIntents, directly configure the [`usage`](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-usage) value on SetupIntent creation.
 	PaymentMethodSaveUsage *string `form:"payment_method_save_usage"`
-	// Controls whether the Payment Element displays the option to update a saved payment method. This parameter defaults to `disabled`.
-	PaymentMethodUpdate *string `form:"payment_method_update"`
 }
 
 // Configuration for the Payment Element.
@@ -132,8 +121,6 @@ type CustomerSessionComponentsPaymentElementFeatures struct {
 	//
 	// When using SetupIntents, directly configure the [`usage`](https://docs.stripe.com/api/setup_intents/object#setup_intent_object-usage) value on SetupIntent creation.
 	PaymentMethodSaveUsage CustomerSessionComponentsPaymentElementFeaturesPaymentMethodSaveUsage `json:"payment_method_save_usage"`
-	// Controls whether the Payment Element displays the option to update a saved payment method. This parameter defaults to `disabled`.
-	PaymentMethodUpdate CustomerSessionComponentsPaymentElementFeaturesPaymentMethodUpdate `json:"payment_method_update"`
 }
 
 // This hash contains whether the Payment Element is enabled and the features it supports.
