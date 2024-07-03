@@ -6,6 +6,27 @@
 
 package stripe
 
+// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the Payment Element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+//
+// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilter string
+
+// List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilter can take
+const (
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilterAlways      CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilter = "always"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilterLimited     CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilter = "limited"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilterUnspecified CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilter = "unspecified"
+)
+
+// Controls whether or not the Payment Element shows saved payment methods. This parameter defaults to `disabled`.
+type CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRedisplay string
+
+// List of values that CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRedisplay can take
+const (
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRedisplayDisabled CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRedisplay = "disabled"
+	CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRedisplayEnabled  CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRedisplay = "enabled"
+)
+
 // Controls whether the Payment Element displays the option to remove a saved payment method. This parameter defaults to `disabled`.
 //
 // Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
@@ -47,6 +68,14 @@ type CustomerSessionComponentsBuyButtonParams struct {
 
 // This hash defines whether the Payment Element supports certain features.
 type CustomerSessionComponentsPaymentElementFeaturesParams struct {
+	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the Payment Element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+	//
+	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+	PaymentMethodAllowRedisplayFilters []*string `form:"payment_method_allow_redisplay_filters"`
+	// Controls whether or not the Payment Element shows saved payment methods. This parameter defaults to `disabled`.
+	PaymentMethodRedisplay *string `form:"payment_method_redisplay"`
+	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `10`.
+	PaymentMethodRedisplayLimit *int64 `form:"payment_method_redisplay_limit"`
 	// Controls whether the Payment Element displays the option to remove a saved payment method. This parameter defaults to `disabled`.
 	//
 	// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
@@ -109,6 +138,14 @@ type CustomerSessionComponentsBuyButton struct {
 
 // This hash defines whether the Payment Element supports certain features.
 type CustomerSessionComponentsPaymentElementFeatures struct {
+	// A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the Payment Element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
+	//
+	// If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
+	PaymentMethodAllowRedisplayFilters []CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilter `json:"payment_method_allow_redisplay_filters"`
+	// Controls whether or not the Payment Element shows saved payment methods. This parameter defaults to `disabled`.
+	PaymentMethodRedisplay CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRedisplay `json:"payment_method_redisplay"`
+	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `10`.
+	PaymentMethodRedisplayLimit int64 `json:"payment_method_redisplay_limit"`
 	// Controls whether the Payment Element displays the option to remove a saved payment method. This parameter defaults to `disabled`.
 	//
 	// Allowing buyers to remove their saved payment methods impacts subscriptions that depend on that payment method. Removing the payment method detaches the [`customer` object](https://docs.stripe.com/api/payment_methods/object#payment_method_object-customer) from that [PaymentMethod](https://docs.stripe.com/api/payment_methods).
