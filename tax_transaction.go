@@ -220,6 +220,8 @@ type TaxTransactionCreateFromCalculationParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// The Unix timestamp representing when the tax liability is assumed or reduced, which determines the liability posting period and handling in tax liability reports. The timestamp must fall within the `tax_date` and the current time, unless the `tax_date` is scheduled in advance. Defaults to the current time.
+	PostedAt *int64 `form:"posted_at"`
 	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions, including reversals.
 	Reference *string `form:"reference"`
 }
@@ -410,6 +412,8 @@ type TaxTransaction struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The Unix timestamp representing when the tax liability is assumed or reduced.
+	PostedAt int64 `json:"posted_at"`
 	// A custom unique identifier, such as 'myOrder_123'.
 	Reference string `json:"reference"`
 	// If `type=reversal`, contains information about what was reversed.
