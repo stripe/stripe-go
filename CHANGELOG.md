@@ -1,5 +1,11 @@
 # Changelog
 
+## 79.2.0 - 2024-07-05
+* [#1881](https://github.com/stripe/stripe-go/pull/1881) Update generated code
+  * Add support for `AddLines`, `RemoveLines`, and `UpdateLines` methods on resource `Invoice`
+  * Add support for new value `payment_intent_fx_quote_invalid` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `PostedAt` on `TaxTransactionCreateFromCalculationParams` and `TaxTransaction`
+
 ## 79.1.0 - 2024-06-27
 * [#1879](https://github.com/stripe/stripe-go/pull/1879) Update generated code
   * Add support for `Filters` on `CheckoutSessionPaymentMethodOptionsUsBankAccountFinancialConnections`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `InvoicePaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`, `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `PaymentIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SetupIntentConfirmPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, `SetupIntentPaymentMethodOptionsUsBankAccountFinancialConnections`, `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnectionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsUsBankAccountFinancialConnections`
