@@ -370,7 +370,7 @@ type Customer struct {
 	Metadata map[string]string `json:"metadata"`
 	// The customer's full name or business name.
 	Name string `json:"name"`
-	// The suffix of the customer's next invoice number (for example, 0001).
+	// The suffix of the customer's next invoice number (for example, 0001). When the account uses account level sequencing, this parameter is ignored in API requests and the field omitted in API responses.
 	NextInvoiceSequence int64 `json:"next_invoice_sequence"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
