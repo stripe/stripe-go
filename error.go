@@ -119,7 +119,6 @@ const (
 	ErrorCodeParametersExclusive                                         ErrorCode = "parameters_exclusive"
 	ErrorCodePaymentIntentActionRequired                                 ErrorCode = "payment_intent_action_required"
 	ErrorCodePaymentIntentAuthenticationFailure                          ErrorCode = "payment_intent_authentication_failure"
-	ErrorCodePaymentIntentFxQuoteInvalid                                 ErrorCode = "payment_intent_fx_quote_invalid"
 	ErrorCodePaymentIntentIncompatiblePaymentMethod                      ErrorCode = "payment_intent_incompatible_payment_method"
 	ErrorCodePaymentIntentInvalidParameter                               ErrorCode = "payment_intent_invalid_parameter"
 	ErrorCodePaymentIntentKonbiniRejectedConfirmationNumber              ErrorCode = "payment_intent_konbini_rejected_confirmation_number"
