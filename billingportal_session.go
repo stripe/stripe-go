@@ -253,7 +253,7 @@ type BillingPortalSessionFlow struct {
 // Create sessions on-demand when customers intend to manage their subscriptions
 // and billing details.
 //
-// Learn more in the [integration guide](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal).
+// Related guide: [Customer management](https://stripe.com/customer-management)
 type BillingPortalSession struct {
 	APIResource
 	// The configuration used by this session, describing the features available.
