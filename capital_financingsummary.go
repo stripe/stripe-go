@@ -30,7 +30,7 @@ func (p *CapitalFinancingSummaryParams) AddExpand(f string) {
 
 // The chronologically current repayment interval for the financing offer.
 type CapitalFinancingSummaryDetailsCurrentRepaymentInterval struct {
-	// The time at which the minimum payment amount will be due. If not met through withholding, the Connected account's linked bank account will be debited.
+	// The time at which the minimum payment amount will be due. If not met through withholding, the Connected account's linked bank account or account balance will be debited.
 	// Given in seconds since unix epoch.
 	DueAt int64 `json:"due_at"`
 	// The amount that has already been paid in the current repayment interval.
