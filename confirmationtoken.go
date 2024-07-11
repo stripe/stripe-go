@@ -379,6 +379,18 @@ type ConfirmationTokenMandateData struct {
 	// This hash contains details about the customer acceptance of the Mandate.
 	CustomerAcceptance *ConfirmationTokenMandateDataCustomerAcceptance `json:"customer_acceptance"`
 }
+
+// This hash contains the card payment method options.
+type ConfirmationTokenPaymentMethodOptionsCard struct {
+	// The `cvc_update` Token collected from the Payment Element.
+	CVCToken string `json:"cvc_token"`
+}
+
+// Payment-method-specific configuration for this ConfirmationToken.
+type ConfirmationTokenPaymentMethodOptions struct {
+	// This hash contains the card payment method options.
+	Card *ConfirmationTokenPaymentMethodOptionsCard `json:"card"`
+}
 type ConfirmationTokenPaymentMethodPreviewACSSDebit struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
@@ -915,6 +927,8 @@ type ConfirmationToken struct {
 	Object string `json:"object"`
 	// ID of the PaymentIntent that this ConfirmationToken was used to confirm, or null if this ConfirmationToken has not yet been used.
 	PaymentIntent string `json:"payment_intent"`
+	// Payment-method-specific configuration for this ConfirmationToken.
+	PaymentMethodOptions *ConfirmationTokenPaymentMethodOptions `json:"payment_method_options"`
 	// Payment details collected by the Payment Element, used to create a PaymentMethod when a PaymentIntent or SetupIntent is confirmed with this ConfirmationToken.
 	PaymentMethodPreview *ConfirmationTokenPaymentMethodPreview `json:"payment_method_preview"`
 	// Return URL used to confirm the Intent.
