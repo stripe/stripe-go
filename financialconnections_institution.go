@@ -63,7 +63,7 @@ type FinancialConnectionsInstitutionFeatures struct {
 	Transactions  *FinancialConnectionsInstitutionFeaturesTransactions  `json:"transactions"`
 }
 
-// An institution represents a banking institution which may be available for an end user to select in the Financial Connections authentication flow.
+// An institution represents a financial institution to which an end user can connect using the Financial Connections authentication flow.
 type FinancialConnectionsInstitution struct {
 	APIResource
 	Features *FinancialConnectionsInstitutionFeatures `json:"features"`
@@ -75,11 +75,11 @@ type FinancialConnectionsInstitution struct {
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// A list of routing numbers which are known to correspond to this institution.
+	// A list of routing numbers which are known to correspond to this institution. Due to the many to many relationship between institutions and routing numbers, this list may not be comprehensive and routing numbers may also be shared between institutions.
 	RoutingNumbers []string `json:"routing_numbers"`
 	// The status of this institution in the Financial Connections authentication flow.
 	Status FinancialConnectionsInstitutionStatus `json:"status"`
-	// The URL for this institution's website.
+	// A URL corresponding to this institution. This URL is also displayed in the authentication flow to help end users confirm that they are authenticating with the right institution.
 	URL string `json:"url"`
 }
 
