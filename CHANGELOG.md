@@ -1,5 +1,13 @@
 # Changelog
 
+## 79.3.0 - 2024-07-11
+* [#1886](https://github.com/stripe/stripe-go/pull/1886) Update generated code
+  * Remove support for values `billing_policy_remote_function_response_invalid`, `billing_policy_remote_function_timeout`, `billing_policy_remote_function_unexpected_status_code`, `billing_policy_remote_function_unreachable`, and `payment_intent_fx_quote_invalid` from enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `PaymentMethodOptions` on `ConfirmationToken`
+  * Add support for `PaymentElement` on `CustomerSessionComponentsParams` and `CustomerSessionComponents`
+  * Add support for `AddressValidation` on `IssuingCardShippingParams` and `IssuingCardShipping`
+  * Add support for `Shipping` on `IssuingCardParams`
+
 ## 79.2.0 - 2024-07-05
 * [#1881](https://github.com/stripe/stripe-go/pull/1881) Update generated code
   * Add support for `AddLines`, `RemoveLines`, and `UpdateLines` methods on resource `Invoice`
