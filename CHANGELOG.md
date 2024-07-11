@@ -1,5 +1,9 @@
 # Changelog
 
+## 79.4.0-beta.1 - 2024-07-11
+* [#1885](https://github.com/stripe/stripe-go/pull/1885) Update generated code for beta
+  * Add support for new value `not_qualified` on enum `DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status`
+
 ## 79.3.0-beta.1 - 2024-07-05
 * [#1882](https://github.com/stripe/stripe-go/pull/1882) Update generated code for beta
   * ⚠️ Remove support for `PaymentMethodUpdate` on `CustomerSessionComponentsPaymentElementFeaturesParams` and `CustomerSessionComponentsPaymentElementFeatures`. Users are expected to completely migrate from using `payment_method_update`.
