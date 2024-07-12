@@ -359,7 +359,7 @@ type IdentityVerificationReportSelfie struct {
 // API. To configure and create VerificationReports, use the
 // [VerificationSession](https://stripe.com/docs/api/identity/verification_sessions) API.
 //
-// Related guides: [Accessing verification results](https://stripe.com/docs/identity/verification-sessions#results).
+// Related guide: [Accessing verification results](https://stripe.com/docs/identity/verification-sessions#results).
 type IdentityVerificationReport struct {
 	APIResource
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
