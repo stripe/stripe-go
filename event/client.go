@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieves the details of an event. Supply the unique identifier of the event, which you might have received in a webhook.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique identifier of the event, which you might have received in a webhook.
 func Get(id string, params *stripe.EventParams) (*stripe.Event, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieves the details of an event. Supply the unique identifier of the event, which you might have received in a webhook.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique identifier of the event, which you might have received in a webhook.
 func (c Client) Get(id string, params *stripe.EventParams) (*stripe.Event, error) {
 	path := stripe.FormatURLPath("/v1/events/%s", id)
 	event := &stripe.Event{}
