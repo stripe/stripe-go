@@ -200,6 +200,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeIDEAL              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
 	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodTypeLink               SubscriptionPaymentSettingsPaymentMethodType = "link"
+	SubscriptionPaymentSettingsPaymentMethodTypeMultibanco         SubscriptionPaymentSettingsPaymentMethodType = "multibanco"
 	SubscriptionPaymentSettingsPaymentMethodTypeP24                SubscriptionPaymentSettingsPaymentMethodType = "p24"
 	SubscriptionPaymentSettingsPaymentMethodTypePayNow             SubscriptionPaymentSettingsPaymentMethodType = "paynow"
 	SubscriptionPaymentSettingsPaymentMethodTypePaypal             SubscriptionPaymentSettingsPaymentMethodType = "paypal"
