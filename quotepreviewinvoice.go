@@ -302,6 +302,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeIDEAL              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "ideal"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKonbini            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "konbini"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeLink               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "link"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMultibanco         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "multibanco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeP24                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "p24"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayNow             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paynow"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePaypal             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paypal"
