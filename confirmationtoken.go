@@ -854,17 +854,19 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	AfterpayClearpay *ConfirmationTokenPaymentMethodPreviewAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *ConfirmationTokenPaymentMethodPreviewAlipay           `json:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
-	AllowRedisplay  ConfirmationTokenPaymentMethodPreviewAllowRedisplay   `json:"allow_redisplay"`
-	AmazonPay       *ConfirmationTokenPaymentMethodPreviewAmazonPay       `json:"amazon_pay"`
-	AUBECSDebit     *ConfirmationTokenPaymentMethodPreviewAUBECSDebit     `json:"au_becs_debit"`
-	BACSDebit       *ConfirmationTokenPaymentMethodPreviewBACSDebit       `json:"bacs_debit"`
-	Bancontact      *ConfirmationTokenPaymentMethodPreviewBancontact      `json:"bancontact"`
-	BillingDetails  *ConfirmationTokenPaymentMethodPreviewBillingDetails  `json:"billing_details"`
-	BLIK            *ConfirmationTokenPaymentMethodPreviewBLIK            `json:"blik"`
-	Boleto          *ConfirmationTokenPaymentMethodPreviewBoleto          `json:"boleto"`
-	Card            *ConfirmationTokenPaymentMethodPreviewCard            `json:"card"`
-	CardPresent     *ConfirmationTokenPaymentMethodPreviewCardPresent     `json:"card_present"`
-	CashApp         *ConfirmationTokenPaymentMethodPreviewCashApp         `json:"cashapp"`
+	AllowRedisplay ConfirmationTokenPaymentMethodPreviewAllowRedisplay  `json:"allow_redisplay"`
+	AmazonPay      *ConfirmationTokenPaymentMethodPreviewAmazonPay      `json:"amazon_pay"`
+	AUBECSDebit    *ConfirmationTokenPaymentMethodPreviewAUBECSDebit    `json:"au_becs_debit"`
+	BACSDebit      *ConfirmationTokenPaymentMethodPreviewBACSDebit      `json:"bacs_debit"`
+	Bancontact     *ConfirmationTokenPaymentMethodPreviewBancontact     `json:"bancontact"`
+	BillingDetails *ConfirmationTokenPaymentMethodPreviewBillingDetails `json:"billing_details"`
+	BLIK           *ConfirmationTokenPaymentMethodPreviewBLIK           `json:"blik"`
+	Boleto         *ConfirmationTokenPaymentMethodPreviewBoleto         `json:"boleto"`
+	Card           *ConfirmationTokenPaymentMethodPreviewCard           `json:"card"`
+	CardPresent    *ConfirmationTokenPaymentMethodPreviewCardPresent    `json:"card_present"`
+	CashApp        *ConfirmationTokenPaymentMethodPreviewCashApp        `json:"cashapp"`
+	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
+	Customer        *Customer                                             `json:"customer"`
 	CustomerBalance *ConfirmationTokenPaymentMethodPreviewCustomerBalance `json:"customer_balance"`
 	EPS             *ConfirmationTokenPaymentMethodPreviewEPS             `json:"eps"`
 	FPX             *ConfirmationTokenPaymentMethodPreviewFPX             `json:"fpx"`

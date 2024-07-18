@@ -124,6 +124,7 @@ const (
 	EventTypeIssuingDisputeClosed                               EventType = "issuing_dispute.closed"
 	EventTypeIssuingDisputeCreated                              EventType = "issuing_dispute.created"
 	EventTypeIssuingDisputeFundsReinstated                      EventType = "issuing_dispute.funds_reinstated"
+	EventTypeIssuingDisputeFundsRescinded                       EventType = "issuing_dispute.funds_rescinded"
 	EventTypeIssuingDisputeSubmitted                            EventType = "issuing_dispute.submitted"
 	EventTypeIssuingDisputeUpdated                              EventType = "issuing_dispute.updated"
 	EventTypeIssuingPersonalizationDesignActivated              EventType = "issuing_personalization_design.activated"
@@ -274,7 +275,7 @@ func (p *EventListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves the details of an event. Supply the unique identifier of the event, which you might have received in a webhook.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique identifier of the event, which you might have received in a webhook.
 type EventParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
