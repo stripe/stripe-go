@@ -596,6 +596,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationPaytoDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationPaytoDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationPaytoDisplayPreferencePreferenceNone PaymentMethodConfigurationPaytoDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationPaytoDisplayPreferencePreferenceOff  PaymentMethodConfigurationPaytoDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationPaytoDisplayPreferencePreferenceOn   PaymentMethodConfigurationPaytoDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationPaytoDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationPaytoDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationPaytoDisplayPreferenceValueOff PaymentMethodConfigurationPaytoDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationPaytoDisplayPreferenceValueOn  PaymentMethodConfigurationPaytoDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationPromptPayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationPromptPayDisplayPreferencePreference can take
@@ -1146,6 +1165,18 @@ type PaymentMethodConfigurationPaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationPaytoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
+type PaymentMethodConfigurationPaytoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationPaytoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1316,6 +1347,8 @@ type PaymentMethodConfigurationParams struct {
 	PayNow *PaymentMethodConfigurationPayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationPaypalParams `form:"paypal"`
+	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
+	Payto *PaymentMethodConfigurationPaytoParams `form:"payto"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
@@ -1742,6 +1775,19 @@ type PaymentMethodConfigurationPaypal struct {
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationPaypalDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationPaytoDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationPaytoDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationPaytoDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationPayto struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationPaytoDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationPromptPayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1910,6 +1956,7 @@ type PaymentMethodConfiguration struct {
 	Parent        string                                   `json:"parent"`
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
+	Payto         *PaymentMethodConfigurationPayto         `json:"payto"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`

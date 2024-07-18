@@ -113,6 +113,7 @@ import (
 	"github.com/stripe/stripe-go/v79/subscription"
 	"github.com/stripe/stripe-go/v79/subscriptionitem"
 	"github.com/stripe/stripe-go/v79/subscriptionschedule"
+	taxassociation "github.com/stripe/stripe-go/v79/tax/association"
 	taxcalculation "github.com/stripe/stripe-go/v79/tax/calculation"
 	taxform "github.com/stripe/stripe-go/v79/tax/form"
 	taxregistration "github.com/stripe/stripe-go/v79/tax/registration"
@@ -368,6 +369,8 @@ type API struct {
 	Subscriptions *subscription.Client
 	// SubscriptionSchedules is the client used to invoke /subscription_schedules APIs.
 	SubscriptionSchedules *subscriptionschedule.Client
+	// TaxAssociations is the client used to invoke association related APIs.
+	TaxAssociations *taxassociation.Client
 	// TaxCalculations is the client used to invoke /tax/calculations APIs.
 	TaxCalculations *taxcalculation.Client
 	// TaxCodes is the client used to invoke /tax_codes APIs.
@@ -570,6 +573,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SubscriptionItems = &subscriptionitem.Client{B: backends.API, Key: key}
 	a.Subscriptions = &subscription.Client{B: backends.API, Key: key}
 	a.SubscriptionSchedules = &subscriptionschedule.Client{B: backends.API, Key: key}
+	a.TaxAssociations = &taxassociation.Client{B: backends.API, Key: key}
 	a.TaxCalculations = &taxcalculation.Client{B: backends.API, Key: key}
 	a.TaxCodes = &taxcode.Client{B: backends.API, Key: key}
 	a.TaxForms = &taxform.Client{B: backends.API, BUploads: backends.Uploads, Key: key}

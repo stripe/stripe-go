@@ -4,6 +4,15 @@
 * [#1885](https://github.com/stripe/stripe-go/pull/1885) Update generated code for beta
   * Add support for new value `not_qualified` on enum `DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status`
 
+## 79.3.0 - 2024-07-11
+* [#1886](https://github.com/stripe/stripe-go/pull/1886) Update generated code
+  * ⚠️ Remove support for values `billing_policy_remote_function_response_invalid`, `billing_policy_remote_function_timeout`, `billing_policy_remote_function_unexpected_status_code`, and `billing_policy_remote_function_unreachable` from enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`. 
+  * ⚠️ Remove support for value `payment_intent_fx_quote_invalid` from enum `StripeErrorCode`. The was mistakenly released last week.
+  * Add support for `PaymentMethodOptions` on `ConfirmationToken`
+  * Add support for `PaymentElement` on `CustomerSessionComponentsParams` and `CustomerSessionComponents`
+  * Add support for `AddressValidation` on `IssuingCardShippingParams` and `IssuingCardShipping`
+  * Add support for `Shipping` on `IssuingCardParams`
+
 ## 79.3.0-beta.1 - 2024-07-05
 * [#1882](https://github.com/stripe/stripe-go/pull/1882) Update generated code for beta
   * ⚠️ Remove support for `PaymentMethodUpdate` on `CustomerSessionComponentsPaymentElementFeaturesParams` and `CustomerSessionComponentsPaymentElementFeatures`. Users are expected to completely migrate from using `payment_method_update`.

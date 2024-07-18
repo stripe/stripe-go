@@ -150,7 +150,7 @@ type PaymentMethodDomainPaypal struct {
 // A payment method domain represents a web domain that you have registered with Stripe.
 // Stripe Elements use registered payment method domains to control where certain payment methods are shown.
 //
-// Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
+// Related guide: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
 type PaymentMethodDomain struct {
 	APIResource
 	// Indicates the status of a specific payment method on a payment method domain.

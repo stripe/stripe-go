@@ -959,6 +959,14 @@ type AccountSettingsBrandingParams struct {
 	SecondaryColor *string `form:"secondary_color"`
 }
 
+// Settings specific to the account's use of the Capital product.
+type AccountSettingsCapitalParams struct {
+	// Per-currency mapping of user-selected destination accounts used to pay out loans.
+	PayoutDestination map[string]string `form:"payout_destination"`
+	// Per-currency mapping of all destination accounts eligible to receive Capital financing payouts.
+	PayoutDestinationSelector map[string][]*string `form:"payout_destination_selector"`
+}
+
 // Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
 type AccountSettingsCardIssuingTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
@@ -1069,6 +1077,8 @@ type AccountSettingsParams struct {
 	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
 	// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 	Branding *AccountSettingsBrandingParams `form:"branding"`
+	// Settings specific to the account's use of the Capital product.
+	Capital *AccountSettingsCapitalParams `form:"capital"`
 	// Settings specific to the account's use of the Card Issuing product.
 	CardIssuing *AccountSettingsCardIssuingParams `form:"card_issuing"`
 	// Settings specific to card charging on the account.
@@ -1556,6 +1566,12 @@ type AccountSettingsBranding struct {
 	// A CSS hex color value representing the secondary branding color for this account
 	SecondaryColor string `json:"secondary_color"`
 }
+type AccountSettingsCapital struct {
+	// Per-currency mapping of user-selected destination accounts used to pay out loans.
+	PayoutDestination map[string]string `json:"payout_destination"`
+	// Per-currency mapping of all destination accounts eligible to receive loan payouts.
+	PayoutDestinationSelector map[string][]string `json:"payout_destination_selector"`
+}
 type AccountSettingsCardIssuingTOSAcceptance struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
 	Date int64 `json:"date"`
@@ -1645,6 +1661,7 @@ type AccountSettingsTreasury struct {
 type AccountSettings struct {
 	BACSDebitPayments *AccountSettingsBACSDebitPayments `json:"bacs_debit_payments"`
 	Branding          *AccountSettingsBranding          `json:"branding"`
+	Capital           *AccountSettingsCapital           `json:"capital"`
 	CardIssuing       *AccountSettingsCardIssuing       `json:"card_issuing"`
 	CardPayments      *AccountSettingsCardPayments      `json:"card_payments"`
 	Dashboard         *AccountSettingsDashboard         `json:"dashboard"`

@@ -109,8 +109,10 @@ const (
 type DisputeListParams struct {
 	ListParams `form:"*"`
 	// Only return disputes associated to the charge specified by this charge ID.
-	Charge       *string           `form:"charge"`
-	Created      *int64            `form:"created"`
+	Charge *string `form:"charge"`
+	// Only return disputes that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return disputes that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

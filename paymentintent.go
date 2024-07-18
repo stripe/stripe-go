@@ -1103,6 +1103,24 @@ func (p *PaymentIntentListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Tax arguments for automations
+type PaymentIntentAsyncWorkflowsInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentAsyncWorkflowsInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentAsyncWorkflowsInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentAsyncWorkflowsParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentAsyncWorkflowsInputsParams `form:"inputs"`
+}
+
 // When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
 type PaymentIntentAutomaticPaymentMethodsParams struct {
 	// Controls whether this PaymentIntent will accept redirect-based payment methods.
@@ -2540,6 +2558,8 @@ type PaymentIntentParams struct {
 	Amount *int64 `form:"amount"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Automations to be run during the PaymentIntent lifecycle
+	AsyncWorkflows *PaymentIntentAsyncWorkflowsParams `form:"async_workflows"`
 	// When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
 	AutomaticPaymentMethods *PaymentIntentAutomaticPaymentMethodsParams `form:"automatic_payment_methods"`
 	// Controls when the funds will be captured from the customer's account.
@@ -2694,6 +2714,24 @@ type PaymentIntentCancelParams struct {
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Tax arguments for automations
+type PaymentIntentCaptureAsyncWorkflowsInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentCaptureAsyncWorkflowsInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentCaptureAsyncWorkflowsInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentCaptureAsyncWorkflowsParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentCaptureAsyncWorkflowsInputsParams `form:"inputs"`
 }
 
 // Affiliate details for this purchase.
@@ -3017,6 +3055,8 @@ type PaymentIntentCaptureParams struct {
 	AmountToCapture *int64 `form:"amount_to_capture"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Automations to be run during the PaymentIntent lifecycle
+	AsyncWorkflows *PaymentIntentCaptureAsyncWorkflowsParams `form:"async_workflows"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Defaults to `true`. When capturing a PaymentIntent, setting `final_capture` to `false` notifies Stripe to not release the remaining uncaptured funds to make sure that they're captured in future requests. You can only use this setting when [multicapture](https://stripe.com/docs/payments/multicapture) is available for PaymentIntents.
@@ -3046,6 +3086,24 @@ func (p *PaymentIntentCaptureParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Tax arguments for automations
+type PaymentIntentConfirmAsyncWorkflowsInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentConfirmAsyncWorkflowsInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentConfirmAsyncWorkflowsInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentConfirmAsyncWorkflowsParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentConfirmAsyncWorkflowsInputsParams `form:"inputs"`
 }
 
 // Affiliate details for this purchase.
@@ -3390,6 +3448,8 @@ type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Automations to be run during the PaymentIntent lifecycle
+	AsyncWorkflows *PaymentIntentConfirmAsyncWorkflowsParams `form:"async_workflows"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
 	// ID of the ConfirmationToken used to confirm this PaymentIntent.
@@ -3444,6 +3504,24 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Tax arguments for automations
+type PaymentIntentDecrementAuthorizationAsyncWorkflowsInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentDecrementAuthorizationAsyncWorkflowsInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentDecrementAuthorizationAsyncWorkflowsInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentDecrementAuthorizationAsyncWorkflowsParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentDecrementAuthorizationAsyncWorkflowsInputsParams `form:"inputs"`
+}
+
 // The parameters used to automatically create a transfer after the payment is captured.
 // Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentDecrementAuthorizationTransferDataParams struct {
@@ -3473,6 +3551,8 @@ type PaymentIntentDecrementAuthorizationParams struct {
 	Amount *int64 `form:"amount"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Automations to be run during the PaymentIntent lifecycle
+	AsyncWorkflows *PaymentIntentDecrementAuthorizationAsyncWorkflowsParams `form:"async_workflows"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
@@ -3496,6 +3576,24 @@ func (p *PaymentIntentDecrementAuthorizationParams) AddMetadata(key string, valu
 	}
 
 	p.Metadata[key] = value
+}
+
+// Tax arguments for automations
+type PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentIncrementAuthorizationAsyncWorkflowsParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsParams `form:"inputs"`
 }
 
 // The parameters used to automatically create a transfer after the payment is captured.
@@ -3535,6 +3633,8 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Amount *int64 `form:"amount"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Automations to be run during the PaymentIntent lifecycle
+	AsyncWorkflows *PaymentIntentIncrementAuthorizationAsyncWorkflowsParams `form:"async_workflows"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
@@ -3584,6 +3684,16 @@ type PaymentIntentAmountDetailsTip struct {
 }
 type PaymentIntentAmountDetails struct {
 	Tip *PaymentIntentAmountDetailsTip `json:"tip"`
+}
+type PaymentIntentAsyncWorkflowsInputsTax struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation string `json:"calculation"`
+}
+type PaymentIntentAsyncWorkflowsInputs struct {
+	Tax *PaymentIntentAsyncWorkflowsInputsTax `json:"tax"`
+}
+type PaymentIntentAsyncWorkflows struct {
+	Inputs *PaymentIntentAsyncWorkflowsInputs `json:"inputs"`
 }
 
 // Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
@@ -4690,7 +4800,8 @@ type PaymentIntent struct {
 	// ID of the Connect application that created the PaymentIntent.
 	Application *Application `json:"application"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
-	ApplicationFeeAmount int64 `json:"application_fee_amount"`
+	ApplicationFeeAmount int64                        `json:"application_fee_amount"`
+	AsyncWorkflows       *PaymentIntentAsyncWorkflows `json:"async_workflows"`
 	// Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
 	AutomaticPaymentMethods *PaymentIntentAutomaticPaymentMethods `json:"automatic_payment_methods"`
 	// Populated when `status` is `canceled`, this is the time at which the PaymentIntent was canceled. Measured in seconds since the Unix epoch.
