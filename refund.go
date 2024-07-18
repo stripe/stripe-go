@@ -51,7 +51,7 @@ const (
 	RefundStatusRequiresAction RefundStatus = "requires_action"
 )
 
-// Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first The 10 most recent refunds are always available by default on the Charge object.
+// Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first. The 10 most recent refunds are always available by default on the Charge object.
 type RefundListParams struct {
 	ListParams `form:"*"`
 	// Only return refunds for the charge specified by this charge ID.
