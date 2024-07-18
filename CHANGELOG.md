@@ -1,5 +1,13 @@
 # Changelog
 
+## 79.4.0 - 2024-07-18
+* [#1890](https://github.com/stripe/stripe-go/pull/1890) Update generated code
+  * Add support for `Customer` on `ConfirmationTokenPaymentMethodPreview`
+  * Add support for new value `issuing_dispute.funds_rescinded` on enum `EventType`
+  * Add support for new value `multibanco` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for new value `stripe_s700` on enum `TerminalReaderDeviceType`
+* [#1888](https://github.com/stripe/stripe-go/pull/1888) Update changelog
+
 ## 79.3.0 - 2024-07-11
 * [#1886](https://github.com/stripe/stripe-go/pull/1886) Update generated code
   * ⚠️ Remove support for values `billing_policy_remote_function_response_invalid`, `billing_policy_remote_function_timeout`, `billing_policy_remote_function_unexpected_status_code`, and `billing_policy_remote_function_unreachable` from enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`. 
