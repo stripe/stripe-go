@@ -1,5 +1,13 @@
 # Changelog
 
+## 79.4.0 - 2024-07-18
+* [#1890](https://github.com/stripe/stripe-go/pull/1890) Update generated code
+  * Add support for `Customer` on `ConfirmationTokenPaymentMethodPreview`
+  * Add support for new value `issuing_dispute.funds_rescinded` on enum `EventType`
+  * Add support for new value `multibanco` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for new value `stripe_s700` on enum `TerminalReaderDeviceType`
+* [#1888](https://github.com/stripe/stripe-go/pull/1888) Update changelog
+
 ## 79.4.0-beta.1 - 2024-07-11
 * [#1885](https://github.com/stripe/stripe-go/pull/1885) Update generated code for beta
   * Add support for new value `not_qualified` on enum `DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status`
