@@ -1298,7 +1298,10 @@ type ChargePaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
-type ChargePaymentMethodDetailsBLIK struct{}
+type ChargePaymentMethodDetailsBLIK struct {
+	// A unique and immutable identifier assigned by BLIK to every buyer.
+	BuyerID string `json:"buyer_id"`
+}
 type ChargePaymentMethodDetailsBoleto struct {
 	// The tax ID of the customer (CPF for individuals consumers or CNPJ for businesses consumers)
 	TaxID string `json:"tax_id"`
