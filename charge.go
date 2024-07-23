@@ -1242,7 +1242,10 @@ type ChargePaymentMethodDetailsACSSDebit struct {
 	// Transit number of the bank account.
 	TransitNumber string `json:"transit_number"`
 }
-type ChargePaymentMethodDetailsAffirm struct{}
+type ChargePaymentMethodDetailsAffirm struct {
+	// The Affirm transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type ChargePaymentMethodDetailsAfterpayClearpay struct {
 	// The Afterpay order ID associated with this payment intent.
 	OrderID string `json:"order_id"`
