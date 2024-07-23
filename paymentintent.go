@@ -3353,7 +3353,7 @@ type PaymentIntent struct {
 	Invoice *Invoice `json:"invoice"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.
 	LastPaymentError *Error `json:"last_payment_error"`
-	// The latest charge created by this PaymentIntent.
+	// ID of the latest [Charge object](https://stripe.com/docs/api/charges) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted.
 	LatestCharge *Charge `json:"latest_charge"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
