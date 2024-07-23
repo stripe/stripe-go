@@ -238,6 +238,8 @@ type TreasuryFinancialAccountPlatformRestrictionsParams struct {
 // Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
 type TreasuryFinancialAccountParams struct {
 	Params `form:"*"`
+	// The display name for the FinancialAccount. Use this field to customize the names of the FinancialAccounts for your connected accounts. Unlike the `nickname` field, `display_name` is not internal metadata and will be exposed to connected accounts.
+	DisplayName *string `form:"display_name"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Encodes whether a FinancialAccount has access to a particular feature, with a status enum and associated `status_details`. Stripe or the platform may control features via the requested field.
@@ -448,6 +450,8 @@ type TreasuryFinancialAccount struct {
 	Country string `json:"country"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
+	// The display name for the FinancialAccount. Use this field to customize the names of the FinancialAccounts for your connected accounts. Unlike the `nickname` field, `display_name` is not internal metadata and will be exposed to connected accounts.
+	DisplayName string `json:"display_name"`
 	// Encodes whether a FinancialAccount has access to a particular Feature, with a `status` enum and associated `status_details`.
 	// Stripe or the platform can control Features via the requested field.
 	Features *TreasuryFinancialAccountFeatures `json:"features"`
