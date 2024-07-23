@@ -710,6 +710,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationTWINTDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationTWINTDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationTWINTDisplayPreferencePreferenceNone PaymentMethodConfigurationTWINTDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationTWINTDisplayPreferencePreferenceOff  PaymentMethodConfigurationTWINTDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationTWINTDisplayPreferencePreferenceOn   PaymentMethodConfigurationTWINTDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationTWINTDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationTWINTDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationTWINTDisplayPreferenceValueOff PaymentMethodConfigurationTWINTDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationTWINTDisplayPreferenceValueOn  PaymentMethodConfigurationTWINTDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationUSBankAccountDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationUSBankAccountDisplayPreferencePreference can take
@@ -1237,6 +1256,18 @@ type PaymentMethodConfigurationSwishParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationTWINTDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
+type PaymentMethodConfigurationTWINTParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationTWINTDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUSBankAccountDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1359,6 +1390,8 @@ type PaymentMethodConfigurationParams struct {
 	Sofort *PaymentMethodConfigurationSofortParams `form:"sofort"`
 	// Swish is a [real-time](https://stripe.com/docs/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://stripe.com/docs/payments/swish) for more details.
 	Swish *PaymentMethodConfigurationSwishParams `form:"swish"`
+	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
+	TWINT *PaymentMethodConfigurationTWINTParams `form:"twint"`
 	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://stripe.com/docs/payments/ach-debit) for more details.
 	USBankAccount *PaymentMethodConfigurationUSBankAccountParams `form:"us_bank_account"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://stripe.com/docs/payments/wechat-pay) for more details.
@@ -1853,6 +1886,19 @@ type PaymentMethodConfigurationSwish struct {
 	Available         bool                                              `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationSwishDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationTWINTDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationTWINTDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationTWINTDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationTWINT struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationTWINTDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationUSBankAccountDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1962,6 +2008,7 @@ type PaymentMethodConfiguration struct {
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort"`
 	Swish         *PaymentMethodConfigurationSwish         `json:"swish"`
+	TWINT         *PaymentMethodConfigurationTWINT         `json:"twint"`
 	USBankAccount *PaymentMethodConfigurationUSBankAccount `json:"us_bank_account"`
 	WeChatPay     *PaymentMethodConfigurationWeChatPay     `json:"wechat_pay"`
 	Zip           *PaymentMethodConfigurationZip           `json:"zip"`
