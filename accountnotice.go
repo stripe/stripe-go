@@ -11,16 +11,19 @@ type AccountNoticeReason string
 
 // List of values that AccountNoticeReason can take
 const (
-	AccountNoticeReasonIssuingAccountClosedForInactivity              AccountNoticeReason = "issuing.account_closed_for_inactivity"
-	AccountNoticeReasonIssuingAccountClosedForTermsOfServiceViolation AccountNoticeReason = "issuing.account_closed_for_terms_of_service_violation"
-	AccountNoticeReasonIssuingApplicationRejectedForFailureToVerify   AccountNoticeReason = "issuing.application_rejected_for_failure_to_verify"
-	AccountNoticeReasonIssuingCreditApplicationRejected               AccountNoticeReason = "issuing.credit_application_rejected"
-	AccountNoticeReasonIssuingCreditIncreaseApplicationRejected       AccountNoticeReason = "issuing.credit_increase_application_rejected"
-	AccountNoticeReasonIssuingCreditLimitDecreased                    AccountNoticeReason = "issuing.credit_limit_decreased"
-	AccountNoticeReasonIssuingCreditLineClosed                        AccountNoticeReason = "issuing.credit_line_closed"
-	AccountNoticeReasonIssuingDisputeLost                             AccountNoticeReason = "issuing.dispute_lost"
-	AccountNoticeReasonIssuingDisputeSubmitted                        AccountNoticeReason = "issuing.dispute_submitted"
-	AccountNoticeReasonIssuingDisputeWon                              AccountNoticeReason = "issuing.dispute_won"
+	AccountNoticeReasonIssuingAccountClosedForInactivity                             AccountNoticeReason = "issuing.account_closed_for_inactivity"
+	AccountNoticeReasonIssuingAccountClosedForNotProvidingBusinessModelClarification AccountNoticeReason = "issuing.account_closed_for_not_providing_business_model_clarification"
+	AccountNoticeReasonIssuingAccountClosedForNotProvidingURLClarification           AccountNoticeReason = "issuing.account_closed_for_not_providing_url_clarification"
+	AccountNoticeReasonIssuingAccountClosedForNotProvidingUseCaseClarification       AccountNoticeReason = "issuing.account_closed_for_not_providing_use_case_clarification"
+	AccountNoticeReasonIssuingAccountClosedForTermsOfServiceViolation                AccountNoticeReason = "issuing.account_closed_for_terms_of_service_violation"
+	AccountNoticeReasonIssuingApplicationRejectedForFailureToVerify                  AccountNoticeReason = "issuing.application_rejected_for_failure_to_verify"
+	AccountNoticeReasonIssuingCreditApplicationRejected                              AccountNoticeReason = "issuing.credit_application_rejected"
+	AccountNoticeReasonIssuingCreditIncreaseApplicationRejected                      AccountNoticeReason = "issuing.credit_increase_application_rejected"
+	AccountNoticeReasonIssuingCreditLimitDecreased                                   AccountNoticeReason = "issuing.credit_limit_decreased"
+	AccountNoticeReasonIssuingCreditLineClosed                                       AccountNoticeReason = "issuing.credit_line_closed"
+	AccountNoticeReasonIssuingDisputeLost                                            AccountNoticeReason = "issuing.dispute_lost"
+	AccountNoticeReasonIssuingDisputeSubmitted                                       AccountNoticeReason = "issuing.dispute_submitted"
+	AccountNoticeReasonIssuingDisputeWon                                             AccountNoticeReason = "issuing.dispute_won"
 )
 
 // Retrieves a list of AccountNotice objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
