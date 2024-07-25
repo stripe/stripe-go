@@ -51,6 +51,19 @@ func (c Client) Get(id string, params *stripe.CheckoutSessionParams) (*stripe.Ch
 	return session, err
 }
 
+// Updates a Session object.
+func Update(id string, params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
+	return getC().Update(id, params)
+}
+
+// Updates a Session object.
+func (c Client) Update(id string, params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
+	path := stripe.FormatURLPath("/v1/checkout/sessions/%s", id)
+	session := &stripe.CheckoutSession{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, session)
+	return session, err
+}
+
 // A Session can be expired when it is in one of these statuses: open
 //
 // After it expires, a customer can't complete a Session and customers loading the Session see a message saying the Session is expired.

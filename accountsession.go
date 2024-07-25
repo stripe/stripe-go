@@ -414,6 +414,18 @@ type AccountSessionComponentsPayoutsList struct {
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsPayoutsListFeatures `json:"features"`
 }
+type AccountSessionComponentsTaxRegistrationsFeatures struct{}
+type AccountSessionComponentsTaxRegistrations struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                              `json:"enabled"`
+	Features *AccountSessionComponentsTaxRegistrationsFeatures `json:"features"`
+}
+type AccountSessionComponentsTaxSettingsFeatures struct{}
+type AccountSessionComponentsTaxSettings struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                         `json:"enabled"`
+	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
+}
 type AccountSessionComponents struct {
 	AccountManagement         *AccountSessionComponentsAccountManagement         `json:"account_management"`
 	AccountOnboarding         *AccountSessionComponentsAccountOnboarding         `json:"account_onboarding"`
@@ -425,6 +437,8 @@ type AccountSessionComponents struct {
 	Payments                  *AccountSessionComponentsPayments                  `json:"payments"`
 	Payouts                   *AccountSessionComponentsPayouts                   `json:"payouts"`
 	PayoutsList               *AccountSessionComponentsPayoutsList               `json:"payouts_list"`
+	TaxRegistrations          *AccountSessionComponentsTaxRegistrations          `json:"tax_registrations"`
+	TaxSettings               *AccountSessionComponentsTaxSettings               `json:"tax_settings"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.

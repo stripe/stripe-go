@@ -8,6 +8,28 @@
   * Add support for `AsyncWorkflows` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentDecrementAuthorizationParams`, `PaymentIntentIncrementAuthorizationParams`, `PaymentIntentParams`, and `PaymentIntent`
   * Add support for `Payto` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
 
+## 79.5.0 - 2024-07-25
+* [#1896](https://github.com/stripe/stripe-go/pull/1896) Update generated code
+  * Add support for `TaxRegistrations` and `TaxSettings` on `AccountSessionComponentsParams` and `AccountSessionComponents`
+* [#1892](https://github.com/stripe/stripe-go/pull/1892) Update generated code
+  * Add support for `Update` method on resource `Checkout.Session`
+  * Add support for `TransactionID` on `ChargePaymentMethodDetailsAffirm`
+  * Add support for `BuyerID` on `ChargePaymentMethodDetailsBlik`
+  * Add support for `AuthorizationCode` on `ChargePaymentMethodDetailsCard`
+  * Add support for `BrandProduct` on `ChargePaymentMethodDetailsCardPresent`, `ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent`, `ConfirmationTokenPaymentMethodPreviewCardPresent`, `PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent`, and `PaymentMethodCardPresent`
+  * Add support for `NetworkTransactionID` on `ChargePaymentMethodDetailsCardPresent`, `ChargePaymentMethodDetailsInteracPresent`, `ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent`, and `PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent`
+  * Add support for `CaseType` on `DisputePaymentMethodDetailsCard`
+  * Add support for new values `invoice.overdue` and `invoice.will_be_due` on enum `EventType`
+  * Add support for `TWINT` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+
+## 79.4.0 - 2024-07-18
+* [#1890](https://github.com/stripe/stripe-go/pull/1890) Update generated code
+  * Add support for `Customer` on `ConfirmationTokenPaymentMethodPreview`
+  * Add support for new value `issuing_dispute.funds_rescinded` on enum `EventType`
+  * Add support for new value `multibanco` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for new value `stripe_s700` on enum `TerminalReaderDeviceType`
+* [#1888](https://github.com/stripe/stripe-go/pull/1888) Update changelog
+
 ## 79.4.0-beta.1 - 2024-07-11
 * [#1885](https://github.com/stripe/stripe-go/pull/1885) Update generated code for beta
   * Add support for new value `not_qualified` on enum `DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status`
