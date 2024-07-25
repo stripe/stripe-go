@@ -23,7 +23,7 @@ func (p *FinancialConnectionsAccountInferredBalanceListParams) AddExpand(f strin
 type FinancialConnectionsAccountInferredBalance struct {
 	// The time for which this balance was calculated, measured in seconds since the Unix epoch. If the balance was computed by Stripe and not provided directly by a financial institution, it will always be 23:59:59 UTC.
 	AsOf int64 `json:"as_of"`
-	// The balances owed to (or by) the account holder.
+	// The balances owed to (or by) the account holder, before subtracting any outbound pending transactions or adding any inbound pending transactions.
 	//
 	// Each key is a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
 	//
