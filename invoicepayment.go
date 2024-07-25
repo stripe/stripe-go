@@ -6,6 +6,16 @@
 
 package stripe
 
+// Type of payment object associated with this invoice payment.
+type InvoicePaymentPaymentType string
+
+// List of values that InvoicePaymentPaymentType can take
+const (
+	InvoicePaymentPaymentTypeCharge           InvoicePaymentPaymentType = "charge"
+	InvoicePaymentPaymentTypeOutOfBandPayment InvoicePaymentPaymentType = "out_of_band_payment"
+	InvoicePaymentPaymentTypePaymentIntent    InvoicePaymentPaymentType = "payment_intent"
+)
+
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
 type InvoicePaymentListParams struct {
 	ListParams `form:"*"`
@@ -32,6 +42,29 @@ func (p *InvoicePaymentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type InvoicePaymentPaymentOutOfBandPayment struct {
+	// Amount paid on this out of band payment, in cents (or local equivalent)
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// The type of money movement for this out of band payment record.
+	MoneyMovementType string `json:"money_movement_type"`
+	// The timestamp when this out of band payment was paid.
+	PaidAt int64 `json:"paid_at"`
+	// The reference for this out of band payment record.
+	PaymentReference string `json:"payment_reference"`
+}
+type InvoicePaymentPayment struct {
+	// ID of the successful charge for this payment when `type` is `charge`.
+	Charge           *Charge                                `json:"charge"`
+	OutOfBandPayment *InvoicePaymentPaymentOutOfBandPayment `json:"out_of_band_payment"`
+	// ID of the PaymentIntent associated with this payment when `type` is `payment_intent`. Note: This property is only populated for invoices finalized on or after March 15th, 2019.
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// Type of payment object associated with this invoice payment.
+	Type InvoicePaymentPaymentType `json:"type"`
+}
 type InvoicePaymentStatusTransitions struct {
 	// The time that the payment was canceled.
 	CanceledAt int64 `json:"canceled_at"`
@@ -48,8 +81,6 @@ type InvoicePayment struct {
 	AmountPaid int64 `json:"amount_paid"`
 	// Amount intended to be paid toward this invoice, in cents (or local equivalent)
 	AmountRequested int64 `json:"amount_requested"`
-	// ID of the successful charge for this payment. This field is null when the payment is `open` or `canceled`.
-	Charge *Charge `json:"charge"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -63,9 +94,8 @@ type InvoicePayment struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string `json:"object"`
-	// ID of the PaymentIntent associated with this payment. Note: This property is only populated for invoices finalized on or after March 15th, 2019.
-	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	Object  string                 `json:"object"`
+	Payment *InvoicePaymentPayment `json:"payment"`
 	// The status of the payment, one of `open`, `paid`, or `canceled`.
 	Status            string                           `json:"status"`
 	StatusTransitions *InvoicePaymentStatusTransitions `json:"status_transitions"`
