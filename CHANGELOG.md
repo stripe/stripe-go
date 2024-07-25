@@ -1,5 +1,13 @@
 # Changelog
 
+## 79.6.0-beta.1 - 2024-07-25
+* [#1889](https://github.com/stripe/stripe-go/pull/1889) Update generated code for beta
+  * Add support for new resource `Tax.Association`
+  * Add support for `Find` method on resource `Association`
+  * Add support for `Capital` on `AccountSettingsParams` and `AccountSettings`
+  * Add support for `AsyncWorkflows` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentDecrementAuthorizationParams`, `PaymentIntentIncrementAuthorizationParams`, `PaymentIntentParams`, and `PaymentIntent`
+  * Add support for `Payto` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+
 ## 79.5.0 - 2024-07-25
 * [#1896](https://github.com/stripe/stripe-go/pull/1896) Update generated code
   * Add support for `TaxRegistrations` and `TaxSettings` on `AccountSessionComponentsParams` and `AccountSessionComponents`
