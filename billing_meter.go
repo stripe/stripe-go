@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // The method for mapping a meter event to a customer.
 type BillingMeterCustomerMappingType string
 
@@ -174,4 +176,23 @@ type BillingMeterList struct {
 	APIResource
 	ListMeta
 	Data []*BillingMeter `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a BillingMeter.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (b *BillingMeter) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		b.ID = id
+		return nil
+	}
+
+	type billingMeter BillingMeter
+	var v billingMeter
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*b = BillingMeter(v)
+	return nil
 }
