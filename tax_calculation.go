@@ -255,9 +255,7 @@ type TaxCalculationCustomerDetailsParams struct {
 
 // A list of items the customer is purchasing.
 type TaxCalculationLineItemParams struct {
-	// A positive integer representing the line item's total price in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency).
-	// The minimum amount is $0.0 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts).
-	// The amount value supports up to twelve digits (e.g., a value of 999999999999 for a USD charge of $9,999,999,999.99).
+	// A positive integer representing the line item's total price in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
@@ -420,7 +418,7 @@ type TaxCalculationTaxBreakdown struct {
 // Related guide: [Calculate tax in your custom payment flow](https://stripe.com/docs/tax/custom)
 type TaxCalculation struct {
 	APIResource
-	// Total after taxes.
+	// Total amount after taxes in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	AmountTotal int64 `json:"amount_total"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
