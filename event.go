@@ -46,6 +46,7 @@ const (
 	EventTypeApplicationFeeRefundUpdated                          EventType = "application_fee.refund.updated"
 	EventTypeApplicationFeeRefunded                               EventType = "application_fee.refunded"
 	EventTypeBalanceAvailable                                     EventType = "balance.available"
+	EventTypeBillingAlertTriggered                                EventType = "billing.alert.triggered"
 	EventTypeBillingPortalConfigurationCreated                    EventType = "billing_portal.configuration.created"
 	EventTypeBillingPortalConfigurationUpdated                    EventType = "billing_portal.configuration.updated"
 	EventTypeBillingPortalSessionCreated                          EventType = "billing_portal.session.created"
