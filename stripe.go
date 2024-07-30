@@ -1179,45 +1179,46 @@ func GetBackend(backendType SupportedBackend) Backend {
 // configuration struct that will configure certain aspects of the backend
 // that's return.
 func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) Backend {
-	if config.HTTPClient == nil {
-		config.HTTPClient = httpClient
+	cfg := *config
+	if cfg.HTTPClient == nil {
+		cfg.HTTPClient = httpClient
 	}
 
-	if config.LeveledLogger == nil {
-		config.LeveledLogger = DefaultLeveledLogger
+	if cfg.LeveledLogger == nil {
+		cfg.LeveledLogger = DefaultLeveledLogger
 	}
 
-	if config.MaxNetworkRetries == nil {
-		config.MaxNetworkRetries = Int64(DefaultMaxNetworkRetries)
+	if cfg.MaxNetworkRetries == nil {
+		cfg.MaxNetworkRetries = Int64(DefaultMaxNetworkRetries)
 	}
 
 	switch backendType {
 	case APIBackend:
-		if config.URL == nil {
-			config.URL = String(APIURL)
+		if cfg.URL == nil {
+			cfg.URL = String(APIURL)
 		}
 
-		config.URL = String(normalizeURL(*config.URL))
+		cfg.URL = String(normalizeURL(*cfg.URL))
 
-		return newBackendImplementation(backendType, config)
+		return newBackendImplementation(backendType, &cfg)
 
 	case UploadsBackend:
-		if config.URL == nil {
-			config.URL = String(UploadsURL)
+		if cfg.URL == nil {
+			cfg.URL = String(UploadsURL)
 		}
 
-		config.URL = String(normalizeURL(*config.URL))
+		cfg.URL = String(normalizeURL(*cfg.URL))
 
-		return newBackendImplementation(backendType, config)
+		return newBackendImplementation(backendType, &cfg)
 
 	case ConnectBackend:
-		if config.URL == nil {
-			config.URL = String(ConnectURL)
+		if cfg.URL == nil {
+			cfg.URL = String(ConnectURL)
 		}
 
-		config.URL = String(normalizeURL(*config.URL))
+		cfg.URL = String(normalizeURL(*cfg.URL))
 
-		return newBackendImplementation(backendType, config)
+		return newBackendImplementation(backendType, &cfg)
 	}
 
 	return nil
