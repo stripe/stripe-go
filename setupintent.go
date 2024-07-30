@@ -845,7 +845,7 @@ type SetupIntentParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The Stripe account ID created for this SetupIntent.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
+	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent. To unset this field to null, pass in an empty string.
 	PaymentMethod *string `form:"payment_method"`
 	// The ID of the payment method configuration to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
