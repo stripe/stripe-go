@@ -71,6 +71,14 @@ const (
 	QuotePreviewSubscriptionScheduleEndBehaviorRenew   QuotePreviewSubscriptionScheduleEndBehavior = "renew"
 )
 
+// The type of error encountered by the price migration.
+type QuotePreviewSubscriptionScheduleLastPriceMigrationErrorType string
+
+// List of values that QuotePreviewSubscriptionScheduleLastPriceMigrationErrorType can take
+const (
+	QuotePreviewSubscriptionScheduleLastPriceMigrationErrorTypePriceUniquenessViolation QuotePreviewSubscriptionScheduleLastPriceMigrationErrorType = "price_uniqueness_violation"
+)
+
 // The discount end type.
 type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType string
 
@@ -290,6 +298,24 @@ type QuotePreviewSubscriptionScheduleDefaultSettings struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *QuotePreviewSubscriptionScheduleDefaultSettingsTransferData `json:"transfer_data"`
+}
+
+// The involved price pairs in each failed transition.
+type QuotePreviewSubscriptionScheduleLastPriceMigrationErrorFailedTransition struct {
+	// The original price to be migrated.
+	SourcePrice string `json:"source_price"`
+	// The intended resulting price of the migration.
+	TargetPrice string `json:"target_price"`
+}
+
+// Details of the most recent price migration that failed for the subscription schedule.
+type QuotePreviewSubscriptionScheduleLastPriceMigrationError struct {
+	// The time at which the price migration encountered an error.
+	ErroredAt int64 `json:"errored_at"`
+	// The involved price pairs in each failed transition.
+	FailedTransitions []*QuotePreviewSubscriptionScheduleLastPriceMigrationErrorFailedTransition `json:"failed_transitions"`
+	// The type of error encountered by the price migration.
+	Type QuotePreviewSubscriptionScheduleLastPriceMigrationErrorType `json:"type"`
 }
 
 // Details to determine how long the discount should be applied for.
@@ -547,6 +573,8 @@ type QuotePreviewSubscriptionSchedule struct {
 	EndBehavior QuotePreviewSubscriptionScheduleEndBehavior `json:"end_behavior"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Details of the most recent price migration that failed for the subscription schedule.
+	LastPriceMigrationError *QuotePreviewSubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

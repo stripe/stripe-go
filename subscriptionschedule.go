@@ -49,6 +49,14 @@ const (
 	SubscriptionScheduleEndBehaviorRenew   SubscriptionScheduleEndBehavior = "renew"
 )
 
+// The type of error encountered by the price migration.
+type SubscriptionScheduleLastPriceMigrationErrorType string
+
+// List of values that SubscriptionScheduleLastPriceMigrationErrorType can take
+const (
+	SubscriptionScheduleLastPriceMigrationErrorTypePriceUniquenessViolation SubscriptionScheduleLastPriceMigrationErrorType = "price_uniqueness_violation"
+)
+
 // The discount end type.
 type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType string
 
@@ -1027,6 +1035,24 @@ type SubscriptionScheduleDefaultSettings struct {
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 }
 
+// The involved price pairs in each failed transition.
+type SubscriptionScheduleLastPriceMigrationErrorFailedTransition struct {
+	// The original price to be migrated.
+	SourcePrice string `json:"source_price"`
+	// The intended resulting price of the migration.
+	TargetPrice string `json:"target_price"`
+}
+
+// Details of the most recent price migration that failed for the subscription schedule.
+type SubscriptionScheduleLastPriceMigrationError struct {
+	// The time at which the price migration encountered an error.
+	ErroredAt int64 `json:"errored_at"`
+	// The involved price pairs in each failed transition.
+	FailedTransitions []*SubscriptionScheduleLastPriceMigrationErrorFailedTransition `json:"failed_transitions"`
+	// The type of error encountered by the price migration.
+	Type SubscriptionScheduleLastPriceMigrationErrorType `json:"type"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd struct {
 	// The discount end timestamp.
@@ -1250,6 +1276,8 @@ type SubscriptionSchedule struct {
 	EndBehavior SubscriptionScheduleEndBehavior `json:"end_behavior"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Details of the most recent price migration that failed for the subscription schedule.
+	LastPriceMigrationError *SubscriptionScheduleLastPriceMigrationError `json:"last_price_migration_error"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
