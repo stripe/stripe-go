@@ -150,6 +150,28 @@ type AccountSessionComponentsPayoutsListParams struct {
 	Features *AccountSessionComponentsPayoutsListFeaturesParams `form:"features"`
 }
 
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsTaxRegistrationsFeaturesParams struct{}
+
+// Configuration for the tax registrations embedded component.
+type AccountSessionComponentsTaxRegistrationsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsTaxRegistrationsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsTaxSettingsFeaturesParams struct{}
+
+// Configuration for the tax settings embedded component.
+type AccountSessionComponentsTaxSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsTaxSettingsFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the account management embedded component.
@@ -170,6 +192,10 @@ type AccountSessionComponentsParams struct {
 	Payouts *AccountSessionComponentsPayoutsParams `form:"payouts"`
 	// Configuration for the payouts list embedded component.
 	PayoutsList *AccountSessionComponentsPayoutsListParams `form:"payouts_list"`
+	// Configuration for the tax registrations embedded component.
+	TaxRegistrations *AccountSessionComponentsTaxRegistrationsParams `form:"tax_registrations"`
+	// Configuration for the tax settings embedded component.
+	TaxSettings *AccountSessionComponentsTaxSettingsParams `form:"tax_settings"`
 }
 
 // Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
@@ -287,6 +313,18 @@ type AccountSessionComponentsPayoutsList struct {
 	Enabled  bool                                         `json:"enabled"`
 	Features *AccountSessionComponentsPayoutsListFeatures `json:"features"`
 }
+type AccountSessionComponentsTaxRegistrationsFeatures struct{}
+type AccountSessionComponentsTaxRegistrations struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                              `json:"enabled"`
+	Features *AccountSessionComponentsTaxRegistrationsFeatures `json:"features"`
+}
+type AccountSessionComponentsTaxSettingsFeatures struct{}
+type AccountSessionComponentsTaxSettings struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                         `json:"enabled"`
+	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
+}
 type AccountSessionComponents struct {
 	AccountManagement  *AccountSessionComponentsAccountManagement  `json:"account_management"`
 	AccountOnboarding  *AccountSessionComponentsAccountOnboarding  `json:"account_onboarding"`
@@ -297,6 +335,8 @@ type AccountSessionComponents struct {
 	Payments           *AccountSessionComponentsPayments           `json:"payments"`
 	Payouts            *AccountSessionComponentsPayouts            `json:"payouts"`
 	PayoutsList        *AccountSessionComponentsPayoutsList        `json:"payouts_list"`
+	TaxRegistrations   *AccountSessionComponentsTaxRegistrations   `json:"tax_registrations"`
+	TaxSettings        *AccountSessionComponentsTaxSettings        `json:"tax_settings"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.

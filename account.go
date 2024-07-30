@@ -255,7 +255,7 @@ func (p *AccountParams) AddMetadata(key string, value string) {
 
 // The applicant's gross annual revenue for its preceding fiscal year.
 type AccountBusinessProfileAnnualRevenueParams struct {
-	// A non-negative integer representing the amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -265,7 +265,7 @@ type AccountBusinessProfileAnnualRevenueParams struct {
 
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 type AccountBusinessProfileMonthlyEstimatedRevenueParams struct {
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -277,7 +277,7 @@ type AccountBusinessProfileParams struct {
 	AnnualRevenue *AccountBusinessProfileAnnualRevenueParams `form:"annual_revenue"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
-	// [The merchant category code for the account](https://docs.stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
+	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
 	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 	MonthlyEstimatedRevenue *AccountBusinessProfileMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue"`
@@ -752,9 +752,9 @@ type AccountCompanyParams struct {
 	AddressKana *AccountCompanyAddressKanaParams `form:"address_kana"`
 	// The Kanji variation of the company's primary address (Japan only).
 	AddressKanji *AccountCompanyAddressKanjiParams `form:"address_kanji"`
-	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
+	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
 	DirectorsProvided *bool `form:"directors_provided"`
-	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
+	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
 	ExecutivesProvided *bool `form:"executives_provided"`
 	// The export license ID number of the company, also referred as Import Export Code (India only).
 	ExportLicenseID *string `form:"export_license_id"`
@@ -770,13 +770,13 @@ type AccountCompanyParams struct {
 	OwnershipDeclaration *AccountCompanyOwnershipDeclarationParams `form:"ownership_declaration"`
 	// This parameter can only be used on Token creation.
 	OwnershipDeclarationShownAndSigned *bool `form:"ownership_declaration_shown_and_signed"`
-	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
+	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
 	Phone *string `form:"phone"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
-	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
+	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
 	TaxID *string `form:"tax_id"`
@@ -900,7 +900,7 @@ type AccountSettingsBrandingParams struct {
 	SecondaryColor *string `form:"secondary_color"`
 }
 
-// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
+// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
 type AccountSettingsCardIssuingTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
 	Date *int64 `form:"date"`
@@ -912,7 +912,7 @@ type AccountSettingsCardIssuingTOSAcceptanceParams struct {
 
 // Settings specific to the account's use of the Card Issuing product.
 type AccountSettingsCardIssuingParams struct {
-	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
+	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
 	TOSAcceptance *AccountSettingsCardIssuingTOSAcceptanceParams `form:"tos_acceptance"`
 }
 
@@ -952,9 +952,9 @@ type AccountSettingsPaymentsParams struct {
 	StatementDescriptorKanji *string `form:"statement_descriptor_kanji"`
 }
 
-// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
+// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
 type AccountSettingsPayoutsScheduleParams struct {
-	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
+	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://stripe.com/connect/manage-payout-schedule).
 	DelayDays        *int64 `form:"delay_days"`
 	DelayDaysMinimum *bool  `form:"-"` // See custom AppendTo
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
@@ -974,9 +974,9 @@ func (p *AccountSettingsPayoutsScheduleParams) AppendTo(body *form.Values, keyPa
 
 // Settings specific to the account's payouts.
 type AccountSettingsPayoutsParams struct {
-	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
+	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://stripe.com/connect/account-balances).
 	DebitNegativeBalances *bool `form:"debit_negative_balances"`
-	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
+	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
 	Schedule *AccountSettingsPayoutsScheduleParams `form:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor *string `form:"statement_descriptor"`
@@ -1094,7 +1094,7 @@ func (p *AccountRejectParams) AddExpand(f string) {
 
 // The applicant's gross annual revenue for its preceding fiscal year.
 type AccountBusinessProfileAnnualRevenue struct {
-	// A non-negative integer representing the amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
@@ -1102,7 +1102,7 @@ type AccountBusinessProfileAnnualRevenue struct {
 	FiscalYearEnd string `json:"fiscal_year_end"`
 }
 type AccountBusinessProfileMonthlyEstimatedRevenue struct {
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
@@ -1114,7 +1114,7 @@ type AccountBusinessProfile struct {
 	AnnualRevenue *AccountBusinessProfileAnnualRevenue `json:"annual_revenue"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount int64 `json:"estimated_worker_count"`
-	// [The merchant category code for the account](https://stripe.com/docs/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
+	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC                     string                                         `json:"mcc"`
 	MonthlyEstimatedRevenue *AccountBusinessProfileMonthlyEstimatedRevenue `json:"monthly_estimated_revenue"`
 	// The customer-facing business name.

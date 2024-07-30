@@ -8,6 +8,15 @@ package stripe
 
 import "encoding/json"
 
+// The type of dispute opened. Different case types may have varying fees and financial impact.
+type DisputePaymentMethodDetailsCardCaseType string
+
+// List of values that DisputePaymentMethodDetailsCardCaseType can take
+const (
+	DisputePaymentMethodDetailsCardCaseTypeChargeback DisputePaymentMethodDetailsCardCaseType = "chargeback"
+	DisputePaymentMethodDetailsCardCaseTypeInquiry    DisputePaymentMethodDetailsCardCaseType = "inquiry"
+)
+
 // Payment method type.
 type DisputePaymentMethodDetailsType string
 
@@ -226,6 +235,8 @@ type DisputeEvidenceDetails struct {
 type DisputePaymentMethodDetailsCard struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
+	// The type of dispute opened. Different case types may have varying fees and financial impact.
+	CaseType DisputePaymentMethodDetailsCardCaseType `json:"case_type"`
 	// The card network's specific dispute reason code, which maps to one of Stripe's primary dispute categories to simplify response guidance. The [Network code map](https://stripe.com/docs/disputes/categories#network-code-map) lists all available dispute reason codes by network.
 	NetworkReasonCode string `json:"network_reason_code"`
 }
