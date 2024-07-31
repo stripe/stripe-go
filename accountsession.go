@@ -35,6 +35,34 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsAppInstallFeaturesParams struct {
+	// List of apps allowed to be enabled for this account session.
+	AllowedApps []*string `form:"allowed_apps"`
+}
+
+// Configuration for the app install component.
+type AccountSessionComponentsAppInstallParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsAppInstallFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsAppViewportFeaturesParams struct {
+	// List of apps allowed to be enabled for this account session.
+	AllowedApps []*string `form:"allowed_apps"`
+}
+
+// Configuration for the app viewport component.
+type AccountSessionComponentsAppViewportParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsAppViewportFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsBalancesFeaturesParams struct {
 	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
@@ -260,6 +288,10 @@ type AccountSessionComponentsParams struct {
 	AccountManagement *AccountSessionComponentsAccountManagementParams `form:"account_management"`
 	// Configuration for the account onboarding embedded component.
 	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
+	// Configuration for the app install component.
+	AppInstall *AccountSessionComponentsAppInstallParams `form:"app_install"`
+	// Configuration for the app viewport component.
+	AppViewport *AccountSessionComponentsAppViewportParams `form:"app_viewport"`
 	// Configuration for the balances embedded component.
 	Balances                  *AccountSessionComponentsBalancesParams                  `form:"balances"`
 	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`

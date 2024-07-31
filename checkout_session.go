@@ -2353,7 +2353,7 @@ type CheckoutSessionConsentCollection struct {
 	TermsOfService CheckoutSessionConsentCollectionTermsOfService `json:"terms_of_service"`
 }
 
-// Currency conversion details for automatic currency conversion sessions
+// Currency conversion details for [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing) sessions
 type CheckoutSessionCurrencyConversion struct {
 	// Total of all items in source currency before discounts or taxes are applied.
 	AmountSubtotal int64 `json:"amount_subtotal"`
@@ -3103,7 +3103,7 @@ type CheckoutSession struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// Currency conversion details for automatic currency conversion sessions
+	// Currency conversion details for [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing) sessions
 	CurrencyConversion *CheckoutSessionCurrencyConversion `json:"currency_conversion"`
 	// The ID of the customer for this Session.
 	// For Checkout Sessions in `subscription` mode or Checkout Sessions with `customer_creation` set as `always` in `payment` mode, Checkout
