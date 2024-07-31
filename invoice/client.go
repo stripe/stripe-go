@@ -94,6 +94,43 @@ func (c Client) AddLines(id string, params *stripe.InvoiceAddLinesParams) (*stri
 	return invoice, err
 }
 
+// Attaches a PaymentIntent or an Out of Band Payment to the invoice, adding it to the list of payments.
+//
+// For Out of Band Payment, the payment is credited to the invoice immediately, increasing the amount_paid
+// of the invoice and subsequently transitioning the status of the invoice to paid if necessary.
+//
+// For the PaymentIntent, when the PaymentIntent's status changes to succeeded, the payment is credited
+// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
+// invoice's status becomes paid.
+//
+// If the PaymentIntent's status is already succeeded when it's attached, it's
+// credited to the invoice immediately.
+//
+// See: [Create an invoice payment](https://stripe.com/docs/invoicing/payments/create) to learn more.
+func AttachPayment(id string, params *stripe.InvoiceAttachPaymentParams) (*stripe.Invoice, error) {
+	return getC().AttachPayment(id, params)
+}
+
+// Attaches a PaymentIntent or an Out of Band Payment to the invoice, adding it to the list of payments.
+//
+// For Out of Band Payment, the payment is credited to the invoice immediately, increasing the amount_paid
+// of the invoice and subsequently transitioning the status of the invoice to paid if necessary.
+//
+// For the PaymentIntent, when the PaymentIntent's status changes to succeeded, the payment is credited
+// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
+// invoice's status becomes paid.
+//
+// If the PaymentIntent's status is already succeeded when it's attached, it's
+// credited to the invoice immediately.
+//
+// See: [Create an invoice payment](https://stripe.com/docs/invoicing/payments/create) to learn more.
+func (c Client) AttachPayment(id string, params *stripe.InvoiceAttachPaymentParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/attach_payment", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
 // Attaches a PaymentIntent to the invoice, adding it to the list of payments.
 // When the PaymentIntent's status changes to succeeded, the payment is credited
 // to the invoice, increasing its amount_paid. When the invoice is fully paid, the

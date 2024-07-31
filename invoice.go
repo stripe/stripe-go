@@ -3141,6 +3141,61 @@ func (p *InvoiceAddLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The out of band payment to attach to the invoice.
+type InvoiceAttachPaymentOutOfBandPaymentParams struct {
+	// The amount that was paid out of band.
+	Amount *int64 `form:"amount"`
+	// The currency that was paid out of band.
+	Currency *string `form:"currency"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The type of money movement for this out of band payment record.
+	MoneyMovementType *string `form:"money_movement_type"`
+	// The timestamp when this out of band payment was paid.
+	PaidAt *int64 `form:"paid_at"`
+	// The reference for this out of band payment record.
+	PaymentReference *string `form:"payment_reference"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *InvoiceAttachPaymentOutOfBandPaymentParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Attaches a PaymentIntent or an Out of Band Payment to the invoice, adding it to the list of payments.
+//
+// For Out of Band Payment, the payment is credited to the invoice immediately, increasing the amount_paid
+// of the invoice and subsequently transitioning the status of the invoice to paid if necessary.
+//
+// For the PaymentIntent, when the PaymentIntent's status changes to succeeded, the payment is credited
+// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
+// invoice's status becomes paid.
+//
+// If the PaymentIntent's status is already succeeded when it's attached, it's
+// credited to the invoice immediately.
+//
+// See: [Create an invoice payment](https://stripe.com/docs/invoicing/payments/create) to learn more.
+type InvoiceAttachPaymentParams struct {
+	Params `form:"*"`
+	// The portion of the `amount` on the PaymentIntent or out of band payment to apply to this invoice. It defaults to the entire amount.
+	AmountRequested *int64 `form:"amount_requested"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The out of band payment to attach to the invoice.
+	OutOfBandPayment *InvoiceAttachPaymentOutOfBandPaymentParams `form:"out_of_band_payment"`
+	// The ID of the PaymentIntent to attach to the invoice.
+	PaymentIntent *string `form:"payment_intent"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceAttachPaymentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Attaches a PaymentIntent to the invoice, adding it to the list of payments.
 // When the PaymentIntent's status changes to succeeded, the payment is credited
 // to the invoice, increasing its amount_paid. When the invoice is fully paid, the
