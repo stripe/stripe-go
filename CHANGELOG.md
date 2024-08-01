@@ -1,5 +1,13 @@
 # Changelog
 
+## 79.6.0 - 2024-08-01
+* [#1897](https://github.com/stripe/stripe-go/pull/1897) Update generated code
+  * Add support for new resources `Billing.AlertTriggered` and `Billing.Alert`
+  * Add support for new value `charge_exceeds_transaction_limit` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * ⚠️ Remove support for `AuthorizationCode` on `ChargePaymentMethodDetailsCard`. This was accidentally released last week.
+  * Add support for new value `billing.alert.triggered` on enum `EventType`
+* [#1895](https://github.com/stripe/stripe-go/pull/1895) Fixed config override with GetBackendWithConfig
+
 ## 79.5.0 - 2024-07-25
 * [#1896](https://github.com/stripe/stripe-go/pull/1896) Update generated code
   * Add support for `TaxRegistrations` and `TaxSettings` on `AccountSessionComponentsParams` and `AccountSessionComponents`
