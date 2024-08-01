@@ -1,4 +1,5 @@
 # Changelog
+
 ## 79.7.0-beta.1 - 2024-08-01
 * [#1898](https://github.com/stripe/stripe-go/pull/1898) Update generated code for beta
   * Add support for `AttachPayment` method on resource `Invoice`
@@ -15,6 +16,27 @@
   * Add support for new values `issuing.account_closed_for_not_providing_business_model_clarification`, `issuing.account_closed_for_not_providing_url_clarification`, and `issuing.account_closed_for_not_providing_use_case_clarification` on enum `AccountNoticeReason`
   * Add support for `DisplayName` on `TreasuryFinancialAccountParams` and `TreasuryFinancialAccount`
 
+## 79.6.0 - 2024-08-01
+* [#1897](https://github.com/stripe/stripe-go/pull/1897) Update generated code
+  * Add support for new resources `Billing.AlertTriggered` and `Billing.Alert`
+  * Add support for new value `charge_exceeds_transaction_limit` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * ⚠️ Remove support for `AuthorizationCode` on `ChargePaymentMethodDetailsCard`. This was accidentally released last week.
+  * Add support for new value `billing.alert.triggered` on enum `EventType`
+* [#1895](https://github.com/stripe/stripe-go/pull/1895) Fixed config override with GetBackendWithConfig
+
+## 79.5.0 - 2024-07-25
+* [#1896](https://github.com/stripe/stripe-go/pull/1896) Update generated code
+  * Add support for `TaxRegistrations` and `TaxSettings` on `AccountSessionComponentsParams` and `AccountSessionComponents`
+* [#1892](https://github.com/stripe/stripe-go/pull/1892) Update generated code
+  * Add support for `Update` method on resource `Checkout.Session`
+  * Add support for `TransactionID` on `ChargePaymentMethodDetailsAffirm`
+  * Add support for `BuyerID` on `ChargePaymentMethodDetailsBlik`
+  * Add support for `AuthorizationCode` on `ChargePaymentMethodDetailsCard`
+  * Add support for `BrandProduct` on `ChargePaymentMethodDetailsCardPresent`, `ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent`, `ConfirmationTokenPaymentMethodPreviewCardPresent`, `PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent`, and `PaymentMethodCardPresent`
+  * Add support for `NetworkTransactionID` on `ChargePaymentMethodDetailsCardPresent`, `ChargePaymentMethodDetailsInteracPresent`, `ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent`, and `PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent`
+  * Add support for `CaseType` on `DisputePaymentMethodDetailsCard`
+  * Add support for new values `invoice.overdue` and `invoice.will_be_due` on enum `EventType`
+  * Add support for `TWINT` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
 
 ## 79.6.0-beta.1 - 2024-07-25
 * [#1889](https://github.com/stripe/stripe-go/pull/1889) Update generated code for beta
