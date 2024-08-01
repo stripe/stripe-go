@@ -1,4 +1,13 @@
 # Changelog
+## 79.7.0-beta.1 - 2024-08-01
+* [#1898](https://github.com/stripe/stripe-go/pull/1898) Update generated code for beta
+  * Add support for `AttachPayment` method on resource `Invoice`
+  * Add support for `AppInstall` and `AppViewport` on `AccountSessionComponentsParams`
+  * Remove support for `PartnerRejectedDetails` on `DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3`
+  * Add support for `LinesInvalid` on `QuoteStatusDetailsStaleLastReason`
+  * Add support for new value `lines_invalid` on enum `QuoteStatusDetailsStaleLastReasonType`
+  * Add support for `LastPriceMigrationError` on `SubscriptionSchedule` and `Subscription`
+
 ## 79.6.1-beta.1 - 2024-07-25
 * [#1893](https://github.com/stripe/stripe-go/pull/1893) Update generated code for beta
   * Add support for new resources `Billing.AlertTriggered` and `Billing.Alert`
