@@ -56,6 +56,7 @@ const (
 	ErrorCodeChargeAlreadyRefunded                                       ErrorCode = "charge_already_refunded"
 	ErrorCodeChargeDisputed                                              ErrorCode = "charge_disputed"
 	ErrorCodeChargeExceedsSourceLimit                                    ErrorCode = "charge_exceeds_source_limit"
+	ErrorCodeChargeExceedsTransactionLimit                               ErrorCode = "charge_exceeds_transaction_limit"
 	ErrorCodeChargeExpiredForCapture                                     ErrorCode = "charge_expired_for_capture"
 	ErrorCodeChargeInvalidParameter                                      ErrorCode = "charge_invalid_parameter"
 	ErrorCodeChargeNotRefundable                                         ErrorCode = "charge_not_refundable"

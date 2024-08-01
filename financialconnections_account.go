@@ -256,7 +256,7 @@ type FinancialConnectionsAccountAccountHolder struct {
 	Type FinancialConnectionsAccountAccountHolderType `json:"type"`
 }
 type FinancialConnectionsAccountBalanceCash struct {
-	// The funds available to the account holder. Typically this is the current balance less any holds.
+	// The funds available to the account holder. Typically this is the current balance after subtracting any outbound pending transactions and adding any inbound pending transactions.
 	//
 	// Each key is a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
 	//
@@ -278,7 +278,7 @@ type FinancialConnectionsAccountBalance struct {
 	AsOf   int64                                     `json:"as_of"`
 	Cash   *FinancialConnectionsAccountBalanceCash   `json:"cash"`
 	Credit *FinancialConnectionsAccountBalanceCredit `json:"credit"`
-	// The balances owed to (or by) the account holder.
+	// The balances owed to (or by) the account holder, before subtracting any outbound pending transactions or adding any inbound pending transactions.
 	//
 	// Each key is a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
 	//

@@ -833,6 +833,24 @@ func TestFormatURLPath(t *testing.T) {
 		FormatURLPath("/v1/resources/%s", "%"))
 }
 
+func TestGetBackendWithConfig(t *testing.T) {
+	// No config overrides: https://github.com/stripe/stripe-go/issues/1894
+	{
+		config := &BackendConfig{}
+		_ = GetBackendWithConfig(
+			APIBackend,
+			config,
+		).(*BackendImplementation)
+
+		// Config properties left unchanged
+		assert.Nil(t, config.EnableTelemetry)
+		assert.Nil(t, config.HTTPClient)
+		assert.Nil(t, config.LeveledLogger)
+		assert.Nil(t, config.MaxNetworkRetries)
+		assert.Nil(t, config.URL)
+	}
+}
+
 func TestGetBackendWithConfig_Loggers(t *testing.T) {
 	leveledLogger := &LeveledLogger{}
 

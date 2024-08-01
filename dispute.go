@@ -25,16 +25,6 @@ const (
 	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServicesServices    DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServices = "services"
 )
 
-// Rejection reason for evidence submitted as Visa Compelling Evidence 3.0 to Visa and rejected by Visa.
-type DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3PartnerRejectedDetails string
-
-// List of values that DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3PartnerRejectedDetails can take
-const (
-	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3PartnerRejectedDetailsFraudulentPriorTransaction DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3PartnerRejectedDetails = "fraudulent_prior_transaction"
-	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3PartnerRejectedDetailsOther                      DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3PartnerRejectedDetails = "other"
-	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3PartnerRejectedDetailsVisaInternalError          DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3PartnerRejectedDetails = "visa_internal_error"
-)
-
 // List of actions required to qualify dispute for Visa Compelling Evidence 3.0 evidence submission.
 type DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction string
 
@@ -381,8 +371,6 @@ type DisputeEvidence struct {
 	UncategorizedText string `json:"uncategorized_text"`
 }
 type DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3 struct {
-	// Rejection reason for evidence submitted as Visa Compelling Evidence 3.0 to Visa and rejected by Visa.
-	PartnerRejectedDetails DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3PartnerRejectedDetails `json:"partner_rejected_details"`
 	// List of actions required to qualify dispute for Visa Compelling Evidence 3.0 evidence submission.
 	RequiredActions []DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction `json:"required_actions"`
 	// Visa Compelling Evidence 3.0 eligibility status.

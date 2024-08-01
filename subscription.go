@@ -63,6 +63,14 @@ const (
 	SubscriptionInvoiceSettingsIssuerTypeSelf    SubscriptionInvoiceSettingsIssuerType = "self"
 )
 
+// The type of error encountered by the price migration.
+type SubscriptionLastPriceMigrationErrorType string
+
+// List of values that SubscriptionLastPriceMigrationErrorType can take
+const (
+	SubscriptionLastPriceMigrationErrorTypePriceUniquenessViolation SubscriptionLastPriceMigrationErrorType = "price_uniqueness_violation"
+)
+
 // The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 type SubscriptionPauseCollectionBehavior string
 
@@ -362,7 +370,7 @@ type SubscriptionParams struct {
 	Items []*SubscriptionItemsParams `form:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// Indicates if a customer is on or off-session while an invoice payment is attempted.
+	// Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `false` (on-session).
 	OffSession *bool `form:"off_session"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
@@ -909,6 +917,24 @@ type SubscriptionInvoiceSettings struct {
 	Issuer        *SubscriptionInvoiceSettingsIssuer `json:"issuer"`
 }
 
+// The involved price pairs in each failed transition.
+type SubscriptionLastPriceMigrationErrorFailedTransition struct {
+	// The original price to be migrated.
+	SourcePrice string `json:"source_price"`
+	// The intended resulting price of the migration.
+	TargetPrice string `json:"target_price"`
+}
+
+// Details of the most recent price migration that failed for the subscription.
+type SubscriptionLastPriceMigrationError struct {
+	// The time at which the price migration encountered an error.
+	ErroredAt int64 `json:"errored_at"`
+	// The involved price pairs in each failed transition.
+	FailedTransitions []*SubscriptionLastPriceMigrationErrorFailedTransition `json:"failed_transitions"`
+	// The type of error encountered by the price migration.
+	Type SubscriptionLastPriceMigrationErrorType `json:"type"`
+}
+
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
@@ -1134,6 +1160,8 @@ type Subscription struct {
 	InvoiceSettings *SubscriptionInvoiceSettings `json:"invoice_settings"`
 	// List of subscription items, each with an attached price.
 	Items *SubscriptionItemList `json:"items"`
+	// Details of the most recent price migration that failed for the subscription.
+	LastPriceMigrationError *SubscriptionLastPriceMigrationError `json:"last_price_migration_error"`
 	// The most recent invoice this subscription has generated.
 	LatestInvoice *Invoice `json:"latest_invoice"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

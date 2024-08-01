@@ -155,6 +155,7 @@ const (
 	QuoteStatusDetailsStaleLastReasonTypeAcceptFailedValidations      QuoteStatusDetailsStaleLastReasonType = "accept_failed_validations"
 	QuoteStatusDetailsStaleLastReasonTypeBillOnAcceptanceInvalid      QuoteStatusDetailsStaleLastReasonType = "bill_on_acceptance_invalid"
 	QuoteStatusDetailsStaleLastReasonTypeLineInvalid                  QuoteStatusDetailsStaleLastReasonType = "line_invalid"
+	QuoteStatusDetailsStaleLastReasonTypeLinesInvalid                 QuoteStatusDetailsStaleLastReasonType = "lines_invalid"
 	QuoteStatusDetailsStaleLastReasonTypeMarkedStale                  QuoteStatusDetailsStaleLastReasonType = "marked_stale"
 	QuoteStatusDetailsStaleLastReasonTypeSubscriptionCanceled         QuoteStatusDetailsStaleLastReasonType = "subscription_canceled"
 	QuoteStatusDetailsStaleLastReasonTypeSubscriptionChanged          QuoteStatusDetailsStaleLastReasonType = "subscription_changed"
@@ -1517,6 +1518,14 @@ type QuoteStatusDetailsCanceled struct {
 	// Time at which the quote was marked as canceled. Measured in seconds since the Unix epoch.
 	TransitionedAt int64 `json:"transitioned_at"`
 }
+
+// The IDs of the lines that are invalid if the stale reason type is `lines_invalid`.
+type QuoteStatusDetailsStaleLastReasonLinesInvalid struct {
+	// The timestamp at which the lines were marked as invalid.
+	InvalidAt int64 `json:"invalid_at"`
+	// The list of lines that became invalid at the given timestamp.
+	Lines []string `json:"lines"`
+}
 type QuoteStatusDetailsStaleLastReasonSubscriptionChanged struct {
 	// The subscription's state before the quote was marked as stale.
 	PreviousSubscription *Subscription `json:"previous_subscription"`
@@ -1530,6 +1539,8 @@ type QuoteStatusDetailsStaleLastReasonSubscriptionScheduleChanged struct {
 type QuoteStatusDetailsStaleLastReason struct {
 	// The ID of the line that is invalid if the stale reason type is `line_invalid`.
 	LineInvalid string `json:"line_invalid"`
+	// The IDs of the lines that are invalid if the stale reason type is `lines_invalid`.
+	LinesInvalid []*QuoteStatusDetailsStaleLastReasonLinesInvalid `json:"lines_invalid"`
 	// The user supplied mark stale reason.
 	MarkedStale string `json:"marked_stale"`
 	// The ID of the subscription that was canceled.
