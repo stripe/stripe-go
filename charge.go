@@ -786,8 +786,6 @@ type ChargePaymentMethodDetailsCardWallet struct {
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
-	// Authorization code on the charge.
-	AuthorizationCode string `json:"authorization_code"`
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
@@ -1309,7 +1307,7 @@ type Charge struct {
 	// ID of the balance transaction that describes the impact of this charge on your account balance (not including refunds or disputes).
 	BalanceTransaction *BalanceTransaction   `json:"balance_transaction"`
 	BillingDetails     *ChargeBillingDetails `json:"billing_details"`
-	// The full statement descriptor that is passed to card networks, and that is displayed on your customers' credit card and bank statements. Allows you to see what the statement descriptor looks like after the static and dynamic portions are combined.
+	// The full statement descriptor that is passed to card networks, and that is displayed on your customers' credit card and bank statements. Allows you to see what the statement descriptor looks like after the static and dynamic portions are combined. This only works for card payments.
 	CalculatedStatementDescriptor string `json:"calculated_statement_descriptor"`
 	// If the charge was created without capturing, this Boolean represents whether it is still uncaptured or has since been captured.
 	Captured bool `json:"captured"`
