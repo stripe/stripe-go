@@ -352,7 +352,7 @@ type SubscriptionParams struct {
 	Items []*SubscriptionItemsParams `form:"items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// Indicates if a customer is on or off-session while an invoice payment is attempted.
+	// Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `false` (on-session).
 	OffSession *bool `form:"off_session"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
