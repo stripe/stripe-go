@@ -218,6 +218,32 @@ const (
 	TaxCalculationTaxBreakdownTaxabilityReasonZeroRated            TaxCalculationTaxBreakdownTaxabilityReason = "zero_rated"
 )
 
+// Retrieves a Tax Calculation object, if the calculation hasn't expired.
+type TaxCalculationParams struct {
+	Params `form:"*"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of an existing customer to use for this calculation. If provided, the customer's address and tax IDs are copied to `customer_details`.
+	Customer *string `form:"customer"`
+	// Details about the customer, including address and tax IDs.
+	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A list of items the customer is purchasing.
+	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
+	// Details about the address from which the goods are being shipped.
+	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details"`
+	// Shipping cost details to be used for the calculation.
+	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
+	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
+	TaxDate *int64 `form:"tax_date"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxCalculationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 type TaxCalculationListLineItemsParams struct {
 	ListParams  `form:"*"`
@@ -286,32 +312,6 @@ type TaxCalculationShippingCostParams struct {
 	TaxBehavior *string `form:"tax_behavior"`
 	// The [tax code](https://stripe.com/docs/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://stripe.com/settings/tax) is used.
 	TaxCode *string `form:"tax_code"`
-}
-
-// Calculates tax based on the input and returns a Tax Calculation object.
-type TaxCalculationParams struct {
-	Params `form:"*"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-	// The ID of an existing customer to use for this calculation. If provided, the customer's address and tax IDs are copied to `customer_details`.
-	Customer *string `form:"customer"`
-	// Details about the customer, including address and tax IDs.
-	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// A list of items the customer is purchasing.
-	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
-	// Details about the address from which the goods are being shipped.
-	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details"`
-	// Shipping cost details to be used for the calculation.
-	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
-	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
-	TaxDate *int64 `form:"tax_date"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TaxCalculationParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // The customer's tax IDs (for example, EU VAT numbers).
