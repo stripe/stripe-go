@@ -147,6 +147,7 @@ const (
 	SetupIntentPaymentMethodOptionsCardNetworkDiners          SetupIntentPaymentMethodOptionsCardNetwork = "diners"
 	SetupIntentPaymentMethodOptionsCardNetworkDiscover        SetupIntentPaymentMethodOptionsCardNetwork = "discover"
 	SetupIntentPaymentMethodOptionsCardNetworkEFTPOSAU        SetupIntentPaymentMethodOptionsCardNetwork = "eftpos_au"
+	SetupIntentPaymentMethodOptionsCardNetworkGirocard        SetupIntentPaymentMethodOptionsCardNetwork = "girocard"
 	SetupIntentPaymentMethodOptionsCardNetworkInterac         SetupIntentPaymentMethodOptionsCardNetwork = "interac"
 	SetupIntentPaymentMethodOptionsCardNetworkJCB             SetupIntentPaymentMethodOptionsCardNetwork = "jcb"
 	SetupIntentPaymentMethodOptionsCardNetworkMastercard      SetupIntentPaymentMethodOptionsCardNetwork = "mastercard"

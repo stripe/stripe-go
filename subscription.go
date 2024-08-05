@@ -111,6 +111,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkDiners          SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "diners"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkDiscover        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "discover"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkEFTPOSAU        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "eftpos_au"
+	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkGirocard        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "girocard"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkInterac         SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "interac"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkJCB             SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "jcb"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkMastercard      SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "mastercard"
