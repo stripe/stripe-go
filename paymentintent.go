@@ -436,6 +436,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkDiners          PaymentIntentPaymentMethodOptionsCardNetwork = "diners"
 	PaymentIntentPaymentMethodOptionsCardNetworkDiscover        PaymentIntentPaymentMethodOptionsCardNetwork = "discover"
 	PaymentIntentPaymentMethodOptionsCardNetworkEFTPOSAU        PaymentIntentPaymentMethodOptionsCardNetwork = "eftpos_au"
+	PaymentIntentPaymentMethodOptionsCardNetworkGirocard        PaymentIntentPaymentMethodOptionsCardNetwork = "girocard"
 	PaymentIntentPaymentMethodOptionsCardNetworkInterac         PaymentIntentPaymentMethodOptionsCardNetwork = "interac"
 	PaymentIntentPaymentMethodOptionsCardNetworkJCB             PaymentIntentPaymentMethodOptionsCardNetwork = "jcb"
 	PaymentIntentPaymentMethodOptionsCardNetworkMastercard      PaymentIntentPaymentMethodOptionsCardNetwork = "mastercard"
