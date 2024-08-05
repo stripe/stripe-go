@@ -649,6 +649,12 @@ type ConfirmationTokenPaymentMethodPreviewCardPresentNetworks struct {
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`
 }
+
+// Details about payment methods collected offline.
+type ConfirmationTokenPaymentMethodPreviewCardPresentOffline struct {
+	// Time at which the payment was collected while offline
+	StoredAt int64 `json:"stored_at"`
+}
 type ConfirmationTokenPaymentMethodPreviewCardPresent struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
@@ -678,6 +684,8 @@ type ConfirmationTokenPaymentMethodPreviewCardPresent struct {
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
 	Networks *ConfirmationTokenPaymentMethodPreviewCardPresentNetworks `json:"networks"`
+	// Details about payment methods collected offline.
+	Offline *ConfirmationTokenPaymentMethodPreviewCardPresentOffline `json:"offline"`
 	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
