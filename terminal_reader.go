@@ -60,7 +60,7 @@ const (
 	TerminalReaderDeviceTypeVerifoneP400      TerminalReaderDeviceType = "verifone_P400"
 )
 
-// The networking status of the reader.
+// The networking status of the reader. We do not recommend using this field in flows that may block taking payments.
 type TerminalReaderStatus string
 
 // List of values that TerminalReaderStatus can take
@@ -411,7 +411,7 @@ type TerminalReader struct {
 	Object string `json:"object"`
 	// Serial number of the reader.
 	SerialNumber string `json:"serial_number"`
-	// The networking status of the reader.
+	// The networking status of the reader. We do not recommend using this field in flows that may block taking payments.
 	Status TerminalReaderStatus `json:"status"`
 }
 

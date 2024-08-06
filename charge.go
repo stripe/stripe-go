@@ -314,7 +314,7 @@ type ChargeListParams struct {
 	Expand []*string `form:"expand"`
 	// Only return charges that were created by the PaymentIntent specified by this PaymentIntent ID.
 	PaymentIntent *string `form:"payment_intent"`
-	// Only return charges for this transfer group.
+	// Only return charges for this transfer group, limited to 100.
 	TransferGroup *string `form:"transfer_group"`
 }
 
