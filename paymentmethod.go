@@ -487,7 +487,7 @@ type PaymentMethodRechnungDOBParams struct {
 	Year *int64 `form:"year"`
 }
 
-// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 type PaymentMethodRechnungParams struct {
 	// Customer's date of birth
 	DOB *PaymentMethodRechnungDOBParams `form:"dob"`
@@ -611,7 +611,7 @@ type PaymentMethodParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
-	// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
