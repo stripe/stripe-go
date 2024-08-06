@@ -1324,12 +1324,9 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 	// Shipping information for this payment.
 	Shipping *ShippingDetailsParams `form:"shipping"`
-	// Extra information about the payment. This will appear on your
-	// customer's statement when this payment succeeds in creating a charge.
+	// Text that appears on the customer's statement as the [statement descriptor](https://docs.stripe.com/get-started/account/statement-descriptors) for a non-card charge. This value overrides the account's default statement descriptor. Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// Provides information about the charge that customers see on their statements. Concatenated with the
-	// prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete
-	// statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.corp.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// The parameters used to automatically create a Transfer when the payment succeeds.
 	// For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
