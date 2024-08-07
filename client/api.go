@@ -18,6 +18,7 @@ import (
 	"github.com/stripe/stripe-go/v79/balance"
 	"github.com/stripe/stripe-go/v79/balancetransaction"
 	"github.com/stripe/stripe-go/v79/bankaccount"
+	billingalert "github.com/stripe/stripe-go/v79/billing/alert"
 	billingmeter "github.com/stripe/stripe-go/v79/billing/meter"
 	billingmeterevent "github.com/stripe/stripe-go/v79/billing/meterevent"
 	billingmetereventadjustment "github.com/stripe/stripe-go/v79/billing/metereventadjustment"
@@ -162,6 +163,8 @@ type API struct {
 	BalanceTransactions *balancetransaction.Client
 	// BankAccounts is the client used to invoke bankaccount related APIs.
 	BankAccounts *bankaccount.Client
+	// BillingAlerts is the client used to invoke /billing/alerts APIs.
+	BillingAlerts *billingalert.Client
 	// BillingMeterEventAdjustments is the client used to invoke /billing/meter_event_adjustments APIs.
 	BillingMeterEventAdjustments *billingmetereventadjustment.Client
 	// BillingMeterEvents is the client used to invoke /billing/meter_events APIs.
@@ -427,6 +430,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
+	a.BillingAlerts = &billingalert.Client{B: backends.API, Key: key}
 	a.BillingMeterEventAdjustments = &billingmetereventadjustment.Client{B: backends.API, Key: key}
 	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
 	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}
