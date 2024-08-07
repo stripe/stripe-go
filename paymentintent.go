@@ -1386,9 +1386,9 @@ type PaymentIntentPaymentMethodOptionsBoletoParams struct {
 // The selected installment plan to use for this payment attempt.
 // This parameter can only be provided during confirmation.
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
-	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
+	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
 	Count *int64 `form:"count"`
-	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
+	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
 	// Type of installment plan, one of `fixed_count`.
