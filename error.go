@@ -94,6 +94,7 @@ const (
 	ErrorCodeInvalidChargeAmount                                         ErrorCode = "invalid_charge_amount"
 	ErrorCodeInvalidExpiryMonth                                          ErrorCode = "invalid_expiry_month"
 	ErrorCodeInvalidExpiryYear                                           ErrorCode = "invalid_expiry_year"
+	ErrorCodeInvalidMandateReferencePrefixFormat                         ErrorCode = "invalid_mandate_reference_prefix_format"
 	ErrorCodeInvalidNumber                                               ErrorCode = "invalid_number"
 	ErrorCodeInvalidSourceUsage                                          ErrorCode = "invalid_source_usage"
 	ErrorCodeInvalidTaxLocation                                          ErrorCode = "invalid_tax_location"
