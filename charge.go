@@ -188,6 +188,14 @@ const (
 	ChargePaymentMethodDetailsCardPresentNetworkUnknown         ChargePaymentMethodDetailsCardPresentNetwork = "unknown"
 )
 
+// The method used to process this payment method offline. Only deferred is allowed.
+type ChargePaymentMethodDetailsCardPresentOfflineType string
+
+// List of values that ChargePaymentMethodDetailsCardPresentOfflineType can take
+const (
+	ChargePaymentMethodDetailsCardPresentOfflineTypeDeferred ChargePaymentMethodDetailsCardPresentOfflineType = "deferred"
+)
+
 // The type of account being debited or credited
 type ChargePaymentMethodDetailsCardPresentReceiptAccountType string
 
@@ -840,6 +848,8 @@ type ChargePaymentMethodDetailsCard struct {
 type ChargePaymentMethodDetailsCardPresentOffline struct {
 	// Time at which the payment was collected while offline
 	StoredAt int64 `json:"stored_at"`
+	// The method used to process this payment method offline. Only deferred is allowed.
+	Type ChargePaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
 
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
