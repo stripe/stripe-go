@@ -16,6 +16,14 @@ const (
 	ConfirmationTokenPaymentMethodPreviewAllowRedisplayUnspecified ConfirmationTokenPaymentMethodPreviewAllowRedisplay = "unspecified"
 )
 
+// The method used to process this payment method offline. Only deferred is allowed.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOfflineTypeDeferred ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType = "deferred"
+)
+
 // How card details were read in this transaction.
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod string
 
@@ -51,6 +59,14 @@ const (
 	ConfirmationTokenPaymentMethodPreviewCardWalletTypeMasterpass          ConfirmationTokenPaymentMethodPreviewCardWalletType = "masterpass"
 	ConfirmationTokenPaymentMethodPreviewCardWalletTypeSamsungPay          ConfirmationTokenPaymentMethodPreviewCardWalletType = "samsung_pay"
 	ConfirmationTokenPaymentMethodPreviewCardWalletTypeVisaCheckout        ConfirmationTokenPaymentMethodPreviewCardWalletType = "visa_checkout"
+)
+
+// The method used to process this payment method offline. Only deferred is allowed.
+type ConfirmationTokenPaymentMethodPreviewCardPresentOfflineType string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardPresentOfflineType can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardPresentOfflineTypeDeferred ConfirmationTokenPaymentMethodPreviewCardPresentOfflineType = "deferred"
 )
 
 // How card details were read in this transaction.
@@ -456,6 +472,8 @@ type ConfirmationTokenPaymentMethodPreviewCardChecks struct {
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline struct {
 	// Time at which the payment was collected while offline
 	StoredAt int64 `json:"stored_at"`
+	// The method used to process this payment method offline. Only deferred is allowed.
+	Type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
 
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
@@ -654,6 +672,8 @@ type ConfirmationTokenPaymentMethodPreviewCardPresentNetworks struct {
 type ConfirmationTokenPaymentMethodPreviewCardPresentOffline struct {
 	// Time at which the payment was collected while offline
 	StoredAt int64 `json:"stored_at"`
+	// The method used to process this payment method offline. Only deferred is allowed.
+	Type ConfirmationTokenPaymentMethodPreviewCardPresentOfflineType `json:"type"`
 }
 type ConfirmationTokenPaymentMethodPreviewCardPresent struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.

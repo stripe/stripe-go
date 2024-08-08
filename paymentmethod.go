@@ -66,6 +66,14 @@ const (
 	PaymentMethodCardChecksCVCCheckUnchecked   PaymentMethodCardChecksCVCCheck = "unchecked"
 )
 
+// The method used to process this payment method offline. Only deferred is allowed.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType string
+
+// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType can take
+const (
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineTypeDeferred PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType = "deferred"
+)
+
 // How card details were read in this transaction.
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod string
 
@@ -135,6 +143,14 @@ const (
 	PaymentMethodCardWalletTypeMasterpass          PaymentMethodCardWalletType = "masterpass"
 	PaymentMethodCardWalletTypeSamsungPay          PaymentMethodCardWalletType = "samsung_pay"
 	PaymentMethodCardWalletTypeVisaCheckout        PaymentMethodCardWalletType = "visa_checkout"
+)
+
+// The method used to process this payment method offline. Only deferred is allowed.
+type PaymentMethodCardPresentOfflineType string
+
+// List of values that PaymentMethodCardPresentOfflineType can take
+const (
+	PaymentMethodCardPresentOfflineTypeDeferred PaymentMethodCardPresentOfflineType = "deferred"
 )
 
 // How card details were read in this transaction.
@@ -753,6 +769,8 @@ type PaymentMethodCardChecks struct {
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline struct {
 	// Time at which the payment was collected while offline
 	StoredAt int64 `json:"stored_at"`
+	// The method used to process this payment method offline. Only deferred is allowed.
+	Type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
 
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
@@ -953,6 +971,8 @@ type PaymentMethodCardPresentNetworks struct {
 type PaymentMethodCardPresentOffline struct {
 	// Time at which the payment was collected while offline
 	StoredAt int64 `json:"stored_at"`
+	// The method used to process this payment method offline. Only deferred is allowed.
+	Type PaymentMethodCardPresentOfflineType `json:"type"`
 }
 type PaymentMethodCardPresent struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
