@@ -397,9 +397,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 
 // The selected installment plan to use for this invoice.
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct {
-	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
+	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
 	Count *int64 `form:"count"`
-	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
+	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
 	// Type of installment plan, one of `fixed_count`.
@@ -1107,7 +1107,7 @@ type InvoiceUpcomingSubscriptionDetailsParams struct {
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
-	// Boolean indicating whether this subscription should cancel at the end of the current period.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
 	CancelNow *bool `form:"cancel_now"`
@@ -1184,7 +1184,7 @@ type InvoiceUpcomingParams struct {
 	SubscriptionBillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at` instead.
 	SubscriptionCancelAt *int64 `form:"subscription_cancel_at"`
-	// Boolean indicating whether this subscription should cancel at the end of the current period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at_period_end` instead.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at_period_end` instead.
 	SubscriptionCancelAtPeriodEnd *bool `form:"subscription_cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_now` instead.
 	SubscriptionCancelNow *bool `form:"subscription_cancel_now"`
@@ -1711,7 +1711,7 @@ type InvoiceUpcomingLinesSubscriptionDetailsParams struct {
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
-	// Boolean indicating whether this subscription should cancel at the end of the current period.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
 	CancelNow *bool `form:"cancel_now"`
@@ -1857,7 +1857,7 @@ type InvoiceUpcomingLinesParams struct {
 	SubscriptionBillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at` instead.
 	SubscriptionCancelAt *int64 `form:"subscription_cancel_at"`
-	// Boolean indicating whether this subscription should cancel at the end of the current period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at_period_end` instead.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at_period_end` instead.
 	SubscriptionCancelAtPeriodEnd *bool `form:"subscription_cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_now` instead.
 	SubscriptionCancelNow *bool `form:"subscription_cancel_now"`
@@ -2776,7 +2776,7 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
-	// Boolean indicating whether this subscription should cancel at the end of the current period.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
 	CancelNow *bool `form:"cancel_now"`

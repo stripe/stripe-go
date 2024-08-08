@@ -188,6 +188,14 @@ const (
 	ChargePaymentMethodDetailsCardPresentNetworkUnknown         ChargePaymentMethodDetailsCardPresentNetwork = "unknown"
 )
 
+// The method used to process this payment method offline. Only deferred is allowed.
+type ChargePaymentMethodDetailsCardPresentOfflineType string
+
+// List of values that ChargePaymentMethodDetailsCardPresentOfflineType can take
+const (
+	ChargePaymentMethodDetailsCardPresentOfflineTypeDeferred ChargePaymentMethodDetailsCardPresentOfflineType = "deferred"
+)
+
 // The type of account being debited or credited
 type ChargePaymentMethodDetailsCardPresentReceiptAccountType string
 
@@ -314,7 +322,7 @@ type ChargeListParams struct {
 	Expand []*string `form:"expand"`
 	// Only return charges that were created by the PaymentIntent specified by this PaymentIntent ID.
 	PaymentIntent *string `form:"payment_intent"`
-	// Only return charges for this transfer group.
+	// Only return charges for this transfer group, limited to 100.
 	TransferGroup *string `form:"transfer_group"`
 }
 
@@ -397,9 +405,9 @@ type ChargeParams struct {
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
 	Shipping *ShippingDetailsParams     `form:"shipping"`
 	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
-	// For card charges, use `statement_descriptor_suffix` instead. Otherwise, you can use this value as the complete description of a charge on your customers' statements. Must contain at least one letter, maximum 22 characters.
+	// For a non-card charge, text that appears on the customer's statement as the [statement descriptor](https://docs.stripe.com/get-started/account/statement-descriptors). This value overrides the account's default statement descriptor. For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.corp.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
 	TransferData *ChargeTransferDataParams `form:"transfer_data"`
@@ -476,9 +484,9 @@ type ChargeCaptureParams struct {
 	Expand []*string `form:"expand"`
 	// The email address to send this charge's receipt to. This will override the previously-specified email address for this charge, if one was set. Receipts will not be sent in test mode.
 	ReceiptEmail *string `form:"receipt_email"`
-	// For card charges, use `statement_descriptor_suffix` instead. Otherwise, you can use this value as the complete description of a charge on your customers' statements. Must contain at least one letter, maximum 22 characters.
+	// For a non-card charge, text that appears on the customer's statement as the [statement descriptor](https://docs.stripe.com/get-started/account/statement-descriptors). This value overrides the account's default statement descriptor. For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.corp.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
 	TransferData *ChargeCaptureTransferDataParams `form:"transfer_data"`
@@ -840,6 +848,8 @@ type ChargePaymentMethodDetailsCard struct {
 type ChargePaymentMethodDetailsCardPresentOffline struct {
 	// Time at which the payment was collected while offline
 	StoredAt int64 `json:"stored_at"`
+	// The method used to process this payment method offline. Only deferred is allowed.
+	Type ChargePaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
 
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
@@ -1307,7 +1317,7 @@ type Charge struct {
 	// ID of the balance transaction that describes the impact of this charge on your account balance (not including refunds or disputes).
 	BalanceTransaction *BalanceTransaction   `json:"balance_transaction"`
 	BillingDetails     *ChargeBillingDetails `json:"billing_details"`
-	// The full statement descriptor that is passed to card networks, and that is displayed on your customers' credit card and bank statements. Allows you to see what the statement descriptor looks like after the static and dynamic portions are combined. This only works for card payments.
+	// The full statement descriptor that is passed to card networks, and that is displayed on your customers' credit card and bank statements. Allows you to see what the statement descriptor looks like after the static and dynamic portions are combined. This value only exists for card payments.
 	CalculatedStatementDescriptor string `json:"calculated_statement_descriptor"`
 	// If the charge was created without capturing, this Boolean represents whether it is still uncaptured or has since been captured.
 	Captured bool `json:"captured"`
@@ -1372,9 +1382,9 @@ type Charge struct {
 	Source *PaymentSource `json:"source"`
 	// The transfer ID which created this charge. Only present if the charge came from another Stripe account. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
 	SourceTransfer *Transfer `json:"source_transfer"`
-	// For card charges, use `statement_descriptor_suffix` instead. Otherwise, you can use this value as the complete description of a charge on your customers' statements. Must contain at least one letter, maximum 22 characters.
+	// For a non-card charge, text that appears on the customer's statement as the [statement descriptor](https://docs.stripe.com/get-started/account/statement-descriptors). This value overrides the account's default statement descriptor. For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
 	StatementDescriptor string `json:"statement_descriptor"`
-	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.corp.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
 	StatementDescriptorSuffix string `json:"statement_descriptor_suffix"`
 	// The status of the payment is either `succeeded`, `pending`, or `failed`.
 	Status ChargeStatus `json:"status"`
