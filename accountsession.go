@@ -374,6 +374,18 @@ type AccountSessionComponentsBalances struct {
 	Enabled  bool                                      `json:"enabled"`
 	Features *AccountSessionComponentsBalancesFeatures `json:"features"`
 }
+type AccountSessionComponentsCapitalFinancingFeatures struct{}
+type AccountSessionComponentsCapitalFinancing struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                              `json:"enabled"`
+	Features *AccountSessionComponentsCapitalFinancingFeatures `json:"features"`
+}
+type AccountSessionComponentsCapitalFinancingApplicationFeatures struct{}
+type AccountSessionComponentsCapitalFinancingApplication struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                         `json:"enabled"`
+	Features *AccountSessionComponentsCapitalFinancingApplicationFeatures `json:"features"`
+}
 type AccountSessionComponentsCapitalFinancingPromotionFeatures struct{}
 type AccountSessionComponentsCapitalFinancingPromotion struct {
 	// Whether the embedded component is enabled.
@@ -459,18 +471,20 @@ type AccountSessionComponentsTaxSettings struct {
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
 }
 type AccountSessionComponents struct {
-	AccountManagement         *AccountSessionComponentsAccountManagement         `json:"account_management"`
-	AccountOnboarding         *AccountSessionComponentsAccountOnboarding         `json:"account_onboarding"`
-	Balances                  *AccountSessionComponentsBalances                  `json:"balances"`
-	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotion `json:"capital_financing_promotion"`
-	Documents                 *AccountSessionComponentsDocuments                 `json:"documents"`
-	NotificationBanner        *AccountSessionComponentsNotificationBanner        `json:"notification_banner"`
-	PaymentDetails            *AccountSessionComponentsPaymentDetails            `json:"payment_details"`
-	Payments                  *AccountSessionComponentsPayments                  `json:"payments"`
-	Payouts                   *AccountSessionComponentsPayouts                   `json:"payouts"`
-	PayoutsList               *AccountSessionComponentsPayoutsList               `json:"payouts_list"`
-	TaxRegistrations          *AccountSessionComponentsTaxRegistrations          `json:"tax_registrations"`
-	TaxSettings               *AccountSessionComponentsTaxSettings               `json:"tax_settings"`
+	AccountManagement           *AccountSessionComponentsAccountManagement           `json:"account_management"`
+	AccountOnboarding           *AccountSessionComponentsAccountOnboarding           `json:"account_onboarding"`
+	Balances                    *AccountSessionComponentsBalances                    `json:"balances"`
+	CapitalFinancing            *AccountSessionComponentsCapitalFinancing            `json:"capital_financing"`
+	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplication `json:"capital_financing_application"`
+	CapitalFinancingPromotion   *AccountSessionComponentsCapitalFinancingPromotion   `json:"capital_financing_promotion"`
+	Documents                   *AccountSessionComponentsDocuments                   `json:"documents"`
+	NotificationBanner          *AccountSessionComponentsNotificationBanner          `json:"notification_banner"`
+	PaymentDetails              *AccountSessionComponentsPaymentDetails              `json:"payment_details"`
+	Payments                    *AccountSessionComponentsPayments                    `json:"payments"`
+	Payouts                     *AccountSessionComponentsPayouts                     `json:"payouts"`
+	PayoutsList                 *AccountSessionComponentsPayoutsList                 `json:"payouts_list"`
+	TaxRegistrations            *AccountSessionComponentsTaxRegistrations            `json:"tax_registrations"`
+	TaxSettings                 *AccountSessionComponentsTaxSettings                 `json:"tax_settings"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.
