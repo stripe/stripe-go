@@ -698,6 +698,63 @@ const (
 	CheckoutSessionPaymentMethodOptionsPaypalSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
 )
 
+// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+type CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsAmountType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsAmountType can take
+const (
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsAmountTypeFixed   CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsAmountType = "fixed"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsAmountTypeMaximum CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsAmountType = "maximum"
+)
+
+// The periodicity at which payments will be collected.
+type CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule can take
+const (
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleAdhoc       CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "adhoc"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleAnnual      CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "annual"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleDaily       CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "daily"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleFortnightly CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "fortnightly"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleMonthly     CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "monthly"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleQuarterly   CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "quarterly"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleSemiAnnual  CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "semi_annual"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentScheduleWeekly      CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule = "weekly"
+)
+
+// The purpose for which payments are made. Defaults to retail.
+type CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose can take
+const (
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposeDependantSupport CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "dependant_support"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposeGovernment       CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "government"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposeLoan             CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "loan"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposeMortgage         CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "mortgage"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposeOther            CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "other"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposePension          CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "pension"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposePersonal         CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "personal"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposeRetail           CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "retail"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposeSalary           CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "salary"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposeTax              CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "tax"
+	CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurposeUtility          CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose = "utility"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsage = "off_session"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1743,6 +1800,38 @@ type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
 	Subsellers []*string `form:"subsellers"`
 }
 
+// Additional fields for Mandate creation
+type CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsParams struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount *int64 `form:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType *string `form:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate *string `form:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod *int64 `form:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose *string `form:"purpose"`
+	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
+	StartDate *string `form:"start_date"`
+}
+
+// contains details about the PayTo payment method options.
+type CheckoutSessionPaymentMethodOptionsPaytoParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // contains details about the Pix payment method options.
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
@@ -1885,6 +1974,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	PayNow *CheckoutSessionPaymentMethodOptionsPayNowParams `form:"paynow"`
 	// contains details about the PayPal payment method options.
 	Paypal *CheckoutSessionPaymentMethodOptionsPaypalParams `form:"paypal"`
+	// contains details about the PayTo payment method options.
+	Payto *CheckoutSessionPaymentMethodOptionsPaytoParams `form:"payto"`
 	// contains details about the Pix payment method options.
 	Pix *CheckoutSessionPaymentMethodOptionsPixParams `form:"pix"`
 	// contains details about the RevolutPay payment method options.
@@ -2846,6 +2937,33 @@ type CheckoutSessionPaymentMethodOptionsPaypal struct {
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
 	Subsellers []string `json:"subsellers"`
 }
+type CheckoutSessionPaymentMethodOptionsPaytoMandateOptions struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount int64 `json:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsAmountType `json:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate string `json:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod int64 `json:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose CheckoutSessionPaymentMethodOptionsPaytoMandateOptionsPurpose `json:"purpose"`
+	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
+	StartDate string `json:"start_date"`
+}
+type CheckoutSessionPaymentMethodOptionsPayto struct {
+	MandateOptions *CheckoutSessionPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsage `json:"setup_future_usage"`
+}
 type CheckoutSessionPaymentMethodOptionsPix struct {
 	// The number of seconds after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
@@ -2946,6 +3064,7 @@ type CheckoutSessionPaymentMethodOptions struct {
 	P24              *CheckoutSessionPaymentMethodOptionsP24              `json:"p24"`
 	PayNow           *CheckoutSessionPaymentMethodOptionsPayNow           `json:"paynow"`
 	Paypal           *CheckoutSessionPaymentMethodOptionsPaypal           `json:"paypal"`
+	Payto            *CheckoutSessionPaymentMethodOptionsPayto            `json:"payto"`
 	Pix              *CheckoutSessionPaymentMethodOptionsPix              `json:"pix"`
 	RevolutPay       *CheckoutSessionPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SEPADebit        *CheckoutSessionPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`

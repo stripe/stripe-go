@@ -157,6 +157,7 @@ const (
 	PaymentLinkPaymentMethodTypeP24              PaymentLinkPaymentMethodType = "p24"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
 	PaymentLinkPaymentMethodTypePaypal           PaymentLinkPaymentMethodType = "paypal"
+	PaymentLinkPaymentMethodTypePayto            PaymentLinkPaymentMethodType = "payto"
 	PaymentLinkPaymentMethodTypePix              PaymentLinkPaymentMethodType = "pix"
 	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
 	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
