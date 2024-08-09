@@ -14,6 +14,8 @@ type TestHelpersTreasuryOutboundTransferTrackingDetailsACHParams struct {
 
 // US domestic wire network tracking details.
 type TestHelpersTreasuryOutboundTransferTrackingDetailsUSDomesticWireParams struct {
+	// CHIPS System Sequence Number (SSN) for funds sent over the `us_domestic_wire` network.
+	Chips *string `form:"chips"`
 	// IMAD for funds sent over the `us_domestic_wire` network.
 	Imad *string `form:"imad"`
 	// OMAD for funds sent over the `us_domestic_wire` network.
