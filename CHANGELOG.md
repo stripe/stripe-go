@@ -1,5 +1,16 @@
 # Changelog
 
+## 79.7.0 - 2024-08-08
+* [#1899](https://github.com/stripe/stripe-go/pull/1899) Update generated code
+  * Add support for `Activate`, `Archive`, `Deactivate`, `Get`, `List`, and `New` methods on resource `Billing.Alert`
+  * Add support for `Get` method on resource `Tax.Calculation`
+  * Add support for new value `invalid_mandate_reference_prefix_format` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `Type` on `ChargePaymentMethodDetailsCardPresentOffline`, `ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline`, `PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline`, and `SetupAttemptPaymentMethodDetailsCardPresentOffline`
+  * Add support for `Offline` on `ConfirmationTokenPaymentMethodPreviewCardPresent` and `PaymentMethodCardPresent`
+  * Add support for `RelatedCustomer` on `IdentityVerificationSessionListParams`, `IdentityVerificationSessionParams`, and `IdentityVerificationSession`
+  * Add support for new value `girocard` on enums `PaymentIntentPaymentMethodOptionsCardNetwork`, `SetupIntentPaymentMethodOptionsCardNetwork`, and `SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork`
+  * Add support for new value `financial_addresses.aba.forwarding` on enums `TreasuryFinancialAccountActiveFeatures`, `TreasuryFinancialAccountPendingFeatures`, and `TreasuryFinancialAccountRestrictedFeatures`
+
 ## 79.7.0-beta.1 - 2024-08-01
 * [#1898](https://github.com/stripe/stripe-go/pull/1898) Update generated code for beta
   * Add support for `AttachPayment` method on resource `Invoice`
