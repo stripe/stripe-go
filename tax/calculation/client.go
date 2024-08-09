@@ -38,6 +38,19 @@ func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation
 	return calculation, err
 }
 
+// Retrieves a Tax Calculation object, if the calculation hasn't expired.
+func Get(id string, params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
+	return getC().Get(id, params)
+}
+
+// Retrieves a Tax Calculation object, if the calculation hasn't expired.
+func (c Client) Get(id string, params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
+	path := stripe.FormatURLPath("/v1/tax/calculations/%s", id)
+	calculation := &stripe.TaxCalculation{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, calculation)
+	return calculation, err
+}
+
 // Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 func ListLineItems(params *stripe.TaxCalculationListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)

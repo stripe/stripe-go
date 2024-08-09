@@ -66,6 +66,14 @@ const (
 	PaymentMethodCardChecksCVCCheckUnchecked   PaymentMethodCardChecksCVCCheck = "unchecked"
 )
 
+// The method used to process this payment method offline. Only deferred is allowed.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType string
+
+// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType can take
+const (
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineTypeDeferred PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType = "deferred"
+)
+
 // How card details were read in this transaction.
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod string
 
@@ -135,6 +143,14 @@ const (
 	PaymentMethodCardWalletTypeMasterpass          PaymentMethodCardWalletType = "masterpass"
 	PaymentMethodCardWalletTypeSamsungPay          PaymentMethodCardWalletType = "samsung_pay"
 	PaymentMethodCardWalletTypeVisaCheckout        PaymentMethodCardWalletType = "visa_checkout"
+)
+
+// The method used to process this payment method offline. Only deferred is allowed.
+type PaymentMethodCardPresentOfflineType string
+
+// List of values that PaymentMethodCardPresentOfflineType can take
+const (
+	PaymentMethodCardPresentOfflineTypeDeferred PaymentMethodCardPresentOfflineType = "deferred"
 )
 
 // How card details were read in this transaction.
@@ -487,7 +503,7 @@ type PaymentMethodRechnungDOBParams struct {
 	Year *int64 `form:"year"`
 }
 
-// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 type PaymentMethodRechnungParams struct {
 	// Customer's date of birth
 	DOB *PaymentMethodRechnungDOBParams `form:"dob"`
@@ -611,7 +627,7 @@ type PaymentMethodParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
-	// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
@@ -753,6 +769,8 @@ type PaymentMethodCardChecks struct {
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline struct {
 	// Time at which the payment was collected while offline
 	StoredAt int64 `json:"stored_at"`
+	// The method used to process this payment method offline. Only deferred is allowed.
+	Type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
 
 // A collection of fields required to be displayed on receipts. Only required for EMV transactions.
@@ -948,6 +966,14 @@ type PaymentMethodCardPresentNetworks struct {
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`
 }
+
+// Details about payment methods collected offline.
+type PaymentMethodCardPresentOffline struct {
+	// Time at which the payment was collected while offline
+	StoredAt int64 `json:"stored_at"`
+	// The method used to process this payment method offline. Only deferred is allowed.
+	Type PaymentMethodCardPresentOfflineType `json:"type"`
+}
 type PaymentMethodCardPresent struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
@@ -977,6 +1003,8 @@ type PaymentMethodCardPresent struct {
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
 	Networks *PaymentMethodCardPresentNetworks `json:"networks"`
+	// Details about payment methods collected offline.
+	Offline *PaymentMethodCardPresentOffline `json:"offline"`
 	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.

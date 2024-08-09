@@ -147,6 +147,7 @@ const (
 	SetupIntentPaymentMethodOptionsCardNetworkDiners          SetupIntentPaymentMethodOptionsCardNetwork = "diners"
 	SetupIntentPaymentMethodOptionsCardNetworkDiscover        SetupIntentPaymentMethodOptionsCardNetwork = "discover"
 	SetupIntentPaymentMethodOptionsCardNetworkEFTPOSAU        SetupIntentPaymentMethodOptionsCardNetwork = "eftpos_au"
+	SetupIntentPaymentMethodOptionsCardNetworkGirocard        SetupIntentPaymentMethodOptionsCardNetwork = "girocard"
 	SetupIntentPaymentMethodOptionsCardNetworkInterac         SetupIntentPaymentMethodOptionsCardNetwork = "interac"
 	SetupIntentPaymentMethodOptionsCardNetworkJCB             SetupIntentPaymentMethodOptionsCardNetwork = "jcb"
 	SetupIntentPaymentMethodOptionsCardNetworkMastercard      SetupIntentPaymentMethodOptionsCardNetwork = "mastercard"
@@ -524,7 +525,7 @@ type SetupIntentPaymentMethodDataRechnungDOBParams struct {
 	Year *int64 `form:"year"`
 }
 
-// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 type SetupIntentPaymentMethodDataRechnungParams struct {
 	// Customer's date of birth
 	DOB *SetupIntentPaymentMethodDataRechnungDOBParams `form:"dob"`
@@ -642,7 +643,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	PromptPay *SetupIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
-	// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *SetupIntentPaymentMethodDataRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
@@ -701,6 +702,15 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 
 // If this is a `amazon_pay` SetupIntent, this sub-hash contains details about the AmazonPay payment method options.
 type SetupIntentPaymentMethodOptionsAmazonPayParams struct{}
+
+// Additional fields for Mandate creation
+type SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams struct{}
+
+// If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
+type SetupIntentPaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options"`
+}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
@@ -904,6 +914,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	// If this is a `amazon_pay` SetupIntent, this sub-hash contains details about the AmazonPay payment method options.
 	AmazonPay *SetupIntentPaymentMethodOptionsAmazonPayParams `form:"amazon_pay"`
+	// If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
+	BACSDebit *SetupIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
@@ -1189,7 +1201,7 @@ type SetupIntentConfirmPaymentMethodDataRechnungDOBParams struct {
 	Year *int64 `form:"year"`
 }
 
-// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 type SetupIntentConfirmPaymentMethodDataRechnungParams struct {
 	// Customer's date of birth
 	DOB *SetupIntentConfirmPaymentMethodDataRechnungDOBParams `form:"dob"`
@@ -1307,7 +1319,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	PromptPay *SetupIntentConfirmPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options"`
-	// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *SetupIntentConfirmPaymentMethodDataRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentConfirmPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
@@ -1477,6 +1489,10 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 type SetupIntentPaymentMethodOptionsAmazonPay struct{}
+type SetupIntentPaymentMethodOptionsBACSDebitMandateOptions struct{}
+type SetupIntentPaymentMethodOptionsBACSDebit struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options"`
+}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
@@ -1581,6 +1597,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
 	AmazonPay     *SetupIntentPaymentMethodOptionsAmazonPay     `json:"amazon_pay"`
+	BACSDebit     *SetupIntentPaymentMethodOptionsBACSDebit     `json:"bacs_debit"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	CardPresent   *SetupIntentPaymentMethodOptionsCardPresent   `json:"card_present"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`

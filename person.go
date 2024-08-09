@@ -297,6 +297,7 @@ func (p *PersonListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Details on the legal guardian's acceptance of the main Stripe service agreement.
 type PersonAdditionalTOSAcceptancesAccount struct {
 	// The Unix timestamp marking when the legal guardian accepted the service agreement.
 	Date int64 `json:"date"`
@@ -306,6 +307,7 @@ type PersonAdditionalTOSAcceptancesAccount struct {
 	UserAgent string `json:"user_agent"`
 }
 type PersonAdditionalTOSAcceptances struct {
+	// Details on the legal guardian's acceptance of the main Stripe service agreement.
 	Account *PersonAdditionalTOSAcceptancesAccount `json:"account"`
 }
 

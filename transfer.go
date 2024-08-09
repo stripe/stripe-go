@@ -43,7 +43,7 @@ type TransferParams struct {
 	Params `form:"*"`
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
 	Amount *int64 `form:"amount"`
-	// 3-letter [ISO code for currency](https://stripe.com/docs/payouts).
+	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies).
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
