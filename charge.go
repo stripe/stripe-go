@@ -1431,6 +1431,8 @@ type ChargePaymentMethodDetailsCardWallet struct {
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
+	// Authorization code on the charge.
+	AuthorizationCode string `json:"authorization_code"`
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
