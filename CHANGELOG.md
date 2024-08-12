@@ -1,4 +1,11 @@
 # Changelog
+## 79.8.0-beta.1 - 2024-08-12
+* [#1900](https://github.com/stripe/stripe-go/pull/1900) Update generated code for beta
+  * Add support for `CapitalFinancingApplication` and `CapitalFinancing` on `AccountSessionComponents`
+  * Add support for `Payto` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for new value `custom` on enum `CheckoutSessionUiMode`
+  * ⚠️  Remove support for `RiskCorrelationID` on `PaymentIntentConfirmPaymentMethodOptionsRechnungParams`, `PaymentIntentPaymentMethodOptionsRechnungParams`, and `PaymentIntentPaymentMethodOptionsRechnung`
+  * Add support for new value `payto` on enum `PaymentLinkPaymentMethodTypes`
 
 ## 79.7.0 - 2024-08-08
 * [#1899](https://github.com/stripe/stripe-go/pull/1899) Update generated code
