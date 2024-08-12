@@ -92,7 +92,8 @@ type IdentityVerificationSessionListParams struct {
 	// Only return VerificationSessions that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand          []*string `form:"expand"`
+	RelatedCustomer *string   `form:"related_customer"`
 	// Only return VerificationSessions with this status. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 	Status *string `form:"status"`
 }
@@ -147,6 +148,8 @@ type IdentityVerificationSessionParams struct {
 	Options *IdentityVerificationSessionOptionsParams `form:"options"`
 	// Details provided about the user being verified. These details may be shown to the user.
 	ProvidedDetails *IdentityVerificationSessionProvidedDetailsParams `form:"provided_details"`
+	// Token referencing a Customer resource.
+	RelatedCustomer *string `form:"related_customer"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
@@ -329,6 +332,8 @@ type IdentityVerificationSession struct {
 	ProvidedDetails *IdentityVerificationSessionProvidedDetails `json:"provided_details"`
 	// Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
 	Redaction *IdentityVerificationSessionRedaction `json:"redaction"`
+	// Token referencing a Customer resource.
+	RelatedCustomer string `json:"related_customer"`
 	// Status of this VerificationSession. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 	Status IdentityVerificationSessionStatus `json:"status"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed.

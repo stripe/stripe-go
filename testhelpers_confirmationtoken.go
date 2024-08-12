@@ -178,7 +178,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataRechnungDOBParams struct {
 	Year *int64 `form:"year"`
 }
 
-// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataRechnungParams struct {
 	// Customer's date of birth
 	DOB *TestHelpersConfirmationTokenPaymentMethodDataRechnungDOBParams `form:"dob"`
@@ -295,7 +295,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	PromptPay *TestHelpersConfirmationTokenPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *TestHelpersConfirmationTokenPaymentMethodDataRadarOptionsParams `form:"radar_options"`
-	// If this is a Rechnung PaymentMethod, this hash contains details about the Rechnung payment method.
+	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *TestHelpersConfirmationTokenPaymentMethodDataRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams `form:"revolut_pay"`

@@ -119,6 +119,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkDiners          SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "diners"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkDiscover        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "discover"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkEFTPOSAU        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "eftpos_au"
+	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkGirocard        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "girocard"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkInterac         SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "interac"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkJCB             SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "jcb"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkMastercard      SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "mastercard"
@@ -338,7 +339,7 @@ type SubscriptionParams struct {
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
-	// Boolean indicating whether this subscription should cancel at the end of the current period.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Details about why this subscription was cancelled
 	CancellationDetails *SubscriptionCancellationDetailsParams `form:"cancellation_details"`
@@ -394,7 +395,7 @@ type SubscriptionParams struct {
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed now.
 	Prebilling *SubscriptionPrebillingParams `form:"prebilling"`
-	// The ID of a promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
+	// The promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
 	PromotionCode *string `form:"promotion_code"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
@@ -1121,7 +1122,7 @@ type Subscription struct {
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled
 	CancelAt int64 `json:"cancel_at"`
-	// If the subscription has been canceled with the `at_period_end` flag set to `true`, `cancel_at_period_end` on the subscription will be true. You can use this attribute to determine whether a subscription that has a status of active is scheduled to be canceled at the end of the current period.
+	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period.
 	CancelAtPeriodEnd bool `json:"cancel_at_period_end"`
 	// If the subscription has been canceled, the date of that cancellation. If the subscription was canceled with `cancel_at_period_end`, `canceled_at` will reflect the time of the most recent update request, not the end of the subscription period when the subscription is automatically moved to a canceled state.
 	CanceledAt int64 `json:"canceled_at"`
