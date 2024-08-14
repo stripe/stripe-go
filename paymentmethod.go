@@ -801,10 +801,7 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	Last4 string `json:"last4"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
-	// This is used by the financial networks to identify a transaction.
-	// Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data.
-	// The first three digits of the Trace ID is the Financial Network Code, the next 6 digits is the Banknet Reference Number, and the last 4 digits represent the date (MM/DD).
-	// This field will be available for successful Visa, Mastercard, or American Express transactions and always null for other card brands.
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. The first three digits of the Trace ID is the Financial Network Code, the next 6 digits is the Banknet Reference Number, and the last 4 digits represent the date (MM/DD). This field will be available for successful Visa, Mastercard, or American Express transactions and always null for other card brands.
 	NetworkTransactionID string `json:"network_transaction_id"`
 	// Details about payments collected offline.
 	Offline *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline `json:"offline"`
