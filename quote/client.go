@@ -98,12 +98,12 @@ func (c Client) FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams
 	return quote, err
 }
 
-// Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.corp.stripe.com/quotes/overview#quote_pdf)
+// Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.stripe.com/quotes/overview#quote_pdf)
 func PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	return getC().PDF(id, params)
 }
 
-// Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.corp.stripe.com/quotes/overview#quote_pdf)
+// Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.stripe.com/quotes/overview#quote_pdf)
 func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/pdf", id)
 	stream := &stripe.APIStream{}
