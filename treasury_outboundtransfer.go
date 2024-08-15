@@ -210,6 +210,8 @@ type TreasuryOutboundTransferTrackingDetailsACH struct {
 	TraceID string `json:"trace_id"`
 }
 type TreasuryOutboundTransferTrackingDetailsUSDomesticWire struct {
+	// CHIPS System Sequence Number (SSN) of the OutboundTransfer for transfers sent over the `us_domestic_wire` network.
+	Chips string `json:"chips"`
 	// IMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network.
 	Imad string `json:"imad"`
 	// OMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network.

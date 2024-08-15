@@ -621,6 +621,15 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 // If this is a `amazon_pay` SetupIntent, this sub-hash contains details about the AmazonPay payment method options.
 type SetupIntentPaymentMethodOptionsAmazonPayParams struct{}
 
+// Additional fields for Mandate creation
+type SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams struct{}
+
+// If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
+type SetupIntentPaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options"`
+}
+
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Amount to be charged for future payments.
@@ -786,6 +795,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	// If this is a `amazon_pay` SetupIntent, this sub-hash contains details about the AmazonPay payment method options.
 	AmazonPay *SetupIntentPaymentMethodOptionsAmazonPayParams `form:"amazon_pay"`
+	// If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
+	BACSDebit *SetupIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// Configuration for any card setup attempted on this SetupIntent.
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
@@ -1327,6 +1338,10 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 type SetupIntentPaymentMethodOptionsAmazonPay struct{}
+type SetupIntentPaymentMethodOptionsBACSDebitMandateOptions struct{}
+type SetupIntentPaymentMethodOptionsBACSDebit struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options"`
+}
 
 // Configuration options for setting up an eMandate for cards issued in India.
 type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
@@ -1401,6 +1416,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccount struct {
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
 	AmazonPay     *SetupIntentPaymentMethodOptionsAmazonPay     `json:"amazon_pay"`
+	BACSDebit     *SetupIntentPaymentMethodOptionsBACSDebit     `json:"bacs_debit"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	CardPresent   *SetupIntentPaymentMethodOptionsCardPresent   `json:"card_present"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
@@ -1476,7 +1492,7 @@ type SetupIntent struct {
 	Object string `json:"object"`
 	// The account (if any) for which the setup is intended.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// ID of the payment method used with this SetupIntent. If the payment method is `card_present` and isn't a digital wallet, then the [generated_card](https://docs.corp.stripe.com/api/setup_attempts/object#setup_attempt_object-payment_method_details-card_present-generated_card) associated with the `latest_attempt` is attached to the Customer instead.
+	// ID of the payment method used with this SetupIntent. If the payment method is `card_present` and isn't a digital wallet, then the [generated_card](https://docs.stripe.com/api/setup_attempts/object#setup_attempt_object-payment_method_details-card_present-generated_card) associated with the `latest_attempt` is attached to the Customer instead.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
 	// Information about the payment method configuration used for this Setup Intent.
 	PaymentMethodConfigurationDetails *SetupIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
