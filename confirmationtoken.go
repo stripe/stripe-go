@@ -47,6 +47,17 @@ const (
 	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
 )
 
+// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeApplePay   ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "apple_pay"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeGooglePay  ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "google_pay"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeSamsungPay ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "samsung_pay"
+	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
+)
+
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 type ConfirmationTokenPaymentMethodPreviewCardWalletType string
 
@@ -79,6 +90,17 @@ const (
 	ConfirmationTokenPaymentMethodPreviewCardPresentReadMethodContactlessMagstripeMode ConfirmationTokenPaymentMethodPreviewCardPresentReadMethod = "contactless_magstripe_mode"
 	ConfirmationTokenPaymentMethodPreviewCardPresentReadMethodMagneticStripeFallback   ConfirmationTokenPaymentMethodPreviewCardPresentReadMethod = "magnetic_stripe_fallback"
 	ConfirmationTokenPaymentMethodPreviewCardPresentReadMethodMagneticStripeTrack2     ConfirmationTokenPaymentMethodPreviewCardPresentReadMethod = "magnetic_stripe_track2"
+)
+
+// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+type ConfirmationTokenPaymentMethodPreviewCardPresentWalletType string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardPresentWalletType can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardPresentWalletTypeApplePay   ConfirmationTokenPaymentMethodPreviewCardPresentWalletType = "apple_pay"
+	ConfirmationTokenPaymentMethodPreviewCardPresentWalletTypeGooglePay  ConfirmationTokenPaymentMethodPreviewCardPresentWalletType = "google_pay"
+	ConfirmationTokenPaymentMethodPreviewCardPresentWalletTypeSamsungPay ConfirmationTokenPaymentMethodPreviewCardPresentWalletType = "samsung_pay"
+	ConfirmationTokenPaymentMethodPreviewCardPresentWalletTypeUnknown    ConfirmationTokenPaymentMethodPreviewCardPresentWalletType = "unknown"
 )
 
 // The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
@@ -495,6 +517,10 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	// An indication of various EMV functions performed during the transaction.
 	TransactionStatusInformation string `json:"transaction_status_information"`
 }
+type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWallet struct {
+	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+	Type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType `json:"type"`
+}
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
@@ -546,6 +572,7 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	ReadMethod ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
+	Wallet  *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWallet  `json:"wallet"`
 }
 
 // Transaction-specific details of the payment method used in the payment.
@@ -670,6 +697,10 @@ type ConfirmationTokenPaymentMethodPreviewCardPresentOffline struct {
 	// The method used to process this payment method offline. Only deferred is allowed.
 	Type ConfirmationTokenPaymentMethodPreviewCardPresentOfflineType `json:"type"`
 }
+type ConfirmationTokenPaymentMethodPreviewCardPresentWallet struct {
+	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+	Type ConfirmationTokenPaymentMethodPreviewCardPresentWalletType `json:"type"`
+}
 type ConfirmationTokenPaymentMethodPreviewCardPresent struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
@@ -705,6 +736,7 @@ type ConfirmationTokenPaymentMethodPreviewCardPresent struct {
 	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
 	ReadMethod ConfirmationTokenPaymentMethodPreviewCardPresentReadMethod `json:"read_method"`
+	Wallet     *ConfirmationTokenPaymentMethodPreviewCardPresentWallet    `json:"wallet"`
 }
 type ConfirmationTokenPaymentMethodPreviewCashApp struct {
 	// A unique and immutable identifier assigned by Cash App to every buyer.

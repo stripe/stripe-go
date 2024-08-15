@@ -97,6 +97,17 @@ const (
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
 )
 
+// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType string
+
+// List of values that PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType can take
+const (
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeApplePay   PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "apple_pay"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeGooglePay  PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "google_pay"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeSamsungPay PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "samsung_pay"
+	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
+)
+
 // All available networks for the card.
 type PaymentMethodCardNetworksAvailable string
 
@@ -163,6 +174,17 @@ const (
 	PaymentMethodCardPresentReadMethodContactlessMagstripeMode PaymentMethodCardPresentReadMethod = "contactless_magstripe_mode"
 	PaymentMethodCardPresentReadMethodMagneticStripeFallback   PaymentMethodCardPresentReadMethod = "magnetic_stripe_fallback"
 	PaymentMethodCardPresentReadMethodMagneticStripeTrack2     PaymentMethodCardPresentReadMethod = "magnetic_stripe_track2"
+)
+
+// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+type PaymentMethodCardPresentWalletType string
+
+// List of values that PaymentMethodCardPresentWalletType can take
+const (
+	PaymentMethodCardPresentWalletTypeApplePay   PaymentMethodCardPresentWalletType = "apple_pay"
+	PaymentMethodCardPresentWalletTypeGooglePay  PaymentMethodCardPresentWalletType = "google_pay"
+	PaymentMethodCardPresentWalletTypeSamsungPay PaymentMethodCardPresentWalletType = "samsung_pay"
+	PaymentMethodCardPresentWalletTypeUnknown    PaymentMethodCardPresentWalletType = "unknown"
 )
 
 // Account holder type, if provided. Can be one of `individual` or `company`.
@@ -762,6 +784,10 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceipt struct
 	// An indication of various EMV functions performed during the transaction.
 	TransactionStatusInformation string `json:"transaction_status_information"`
 }
+type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet struct {
+	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+	Type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType `json:"type"`
+}
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
@@ -813,6 +839,7 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	ReadMethod PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
+	Wallet  *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet  `json:"wallet"`
 }
 
 // Transaction-specific details of the payment method used in the payment.
@@ -939,6 +966,10 @@ type PaymentMethodCardPresentOffline struct {
 	// The method used to process this payment method offline. Only deferred is allowed.
 	Type PaymentMethodCardPresentOfflineType `json:"type"`
 }
+type PaymentMethodCardPresentWallet struct {
+	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+	Type PaymentMethodCardPresentWalletType `json:"type"`
+}
 type PaymentMethodCardPresent struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
@@ -974,6 +1005,7 @@ type PaymentMethodCardPresent struct {
 	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
 	ReadMethod PaymentMethodCardPresentReadMethod `json:"read_method"`
+	Wallet     *PaymentMethodCardPresentWallet    `json:"wallet"`
 }
 type PaymentMethodCashApp struct {
 	// A unique and immutable identifier assigned by Cash App to every buyer.

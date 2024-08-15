@@ -207,6 +207,17 @@ const (
 	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  ChargePaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
 )
 
+// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+type ChargePaymentMethodDetailsCardPresentWalletType string
+
+// List of values that ChargePaymentMethodDetailsCardPresentWalletType can take
+const (
+	ChargePaymentMethodDetailsCardPresentWalletTypeApplePay   ChargePaymentMethodDetailsCardPresentWalletType = "apple_pay"
+	ChargePaymentMethodDetailsCardPresentWalletTypeGooglePay  ChargePaymentMethodDetailsCardPresentWalletType = "google_pay"
+	ChargePaymentMethodDetailsCardPresentWalletTypeSamsungPay ChargePaymentMethodDetailsCardPresentWalletType = "samsung_pay"
+	ChargePaymentMethodDetailsCardPresentWalletTypeUnknown    ChargePaymentMethodDetailsCardPresentWalletType = "unknown"
+)
+
 // The Klarna payment method used for this transaction.
 // Can be one of `pay_later`, `pay_now`, `pay_with_financing`, or `pay_in_installments`
 type ChargePaymentMethodDetailsKlarnaPaymentMethodCategory string
@@ -875,6 +886,10 @@ type ChargePaymentMethodDetailsCardPresentReceipt struct {
 	// An indication of various EMV functions performed during the transaction.
 	TransactionStatusInformation string `json:"transaction_status_information"`
 }
+type ChargePaymentMethodDetailsCardPresentWallet struct {
+	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+	Type ChargePaymentMethodDetailsCardPresentWalletType `json:"type"`
+}
 type ChargePaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
@@ -920,6 +935,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	ReadMethod string `json:"read_method"`
 	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 	Receipt *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
+	Wallet  *ChargePaymentMethodDetailsCardPresentWallet  `json:"wallet"`
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
 	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
