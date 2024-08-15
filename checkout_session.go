@@ -876,6 +876,19 @@ const (
 	CheckoutSessionPaymentStatusUnpaid            CheckoutSessionPaymentStatus = "unpaid"
 )
 
+// Determines which entity is allowed to update the shipping details.
+//
+// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
+//
+// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+type CheckoutSessionPermissionsUpdateShippingDetails string
+
+// List of values that CheckoutSessionPermissionsUpdateShippingDetails can take
+const (
+	CheckoutSessionPermissionsUpdateShippingDetailsClientOnly CheckoutSessionPermissionsUpdateShippingDetails = "client_only"
+	CheckoutSessionPermissionsUpdateShippingDetailsServerOnly CheckoutSessionPermissionsUpdateShippingDetails = "server_only"
+)
+
 // This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://stripe.com/docs/payments/checkout/custom-redirect-behavior) of embedded sessions. Defaults to `always`.
 type CheckoutSessionRedirectOnCompletion string
 
@@ -1993,6 +2006,24 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	WeChatPay *CheckoutSessionPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
 }
 
+// Permissions for updating the Checkout Session.
+type CheckoutSessionPermissionsUpdateParams struct {
+	// Determines which entity is allowed to update the shipping details.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
+	//
+	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	ShippingDetails *string `form:"shipping_details"`
+}
+
+// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
+//
+// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+type CheckoutSessionPermissionsParams struct {
+	// Permissions for updating the Checkout Session.
+	Update *CheckoutSessionPermissionsUpdateParams `form:"update"`
+}
+
 // Controls phone number collection settings for the session.
 //
 // We recommend that you review your privacy policy and check with your legal contacts
@@ -2214,6 +2245,8 @@ type CheckoutSessionParams struct {
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// session with your internal systems.
 	ClientReferenceID *string `form:"client_reference_id"`
+	// Information about the customer collected within the Checkout Session.
+	CollectedInformation *CheckoutSessionCollectedInformationParams `form:"collected_information"`
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollectionParams `form:"consent_collection"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `payment_method_types` is not set.
@@ -2299,6 +2332,10 @@ type CheckoutSessionParams struct {
 	// prioritize the most relevant payment methods based on the customer's location and
 	// other characteristics.
 	PaymentMethodTypes []*string `form:"payment_method_types"`
+	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
+	//
+	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+	Permissions *CheckoutSessionPermissionsParams `form:"permissions"`
 	// Controls phone number collection settings for the session.
 	//
 	// We recommend that you review your privacy policy and check with your legal contacts
@@ -2348,6 +2385,20 @@ func (p *CheckoutSessionParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// The shipping details to apply to this Session.
+type CheckoutSessionCollectedInformationShippingDetailsParams struct {
+	// The address of the customer
+	Address *AddressParams `form:"address"`
+	// The name of customer
+	Name *string `form:"name"`
+}
+
+// Information about the customer collected within the Checkout Session.
+type CheckoutSessionCollectedInformationParams struct {
+	// The shipping details to apply to this Session.
+	ShippingDetails *CheckoutSessionCollectedInformationShippingDetailsParams `form:"shipping_details"`
 }
 
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
@@ -2411,6 +2462,12 @@ type CheckoutSessionAutomaticTax struct {
 	Liability *CheckoutSessionAutomaticTaxLiability `json:"liability"`
 	// The status of the most recent automated tax calculation for this session.
 	Status CheckoutSessionAutomaticTaxStatus `json:"status"`
+}
+
+// Information about the customer collected within the Checkout Session.
+type CheckoutSessionCollectedInformation struct {
+	// Shipping information for this Checkout Session.
+	ShippingDetails *ShippingDetails `json:"shipping_details"`
 }
 
 // Results of `consent_collection` for this session.
@@ -3073,6 +3130,24 @@ type CheckoutSessionPaymentMethodOptions struct {
 	Swish            *CheckoutSessionPaymentMethodOptionsSwish            `json:"swish"`
 	USBankAccount    *CheckoutSessionPaymentMethodOptionsUSBankAccount    `json:"us_bank_account"`
 }
+
+// Permissions for updating the Checkout Session.
+type CheckoutSessionPermissionsUpdate struct {
+	// Determines which entity is allowed to update the shipping details.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
+	//
+	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	ShippingDetails CheckoutSessionPermissionsUpdateShippingDetails `json:"shipping_details"`
+}
+
+// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
+//
+// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+type CheckoutSessionPermissions struct {
+	// Permissions for updating the Checkout Session.
+	Update *CheckoutSessionPermissionsUpdate `json:"update"`
+}
 type CheckoutSessionPhoneNumberCollection struct {
 	// Indicates whether phone number collection is enabled for the session
 	Enabled bool `json:"enabled"`
@@ -3212,6 +3287,8 @@ type CheckoutSession struct {
 	ClientReferenceID string `json:"client_reference_id"`
 	// The client secret of the Session. Use this with [initCustomCheckout](https://stripe.com/docs/js/custom_checkout/init) on your front end.
 	ClientSecret string `json:"client_secret"`
+	// Information about the customer collected within the Checkout Session.
+	CollectedInformation *CheckoutSessionCollectedInformation `json:"collected_information"`
 	// Results of `consent_collection` for this session.
 	Consent *CheckoutSessionConsent `json:"consent"`
 	// When set, provides configuration for the Checkout Session to gather active consent from customers.
@@ -3276,7 +3353,11 @@ type CheckoutSession struct {
 	PaymentMethodTypes []string `json:"payment_method_types"`
 	// The payment status of the Checkout Session, one of `paid`, `unpaid`, or `no_payment_required`.
 	// You can use this value to decide when to fulfill your customer's order.
-	PaymentStatus         CheckoutSessionPaymentStatus          `json:"payment_status"`
+	PaymentStatus CheckoutSessionPaymentStatus `json:"payment_status"`
+	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
+	//
+	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+	Permissions           *CheckoutSessionPermissions           `json:"permissions"`
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollection `json:"phone_number_collection"`
 	// The ID of the original expired Checkout Session that triggered the recovery flow.
 	RecoveredFrom string `json:"recovered_from"`

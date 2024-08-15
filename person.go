@@ -72,7 +72,7 @@ const (
 type PersonParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
-	// Details on the legal guardian's acceptance of the required Stripe agreements.
+	// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances"`
 	// The person's address.
 	Address *AddressParams `form:"address"`
@@ -154,7 +154,7 @@ type PersonAdditionalTOSAcceptancesAccountParams struct {
 	UserAgent *string `form:"user_agent"`
 }
 
-// Details on the legal guardian's acceptance of the required Stripe agreements.
+// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 type PersonAdditionalTOSAcceptancesParams struct {
 	// Details on the legal guardian's acceptance of the main Stripe service agreement.
 	Account *PersonAdditionalTOSAcceptancesAccountParams `form:"account"`

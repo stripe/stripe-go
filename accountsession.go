@@ -83,7 +83,31 @@ type AccountSessionComponentsBalancesParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsCapitalFinancingFeaturesParams struct{}
+
+// Configuration for the capital financing embedded component.
+type AccountSessionComponentsCapitalFinancingParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsCapitalFinancingFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsCapitalFinancingApplicationFeaturesParams struct{}
+
+// Configuration for the capital financing application embedded component.
+type AccountSessionComponentsCapitalFinancingApplicationParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsCapitalFinancingApplicationFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsCapitalFinancingPromotionFeaturesParams struct{}
+
+// Configuration for the capital financing promotion embedded component.
 type AccountSessionComponentsCapitalFinancingPromotionParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -293,7 +317,12 @@ type AccountSessionComponentsParams struct {
 	// Configuration for the app viewport component.
 	AppViewport *AccountSessionComponentsAppViewportParams `form:"app_viewport"`
 	// Configuration for the balances embedded component.
-	Balances                  *AccountSessionComponentsBalancesParams                  `form:"balances"`
+	Balances *AccountSessionComponentsBalancesParams `form:"balances"`
+	// Configuration for the capital financing embedded component.
+	CapitalFinancing *AccountSessionComponentsCapitalFinancingParams `form:"capital_financing"`
+	// Configuration for the capital financing application embedded component.
+	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplicationParams `form:"capital_financing_application"`
+	// Configuration for the capital financing promotion embedded component.
 	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
 	// Configuration for the capital overview embedded component.
 	CapitalOverview *AccountSessionComponentsCapitalOverviewParams `form:"capital_overview"`
