@@ -1,4 +1,11 @@
 # Changelog
+## 79.9.0-beta.1 - 2024-08-15
+* [#1905](https://github.com/stripe/stripe-go/pull/1905) Update generated code for beta
+  * Add support for `CapitalFinancingApplication` and `CapitalFinancing` on `AccountSessionComponentsParams`
+  * Add support for `Permissions` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `CollectedInformation` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `ShippingOptions` on `CheckoutSessionParams`
+
 ## 79.8.0-beta.1 - 2024-08-12
 * [#1900](https://github.com/stripe/stripe-go/pull/1900) Update generated code for beta
   * Add support for `CapitalFinancingApplication` and `CapitalFinancing` on `AccountSessionComponents`
