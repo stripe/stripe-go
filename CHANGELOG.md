@@ -1,5 +1,14 @@
 # Changelog
 
+## 79.8.0 - 2024-08-15
+* [#1904](https://github.com/stripe/stripe-go/pull/1904) Update generated code
+  * Add support for `AuthorizationCode` on `ChargePaymentMethodDetailsCard`
+  * Add support for `Wallet` on `ChargePaymentMethodDetailsCardPresent`, `ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent`, `ConfirmationTokenPaymentMethodPreviewCardPresent`, `PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent`, and `PaymentMethodCardPresent`
+  * Add support for `MandateOptions` on `PaymentIntentConfirmPaymentMethodOptionsBacsDebitParams`, `PaymentIntentPaymentMethodOptionsBacsDebitParams`, and `PaymentIntentPaymentMethodOptionsBacsDebit`
+  * Add support for `BACSDebit` on `SetupIntentConfirmPaymentMethodOptionsParams`, `SetupIntentPaymentMethodOptionsParams`, and `SetupIntentPaymentMethodOptions`
+  * Add support for `Chips` on `TreasuryOutboundPaymentTrackingDetailsUsDomesticWireParams`, `TreasuryOutboundPaymentTrackingDetailsUsDomesticWire`, `TreasuryOutboundTransferTrackingDetailsUsDomesticWireParams`, and `TreasuryOutboundTransferTrackingDetailsUsDomesticWire`
+* [#1903](https://github.com/stripe/stripe-go/pull/1903) Use pinned version of staticcheck
+
 ## 79.7.0 - 2024-08-08
 * [#1899](https://github.com/stripe/stripe-go/pull/1899) Update generated code
   * Add support for `Activate`, `Archive`, `Deactivate`, `Get`, `List`, and `New` methods on resource `Billing.Alert`
