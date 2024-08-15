@@ -1323,7 +1323,7 @@ func (p *QuoteReestimateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.corp.stripe.com/quotes/overview#quote_pdf)
+// Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.stripe.com/quotes/overview#quote_pdf)
 type QuotePDFParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
