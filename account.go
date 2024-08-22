@@ -472,6 +472,12 @@ type AccountCapabilitiesLinkPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The mb_way_payments capability.
+type AccountCapabilitiesMbWayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The mobilepay_payments capability.
 type AccountCapabilitiesMobilepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -673,6 +679,8 @@ type AccountCapabilitiesParams struct {
 	LegacyPayments *AccountCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The link_payments capability.
 	LinkPayments *AccountCapabilitiesLinkPaymentsParams `form:"link_payments"`
+	// The mb_way_payments capability.
+	MbWayPayments *AccountCapabilitiesMbWayPaymentsParams `form:"mb_way_payments"`
 	// The mobilepay_payments capability.
 	MobilepayPayments *AccountCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
 	// The multibanco_payments capability.
@@ -1284,6 +1292,8 @@ type AccountCapabilities struct {
 	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
 	// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
 	LinkPayments AccountCapabilityStatus `json:"link_payments"`
+	// The status of the MB WAY payments capability of the account, or whether the account can directly process MB WAY charges.
+	MbWayPayments AccountCapabilityStatus `json:"mb_way_payments"`
 	// The status of the MobilePay capability of the account, or whether the account can directly process MobilePay charges.
 	MobilepayPayments AccountCapabilityStatus `json:"mobilepay_payments"`
 	// The status of the Multibanco payments capability of the account, or whether the account can directly process Multibanco charges.

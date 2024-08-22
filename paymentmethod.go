@@ -236,6 +236,7 @@ const (
 	PaymentMethodTypeKlarna           PaymentMethodType = "klarna"
 	PaymentMethodTypeKonbini          PaymentMethodType = "konbini"
 	PaymentMethodTypeLink             PaymentMethodType = "link"
+	PaymentMethodTypeMbWay            PaymentMethodType = "mb_way"
 	PaymentMethodTypeMobilepay        PaymentMethodType = "mobilepay"
 	PaymentMethodTypeMultibanco       PaymentMethodType = "multibanco"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
@@ -472,6 +473,9 @@ type PaymentMethodKonbiniParams struct{}
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type PaymentMethodLinkParams struct{}
 
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type PaymentMethodMbWayParams struct{}
+
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type PaymentMethodMobilepayParams struct{}
 
@@ -627,6 +631,8 @@ type PaymentMethodParams struct {
 	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *PaymentMethodMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -1126,6 +1132,7 @@ type PaymentMethodLink struct {
 	// Deprecated:
 	PersistentToken string `json:"persistent_token"`
 }
+type PaymentMethodMbWay struct{}
 type PaymentMethodMobilepay struct{}
 type PaymentMethodMultibanco struct{}
 type PaymentMethodOXXO struct{}
@@ -1286,7 +1293,8 @@ type PaymentMethod struct {
 	Konbini        *PaymentMethodKonbini        `json:"konbini"`
 	Link           *PaymentMethodLink           `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-	Livemode bool `json:"livemode"`
+	Livemode bool                `json:"livemode"`
+	MbWay    *PaymentMethodMbWay `json:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata   map[string]string        `json:"metadata"`
 	Mobilepay  *PaymentMethodMobilepay  `json:"mobilepay"`
