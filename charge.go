@@ -1728,6 +1728,7 @@ type ChargePaymentMethodDetailsLink struct {
 	// You could use this attribute to get a sense of international fees.
 	Country string `json:"country"`
 }
+type ChargePaymentMethodDetailsMbWay struct{}
 
 // Internal card details
 type ChargePaymentMethodDetailsMobilepayCard struct {
@@ -1934,6 +1935,7 @@ type ChargePaymentMethodDetails struct {
 	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna"`
 	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini"`
 	Link               *ChargePaymentMethodDetailsLink               `json:"link"`
+	MbWay              *ChargePaymentMethodDetailsMbWay              `json:"mb_way"`
 	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay"`
 	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
