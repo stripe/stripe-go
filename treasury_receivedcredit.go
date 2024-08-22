@@ -168,9 +168,11 @@ type TreasuryReceivedCreditInitiatingPaymentMethodDetails struct {
 type TreasuryReceivedCreditLinkedFlowsSourceFlowDetails struct {
 	// You can reverse some [ReceivedCredits](https://stripe.com/docs/api#received_credits) depending on their network and source flow. Reversing a ReceivedCredit leads to the creation of a new object known as a CreditReversal.
 	CreditReversal *TreasuryCreditReversal `json:"credit_reversal"`
-	// Use OutboundPayments to send funds to another party's external bank account or [FinancialAccount](https://stripe.com/docs/api#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://stripe.com/docs/api#outbound_transfers).
+	// Use [OutboundPayments](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments) to send funds to another party's external bank account or [FinancialAccount](https://stripe.com/docs/api#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://stripe.com/docs/api#outbound_transfers).
 	//
 	// Simulate OutboundPayment state changes with the `/v1/test_helpers/treasury/outbound_payments` endpoints. These methods can only be called on test mode objects.
+	//
+	// Related guide: [Moving money with Treasury using OutboundPayment objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments)
 	OutboundPayment *TreasuryOutboundPayment `json:"outbound_payment"`
 	// A `Payout` object is created when you receive funds from Stripe, or when you
 	// initiate a payout to either a bank account or debit card of a [connected
