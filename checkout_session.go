@@ -2469,6 +2469,10 @@ type CheckoutSessionAutomaticTax struct {
 
 // Information about the customer collected within the Checkout Session.
 type CheckoutSessionCollectedInformation struct {
+	// Customer's email for this Checkout Session
+	Email string `json:"email"`
+	// Customer's phone number for this Checkout Session
+	Phone string `json:"phone"`
 	// Shipping information for this Checkout Session.
 	ShippingDetails *ShippingDetails `json:"shipping_details"`
 }
