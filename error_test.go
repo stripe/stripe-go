@@ -19,7 +19,7 @@ func TestErrorResponse(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Request-Id", "req_123")
 		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprintln(w, `{"error":{"message":"bar","type":"`+ErrorTypeInvalidRequest+`"}}`)
+		fmt.Fprintln(w, `{"error":{"message":"bar","message_code":"test_message_code","type":"`+ErrorTypeInvalidRequest+`"}}`)
 	}))
 	defer ts.Close()
 
@@ -38,6 +38,7 @@ func TestErrorResponse(t *testing.T) {
 	assert.Equal(t, ErrorTypeInvalidRequest, stripeErr.Type)
 	assert.Equal(t, "req_123", stripeErr.RequestID)
 	assert.Equal(t, 401, stripeErr.HTTPStatusCode)
+	assert.Equal(t, "test_message_code", stripeErr.MsgCode)
 	var invalidRequestErr *InvalidRequestError
 	assert.True(t, errors.As(err, &invalidRequestErr))
 }
