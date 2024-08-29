@@ -1,4 +1,5 @@
 # Changelog
+
 ## 79.9.0-beta.2 - 2024-08-22
 * [#1907](https://github.com/stripe/stripe-go/pull/1907) Update generated code for beta
   * Add support for `MbWayPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
@@ -23,6 +24,12 @@
   * Add support for new value `custom` on enum `CheckoutSessionUiMode`
   * ⚠️  Remove support for `RiskCorrelationID` on `PaymentIntentConfirmPaymentMethodOptionsRechnungParams`, `PaymentIntentPaymentMethodOptionsRechnungParams`, and `PaymentIntentPaymentMethodOptionsRechnung`
   * Add support for new value `payto` on enum `PaymentLinkPaymentMethodTypes`
+
+## 79.9.0 - 2024-08-29
+* [#1910](https://github.com/stripe/stripe-go/pull/1910) Generate SDK for OpenAPI spec version 1230
+  * Add support for new value `hr_oib` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, `TaxIdType`, and `TaxTransactionCustomerDetailsTaxIdsType`
+  * Add support for new value `issuing_regulatory_reporting` on enum `FilePurpose`
+  * Add support for `StatusDetails` on `TestHelpersTestClock`
 
 ## 79.8.0 - 2024-08-15
 * [#1904](https://github.com/stripe/stripe-go/pull/1904) Update generated code

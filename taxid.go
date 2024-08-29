@@ -56,7 +56,7 @@ const (
 	TaxIDTypeGBVAT    TaxIDType = "gb_vat"
 	TaxIDTypeGEVAT    TaxIDType = "ge_vat"
 	TaxIDTypeHKBR     TaxIDType = "hk_br"
-	TaxIDTypeHROib    TaxIDType = "hr_oib"
+	TaxIDTypeHROIB    TaxIDType = "hr_oib"
 	TaxIDTypeHUTIN    TaxIDType = "hu_tin"
 	TaxIDTypeIDNPWP   TaxIDType = "id_npwp"
 	TaxIDTypeILVAT    TaxIDType = "il_vat"
