@@ -157,7 +157,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeGBVAT    CheckoutSessionCustomerDetailsTaxIDType = "gb_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGEVAT    CheckoutSessionCustomerDetailsTaxIDType = "ge_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeHKBR     CheckoutSessionCustomerDetailsTaxIDType = "hk_br"
-	CheckoutSessionCustomerDetailsTaxIDTypeHROib    CheckoutSessionCustomerDetailsTaxIDType = "hr_oib"
+	CheckoutSessionCustomerDetailsTaxIDTypeHROIB    CheckoutSessionCustomerDetailsTaxIDType = "hr_oib"
 	CheckoutSessionCustomerDetailsTaxIDTypeHUTIN    CheckoutSessionCustomerDetailsTaxIDType = "hu_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeIDNPWP   CheckoutSessionCustomerDetailsTaxIDType = "id_npwp"
 	CheckoutSessionCustomerDetailsTaxIDTypeILVAT    CheckoutSessionCustomerDetailsTaxIDType = "il_vat"

@@ -52,7 +52,7 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeGBVAT    TaxCalculationCustomerDetailsTaxIDType = "gb_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeGEVAT    TaxCalculationCustomerDetailsTaxIDType = "ge_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeHKBR     TaxCalculationCustomerDetailsTaxIDType = "hk_br"
-	TaxCalculationCustomerDetailsTaxIDTypeHROib    TaxCalculationCustomerDetailsTaxIDType = "hr_oib"
+	TaxCalculationCustomerDetailsTaxIDTypeHROIB    TaxCalculationCustomerDetailsTaxIDType = "hr_oib"
 	TaxCalculationCustomerDetailsTaxIDTypeHUTIN    TaxCalculationCustomerDetailsTaxIDType = "hu_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeIDNPWP   TaxCalculationCustomerDetailsTaxIDType = "id_npwp"
 	TaxCalculationCustomerDetailsTaxIDTypeILVAT    TaxCalculationCustomerDetailsTaxIDType = "il_vat"
