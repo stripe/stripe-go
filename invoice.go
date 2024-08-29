@@ -778,7 +778,7 @@ type InvoiceUpcomingInvoiceItemPeriodParams struct {
 	Start *int64 `form:"start"`
 }
 
-// List of invoice items to add or update in the upcoming invoice preview.
+// List of invoice items to add or update in the upcoming invoice preview (up to 250).
 type InvoiceUpcomingInvoiceItemParams struct {
 	// The integer amount in cents (or local equivalent) of previewed invoice item.
 	Amount *int64 `form:"amount"`
@@ -1699,7 +1699,7 @@ type InvoiceUpcomingParams struct {
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// List of invoice items to add or update in the upcoming invoice preview.
+	// List of invoice items to add or update in the upcoming invoice preview (up to 250).
 	InvoiceItems []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *InvoiceUpcomingIssuerParams `form:"issuer"`
@@ -1900,7 +1900,7 @@ type InvoiceUpcomingLinesInvoiceItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// List of invoice items to add or update in the upcoming invoice preview.
+// List of invoice items to add or update in the upcoming invoice preview (up to 250).
 type InvoiceUpcomingLinesInvoiceItemParams struct {
 	// The integer amount in cents (or local equivalent) of previewed invoice item.
 	Amount *int64 `form:"amount"`
@@ -2910,7 +2910,7 @@ type InvoiceUpcomingLinesParams struct {
 	Discounts []*InvoiceUpcomingLinesDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// List of invoice items to add or update in the upcoming invoice preview.
+	// List of invoice items to add or update in the upcoming invoice preview (up to 250).
 	InvoiceItems []*InvoiceUpcomingLinesInvoiceItemParams `form:"invoice_items"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *InvoiceUpcomingLinesIssuerParams `form:"issuer"`
@@ -3626,7 +3626,7 @@ type InvoiceCreatePreviewInvoiceItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// List of invoice items to add or update in the upcoming invoice preview.
+// List of invoice items to add or update in the upcoming invoice preview (up to 250).
 type InvoiceCreatePreviewInvoiceItemParams struct {
 	// The integer amount in cents (or local equivalent) of previewed invoice item.
 	Amount *int64 `form:"amount"`
@@ -4541,7 +4541,7 @@ type InvoiceCreatePreviewParams struct {
 	Discounts []*InvoiceCreatePreviewDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// List of invoice items to add or update in the upcoming invoice preview.
+	// List of invoice items to add or update in the upcoming invoice preview (up to 250).
 	InvoiceItems []*InvoiceCreatePreviewInvoiceItemParams `form:"invoice_items"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *InvoiceCreatePreviewIssuerParams `form:"issuer"`
