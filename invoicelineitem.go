@@ -174,6 +174,10 @@ type InvoiceLineItemProrationDetails struct {
 	// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
 	CreditedItems *InvoiceLineItemProrationDetailsCreditedItems `json:"credited_items"`
 }
+
+// Invoice Line Items represent the individual lines within an [invoice](https://stripe.com/docs/api/invoices) and only exist within the context of an invoice.
+//
+// Each line item is backed by either an [invoice item](https://stripe.com/docs/api/invoiceitems) or a [subscription item](https://stripe.com/docs/api/subscription_items).
 type InvoiceLineItem struct {
 	APIResource
 	// The amount, in cents (or local equivalent).
