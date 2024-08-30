@@ -11,7 +11,25 @@ type BillingAlertAlertType string
 
 // List of values that BillingAlertAlertType can take
 const (
+	BillingAlertAlertTypeSpendThreshold BillingAlertAlertType = "spend_threshold"
 	BillingAlertAlertTypeUsageThreshold BillingAlertAlertType = "usage_threshold"
+)
+
+// Defines if the alert will fire on spend aggregated across a subscription, or on individual subscription items.
+type BillingAlertSpendThresholdConfigAggregation string
+
+// List of values that BillingAlertSpendThresholdConfigAggregation can take
+const (
+	BillingAlertSpendThresholdConfigAggregationSubscription     BillingAlertSpendThresholdConfigAggregation = "subscription"
+	BillingAlertSpendThresholdConfigAggregationSubscriptionItem BillingAlertSpendThresholdConfigAggregation = "subscription_item"
+)
+
+// Defines how the alert will behave.
+type BillingAlertSpendThresholdConfigRecurrence string
+
+// List of values that BillingAlertSpendThresholdConfigRecurrence can take
+const (
+	BillingAlertSpendThresholdConfigRecurrenceOneTime BillingAlertSpendThresholdConfigRecurrence = "one_time"
 )
 
 // Status of the alert. This can be active, inactive or archived.
@@ -54,6 +72,18 @@ type BillingAlertFilterParams struct {
 	Customer *string `form:"customer"`
 }
 
+// The configuration of the spend threshold.
+type BillingAlertSpendThresholdConfigParams struct {
+	// Whether the spend should be aggregated across items in a subscription or whether each subscription item is considered alone.
+	Aggregation *string `form:"aggregation"`
+	// Currency for which this spend alert is configured. This alert will only trigger for subscriptions matching this currency.
+	Currency *string `form:"currency"`
+	// Defines at which value the alert will fire.
+	GTE *int64 `form:"gte"`
+	// Whether the alert should only fire only once, or once per billing cycle.
+	Recurrence *string `form:"recurrence"`
+}
+
 // The configuration of the usage threshold.
 type BillingAlertUsageThresholdConfigParams struct {
 	// Defines at which value the alert will fire.
@@ -73,6 +103,8 @@ type BillingAlertParams struct {
 	Expand []*string `form:"expand"`
 	// Filters to limit the scope of an alert.
 	Filter *BillingAlertFilterParams `form:"filter"`
+	// The configuration of the spend threshold.
+	SpendThresholdConfig *BillingAlertSpendThresholdConfigParams `form:"spend_threshold_config"`
 	// The title of the alert.
 	Title *string `form:"title"`
 	// The configuration of the usage threshold.
@@ -126,6 +158,18 @@ type BillingAlertFilter struct {
 	Customer *Customer `json:"customer"`
 }
 
+// Encapsulates configuration of the spend to monitoring spend on a [Subscription](https://stripe.com/docs/api/subscriptions/object) or [Subscription item](https://stripe.com/docs/api/subscription_items/object).
+type BillingAlertSpendThresholdConfig struct {
+	// Defines if the alert will fire on spend aggregated across a subscription, or on individual subscription items.
+	Aggregation BillingAlertSpendThresholdConfigAggregation `json:"aggregation"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// The value at which this alert will trigger.
+	GTE int64 `json:"gte"`
+	// Defines how the alert will behave.
+	Recurrence BillingAlertSpendThresholdConfigRecurrence `json:"recurrence"`
+}
+
 // Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://stripe.com/docs/api/billing/meter).
 type BillingAlertUsageThresholdConfig struct {
 	// The value at which this alert will trigger.
@@ -149,6 +193,8 @@ type BillingAlert struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// Encapsulates configuration of the spend to monitoring spend on a [Subscription](https://stripe.com/docs/api/subscriptions/object) or [Subscription item](https://stripe.com/docs/api/subscription_items/object).
+	SpendThresholdConfig *BillingAlertSpendThresholdConfig `json:"spend_threshold_config"`
 	// Status of the alert. This can be active, inactive or archived.
 	Status BillingAlertStatus `json:"status"`
 	// Title of the alert.
