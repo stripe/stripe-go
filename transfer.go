@@ -115,7 +115,7 @@ type Transfer struct {
 	Reversals *TransferReversalList `json:"reversals"`
 	// Whether the transfer has been fully reversed. If the transfer is only partially reversed, this attribute will still be false.
 	Reversed bool `json:"reversed"`
-	// ID of the charge or payment that was used to fund the transfer. If null, the transfer was funded from the available balance.
+	// ID of the charge that was used to fund the transfer. If null, the transfer was funded from the available balance.
 	SourceTransaction *Charge `json:"source_transaction"`
 	// The source balance this transfer came from. One of `card`, `fpx`, or `bank_account`.
 	SourceType TransferSourceType `json:"source_type"`
