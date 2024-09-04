@@ -52,6 +52,10 @@ func (p *BillingAlertListParams) AddExpand(f string) {
 type BillingAlertFilterParams struct {
 	// Limit the scope to this alert only to this customer.
 	Customer *string `form:"customer"`
+	// Limit the scope of this rated usage alert to this subscription.
+	Subscription *string `form:"subscription"`
+	// Limit the scope of this rated usage alert to this subscription item.
+	SubscriptionItem *string `form:"subscription_item"`
 }
 
 // The configuration of the usage threshold.
