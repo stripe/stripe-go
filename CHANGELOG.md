@@ -1,5 +1,9 @@
 # Changelog
 
+## 79.10.0 - 2024-09-05
+* [#1906](https://github.com/stripe/stripe-go/pull/1906) Update generated code
+  * Add support for `SubscriptionItem` and `Subscription` on `BillingAlertFilterParams`
+
 ## 79.9.0 - 2024-08-29
 * [#1910](https://github.com/stripe/stripe-go/pull/1910) Generate SDK for OpenAPI spec version 1230
   * Add support for new value `hr_oib` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, `TaxIdType`, and `TaxTransactionCustomerDetailsTaxIdsType`
