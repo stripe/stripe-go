@@ -188,6 +188,7 @@ const (
 	ErrorCodeTaxesCalculationFailed                                      ErrorCode = "taxes_calculation_failed"
 	ErrorCodeTerminalLocationCountryUnsupported                          ErrorCode = "terminal_location_country_unsupported"
 	ErrorCodeTerminalReaderBusy                                          ErrorCode = "terminal_reader_busy"
+	ErrorCodeTerminalReaderCollectedDataInvalid                          ErrorCode = "terminal_reader_collected_data_invalid"
 	ErrorCodeTerminalReaderHardwareFault                                 ErrorCode = "terminal_reader_hardware_fault"
 	ErrorCodeTerminalReaderInvalidLocationForPayment                     ErrorCode = "terminal_reader_invalid_location_for_payment"
 	ErrorCodeTerminalReaderOffline                                       ErrorCode = "terminal_reader_offline"

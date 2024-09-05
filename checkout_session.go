@@ -34,6 +34,88 @@ const (
 	CheckoutSessionBillingAddressCollectionRequired CheckoutSessionBillingAddressCollection = "required"
 )
 
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, or `unknown`
+type CheckoutSessionCollectedInformationTaxIDType string
+
+// List of values that CheckoutSessionCollectedInformationTaxIDType can take
+const (
+	CheckoutSessionCollectedInformationTaxIDTypeADNRT    CheckoutSessionCollectedInformationTaxIDType = "ad_nrt"
+	CheckoutSessionCollectedInformationTaxIDTypeAETRN    CheckoutSessionCollectedInformationTaxIDType = "ae_trn"
+	CheckoutSessionCollectedInformationTaxIDTypeARCUIT   CheckoutSessionCollectedInformationTaxIDType = "ar_cuit"
+	CheckoutSessionCollectedInformationTaxIDTypeAUABN    CheckoutSessionCollectedInformationTaxIDType = "au_abn"
+	CheckoutSessionCollectedInformationTaxIDTypeAUARN    CheckoutSessionCollectedInformationTaxIDType = "au_arn"
+	CheckoutSessionCollectedInformationTaxIDTypeBGUIC    CheckoutSessionCollectedInformationTaxIDType = "bg_uic"
+	CheckoutSessionCollectedInformationTaxIDTypeBhVAT    CheckoutSessionCollectedInformationTaxIDType = "bh_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeBOTIN    CheckoutSessionCollectedInformationTaxIDType = "bo_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeBRCNPJ   CheckoutSessionCollectedInformationTaxIDType = "br_cnpj"
+	CheckoutSessionCollectedInformationTaxIDTypeBRCPF    CheckoutSessionCollectedInformationTaxIDType = "br_cpf"
+	CheckoutSessionCollectedInformationTaxIDTypeCABN     CheckoutSessionCollectedInformationTaxIDType = "ca_bn"
+	CheckoutSessionCollectedInformationTaxIDTypeCAGSTHST CheckoutSessionCollectedInformationTaxIDType = "ca_gst_hst"
+	CheckoutSessionCollectedInformationTaxIDTypeCAPSTBC  CheckoutSessionCollectedInformationTaxIDType = "ca_pst_bc"
+	CheckoutSessionCollectedInformationTaxIDTypeCAPSTMB  CheckoutSessionCollectedInformationTaxIDType = "ca_pst_mb"
+	CheckoutSessionCollectedInformationTaxIDTypeCAPSTSK  CheckoutSessionCollectedInformationTaxIDType = "ca_pst_sk"
+	CheckoutSessionCollectedInformationTaxIDTypeCAQST    CheckoutSessionCollectedInformationTaxIDType = "ca_qst"
+	CheckoutSessionCollectedInformationTaxIDTypeCHUID    CheckoutSessionCollectedInformationTaxIDType = "ch_uid"
+	CheckoutSessionCollectedInformationTaxIDTypeCHVAT    CheckoutSessionCollectedInformationTaxIDType = "ch_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeCLTIN    CheckoutSessionCollectedInformationTaxIDType = "cl_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeCNTIN    CheckoutSessionCollectedInformationTaxIDType = "cn_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeCONIT    CheckoutSessionCollectedInformationTaxIDType = "co_nit"
+	CheckoutSessionCollectedInformationTaxIDTypeCRTIN    CheckoutSessionCollectedInformationTaxIDType = "cr_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeDEStn    CheckoutSessionCollectedInformationTaxIDType = "de_stn"
+	CheckoutSessionCollectedInformationTaxIDTypeDORCN    CheckoutSessionCollectedInformationTaxIDType = "do_rcn"
+	CheckoutSessionCollectedInformationTaxIDTypeECRUC    CheckoutSessionCollectedInformationTaxIDType = "ec_ruc"
+	CheckoutSessionCollectedInformationTaxIDTypeEGTIN    CheckoutSessionCollectedInformationTaxIDType = "eg_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeESCIF    CheckoutSessionCollectedInformationTaxIDType = "es_cif"
+	CheckoutSessionCollectedInformationTaxIDTypeEUOSSVAT CheckoutSessionCollectedInformationTaxIDType = "eu_oss_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeEUVAT    CheckoutSessionCollectedInformationTaxIDType = "eu_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeGBVAT    CheckoutSessionCollectedInformationTaxIDType = "gb_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeGEVAT    CheckoutSessionCollectedInformationTaxIDType = "ge_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeHKBR     CheckoutSessionCollectedInformationTaxIDType = "hk_br"
+	CheckoutSessionCollectedInformationTaxIDTypeHROIB    CheckoutSessionCollectedInformationTaxIDType = "hr_oib"
+	CheckoutSessionCollectedInformationTaxIDTypeHUTIN    CheckoutSessionCollectedInformationTaxIDType = "hu_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeIDNPWP   CheckoutSessionCollectedInformationTaxIDType = "id_npwp"
+	CheckoutSessionCollectedInformationTaxIDTypeILVAT    CheckoutSessionCollectedInformationTaxIDType = "il_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeINGST    CheckoutSessionCollectedInformationTaxIDType = "in_gst"
+	CheckoutSessionCollectedInformationTaxIDTypeISVAT    CheckoutSessionCollectedInformationTaxIDType = "is_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeJPCN     CheckoutSessionCollectedInformationTaxIDType = "jp_cn"
+	CheckoutSessionCollectedInformationTaxIDTypeJPRN     CheckoutSessionCollectedInformationTaxIDType = "jp_rn"
+	CheckoutSessionCollectedInformationTaxIDTypeJPTRN    CheckoutSessionCollectedInformationTaxIDType = "jp_trn"
+	CheckoutSessionCollectedInformationTaxIDTypeKEPIN    CheckoutSessionCollectedInformationTaxIDType = "ke_pin"
+	CheckoutSessionCollectedInformationTaxIDTypeKRBRN    CheckoutSessionCollectedInformationTaxIDType = "kr_brn"
+	CheckoutSessionCollectedInformationTaxIDTypeKzBin    CheckoutSessionCollectedInformationTaxIDType = "kz_bin"
+	CheckoutSessionCollectedInformationTaxIDTypeLIUID    CheckoutSessionCollectedInformationTaxIDType = "li_uid"
+	CheckoutSessionCollectedInformationTaxIDTypeMXRFC    CheckoutSessionCollectedInformationTaxIDType = "mx_rfc"
+	CheckoutSessionCollectedInformationTaxIDTypeMYFRP    CheckoutSessionCollectedInformationTaxIDType = "my_frp"
+	CheckoutSessionCollectedInformationTaxIDTypeMYITN    CheckoutSessionCollectedInformationTaxIDType = "my_itn"
+	CheckoutSessionCollectedInformationTaxIDTypeMYSST    CheckoutSessionCollectedInformationTaxIDType = "my_sst"
+	CheckoutSessionCollectedInformationTaxIDTypeNgTin    CheckoutSessionCollectedInformationTaxIDType = "ng_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeNOVAT    CheckoutSessionCollectedInformationTaxIDType = "no_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeNOVOEC   CheckoutSessionCollectedInformationTaxIDType = "no_voec"
+	CheckoutSessionCollectedInformationTaxIDTypeNZGST    CheckoutSessionCollectedInformationTaxIDType = "nz_gst"
+	CheckoutSessionCollectedInformationTaxIDTypeOmVAT    CheckoutSessionCollectedInformationTaxIDType = "om_vat"
+	CheckoutSessionCollectedInformationTaxIDTypePERUC    CheckoutSessionCollectedInformationTaxIDType = "pe_ruc"
+	CheckoutSessionCollectedInformationTaxIDTypePHTIN    CheckoutSessionCollectedInformationTaxIDType = "ph_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeROTIN    CheckoutSessionCollectedInformationTaxIDType = "ro_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeRSPIB    CheckoutSessionCollectedInformationTaxIDType = "rs_pib"
+	CheckoutSessionCollectedInformationTaxIDTypeRUINN    CheckoutSessionCollectedInformationTaxIDType = "ru_inn"
+	CheckoutSessionCollectedInformationTaxIDTypeRUKPP    CheckoutSessionCollectedInformationTaxIDType = "ru_kpp"
+	CheckoutSessionCollectedInformationTaxIDTypeSAVAT    CheckoutSessionCollectedInformationTaxIDType = "sa_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeSGGST    CheckoutSessionCollectedInformationTaxIDType = "sg_gst"
+	CheckoutSessionCollectedInformationTaxIDTypeSGUEN    CheckoutSessionCollectedInformationTaxIDType = "sg_uen"
+	CheckoutSessionCollectedInformationTaxIDTypeSITIN    CheckoutSessionCollectedInformationTaxIDType = "si_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeSVNIT    CheckoutSessionCollectedInformationTaxIDType = "sv_nit"
+	CheckoutSessionCollectedInformationTaxIDTypeTHVAT    CheckoutSessionCollectedInformationTaxIDType = "th_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeTRTIN    CheckoutSessionCollectedInformationTaxIDType = "tr_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeTWVAT    CheckoutSessionCollectedInformationTaxIDType = "tw_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeUAVAT    CheckoutSessionCollectedInformationTaxIDType = "ua_vat"
+	CheckoutSessionCollectedInformationTaxIDTypeUnknown  CheckoutSessionCollectedInformationTaxIDType = "unknown"
+	CheckoutSessionCollectedInformationTaxIDTypeUSEIN    CheckoutSessionCollectedInformationTaxIDType = "us_ein"
+	CheckoutSessionCollectedInformationTaxIDTypeUYRUC    CheckoutSessionCollectedInformationTaxIDType = "uy_ruc"
+	CheckoutSessionCollectedInformationTaxIDTypeVERIF    CheckoutSessionCollectedInformationTaxIDType = "ve_rif"
+	CheckoutSessionCollectedInformationTaxIDTypeVNTIN    CheckoutSessionCollectedInformationTaxIDType = "vn_tin"
+	CheckoutSessionCollectedInformationTaxIDTypeZAVAT    CheckoutSessionCollectedInformationTaxIDType = "za_vat"
+)
+
 // If `opt_in`, the customer consents to receiving promotional communications
 // from the merchant about this Checkout Session.
 type CheckoutSessionConsentPromotions string
@@ -157,7 +239,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeGBVAT    CheckoutSessionCustomerDetailsTaxIDType = "gb_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeGEVAT    CheckoutSessionCustomerDetailsTaxIDType = "ge_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeHKBR     CheckoutSessionCustomerDetailsTaxIDType = "hk_br"
-	CheckoutSessionCustomerDetailsTaxIDTypeHROib    CheckoutSessionCustomerDetailsTaxIDType = "hr_oib"
+	CheckoutSessionCustomerDetailsTaxIDTypeHROIB    CheckoutSessionCustomerDetailsTaxIDType = "hr_oib"
 	CheckoutSessionCustomerDetailsTaxIDTypeHUTIN    CheckoutSessionCustomerDetailsTaxIDType = "hu_tin"
 	CheckoutSessionCustomerDetailsTaxIDTypeIDNPWP   CheckoutSessionCustomerDetailsTaxIDType = "id_npwp"
 	CheckoutSessionCustomerDetailsTaxIDTypeILVAT    CheckoutSessionCustomerDetailsTaxIDType = "il_vat"
@@ -890,7 +972,7 @@ const (
 	CheckoutSessionPermissionsUpdateShippingDetailsServerOnly CheckoutSessionPermissionsUpdateShippingDetails = "server_only"
 )
 
-// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://stripe.com/docs/payments/checkout/custom-redirect-behavior) of embedded sessions. Defaults to `always`.
+// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://stripe.com/docs/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 type CheckoutSessionRedirectOnCompletion string
 
 // List of values that CheckoutSessionRedirectOnCompletion can take
@@ -2344,7 +2426,7 @@ type CheckoutSessionParams struct {
 	// We recommend that you review your privacy policy and check with your legal contacts
 	// before using this feature. Learn more about [collecting phone numbers with Checkout](https://stripe.com/docs/payments/checkout/phone-numbers).
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollectionParams `form:"phone_number_collection"`
-	// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://stripe.com/docs/payments/checkout/custom-redirect-behavior) of embedded sessions. Defaults to `always`.
+	// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://stripe.com/docs/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion *string `form:"redirect_on_completion"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
 	// payment method's app or site. This parameter is required if `ui_mode` is `embedded` or `custom`
@@ -2467,10 +2549,26 @@ type CheckoutSessionAutomaticTax struct {
 	Status CheckoutSessionAutomaticTaxStatus `json:"status"`
 }
 
+// Customer's tax ids for this Checkout Session.
+type CheckoutSessionCollectedInformationTaxID struct {
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, or `unknown`
+	Type CheckoutSessionCollectedInformationTaxIDType `json:"type"`
+	// The value of the tax ID.
+	Value string `json:"value"`
+}
+
 // Information about the customer collected within the Checkout Session.
 type CheckoutSessionCollectedInformation struct {
+	// Customer's business name for this Checkout Session
+	BusinessName string `json:"business_name"`
+	// Customer's email for this Checkout Session
+	Email string `json:"email"`
+	// Customer's phone number for this Checkout Session
+	Phone string `json:"phone"`
 	// Shipping information for this Checkout Session.
 	ShippingDetails *ShippingDetails `json:"shipping_details"`
+	// Customer's tax ids for this Checkout Session.
+	TaxIDs []*CheckoutSessionCollectedInformationTaxID `json:"tax_ids"`
 }
 
 // Results of `consent_collection` for this session.
@@ -3364,7 +3462,7 @@ type CheckoutSession struct {
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollection `json:"phone_number_collection"`
 	// The ID of the original expired Checkout Session that triggered the recovery flow.
 	RecoveredFrom string `json:"recovered_from"`
-	// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://stripe.com/docs/payments/checkout/custom-redirect-behavior) of embedded sessions. Defaults to `always`.
+	// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://stripe.com/docs/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
 	RedirectOnCompletion CheckoutSessionRedirectOnCompletion `json:"redirect_on_completion"`
 	// Applies to Checkout Sessions with `ui_mode: embedded` or `ui_mode: custom`. The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site.
 	ReturnURL string `json:"return_url"`

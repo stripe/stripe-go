@@ -527,7 +527,7 @@ const (
 	OrderTaxDetailsTaxIDTypeGBVAT    OrderTaxDetailsTaxIDType = "gb_vat"
 	OrderTaxDetailsTaxIDTypeGEVAT    OrderTaxDetailsTaxIDType = "ge_vat"
 	OrderTaxDetailsTaxIDTypeHKBR     OrderTaxDetailsTaxIDType = "hk_br"
-	OrderTaxDetailsTaxIDTypeHROib    OrderTaxDetailsTaxIDType = "hr_oib"
+	OrderTaxDetailsTaxIDTypeHROIB    OrderTaxDetailsTaxIDType = "hr_oib"
 	OrderTaxDetailsTaxIDTypeHUTIN    OrderTaxDetailsTaxIDType = "hu_tin"
 	OrderTaxDetailsTaxIDTypeIDNPWP   OrderTaxDetailsTaxIDType = "id_npwp"
 	OrderTaxDetailsTaxIDTypeILVAT    OrderTaxDetailsTaxIDType = "il_vat"

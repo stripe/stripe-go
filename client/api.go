@@ -127,6 +127,7 @@ import (
 	terminalconnectiontoken "github.com/stripe/stripe-go/v79/terminal/connectiontoken"
 	terminallocation "github.com/stripe/stripe-go/v79/terminal/location"
 	terminalreader "github.com/stripe/stripe-go/v79/terminal/reader"
+	terminalreadercollecteddata "github.com/stripe/stripe-go/v79/terminal/readercollecteddata"
 	testhelpersconfirmationtoken "github.com/stripe/stripe-go/v79/testhelpers/confirmationtoken"
 	testhelperscustomer "github.com/stripe/stripe-go/v79/testhelpers/customer"
 	testhelpersissuingauthorization "github.com/stripe/stripe-go/v79/testhelpers/issuing/authorization"
@@ -396,6 +397,8 @@ type API struct {
 	TerminalConnectionTokens *terminalconnectiontoken.Client
 	// TerminalLocations is the client used to invoke /terminal/locations APIs.
 	TerminalLocations *terminallocation.Client
+	// TerminalReaderCollectedData is the client used to invoke /terminal/reader_collected_data APIs.
+	TerminalReaderCollectedData *terminalreadercollecteddata.Client
 	// TerminalReaders is the client used to invoke /terminal/readers APIs.
 	TerminalReaders *terminalreader.Client
 	// TestHelpersConfirmationTokens is the client used to invoke /confirmation_tokens APIs.
@@ -589,6 +592,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalConfigurations = &terminalconfiguration.Client{B: backends.API, Key: key}
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
+	a.TerminalReaderCollectedData = &terminalreadercollecteddata.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
 	a.TestHelpersConfirmationTokens = &testhelpersconfirmationtoken.Client{B: backends.API, Key: key}
 	a.TestHelpersCustomers = &testhelperscustomer.Client{B: backends.API, Key: key}

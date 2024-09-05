@@ -124,7 +124,7 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeGBVAT    QuotePreviewInvoiceCustomerTaxIDType = "gb_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeGEVAT    QuotePreviewInvoiceCustomerTaxIDType = "ge_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeHKBR     QuotePreviewInvoiceCustomerTaxIDType = "hk_br"
-	QuotePreviewInvoiceCustomerTaxIDTypeHROib    QuotePreviewInvoiceCustomerTaxIDType = "hr_oib"
+	QuotePreviewInvoiceCustomerTaxIDTypeHROIB    QuotePreviewInvoiceCustomerTaxIDType = "hr_oib"
 	QuotePreviewInvoiceCustomerTaxIDTypeHUTIN    QuotePreviewInvoiceCustomerTaxIDType = "hu_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeIDNPWP   QuotePreviewInvoiceCustomerTaxIDType = "id_npwp"
 	QuotePreviewInvoiceCustomerTaxIDTypeILVAT    QuotePreviewInvoiceCustomerTaxIDType = "il_vat"

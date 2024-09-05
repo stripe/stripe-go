@@ -3639,6 +3639,9 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // after those actions are completed. Your server needs to then
 // explicitly re-confirm the PaymentIntent to initiate the next payment
 // attempt.
+// There is a variable upper limit on how many times a PaymentIntent can be confirmed.
+// After this limit is reached, any further calls to this endpoint will
+// transition the PaymentIntent to the canceled state.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
