@@ -1,5 +1,17 @@
 # Changelog
 
+## 79.11.0-beta.1 - 2024-09-05
+* [#1908](https://github.com/stripe/stripe-go/pull/1908) Update generated code for beta
+  * Add support for new resources `Billing.MeterErrorReport` and `Terminal.ReaderCollectedData`
+  * Add support for `Get` method on resource `ReaderCollectedData`
+  * Add support for `Recipients` on `AccountSessionComponentsParams`
+  * Add support for new value `terminal_reader_collected_data_invalid` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `BusinessName`, `Email`, `Phone`, and `TaxIDs` on `CheckoutSessionCollectedInformation`
+  * Add support for new value `billing.meter_error_report.triggered` on enum `EventType`
+  * Add support for `RegulatoryReportingFile` on `IssuingCreditUnderwritingRecordCorrectParams`, `IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams`, `IssuingCreditUnderwritingRecordReportDecisionParams`, and `IssuingCreditUnderwritingRecord`
+  * Add support for new value `mb_way` on enum `PaymentLinkPaymentMethodTypes`
+  * Remove support for `Rechnung` on `PaymentMethodParams`
+
 ## 79.9.0-beta.2 - 2024-08-22
 * [#1907](https://github.com/stripe/stripe-go/pull/1907) Update generated code for beta
   * Add support for `MbWayPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
