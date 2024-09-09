@@ -33,45 +33,6 @@ func (c Client) Get(id string, params *stripe.QuotePhaseParams) (*stripe.QuotePh
 	return quotephase, err
 }
 
-// Returns a list of quote phases.
-func List(params *stripe.QuotePhaseListParams) *Iter {
-	return getC().List(params)
-}
-
-// Returns a list of quote phases.
-func (c Client) List(listParams *stripe.QuotePhaseListParams) *Iter {
-	return &Iter{
-		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-			list := &stripe.QuotePhaseList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/quote_phases", c.Key, b, p, list)
-
-			ret := make([]interface{}, len(list.Data))
-			for i, v := range list.Data {
-				ret[i] = v
-			}
-
-			return ret, list, err
-		}),
-	}
-}
-
-// Iter is an iterator for quote phases.
-type Iter struct {
-	*stripe.Iter
-}
-
-// QuotePhase returns the quote phase which the iterator is currently pointing to.
-func (i *Iter) QuotePhase() *stripe.QuotePhase {
-	return i.Current().(*stripe.QuotePhase)
-}
-
-// QuotePhaseList returns the current list object which the iterator is
-// currently using. List objects will change as new API calls are made to
-// continue pagination.
-func (i *Iter) QuotePhaseList() *stripe.QuotePhaseList {
-	return i.List().(*stripe.QuotePhaseList)
-}
-
 // When retrieving a quote phase, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func ListLineItems(params *stripe.QuotePhaseListLineItemsParams) *LineItemIter {
 	return getC().ListLineItems(params)
