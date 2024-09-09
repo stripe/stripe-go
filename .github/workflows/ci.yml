@@ -35,7 +35,7 @@ jobs:
       - name: lint
         run: |
           go install honnef.co/go/tools/cmd/staticcheck@v0.4.7 &&
-          go install golang.org/x/tools/cmd/goimports@latest &&
+          go install golang.org/x/tools/cmd/goimports@v0.24.0 &&
           $HOME/go/bin/staticcheck &&
           make vet &&
           make check-gofmt
@@ -45,6 +45,10 @@ jobs:
      strategy:
        matrix:
          go:
+           - "1.23"
+           - "1.22"
+           - "1.21"
+           - "1.20"
            - "1.19"
            - "1.18"
            - "1.17"
