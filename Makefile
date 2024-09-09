@@ -40,7 +40,7 @@ update-version:
 
 codegen-format: normalize-imports
 	scripts/gofmt.sh
-	go install golang.org/x/tools/cmd/goimports@latest && goimports -w example/generated_examples_test.go
+	go install golang.org/x/tools/cmd/goimports@v0.24.0 && goimports -w example/generated_examples_test.go
 
 CURRENT_MAJOR_VERSION := $(shell cat VERSION | sed 's/\..*//')
 normalize-imports:	

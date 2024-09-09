@@ -35,7 +35,7 @@ jobs:
       - name: lint
         run: |
           go install honnef.co/go/tools/cmd/staticcheck@v0.4.7 &&
-          go install golang.org/x/tools/cmd/goimports@latest &&
+          go install golang.org/x/tools/cmd/goimports@v0.24.0 &&
           $HOME/go/bin/staticcheck &&
           make vet &&
           make check-gofmt
