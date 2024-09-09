@@ -521,6 +521,10 @@ type InvoiceRenderingParams struct {
 	AmountTaxDisplay *string `form:"amount_tax_display"`
 	// Invoice pdf rendering options
 	PDF *InvoiceRenderingPDFParams `form:"pdf"`
+	// ID of the invoice rendering template to use for this invoice.
+	Template *string `form:"template"`
+	// The specific version of invoice rendering template to use for this invoice.
+	TemplateVersion *int64 `form:"template_version"`
 }
 
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
@@ -3021,6 +3025,10 @@ type InvoiceRendering struct {
 	AmountTaxDisplay string `json:"amount_tax_display"`
 	// Invoice pdf rendering options
 	PDF *InvoiceRenderingPDF `json:"pdf"`
+	// ID of the rendering template that the invoice is formatted by.
+	Template string `json:"template"`
+	// Version of the rendering template that the invoice is using.
+	TemplateVersion int64 `json:"template_version"`
 }
 
 // The taxes applied to the shipping rate.
