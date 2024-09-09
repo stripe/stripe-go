@@ -15,7 +15,7 @@ type TerminalLocationParams struct {
 	Address *AddressParams `form:"address"`
 	// The ID of a configuration that will be used to customize all readers in this location.
 	ConfigurationOverrides *string `form:"configuration_overrides"`
-	// A name for the location.
+	// A name for the location. Maximum length is 1000 characters.
 	DisplayName *string `form:"display_name"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
