@@ -81,6 +81,7 @@ const (
 	IssuingCardShippingStatusPending   IssuingCardShippingStatus = "pending"
 	IssuingCardShippingStatusReturned  IssuingCardShippingStatus = "returned"
 	IssuingCardShippingStatusShipped   IssuingCardShippingStatus = "shipped"
+	IssuingCardShippingStatusSubmitted IssuingCardShippingStatus = "submitted"
 )
 
 // Packaging options.
