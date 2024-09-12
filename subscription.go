@@ -716,10 +716,14 @@ type SubscriptionListParams struct {
 	// Only return subscriptions that were created during the given date interval.
 	Created *int64 `form:"created"`
 	// Only return subscriptions that were created during the given date interval.
-	CreatedRange            *RangeQueryParams `form:"created"`
-	CurrentPeriodEnd        *int64            `form:"current_period_end"`
-	CurrentPeriodEndRange   *RangeQueryParams `form:"current_period_end"`
-	CurrentPeriodStart      *int64            `form:"current_period_start"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Only return subscriptions whose current_period_end falls within the given date interval.
+	CurrentPeriodEnd *int64 `form:"current_period_end"`
+	// Only return subscriptions whose current_period_end falls within the given date interval.
+	CurrentPeriodEndRange *RangeQueryParams `form:"current_period_end"`
+	// Only return subscriptions whose current_period_start falls within the given date interval.
+	CurrentPeriodStart *int64 `form:"current_period_start"`
+	// Only return subscriptions whose current_period_start falls within the given date interval.
 	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start"`
 	// The ID of the customer whose subscriptions will be retrieved.
 	Customer *string `form:"customer"`

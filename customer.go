@@ -133,6 +133,8 @@ type CustomerInvoiceSettingsCustomFieldParams struct {
 type CustomerInvoiceSettingsRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for future invoices.
+	Template *string `form:"template"`
 }
 
 // Default invoice settings for this customer.
@@ -295,6 +297,8 @@ type CustomerInvoiceSettingsCustomField struct {
 type CustomerInvoiceSettingsRenderingOptions struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
+	// ID of the invoice rendering template to be used for this customer's invoices. If set, the template will be used on all invoices for this customer unless a template is set directly on the invoice.
+	Template string `json:"template"`
 }
 type CustomerInvoiceSettings struct {
 	// Default custom fields to be displayed on invoices for this customer.
