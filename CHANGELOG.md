@@ -1,5 +1,16 @@
 # Changelog
 
+## 79.11.0 - 2024-09-12
+* [#1912](https://github.com/stripe/stripe-go/pull/1912) Update generated code
+  * Add support for new resource `InvoiceRenderingTemplate`
+  * Add support for `Archive`, `Get`, `List`, and `Unarchive` methods on resource `InvoiceRenderingTemplate`
+  * Add support for `Required` on `CheckoutSessionTaxIdCollectionParams`, `CheckoutSessionTaxIdCollection`, `PaymentLinkTaxIdCollectionParams`, and `PaymentLinkTaxIdCollection`
+  * Add support for `Template` on `CustomerInvoiceSettingsRenderingOptionsParams`, `CustomerInvoiceSettingsRenderingOptions`, `InvoiceRenderingParams`, and `InvoiceRendering`
+  * Add support for `TemplateVersion` on `InvoiceRenderingParams` and `InvoiceRendering`
+  * Add support for new value `submitted` on enum `IssuingCardShippingStatus`
+* [#1914](https://github.com/stripe/stripe-go/pull/1914) Add newer Go versions to test matrix
+* [#1913](https://github.com/stripe/stripe-go/pull/1913) Use pinned version of tools in Makefile and ci.yml
+
 ## 79.10.0 - 2024-09-05
 * [#1906](https://github.com/stripe/stripe-go/pull/1906) Update generated code
   * Add support for `SubscriptionItem` and `Subscription` on `BillingAlertFilterParams`
