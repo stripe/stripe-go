@@ -588,6 +588,10 @@ type QuotePreviewInvoiceRendering struct {
 	AmountTaxDisplay string `json:"amount_tax_display"`
 	// Invoice pdf rendering options
 	PDF *QuotePreviewInvoiceRenderingPDF `json:"pdf"`
+	// ID of the rendering template that the invoice is formatted by.
+	Template string `json:"template"`
+	// Version of the rendering template that the invoice is using.
+	TemplateVersion int64 `json:"template_version"`
 }
 
 // The taxes applied to the shipping rate.

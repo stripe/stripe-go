@@ -55,20 +55,6 @@ const (
 	QuotePhaseTotalDetailsBreakdownTaxTaxabilityReasonZeroRated            QuotePhaseTotalDetailsBreakdownTaxTaxabilityReason = "zero_rated"
 )
 
-// Returns a list of quote phases.
-type QuotePhaseListParams struct {
-	ListParams `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// The ID of the quote whose phases will be retrieved.
-	Quote *string `form:"quote"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *QuotePhaseListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Retrieves the quote phase with the given ID.
 type QuotePhaseParams struct {
 	Params `form:"*"`
@@ -176,11 +162,4 @@ type QuotePhase struct {
 	Trial bool `json:"trial"`
 	// When the trial ends within the phase.
 	TrialEnd int64 `json:"trial_end"`
-}
-
-// QuotePhaseList is a list of QuotePhases as retrieved from a list endpoint.
-type QuotePhaseList struct {
-	APIResource
-	ListMeta
-	Data []*QuotePhase `json:"data"`
 }

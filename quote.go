@@ -393,7 +393,7 @@ type QuoteDiscountDiscountEndParams struct {
 	Type *string `form:"type"`
 }
 
-// The discounts applied to the quote. You can only set up to one discount.
+// The discounts applied to the quote.
 type QuoteDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
@@ -1045,7 +1045,7 @@ type QuoteParams struct {
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// A description that will be displayed on the quote PDF. If no value is passed, the default description configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
 	Description *string `form:"description"`
-	// The discounts applied to the quote. You can only set up to one discount.
+	// The discounts applied to the quote.
 	Discounts []*QuoteDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
