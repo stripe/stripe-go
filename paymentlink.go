@@ -200,14 +200,6 @@ const (
 	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethodPause         PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod = "pause"
 )
 
-type PaymentLinkTaxIDCollectionRequired string
-
-// List of values that PaymentLinkTaxIDCollectionRequired can take
-const (
-	PaymentLinkTaxIDCollectionRequiredIfSupported PaymentLinkTaxIDCollectionRequired = "if_supported"
-	PaymentLinkTaxIDCollectionRequiredNever       PaymentLinkTaxIDCollectionRequired = "never"
-)
-
 // Returns a list of your payment links.
 type PaymentLinkListParams struct {
 	ListParams `form:"*"`
@@ -576,8 +568,6 @@ func (p *PaymentLinkSubscriptionDataParams) AddMetadata(key string, value string
 type PaymentLinkTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled"`
-	// Describes whether a tax ID is required during checkout. Defaults to `never`.
-	Required *string `form:"required"`
 }
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
@@ -942,8 +932,7 @@ type PaymentLinkSubscriptionData struct {
 }
 type PaymentLinkTaxIDCollection struct {
 	// Indicates whether tax ID collection is enabled for the session.
-	Enabled  bool                               `json:"enabled"`
-	Required PaymentLinkTaxIDCollectionRequired `json:"required"`
+	Enabled bool `json:"enabled"`
 }
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
