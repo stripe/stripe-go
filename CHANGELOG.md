@@ -1,5 +1,14 @@
 # Changelog
 
+## 79.12.0-beta.1 - 2024-09-13
+* [#1911](https://github.com/stripe/stripe-go/pull/1911) Update generated code for beta
+  * Add support for new resources `Issuing.DisputeSettlementDetail` and `Issuing.Settlement`
+  * Add support for `Get` and `List` methods on resource `DisputeSettlementDetail`
+  * Remove support for `List` method on resource `QuotePhase`
+  * Add support for new values `issuing_dispute_settlement_detail.created`, `issuing_dispute_settlement_detail.updated`, `issuing_settlement.created`, and `issuing_settlement.updated` on enum `EventType`
+  * Add support for `Settlement` on `IssuingTransactionListParams` and `IssuingTransaction`
+* [#1915](https://github.com/stripe/stripe-go/pull/1915) Use pinned version of tools in Makefile and ci.yml (beta)
+
 ## 79.11.0-beta.1 - 2024-09-05
 * [#1908](https://github.com/stripe/stripe-go/pull/1908) Update generated code for beta
   * Add support for new resources `Billing.MeterErrorReport` and `Terminal.ReaderCollectedData`
