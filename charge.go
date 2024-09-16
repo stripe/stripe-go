@@ -1705,7 +1705,21 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
 	Issuer string `json:"issuer"`
 }
+
+// The payer's address
+type ChargePaymentMethodDetailsKlarnaPayerDetailsAddress struct {
+	// The payer address country
+	Country string `json:"country"`
+}
+
+// The payer details for this transaction.
+type ChargePaymentMethodDetailsKlarnaPayerDetails struct {
+	// The payer's address
+	Address *ChargePaymentMethodDetailsKlarnaPayerDetailsAddress `json:"address"`
+}
 type ChargePaymentMethodDetailsKlarna struct {
+	// The payer details for this transaction.
+	PayerDetails *ChargePaymentMethodDetailsKlarnaPayerDetails `json:"payer_details"`
 	// The Klarna payment method used for this transaction.
 	// Can be one of `pay_later`, `pay_now`, `pay_with_financing`, or `pay_in_installments`
 	PaymentMethodCategory ChargePaymentMethodDetailsKlarnaPaymentMethodCategory `json:"payment_method_category"`

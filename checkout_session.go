@@ -1055,6 +1055,15 @@ const (
 	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
 )
 
+// Indicates whether a tax ID is required on the payment page
+type CheckoutSessionTaxIDCollectionRequired string
+
+// List of values that CheckoutSessionTaxIDCollectionRequired can take
+const (
+	CheckoutSessionTaxIDCollectionRequiredIfSupported CheckoutSessionTaxIDCollectionRequired = "if_supported"
+	CheckoutSessionTaxIDCollectionRequiredNever       CheckoutSessionTaxIDCollectionRequired = "never"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason string
 
@@ -2311,6 +2320,8 @@ func (p *CheckoutSessionSubscriptionDataParams) AddMetadata(key string, value st
 type CheckoutSessionTaxIDCollectionParams struct {
 	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled"`
+	// Describes whether a tax ID is required during checkout. Defaults to `never`.
+	Required *string `form:"required"`
 }
 
 // Creates a Session object.
@@ -3309,6 +3320,8 @@ type CheckoutSessionShippingOption struct {
 type CheckoutSessionTaxIDCollection struct {
 	// Indicates whether tax ID collection is enabled for the session
 	Enabled bool `json:"enabled"`
+	// Indicates whether a tax ID is required on the payment page
+	Required CheckoutSessionTaxIDCollectionRequired `json:"required"`
 }
 
 // The aggregated discounts.

@@ -73,6 +73,7 @@ import (
 	issuingcardholder "github.com/stripe/stripe-go/v79/issuing/cardholder"
 	issuingcreditunderwritingrecord "github.com/stripe/stripe-go/v79/issuing/creditunderwritingrecord"
 	issuingdispute "github.com/stripe/stripe-go/v79/issuing/dispute"
+	issuingdisputesettlementdetail "github.com/stripe/stripe-go/v79/issuing/disputesettlementdetail"
 	issuingpersonalizationdesign "github.com/stripe/stripe-go/v79/issuing/personalizationdesign"
 	issuingphysicalbundle "github.com/stripe/stripe-go/v79/issuing/physicalbundle"
 	issuingtoken "github.com/stripe/stripe-go/v79/issuing/token"
@@ -96,7 +97,6 @@ import (
 	"github.com/stripe/stripe-go/v79/productfeature"
 	"github.com/stripe/stripe-go/v79/promotioncode"
 	"github.com/stripe/stripe-go/v79/quote"
-	"github.com/stripe/stripe-go/v79/quotephase"
 	"github.com/stripe/stripe-go/v79/quotepreviewinvoice"
 	"github.com/stripe/stripe-go/v79/quotepreviewsubscriptionschedule"
 	radarearlyfraudwarning "github.com/stripe/stripe-go/v79/radar/earlyfraudwarning"
@@ -292,6 +292,8 @@ type API struct {
 	IssuingCreditUnderwritingRecords *issuingcreditunderwritingrecord.Client
 	// IssuingDisputes is the client used to invoke /issuing/disputes APIs.
 	IssuingDisputes *issuingdispute.Client
+	// IssuingDisputeSettlementDetails is the client used to invoke /issuing/dispute_settlement_details APIs.
+	IssuingDisputeSettlementDetails *issuingdisputesettlementdetail.Client
 	// IssuingPersonalizationDesigns is the client used to invoke /issuing/personalization_designs APIs.
 	IssuingPersonalizationDesigns *issuingpersonalizationdesign.Client
 	// IssuingPhysicalBundles is the client used to invoke /issuing/physical_bundles APIs.
@@ -336,8 +338,6 @@ type API struct {
 	Products *product.Client
 	// PromotionCodes is the client used to invoke /promotion_codes APIs.
 	PromotionCodes *promotioncode.Client
-	// QuotePhases is the client used to invoke /quote_phases APIs.
-	QuotePhases *quotephase.Client
 	// QuotePreviewInvoices is the client used to invoke /quotes/{quote}/preview_invoices APIs.
 	QuotePreviewInvoices *quotepreviewinvoice.Client
 	// QuotePreviewSubscriptionSchedules is the client used to invoke /quotes/{quote}/preview_subscription_schedules APIs.
@@ -542,6 +542,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IssuingCards = &issuingcard.Client{B: backends.API, Key: key}
 	a.IssuingCreditUnderwritingRecords = &issuingcreditunderwritingrecord.Client{B: backends.API, Key: key}
 	a.IssuingDisputes = &issuingdispute.Client{B: backends.API, Key: key}
+	a.IssuingDisputeSettlementDetails = &issuingdisputesettlementdetail.Client{B: backends.API, Key: key}
 	a.IssuingPersonalizationDesigns = &issuingpersonalizationdesign.Client{B: backends.API, Key: key}
 	a.IssuingPhysicalBundles = &issuingphysicalbundle.Client{B: backends.API, Key: key}
 	a.IssuingTokens = &issuingtoken.Client{B: backends.API, Key: key}
@@ -564,7 +565,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ProductFeatures = &productfeature.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
 	a.PromotionCodes = &promotioncode.Client{B: backends.API, Key: key}
-	a.QuotePhases = &quotephase.Client{B: backends.API, Key: key}
 	a.QuotePreviewInvoices = &quotepreviewinvoice.Client{B: backends.API, Key: key}
 	a.QuotePreviewSubscriptionSchedules = &quotepreviewsubscriptionschedule.Client{B: backends.API, Key: key}
 	a.Quotes = &quote.Client{B: backends.API, BUploads: backends.Uploads, Key: key}

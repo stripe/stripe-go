@@ -190,6 +190,7 @@ const (
 	ErrorCodeTerminalReaderBusy                                          ErrorCode = "terminal_reader_busy"
 	ErrorCodeTerminalReaderCollectedDataInvalid                          ErrorCode = "terminal_reader_collected_data_invalid"
 	ErrorCodeTerminalReaderHardwareFault                                 ErrorCode = "terminal_reader_hardware_fault"
+	ErrorCodeTerminalReaderInvalidLocationForActivation                  ErrorCode = "terminal_reader_invalid_location_for_activation"
 	ErrorCodeTerminalReaderInvalidLocationForPayment                     ErrorCode = "terminal_reader_invalid_location_for_payment"
 	ErrorCodeTerminalReaderOffline                                       ErrorCode = "terminal_reader_offline"
 	ErrorCodeTerminalReaderTimeout                                       ErrorCode = "terminal_reader_timeout"
