@@ -1,5 +1,17 @@
 # Changelog
 
+## 79.12.0 - 2024-09-18
+* [#1919](https://github.com/stripe/stripe-go/pull/1919) Update generated code
+  * Add support for new value `international_transaction` on enum `TreasuryReceivedDebitFailureCode`
+* [#1918](https://github.com/stripe/stripe-go/pull/1918) Update generated code
+  * Add support for new value `verification_supportability` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `BankAccountFutureRequirementsErrorsCode`, and `BankAccountRequirementsErrorsCode`
+  * Add support for new value `terminal_reader_invalid_location_for_activation` on enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `PayerDetails` on `ChargePaymentMethodDetailsKlarna`
+  * Add support for `AmazonPay` on `DisputePaymentMethodDetails`
+  * Add support for new value `amazon_pay` on enum `DisputePaymentMethodDetailsType`
+  * Add support for `AutomaticallyFinalizesAt` on `Invoice`
+  * Add support for `StateSalesTax` on `TaxRegistrationCountryOptionsUsParams` and `TaxRegistrationCountryOptionsUs`
+
 ## 79.11.0 - 2024-09-12
 * [#1912](https://github.com/stripe/stripe-go/pull/1912) Update generated code
   * Add support for new resource `InvoiceRenderingTemplate`
@@ -8,8 +20,6 @@
   * Add support for `Template` on `CustomerInvoiceSettingsRenderingOptionsParams`, `CustomerInvoiceSettingsRenderingOptions`, `InvoiceRenderingParams`, and `InvoiceRendering`
   * Add support for `TemplateVersion` on `InvoiceRenderingParams` and `InvoiceRendering`
   * Add support for new value `submitted` on enum `IssuingCardShippingStatus`
-* [#1914](https://github.com/stripe/stripe-go/pull/1914) Add newer Go versions to test matrix
-* [#1913](https://github.com/stripe/stripe-go/pull/1913) Use pinned version of tools in Makefile and ci.yml
 
 ## 79.10.0 - 2024-09-05
 * [#1906](https://github.com/stripe/stripe-go/pull/1906) Update generated code
