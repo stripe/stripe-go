@@ -1,5 +1,12 @@
 # Changelog
 
+## 79.13.0-beta.1 - 2024-09-18
+* [#1920](https://github.com/stripe/stripe-go/pull/1920) Update generated code for beta
+  * Remove support for resource `QuotePhase`
+  * Remove support for `Get` and `ListLineItems` methods on resource `QuotePhase`
+  * Add support for `SendMoney` and `TransferBalance` on `AccountSessionComponentsFinancialAccountFeaturesParams`
+  * Add support for new value `rechnung` on enum `PaymentLinkPaymentMethodTypes`
+
 ## 79.12.0 - 2024-09-18
 * [#1919](https://github.com/stripe/stripe-go/pull/1919) Update generated code
   * Add support for new value `international_transaction` on enum `TreasuryReceivedDebitFailureCode`
