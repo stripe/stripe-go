@@ -4927,8 +4927,10 @@ type Invoice struct {
 	// Whether an attempt has been made to pay the invoice. An invoice is not attempted until 1 hour after the `invoice.created` webhook, for example, so you might not want to display that invoice as unpaid to your users.
 	Attempted bool `json:"attempted"`
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
-	AutoAdvance  bool                 `json:"auto_advance"`
-	AutomaticTax *InvoiceAutomaticTax `json:"automatic_tax"`
+	AutoAdvance bool `json:"auto_advance"`
+	// The time when this invoice is currently scheduled to be automatically finalized. The field will be `null` if the invoice is not scheduled to finalize in the future. If the invoice is not in the draft state, this field will always be `null` - see `finalized_at` for the time when an already-finalized invoice was finalized.
+	AutomaticallyFinalizesAt int64                `json:"automatically_finalizes_at"`
+	AutomaticTax             *InvoiceAutomaticTax `json:"automatic_tax"`
 	// Indicates the reason why the invoice was created.
 	//
 	// * `manual`: Unrelated to a subscription, for example, created via the invoice editor.

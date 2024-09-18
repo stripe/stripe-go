@@ -161,6 +161,7 @@ const (
 	PaymentLinkPaymentMethodTypePayto            PaymentLinkPaymentMethodType = "payto"
 	PaymentLinkPaymentMethodTypePix              PaymentLinkPaymentMethodType = "pix"
 	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
+	PaymentLinkPaymentMethodTypeRechnung         PaymentLinkPaymentMethodType = "rechnung"
 	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeSwish            PaymentLinkPaymentMethodType = "swish"
