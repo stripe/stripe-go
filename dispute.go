@@ -8,6 +8,15 @@ package stripe
 
 import "encoding/json"
 
+// The AmazonPay dispute type, chargeback or claim
+type DisputePaymentMethodDetailsAmazonPayDisputeType string
+
+// List of values that DisputePaymentMethodDetailsAmazonPayDisputeType can take
+const (
+	DisputePaymentMethodDetailsAmazonPayDisputeTypeChargeback DisputePaymentMethodDetailsAmazonPayDisputeType = "chargeback"
+	DisputePaymentMethodDetailsAmazonPayDisputeTypeClaim      DisputePaymentMethodDetailsAmazonPayDisputeType = "claim"
+)
+
 // The type of dispute opened. Different case types may have varying fees and financial impact.
 type DisputePaymentMethodDetailsCardCaseType string
 
@@ -22,9 +31,10 @@ type DisputePaymentMethodDetailsType string
 
 // List of values that DisputePaymentMethodDetailsType can take
 const (
-	DisputePaymentMethodDetailsTypeCard   DisputePaymentMethodDetailsType = "card"
-	DisputePaymentMethodDetailsTypeKlarna DisputePaymentMethodDetailsType = "klarna"
-	DisputePaymentMethodDetailsTypePaypal DisputePaymentMethodDetailsType = "paypal"
+	DisputePaymentMethodDetailsTypeAmazonPay DisputePaymentMethodDetailsType = "amazon_pay"
+	DisputePaymentMethodDetailsTypeCard      DisputePaymentMethodDetailsType = "card"
+	DisputePaymentMethodDetailsTypeKlarna    DisputePaymentMethodDetailsType = "klarna"
+	DisputePaymentMethodDetailsTypePaypal    DisputePaymentMethodDetailsType = "paypal"
 )
 
 // Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://stripe.com/docs/disputes/categories).
@@ -232,6 +242,10 @@ type DisputeEvidenceDetails struct {
 	// The number of times evidence has been submitted. Typically, you may only submit evidence once.
 	SubmissionCount int64 `json:"submission_count"`
 }
+type DisputePaymentMethodDetailsAmazonPay struct {
+	// The AmazonPay dispute type, chargeback or claim
+	DisputeType DisputePaymentMethodDetailsAmazonPayDisputeType `json:"dispute_type"`
+}
 type DisputePaymentMethodDetailsCard struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
@@ -251,9 +265,10 @@ type DisputePaymentMethodDetailsPaypal struct {
 	ReasonCode string `json:"reason_code"`
 }
 type DisputePaymentMethodDetails struct {
-	Card   *DisputePaymentMethodDetailsCard   `json:"card"`
-	Klarna *DisputePaymentMethodDetailsKlarna `json:"klarna"`
-	Paypal *DisputePaymentMethodDetailsPaypal `json:"paypal"`
+	AmazonPay *DisputePaymentMethodDetailsAmazonPay `json:"amazon_pay"`
+	Card      *DisputePaymentMethodDetailsCard      `json:"card"`
+	Klarna    *DisputePaymentMethodDetailsKlarna    `json:"klarna"`
+	Paypal    *DisputePaymentMethodDetailsPaypal    `json:"paypal"`
 	// Payment method type.
 	Type DisputePaymentMethodDetailsType `json:"type"`
 }
