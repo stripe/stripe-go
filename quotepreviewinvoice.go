@@ -758,8 +758,10 @@ type QuotePreviewInvoice struct {
 	// Number of payment attempts made for this invoice, from the perspective of the payment retry schedule. Any payment attempt counts as the first attempt, and subsequently only automatic retries increment the attempt count. In other words, manual payment attempts after the first attempt do not affect the retry schedule. If a failure is returned with a non-retryable return code, the invoice can no longer be retried unless a new payment method is obtained. Retries will continue to be scheduled, and attempt_count will continue to increment, but retries will only be executed if a new payment method is obtained.
 	AttemptCount int64 `json:"attempt_count"`
 	// Whether an attempt has been made to pay the invoice. An invoice is not attempted until 1 hour after the `invoice.created` webhook, for example, so you might not want to display that invoice as unpaid to your users.
-	Attempted    bool                             `json:"attempted"`
-	AutomaticTax *QuotePreviewInvoiceAutomaticTax `json:"automatic_tax"`
+	Attempted bool `json:"attempted"`
+	// The time when this invoice is currently scheduled to be automatically finalized. The field will be `null` if the invoice is not scheduled to finalize in the future. If the invoice is not in the draft state, this field will always be `null` - see `finalized_at` for the time when an already-finalized invoice was finalized.
+	AutomaticallyFinalizesAt int64                            `json:"automatically_finalizes_at"`
+	AutomaticTax             *QuotePreviewInvoiceAutomaticTax `json:"automatic_tax"`
 	// Indicates the reason why the invoice was created.
 	//
 	// * `manual`: Unrelated to a subscription, for example, created via the invoice editor.

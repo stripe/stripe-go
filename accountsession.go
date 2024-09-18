@@ -141,6 +141,10 @@ type AccountSessionComponentsFinancialAccountFeaturesParams struct {
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 	// Whether to allow money movement features.
 	MoneyMovement *bool `form:"money_movement"`
+	// Whether to allow sending money.
+	SendMoney *bool `form:"send_money"`
+	// Whether to allow transferring balance.
+	TransferBalance *bool `form:"transfer_balance"`
 }
 
 // Configuration for the financial account component.

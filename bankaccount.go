@@ -124,6 +124,7 @@ const (
 	BankAccountFutureRequirementsErrorCodeVerificationMissingOwners                              BankAccountFutureRequirementsErrorCode = "verification_missing_owners"
 	BankAccountFutureRequirementsErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations BankAccountFutureRequirementsErrorCode = "verification_requires_additional_memorandum_of_associations"
 	BankAccountFutureRequirementsErrorCodeVerificationRequiresAdditionalProofOfRegistration      BankAccountFutureRequirementsErrorCode = "verification_requires_additional_proof_of_registration"
+	BankAccountFutureRequirementsErrorCodeVerificationSupportability                             BankAccountFutureRequirementsErrorCode = "verification_supportability"
 )
 
 // The code for the type of error.
@@ -220,6 +221,7 @@ const (
 	BankAccountRequirementsErrorCodeVerificationMissingOwners                              BankAccountRequirementsErrorCode = "verification_missing_owners"
 	BankAccountRequirementsErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations BankAccountRequirementsErrorCode = "verification_requires_additional_memorandum_of_associations"
 	BankAccountRequirementsErrorCodeVerificationRequiresAdditionalProofOfRegistration      BankAccountRequirementsErrorCode = "verification_requires_additional_proof_of_registration"
+	BankAccountRequirementsErrorCodeVerificationSupportability                             BankAccountRequirementsErrorCode = "verification_supportability"
 )
 
 // For bank accounts, possible values are `new`, `validated`, `verified`, `verification_failed`, or `errored`. A bank account that hasn't had any activity or validation performed is `new`. If Stripe can determine that the bank account exists, its status will be `validated`. Note that there often isn't enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be `verified`. If the verification failed for any reason, such as microdeposit failure, the status will be `verification_failed`. If a payout sent to this bank account fails, we'll set the status to `errored` and will not continue to send [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) until the bank details are updated.

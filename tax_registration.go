@@ -758,6 +758,16 @@ const (
 	TaxRegistrationCountryOptionsTRTypeSimplified TaxRegistrationCountryOptionsTRType = "simplified"
 )
 
+// The type of the election for the state sales tax registration.
+type TaxRegistrationCountryOptionsUSStateSalesTaxElectionType string
+
+// List of values that TaxRegistrationCountryOptionsUSStateSalesTaxElectionType can take
+const (
+	TaxRegistrationCountryOptionsUSStateSalesTaxElectionTypeLocalUseTax             TaxRegistrationCountryOptionsUSStateSalesTaxElectionType = "local_use_tax"
+	TaxRegistrationCountryOptionsUSStateSalesTaxElectionTypeSimplifiedSellersUseTax TaxRegistrationCountryOptionsUSStateSalesTaxElectionType = "simplified_sellers_use_tax"
+	TaxRegistrationCountryOptionsUSStateSalesTaxElectionTypeSingleLocalUseTax       TaxRegistrationCountryOptionsUSStateSalesTaxElectionType = "single_local_use_tax"
+)
+
 // Type of registration in the US.
 type TaxRegistrationCountryOptionsUSType string
 
@@ -1363,6 +1373,20 @@ type TaxRegistrationCountryOptionsUSLocalLeaseTaxParams struct {
 	Jurisdiction *string `form:"jurisdiction"`
 }
 
+// Elections for the state sales tax registration.
+type TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams struct {
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
+	Jurisdiction *string `form:"jurisdiction"`
+	// The type of the election for the state sales tax registration.
+	Type *string `form:"type"`
+}
+
+// Options for the state sales tax registration.
+type TaxRegistrationCountryOptionsUSStateSalesTaxParams struct {
+	// Elections for the state sales tax registration.
+	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElectionParams `form:"elections"`
+}
+
 // Options for the registration in US.
 type TaxRegistrationCountryOptionsUSParams struct {
 	// Options for the local amusement tax registration.
@@ -1371,6 +1395,8 @@ type TaxRegistrationCountryOptionsUSParams struct {
 	LocalLeaseTax *TaxRegistrationCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
 	State *string `form:"state"`
+	// Options for the state sales tax registration.
+	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTaxParams `form:"state_sales_tax"`
 	// Type of registration to be created in the US.
 	Type *string `form:"type"`
 }
@@ -1895,11 +1921,24 @@ type TaxRegistrationCountryOptionsUSLocalLeaseTax struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
 	Jurisdiction string `json:"jurisdiction"`
 }
+
+// Elections for the state sales tax registration.
+type TaxRegistrationCountryOptionsUSStateSalesTaxElection struct {
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
+	Jurisdiction string `json:"jurisdiction"`
+	// The type of the election for the state sales tax registration.
+	Type TaxRegistrationCountryOptionsUSStateSalesTaxElectionType `json:"type"`
+}
+type TaxRegistrationCountryOptionsUSStateSalesTax struct {
+	// Elections for the state sales tax registration.
+	Elections []*TaxRegistrationCountryOptionsUSStateSalesTaxElection `json:"elections"`
+}
 type TaxRegistrationCountryOptionsUS struct {
 	LocalAmusementTax *TaxRegistrationCountryOptionsUSLocalAmusementTax `json:"local_amusement_tax"`
 	LocalLeaseTax     *TaxRegistrationCountryOptionsUSLocalLeaseTax     `json:"local_lease_tax"`
 	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
-	State string `json:"state"`
+	State         string                                        `json:"state"`
+	StateSalesTax *TaxRegistrationCountryOptionsUSStateSalesTax `json:"state_sales_tax"`
 	// Type of registration in the US.
 	Type TaxRegistrationCountryOptionsUSType `json:"type"`
 }
