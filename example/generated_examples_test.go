@@ -3090,8 +3090,8 @@ func TestTerminalReadersProcessPaymentIntentPost(t *testing.T) {
 
 func TestTerminalReadersProcessSetupIntentPost(t *testing.T) {
 	params := &stripe.TerminalReaderProcessSetupIntentParams{
-		SetupIntent:              stripe.String("seti_xxxxxxxxxxxxx"),
-		CustomerConsentCollected: stripe.Bool(true),
+		SetupIntent:    stripe.String("seti_xxxxxxxxxxxxx"),
+		AllowRedisplay: stripe.String("always"),
 	}
 	result, err := terminal_reader.ProcessSetupIntent(
 		"tmr_xxxxxxxxxxxxx",

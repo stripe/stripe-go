@@ -371,6 +371,16 @@ const (
 	QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehaviorVoid              QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehavior = "void"
 )
 
+// Type of the pretax credit amount referenced.
+type QuotePreviewInvoiceTotalPretaxCreditAmountType string
+
+// List of values that QuotePreviewInvoiceTotalPretaxCreditAmountType can take
+const (
+	QuotePreviewInvoiceTotalPretaxCreditAmountTypeCreditBalanceTransaction QuotePreviewInvoiceTotalPretaxCreditAmountType = "credit_balance_transaction"
+	QuotePreviewInvoiceTotalPretaxCreditAmountTypeDiscount                 QuotePreviewInvoiceTotalPretaxCreditAmountType = "discount"
+	QuotePreviewInvoiceTotalPretaxCreditAmountTypeMargin                   QuotePreviewInvoiceTotalPretaxCreditAmountType = "margin"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type QuotePreviewInvoiceTotalTaxAmountTaxabilityReason string
 
@@ -678,6 +688,18 @@ type QuotePreviewInvoiceTotalMarginAmount struct {
 	// The margin that was applied to get this margin amount.
 	Margin *Margin `json:"margin"`
 }
+type QuotePreviewInvoiceTotalPretaxCreditAmount struct {
+	// The amount, in cents (or local equivalent), of the pretax credit amount.
+	Amount int64 `json:"amount"`
+	// The credit balance transaction that was applied to get this pretax credit amount.
+	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
+	// The discount that was applied to get this pretax credit amount.
+	Discount *Discount `json:"discount"`
+	// The margin that was applied to get this pretax credit amount.
+	Margin *Margin `json:"margin"`
+	// Type of the pretax credit amount referenced.
+	Type QuotePreviewInvoiceTotalPretaxCreditAmountType `json:"type"`
+}
 
 // The aggregate amounts calculated per tax rate for all line items.
 type QuotePreviewInvoiceTotalTaxAmount struct {
@@ -894,7 +916,8 @@ type QuotePreviewInvoice struct {
 	// The integer amount in cents (or local equivalent) representing the total amount of the invoice including all discounts but excluding all tax.
 	TotalExcludingTax int64 `json:"total_excluding_tax"`
 	// The aggregate amounts calculated per margin across all line items.
-	TotalMarginAmounts []*QuotePreviewInvoiceTotalMarginAmount `json:"total_margin_amounts"`
+	TotalMarginAmounts       []*QuotePreviewInvoiceTotalMarginAmount       `json:"total_margin_amounts"`
+	TotalPretaxCreditAmounts []*QuotePreviewInvoiceTotalPretaxCreditAmount `json:"total_pretax_credit_amounts"`
 	// The aggregate amounts calculated per tax rate for all line items.
 	TotalTaxAmounts []*QuotePreviewInvoiceTotalTaxAmount `json:"total_tax_amounts"`
 	// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.

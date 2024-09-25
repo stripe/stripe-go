@@ -55,7 +55,9 @@ type PromotionCodeParams struct {
 	Params `form:"*"`
 	// Whether the promotion code is currently active. A promotion code can only be reactivated when the coupon is still valid and the promotion code is otherwise redeemable.
 	Active *bool `form:"active"`
-	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for a specific customer. If left blank, we will generate one automatically.
+	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for a specific customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), and digits (0-9).
+	//
+	// If left blank, we will generate one automatically.
 	Code *string `form:"code"`
 	// The coupon for this promotion code.
 	Coupon *string `form:"coupon"`
@@ -109,7 +111,7 @@ type PromotionCode struct {
 	APIResource
 	// Whether the promotion code is currently active. A promotion code is only active if the coupon is also valid.
 	Active bool `json:"active"`
-	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer.
+	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), and digits (0-9).
 	Code string `json:"code"`
 	// A coupon contains information about a percent-off or amount-off discount you
 	// might want to apply to a customer. Coupons may be applied to [subscriptions](https://stripe.com/docs/api#subscriptions), [invoices](https://stripe.com/docs/api#invoices),

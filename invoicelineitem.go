@@ -6,6 +6,16 @@
 
 package stripe
 
+// Type of the pretax credit amount referenced.
+type InvoiceLineItemPretaxCreditAmountType string
+
+// List of values that InvoiceLineItemPretaxCreditAmountType can take
+const (
+	InvoiceLineItemPretaxCreditAmountTypeCreditBalanceTransaction InvoiceLineItemPretaxCreditAmountType = "credit_balance_transaction"
+	InvoiceLineItemPretaxCreditAmountTypeDiscount                 InvoiceLineItemPretaxCreditAmountType = "discount"
+	InvoiceLineItemPretaxCreditAmountTypeMargin                   InvoiceLineItemPretaxCreditAmountType = "margin"
+)
+
 // A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
 type InvoiceLineItemType string
 
@@ -190,6 +200,18 @@ type InvoiceLineItemMarginAmount struct {
 	// The margin that was applied to get this margin amount.
 	Margin *Margin `json:"margin"`
 }
+type InvoiceLineItemPretaxCreditAmount struct {
+	// The amount, in cents (or local equivalent), of the pretax credit amount.
+	Amount int64 `json:"amount"`
+	// The credit balance transaction that was applied to get this pretax credit amount.
+	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
+	// The discount that was applied to get this pretax credit amount.
+	Discount *Discount `json:"discount"`
+	// The margin that was applied to get this pretax credit amount.
+	Margin *Margin `json:"margin"`
+	// Type of the pretax credit amount referenced.
+	Type InvoiceLineItemPretaxCreditAmountType `json:"type"`
+}
 
 // For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
 type InvoiceLineItemProrationDetailsCreditedItems struct {
@@ -242,7 +264,8 @@ type InvoiceLineItem struct {
 	Object string  `json:"object"`
 	Period *Period `json:"period"`
 	// The plan of the subscription, if the line item is a subscription or a proration.
-	Plan *Plan `json:"plan"`
+	Plan                *Plan                                `json:"plan"`
+	PretaxCreditAmounts []*InvoiceLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
 	// The price of the line item.
 	Price *Price `json:"price"`
 	// Whether this is a proration.

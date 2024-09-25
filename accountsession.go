@@ -298,6 +298,17 @@ type AccountSessionComponentsRecipientsParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsReportingChartFeaturesParams struct{}
+
+// Configuration for the reporting chart embedded component.
+type AccountSessionComponentsReportingChartParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsReportingChartFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsTaxRegistrationsFeaturesParams struct{}
 
 // Configuration for the tax registrations embedded component.
@@ -362,6 +373,8 @@ type AccountSessionComponentsParams struct {
 	// Configuration for the payouts list embedded component.
 	PayoutsList *AccountSessionComponentsPayoutsListParams `form:"payouts_list"`
 	Recipients  *AccountSessionComponentsRecipientsParams  `form:"recipients"`
+	// Configuration for the reporting chart embedded component.
+	ReportingChart *AccountSessionComponentsReportingChartParams `form:"reporting_chart"`
 	// Configuration for the tax registrations embedded component.
 	TaxRegistrations *AccountSessionComponentsTaxRegistrationsParams `form:"tax_registrations"`
 	// Configuration for the tax settings embedded component.

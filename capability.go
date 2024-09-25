@@ -40,7 +40,7 @@ const (
 	CapabilityDisabledReasonRequirementsFieldsNeeded    CapabilityDisabledReason = "requirements.fields_needed"
 )
 
-// The status of the capability. Can be `active`, `inactive`, `pending`, or `unrequested`.
+// The status of the capability.
 type CapabilityStatus string
 
 // List of values that CapabilityStatus can take
@@ -161,7 +161,7 @@ type Capability struct {
 	// Time at which the capability was requested. Measured in seconds since the Unix epoch.
 	RequestedAt  int64                   `json:"requested_at"`
 	Requirements *CapabilityRequirements `json:"requirements"`
-	// The status of the capability. Can be `active`, `inactive`, `pending`, or `unrequested`.
+	// The status of the capability.
 	Status CapabilityStatus `json:"status"`
 }
 

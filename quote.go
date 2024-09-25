@@ -1535,8 +1535,6 @@ type QuoteSubscriptionData struct {
 	EffectiveDate int64 `json:"effective_date"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior QuoteSubscriptionDataEndBehavior `json:"end_behavior"`
-	// The id of the subscription schedule that will be updated when the quote is accepted.
-	FromSchedule *SubscriptionSchedule `json:"from_schedule"`
 	// The id of the subscription that will be updated when the quote is accepted.
 	FromSubscription *Subscription `json:"from_subscription"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
