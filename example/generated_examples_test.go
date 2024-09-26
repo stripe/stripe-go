@@ -3088,19 +3088,6 @@ func TestTerminalReadersProcessPaymentIntentPost(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestTerminalReadersProcessSetupIntentPost(t *testing.T) {
-	params := &stripe.TerminalReaderProcessSetupIntentParams{
-		SetupIntent:    stripe.String("seti_xxxxxxxxxxxxx"),
-		AllowRedisplay: stripe.String("always"),
-	}
-	result, err := terminal_reader.ProcessSetupIntent(
-		"tmr_xxxxxxxxxxxxx",
-		params,
-	)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
 func TestTestHelpersCustomersFundCashBalancePost(t *testing.T) {
 	params := &stripe.TestHelpersCustomerFundCashBalanceParams{
 		Amount:   stripe.Int64(30),
