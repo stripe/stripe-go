@@ -559,40 +559,64 @@ If you would like to send a request to an API that is:
 - undocumented (like a private beta), or
 - public, but you prefer to bypass the method definitions in the library and specify your request details directly
 
-You can use the `RawRequest` method on the `stripe` backend.
+You can use the `rawrequest` package:
 
 ```go
-import "github.com/stripe/stripe-go/v79"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/stripe/stripe-go/v79"
+	"github.com/stripe/stripe-go/v79/form"
+	"github.com/stripe/stripe-go/v79/rawrequest"
+)
 
 func make_raw_request() error {
 	//
 	stripe.Key = "sk_test_123"
 
-	body_struct := map[string]interface{}{
-		"event_name": "my_event_name",
+	payload := map[string]interface{}{
+		"event_name": "hotdogs_eaten",
 		"payload": map[string]string{
 			"value":              "123",
-			"stripe_customer_id": "cus_1234",
+			"stripe_customer_id": "cus_Quq8itmW58RMet",
 		},
 	}
-	body, err := json.Marshal(body_struct)
+
+	// for a v2 request, json encode the payload
+	body, err := json.Marshal(payload)
 	if err != nil {
 		return err
 	}
 
-	params := stripe.RawParams{
-		APIMode: stripe.PreviewAPIMode, // required for V2 APIs
-	}
-	resp, err := stripe.RawRequest("POST", "/v2/billing/meter_events", string(body), &params)
+	v2_resp, err := rawrequest.Post("/v2/billing/meter_events", string(body), nil)
 	if err != nil {
 		return err
 	}
 
-	var deserializedResponse map[string]interface{}
-	err = json.Unmarshal(resp.RawJSON, &deserializedResponse)
+	var v2_response map[string]interface{}
+	err = json.Unmarshal(v2_resp.RawJSON, &v2_response)
 	if err != nil {
 		return err
 	}
+	fmt.Printf("%#v\n", v2_response)
+
+	// for a v1 request, form encode the payload
+	formValues := &form.Values{}
+	form.AppendTo(formValues, payload)
+	content := formValues.Encode()
+
+	v1_resp, err := rawrequest.Post("/v1/billing/meter_events", content, nil)
+	if err != nil {
+		return err
+	}
+
+	var v1_response map[string]interface{}
+	err = json.Unmarshal(v1_resp.RawJSON, &v1_response)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%#v\n", v1_response)
 
 	return nil
 }

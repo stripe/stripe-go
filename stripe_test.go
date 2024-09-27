@@ -1312,13 +1312,13 @@ func TestRawRequestPreviewPost(t *testing.T) {
 		Object string `json:"object"`
 		XYZ    MyXYZ  `json:"xyz"`
 	}
-	params := &RawParams{Params: Params{}, APIMode: V2APIMode}
-	response, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{"foo":"myFoo","bar":{"baz":false}}`, params)
+	params := &RawParams{Params: Params{}}
+	response, err := backend.RawRequest(http.MethodPost, "/v2/abcs", "sk_test_xyz", `{"foo":"myFoo","bar":{"baz":false}}`, params)
 	assert.NoError(t, err)
 	myABC := &MyABC{}
 	assert.Nil(t, params.Headers)
 	assert.Equal(t, `{"foo":"myFoo","bar":{"baz":false}}`, body)
-	assert.Equal(t, `/v1/abcs`, path)
+	assert.Equal(t, `/v2/abcs`, path)
 	assert.Equal(t, `POST`, method)
 	assert.Equal(t, `application/json`, contentType)
 	// assert.Equal(t, previewVersion, stripeVersion)
@@ -1430,11 +1430,11 @@ func TestRawRequestPreviewGet(t *testing.T) {
 		},
 	).(*BackendImplementation)
 
-	params := &RawParams{Params: Params{}, APIMode: V2APIMode}
-	_, err := backend.RawRequest(http.MethodGet, "/v1/abc?foo=myFoo", "sk_test_xyz", ``, params)
+	params := &RawParams{Params: Params{}}
+	_, err := backend.RawRequest(http.MethodGet, "/v2/abc?foo=myFoo", "sk_test_xyz", ``, params)
 	assert.NoError(t, err)
 	assert.Equal(t, ``, body)
-	assert.Equal(t, `/v1/abc?foo=myFoo`, path)
+	assert.Equal(t, `/v2/abc?foo=myFoo`, path)
 	assert.Equal(t, `GET`, method)
 	assert.Equal(t, `application/json`, contentType)
 	// assert.Equal(t, previewVersion, stripeVersion)
@@ -1473,12 +1473,12 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 
 	headers := http.Header{}
 	headers.Set("foo", "bar")
-	params := &RawParams{Params: Params{Headers: headers}, APIMode: V2APIMode, StripeContext: "acct_123"}
+	params := &RawParams{Params: Params{Headers: headers}, StripeContext: "acct_123"}
 
-	_, err := backend.RawRequest(http.MethodPost, "/v1/abc", "sk_test_xyz", `{"foo":"myFoo"}`, params)
+	_, err := backend.RawRequest(http.MethodPost, "/v2/abc", "sk_test_xyz", `{"foo":"myFoo"}`, params)
 	assert.NoError(t, err)
 	assert.Equal(t, `{"foo":"myFoo"}`, body)
-	assert.Equal(t, `/v1/abc`, path)
+	assert.Equal(t, `/v2/abc`, path)
 	assert.Equal(t, `POST`, method)
 	assert.Equal(t, `application/json`, contentType)
 	assert.Equal(t, `bar`, fooHeader)

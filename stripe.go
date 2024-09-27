@@ -432,29 +432,26 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	}
 
 	paramsIsNil := params == nil || reflect.ValueOf(params).IsNil()
-
-	if paramsIsNil {
-		_, commonParams, err = extractParams(params)
-		if err != nil {
-			return nil, err
-		}
-		contentType = "application/x-www-form-urlencoded"
+	var apiMode APIMode
+	if strings.HasPrefix(path, "/v1") {
+		apiMode = V1APIMode
+	} else if strings.HasPrefix(path, "/v2") {
+		apiMode = V2APIMode
 	} else {
-		if params.APIMode == V1APIMode {
-			_, commonParams, err = extractParams(params)
-			if err != nil {
-				return nil, err
-			}
-			contentType = "application/x-www-form-urlencoded"
-		} else if params.APIMode == V2APIMode {
-			_, commonParams, err = extractParams(params)
-			if err != nil {
-				return nil, err
-			}
-			contentType = "application/json"
-		} else {
-			return nil, fmt.Errorf("Unknown API mode %s", params.APIMode)
-		}
+		return nil, fmt.Errorf("Unknown path prefix %s", path)
+	}
+
+	_, commonParams, err = extractParams(params)
+	if err != nil {
+		return nil, err
+	}
+
+	if apiMode == V1APIMode {
+		contentType = "application/x-www-form-urlencoded"
+	} else if apiMode == V2APIMode {
+		contentType = "application/json"
+	} else {
+		return nil, fmt.Errorf("Unknown API mode %s", apiMode)
 	}
 
 	bodyBuffer.WriteString(content)

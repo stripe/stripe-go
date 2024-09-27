@@ -268,8 +268,7 @@ type ParamsContainer interface {
 
 type RawParams struct {
 	Params        `form:"*"`
-	APIMode       APIMode `form:"-"`
-	StripeContext string  `form:"-"`
+	StripeContext string `form:"-"`
 }
 
 // RangeQueryParams are a set of generic request parameters that are used on
