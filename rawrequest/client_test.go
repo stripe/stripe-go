@@ -78,11 +78,11 @@ func TestRawV1PostRequest(t *testing.T) {
 
 	var params *stripe.RawParams
 
-	_, err := Post("/v1/abc", `{"xyz": {"def": "jih"}}`, params)
+	_, err := Post("/v1/abc", `abc=123&a[name]=nested`, params)
 	assert.NoError(t, err)
 
 	assert.Nil(t, params) // original params should not be modified
-	assert.Equal(t, `{"xyz": {"def": "jih"}}`, body)
+	assert.Equal(t, `abc=123&a[name]=nested`, body)
 	assert.Equal(t, `/v1/abc`, path)
 	assert.Equal(t, `POST`, method)
 	assert.Equal(t, `application/x-www-form-urlencoded`, contentType)

@@ -549,7 +549,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 	params.InternalSetUsage([]string{"llama", "bufo"})
 	for i := 0; i < 2; i++ {
 		var response testServerResponse
-		err := backend.Call("get", "/hello", "sk_test_xyz", params, &response)
+		err := backend.Call("GET", "/hello", "sk_test_xyz", params, &response)
 
 		assert.NoError(t, err)
 		assert.Equal(t, message, response.Message)

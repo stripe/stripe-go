@@ -421,14 +421,24 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	return nil
 }
 
+// the stripe API only accepts GET / POST / DELETE
+func validateMethod(method string) error {
+	if method != http.MethodPost && method != http.MethodGet && method != http.MethodDelete {
+		return fmt.Errorf("method must be POST, GET, or DELETE. Received %s", method)
+	}
+	return nil
+}
+
 // RawRequest is the Backend.RawRequest implementation for invoking Stripe APIs.
 func (s *BackendImplementation) RawRequest(method, path, key, content string, params *RawParams) (*APIResponse, error) {
 	var bodyBuffer = bytes.NewBuffer(nil)
 	var commonParams *Params
 	var err error
 	var contentType string
-	if method != http.MethodPost && method != http.MethodGet && method != http.MethodDelete {
-		return nil, fmt.Errorf("method must be POST, GET, or DELETE. Received %s", method)
+
+	err = validateMethod(method)
+	if err != nil {
+		return nil, err
 	}
 
 	paramsIsNil := params == nil || reflect.ValueOf(params).IsNil()
@@ -491,7 +501,12 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 	if form != nil && !form.Empty() {
 		body = form.Encode()
 
-		// On `GET`, move the payload into the URL
+		err := validateMethod(method)
+		if err != nil {
+			return err
+		}
+
+		// On `GET` / `DELETE`, move the payload into the URL
 		if method != http.MethodPost {
 			path += "?" + body
 			body = ""
