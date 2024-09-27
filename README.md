@@ -572,7 +572,6 @@ import (
 )
 
 func make_raw_request() error {
-	//
 	stripe.Key = "sk_test_123"
 
 	payload := map[string]interface{}{
