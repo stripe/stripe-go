@@ -138,6 +138,8 @@ type TerminalReaderProcessPaymentIntentProcessConfigTippingParams struct {
 
 // Configuration overrides
 type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
+	AllowRedisplay *string `form:"allow_redisplay"`
 	// Enables cancel button on transaction screens.
 	EnableCustomerCancellation *bool `form:"enable_customer_cancellation"`
 	// Override showing a tipping selection screen on this transaction.
@@ -171,8 +173,8 @@ type TerminalReaderProcessSetupIntentProcessConfigParams struct {
 // Initiates a setup intent flow on a Reader.
 type TerminalReaderProcessSetupIntentParams struct {
 	Params `form:"*"`
-	// Customer Consent Collected
-	CustomerConsentCollected *bool `form:"customer_consent_collected"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
+	AllowRedisplay *string `form:"allow_redisplay"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Configuration overrides

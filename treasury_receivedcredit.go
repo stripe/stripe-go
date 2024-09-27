@@ -11,9 +11,10 @@ type TreasuryReceivedCreditFailureCode string
 
 // List of values that TreasuryReceivedCreditFailureCode can take
 const (
-	TreasuryReceivedCreditFailureCodeAccountClosed TreasuryReceivedCreditFailureCode = "account_closed"
-	TreasuryReceivedCreditFailureCodeAccountFrozen TreasuryReceivedCreditFailureCode = "account_frozen"
-	TreasuryReceivedCreditFailureCodeOther         TreasuryReceivedCreditFailureCode = "other"
+	TreasuryReceivedCreditFailureCodeAccountClosed            TreasuryReceivedCreditFailureCode = "account_closed"
+	TreasuryReceivedCreditFailureCodeAccountFrozen            TreasuryReceivedCreditFailureCode = "account_frozen"
+	TreasuryReceivedCreditFailureCodeInternationalTransaction TreasuryReceivedCreditFailureCode = "international_transaction"
+	TreasuryReceivedCreditFailureCodeOther                    TreasuryReceivedCreditFailureCode = "other"
 )
 
 // Set when `type` is `balance`.
