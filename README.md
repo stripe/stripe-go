@@ -551,7 +551,7 @@ If your beta feature requires a `Stripe-Version` header to be sent, set the `str
 stripe.AddBetaVersion("feature_beta", "v3")
 ```
 
-### Raw Request
+### Custom Request
 
 If you would like to send a request to an API that is:
 
