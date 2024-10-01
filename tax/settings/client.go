@@ -10,7 +10,7 @@ package settings
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v80"
 )
 
 // Client is used to invoke /tax/settings APIs.
