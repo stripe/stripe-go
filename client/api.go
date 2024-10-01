@@ -19,6 +19,9 @@ import (
 	"github.com/stripe/stripe-go/v79/balancetransaction"
 	"github.com/stripe/stripe-go/v79/bankaccount"
 	billingalert "github.com/stripe/stripe-go/v79/billing/alert"
+	billingcreditbalancesummary "github.com/stripe/stripe-go/v79/billing/creditbalancesummary"
+	billingcreditbalancetransaction "github.com/stripe/stripe-go/v79/billing/creditbalancetransaction"
+	billingcreditgrant "github.com/stripe/stripe-go/v79/billing/creditgrant"
 	billingmeter "github.com/stripe/stripe-go/v79/billing/meter"
 	billingmeterevent "github.com/stripe/stripe-go/v79/billing/meterevent"
 	billingmetereventadjustment "github.com/stripe/stripe-go/v79/billing/metereventadjustment"
@@ -166,6 +169,12 @@ type API struct {
 	BankAccounts *bankaccount.Client
 	// BillingAlerts is the client used to invoke /billing/alerts APIs.
 	BillingAlerts *billingalert.Client
+	// BillingCreditBalanceSummary is the client used to invoke /billing/credit_balance_summary APIs.
+	BillingCreditBalanceSummary *billingcreditbalancesummary.Client
+	// BillingCreditBalanceTransactions is the client used to invoke /billing/credit_balance_transactions APIs.
+	BillingCreditBalanceTransactions *billingcreditbalancetransaction.Client
+	// BillingCreditGrants is the client used to invoke /billing/credit_grants APIs.
+	BillingCreditGrants *billingcreditgrant.Client
 	// BillingMeterEventAdjustments is the client used to invoke /billing/meter_event_adjustments APIs.
 	BillingMeterEventAdjustments *billingmetereventadjustment.Client
 	// BillingMeterEvents is the client used to invoke /billing/meter_events APIs.
@@ -434,6 +443,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingAlerts = &billingalert.Client{B: backends.API, Key: key}
+	a.BillingCreditBalanceSummary = &billingcreditbalancesummary.Client{B: backends.API, Key: key}
+	a.BillingCreditBalanceTransactions = &billingcreditbalancetransaction.Client{B: backends.API, Key: key}
+	a.BillingCreditGrants = &billingcreditgrant.Client{B: backends.API, Key: key}
 	a.BillingMeterEventAdjustments = &billingmetereventadjustment.Client{B: backends.API, Key: key}
 	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
 	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}

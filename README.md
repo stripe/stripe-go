@@ -1,4 +1,5 @@
 # Go Stripe
+
 [![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v79)
 [![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
 [![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-go/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-go?branch=master)
@@ -14,13 +15,13 @@ The official [Stripe][stripe] Go client library.
 Make sure your project is using Go Modules (it will have a `go.mod` file in its
 root if it already is):
 
-``` sh
+```sh
 go mod init
 ```
 
 Then, reference stripe-go in a Go program with `import`:
 
-``` go
+```go
 import (
 	"github.com/stripe/stripe-go/v79"
 	"github.com/stripe/stripe-go/v79/customer"
@@ -256,7 +257,7 @@ if err := i.Err(); err != nil {
 Use `LastResponse` on any `APIResource` to look at the API response that
 generated the current object:
 
-``` go
+```go
 c, err := coupon.New(...)
 requestID := coupon.LastResponse.RequestID
 ```
@@ -264,7 +265,7 @@ requestID := coupon.LastResponse.RequestID
 Similarly, for `List` operations, the last response is available on the list
 object attached to the iterator:
 
-``` go
+```go
 it := coupon.List(...)
 for it.Next() {
     // Last response *NOT* on the individual iterator object
@@ -354,7 +355,7 @@ full resource struct, but unless expansion is requested, only the `ID` field of
 that struct is populated. Expansion is requested by calling `AddExpand` on
 parameter structs. For example:
 
-``` go
+```go
 //
 // *Without* expansion
 //
@@ -373,11 +374,12 @@ c, _ = charge.Get("ch_123", p)
 c.Customer.ID    // ID is still available
 c.Customer.Name  // Name is now also available (if it had a value)
 ```
+
 ### How to use undocumented parameters and properties
 
 stripe-go is a typed library and it supports all public properties or parameters.
 
-Stripe sometimes launches private beta features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used. 
+Stripe sometimes launches private beta features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used.
 
 #### Parameters
 
@@ -412,13 +414,15 @@ secret_parameter, ok := rawData["secret_parameter"].(map[string]interface{})
 if ok {
 	primary := secret_parameter["primary"].(string)
 	secondary := secret_parameter["secondary"].(string)
-} 
+}
 ```
 
 ### Webhook signing
+
 Stripe can optionally sign the webhook events it sends to your endpoint, allowing you to validate that they were not sent by a third-party. You can read more about it [here](https://stripe.com/docs/webhooks/signatures).
 
 #### Testing Webhook signing
+
 You can use `stripe.webhook.GenerateTestSignedPayload` to mock webhook events that come from Stripe:
 
 ```go
@@ -477,10 +481,13 @@ config := &stripe.BackendConfig{
 To mock a Stripe client for a unit tests using [GoMock](https://github.com/golang/mock):
 
 1. Generate a `Backend` type mock.
+
 ```
 mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v79 Backend
 ```
+
 2. Use the `Backend` mock to initialize and call methods on the client.
+
 ```go
 
 import (
@@ -531,17 +538,87 @@ go get -u github.com/stripe/stripe-go/v79@v77.1.0-beta.1
 ```
 
 > **Note**
-> There can be breaking changes between beta versions. 
+> There can be breaking changes between beta versions.
 
 We highly recommend keeping an eye on when the beta feature you are interested in goes from beta to stable so that you can move from using a beta version of the SDK to the stable version.
 
 If your beta feature requires a `Stripe-Version` header to be sent, set the `stripe.APIVersion` field using the `stripe.AddBetaVersion` function to set it:
 
 > **Note**
-> The `APIVersion` can only be set in beta versions of the library. 
+> The `APIVersion` can only be set in beta versions of the library.
 
 ```go
 stripe.AddBetaVersion("feature_beta", "v3")
+```
+
+### Custom Request
+
+If you would like to send a request to an API that is:
+
+- not yet supported in stripe-go (like any `/v2/...` endpoints), or
+- undocumented (like a private beta), or
+- public, but you prefer to bypass the method definitions in the library and specify your request details directly
+
+You can use the `rawrequest` package:
+
+```go
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/stripe/stripe-go/v79"
+	"github.com/stripe/stripe-go/v79/form"
+	"github.com/stripe/stripe-go/v79/rawrequest"
+)
+
+func make_raw_request() error {
+	stripe.Key = "sk_test_123"
+
+	payload := map[string]interface{}{
+		"event_name": "hotdogs_eaten",
+		"payload": map[string]string{
+			"value":              "123",
+			"stripe_customer_id": "cus_Quq8itmW58RMet",
+		},
+	}
+
+	// for a v2 request, json encode the payload
+	body, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	v2_resp, err := rawrequest.Post("/v2/billing/meter_events", string(body), nil)
+	if err != nil {
+		return err
+	}
+
+	var v2_response map[string]interface{}
+	err = json.Unmarshal(v2_resp.RawJSON, &v2_response)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%#v\n", v2_response)
+
+	// for a v1 request, form encode the payload
+	formValues := &form.Values{}
+	form.AppendTo(formValues, payload)
+	content := formValues.Encode()
+
+	v1_resp, err := rawrequest.Post("/v1/billing/meter_events", content, nil)
+	if err != nil {
+		return err
+	}
+
+	var v1_response map[string]interface{}
+	err = json.Unmarshal(v1_resp.RawJSON, &v1_response)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%#v\n", v1_response)
+
+	return nil
+}
 ```
 
 ## Support

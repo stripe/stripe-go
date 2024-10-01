@@ -172,6 +172,11 @@ type ListParamsContainer interface {
 	GetListParams() *ListParams
 }
 
+type APIMode string
+
+var V1APIMode APIMode = "v1"
+var V2APIMode APIMode = "v2"
+
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
@@ -259,6 +264,11 @@ func (p *Params) SetStripeAccount(val string) {
 // its implementation of this interface.
 type ParamsContainer interface {
 	GetParams() *Params
+}
+
+type RawParams struct {
+	Params        `form:"*"`
+	StripeContext string `form:"-"`
 }
 
 // RangeQueryParams are a set of generic request parameters that are used on

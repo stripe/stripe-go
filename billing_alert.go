@@ -24,12 +24,19 @@ const (
 	BillingAlertStatusInactive BillingAlertStatus = "inactive"
 )
 
-// Defines how the alert will behave.
-type BillingAlertUsageThresholdConfigRecurrence string
+type BillingAlertUsageThresholdFilterType string
 
-// List of values that BillingAlertUsageThresholdConfigRecurrence can take
+// List of values that BillingAlertUsageThresholdFilterType can take
 const (
-	BillingAlertUsageThresholdConfigRecurrenceOneTime BillingAlertUsageThresholdConfigRecurrence = "one_time"
+	BillingAlertUsageThresholdFilterTypeCustomer BillingAlertUsageThresholdFilterType = "customer"
+)
+
+// Defines how the alert will behave.
+type BillingAlertUsageThresholdRecurrence string
+
+// List of values that BillingAlertUsageThresholdRecurrence can take
+const (
+	BillingAlertUsageThresholdRecurrenceOneTime BillingAlertUsageThresholdRecurrence = "one_time"
 )
 
 // Lists billing active and inactive alerts
@@ -48,18 +55,18 @@ func (p *BillingAlertListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Filters to limit the scope of an alert.
-type BillingAlertFilterParams struct {
-	// Limit the scope to this alert only to this customer.
+// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
+type BillingAlertUsageThresholdFilterParams struct {
+	// Limit the scope to this usage alert only to this customer.
 	Customer *string `form:"customer"`
-	// Limit the scope of this rated usage alert to this subscription.
-	Subscription *string `form:"subscription"`
-	// Limit the scope of this rated usage alert to this subscription item.
-	SubscriptionItem *string `form:"subscription_item"`
+	// What type of filter is being applied to this usage alert.
+	Type *string `form:"type"`
 }
 
 // The configuration of the usage threshold.
-type BillingAlertUsageThresholdConfigParams struct {
+type BillingAlertUsageThresholdParams struct {
+	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
+	Filters []*BillingAlertUsageThresholdFilterParams `form:"filters"`
 	// Defines at which value the alert will fire.
 	GTE *int64 `form:"gte"`
 	// The [Billing Meter](https://stripe.com/api/billing/meter) ID whose usage is monitored.
@@ -75,12 +82,10 @@ type BillingAlertParams struct {
 	AlertType *string `form:"alert_type"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Filters to limit the scope of an alert.
-	Filter *BillingAlertFilterParams `form:"filter"`
 	// The title of the alert.
 	Title *string `form:"title"`
 	// The configuration of the usage threshold.
-	UsageThresholdConfig *BillingAlertUsageThresholdConfigParams `form:"usage_threshold_config"`
+	UsageThreshold *BillingAlertUsageThresholdParams `form:"usage_threshold"`
 }
 
 // AddExpand appends a new field to expand.
@@ -124,20 +129,23 @@ func (p *BillingAlertDeactivateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Limits the scope of the alert to a specific [customer](https://stripe.com/docs/api/customers).
-type BillingAlertFilter struct {
+// The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.
+type BillingAlertUsageThresholdFilter struct {
 	// Limit the scope of the alert to this customer ID
-	Customer *Customer `json:"customer"`
+	Customer *Customer                            `json:"customer"`
+	Type     BillingAlertUsageThresholdFilterType `json:"type"`
 }
 
 // Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://stripe.com/docs/api/billing/meter).
-type BillingAlertUsageThresholdConfig struct {
+type BillingAlertUsageThreshold struct {
+	// The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.
+	Filters []*BillingAlertUsageThresholdFilter `json:"filters"`
 	// The value at which this alert will trigger.
 	GTE int64 `json:"gte"`
 	// The [Billing Meter](https://stripe.com/api/billing/meter) ID whose usage is monitored.
 	Meter *BillingMeter `json:"meter"`
 	// Defines how the alert will behave.
-	Recurrence BillingAlertUsageThresholdConfigRecurrence `json:"recurrence"`
+	Recurrence BillingAlertUsageThresholdRecurrence `json:"recurrence"`
 }
 
 // A billing alert is a resource that notifies you when a certain usage threshold on a meter is crossed. For example, you might create a billing alert to notify you when a certain user made 100 API requests.
@@ -145,8 +153,6 @@ type BillingAlert struct {
 	APIResource
 	// Defines the type of the alert.
 	AlertType BillingAlertAlertType `json:"alert_type"`
-	// Limits the scope of the alert to a specific [customer](https://stripe.com/docs/api/customers).
-	Filter *BillingAlertFilter `json:"filter"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -158,7 +164,7 @@ type BillingAlert struct {
 	// Title of the alert.
 	Title string `json:"title"`
 	// Encapsulates configuration of the alert to monitor usage on a specific [Billing Meter](https://stripe.com/docs/api/billing/meter).
-	UsageThresholdConfig *BillingAlertUsageThresholdConfig `json:"usage_threshold_config"`
+	UsageThreshold *BillingAlertUsageThreshold `json:"usage_threshold"`
 }
 
 // BillingAlertList is a list of Alerts as retrieved from a list endpoint.

@@ -6,6 +6,15 @@
 
 package stripe
 
+// Type of the pretax credit amount referenced.
+type CreditNoteLineItemPretaxCreditAmountType string
+
+// List of values that CreditNoteLineItemPretaxCreditAmountType can take
+const (
+	CreditNoteLineItemPretaxCreditAmountTypeCreditBalanceTransaction CreditNoteLineItemPretaxCreditAmountType = "credit_balance_transaction"
+	CreditNoteLineItemPretaxCreditAmountTypeDiscount                 CreditNoteLineItemPretaxCreditAmountType = "discount"
+)
+
 // The type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. When the type is `invoice_line_item` there is an additional `invoice_line_item` property on the resource the value of which is the id of the credited line item on the invoice.
 type CreditNoteLineItemType string
 
@@ -21,6 +30,16 @@ type CreditNoteLineItemDiscountAmount struct {
 	Amount int64 `json:"amount"`
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
+}
+type CreditNoteLineItemPretaxCreditAmount struct {
+	// The amount, in cents (or local equivalent), of the pretax credit amount.
+	Amount int64 `json:"amount"`
+	// The credit balance transaction that was applied to get this pretax credit amount.
+	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
+	// The discount that was applied to get this pretax credit amount.
+	Discount *Discount `json:"discount"`
+	// Type of the pretax credit amount referenced.
+	Type CreditNoteLineItemPretaxCreditAmountType `json:"type"`
 }
 
 // CreditNoteLineItem is the resource representing a Stripe credit note line item.
@@ -44,7 +63,8 @@ type CreditNoteLineItem struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string `json:"object"`
+	Object              string                                  `json:"object"`
+	PretaxCreditAmounts []*CreditNoteLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
 	// The number of units of product being credited.
 	Quantity int64 `json:"quantity"`
 	// The amount of tax calculated per tax rate for this line item
