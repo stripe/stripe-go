@@ -176,8 +176,6 @@ type InvoiceLineItemPretaxCreditAmount struct {
 	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
 	// The discount that was applied to get this pretax credit amount.
 	Discount *Discount `json:"discount"`
-	// The margin that was applied to get this pretax credit amount.
-	Margin *Margin `json:"margin"`
 	// Type of the pretax credit amount referenced.
 	Type InvoiceLineItemPretaxCreditAmountType `json:"type"`
 }
