@@ -158,7 +158,9 @@ func main() {
 			}
 
 			meterID := meter.ID
-			fmt.Printf("Success! %s", meterID)
+			fmt.Printf("Success! %s\n", meterID)
+			// Verify we can see event data
+			fmt.Println(fmt.Sprint(event.Data))
 		default:
 			fmt.Fprintf(os.Stderr, "Unhandled event type: %s\n", event.Type)
 		}
