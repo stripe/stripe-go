@@ -1,5 +1,9 @@
 # Changelog
 
+## 80.1.0 - 2024-10-03
+* [#1928](https://github.com/stripe/stripe-go/pull/1928) Update generated code
+  * Remove the support for resource `Margin` that was accidentally made public in the last release
+
 ## 80.0.0 - 2024-10-01
 * [#1926](https://github.com/stripe/stripe-go/pull/1926) Support for APIs in the new API version 2024-09-30.acacia
   
