@@ -251,6 +251,16 @@ const (
 	InvoiceSubscriptionDetailsPauseCollectionBehaviorVoid              InvoiceSubscriptionDetailsPauseCollectionBehavior = "void"
 )
 
+// Type of the pretax credit amount referenced.
+type InvoiceTotalPretaxCreditAmountType string
+
+// List of values that InvoiceTotalPretaxCreditAmountType can take
+const (
+	InvoiceTotalPretaxCreditAmountTypeCreditBalanceTransaction InvoiceTotalPretaxCreditAmountType = "credit_balance_transaction"
+	InvoiceTotalPretaxCreditAmountTypeDiscount                 InvoiceTotalPretaxCreditAmountType = "discount"
+	InvoiceTotalPretaxCreditAmountTypeMargin                   InvoiceTotalPretaxCreditAmountType = "margin"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type InvoiceTotalTaxAmountTaxabilityReason string
 
@@ -4845,6 +4855,18 @@ type InvoiceTotalMarginAmount struct {
 	// The margin that was applied to get this margin amount.
 	Margin *Margin `json:"margin"`
 }
+type InvoiceTotalPretaxCreditAmount struct {
+	// The amount, in cents (or local equivalent), of the pretax credit amount.
+	Amount int64 `json:"amount"`
+	// The credit balance transaction that was applied to get this pretax credit amount.
+	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
+	// The discount that was applied to get this pretax credit amount.
+	Discount *Discount `json:"discount"`
+	// The margin that was applied to get this pretax credit amount.
+	Margin *Margin `json:"margin"`
+	// Type of the pretax credit amount referenced.
+	Type InvoiceTotalPretaxCreditAmountType `json:"type"`
+}
 
 // The aggregate amounts calculated per tax rate for all line items.
 type InvoiceTotalTaxAmount struct {
@@ -5073,7 +5095,8 @@ type Invoice struct {
 	// The integer amount in cents (or local equivalent) representing the total amount of the invoice including all discounts but excluding all tax.
 	TotalExcludingTax int64 `json:"total_excluding_tax"`
 	// The aggregate amounts calculated per margin across all line items.
-	TotalMarginAmounts []*InvoiceTotalMarginAmount `json:"total_margin_amounts"`
+	TotalMarginAmounts       []*InvoiceTotalMarginAmount       `json:"total_margin_amounts"`
+	TotalPretaxCreditAmounts []*InvoiceTotalPretaxCreditAmount `json:"total_pretax_credit_amounts"`
 	// The aggregate amounts calculated per tax rate for all line items.
 	TotalTaxAmounts []*InvoiceTotalTaxAmount `json:"total_tax_amounts"`
 	// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.

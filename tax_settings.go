@@ -16,7 +16,7 @@ const (
 	TaxSettingsDefaultsTaxBehaviorInferredByCurrency TaxSettingsDefaultsTaxBehavior = "inferred_by_currency"
 )
 
-// The `active` status indicates you have all required settings to calculate tax. A status can transition out of `active` when new required settings are introduced.
+// The status of the Tax `Settings`.
 type TaxSettingsStatus string
 
 // List of values that TaxSettingsStatus can take
@@ -87,7 +87,7 @@ type TaxSettings struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The `active` status indicates you have all required settings to calculate tax. A status can transition out of `active` when new required settings are introduced.
+	// The status of the Tax `Settings`.
 	Status        TaxSettingsStatus         `json:"status"`
 	StatusDetails *TaxSettingsStatusDetails `json:"status_details"`
 }

@@ -8,6 +8,15 @@ package stripe
 
 import "encoding/json"
 
+// Type of the pretax credit amount referenced.
+type CreditNotePretaxCreditAmountType string
+
+// List of values that CreditNotePretaxCreditAmountType can take
+const (
+	CreditNotePretaxCreditAmountTypeCreditBalanceTransaction CreditNotePretaxCreditAmountType = "credit_balance_transaction"
+	CreditNotePretaxCreditAmountTypeDiscount                 CreditNotePretaxCreditAmountType = "discount"
+)
+
 // Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 type CreditNoteReason string
 
@@ -429,6 +438,16 @@ type CreditNoteDiscountAmount struct {
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
 }
+type CreditNotePretaxCreditAmount struct {
+	// The amount, in cents (or local equivalent), of the pretax credit amount.
+	Amount int64 `json:"amount"`
+	// The credit balance transaction that was applied to get this pretax credit amount.
+	CreditBalanceTransaction *BillingCreditBalanceTransaction `json:"credit_balance_transaction"`
+	// The discount that was applied to get this pretax credit amount.
+	Discount *Discount `json:"discount"`
+	// Type of the pretax credit amount referenced.
+	Type CreditNotePretaxCreditAmountType `json:"type"`
+}
 
 // Refund related to this credit note.
 type CreditNoteRefund struct {
@@ -522,9 +541,10 @@ type CreditNote struct {
 	// Amount that was credited outside of Stripe.
 	OutOfBandAmount int64 `json:"out_of_band_amount"`
 	// The link to download the PDF of the credit note.
-	PDF               string `json:"pdf"`
-	PostPaymentAmount int64  `json:"post_payment_amount"`
-	PrePaymentAmount  int64  `json:"pre_payment_amount"`
+	PDF                 string                          `json:"pdf"`
+	PostPaymentAmount   int64                           `json:"post_payment_amount"`
+	PrePaymentAmount    int64                           `json:"pre_payment_amount"`
+	PretaxCreditAmounts []*CreditNotePretaxCreditAmount `json:"pretax_credit_amounts"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason CreditNoteReason `json:"reason"`
 	// Refund related to this credit note.
