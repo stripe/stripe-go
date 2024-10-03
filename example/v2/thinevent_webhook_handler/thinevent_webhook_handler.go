@@ -13,6 +13,8 @@ import (
 	webhook "github.com/stripe/stripe-go/v80/webhook"
 )
 
+// TODO: rewrite with map[string]interface{}, no types
+
 /**
  * Object containing the reference to API resource relevant to the event.
  */

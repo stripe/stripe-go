@@ -10,6 +10,8 @@ import (
 	rawrequest "github.com/stripe/stripe-go/v80/rawrequest"
 )
 
+// TODO: add rawrequest.Client, add MeterEvents backend, clean this up
+
 type MeterEventSessionResponse struct {
 	Object              string // "v2.billing.meter_event_session"
 	AuthenticationToken string `json:"authentication_token"`
