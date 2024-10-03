@@ -22,7 +22,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stripe/stripe-go/v79/form"
+	"github.com/stripe/stripe-go/v80/form"
 )
 
 //
@@ -1374,7 +1374,7 @@ func AddBetaVersion(betaName string, betaVersion string) error {
 //
 
 // clientversion is the binding version
-const clientversion = "79.13.0-beta.1"
+const clientversion = "80.2.0-beta.1"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

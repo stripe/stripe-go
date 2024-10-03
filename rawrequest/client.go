@@ -4,7 +4,7 @@ package rawrequest
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v80"
 )
 
 func Get(path string, params *stripe.RawParams) (*stripe.APIResponse, error) {

@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
-	. "github.com/stripe/stripe-go/v79/testing"
+	stripe "github.com/stripe/stripe-go/v80"
+	"github.com/stripe/stripe-go/v80/form"
+	. "github.com/stripe/stripe-go/v80/testing"
 )
 
 type testSearchParams struct {

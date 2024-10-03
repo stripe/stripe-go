@@ -1,5 +1,12 @@
 # Changelog
 
+## 80.2.0-beta.1 - 2024-10-03
+* [#1930](https://github.com/stripe/stripe-go/pull/1930) Updates beta branch with changes in master
+  * Add support for `ReportingChart` on `AccountSessionComponentsParams`
+  * Remove support for `FromSchedule` on `QuoteSubscriptionData`
+  * Add support for `AllowRedisplay` on `TerminalReaderCollectPaymentMethodCollectConfigParams`
+  * Moved raw request functionality from `preview` package to `rawrequest` package, and removed `preview`
+
 ## 80.0.0 - 2024-10-01
 * [#1926](https://github.com/stripe/stripe-go/pull/1926) Support for APIs in the new API version 2024-09-30.acacia
   

@@ -5,8 +5,8 @@ import (
 	"time"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v79"
-	_ "github.com/stripe/stripe-go/v79/testing"
+	stripe "github.com/stripe/stripe-go/v80"
+	_ "github.com/stripe/stripe-go/v80/testing"
 )
 
 func TestUsageRecordNew(t *testing.T) {
