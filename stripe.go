@@ -421,40 +421,47 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	return nil
 }
 
+// the stripe API only accepts GET / POST / DELETE
+func validateMethod(method string) error {
+	if method != http.MethodPost && method != http.MethodGet && method != http.MethodDelete {
+		return fmt.Errorf("method must be POST, GET, or DELETE. Received %s", method)
+	}
+	return nil
+}
+
 // RawRequest is the Backend.RawRequest implementation for invoking Stripe APIs.
 func (s *BackendImplementation) RawRequest(method, path, key, content string, params *RawParams) (*APIResponse, error) {
 	var bodyBuffer = bytes.NewBuffer(nil)
 	var commonParams *Params
 	var err error
 	var contentType string
-	if method != http.MethodPost && method != http.MethodGet && method != http.MethodDelete {
-		return nil, fmt.Errorf("method must be POST, GET, or DELETE. Received %s", method)
+
+	err = validateMethod(method)
+	if err != nil {
+		return nil, err
 	}
 
 	paramsIsNil := params == nil || reflect.ValueOf(params).IsNil()
-
-	if paramsIsNil {
-		_, commonParams, err = extractParams(params)
-		if err != nil {
-			return nil, err
-		}
-		contentType = "application/x-www-form-urlencoded"
+	var apiMode APIMode
+	if strings.HasPrefix(path, "/v1") {
+		apiMode = V1APIMode
+	} else if strings.HasPrefix(path, "/v2") {
+		apiMode = V2APIMode
 	} else {
-		if params.APIMode == StandardAPIMode {
-			_, commonParams, err = extractParams(params)
-			if err != nil {
-				return nil, err
-			}
-			contentType = "application/x-www-form-urlencoded"
-		} else if params.APIMode == PreviewAPIMode {
-			_, commonParams, err = extractParams(params)
-			if err != nil {
-				return nil, err
-			}
-			contentType = "application/json"
-		} else {
-			return nil, fmt.Errorf("Unknown API mode %s", params.APIMode)
-		}
+		return nil, fmt.Errorf("Unknown path prefix %s", path)
+	}
+
+	_, commonParams, err = extractParams(params)
+	if err != nil {
+		return nil, err
+	}
+
+	if apiMode == V1APIMode {
+		contentType = "application/x-www-form-urlencoded"
+	} else if apiMode == V2APIMode {
+		contentType = "application/json"
+	} else {
+		return nil, fmt.Errorf("Unknown API mode %s", apiMode)
 	}
 
 	bodyBuffer.WriteString(content)
@@ -468,9 +475,6 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 	if !paramsIsNil {
 		if params.StripeContext != "" {
 			req.Header.Set("Stripe-Context", params.StripeContext)
-		}
-		if params.APIMode == PreviewAPIMode {
-			req.Header.Set("Stripe-Version", previewVersion)
 		}
 	}
 
@@ -497,7 +501,12 @@ func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Val
 	if form != nil && !form.Empty() {
 		body = form.Encode()
 
-		// On `GET`, move the payload into the URL
+		err := validateMethod(method)
+		if err != nil {
+			return err
+		}
+
+		// On `GET` / `DELETE`, move the payload into the URL
 		if method != http.MethodPost {
 			path += "?" + body
 			body = ""

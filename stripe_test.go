@@ -574,7 +574,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 	params.InternalSetUsage([]string{"llama", "bufo"})
 	for i := 0; i < 2; i++ {
 		var response testServerResponse
-		err := backend.Call("get", "/hello", "sk_test_xyz", params, &response)
+		err := backend.Call("GET", "/hello", "sk_test_xyz", params, &response)
 
 		assert.NoError(t, err)
 		assert.Equal(t, message, response.Message)
@@ -1310,7 +1310,6 @@ func TestRawRequestPreviewPost(t *testing.T) {
 	var path string
 	var method string
 	var contentType string
-	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := ioutil.ReadAll(r.Body)
 		r.Body.Close()
@@ -1318,7 +1317,6 @@ func TestRawRequestPreviewPost(t *testing.T) {
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
-		stripeVersion = r.Header.Get("Stripe-Version")
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
 	}))
@@ -1340,16 +1338,16 @@ func TestRawRequestPreviewPost(t *testing.T) {
 		Object string `json:"object"`
 		XYZ    MyXYZ  `json:"xyz"`
 	}
-	params := &RawParams{Params: Params{}, APIMode: PreviewAPIMode}
-	response, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{"foo":"myFoo","bar":{"baz":false}}`, params)
+	params := &RawParams{Params: Params{}}
+	response, err := backend.RawRequest(http.MethodPost, "/v2/abcs", "sk_test_xyz", `{"foo":"myFoo","bar":{"baz":false}}`, params)
 	assert.NoError(t, err)
 	myABC := &MyABC{}
 	assert.Nil(t, params.Headers)
 	assert.Equal(t, `{"foo":"myFoo","bar":{"baz":false}}`, body)
-	assert.Equal(t, `/v1/abcs`, path)
+	assert.Equal(t, `/v2/abcs`, path)
 	assert.Equal(t, `POST`, method)
 	assert.Equal(t, `application/json`, contentType)
-	assert.Equal(t, previewVersion, stripeVersion)
+	// assert.Equal(t, previewVersion, stripeVersion)
 	err = json.Unmarshal(response.RawJSON, myABC)
 	assert.NoError(t, err)
 	assert.Equal(t, "jih", myABC.XYZ.DEF)
@@ -1438,7 +1436,6 @@ func TestRawRequestPreviewGet(t *testing.T) {
 	var path string
 	var method string
 	var contentType string
-	var stripeVersion string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		req, _ := ioutil.ReadAll(r.Body)
 		r.Body.Close()
@@ -1446,7 +1443,6 @@ func TestRawRequestPreviewGet(t *testing.T) {
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
-		stripeVersion = r.Header.Get("Stripe-Version")
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
 	}))
@@ -1460,14 +1456,14 @@ func TestRawRequestPreviewGet(t *testing.T) {
 		},
 	).(*BackendImplementation)
 
-	params := &RawParams{Params: Params{}, APIMode: PreviewAPIMode}
-	_, err := backend.RawRequest(http.MethodGet, "/v1/abc?foo=myFoo", "sk_test_xyz", ``, params)
+	params := &RawParams{Params: Params{}}
+	_, err := backend.RawRequest(http.MethodGet, "/v2/abc?foo=myFoo", "sk_test_xyz", ``, params)
 	assert.NoError(t, err)
 	assert.Equal(t, ``, body)
-	assert.Equal(t, `/v1/abc?foo=myFoo`, path)
+	assert.Equal(t, `/v2/abc?foo=myFoo`, path)
 	assert.Equal(t, `GET`, method)
 	assert.Equal(t, `application/json`, contentType)
-	assert.Equal(t, previewVersion, stripeVersion)
+	// assert.Equal(t, previewVersion, stripeVersion)
 	assert.NoError(t, err)
 	defer testServer.Close()
 }
@@ -1477,7 +1473,6 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 	var path string
 	var method string
 	var contentType string
-	var stripeVersion string
 	var fooHeader string
 	var stripeContext string
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -1487,7 +1482,6 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 		path = r.URL.RequestURI()
 		method = r.Method
 		contentType = r.Header.Get("Content-Type")
-		stripeVersion = r.Header.Get("Stripe-Version")
 		fooHeader = r.Header.Get("foo")
 		stripeContext = r.Header.Get("Stripe-Context")
 		w.WriteHeader(http.StatusOK)
@@ -1505,15 +1499,14 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 
 	headers := http.Header{}
 	headers.Set("foo", "bar")
-	params := &RawParams{Params: Params{Headers: headers}, APIMode: PreviewAPIMode, StripeContext: "acct_123"}
+	params := &RawParams{Params: Params{Headers: headers}, StripeContext: "acct_123"}
 
-	_, err := backend.RawRequest(http.MethodPost, "/v1/abc", "sk_test_xyz", `{"foo":"myFoo"}`, params)
+	_, err := backend.RawRequest(http.MethodPost, "/v2/abc", "sk_test_xyz", `{"foo":"myFoo"}`, params)
 	assert.NoError(t, err)
 	assert.Equal(t, `{"foo":"myFoo"}`, body)
-	assert.Equal(t, `/v1/abc`, path)
+	assert.Equal(t, `/v2/abc`, path)
 	assert.Equal(t, `POST`, method)
 	assert.Equal(t, `application/json`, contentType)
-	assert.Equal(t, previewVersion, stripeVersion)
 	assert.Equal(t, `bar`, fooHeader)
 	assert.Equal(t, `acct_123`, stripeContext)
 	assert.NoError(t, err)
@@ -1542,12 +1535,12 @@ func TestRawRequestTelemetry(t *testing.T) {
 		},
 	).(*BackendImplementation)
 
-	params := &RawParams{Params: Params{}, APIMode: PreviewAPIMode}
-	_, err := backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{}`, params)
+	params := &RawParams{Params: Params{}}
+	_, err := backend.RawRequest(http.MethodPost, "/v2/abcs", "sk_test_xyz", `{}`, params)
 	assert.Empty(t, telemetry)
 	assert.NoError(t, err)
 	// Again, for the telemetry.
-	_, err = backend.RawRequest(http.MethodPost, "/v1/abcs", "sk_test_xyz", `{}`, params)
+	_, err = backend.RawRequest(http.MethodPost, "/v2/abcs", "sk_test_xyz", `{}`, params)
 	assert.NoError(t, err)
 	metrics := struct {
 		LastRequestMetrics requestMetrics `json:"last_request_metrics"`
