@@ -87,7 +87,7 @@ const (
 	QuotePreviewInvoiceCustomerTaxExemptReverse QuotePreviewInvoiceCustomerTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
 type QuotePreviewInvoiceCustomerTaxIDType string
 
 // List of values that QuotePreviewInvoiceCustomerTaxIDType can take
@@ -102,6 +102,7 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeBOTIN    QuotePreviewInvoiceCustomerTaxIDType = "bo_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeBRCNPJ   QuotePreviewInvoiceCustomerTaxIDType = "br_cnpj"
 	QuotePreviewInvoiceCustomerTaxIDTypeBRCPF    QuotePreviewInvoiceCustomerTaxIDType = "br_cpf"
+	QuotePreviewInvoiceCustomerTaxIDTypeByTin    QuotePreviewInvoiceCustomerTaxIDType = "by_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeCABN     QuotePreviewInvoiceCustomerTaxIDType = "ca_bn"
 	QuotePreviewInvoiceCustomerTaxIDTypeCAGSTHST QuotePreviewInvoiceCustomerTaxIDType = "ca_gst_hst"
 	QuotePreviewInvoiceCustomerTaxIDTypeCAPSTBC  QuotePreviewInvoiceCustomerTaxIDType = "ca_pst_bc"
@@ -137,6 +138,8 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeKRBRN    QuotePreviewInvoiceCustomerTaxIDType = "kr_brn"
 	QuotePreviewInvoiceCustomerTaxIDTypeKzBin    QuotePreviewInvoiceCustomerTaxIDType = "kz_bin"
 	QuotePreviewInvoiceCustomerTaxIDTypeLIUID    QuotePreviewInvoiceCustomerTaxIDType = "li_uid"
+	QuotePreviewInvoiceCustomerTaxIDTypeMaVAT    QuotePreviewInvoiceCustomerTaxIDType = "ma_vat"
+	QuotePreviewInvoiceCustomerTaxIDTypeMdVAT    QuotePreviewInvoiceCustomerTaxIDType = "md_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeMXRFC    QuotePreviewInvoiceCustomerTaxIDType = "mx_rfc"
 	QuotePreviewInvoiceCustomerTaxIDTypeMYFRP    QuotePreviewInvoiceCustomerTaxIDType = "my_frp"
 	QuotePreviewInvoiceCustomerTaxIDTypeMYITN    QuotePreviewInvoiceCustomerTaxIDType = "my_itn"
@@ -160,10 +163,13 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeTHVAT    QuotePreviewInvoiceCustomerTaxIDType = "th_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeTRTIN    QuotePreviewInvoiceCustomerTaxIDType = "tr_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeTWVAT    QuotePreviewInvoiceCustomerTaxIDType = "tw_vat"
+	QuotePreviewInvoiceCustomerTaxIDTypeTzVAT    QuotePreviewInvoiceCustomerTaxIDType = "tz_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeUAVAT    QuotePreviewInvoiceCustomerTaxIDType = "ua_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeUnknown  QuotePreviewInvoiceCustomerTaxIDType = "unknown"
 	QuotePreviewInvoiceCustomerTaxIDTypeUSEIN    QuotePreviewInvoiceCustomerTaxIDType = "us_ein"
 	QuotePreviewInvoiceCustomerTaxIDTypeUYRUC    QuotePreviewInvoiceCustomerTaxIDType = "uy_ruc"
+	QuotePreviewInvoiceCustomerTaxIDTypeUzTin    QuotePreviewInvoiceCustomerTaxIDType = "uz_tin"
+	QuotePreviewInvoiceCustomerTaxIDTypeUzVAT    QuotePreviewInvoiceCustomerTaxIDType = "uz_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeVERIF    QuotePreviewInvoiceCustomerTaxIDType = "ve_rif"
 	QuotePreviewInvoiceCustomerTaxIDTypeVNTIN    QuotePreviewInvoiceCustomerTaxIDType = "vn_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeZAVAT    QuotePreviewInvoiceCustomerTaxIDType = "za_vat"
@@ -470,7 +476,7 @@ type QuotePreviewInvoiceCustomField struct {
 
 // The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
 type QuotePreviewInvoiceCustomerTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
 	Type QuotePreviewInvoiceCustomerTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -688,6 +694,8 @@ type QuotePreviewInvoiceTotalMarginAmount struct {
 	// The margin that was applied to get this margin amount.
 	Margin *Margin `json:"margin"`
 }
+
+// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this invoice. This is a combined list of total_pretax_credit_amounts across all invoice line items.
 type QuotePreviewInvoiceTotalPretaxCreditAmount struct {
 	// The amount, in cents (or local equivalent), of the pretax credit amount.
 	Amount int64 `json:"amount"`
@@ -916,7 +924,8 @@ type QuotePreviewInvoice struct {
 	// The integer amount in cents (or local equivalent) representing the total amount of the invoice including all discounts but excluding all tax.
 	TotalExcludingTax int64 `json:"total_excluding_tax"`
 	// The aggregate amounts calculated per margin across all line items.
-	TotalMarginAmounts       []*QuotePreviewInvoiceTotalMarginAmount       `json:"total_margin_amounts"`
+	TotalMarginAmounts []*QuotePreviewInvoiceTotalMarginAmount `json:"total_margin_amounts"`
+	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this invoice. This is a combined list of total_pretax_credit_amounts across all invoice line items.
 	TotalPretaxCreditAmounts []*QuotePreviewInvoiceTotalPretaxCreditAmount `json:"total_pretax_credit_amounts"`
 	// The aggregate amounts calculated per tax rate for all line items.
 	TotalTaxAmounts []*QuotePreviewInvoiceTotalTaxAmount `json:"total_tax_amounts"`

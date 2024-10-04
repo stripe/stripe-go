@@ -200,6 +200,8 @@ type InvoiceLineItemMarginAmount struct {
 	// The margin that was applied to get this margin amount.
 	Margin *Margin `json:"margin"`
 }
+
+// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this line item.
 type InvoiceLineItemPretaxCreditAmount struct {
 	// The amount, in cents (or local equivalent), of the pretax credit amount.
 	Amount int64 `json:"amount"`
@@ -264,7 +266,8 @@ type InvoiceLineItem struct {
 	Object string  `json:"object"`
 	Period *Period `json:"period"`
 	// The plan of the subscription, if the line item is a subscription or a proration.
-	Plan                *Plan                                `json:"plan"`
+	Plan *Plan `json:"plan"`
+	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this line item.
 	PretaxCreditAmounts []*InvoiceLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
 	// The price of the line item.
 	Price *Price `json:"price"`

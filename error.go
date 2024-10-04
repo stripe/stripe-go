@@ -153,6 +153,7 @@ const (
 	ErrorCodePaymentMethodUnexpectedState                                ErrorCode = "payment_method_unexpected_state"
 	ErrorCodePaymentMethodUnsupportedType                                ErrorCode = "payment_method_unsupported_type"
 	ErrorCodePayoutReconciliationNotReady                                ErrorCode = "payout_reconciliation_not_ready"
+	ErrorCodePayoutStatementDescriptorProfanity                          ErrorCode = "payout_statement_descriptor_profanity"
 	ErrorCodePayoutsLimitExceeded                                        ErrorCode = "payouts_limit_exceeded"
 	ErrorCodePayoutsNotAllowed                                           ErrorCode = "payouts_not_allowed"
 	ErrorCodePlatformAPIKeyExpired                                       ErrorCode = "platform_api_key_expired"

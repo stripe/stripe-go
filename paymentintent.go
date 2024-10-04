@@ -671,6 +671,14 @@ const (
 )
 
 // Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsKakaoPayCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsKakaoPayCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsKakaoPayCaptureMethodManual PaymentIntentPaymentMethodOptionsKakaoPayCaptureMethod = "manual"
+)
+
+// Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsKlarnaCaptureMethod string
 
 // List of values that PaymentIntentPaymentMethodOptionsKlarnaCaptureMethod can take
@@ -704,6 +712,29 @@ type PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage string
 // List of values that PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage can take
 const (
 	PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsageNone PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage = "none"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsKrCardCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsKrCardCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsKrCardCaptureMethodManual PaymentIntentPaymentMethodOptionsKrCardCaptureMethod = "manual"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsKrCardSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsKrCardSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsKrCardSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsKrCardSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsKrCardSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsKrCardSetupFutureUsage = "off_session"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -779,6 +810,14 @@ const (
 	PaymentIntentPaymentMethodOptionsMultibancoSetupFutureUsageNone PaymentIntentPaymentMethodOptionsMultibancoSetupFutureUsage = "none"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsNaverPayCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsNaverPayCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsNaverPayCaptureMethodManual PaymentIntentPaymentMethodOptionsNaverPayCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -807,6 +846,14 @@ const (
 	PaymentIntentPaymentMethodOptionsP24SetupFutureUsageNone PaymentIntentPaymentMethodOptionsP24SetupFutureUsage = "none"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsPaycoCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaycoCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsPaycoCaptureMethodManual PaymentIntentPaymentMethodOptionsPaycoCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -827,6 +874,25 @@ type PaymentIntentPaymentMethodOptionsPaypalCaptureMethod string
 // List of values that PaymentIntentPaymentMethodOptionsPaypalCaptureMethod can take
 const (
 	PaymentIntentPaymentMethodOptionsPaypalCaptureMethodManual PaymentIntentPaymentMethodOptionsPaypalCaptureMethod = "manual"
+)
+
+// Type of the line item.
+type PaymentIntentPaymentMethodOptionsPaypalLineItemCategory string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaypalLineItemCategory can take
+const (
+	PaymentIntentPaymentMethodOptionsPaypalLineItemCategoryDigitalGoods  PaymentIntentPaymentMethodOptionsPaypalLineItemCategory = "digital_goods"
+	PaymentIntentPaymentMethodOptionsPaypalLineItemCategoryDonation      PaymentIntentPaymentMethodOptionsPaypalLineItemCategory = "donation"
+	PaymentIntentPaymentMethodOptionsPaypalLineItemCategoryPhysicalGoods PaymentIntentPaymentMethodOptionsPaypalLineItemCategory = "physical_goods"
+)
+
+// The tax behavior for the line item.
+type PaymentIntentPaymentMethodOptionsPaypalLineItemTaxBehavior string
+
+// List of values that PaymentIntentPaymentMethodOptionsPaypalLineItemTaxBehavior can take
+const (
+	PaymentIntentPaymentMethodOptionsPaypalLineItemTaxBehaviorExclusive PaymentIntentPaymentMethodOptionsPaypalLineItemTaxBehavior = "exclusive"
+	PaymentIntentPaymentMethodOptionsPaypalLineItemTaxBehaviorInclusive PaymentIntentPaymentMethodOptionsPaypalLineItemTaxBehavior = "inclusive"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -950,6 +1016,14 @@ type PaymentIntentPaymentMethodOptionsRevolutPaySetupFutureUsage string
 const (
 	PaymentIntentPaymentMethodOptionsRevolutPaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsRevolutPaySetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsRevolutPaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsRevolutPaySetupFutureUsage = "off_session"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethodManual PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1625,10 +1699,14 @@ type PaymentIntentPaymentMethodDataParams struct {
 	IDEAL *PaymentMethodIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
+	// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+	KakaoPay *PaymentMethodKakaoPayParams `form:"kakao_pay"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *PaymentMethodKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
+	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+	KrCard *PaymentMethodKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -1639,10 +1717,14 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Mobilepay *PaymentMethodMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 	Multibanco *PaymentMethodMultibancoParams `form:"multibanco"`
+	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+	NaverPay *PaymentMethodNaverPayParams `form:"naver_pay"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *PaymentMethodP24Params `form:"p24"`
+	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+	Payco *PaymentMethodPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
@@ -1659,6 +1741,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
+	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -2186,6 +2270,16 @@ type PaymentIntentPaymentMethodOptionsIDEALParams struct {
 // If this is a `interac_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsInteracPresentParams struct{}
 
+// If this is a `kakao_pay` PaymentMethod, this sub-hash contains details about the Kakao Pay payment method options.
+type PaymentIntentPaymentMethodOptionsKakaoPayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -2227,6 +2321,24 @@ type PaymentIntentPaymentMethodOptionsKonbiniParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `kr_card` PaymentMethod, this sub-hash contains details about the KR Card payment method options.
+type PaymentIntentPaymentMethodOptionsKrCardParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
@@ -2301,6 +2413,16 @@ type PaymentIntentPaymentMethodOptionsMultibancoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `naver_pay` PaymentMethod, this sub-hash contains details about the Naver Pay payment method options.
+type PaymentIntentPaymentMethodOptionsNaverPayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // If this is a `oxxo` PaymentMethod, this sub-hash contains details about the OXXO payment method options.
 type PaymentIntentPaymentMethodOptionsOXXOParams struct {
 	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
@@ -2333,6 +2455,16 @@ type PaymentIntentPaymentMethodOptionsP24Params struct {
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
+// If this is a `payco` PaymentMethod, this sub-hash contains details about the PAYCO payment method options.
+type PaymentIntentPaymentMethodOptionsPaycoParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // If this is a `paynow` PaymentMethod, this sub-hash contains details about the PayNow payment method options.
 type PaymentIntentPaymentMethodOptionsPayNowParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2347,10 +2479,40 @@ type PaymentIntentPaymentMethodOptionsPayNowParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// The tax information for the line item.
+type PaymentIntentPaymentMethodOptionsPaypalLineItemTaxParams struct {
+	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
+	Amount *int64 `form:"amount"`
+	// The tax behavior for the line item.
+	Behavior *string `form:"behavior"`
+}
+
+// The line items purchased by the customer.
+type PaymentIntentPaymentMethodOptionsPaypalLineItemParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// Descriptive name of the line item.
+	Name *string `form:"name"`
+	// Quantity of the line item. Must be a positive number.
+	Quantity *int64 `form:"quantity"`
+	// Client facing stock keeping unit, article number or similar.
+	SKU *string `form:"sku"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+	// The tax information for the line item.
+	Tax *PaymentIntentPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax"`
+	// Price for a single unit of the line item in minor units. Cannot be a negative number.
+	UnitAmount *int64 `form:"unit_amount"`
+}
+
 // If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
 type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
+	// The line items purchased by the customer.
+	LineItems []*PaymentIntentPaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
 	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
@@ -2456,6 +2618,16 @@ type PaymentIntentPaymentMethodOptionsRevolutPayParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `samsung_pay` PaymentMethod, this sub-hash contains details about the Samsung Pay payment method options.
+type PaymentIntentPaymentMethodOptionsSamsungPayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 }
 
 // Additional fields for Mandate creation
@@ -2661,10 +2833,14 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	IDEAL *PaymentIntentPaymentMethodOptionsIDEALParams `form:"ideal"`
 	// If this is a `interac_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 	InteracPresent *PaymentIntentPaymentMethodOptionsInteracPresentParams `form:"interac_present"`
+	// If this is a `kakao_pay` PaymentMethod, this sub-hash contains details about the Kakao Pay payment method options.
+	KakaoPay *PaymentIntentPaymentMethodOptionsKakaoPayParams `form:"kakao_pay"`
 	// If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 	Klarna *PaymentIntentPaymentMethodOptionsKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
 	Konbini *PaymentIntentPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	// If this is a `kr_card` PaymentMethod, this sub-hash contains details about the KR Card payment method options.
+	KrCard *PaymentIntentPaymentMethodOptionsKrCardParams `form:"kr_card"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *PaymentIntentPaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `mb_way` PaymentMethod, this sub-hash contains details about the MB WAY payment method options.
@@ -2673,10 +2849,14 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Mobilepay *PaymentIntentPaymentMethodOptionsMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this sub-hash contains details about the Multibanco payment method options.
 	Multibanco *PaymentIntentPaymentMethodOptionsMultibancoParams `form:"multibanco"`
+	// If this is a `naver_pay` PaymentMethod, this sub-hash contains details about the Naver Pay payment method options.
+	NaverPay *PaymentIntentPaymentMethodOptionsNaverPayParams `form:"naver_pay"`
 	// If this is a `oxxo` PaymentMethod, this sub-hash contains details about the OXXO payment method options.
 	OXXO *PaymentIntentPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this sub-hash contains details about the Przelewy24 payment method options.
 	P24 *PaymentIntentPaymentMethodOptionsP24Params `form:"p24"`
+	// If this is a `payco` PaymentMethod, this sub-hash contains details about the PAYCO payment method options.
+	Payco *PaymentIntentPaymentMethodOptionsPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this sub-hash contains details about the PayNow payment method options.
 	PayNow *PaymentIntentPaymentMethodOptionsPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
@@ -2691,6 +2871,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Rechnung *PaymentIntentPaymentMethodOptionsRechnungParams `form:"rechnung"`
 	// If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Revolut Pay payment method options.
 	RevolutPay *PaymentIntentPaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
+	// If this is a `samsung_pay` PaymentMethod, this sub-hash contains details about the Samsung Pay payment method options.
+	SamsungPay *PaymentIntentPaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
@@ -2872,11 +3054,9 @@ func (p *PaymentIntentSearchParams) AddExpand(f string) {
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
 type PaymentIntentApplyCustomerBalanceParams struct {
 	Params `form:"*"`
-	// Amount that you intend to apply to this PaymentIntent from the customer's cash balance.
+	// Amount that you intend to apply to this PaymentIntent from the customer's cash balance. If the PaymentIntent was created by an Invoice, the full amount of the PaymentIntent is applied regardless of this parameter.
 	//
-	// A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (for example, 100 cents to charge 1 USD or 100 to charge 100 JPY, a zero-decimal currency).
-	//
-	// The maximum amount is the amount of the PaymentIntent.
+	// A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (for example, 100 cents to charge 1 USD or 100 to charge 100 JPY, a zero-decimal currency). The maximum amount is the amount of the PaymentIntent.
 	//
 	// When you omit the amount, it defaults to the remaining amount requested on the PaymentIntent.
 	Amount *int64 `form:"amount"`
@@ -4687,6 +4867,10 @@ type PaymentIntentPaymentMethodOptionsIDEAL struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsInteracPresent struct{}
+type PaymentIntentPaymentMethodOptionsKakaoPay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsKakaoPayCaptureMethod `json:"capture_method"`
+}
 type PaymentIntentPaymentMethodOptionsKlarna struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsKlarnaCaptureMethod `json:"capture_method"`
@@ -4718,6 +4902,18 @@ type PaymentIntentPaymentMethodOptionsKonbini struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage `json:"setup_future_usage"`
+}
+type PaymentIntentPaymentMethodOptionsKrCard struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsKrCardCaptureMethod `json:"capture_method"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsKrCardSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsLink struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -4766,6 +4962,10 @@ type PaymentIntentPaymentMethodOptionsMultibanco struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsMultibancoSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsNaverPay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsNaverPayCaptureMethod `json:"capture_method"`
+}
 type PaymentIntentPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -4788,6 +4988,10 @@ type PaymentIntentPaymentMethodOptionsP24 struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsP24SetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsPayco struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsPaycoCaptureMethod `json:"capture_method"`
+}
 type PaymentIntentPaymentMethodOptionsPayNow struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -4798,9 +5002,36 @@ type PaymentIntentPaymentMethodOptionsPayNow struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPayNowSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsPaypalLineItemTax struct {
+	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
+	Amount int64 `json:"amount"`
+	// The tax behavior for the line item.
+	Behavior PaymentIntentPaymentMethodOptionsPaypalLineItemTaxBehavior `json:"behavior"`
+}
+
+// The line items purchased by the customer.
+type PaymentIntentPaymentMethodOptionsPaypalLineItem struct {
+	// Type of the line item.
+	Category PaymentIntentPaymentMethodOptionsPaypalLineItemCategory `json:"category"`
+	// Description of the line item.
+	Description string `json:"description"`
+	// Descriptive name of the line item.
+	Name string `json:"name"`
+	// Quantity of the line item. Cannot be a negative number.
+	Quantity int64 `json:"quantity"`
+	// Client facing stock keeping unit, article number or similar.
+	SKU string `json:"sku"`
+	// The Stripe account ID of the connected account that sells the item. This is only needed when using [Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers).
+	SoldBy string                                              `json:"sold_by"`
+	Tax    *PaymentIntentPaymentMethodOptionsPaypalLineItemTax `json:"tax"`
+	// Price for a single unit of the line item in minor units. Cannot be a negative number.
+	UnitAmount int64 `json:"unit_amount"`
+}
 type PaymentIntentPaymentMethodOptionsPaypal struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method"`
+	// The line items purchased by the customer.
+	LineItems []*PaymentIntentPaymentMethodOptionsPaypalLineItem `json:"line_items"`
 	// Preferred locale of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale string `json:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
@@ -4879,6 +5110,10 @@ type PaymentIntentPaymentMethodOptionsRevolutPay struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsRevolutPaySetupFutureUsage `json:"setup_future_usage"`
+}
+type PaymentIntentPaymentMethodOptionsSamsungPay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod `json:"capture_method"`
 }
 type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type PaymentIntentPaymentMethodOptionsSEPADebit struct {
@@ -5013,14 +5248,18 @@ type PaymentIntentPaymentMethodOptions struct {
 	Grabpay          *PaymentIntentPaymentMethodOptionsGrabpay          `json:"grabpay"`
 	IDEAL            *PaymentIntentPaymentMethodOptionsIDEAL            `json:"ideal"`
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
+	KakaoPay         *PaymentIntentPaymentMethodOptionsKakaoPay         `json:"kakao_pay"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`
 	Konbini          *PaymentIntentPaymentMethodOptionsKonbini          `json:"konbini"`
+	KrCard           *PaymentIntentPaymentMethodOptionsKrCard           `json:"kr_card"`
 	Link             *PaymentIntentPaymentMethodOptionsLink             `json:"link"`
 	MbWay            *PaymentIntentPaymentMethodOptionsMbWay            `json:"mb_way"`
 	Mobilepay        *PaymentIntentPaymentMethodOptionsMobilepay        `json:"mobilepay"`
 	Multibanco       *PaymentIntentPaymentMethodOptionsMultibanco       `json:"multibanco"`
+	NaverPay         *PaymentIntentPaymentMethodOptionsNaverPay         `json:"naver_pay"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
+	Payco            *PaymentIntentPaymentMethodOptionsPayco            `json:"payco"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
 	Paypal           *PaymentIntentPaymentMethodOptionsPaypal           `json:"paypal"`
 	Payto            *PaymentIntentPaymentMethodOptionsPayto            `json:"payto"`
@@ -5028,6 +5267,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
 	Rechnung         *PaymentIntentPaymentMethodOptionsRechnung         `json:"rechnung"`
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
+	SamsungPay       *PaymentIntentPaymentMethodOptionsSamsungPay       `json:"samsung_pay"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	Swish            *PaymentIntentPaymentMethodOptionsSwish            `json:"swish"`

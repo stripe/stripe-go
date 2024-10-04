@@ -450,6 +450,9 @@ type SetupIntentPaymentMethodDataIDEALParams struct {
 // If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 type SetupIntentPaymentMethodDataInteracPresentParams struct{}
 
+// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+type SetupIntentPaymentMethodDataKakaoPayParams struct{}
+
 // Customer's date of birth
 type SetupIntentPaymentMethodDataKlarnaDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -469,6 +472,9 @@ type SetupIntentPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type SetupIntentPaymentMethodDataKonbiniParams struct{}
 
+// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+type SetupIntentPaymentMethodDataKrCardParams struct{}
+
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentPaymentMethodDataLinkParams struct{}
 
@@ -481,6 +487,12 @@ type SetupIntentPaymentMethodDataMobilepayParams struct{}
 // If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 type SetupIntentPaymentMethodDataMultibancoParams struct{}
 
+// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+type SetupIntentPaymentMethodDataNaverPayParams struct {
+	// Whether to use Naver Pay points or a card to fund this transaction. If not provided, this defaults to `card`.
+	Funding *string `form:"funding"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentPaymentMethodDataOXXOParams struct{}
 
@@ -489,6 +501,9 @@ type SetupIntentPaymentMethodDataP24Params struct {
 	// The customer's bank.
 	Bank *string `form:"bank"`
 }
+
+// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+type SetupIntentPaymentMethodDataPaycoParams struct{}
 
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type SetupIntentPaymentMethodDataPayNowParams struct{}
@@ -536,6 +551,9 @@ type SetupIntentPaymentMethodDataRechnungParams struct {
 
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type SetupIntentPaymentMethodDataRevolutPayParams struct{}
+
+// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+type SetupIntentPaymentMethodDataSamsungPayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentPaymentMethodDataSEPADebitParams struct {
@@ -618,10 +636,14 @@ type SetupIntentPaymentMethodDataParams struct {
 	IDEAL *SetupIntentPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *SetupIntentPaymentMethodDataInteracPresentParams `form:"interac_present"`
+	// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+	KakaoPay *SetupIntentPaymentMethodDataKakaoPayParams `form:"kakao_pay"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *SetupIntentPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *SetupIntentPaymentMethodDataKonbiniParams `form:"konbini"`
+	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+	KrCard *SetupIntentPaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentPaymentMethodDataLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -632,10 +654,14 @@ type SetupIntentPaymentMethodDataParams struct {
 	Mobilepay *SetupIntentPaymentMethodDataMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 	Multibanco *SetupIntentPaymentMethodDataMultibancoParams `form:"multibanco"`
+	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+	NaverPay *SetupIntentPaymentMethodDataNaverPayParams `form:"naver_pay"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *SetupIntentPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+	Payco *SetupIntentPaymentMethodDataPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
@@ -652,6 +678,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Rechnung *SetupIntentPaymentMethodDataRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
+	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+	SamsungPay *SetupIntentPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -1131,6 +1159,9 @@ type SetupIntentConfirmPaymentMethodDataIDEALParams struct {
 // If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 type SetupIntentConfirmPaymentMethodDataInteracPresentParams struct{}
 
+// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+type SetupIntentConfirmPaymentMethodDataKakaoPayParams struct{}
+
 // Customer's date of birth
 type SetupIntentConfirmPaymentMethodDataKlarnaDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -1150,6 +1181,9 @@ type SetupIntentConfirmPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type SetupIntentConfirmPaymentMethodDataKonbiniParams struct{}
 
+// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+type SetupIntentConfirmPaymentMethodDataKrCardParams struct{}
+
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentConfirmPaymentMethodDataLinkParams struct{}
 
@@ -1162,6 +1196,12 @@ type SetupIntentConfirmPaymentMethodDataMobilepayParams struct{}
 // If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 type SetupIntentConfirmPaymentMethodDataMultibancoParams struct{}
 
+// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+type SetupIntentConfirmPaymentMethodDataNaverPayParams struct {
+	// Whether to use Naver Pay points or a card to fund this transaction. If not provided, this defaults to `card`.
+	Funding *string `form:"funding"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentConfirmPaymentMethodDataOXXOParams struct{}
 
@@ -1170,6 +1210,9 @@ type SetupIntentConfirmPaymentMethodDataP24Params struct {
 	// The customer's bank.
 	Bank *string `form:"bank"`
 }
+
+// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+type SetupIntentConfirmPaymentMethodDataPaycoParams struct{}
 
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
@@ -1217,6 +1260,9 @@ type SetupIntentConfirmPaymentMethodDataRechnungParams struct {
 
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type SetupIntentConfirmPaymentMethodDataRevolutPayParams struct{}
+
+// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+type SetupIntentConfirmPaymentMethodDataSamsungPayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
@@ -1299,10 +1345,14 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	IDEAL *SetupIntentConfirmPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *SetupIntentConfirmPaymentMethodDataInteracPresentParams `form:"interac_present"`
+	// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+	KakaoPay *SetupIntentConfirmPaymentMethodDataKakaoPayParams `form:"kakao_pay"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *SetupIntentConfirmPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *SetupIntentConfirmPaymentMethodDataKonbiniParams `form:"konbini"`
+	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+	KrCard *SetupIntentConfirmPaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentConfirmPaymentMethodDataLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -1313,10 +1363,14 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Mobilepay *SetupIntentConfirmPaymentMethodDataMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 	Multibanco *SetupIntentConfirmPaymentMethodDataMultibancoParams `form:"multibanco"`
+	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+	NaverPay *SetupIntentConfirmPaymentMethodDataNaverPayParams `form:"naver_pay"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentConfirmPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *SetupIntentConfirmPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+	Payco *SetupIntentConfirmPaymentMethodDataPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
@@ -1333,6 +1387,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Rechnung *SetupIntentConfirmPaymentMethodDataRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentConfirmPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
+	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+	SamsungPay *SetupIntentConfirmPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.

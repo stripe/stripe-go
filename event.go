@@ -226,6 +226,7 @@ const (
 	EventTypeRadarEarlyFraudWarningCreated                        EventType = "radar.early_fraud_warning.created"
 	EventTypeRadarEarlyFraudWarningUpdated                        EventType = "radar.early_fraud_warning.updated"
 	EventTypeRefundCreated                                        EventType = "refund.created"
+	EventTypeRefundFailed                                         EventType = "refund.failed"
 	EventTypeRefundUpdated                                        EventType = "refund.updated"
 	EventTypeReportingReportRunFailed                             EventType = "reporting.report_run.failed"
 	EventTypeReportingReportRunSucceeded                          EventType = "reporting.report_run.succeeded"

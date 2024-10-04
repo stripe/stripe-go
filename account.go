@@ -1712,7 +1712,7 @@ type Account struct {
 	// The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	BusinessType AccountBusinessType  `json:"business_type"`
 	Capabilities *AccountCapabilities `json:"capabilities"`
-	// Whether the account can create live charges.
+	// Whether the account can process charges.
 	ChargesEnabled bool               `json:"charges_enabled"`
 	Company        *AccountCompany    `json:"company"`
 	Controller     *AccountController `json:"controller"`
@@ -1742,7 +1742,7 @@ type Account struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Whether Stripe can send payouts to this account.
+	// Whether the funds in this account can be paid out.
 	PayoutsEnabled bool                 `json:"payouts_enabled"`
 	Requirements   *AccountRequirements `json:"requirements"`
 	RiskControls   *AccountRiskControls `json:"risk_controls"`
