@@ -108,7 +108,13 @@ var apiKey = "{{API_KEY}}"
 var webhookSecret = "{{WEBHOOK_SECRET}}"
 
 func main() {
-	stripe.Key = apiKey
+	b, err := stripe.GetRawRequestBackend(stripe.APIBackend)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	client := rawrequest.Client{B: b, Key: apiKey}
 
 	http.HandleFunc("/webhook", func(w http.ResponseWriter, req *http.Request) {
 		const MaxBodyBytes = int64(65536)
@@ -137,7 +143,7 @@ func main() {
 
 		event := V2Event{}
 
-		resp, err := rawrequest.Get("/v2/core/events/"+thinEvent.ID, nil)
+		resp, err := client.RawRequest(http.MethodGet, "/v2/core/events/"+thinEvent.ID, "", nil)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Failed to get pull event: %v\n", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
@@ -169,7 +175,7 @@ func main() {
 
 		w.WriteHeader(http.StatusOK)
 	})
-	err := http.ListenAndServe(":4242", nil)
+	err = http.ListenAndServe(":4242", nil)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

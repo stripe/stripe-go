@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
@@ -18,7 +19,7 @@ func refreshMeterEventSession(client rawrequest.Client) (err error) {
 	// Check if session is null or expired
 	if sessionAuthToken == "" || sessionAuthExpiresAt <= currentTime {
 		// Create a new meter event session in case the existing session expired
-		rawResp, err := client.Post("/v2/billing/meter_event_session", "", nil)
+		rawResp, err := client.RawRequest(http.MethodPost, "/v2/billing/meter_event_session", "", nil)
 		if err != nil {
 			return err
 		}
@@ -74,7 +75,7 @@ func sendMeterEvent(client rawrequest.Client, eventName string, stripeCustomerID
 	}
 
 	content := string(contentBytes)
-	_, err = sessionClient.Post("/v2/billing/meter_event_stream", content, nil)
+	_, err = sessionClient.RawRequest(http.MethodPost, "/v2/billing/meter_event_stream", content, nil)
 	return
 }
 
