@@ -13,97 +13,6 @@ import (
 	webhook "github.com/stripe/stripe-go/v80/webhook"
 )
 
-// TODO: rewrite with map[string]interface{}, no types
-
-/**
- * Object containing the reference to API resource relevant to the event.
- */
-type ThinEventRelatedObject struct {
-	/**
-	 * Unique identifier for the object relevant to the event.
-	 */
-	ID string `json:"id"`
-
-	/**
-	 * Type of the object relevant to the event.
-	 */
-	Type string `json:"type"`
-
-	/**
-	 * URL to retrieve the resource.
-	 */
-	URL string `json:"url"`
-}
-
-type ThinEvent struct {
-	/**
-	 * Unique identifier for the event.
-	 */
-	ID string `json:"id"`
-
-	/**
-	 * String representing the object's type. Objects of the same type share the same value of the object field.
-	 */
-	Object string `json:"object"`
-
-	/**
-	 * Authentication context needed to fetch the event or related object.
-	 */
-	Context *string `json:"context,omitempty"`
-
-	/**
-	 * Time at which the object was created.
-	 */
-	Created string `json:"created"`
-
-	/**
-	 * Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-	 */
-	Livemode bool `json:"livemode"`
-
-	/**
-	 * Reason for the event.
-	 */
-	// reason: Event.Reason | null;
-
-	/**
-	 * The type of the event.
-	 */
-	Type string `json:"type"`
-
-	/**
-	 * Object containing the reference to API resource relevant to the event.
-	 */
-	RelatedObject *ThinEventRelatedObject `json:"related_object,omitempty"`
-}
-
-type V2Event struct {
-	/**
-	 * Unique identifier for the event.
-	 */
-	ID string `json:"id"`
-
-	/**
-	 * String representing the object's type. Objects of the same type share the same value of the object field.
-	 */
-	Object string `json:"object"`
-
-	/**
-	 * The type of the event.
-	 */
-	Type string `json:"type"`
-
-	/**
-	 * Event data for this event.  May be null/empty for some event types
-	 */
-	Data *map[string]interface{} `json:"data,omitempty"`
-
-	/**
-	 * Object containing the reference to API resource relevant to the event.  May be null/empty for some event types.
-	 */
-	RelatedObject *ThinEventRelatedObject `json:"related_object,omitempty"`
-}
-
 var apiKey = "{{API_KEY}}"
 var webhookSecret = "{{WEBHOOK_SECRET}}"
 
@@ -133,7 +42,7 @@ func main() {
 			return
 		}
 
-		thinEvent := ThinEvent{}
+		var thinEvent map[string]interface{}
 
 		if err := json.Unmarshal(payload, &thinEvent); err != nil {
 			fmt.Fprintf(os.Stderr, "Failed to parse thin event body json: %v\n", err.Error())
@@ -141,9 +50,11 @@ func main() {
 			return
 		}
 
-		event := V2Event{}
+		eventID := thinEvent["id"].(string)
 
-		resp, err := client.RawRequest(http.MethodGet, "/v2/core/events/"+thinEvent.ID, "", nil)
+		var event map[string]interface{}
+
+		resp, err := client.RawRequest(http.MethodGet, "/v2/core/events/"+eventID, "", nil)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Failed to get pull event: %v\n", err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
@@ -156,9 +67,10 @@ func main() {
 			return
 		}
 		// Unmarshal the event data into an appropriate struct depending on its Type
-		switch event.Type {
+		switch t := event["type"].(string); t {
 		case "v1.billing.meter.error_report_triggered":
-			meter, err := billingMeters.Get(event.RelatedObject.ID, nil)
+			relatedObject := event["related_object"].(map[string]interface{})
+			meter, err := billingMeters.Get(relatedObject["id"].(string), nil)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Failed to get related meter object: %v\n", err.Error())
 				w.WriteHeader(http.StatusInternalServerError)
@@ -168,9 +80,9 @@ func main() {
 			meterID := meter.ID
 			fmt.Printf("Success! %s\n", meterID)
 			// Verify we can see event data
-			fmt.Println(fmt.Sprint(event.Data))
+			fmt.Println(fmt.Sprint(event["data"]))
 		default:
-			fmt.Fprintf(os.Stderr, "Unhandled event type: %s\n", event.Type)
+			fmt.Fprintf(os.Stderr, "Unhandled event type: %s\n", t)
 		}
 
 		w.WriteHeader(http.StatusOK)
