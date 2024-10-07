@@ -7,7 +7,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v80"
 )
 
-// Client is used to invoke /quotes APIs.
+// Client is used to invoke raw requests against the specified backend
 type Client struct {
 	B   stripe.RawRequestBackend
 	Key string
