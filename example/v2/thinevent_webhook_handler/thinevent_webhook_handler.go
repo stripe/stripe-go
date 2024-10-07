@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 
@@ -28,7 +28,7 @@ func main() {
 	http.HandleFunc("/webhook", func(w http.ResponseWriter, req *http.Request) {
 		const MaxBodyBytes = int64(65536)
 		req.Body = http.MaxBytesReader(w, req.Body, MaxBodyBytes)
-		payload, err := io.ReadAll(req.Body)
+		payload, err := ioutil.ReadAll(req.Body)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error reading request body: %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
