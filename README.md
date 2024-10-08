@@ -627,8 +627,8 @@ func make_raw_request() error {
 	return nil
 }
 
-See more examples in the [examples folder](examples/).
 ```
+See more examples in the [example folder](example/).
 
 ## Support
 
