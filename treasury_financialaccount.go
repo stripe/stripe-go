@@ -144,6 +144,8 @@ type TreasuryFinancialAccountFeaturesDepositInsuranceParams struct {
 
 // Adds an ABA FinancialAddress to the FinancialAccount.
 type TreasuryFinancialAccountFeaturesFinancialAddressesABAParams struct {
+	// Requested bank partner
+	Bank *string `form:"bank"`
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -295,6 +297,8 @@ type TreasuryFinancialAccountUpdateFeaturesDepositInsuranceParams struct {
 
 // Adds an ABA FinancialAddress to the FinancialAccount.
 type TreasuryFinancialAccountUpdateFeaturesFinancialAddressesABAParams struct {
+	// Requested bank partner
+	Bank *string `form:"bank"`
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }

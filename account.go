@@ -594,6 +594,24 @@ type AccountCapabilitiesTreasuryParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The treasury_evolve capability.
+type AccountCapabilitiesTreasuryEvolveParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury_fifth_third capability.
+type AccountCapabilitiesTreasuryFifthThirdParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury_goldman_sachs capability.
+type AccountCapabilitiesTreasuryGoldmanSachsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The twint_payments capability.
 type AccountCapabilitiesTWINTPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -721,6 +739,12 @@ type AccountCapabilitiesParams struct {
 	Transfers *AccountCapabilitiesTransfersParams `form:"transfers"`
 	// The treasury capability.
 	Treasury *AccountCapabilitiesTreasuryParams `form:"treasury"`
+	// The treasury_evolve capability.
+	TreasuryEvolve *AccountCapabilitiesTreasuryEvolveParams `form:"treasury_evolve"`
+	// The treasury_fifth_third capability.
+	TreasuryFifthThird *AccountCapabilitiesTreasuryFifthThirdParams `form:"treasury_fifth_third"`
+	// The treasury_goldman_sachs capability.
+	TreasuryGoldmanSachs *AccountCapabilitiesTreasuryGoldmanSachsParams `form:"treasury_goldman_sachs"`
 	// The twint_payments capability.
 	TWINTPayments *AccountCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
 	// The us_bank_account_ach_payments capability.
@@ -1340,6 +1364,12 @@ type AccountCapabilities struct {
 	Transfers AccountCapabilityStatus `json:"transfers"`
 	// The status of the banking capability, or whether the account can have bank accounts.
 	Treasury AccountCapabilityStatus `json:"treasury"`
+	// The status of the treasury_evolve capability of the account.
+	TreasuryEvolve AccountCapabilityStatus `json:"treasury_evolve"`
+	// The status of the treasury_fifth_third capability of the account.
+	TreasuryFifthThird AccountCapabilityStatus `json:"treasury_fifth_third"`
+	// The status of the treasury_goldman_sachs capability of the account.
+	TreasuryGoldmanSachs AccountCapabilityStatus `json:"treasury_goldman_sachs"`
 	// The status of the TWINT capability of the account, or whether the account can directly process TWINT charges.
 	TWINTPayments AccountCapabilityStatus `json:"twint_payments"`
 	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
