@@ -103,6 +103,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataIDEALParams struct {
 // If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataInteracPresentParams struct{}
 
+// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataKakaoPayParams struct{}
+
 // Customer's date of birth
 type TestHelpersConfirmationTokenPaymentMethodDataKlarnaDOBParams struct {
 	// The day of birth, between 1 and 31.
@@ -122,6 +125,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataKonbiniParams struct{}
 
+// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataKrCardParams struct{}
+
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataLinkParams struct{}
 
@@ -134,6 +140,12 @@ type TestHelpersConfirmationTokenPaymentMethodDataMobilepayParams struct{}
 // If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataMultibancoParams struct{}
 
+// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataNaverPayParams struct {
+	// Whether to use Naver Pay points or a card to fund this transaction. If not provided, this defaults to `card`.
+	Funding *string `form:"funding"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataOXXOParams struct{}
 
@@ -142,6 +154,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataP24Params struct {
 	// The customer's bank.
 	Bank *string `form:"bank"`
 }
+
+// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataPaycoParams struct{}
 
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataPayNowParams struct{}
@@ -189,6 +204,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataRechnungParams struct {
 
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams struct{}
+
+// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams struct {
@@ -270,10 +288,14 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	IDEAL *TestHelpersConfirmationTokenPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *TestHelpersConfirmationTokenPaymentMethodDataInteracPresentParams `form:"interac_present"`
+	// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+	KakaoPay *TestHelpersConfirmationTokenPaymentMethodDataKakaoPayParams `form:"kakao_pay"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *TestHelpersConfirmationTokenPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *TestHelpersConfirmationTokenPaymentMethodDataKonbiniParams `form:"konbini"`
+	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+	KrCard *TestHelpersConfirmationTokenPaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *TestHelpersConfirmationTokenPaymentMethodDataLinkParams `form:"link"`
 	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
@@ -284,10 +306,14 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Mobilepay *TestHelpersConfirmationTokenPaymentMethodDataMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 	Multibanco *TestHelpersConfirmationTokenPaymentMethodDataMultibancoParams `form:"multibanco"`
+	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+	NaverPay *TestHelpersConfirmationTokenPaymentMethodDataNaverPayParams `form:"naver_pay"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *TestHelpersConfirmationTokenPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *TestHelpersConfirmationTokenPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+	Payco *TestHelpersConfirmationTokenPaymentMethodDataPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *TestHelpersConfirmationTokenPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
@@ -304,6 +330,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Rechnung *TestHelpersConfirmationTokenPaymentMethodDataRechnungParams `form:"rechnung"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
+	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+	SamsungPay *TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.

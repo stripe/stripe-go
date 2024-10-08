@@ -238,6 +238,8 @@ type AccountParams struct {
 	//
 	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
+	// A hash of account group type to tokens. These are account groups this account should be added to
+	Groups *AccountGroupsParams `form:"groups"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -927,6 +929,12 @@ func (p *AccountExternalAccountParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// A hash of account group type to tokens. These are account groups this account should be added to
+type AccountGroupsParams struct {
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	PaymentsPricing *string `form:"payments_pricing"`
+}
+
 // Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
 type AccountRiskControlsChargesParams struct {
 	// To request to pause a risk control, pass `true`. To request to unpause a risk control, pass `false`.
@@ -1513,6 +1521,12 @@ type AccountFutureRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 
+// The groups associated with the account.
+type AccountGroups struct {
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	PaymentsPricing string `json:"payments_pricing"`
+}
+
 // Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 type AccountRequirementsAlternative struct {
 	// Fields that can be provided to satisfy all fields in `original_fields_due`.
@@ -1712,7 +1726,7 @@ type Account struct {
 	// The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	BusinessType AccountBusinessType  `json:"business_type"`
 	Capabilities *AccountCapabilities `json:"capabilities"`
-	// Whether the account can create live charges.
+	// Whether the account can process charges.
 	ChargesEnabled bool               `json:"charges_enabled"`
 	Company        *AccountCompany    `json:"company"`
 	Controller     *AccountController `json:"controller"`
@@ -1730,6 +1744,8 @@ type Account struct {
 	// External accounts (bank accounts and debit cards) currently attached to this account. External accounts are only returned for requests where `controller[is_controller]` is true.
 	ExternalAccounts   *AccountExternalAccountList `json:"external_accounts"`
 	FutureRequirements *AccountFutureRequirements  `json:"future_requirements"`
+	// The groups associated with the account.
+	Groups *AccountGroups `json:"groups"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// This is an object representing a person associated with a Stripe account.
@@ -1742,7 +1758,7 @@ type Account struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Whether Stripe can send payouts to this account.
+	// Whether the funds in this account can be paid out.
 	PayoutsEnabled bool                 `json:"payouts_enabled"`
 	Requirements   *AccountRequirements `json:"requirements"`
 	RiskControls   *AccountRiskControls `json:"risk_controls"`

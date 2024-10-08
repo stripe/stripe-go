@@ -250,6 +250,35 @@ const (
 	ChargePaymentMethodDetailsKonbiniStoreChainSeicomart  ChargePaymentMethodDetailsKonbiniStoreChain = "seicomart"
 )
 
+// The local credit or debit card brand.
+type ChargePaymentMethodDetailsKrCardBrand string
+
+// List of values that ChargePaymentMethodDetailsKrCardBrand can take
+const (
+	ChargePaymentMethodDetailsKrCardBrandBc          ChargePaymentMethodDetailsKrCardBrand = "bc"
+	ChargePaymentMethodDetailsKrCardBrandCiti        ChargePaymentMethodDetailsKrCardBrand = "citi"
+	ChargePaymentMethodDetailsKrCardBrandHana        ChargePaymentMethodDetailsKrCardBrand = "hana"
+	ChargePaymentMethodDetailsKrCardBrandHyundai     ChargePaymentMethodDetailsKrCardBrand = "hyundai"
+	ChargePaymentMethodDetailsKrCardBrandJeju        ChargePaymentMethodDetailsKrCardBrand = "jeju"
+	ChargePaymentMethodDetailsKrCardBrandJeonbuk     ChargePaymentMethodDetailsKrCardBrand = "jeonbuk"
+	ChargePaymentMethodDetailsKrCardBrandKakaobank   ChargePaymentMethodDetailsKrCardBrand = "kakaobank"
+	ChargePaymentMethodDetailsKrCardBrandKbank       ChargePaymentMethodDetailsKrCardBrand = "kbank"
+	ChargePaymentMethodDetailsKrCardBrandKdbbank     ChargePaymentMethodDetailsKrCardBrand = "kdbbank"
+	ChargePaymentMethodDetailsKrCardBrandKookmin     ChargePaymentMethodDetailsKrCardBrand = "kookmin"
+	ChargePaymentMethodDetailsKrCardBrandKwangju     ChargePaymentMethodDetailsKrCardBrand = "kwangju"
+	ChargePaymentMethodDetailsKrCardBrandLotte       ChargePaymentMethodDetailsKrCardBrand = "lotte"
+	ChargePaymentMethodDetailsKrCardBrandMg          ChargePaymentMethodDetailsKrCardBrand = "mg"
+	ChargePaymentMethodDetailsKrCardBrandNh          ChargePaymentMethodDetailsKrCardBrand = "nh"
+	ChargePaymentMethodDetailsKrCardBrandPost        ChargePaymentMethodDetailsKrCardBrand = "post"
+	ChargePaymentMethodDetailsKrCardBrandSamsung     ChargePaymentMethodDetailsKrCardBrand = "samsung"
+	ChargePaymentMethodDetailsKrCardBrandSavingsbank ChargePaymentMethodDetailsKrCardBrand = "savingsbank"
+	ChargePaymentMethodDetailsKrCardBrandShinhan     ChargePaymentMethodDetailsKrCardBrand = "shinhan"
+	ChargePaymentMethodDetailsKrCardBrandShinhyup    ChargePaymentMethodDetailsKrCardBrand = "shinhyup"
+	ChargePaymentMethodDetailsKrCardBrandSuhyup      ChargePaymentMethodDetailsKrCardBrand = "suhyup"
+	ChargePaymentMethodDetailsKrCardBrandTossbank    ChargePaymentMethodDetailsKrCardBrand = "tossbank"
+	ChargePaymentMethodDetailsKrCardBrandWoori       ChargePaymentMethodDetailsKrCardBrand = "woori"
+)
+
 // An array of conditions that are covered for the transaction, if applicable.
 type ChargePaymentMethodDetailsPaypalSellerProtectionDisputeCategory string
 
@@ -1705,6 +1734,10 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
 	Issuer string `json:"issuer"`
 }
+type ChargePaymentMethodDetailsKakaoPay struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
+}
 
 // The payer's address
 type ChargePaymentMethodDetailsKlarnaPayerDetailsAddress struct {
@@ -1737,6 +1770,14 @@ type ChargePaymentMethodDetailsKonbini struct {
 	// If the payment succeeded, this contains the details of the convenience store where the payment was completed.
 	Store *ChargePaymentMethodDetailsKonbiniStore `json:"store"`
 }
+type ChargePaymentMethodDetailsKrCard struct {
+	// The local credit or debit card brand.
+	Brand ChargePaymentMethodDetailsKrCardBrand `json:"brand"`
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
+	// The last four digits of the card. This may not be present for American Express cards.
+	Last4 string `json:"last4"`
+}
 type ChargePaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment.
 	// You could use this attribute to get a sense of international fees.
@@ -1767,6 +1808,10 @@ type ChargePaymentMethodDetailsMultibanco struct {
 	// Reference number associated with this Multibanco payment.
 	Reference string `json:"reference"`
 }
+type ChargePaymentMethodDetailsNaverPay struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
+}
 type ChargePaymentMethodDetailsOXXO struct {
 	// OXXO reference number
 	Number string `json:"number"`
@@ -1780,6 +1825,10 @@ type ChargePaymentMethodDetailsP24 struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	// Przelewy24 rarely provides this information so the attribute is usually empty.
 	VerifiedName string `json:"verified_name"`
+}
+type ChargePaymentMethodDetailsPayco struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
 }
 type ChargePaymentMethodDetailsPayNow struct {
 	// Reference number associated with this PayNow payment
@@ -1841,6 +1890,10 @@ type ChargePaymentMethodDetailsPromptPay struct {
 }
 type ChargePaymentMethodDetailsRechnung struct{}
 type ChargePaymentMethodDetailsRevolutPay struct{}
+type ChargePaymentMethodDetailsSamsungPay struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
+}
 type ChargePaymentMethodDetailsSEPACreditTransfer struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
@@ -1946,14 +1999,18 @@ type ChargePaymentMethodDetails struct {
 	Grabpay            *ChargePaymentMethodDetailsGrabpay            `json:"grabpay"`
 	IDEAL              *ChargePaymentMethodDetailsIDEAL              `json:"ideal"`
 	InteracPresent     *ChargePaymentMethodDetailsInteracPresent     `json:"interac_present"`
+	KakaoPay           *ChargePaymentMethodDetailsKakaoPay           `json:"kakao_pay"`
 	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna"`
 	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini"`
+	KrCard             *ChargePaymentMethodDetailsKrCard             `json:"kr_card"`
 	Link               *ChargePaymentMethodDetailsLink               `json:"link"`
 	MbWay              *ChargePaymentMethodDetailsMbWay              `json:"mb_way"`
 	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay"`
 	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
+	NaverPay           *ChargePaymentMethodDetailsNaverPay           `json:"naver_pay"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
 	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
+	Payco              *ChargePaymentMethodDetailsPayco              `json:"payco"`
 	PayNow             *ChargePaymentMethodDetailsPayNow             `json:"paynow"`
 	Paypal             *ChargePaymentMethodDetailsPaypal             `json:"paypal"`
 	Payto              *ChargePaymentMethodDetailsPayto              `json:"payto"`
@@ -1961,6 +2018,7 @@ type ChargePaymentMethodDetails struct {
 	PromptPay          *ChargePaymentMethodDetailsPromptPay          `json:"promptpay"`
 	Rechnung           *ChargePaymentMethodDetailsRechnung           `json:"rechnung"`
 	RevolutPay         *ChargePaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
+	SamsungPay         *ChargePaymentMethodDetailsSamsungPay         `json:"samsung_pay"`
 	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer"`
 	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
 	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort"`

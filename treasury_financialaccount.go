@@ -95,7 +95,7 @@ const (
 	TreasuryFinancialAccountRestrictedFeatureRemoteDepositCapture            TreasuryFinancialAccountRestrictedFeature = "remote_deposit_capture"
 )
 
-// The enum specifying what state the account is in.
+// Status of this FinancialAccount.
 type TreasuryFinancialAccountStatus string
 
 // List of values that TreasuryFinancialAccountStatus can take
@@ -474,7 +474,7 @@ type TreasuryFinancialAccount struct {
 	PlatformRestrictions *TreasuryFinancialAccountPlatformRestrictions `json:"platform_restrictions"`
 	// The array of paths to restricted Features in the Features hash.
 	RestrictedFeatures []TreasuryFinancialAccountRestrictedFeature `json:"restricted_features"`
-	// The enum specifying what state the account is in.
+	// Status of this FinancialAccount.
 	Status        TreasuryFinancialAccountStatus         `json:"status"`
 	StatusDetails *TreasuryFinancialAccountStatusDetails `json:"status_details"`
 	// The currencies the FinancialAccount can hold a balance in. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.

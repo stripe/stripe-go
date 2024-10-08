@@ -84,7 +84,7 @@ type BillingCreditGrantParams struct {
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config"`
 	// The category of this credit grant.
 	Category *string `form:"category"`
-	// Id of the customer to whom the credit should be granted.
+	// ID of the customer to whom the credit should be granted.
 	Customer *string `form:"customer"`
 	// The time when the credit becomes effective i.e when it is eligible to be used. Defaults to the current timestamp if not specified.
 	EffectiveAt *int64 `form:"effective_at"`
@@ -94,7 +94,7 @@ type BillingCreditGrantParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object (ex: cost basis) in a structured format.
 	Metadata map[string]string `form:"metadata"`
-	// A descriptive name shown in dashboard and on invoices.
+	// A descriptive name shown in dashboard.
 	Name *string `form:"name"`
 }
 
@@ -166,7 +166,7 @@ type BillingCreditGrant struct {
 	Category BillingCreditGrantCategory `json:"category"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// Id of the customer to whom the credit was granted.
+	// ID of the customer to whom the credit was granted.
 	Customer *Customer `json:"customer"`
 	// The time when the credit becomes effective i.e when it is eligible to be used.
 	EffectiveAt int64 `json:"effective_at"`
@@ -178,7 +178,7 @@ type BillingCreditGrant struct {
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
-	// A descriptive name shown in dashboard and on invoices.
+	// A descriptive name shown in dashboard.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

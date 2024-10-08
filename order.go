@@ -319,6 +319,25 @@ const (
 	OrderPaymentSettingsPaymentMethodOptionsPaypalCaptureMethodManual OrderPaymentSettingsPaymentMethodOptionsPaypalCaptureMethod = "manual"
 )
 
+// Type of the line item.
+type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategory string
+
+// List of values that OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategory can take
+const (
+	OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategoryDigitalGoods  OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategory = "digital_goods"
+	OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategoryDonation      OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategory = "donation"
+	OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategoryPhysicalGoods OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategory = "physical_goods"
+)
+
+// The tax behavior for the line item.
+type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxBehavior string
+
+// List of values that OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxBehavior can take
+const (
+	OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxBehaviorExclusive OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxBehavior = "exclusive"
+	OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxBehaviorInclusive OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxBehavior = "inclusive"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -490,7 +509,7 @@ const (
 	OrderTaxDetailsTaxExemptReverse OrderTaxDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
 type OrderTaxDetailsTaxIDType string
 
 // List of values that OrderTaxDetailsTaxIDType can take
@@ -505,6 +524,7 @@ const (
 	OrderTaxDetailsTaxIDTypeBOTIN    OrderTaxDetailsTaxIDType = "bo_tin"
 	OrderTaxDetailsTaxIDTypeBRCNPJ   OrderTaxDetailsTaxIDType = "br_cnpj"
 	OrderTaxDetailsTaxIDTypeBRCPF    OrderTaxDetailsTaxIDType = "br_cpf"
+	OrderTaxDetailsTaxIDTypeByTin    OrderTaxDetailsTaxIDType = "by_tin"
 	OrderTaxDetailsTaxIDTypeCABN     OrderTaxDetailsTaxIDType = "ca_bn"
 	OrderTaxDetailsTaxIDTypeCAGSTHST OrderTaxDetailsTaxIDType = "ca_gst_hst"
 	OrderTaxDetailsTaxIDTypeCAPSTBC  OrderTaxDetailsTaxIDType = "ca_pst_bc"
@@ -540,6 +560,8 @@ const (
 	OrderTaxDetailsTaxIDTypeKRBRN    OrderTaxDetailsTaxIDType = "kr_brn"
 	OrderTaxDetailsTaxIDTypeKzBin    OrderTaxDetailsTaxIDType = "kz_bin"
 	OrderTaxDetailsTaxIDTypeLIUID    OrderTaxDetailsTaxIDType = "li_uid"
+	OrderTaxDetailsTaxIDTypeMaVAT    OrderTaxDetailsTaxIDType = "ma_vat"
+	OrderTaxDetailsTaxIDTypeMdVAT    OrderTaxDetailsTaxIDType = "md_vat"
 	OrderTaxDetailsTaxIDTypeMXRFC    OrderTaxDetailsTaxIDType = "mx_rfc"
 	OrderTaxDetailsTaxIDTypeMYFRP    OrderTaxDetailsTaxIDType = "my_frp"
 	OrderTaxDetailsTaxIDTypeMYITN    OrderTaxDetailsTaxIDType = "my_itn"
@@ -563,10 +585,13 @@ const (
 	OrderTaxDetailsTaxIDTypeTHVAT    OrderTaxDetailsTaxIDType = "th_vat"
 	OrderTaxDetailsTaxIDTypeTRTIN    OrderTaxDetailsTaxIDType = "tr_tin"
 	OrderTaxDetailsTaxIDTypeTWVAT    OrderTaxDetailsTaxIDType = "tw_vat"
+	OrderTaxDetailsTaxIDTypeTzVAT    OrderTaxDetailsTaxIDType = "tz_vat"
 	OrderTaxDetailsTaxIDTypeUAVAT    OrderTaxDetailsTaxIDType = "ua_vat"
 	OrderTaxDetailsTaxIDTypeUnknown  OrderTaxDetailsTaxIDType = "unknown"
 	OrderTaxDetailsTaxIDTypeUSEIN    OrderTaxDetailsTaxIDType = "us_ein"
 	OrderTaxDetailsTaxIDTypeUYRUC    OrderTaxDetailsTaxIDType = "uy_ruc"
+	OrderTaxDetailsTaxIDTypeUzTin    OrderTaxDetailsTaxIDType = "uz_tin"
+	OrderTaxDetailsTaxIDTypeUzVAT    OrderTaxDetailsTaxIDType = "uz_vat"
 	OrderTaxDetailsTaxIDTypeVERIF    OrderTaxDetailsTaxIDType = "ve_rif"
 	OrderTaxDetailsTaxIDTypeVNTIN    OrderTaxDetailsTaxIDType = "vn_tin"
 	OrderTaxDetailsTaxIDTypeZAVAT    OrderTaxDetailsTaxIDType = "za_vat"
@@ -978,10 +1003,40 @@ type OrderPaymentSettingsPaymentMethodOptionsP24Params struct {
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
+// The tax information for the line item.
+type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams struct {
+	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
+	Amount *int64 `form:"amount"`
+	// The tax behavior for the line item.
+	Behavior *string `form:"behavior"`
+}
+
+// The line items purchased by the customer.
+type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// Descriptive name of the line item.
+	Name *string `form:"name"`
+	// Quantity of the line item. Must be a positive number.
+	Quantity *int64 `form:"quantity"`
+	// Client facing stock keeping unit, article number or similar.
+	SKU *string `form:"sku"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+	// The tax information for the line item.
+	Tax *OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax"`
+	// Price for a single unit of the line item in minor units. Cannot be a negative number.
+	UnitAmount *int64 `form:"unit_amount"`
+}
+
 // If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
+	// The line items purchased by the customer.
+	LineItems []*OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
 	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale *string `form:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
@@ -1212,7 +1267,7 @@ type OrderShippingDetailsParams struct {
 
 // The purchaser's tax IDs to be used for this order.
 type OrderTaxDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_uid`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `kz_bin`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_uid`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `kz_bin`, `li_uid`, `ma_vat`, `md_vat`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, or `za_vat`
 	Type *string `form:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value"`
@@ -1526,9 +1581,36 @@ type OrderPaymentSettingsPaymentMethodOptionsP24 struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsP24SetupFutureUsage `json:"setup_future_usage"`
 }
+type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTax struct {
+	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
+	Amount int64 `json:"amount"`
+	// The tax behavior for the line item.
+	Behavior OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTaxBehavior `json:"behavior"`
+}
+
+// The line items purchased by the customer.
+type OrderPaymentSettingsPaymentMethodOptionsPaypalLineItem struct {
+	// Type of the line item.
+	Category OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemCategory `json:"category"`
+	// Description of the line item.
+	Description string `json:"description"`
+	// Descriptive name of the line item.
+	Name string `json:"name"`
+	// Quantity of the line item. Cannot be a negative number.
+	Quantity int64 `json:"quantity"`
+	// Client facing stock keeping unit, article number or similar.
+	SKU string `json:"sku"`
+	// The Stripe account ID of the connected account that sells the item. This is only needed when using [Separate Charges and Transfers](https://docs.stripe.com/connect/separate-charges-and-transfers).
+	SoldBy string                                                     `json:"sold_by"`
+	Tax    *OrderPaymentSettingsPaymentMethodOptionsPaypalLineItemTax `json:"tax"`
+	// Price for a single unit of the line item in minor units. Cannot be a negative number.
+	UnitAmount int64 `json:"unit_amount"`
+}
 type OrderPaymentSettingsPaymentMethodOptionsPaypal struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod OrderPaymentSettingsPaymentMethodOptionsPaypalCaptureMethod `json:"capture_method"`
+	// The line items purchased by the customer.
+	LineItems []*OrderPaymentSettingsPaymentMethodOptionsPaypalLineItem `json:"line_items"`
 	// Preferred locale of the PayPal checkout page that the customer is redirected to.
 	PreferredLocale string `json:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
@@ -1680,7 +1762,7 @@ type OrderShippingDetails struct {
 
 // The purchaser's tax IDs to be used in calculation of tax for this Order.
 type OrderTaxDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
 	Type OrderTaxDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
