@@ -157,6 +157,7 @@ const (
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypePST               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"

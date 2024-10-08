@@ -157,6 +157,7 @@ const (
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
@@ -184,6 +185,15 @@ const (
 	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonZeroRated            TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "zero_rated"
 )
 
+// Indicates the type of tax rate applied to the taxable amount. This value can be `null` when no tax applies to the location.
+type TaxCalculationTaxBreakdownTaxRateDetailsRateType string
+
+// List of values that TaxCalculationTaxBreakdownTaxRateDetailsRateType can take
+const (
+	TaxCalculationTaxBreakdownTaxRateDetailsRateTypeFlatAmount TaxCalculationTaxBreakdownTaxRateDetailsRateType = "flat_amount"
+	TaxCalculationTaxBreakdownTaxRateDetailsRateTypePercentage TaxCalculationTaxBreakdownTaxRateDetailsRateType = "percentage"
+)
+
 // The tax type, such as `vat` or `sales_tax`.
 type TaxCalculationTaxBreakdownTaxRateDetailsTaxType string
 
@@ -198,6 +208,7 @@ const (
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
@@ -396,11 +407,23 @@ type TaxCalculationShippingCost struct {
 	// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for shipping.
 	TaxCode string `json:"tax_code"`
 }
+
+// The amount of the tax rate when the `rate_type` is `flat_amount`. Tax rates with `rate_type` `percentage` can vary based on the transaction, resulting in this field being `null`. This field exposes the amount and currency of the flat tax rate.
+type TaxCalculationTaxBreakdownTaxRateDetailsFlatAmount struct {
+	// Amount of the tax when the `rate_type` is `flat_amount`. This positive integer represents how much to charge in the smallest currency unit (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	Amount int64 `json:"amount"`
+	// Three-letter ISO currency code, in lowercase.
+	Currency Currency `json:"currency"`
+}
 type TaxCalculationTaxBreakdownTaxRateDetails struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country string `json:"country"`
+	// The amount of the tax rate when the `rate_type` is `flat_amount`. Tax rates with `rate_type` `percentage` can vary based on the transaction, resulting in this field being `null`. This field exposes the amount and currency of the flat tax rate.
+	FlatAmount *TaxCalculationTaxBreakdownTaxRateDetailsFlatAmount `json:"flat_amount"`
 	// The tax rate percentage as a string. For example, 8.5% is represented as `"8.5"`.
 	PercentageDecimal string `json:"percentage_decimal"`
+	// Indicates the type of tax rate applied to the taxable amount. This value can be `null` when no tax applies to the location.
+	RateType TaxCalculationTaxBreakdownTaxRateDetailsRateType `json:"rate_type"`
 	// State, county, province, or region.
 	State string `json:"state"`
 	// The tax type, such as `vat` or `sales_tax`.
