@@ -628,7 +628,7 @@ func make_raw_request() error {
 }
 
 ```
-See more examples in the [example folder](example/).
+See more examples in the [/example/v2 folder](example/v2).
 
 ## Support
 
