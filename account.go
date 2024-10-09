@@ -450,6 +450,12 @@ type AccountCapabilitiesJPBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The kakao_pay_payments capability.
+type AccountCapabilitiesKakaoPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The klarna_payments capability.
 type AccountCapabilitiesKlarnaPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -458,6 +464,12 @@ type AccountCapabilitiesKlarnaPaymentsParams struct {
 
 // The konbini_payments capability.
 type AccountCapabilitiesKonbiniPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The kr_card_payments capability.
+type AccountCapabilitiesKrCardPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -498,6 +510,12 @@ type AccountCapabilitiesMXBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The naver_pay_payments capability.
+type AccountCapabilitiesNaverPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The oxxo_payments capability.
 type AccountCapabilitiesOXXOPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -506,6 +524,12 @@ type AccountCapabilitiesOXXOPaymentsParams struct {
 
 // The p24_payments capability.
 type AccountCapabilitiesP24PaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The payco_payments capability.
+type AccountCapabilitiesPaycoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -542,6 +566,12 @@ type AccountCapabilitiesRechnungPaymentsParams struct {
 
 // The revolut_pay_payments capability.
 type AccountCapabilitiesRevolutPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The samsung_pay_payments capability.
+type AccountCapabilitiesSamsungPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -691,10 +721,14 @@ type AccountCapabilitiesParams struct {
 	JCBPayments *AccountCapabilitiesJCBPaymentsParams `form:"jcb_payments"`
 	// The jp_bank_transfer_payments capability.
 	JPBankTransferPayments *AccountCapabilitiesJPBankTransferPaymentsParams `form:"jp_bank_transfer_payments"`
+	// The kakao_pay_payments capability.
+	KakaoPayPayments *AccountCapabilitiesKakaoPayPaymentsParams `form:"kakao_pay_payments"`
 	// The klarna_payments capability.
 	KlarnaPayments *AccountCapabilitiesKlarnaPaymentsParams `form:"klarna_payments"`
 	// The konbini_payments capability.
 	KonbiniPayments *AccountCapabilitiesKonbiniPaymentsParams `form:"konbini_payments"`
+	// The kr_card_payments capability.
+	KrCardPayments *AccountCapabilitiesKrCardPaymentsParams `form:"kr_card_payments"`
 	// The legacy_payments capability.
 	LegacyPayments *AccountCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The link_payments capability.
@@ -707,10 +741,14 @@ type AccountCapabilitiesParams struct {
 	MultibancoPayments *AccountCapabilitiesMultibancoPaymentsParams `form:"multibanco_payments"`
 	// The mx_bank_transfer_payments capability.
 	MXBankTransferPayments *AccountCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments"`
+	// The naver_pay_payments capability.
+	NaverPayPayments *AccountCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments"`
 	// The oxxo_payments capability.
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
 	P24Payments *AccountCapabilitiesP24PaymentsParams `form:"p24_payments"`
+	// The payco_payments capability.
+	PaycoPayments *AccountCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The paypal_payments capability.
@@ -723,6 +761,8 @@ type AccountCapabilitiesParams struct {
 	RechnungPayments *AccountCapabilitiesRechnungPaymentsParams `form:"rechnung_payments"`
 	// The revolut_pay_payments capability.
 	RevolutPayPayments *AccountCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments"`
+	// The samsung_pay_payments capability.
+	SamsungPayPayments *AccountCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments"`
 	// The sepa_bank_transfer_payments capability.
 	SEPABankTransferPayments *AccountCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments"`
 	// The sepa_debit_payments capability.
@@ -1316,10 +1356,14 @@ type AccountCapabilities struct {
 	JCBPayments AccountCapabilityStatus `json:"jcb_payments"`
 	// The status of the Japanese customer_balance payments (JPY currency) capability of the account, or whether the account can directly process Japanese customer_balance charges.
 	JPBankTransferPayments AccountCapabilityStatus `json:"jp_bank_transfer_payments"`
+	// The status of the KakaoPay capability of the account, or whether the account can directly process KakaoPay payments.
+	KakaoPayPayments AccountCapabilityStatus `json:"kakao_pay_payments"`
 	// The status of the Klarna payments capability of the account, or whether the account can directly process Klarna charges.
 	KlarnaPayments AccountCapabilityStatus `json:"klarna_payments"`
 	// The status of the konbini payments capability of the account, or whether the account can directly process konbini charges.
 	KonbiniPayments AccountCapabilityStatus `json:"konbini_payments"`
+	// The status of the KrCard capability of the account, or whether the account can directly process KrCard payments.
+	KrCardPayments AccountCapabilityStatus `json:"kr_card_payments"`
 	// The status of the legacy payments capability of the account.
 	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
 	// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
@@ -1332,10 +1376,14 @@ type AccountCapabilities struct {
 	MultibancoPayments AccountCapabilityStatus `json:"multibanco_payments"`
 	// The status of the Mexican customer_balance payments (MXN currency) capability of the account, or whether the account can directly process Mexican customer_balance charges.
 	MXBankTransferPayments AccountCapabilityStatus `json:"mx_bank_transfer_payments"`
+	// The status of the NaverPay capability of the account, or whether the account can directly process NaverPay payments.
+	NaverPayPayments AccountCapabilityStatus `json:"naver_pay_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
 	P24Payments AccountCapabilityStatus `json:"p24_payments"`
+	// The status of the Payco capability of the account, or whether the account can directly process Payco payments.
+	PaycoPayments AccountCapabilityStatus `json:"payco_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
 	// The status of the PayPal payments capability of the account, or whether the account can directly process PayPal charges.
@@ -1348,6 +1396,8 @@ type AccountCapabilities struct {
 	RechnungPayments AccountCapabilityStatus `json:"rechnung_payments"`
 	// The status of the RevolutPay capability of the account, or whether the account can directly process RevolutPay payments.
 	RevolutPayPayments AccountCapabilityStatus `json:"revolut_pay_payments"`
+	// The status of the SamsungPay capability of the account, or whether the account can directly process SamsungPay payments.
+	SamsungPayPayments AccountCapabilityStatus `json:"samsung_pay_payments"`
 	// The status of the SEPA customer_balance payments (EUR currency) capability of the account, or whether the account can directly process SEPA customer_balance charges.
 	SEPABankTransferPayments AccountCapabilityStatus `json:"sepa_bank_transfer_payments"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
