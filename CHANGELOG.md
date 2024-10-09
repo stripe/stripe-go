@@ -1,5 +1,9 @@
 # Changelog
 
+## 80.2.0 - 2024-10-09
+* [#1929](https://github.com/stripe/stripe-go/pull/1929), [#1933](https://github.com/stripe/stripe-go/pull/1933) Remove rawrequests Post, Get, and Delete in favor of rawrequests.Client
+  * The individual `rawrequests` functions for Post, Get, and Delete methods are removed in favor of the client model which allows local configuration of backend and api key, which enables more flexible calls to new/preview/unsupported APIs.
+
 ## 80.2.0-beta.2 - 2024-10-08
 * [#1932](https://github.com/stripe/stripe-go/pull/1932) Update generated code for beta
   * Add support for `SubmitCard` test helper method on resource `Issuing.Card`
