@@ -122,7 +122,7 @@ type CreditNoteLineTaxAmountParams struct {
 
 // Line items that make up the credit note.
 type CreditNoteLineParams struct {
-	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
 	Description *string `form:"description"`
@@ -228,7 +228,7 @@ type CreditNotePreviewLineTaxAmountParams struct {
 
 // Line items that make up the credit note.
 type CreditNotePreviewLineParams struct {
-	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
 	Description *string `form:"description"`
@@ -323,7 +323,7 @@ type CreditNotePreviewLinesLineTaxAmountParams struct {
 
 // Line items that make up the credit note.
 type CreditNotePreviewLinesLineParams struct {
-	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
 	Description *string `form:"description"`
