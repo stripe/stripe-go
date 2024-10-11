@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// The type of this amount. We currently only support `monetary` credits.
+// The type of this amount. We currently only support `monetary` billing credits.
 type BillingCreditGrantAmountType string
 
 // List of values that BillingCreditGrantAmountType can take
@@ -59,7 +59,7 @@ type BillingCreditGrantAmountMonetaryParams struct {
 type BillingCreditGrantAmountParams struct {
 	// The monetary amount.
 	Monetary *BillingCreditGrantAmountMonetaryParams `form:"monetary"`
-	// Specify the type of this amount. We currently only support `monetary` credits.
+	// Specify the type of this amount. We currently only support `monetary` billing credits.
 	Type *string `form:"type"`
 }
 
@@ -84,13 +84,13 @@ type BillingCreditGrantParams struct {
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config"`
 	// The category of this credit grant.
 	Category *string `form:"category"`
-	// ID of the customer to whom the credit should be granted.
+	// ID of the customer to whom the billing credits should be granted.
 	Customer *string `form:"customer"`
-	// The time when the credit becomes effective i.e when it is eligible to be used. Defaults to the current timestamp if not specified.
+	// The time when the billing credits become effective i.e when they are eligible to be used. Defaults to the current timestamp if not specified.
 	EffectiveAt *int64 `form:"effective_at"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The time when the credit created by this credit grant will expire. If set to empty, the credit will never expire.
+	// The time when the billing credits created by this credit grant will expire. If set to empty, the billing credits will never expire.
 	ExpiresAt *int64 `form:"expires_at"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object (ex: cost basis) in a structured format.
 	Metadata map[string]string `form:"metadata"`
@@ -146,7 +146,7 @@ type BillingCreditGrantAmountMonetary struct {
 type BillingCreditGrantAmount struct {
 	// The monetary amount.
 	Monetary *BillingCreditGrantAmountMonetary `json:"monetary"`
-	// The type of this amount. We currently only support `monetary` credits.
+	// The type of this amount. We currently only support `monetary` billing credits.
 	Type BillingCreditGrantAmountType `json:"type"`
 }
 type BillingCreditGrantApplicabilityConfigScope struct {
@@ -157,7 +157,7 @@ type BillingCreditGrantApplicabilityConfig struct {
 	Scope *BillingCreditGrantApplicabilityConfigScope `json:"scope"`
 }
 
-// A credit grant is a resource that records a grant of some credit to a customer.
+// A credit grant is a resource that records a grant of billing credits to a customer.
 type BillingCreditGrant struct {
 	APIResource
 	Amount              *BillingCreditGrantAmount              `json:"amount"`
@@ -166,11 +166,11 @@ type BillingCreditGrant struct {
 	Category BillingCreditGrantCategory `json:"category"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// ID of the customer to whom the credit was granted.
+	// ID of the customer to whom the billing credits are granted.
 	Customer *Customer `json:"customer"`
-	// The time when the credit becomes effective i.e when it is eligible to be used.
+	// The time when the billing credits become effective i.e when they are eligible to be used.
 	EffectiveAt int64 `json:"effective_at"`
-	// The time when the credit will expire. If not present, the credit will never expire.
+	// The time when the billing credits will expire. If not present, the billing credits will never expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
