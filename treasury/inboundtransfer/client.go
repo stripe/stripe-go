@@ -64,6 +64,19 @@ func (c Client) Cancel(id string, params *stripe.TreasuryInboundTransferCancelPa
 	return inboundtransfer, err
 }
 
+// Confirm an InboundTransfer.
+func Confirm(id string, params *stripe.TreasuryInboundTransferConfirmParams) (*stripe.TreasuryInboundTransfer, error) {
+	return getC().Confirm(id, params)
+}
+
+// Confirm an InboundTransfer.
+func (c Client) Confirm(id string, params *stripe.TreasuryInboundTransferConfirmParams) (*stripe.TreasuryInboundTransfer, error) {
+	path := stripe.FormatURLPath("/v1/treasury/inbound_transfers/%s/confirm", id)
+	inboundtransfer := &stripe.TreasuryInboundTransfer{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, inboundtransfer)
+	return inboundtransfer, err
+}
+
 // Returns a list of InboundTransfers sent from the specified FinancialAccount.
 func List(params *stripe.TreasuryInboundTransferListParams) *Iter {
 	return getC().List(params)
