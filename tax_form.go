@@ -41,7 +41,11 @@ type TaxFormType string
 
 // List of values that TaxFormType can take
 const (
+	TaxFormTypeAuSerr     TaxFormType = "au_serr"
 	TaxFormTypeCaMrdp     TaxFormType = "ca_mrdp"
+	TaxFormTypeEUDac7     TaxFormType = "eu_dac7"
+	TaxFormTypeGBMrdp     TaxFormType = "gb_mrdp"
+	TaxFormTypeNzMrdp     TaxFormType = "nz_mrdp"
 	TaxFormTypeUS1099K    TaxFormType = "us_1099_k"
 	TaxFormTypeUS1099MISC TaxFormType = "us_1099_misc"
 	TaxFormTypeUS1099Nec  TaxFormType = "us_1099_nec"
