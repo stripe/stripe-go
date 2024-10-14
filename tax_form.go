@@ -27,12 +27,13 @@ const (
 	TaxFormFilingStatusValueRejected TaxFormFilingStatusValue = "rejected"
 )
 
-// Always `account`.
+// Either `account` or `external_reference`.
 type TaxFormPayeeType string
 
 // List of values that TaxFormPayeeType can take
 const (
-	TaxFormPayeeTypeAccount TaxFormPayeeType = "account"
+	TaxFormPayeeTypeAccount           TaxFormPayeeType = "account"
+	TaxFormPayeeTypeExternalReference TaxFormPayeeType = "external_reference"
 )
 
 // The type of the tax form. An additional hash is included on the tax form with a name matching this value. It contains additional information specific to the tax form type.
@@ -40,6 +41,7 @@ type TaxFormType string
 
 // List of values that TaxFormType can take
 const (
+	TaxFormTypeCaMrdp     TaxFormType = "ca_mrdp"
 	TaxFormTypeUS1099K    TaxFormType = "us_1099_k"
 	TaxFormTypeUS1099MISC TaxFormType = "us_1099_misc"
 	TaxFormTypeUS1099Nec  TaxFormType = "us_1099_nec"
@@ -49,7 +51,9 @@ const (
 type TaxFormListPayeeParams struct {
 	// The ID of the Stripe account whose forms will be retrieved.
 	Account *string `form:"account"`
-	// Specifies the payee type. Always `account`.
+	// The external reference to the payee whose forms will be retrieved.
+	ExternalReference *string `form:"external_reference"`
+	// Specifies the payee type. Either `account` or `external_reference`.
 	Type *string `form:"type"`
 }
 
@@ -113,7 +117,9 @@ type TaxFormFilingStatus struct {
 type TaxFormPayee struct {
 	// The ID of the payee's Stripe account.
 	Account *Account `json:"account"`
-	// Always `account`.
+	// The external reference to this payee.
+	ExternalReference string `json:"external_reference"`
+	// Either `account` or `external_reference`.
 	Type TaxFormPayeeType `json:"type"`
 }
 type TaxFormUS1099K struct {
