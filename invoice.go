@@ -181,6 +181,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeGiropay            InvoicePaymentSettingsPaymentMethodType = "giropay"
 	InvoicePaymentSettingsPaymentMethodTypeGrabpay            InvoicePaymentSettingsPaymentMethodType = "grabpay"
 	InvoicePaymentSettingsPaymentMethodTypeIDEAL              InvoicePaymentSettingsPaymentMethodType = "ideal"
+	InvoicePaymentSettingsPaymentMethodTypeJPCreditTransfer   InvoicePaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeKonbini            InvoicePaymentSettingsPaymentMethodType = "konbini"
 	InvoicePaymentSettingsPaymentMethodTypeLink               InvoicePaymentSettingsPaymentMethodType = "link"
 	InvoicePaymentSettingsPaymentMethodTypeMultibanco         InvoicePaymentSettingsPaymentMethodType = "multibanco"

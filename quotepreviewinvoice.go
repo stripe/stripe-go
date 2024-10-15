@@ -307,6 +307,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeGiropay            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "giropay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeGrabpay            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "grabpay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeIDEAL              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "ideal"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeJPCreditTransfer   QuotePreviewInvoicePaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKonbini            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "konbini"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeLink               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "link"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMultibanco         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "multibanco"

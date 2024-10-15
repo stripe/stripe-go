@@ -208,6 +208,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeGiropay            SubscriptionPaymentSettingsPaymentMethodType = "giropay"
 	SubscriptionPaymentSettingsPaymentMethodTypeGrabpay            SubscriptionPaymentSettingsPaymentMethodType = "grabpay"
 	SubscriptionPaymentSettingsPaymentMethodTypeIDEAL              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
+	SubscriptionPaymentSettingsPaymentMethodTypeJPCreditTransfer   SubscriptionPaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodTypeLink               SubscriptionPaymentSettingsPaymentMethodType = "link"
 	SubscriptionPaymentSettingsPaymentMethodTypeMultibanco         SubscriptionPaymentSettingsPaymentMethodType = "multibanco"
