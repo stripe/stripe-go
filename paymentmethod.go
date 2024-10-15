@@ -487,7 +487,7 @@ type PaymentMethodGrabpayParams struct{}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type PaymentMethodIDEALParams struct {
-	// The customer's bank.
+	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
 	Bank *string `form:"bank"`
 }
 
