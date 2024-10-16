@@ -134,7 +134,6 @@ import (
 	terminalreadercollecteddata "github.com/stripe/stripe-go/v80/terminal/readercollecteddata"
 	testhelpersconfirmationtoken "github.com/stripe/stripe-go/v80/testhelpers/confirmationtoken"
 	testhelperscustomer "github.com/stripe/stripe-go/v80/testhelpers/customer"
-	testhelperscustomercashbalancetransaction "github.com/stripe/stripe-go/v80/testhelpers/customercashbalancetransaction"
 	testhelpersissuingauthorization "github.com/stripe/stripe-go/v80/testhelpers/issuing/authorization"
 	testhelpersissuingcard "github.com/stripe/stripe-go/v80/testhelpers/issuing/card"
 	testhelpersissuingpersonalizationdesign "github.com/stripe/stripe-go/v80/testhelpers/issuing/personalizationdesign"
@@ -416,8 +415,6 @@ type API struct {
 	TerminalReaders *terminalreader.Client
 	// TestHelpersConfirmationTokens is the client used to invoke /confirmation_tokens APIs.
 	TestHelpersConfirmationTokens *testhelpersconfirmationtoken.Client
-	// TestHelpersCustomerCashBalanceTransactions is the client used to invoke /customers/{customer}/cash_balance_transactions APIs.
-	TestHelpersCustomerCashBalanceTransactions *testhelperscustomercashbalancetransaction.Client
 	// TestHelpersCustomers is the client used to invoke /customers APIs.
 	TestHelpersCustomers *testhelperscustomer.Client
 	// TestHelpersIssuingAuthorizations is the client used to invoke /issuing/authorizations APIs.
@@ -614,7 +611,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalReaderCollectedData = &terminalreadercollecteddata.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
 	a.TestHelpersConfirmationTokens = &testhelpersconfirmationtoken.Client{B: backends.API, Key: key}
-	a.TestHelpersCustomerCashBalanceTransactions = &testhelperscustomercashbalancetransaction.Client{B: backends.API, Key: key}
 	a.TestHelpersCustomers = &testhelperscustomer.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingAuthorizations = &testhelpersissuingauthorization.Client{B: backends.API, Key: key}
 	a.TestHelpersIssuingCards = &testhelpersissuingcard.Client{B: backends.API, Key: key}
