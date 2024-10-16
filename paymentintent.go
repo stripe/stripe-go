@@ -273,6 +273,14 @@ const (
 )
 
 // Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsAlmaCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsAlmaCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsAlmaCaptureMethodManual PaymentIntentPaymentMethodOptionsAlmaCaptureMethod = "manual"
+)
+
+// Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsAmazonPayCaptureMethod string
 
 // List of values that PaymentIntentPaymentMethodOptionsAmazonPayCaptureMethod can take
@@ -1684,6 +1692,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Alipay *PaymentMethodAlipayParams `form:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay"`
+	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	Alma *PaymentMethodAlmaParams `form:"alma"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -1874,6 +1884,16 @@ type PaymentIntentPaymentMethodOptionsAlipayParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `alma` PaymentMethod, this sub-hash contains details about the Alma payment method options.
+type PaymentIntentPaymentMethodOptionsAlmaParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 }
 
 // If this is a `amazon_pay` PaymentMethod, this sub-hash contains details about the Amazon Pay payment method options.
@@ -2824,6 +2844,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// If this is a `alipay` PaymentMethod, this sub-hash contains details about the Alipay payment method options.
 	Alipay *PaymentIntentPaymentMethodOptionsAlipayParams `form:"alipay"`
+	// If this is a `alma` PaymentMethod, this sub-hash contains details about the Alma payment method options.
+	Alma *PaymentIntentPaymentMethodOptionsAlmaParams `form:"alma"`
 	// If this is a `amazon_pay` PaymentMethod, this sub-hash contains details about the Amazon Pay payment method options.
 	AmazonPay *PaymentIntentPaymentMethodOptionsAmazonPayParams `form:"amazon_pay"`
 	// If this is a `au_becs_debit` PaymentMethod, this sub-hash contains details about the AU BECS Direct Debit payment method options.
@@ -4633,6 +4655,10 @@ type PaymentIntentPaymentMethodOptionsAlipay struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsAlipaySetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsAlma struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsAlmaCaptureMethod `json:"capture_method"`
+}
 type PaymentIntentPaymentMethodOptionsAmazonPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsAmazonPayCaptureMethod `json:"capture_method"`
@@ -5263,6 +5289,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Affirm           *PaymentIntentPaymentMethodOptionsAffirm           `json:"affirm"`
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipay           `json:"alipay"`
+	Alma             *PaymentIntentPaymentMethodOptionsAlma             `json:"alma"`
 	AmazonPay        *PaymentIntentPaymentMethodOptionsAmazonPay        `json:"amazon_pay"`
 	AUBECSDebit      *PaymentIntentPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *PaymentIntentPaymentMethodOptionsBACSDebit        `json:"bacs_debit"`

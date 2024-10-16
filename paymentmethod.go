@@ -255,6 +255,7 @@ const (
 	PaymentMethodTypeAffirm           PaymentMethodType = "affirm"
 	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
 	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
+	PaymentMethodTypeAlma             PaymentMethodType = "alma"
 	PaymentMethodTypeAmazonPay        PaymentMethodType = "amazon_pay"
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
@@ -393,6 +394,9 @@ type PaymentMethodAfterpayClearpayParams struct{}
 
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type PaymentMethodAlipayParams struct{}
+
+// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+type PaymentMethodAlmaParams struct{}
 
 // If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type PaymentMethodAmazonPayParams struct{}
@@ -652,6 +656,8 @@ type PaymentMethodParams struct {
 	Alipay *PaymentMethodAlipayParams `form:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay"`
+	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	Alma *PaymentMethodAlmaParams `form:"alma"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -820,6 +826,7 @@ type PaymentMethodACSSDebit struct {
 type PaymentMethodAffirm struct{}
 type PaymentMethodAfterpayClearpay struct{}
 type PaymentMethodAlipay struct{}
+type PaymentMethodAlma struct{}
 type PaymentMethodAmazonPay struct{}
 type PaymentMethodAUBECSDebit struct {
 	// Six-digit number identifying bank and branch associated with this bank account.
@@ -1350,6 +1357,7 @@ type PaymentMethod struct {
 	Alipay           *PaymentMethodAlipay           `json:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 	AllowRedisplay PaymentMethodAllowRedisplay  `json:"allow_redisplay"`
+	Alma           *PaymentMethodAlma           `json:"alma"`
 	AmazonPay      *PaymentMethodAmazonPay      `json:"amazon_pay"`
 	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
 	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit"`

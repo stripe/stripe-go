@@ -372,6 +372,9 @@ type SetupIntentPaymentMethodDataAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentPaymentMethodDataAlipayParams struct{}
 
+// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+type SetupIntentPaymentMethodDataAlmaParams struct{}
+
 // If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type SetupIntentPaymentMethodDataAmazonPayParams struct{}
 
@@ -606,6 +609,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Alipay *SetupIntentPaymentMethodDataAlipayParams `form:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay"`
+	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	Alma *SetupIntentPaymentMethodDataAlmaParams `form:"alma"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentPaymentMethodDataAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -1081,6 +1086,9 @@ type SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentConfirmPaymentMethodDataAlipayParams struct{}
 
+// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+type SetupIntentConfirmPaymentMethodDataAlmaParams struct{}
+
 // If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type SetupIntentConfirmPaymentMethodDataAmazonPayParams struct{}
 
@@ -1315,6 +1323,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Alipay *SetupIntentConfirmPaymentMethodDataAlipayParams `form:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay"`
+	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	Alma *SetupIntentConfirmPaymentMethodDataAlmaParams `form:"alma"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentConfirmPaymentMethodDataAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.

@@ -315,6 +315,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeAffirm           ConfirmationTokenPaymentMethodPreviewType = "affirm"
 	ConfirmationTokenPaymentMethodPreviewTypeAfterpayClearpay ConfirmationTokenPaymentMethodPreviewType = "afterpay_clearpay"
 	ConfirmationTokenPaymentMethodPreviewTypeAlipay           ConfirmationTokenPaymentMethodPreviewType = "alipay"
+	ConfirmationTokenPaymentMethodPreviewTypeAlma             ConfirmationTokenPaymentMethodPreviewType = "alma"
 	ConfirmationTokenPaymentMethodPreviewTypeAmazonPay        ConfirmationTokenPaymentMethodPreviewType = "amazon_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeAUBECSDebit      ConfirmationTokenPaymentMethodPreviewType = "au_becs_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeBACSDebit        ConfirmationTokenPaymentMethodPreviewType = "bacs_debit"
@@ -490,6 +491,7 @@ type ConfirmationTokenPaymentMethodPreviewACSSDebit struct {
 type ConfirmationTokenPaymentMethodPreviewAffirm struct{}
 type ConfirmationTokenPaymentMethodPreviewAfterpayClearpay struct{}
 type ConfirmationTokenPaymentMethodPreviewAlipay struct{}
+type ConfirmationTokenPaymentMethodPreviewAlma struct{}
 type ConfirmationTokenPaymentMethodPreviewAmazonPay struct{}
 type ConfirmationTokenPaymentMethodPreviewAUBECSDebit struct {
 	// Six-digit number identifying bank and branch associated with this bank account.
@@ -1007,6 +1009,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Alipay           *ConfirmationTokenPaymentMethodPreviewAlipay           `json:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 	AllowRedisplay ConfirmationTokenPaymentMethodPreviewAllowRedisplay  `json:"allow_redisplay"`
+	Alma           *ConfirmationTokenPaymentMethodPreviewAlma           `json:"alma"`
 	AmazonPay      *ConfirmationTokenPaymentMethodPreviewAmazonPay      `json:"amazon_pay"`
 	AUBECSDebit    *ConfirmationTokenPaymentMethodPreviewAUBECSDebit    `json:"au_becs_debit"`
 	BACSDebit      *ConfirmationTokenPaymentMethodPreviewBACSDebit      `json:"bacs_debit"`
