@@ -16,7 +16,7 @@ const (
 	BillingCreditGrantAmountTypeMonetary BillingCreditGrantAmountType = "monetary"
 )
 
-// The price type to which credit grants can apply to. We currently only support `metered` price type.
+// The price type to which credit grants can apply to. We currently only support `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 type BillingCreditGrantApplicabilityConfigScopePriceType string
 
 // List of values that BillingCreditGrantApplicabilityConfigScopePriceType can take
@@ -24,7 +24,7 @@ const (
 	BillingCreditGrantApplicabilityConfigScopePriceTypeMetered BillingCreditGrantApplicabilityConfigScopePriceType = "metered"
 )
 
-// The category of this credit grant.
+// The category of this credit grant. This is for tracking purposes and will not be displayed to the customer.
 type BillingCreditGrantCategory string
 
 // List of values that BillingCreditGrantCategory can take
@@ -150,19 +150,22 @@ type BillingCreditGrantAmount struct {
 	Type BillingCreditGrantAmountType `json:"type"`
 }
 type BillingCreditGrantApplicabilityConfigScope struct {
-	// The price type to which credit grants can apply to. We currently only support `metered` price type.
+	// The price type to which credit grants can apply to. We currently only support `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 	PriceType BillingCreditGrantApplicabilityConfigScopePriceType `json:"price_type"`
 }
 type BillingCreditGrantApplicabilityConfig struct {
 	Scope *BillingCreditGrantApplicabilityConfigScope `json:"scope"`
 }
 
-// A credit grant is a resource that records a grant of billing credits to a customer.
+// A credit grant is an API resource that documents the allocation of some billing credits to a customer.
+//
+// Related guide: [Billing credits](https://docs.stripe.com/billing/subscriptions/usage-based/billing-credits)
+// end
 type BillingCreditGrant struct {
 	APIResource
 	Amount              *BillingCreditGrantAmount              `json:"amount"`
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfig `json:"applicability_config"`
-	// The category of this credit grant.
+	// The category of this credit grant. This is for tracking purposes and will not be displayed to the customer.
 	Category BillingCreditGrantCategory `json:"category"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
