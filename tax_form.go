@@ -101,6 +101,24 @@ func (p *TaxFormPDFParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type TaxFormAuSerr struct {
+	// End date of the period represented by the information reported on the tax form.
+	ReportingPeriodEndDate string `json:"reporting_period_end_date"`
+	// Start date of the period represented by the information reported on the tax form.
+	ReportingPeriodStartDate string `json:"reporting_period_start_date"`
+}
+type TaxFormCaMrdp struct {
+	// End date of the period represented by the information reported on the tax form.
+	ReportingPeriodEndDate string `json:"reporting_period_end_date"`
+	// Start date of the period represented by the information reported on the tax form.
+	ReportingPeriodStartDate string `json:"reporting_period_start_date"`
+}
+type TaxFormEUDac7 struct {
+	// End date of the period represented by the information reported on the tax form.
+	ReportingPeriodEndDate string `json:"reporting_period_end_date"`
+	// Start date of the period represented by the information reported on the tax form.
+	ReportingPeriodStartDate string `json:"reporting_period_start_date"`
+}
 type TaxFormFilingStatusJurisdiction struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). Always `US`.
 	Country string `json:"country"`
@@ -117,6 +135,18 @@ type TaxFormFilingStatus struct {
 	Jurisdiction *TaxFormFilingStatusJurisdiction `json:"jurisdiction"`
 	// The current status of the filed form.
 	Value TaxFormFilingStatusValue `json:"value"`
+}
+type TaxFormGBMrdp struct {
+	// End date of the period represented by the information reported on the tax form.
+	ReportingPeriodEndDate string `json:"reporting_period_end_date"`
+	// Start date of the period represented by the information reported on the tax form.
+	ReportingPeriodStartDate string `json:"reporting_period_start_date"`
+}
+type TaxFormNzMrdp struct {
+	// End date of the period represented by the information reported on the tax form.
+	ReportingPeriodEndDate string `json:"reporting_period_end_date"`
+	// Start date of the period represented by the information reported on the tax form.
+	ReportingPeriodStartDate string `json:"reporting_period_start_date"`
 }
 type TaxFormPayee struct {
 	// The ID of the payee's Stripe account.
@@ -144,16 +174,21 @@ type TaxFormUS1099Nec struct {
 // Related guide: [US tax reporting for Connect platforms](https://stripe.com/docs/connect/tax-reporting)
 type TaxForm struct {
 	APIResource
+	AuSerr *TaxFormAuSerr `json:"au_serr"`
+	CaMrdp *TaxFormCaMrdp `json:"ca_mrdp"`
 	// The form that corrects this form, if any.
 	CorrectedBy *TaxForm `json:"corrected_by"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created int64          `json:"created"`
+	EUDac7  *TaxFormEUDac7 `json:"eu_dac7"`
 	// A list of tax filing statuses. Note that a filing status will only be included if the form has been filed directly with the jurisdiction's tax authority.
 	FilingStatuses []*TaxFormFilingStatus `json:"filing_statuses"`
+	GBMrdp         *TaxFormGBMrdp         `json:"gb_mrdp"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
-	Livemode bool `json:"livemode"`
+	Livemode bool           `json:"livemode"`
+	NzMrdp   *TaxFormNzMrdp `json:"nz_mrdp"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string        `json:"object"`
 	Payee  *TaxFormPayee `json:"payee"`
