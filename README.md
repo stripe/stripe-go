@@ -574,6 +574,13 @@ import (
 func make_raw_request() error {
 	stripe.Key = "sk_test_123"
 
+	b, err := stripe.GetRawRequestBackend(stripe.APIBackend)
+	if err != nil {
+		return err
+	}
+
+	client := rawrequest.Client{B: b, Key: apiKey}
+
 	payload := map[string]interface{}{
 		"event_name": "hotdogs_eaten",
 		"payload": map[string]string{
@@ -588,7 +595,7 @@ func make_raw_request() error {
 		return err
 	}
 
-	v2_resp, err := rawrequest.Post("/v2/billing/meter_events", string(body), nil)
+	v2_resp, err := client.RawRequest(http.MethodPost, "/v2/billing/meter_events", string(body), nil)
 	if err != nil {
 		return err
 	}
@@ -605,7 +612,7 @@ func make_raw_request() error {
 	form.AppendTo(formValues, payload)
 	content := formValues.Encode()
 
-	v1_resp, err := rawrequest.Post("/v1/billing/meter_events", content, nil)
+	v1_resp, err := client.RawRequest(http.MethodPost, "/v1/billing/meter_events", content, nil)
 	if err != nil {
 		return err
 	}
@@ -619,7 +626,9 @@ func make_raw_request() error {
 
 	return nil
 }
+
 ```
+See more examples in the [/example/v2 folder](example/v2).
 
 ## Support
 

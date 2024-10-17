@@ -142,6 +142,7 @@ func (p *RefundCancelParams) AddExpand(f string) {
 type RefundDestinationDetailsAffirm struct{}
 type RefundDestinationDetailsAfterpayClearpay struct{}
 type RefundDestinationDetailsAlipay struct{}
+type RefundDestinationDetailsAlma struct{}
 type RefundDestinationDetailsAmazonPay struct{}
 type RefundDestinationDetailsAuBankTransfer struct{}
 type RefundDestinationDetailsBLIK struct {
@@ -237,6 +238,7 @@ type RefundDestinationDetails struct {
 	Affirm              *RefundDestinationDetailsAffirm              `json:"affirm"`
 	AfterpayClearpay    *RefundDestinationDetailsAfterpayClearpay    `json:"afterpay_clearpay"`
 	Alipay              *RefundDestinationDetailsAlipay              `json:"alipay"`
+	Alma                *RefundDestinationDetailsAlma                `json:"alma"`
 	AmazonPay           *RefundDestinationDetailsAmazonPay           `json:"amazon_pay"`
 	AuBankTransfer      *RefundDestinationDetailsAuBankTransfer      `json:"au_bank_transfer"`
 	BLIK                *RefundDestinationDetailsBLIK                `json:"blik"`

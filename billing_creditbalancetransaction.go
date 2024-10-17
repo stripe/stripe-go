@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// The type of this amount. We currently only support `monetary` credits.
+// The type of this amount. We currently only support `monetary` billing credits.
 type BillingCreditBalanceTransactionCreditAmountType string
 
 // List of values that BillingCreditBalanceTransactionCreditAmountType can take
@@ -24,7 +24,7 @@ const (
 	BillingCreditBalanceTransactionCreditTypeCreditsGranted BillingCreditBalanceTransactionCreditType = "credits_granted"
 )
 
-// The type of this amount. We currently only support `monetary` credits.
+// The type of this amount. We currently only support `monetary` billing credits.
 type BillingCreditBalanceTransactionDebitAmountType string
 
 // List of values that BillingCreditBalanceTransactionDebitAmountType can take
@@ -42,7 +42,7 @@ const (
 	BillingCreditBalanceTransactionDebitTypeCreditsVoided  BillingCreditBalanceTransactionDebitType = "credits_voided"
 )
 
-// The type of balance transaction (credit or debit).
+// The type of credit balance transaction (credit or debit).
 type BillingCreditBalanceTransactionType string
 
 // List of values that BillingCreditBalanceTransactionType can take
@@ -89,11 +89,11 @@ type BillingCreditBalanceTransactionCreditAmountMonetary struct {
 type BillingCreditBalanceTransactionCreditAmount struct {
 	// The monetary amount.
 	Monetary *BillingCreditBalanceTransactionCreditAmountMonetary `json:"monetary"`
-	// The type of this amount. We currently only support `monetary` credits.
+	// The type of this amount. We currently only support `monetary` billing credits.
 	Type BillingCreditBalanceTransactionCreditAmountType `json:"type"`
 }
 
-// Credit details for this balance transaction. Only present if type is `credit`.
+// Credit details for this credit balance transaction. Only present if type is `credit`.
 type BillingCreditBalanceTransactionCredit struct {
 	Amount *BillingCreditBalanceTransactionCreditAmount `json:"amount"`
 	// The type of credit transaction.
@@ -110,22 +110,22 @@ type BillingCreditBalanceTransactionDebitAmountMonetary struct {
 type BillingCreditBalanceTransactionDebitAmount struct {
 	// The monetary amount.
 	Monetary *BillingCreditBalanceTransactionDebitAmountMonetary `json:"monetary"`
-	// The type of this amount. We currently only support `monetary` credits.
+	// The type of this amount. We currently only support `monetary` billing credits.
 	Type BillingCreditBalanceTransactionDebitAmountType `json:"type"`
 }
 
-// Details of how the credits were applied to an invoice. Only present if `type` is `credits_applied`.
+// Details of how the billing credits were applied to an invoice. Only present if `type` is `credits_applied`.
 type BillingCreditBalanceTransactionDebitCreditsApplied struct {
-	// The invoice to which the credits were applied.
+	// The invoice to which the billing credits were applied.
 	Invoice *Invoice `json:"invoice"`
-	// The invoice line item to which the credits were applied.
+	// The invoice line item to which the billing credits were applied.
 	InvoiceLineItem string `json:"invoice_line_item"`
 }
 
-// Debit details for this balance transaction. Only present if type is `debit`.
+// Debit details for this credit balance transaction. Only present if type is `debit`.
 type BillingCreditBalanceTransactionDebit struct {
 	Amount *BillingCreditBalanceTransactionDebitAmount `json:"amount"`
-	// Details of how the credits were applied to an invoice. Only present if `type` is `credits_applied`.
+	// Details of how the billing credits were applied to an invoice. Only present if `type` is `credits_applied`.
 	CreditsApplied *BillingCreditBalanceTransactionDebitCreditsApplied `json:"credits_applied"`
 	// The type of debit transaction.
 	Type BillingCreditBalanceTransactionDebitType `json:"type"`
@@ -136,13 +136,13 @@ type BillingCreditBalanceTransaction struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// Credit details for this balance transaction. Only present if type is `credit`.
+	// Credit details for this credit balance transaction. Only present if type is `credit`.
 	Credit *BillingCreditBalanceTransactionCredit `json:"credit"`
-	// The credit grant associated with this balance transaction.
+	// The credit grant associated with this credit balance transaction.
 	CreditGrant *BillingCreditGrant `json:"credit_grant"`
-	// Debit details for this balance transaction. Only present if type is `debit`.
+	// Debit details for this credit balance transaction. Only present if type is `debit`.
 	Debit *BillingCreditBalanceTransactionDebit `json:"debit"`
-	// The effective time of this balance transaction.
+	// The effective time of this credit balance transaction.
 	EffectiveAt int64 `json:"effective_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -152,7 +152,7 @@ type BillingCreditBalanceTransaction struct {
 	Object string `json:"object"`
 	// ID of the test clock this credit balance transaction belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
-	// The type of balance transaction (credit or debit).
+	// The type of credit balance transaction (credit or debit).
 	Type BillingCreditBalanceTransactionType `json:"type"`
 }
 

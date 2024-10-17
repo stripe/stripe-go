@@ -168,6 +168,16 @@ type TerminalConfigurationTippingNZDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
+// Tipping configuration for PLN
+type TerminalConfigurationTippingPlnParams struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []*int64 `form:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []*int64 `form:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
+}
+
 // Tipping configuration for SEK
 type TerminalConfigurationTippingSEKParams struct {
 	// Fixed amounts displayed when collecting a tip
@@ -222,6 +232,8 @@ type TerminalConfigurationTippingParams struct {
 	NOK *TerminalConfigurationTippingNOKParams `form:"nok"`
 	// Tipping configuration for NZD
 	NZD *TerminalConfigurationTippingNZDParams `form:"nzd"`
+	// Tipping configuration for PLN
+	Pln *TerminalConfigurationTippingPlnParams `form:"pln"`
 	// Tipping configuration for SEK
 	SEK *TerminalConfigurationTippingSEKParams `form:"sek"`
 	// Tipping configuration for SGD
@@ -356,6 +368,14 @@ type TerminalConfigurationTippingNZD struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
+type TerminalConfigurationTippingPln struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []int64 `json:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []int64 `json:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold int64 `json:"smart_tip_threshold"`
+}
 type TerminalConfigurationTippingSEK struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
@@ -392,6 +412,7 @@ type TerminalConfigurationTipping struct {
 	MYR *TerminalConfigurationTippingMYR `json:"myr"`
 	NOK *TerminalConfigurationTippingNOK `json:"nok"`
 	NZD *TerminalConfigurationTippingNZD `json:"nzd"`
+	Pln *TerminalConfigurationTippingPln `json:"pln"`
 	SEK *TerminalConfigurationTippingSEK `json:"sek"`
 	SGD *TerminalConfigurationTippingSGD `json:"sgd"`
 	USD *TerminalConfigurationTippingUSD `json:"usd"`

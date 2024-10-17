@@ -6,7 +6,7 @@
 
 package stripe
 
-// The type of this amount. We currently only support `monetary` credits.
+// The type of this amount. We currently only support `monetary` billing credits.
 type BillingCreditBalanceSummaryBalanceAvailableBalanceType string
 
 // List of values that BillingCreditBalanceSummaryBalanceAvailableBalanceType can take
@@ -14,7 +14,7 @@ const (
 	BillingCreditBalanceSummaryBalanceAvailableBalanceTypeMonetary BillingCreditBalanceSummaryBalanceAvailableBalanceType = "monetary"
 )
 
-// The type of this amount. We currently only support `monetary` credits.
+// The type of this amount. We currently only support `monetary` billing credits.
 type BillingCreditBalanceSummaryBalanceLedgerBalanceType string
 
 // List of values that BillingCreditBalanceSummaryBalanceLedgerBalanceType can take
@@ -22,7 +22,7 @@ const (
 	BillingCreditBalanceSummaryBalanceLedgerBalanceTypeMonetary BillingCreditBalanceSummaryBalanceLedgerBalanceType = "monetary"
 )
 
-// The credit applicability scope for which to fetch balance summary.
+// The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryFilterApplicabilityScopeParams struct {
 	// The price type to which credit grants can apply to. We currently only support `metered` price type.
 	PriceType *string `form:"price_type"`
@@ -30,9 +30,9 @@ type BillingCreditBalanceSummaryFilterApplicabilityScopeParams struct {
 
 // The filter criteria for the credit balance summary.
 type BillingCreditBalanceSummaryFilterParams struct {
-	// The credit applicability scope for which to fetch balance summary.
+	// The billing credit applicability scope for which to fetch credit balance summary.
 	ApplicabilityScope *BillingCreditBalanceSummaryFilterApplicabilityScopeParams `form:"applicability_scope"`
-	// The credit grant for which to fetch balance summary.
+	// The credit grant for which to fetch credit balance summary.
 	CreditGrant *string `form:"credit_grant"`
 	// Specify the type of this filter.
 	Type *string `form:"type"`
@@ -64,7 +64,7 @@ type BillingCreditBalanceSummaryBalanceAvailableBalanceMonetary struct {
 type BillingCreditBalanceSummaryBalanceAvailableBalance struct {
 	// The monetary amount.
 	Monetary *BillingCreditBalanceSummaryBalanceAvailableBalanceMonetary `json:"monetary"`
-	// The type of this amount. We currently only support `monetary` credits.
+	// The type of this amount. We currently only support `monetary` billing credits.
 	Type BillingCreditBalanceSummaryBalanceAvailableBalanceType `json:"type"`
 }
 
@@ -78,20 +78,20 @@ type BillingCreditBalanceSummaryBalanceLedgerBalanceMonetary struct {
 type BillingCreditBalanceSummaryBalanceLedgerBalance struct {
 	// The monetary amount.
 	Monetary *BillingCreditBalanceSummaryBalanceLedgerBalanceMonetary `json:"monetary"`
-	// The type of this amount. We currently only support `monetary` credits.
+	// The type of this amount. We currently only support `monetary` billing credits.
 	Type BillingCreditBalanceSummaryBalanceLedgerBalanceType `json:"type"`
 }
 
-// The credit balances. One entry per credit grant currency. If a customer only has credit grants in a single currency, then this will have a single balance entry.
+// The billing credit balances. One entry per credit grant currency. If a customer only has credit grants in a single currency, then this will have a single balance entry.
 type BillingCreditBalanceSummaryBalance struct {
 	AvailableBalance *BillingCreditBalanceSummaryBalanceAvailableBalance `json:"available_balance"`
 	LedgerBalance    *BillingCreditBalanceSummaryBalanceLedgerBalance    `json:"ledger_balance"`
 }
 
-// Indicates the credit balance for credits granted to a customer.
+// Indicates the billing credit balance for billing credits granted to a customer.
 type BillingCreditBalanceSummary struct {
 	APIResource
-	// The credit balances. One entry per credit grant currency. If a customer only has credit grants in a single currency, then this will have a single balance entry.
+	// The billing credit balances. One entry per credit grant currency. If a customer only has credit grants in a single currency, then this will have a single balance entry.
 	Balances []*BillingCreditBalanceSummaryBalance `json:"balances"`
 	// The customer the balance is for.
 	Customer *Customer `json:"customer"`

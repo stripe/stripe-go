@@ -11,7 +11,7 @@ import (
 	_ "github.com/stripe/stripe-go/v80/testing"
 )
 
-func stubAPIBackend(testServer *httptest.Server) {
+func createTestClient(testServer *httptest.Server) Client {
 	backend := stripe.GetBackendWithConfig(
 		stripe.APIBackend,
 		&stripe.BackendConfig{
@@ -23,7 +23,8 @@ func stubAPIBackend(testServer *httptest.Server) {
 		},
 	).(*stripe.BackendImplementation)
 
-	stripe.SetBackend(stripe.APIBackend, backend)
+	return Client{B: backend, Key: stripe.Key}
+	// stripe.SetBackend(stripe.APIBackend, backend)
 }
 
 func TestV2PostRequest(t *testing.T) {
@@ -42,11 +43,11 @@ func TestV2PostRequest(t *testing.T) {
 		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
 	}))
 
-	stubAPIBackend(testServer)
+	client := createTestClient(testServer)
 
 	var params *stripe.RawParams
 
-	_, err := Post("/v2/abc", `{"xyz": {"def": "jih"}}`, params)
+	_, err := client.RawRequest(http.MethodPost, "/v2/abc", `{"xyz": {"def": "jih"}}`, params)
 	assert.NoError(t, err)
 
 	assert.Nil(t, params) // original params should not be modified
@@ -74,11 +75,11 @@ func TestRawV1PostRequest(t *testing.T) {
 		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
 	}))
 
-	stubAPIBackend(testServer)
+	client := createTestClient(testServer)
 
 	var params *stripe.RawParams
 
-	_, err := Post("/v1/abc", `abc=123&a[name]=nested`, params)
+	_, err := client.RawRequest(http.MethodPost, "/v1/abc", `abc=123&a[name]=nested`, params)
 	assert.NoError(t, err)
 
 	assert.Nil(t, params) // original params should not be modified
@@ -110,13 +111,13 @@ func TestV2GetRequestWithAdditionalHeaders(t *testing.T) {
 		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
 	}))
 
-	stubAPIBackend(testServer)
+	client := createTestClient(testServer)
 
 	headers := http.Header{}
 	headers.Set("foo", "bar")
 	params := &stripe.RawParams{Params: stripe.Params{Headers: headers}, StripeContext: "acct_123"}
 
-	_, err := Get("/v2/abc", params)
+	_, err := client.RawRequest(http.MethodGet, "/v2/abc", "", params)
 	assert.NoError(t, err)
 
 	assert.Equal(t, ``, body)

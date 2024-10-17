@@ -1,3 +1,14 @@
+// meter_event_stream.go - use the high-throughput meter event stream to report create billing meter events.
+//
+// This example uses the rawrequests module to make calls to /v2 APIs.
+//
+// In this example, we:
+//   - create a meter event session and store the session's authentication token
+//   - define an event with a payload
+//   - post the event to /v2/billing/meter_event_stream to create an event stream that reports this event
+//
+// This example expects a billing meter with an event_name of 'alpaca_ai_tokens'.  If you have
+// a different meter event name, you can change it before running this example.
 package main
 
 import (
@@ -92,7 +103,7 @@ func main() {
 
 	client := rawrequest.Client{B: b, Key: apiKey}
 
-	err = sendMeterEvent(client, "api_requests", customerID, "25")
+	err = sendMeterEvent(client, "alpaca_ai_tokens", customerID, "25")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

@@ -99,7 +99,6 @@ type IssuingAuthorizationStatus string
 // List of values that IssuingAuthorizationStatus can take
 const (
 	IssuingAuthorizationStatusClosed   IssuingAuthorizationStatus = "closed"
-	IssuingAuthorizationStatusExpired  IssuingAuthorizationStatus = "expired"
 	IssuingAuthorizationStatusPending  IssuingAuthorizationStatus = "pending"
 	IssuingAuthorizationStatusReversed IssuingAuthorizationStatus = "reversed"
 )
