@@ -656,6 +656,20 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsGopaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 type PaymentIntentPaymentMethodOptionsGrabpaySetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsGrabpaySetupFutureUsage can take
@@ -1018,6 +1032,20 @@ const (
 	PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsage = "none"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsQrisSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsQrisSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsQrisSetupFutureUsageNone PaymentIntentPaymentMethodOptionsQrisSetupFutureUsage = "none"
+)
+
 // Controls when the funds will be captured from the customer's account.
 type PaymentIntentPaymentMethodOptionsRevolutPayCaptureMethod string
 
@@ -1063,6 +1091,20 @@ const (
 	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "off_session"
 	PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage = "on_session"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsShopeepaySetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsShopeepaySetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsShopeepaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsShopeepaySetupFutureUsage = "none"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1718,6 +1760,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	FPX *PaymentMethodFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *PaymentMethodGiropayParams `form:"giropay"`
+	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+	Gopay *PaymentMethodGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *PaymentMethodGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
@@ -1760,6 +1804,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
+	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+	Qris *PaymentMethodQrisParams `form:"qris"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
@@ -1770,6 +1816,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
+	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -2274,6 +2322,20 @@ type PaymentIntentPaymentMethodOptionsGiropayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `gopay` PaymentMethod, this sub-hash contains details about the GoPay payment method options.
+type PaymentIntentPaymentMethodOptionsGopayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
 type PaymentIntentPaymentMethodOptionsGrabpayParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2642,6 +2704,20 @@ type PaymentIntentPaymentMethodOptionsPromptPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `qris` PaymentMethod, this sub-hash contains details about the QRIS payment method options.
+type PaymentIntentPaymentMethodOptionsQrisParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // If this is a `rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
 type PaymentIntentPaymentMethodOptionsRechnungParams struct{}
 
@@ -2680,6 +2756,20 @@ type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 type PaymentIntentPaymentMethodOptionsSEPADebitParams struct {
 	// Additional fields for Mandate creation
 	MandateOptions *PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
+type PaymentIntentPaymentMethodOptionsShopeepayParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2872,6 +2962,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	FPX *PaymentIntentPaymentMethodOptionsFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 	Giropay *PaymentIntentPaymentMethodOptionsGiropayParams `form:"giropay"`
+	// If this is a `gopay` PaymentMethod, this sub-hash contains details about the GoPay payment method options.
+	Gopay *PaymentIntentPaymentMethodOptionsGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
 	Grabpay *PaymentIntentPaymentMethodOptionsGrabpayParams `form:"grabpay"`
 	// If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
@@ -2912,6 +3004,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Pix *PaymentIntentPaymentMethodOptionsPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this sub-hash contains details about the PromptPay payment method options.
 	PromptPay *PaymentIntentPaymentMethodOptionsPromptPayParams `form:"promptpay"`
+	// If this is a `qris` PaymentMethod, this sub-hash contains details about the QRIS payment method options.
+	Qris *PaymentIntentPaymentMethodOptionsQrisParams `form:"qris"`
 	// If this is a `rechnung` PaymentMethod, this sub-hash contains details about the Rechnung payment method options.
 	Rechnung *PaymentIntentPaymentMethodOptionsRechnungParams `form:"rechnung"`
 	// If this is a `revolut_pay` PaymentMethod, this sub-hash contains details about the Revolut Pay payment method options.
@@ -2920,6 +3014,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	SamsungPay *PaymentIntentPaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
+	Shopeepay *PaymentIntentPaymentMethodOptionsShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
 	Sofort *PaymentIntentPaymentMethodOptionsSofortParams `form:"sofort"`
 	// If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
@@ -4895,6 +4991,16 @@ type PaymentIntentPaymentMethodOptionsGiropay struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsGiropaySetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsGopay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsGrabpay struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -5155,6 +5261,16 @@ type PaymentIntentPaymentMethodOptionsPromptPay struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPromptPaySetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsQris struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsQrisSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsRechnung struct{}
 type PaymentIntentPaymentMethodOptionsRevolutPay struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -5183,6 +5299,16 @@ type PaymentIntentPaymentMethodOptionsSEPADebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage `json:"setup_future_usage"`
+}
+type PaymentIntentPaymentMethodOptionsShopeepay struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsShopeepaySetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsSofort struct {
 	// Preferred language of the SOFORT authorization page that the customer is redirected to.
@@ -5303,6 +5429,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	EPS              *PaymentIntentPaymentMethodOptionsEPS              `json:"eps"`
 	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx"`
 	Giropay          *PaymentIntentPaymentMethodOptionsGiropay          `json:"giropay"`
+	Gopay            *PaymentIntentPaymentMethodOptionsGopay            `json:"gopay"`
 	Grabpay          *PaymentIntentPaymentMethodOptionsGrabpay          `json:"grabpay"`
 	IDEAL            *PaymentIntentPaymentMethodOptionsIDEAL            `json:"ideal"`
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
@@ -5323,10 +5450,12 @@ type PaymentIntentPaymentMethodOptions struct {
 	Payto            *PaymentIntentPaymentMethodOptionsPayto            `json:"payto"`
 	Pix              *PaymentIntentPaymentMethodOptionsPix              `json:"pix"`
 	PromptPay        *PaymentIntentPaymentMethodOptionsPromptPay        `json:"promptpay"`
+	Qris             *PaymentIntentPaymentMethodOptionsQris             `json:"qris"`
 	Rechnung         *PaymentIntentPaymentMethodOptionsRechnung         `json:"rechnung"`
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SamsungPay       *PaymentIntentPaymentMethodOptionsSamsungPay       `json:"samsung_pay"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
+	Shopeepay        *PaymentIntentPaymentMethodOptionsShopeepay        `json:"shopeepay"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	Swish            *PaymentIntentPaymentMethodOptionsSwish            `json:"swish"`
 	TWINT            *PaymentIntentPaymentMethodOptionsTWINT            `json:"twint"`

@@ -441,6 +441,9 @@ type SetupIntentPaymentMethodDataFPXParams struct {
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type SetupIntentPaymentMethodDataGiropayParams struct{}
 
+// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+type SetupIntentPaymentMethodDataGopayParams struct{}
+
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type SetupIntentPaymentMethodDataGrabpayParams struct{}
 
@@ -530,6 +533,9 @@ type SetupIntentPaymentMethodDataPixParams struct{}
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 type SetupIntentPaymentMethodDataPromptPayParams struct{}
 
+// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+type SetupIntentPaymentMethodDataQrisParams struct{}
+
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type SetupIntentPaymentMethodDataRadarOptionsParams struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -563,6 +569,9 @@ type SetupIntentPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
 	IBAN *string `form:"iban"`
 }
+
+// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+type SetupIntentPaymentMethodDataShopeepayParams struct{}
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type SetupIntentPaymentMethodDataSofortParams struct {
@@ -635,6 +644,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	FPX *SetupIntentPaymentMethodDataFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *SetupIntentPaymentMethodDataGiropayParams `form:"giropay"`
+	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+	Gopay *SetupIntentPaymentMethodDataGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *SetupIntentPaymentMethodDataGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
@@ -677,6 +688,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Pix *SetupIntentPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *SetupIntentPaymentMethodDataPromptPayParams `form:"promptpay"`
+	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+	Qris *SetupIntentPaymentMethodDataQrisParams `form:"qris"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
@@ -687,6 +700,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	SamsungPay *SetupIntentPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
+	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+	Shopeepay *SetupIntentPaymentMethodDataShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentPaymentMethodDataSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -1155,6 +1170,9 @@ type SetupIntentConfirmPaymentMethodDataFPXParams struct {
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type SetupIntentConfirmPaymentMethodDataGiropayParams struct{}
 
+// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+type SetupIntentConfirmPaymentMethodDataGopayParams struct{}
+
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type SetupIntentConfirmPaymentMethodDataGrabpayParams struct{}
 
@@ -1244,6 +1262,9 @@ type SetupIntentConfirmPaymentMethodDataPixParams struct{}
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 type SetupIntentConfirmPaymentMethodDataPromptPayParams struct{}
 
+// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+type SetupIntentConfirmPaymentMethodDataQrisParams struct{}
+
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type SetupIntentConfirmPaymentMethodDataRadarOptionsParams struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -1277,6 +1298,9 @@ type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
 	IBAN *string `form:"iban"`
 }
+
+// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+type SetupIntentConfirmPaymentMethodDataShopeepayParams struct{}
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type SetupIntentConfirmPaymentMethodDataSofortParams struct {
@@ -1349,6 +1373,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	FPX *SetupIntentConfirmPaymentMethodDataFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *SetupIntentConfirmPaymentMethodDataGiropayParams `form:"giropay"`
+	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+	Gopay *SetupIntentConfirmPaymentMethodDataGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *SetupIntentConfirmPaymentMethodDataGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
@@ -1391,6 +1417,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Pix *SetupIntentConfirmPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *SetupIntentConfirmPaymentMethodDataPromptPayParams `form:"promptpay"`
+	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+	Qris *SetupIntentConfirmPaymentMethodDataQrisParams `form:"qris"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
@@ -1401,6 +1429,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	SamsungPay *SetupIntentConfirmPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
+	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+	Shopeepay *SetupIntentConfirmPaymentMethodDataShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *SetupIntentConfirmPaymentMethodDataSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.

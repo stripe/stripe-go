@@ -329,6 +329,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeEPS              ConfirmationTokenPaymentMethodPreviewType = "eps"
 	ConfirmationTokenPaymentMethodPreviewTypeFPX              ConfirmationTokenPaymentMethodPreviewType = "fpx"
 	ConfirmationTokenPaymentMethodPreviewTypeGiropay          ConfirmationTokenPaymentMethodPreviewType = "giropay"
+	ConfirmationTokenPaymentMethodPreviewTypeGopay            ConfirmationTokenPaymentMethodPreviewType = "gopay"
 	ConfirmationTokenPaymentMethodPreviewTypeGrabpay          ConfirmationTokenPaymentMethodPreviewType = "grabpay"
 	ConfirmationTokenPaymentMethodPreviewTypeIDEAL            ConfirmationTokenPaymentMethodPreviewType = "ideal"
 	ConfirmationTokenPaymentMethodPreviewTypeInteracPresent   ConfirmationTokenPaymentMethodPreviewType = "interac_present"
@@ -349,10 +350,12 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypePayto            ConfirmationTokenPaymentMethodPreviewType = "payto"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
+	ConfirmationTokenPaymentMethodPreviewTypeQris             ConfirmationTokenPaymentMethodPreviewType = "qris"
 	ConfirmationTokenPaymentMethodPreviewTypeRechnung         ConfirmationTokenPaymentMethodPreviewType = "rechnung"
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeSamsungPay       ConfirmationTokenPaymentMethodPreviewType = "samsung_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
+	ConfirmationTokenPaymentMethodPreviewTypeShopeepay        ConfirmationTokenPaymentMethodPreviewType = "shopeepay"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
 	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
@@ -804,6 +807,7 @@ type ConfirmationTokenPaymentMethodPreviewFPX struct {
 	Bank ConfirmationTokenPaymentMethodPreviewFPXBank `json:"bank"`
 }
 type ConfirmationTokenPaymentMethodPreviewGiropay struct{}
+type ConfirmationTokenPaymentMethodPreviewGopay struct{}
 type ConfirmationTokenPaymentMethodPreviewGrabpay struct{}
 type ConfirmationTokenPaymentMethodPreviewIDEAL struct {
 	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
@@ -916,6 +920,7 @@ type ConfirmationTokenPaymentMethodPreviewPayto struct {
 }
 type ConfirmationTokenPaymentMethodPreviewPix struct{}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
+type ConfirmationTokenPaymentMethodPreviewQris struct{}
 type ConfirmationTokenPaymentMethodPreviewRechnungDOB struct {
 	// The day of birth, between 1 and 31.
 	Day int64 `json:"day"`
@@ -951,6 +956,7 @@ type ConfirmationTokenPaymentMethodPreviewSEPADebit struct {
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
 }
+type ConfirmationTokenPaymentMethodPreviewShopeepay struct{}
 type ConfirmationTokenPaymentMethodPreviewSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
@@ -1026,6 +1032,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	EPS             *ConfirmationTokenPaymentMethodPreviewEPS             `json:"eps"`
 	FPX             *ConfirmationTokenPaymentMethodPreviewFPX             `json:"fpx"`
 	Giropay         *ConfirmationTokenPaymentMethodPreviewGiropay         `json:"giropay"`
+	Gopay           *ConfirmationTokenPaymentMethodPreviewGopay           `json:"gopay"`
 	Grabpay         *ConfirmationTokenPaymentMethodPreviewGrabpay         `json:"grabpay"`
 	IDEAL           *ConfirmationTokenPaymentMethodPreviewIDEAL           `json:"ideal"`
 	InteracPresent  *ConfirmationTokenPaymentMethodPreviewInteracPresent  `json:"interac_present"`
@@ -1046,10 +1053,12 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Payto           *ConfirmationTokenPaymentMethodPreviewPayto           `json:"payto"`
 	Pix             *ConfirmationTokenPaymentMethodPreviewPix             `json:"pix"`
 	PromptPay       *ConfirmationTokenPaymentMethodPreviewPromptPay       `json:"promptpay"`
+	Qris            *ConfirmationTokenPaymentMethodPreviewQris            `json:"qris"`
 	Rechnung        *ConfirmationTokenPaymentMethodPreviewRechnung        `json:"rechnung"`
 	RevolutPay      *ConfirmationTokenPaymentMethodPreviewRevolutPay      `json:"revolut_pay"`
 	SamsungPay      *ConfirmationTokenPaymentMethodPreviewSamsungPay      `json:"samsung_pay"`
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit"`
+	Shopeepay       *ConfirmationTokenPaymentMethodPreviewShopeepay       `json:"shopeepay"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort"`
 	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish"`
 	TWINT           *ConfirmationTokenPaymentMethodPreviewTWINT           `json:"twint"`

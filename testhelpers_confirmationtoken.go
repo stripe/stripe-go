@@ -94,6 +94,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataFPXParams struct {
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataGiropayParams struct{}
 
+// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataGopayParams struct{}
+
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataGrabpayParams struct{}
 
@@ -183,6 +186,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataPixParams struct{}
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataPromptPayParams struct{}
 
+// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataQrisParams struct{}
+
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type TestHelpersConfirmationTokenPaymentMethodDataRadarOptionsParams struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -216,6 +222,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
 	IBAN *string `form:"iban"`
 }
+
+// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataShopeepayParams struct{}
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSofortParams struct {
@@ -287,6 +296,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	FPX *TestHelpersConfirmationTokenPaymentMethodDataFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *TestHelpersConfirmationTokenPaymentMethodDataGiropayParams `form:"giropay"`
+	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+	Gopay *TestHelpersConfirmationTokenPaymentMethodDataGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *TestHelpersConfirmationTokenPaymentMethodDataGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
@@ -329,6 +340,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Pix *TestHelpersConfirmationTokenPaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *TestHelpersConfirmationTokenPaymentMethodDataPromptPayParams `form:"promptpay"`
+	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+	Qris *TestHelpersConfirmationTokenPaymentMethodDataQrisParams `form:"qris"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *TestHelpersConfirmationTokenPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
@@ -339,6 +352,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	SamsungPay *TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
+	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+	Shopeepay *TestHelpersConfirmationTokenPaymentMethodDataShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *TestHelpersConfirmationTokenPaymentMethodDataSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
