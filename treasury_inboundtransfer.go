@@ -134,20 +134,6 @@ func (p *TreasuryInboundTransferCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Confirm an InboundTransfer.
-type TreasuryInboundTransferConfirmParams struct {
-	Params `form:"*"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// Represents the number of seconds after an Inbound Transfer has been committed to our banking partners that the user delays funds availability into the financial account. The maximum allowed delay is 5 days.
-	FundsAvailabilityDelay *int64 `form:"funds_availability_delay"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TreasuryInboundTransferConfirmParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Details about this InboundTransfer's failure. Only set when status is `failed`.
 type TreasuryInboundTransferFailureDetails struct {
 	// Reason for the failure.
