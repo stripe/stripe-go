@@ -7,6 +7,15 @@
 package stripe
 
 // The status of the payment method on the domain.
+type PaymentMethodDomainAmazonPayStatus string
+
+// List of values that PaymentMethodDomainAmazonPayStatus can take
+const (
+	PaymentMethodDomainAmazonPayStatusActive   PaymentMethodDomainAmazonPayStatus = "active"
+	PaymentMethodDomainAmazonPayStatusInactive PaymentMethodDomainAmazonPayStatus = "inactive"
+)
+
+// The status of the payment method on the domain.
 type PaymentMethodDomainApplePayStatus string
 
 // List of values that PaymentMethodDomainApplePayStatus can take
@@ -92,6 +101,20 @@ func (p *PaymentMethodDomainValidateParams) AddExpand(f string) {
 }
 
 // Contains additional details about the status of a payment method for a specific payment method domain.
+type PaymentMethodDomainAmazonPayStatusDetails struct {
+	// The error message associated with the status of the payment method on the domain.
+	ErrorMessage string `json:"error_message"`
+}
+
+// Indicates the status of a specific payment method on a payment method domain.
+type PaymentMethodDomainAmazonPay struct {
+	// The status of the payment method on the domain.
+	Status PaymentMethodDomainAmazonPayStatus `json:"status"`
+	// Contains additional details about the status of a payment method for a specific payment method domain.
+	StatusDetails *PaymentMethodDomainAmazonPayStatusDetails `json:"status_details"`
+}
+
+// Contains additional details about the status of a payment method for a specific payment method domain.
 type PaymentMethodDomainApplePayStatusDetails struct {
 	// The error message associated with the status of the payment method on the domain.
 	ErrorMessage string `json:"error_message"`
@@ -153,6 +176,8 @@ type PaymentMethodDomainPaypal struct {
 // Related guide: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
 type PaymentMethodDomain struct {
 	APIResource
+	// Indicates the status of a specific payment method on a payment method domain.
+	AmazonPay *PaymentMethodDomainAmazonPay `json:"amazon_pay"`
 	// Indicates the status of a specific payment method on a payment method domain.
 	ApplePay *PaymentMethodDomainApplePay `json:"apple_pay"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

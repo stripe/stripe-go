@@ -255,6 +255,7 @@ const (
 	PaymentMethodTypeAffirm           PaymentMethodType = "affirm"
 	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
 	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
+	PaymentMethodTypeAlma             PaymentMethodType = "alma"
 	PaymentMethodTypeAmazonPay        PaymentMethodType = "amazon_pay"
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
@@ -268,6 +269,7 @@ const (
 	PaymentMethodTypeEPS              PaymentMethodType = "eps"
 	PaymentMethodTypeFPX              PaymentMethodType = "fpx"
 	PaymentMethodTypeGiropay          PaymentMethodType = "giropay"
+	PaymentMethodTypeGopay            PaymentMethodType = "gopay"
 	PaymentMethodTypeGrabpay          PaymentMethodType = "grabpay"
 	PaymentMethodTypeIDEAL            PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent   PaymentMethodType = "interac_present"
@@ -288,10 +290,12 @@ const (
 	PaymentMethodTypePayto            PaymentMethodType = "payto"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
+	PaymentMethodTypeQris             PaymentMethodType = "qris"
 	PaymentMethodTypeRechnung         PaymentMethodType = "rechnung"
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
 	PaymentMethodTypeSamsungPay       PaymentMethodType = "samsung_pay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
+	PaymentMethodTypeShopeepay        PaymentMethodType = "shopeepay"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
 	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
@@ -394,6 +398,9 @@ type PaymentMethodAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type PaymentMethodAlipayParams struct{}
 
+// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+type PaymentMethodAlmaParams struct{}
+
 // If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type PaymentMethodAmazonPayParams struct{}
 
@@ -482,12 +489,15 @@ type PaymentMethodFPXParams struct {
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type PaymentMethodGiropayParams struct{}
 
+// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+type PaymentMethodGopayParams struct{}
+
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type PaymentMethodGrabpayParams struct{}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type PaymentMethodIDEALParams struct {
-	// The customer's bank.
+	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
 	Bank *string `form:"bank"`
 }
 
@@ -571,6 +581,9 @@ type PaymentMethodPixParams struct{}
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 type PaymentMethodPromptPayParams struct{}
 
+// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+type PaymentMethodQrisParams struct{}
+
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type PaymentMethodRadarOptionsParams struct {
 	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
@@ -604,6 +617,9 @@ type PaymentMethodSEPADebitParams struct {
 	// IBAN of the bank account.
 	IBAN *string `form:"iban"`
 }
+
+// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+type PaymentMethodShopeepayParams struct{}
 
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type PaymentMethodSofortParams struct {
@@ -652,6 +668,8 @@ type PaymentMethodParams struct {
 	Alipay *PaymentMethodAlipayParams `form:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay"`
+	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	Alma *PaymentMethodAlmaParams `form:"alma"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -680,6 +698,8 @@ type PaymentMethodParams struct {
 	FPX *PaymentMethodFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *PaymentMethodGiropayParams `form:"giropay"`
+	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+	Gopay *PaymentMethodGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *PaymentMethodGrabpayParams `form:"grabpay"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
@@ -722,6 +742,8 @@ type PaymentMethodParams struct {
 	Pix *PaymentMethodPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
+	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+	Qris *PaymentMethodQrisParams `form:"qris"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
@@ -732,6 +754,8 @@ type PaymentMethodParams struct {
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
+	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -820,6 +844,7 @@ type PaymentMethodACSSDebit struct {
 type PaymentMethodAffirm struct{}
 type PaymentMethodAfterpayClearpay struct{}
 type PaymentMethodAlipay struct{}
+type PaymentMethodAlma struct{}
 type PaymentMethodAmazonPay struct{}
 type PaymentMethodAUBECSDebit struct {
 	// Six-digit number identifying bank and branch associated with this bank account.
@@ -1134,6 +1159,7 @@ type PaymentMethodFPX struct {
 	Bank string `json:"bank"`
 }
 type PaymentMethodGiropay struct{}
+type PaymentMethodGopay struct{}
 type PaymentMethodGrabpay struct{}
 type PaymentMethodIDEAL struct {
 	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
@@ -1246,6 +1272,7 @@ type PaymentMethodPayto struct {
 }
 type PaymentMethodPix struct{}
 type PaymentMethodPromptPay struct{}
+type PaymentMethodQris struct{}
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type PaymentMethodRadarOptions struct {
@@ -1287,6 +1314,7 @@ type PaymentMethodSEPADebit struct {
 	// Last four characters of the IBAN.
 	Last4 string `json:"last4"`
 }
+type PaymentMethodShopeepay struct{}
 type PaymentMethodSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
@@ -1350,6 +1378,7 @@ type PaymentMethod struct {
 	Alipay           *PaymentMethodAlipay           `json:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 	AllowRedisplay PaymentMethodAllowRedisplay  `json:"allow_redisplay"`
+	Alma           *PaymentMethodAlma           `json:"alma"`
 	AmazonPay      *PaymentMethodAmazonPay      `json:"amazon_pay"`
 	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
 	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit"`
@@ -1368,6 +1397,7 @@ type PaymentMethod struct {
 	EPS             *PaymentMethodEPS             `json:"eps"`
 	FPX             *PaymentMethodFPX             `json:"fpx"`
 	Giropay         *PaymentMethodGiropay         `json:"giropay"`
+	Gopay           *PaymentMethodGopay           `json:"gopay"`
 	Grabpay         *PaymentMethodGrabpay         `json:"grabpay"`
 	// Unique identifier for the object.
 	ID             string                       `json:"id"`
@@ -1396,12 +1426,14 @@ type PaymentMethod struct {
 	Payto     *PaymentMethodPayto     `json:"payto"`
 	Pix       *PaymentMethodPix       `json:"pix"`
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
+	Qris      *PaymentMethodQris      `json:"qris"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptions `json:"radar_options"`
 	Rechnung     *PaymentMethodRechnung     `json:"rechnung"`
 	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay"`
 	SamsungPay   *PaymentMethodSamsungPay   `json:"samsung_pay"`
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
+	Shopeepay    *PaymentMethodShopeepay    `json:"shopeepay"`
 	Sofort       *PaymentMethodSofort       `json:"sofort"`
 	Swish        *PaymentMethodSwish        `json:"swish"`
 	TWINT        *PaymentMethodTWINT        `json:"twint"`

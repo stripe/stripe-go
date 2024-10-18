@@ -256,7 +256,7 @@ type IssuingCardParams struct {
 	ReplacementFor *string `form:"replacement_for"`
 	// If `replacement_for` is specified, this should indicate why that card is being replaced.
 	ReplacementReason *string `form:"replacement_reason"`
-	// The second line to print on the card.
+	// The second line to print on the card. Max length: 24 characters.
 	SecondLine *string `form:"second_line"`
 	// The address where the card will be shipped.
 	Shipping *IssuingCardShippingParams `form:"shipping"`

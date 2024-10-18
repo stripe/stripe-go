@@ -96,6 +96,16 @@ const (
 	TreasuryFinancialAccountFeaturesDepositInsuranceStatusDetailRestrictionOutboundFlows TreasuryFinancialAccountFeaturesDepositInsuranceStatusDetailRestriction = "outbound_flows"
 )
 
+// Requested bank partner for this Financial Account
+type TreasuryFinancialAccountFeaturesFinancialAddressesABABank string
+
+// List of values that TreasuryFinancialAccountFeaturesFinancialAddressesABABank can take
+const (
+	TreasuryFinancialAccountFeaturesFinancialAddressesABABankEvolve       TreasuryFinancialAccountFeaturesFinancialAddressesABABank = "evolve"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABABankFifthThird   TreasuryFinancialAccountFeaturesFinancialAddressesABABank = "fifth_third"
+	TreasuryFinancialAccountFeaturesFinancialAddressesABABankGoldmanSachs TreasuryFinancialAccountFeaturesFinancialAddressesABABank = "goldman_sachs"
+)
+
 // Whether the Feature is operational.
 type TreasuryFinancialAccountFeaturesFinancialAddressesABAStatus string
 
@@ -463,6 +473,8 @@ type TreasuryFinancialAccountFeaturesFinancialAddressesABAStatusDetail struct {
 
 // Toggle settings for enabling/disabling the ABA address feature
 type TreasuryFinancialAccountFeaturesFinancialAddressesABA struct {
+	// Requested bank partner for this Financial Account
+	Bank TreasuryFinancialAccountFeaturesFinancialAddressesABABank `json:"bank"`
 	// Whether the FinancialAccount should have the Feature.
 	Requested bool `json:"requested"`
 	// Whether the Feature is operational.
