@@ -320,6 +320,9 @@ type SetupIntentPaymentMethodDataAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentPaymentMethodDataAlipayParams struct{}
 
+// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+type SetupIntentPaymentMethodDataAlmaParams struct{}
+
 // If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type SetupIntentPaymentMethodDataAmazonPayParams struct{}
 
@@ -391,12 +394,15 @@ type SetupIntentPaymentMethodDataGrabpayParams struct{}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type SetupIntentPaymentMethodDataIDEALParams struct {
-	// The customer's bank.
+	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
 	Bank *string `form:"bank"`
 }
 
 // If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 type SetupIntentPaymentMethodDataInteracPresentParams struct{}
+
+// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+type SetupIntentPaymentMethodDataKakaoPayParams struct{}
 
 // Customer's date of birth
 type SetupIntentPaymentMethodDataKlarnaDOBParams struct {
@@ -417,6 +423,9 @@ type SetupIntentPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type SetupIntentPaymentMethodDataKonbiniParams struct{}
 
+// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+type SetupIntentPaymentMethodDataKrCardParams struct{}
+
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentPaymentMethodDataLinkParams struct{}
 
@@ -426,6 +435,12 @@ type SetupIntentPaymentMethodDataMobilepayParams struct{}
 // If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 type SetupIntentPaymentMethodDataMultibancoParams struct{}
 
+// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+type SetupIntentPaymentMethodDataNaverPayParams struct {
+	// Whether to use Naver Pay points or a card to fund this transaction. If not provided, this defaults to `card`.
+	Funding *string `form:"funding"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentPaymentMethodDataOXXOParams struct{}
 
@@ -434,6 +449,9 @@ type SetupIntentPaymentMethodDataP24Params struct {
 	// The customer's bank.
 	Bank *string `form:"bank"`
 }
+
+// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+type SetupIntentPaymentMethodDataPaycoParams struct{}
 
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type SetupIntentPaymentMethodDataPayNowParams struct{}
@@ -455,6 +473,9 @@ type SetupIntentPaymentMethodDataRadarOptionsParams struct {
 
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type SetupIntentPaymentMethodDataRevolutPayParams struct{}
+
+// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+type SetupIntentPaymentMethodDataSamsungPayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentPaymentMethodDataSEPADebitParams struct {
@@ -507,6 +528,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Alipay *SetupIntentPaymentMethodDataAlipayParams `form:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay"`
+	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	Alma *SetupIntentPaymentMethodDataAlmaParams `form:"alma"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentPaymentMethodDataAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -537,10 +560,14 @@ type SetupIntentPaymentMethodDataParams struct {
 	IDEAL *SetupIntentPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *SetupIntentPaymentMethodDataInteracPresentParams `form:"interac_present"`
+	// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+	KakaoPay *SetupIntentPaymentMethodDataKakaoPayParams `form:"kakao_pay"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *SetupIntentPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *SetupIntentPaymentMethodDataKonbiniParams `form:"konbini"`
+	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+	KrCard *SetupIntentPaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentPaymentMethodDataLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -549,10 +576,14 @@ type SetupIntentPaymentMethodDataParams struct {
 	Mobilepay *SetupIntentPaymentMethodDataMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 	Multibanco *SetupIntentPaymentMethodDataMultibancoParams `form:"multibanco"`
+	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+	NaverPay *SetupIntentPaymentMethodDataNaverPayParams `form:"naver_pay"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *SetupIntentPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+	Payco *SetupIntentPaymentMethodDataPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
@@ -565,6 +596,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
+	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+	SamsungPay *SetupIntentPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -927,6 +960,9 @@ type SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type SetupIntentConfirmPaymentMethodDataAlipayParams struct{}
 
+// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+type SetupIntentConfirmPaymentMethodDataAlmaParams struct{}
+
 // If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type SetupIntentConfirmPaymentMethodDataAmazonPayParams struct{}
 
@@ -998,12 +1034,15 @@ type SetupIntentConfirmPaymentMethodDataGrabpayParams struct{}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type SetupIntentConfirmPaymentMethodDataIDEALParams struct {
-	// The customer's bank.
+	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
 	Bank *string `form:"bank"`
 }
 
 // If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 type SetupIntentConfirmPaymentMethodDataInteracPresentParams struct{}
+
+// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+type SetupIntentConfirmPaymentMethodDataKakaoPayParams struct{}
 
 // Customer's date of birth
 type SetupIntentConfirmPaymentMethodDataKlarnaDOBParams struct {
@@ -1024,6 +1063,9 @@ type SetupIntentConfirmPaymentMethodDataKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type SetupIntentConfirmPaymentMethodDataKonbiniParams struct{}
 
+// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+type SetupIntentConfirmPaymentMethodDataKrCardParams struct{}
+
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type SetupIntentConfirmPaymentMethodDataLinkParams struct{}
 
@@ -1033,6 +1075,12 @@ type SetupIntentConfirmPaymentMethodDataMobilepayParams struct{}
 // If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 type SetupIntentConfirmPaymentMethodDataMultibancoParams struct{}
 
+// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+type SetupIntentConfirmPaymentMethodDataNaverPayParams struct {
+	// Whether to use Naver Pay points or a card to fund this transaction. If not provided, this defaults to `card`.
+	Funding *string `form:"funding"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentConfirmPaymentMethodDataOXXOParams struct{}
 
@@ -1041,6 +1089,9 @@ type SetupIntentConfirmPaymentMethodDataP24Params struct {
 	// The customer's bank.
 	Bank *string `form:"bank"`
 }
+
+// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+type SetupIntentConfirmPaymentMethodDataPaycoParams struct{}
 
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
@@ -1062,6 +1113,9 @@ type SetupIntentConfirmPaymentMethodDataRadarOptionsParams struct {
 
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type SetupIntentConfirmPaymentMethodDataRevolutPayParams struct{}
+
+// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+type SetupIntentConfirmPaymentMethodDataSamsungPayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
@@ -1114,6 +1168,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Alipay *SetupIntentConfirmPaymentMethodDataAlipayParams `form:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay"`
+	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	Alma *SetupIntentConfirmPaymentMethodDataAlmaParams `form:"alma"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *SetupIntentConfirmPaymentMethodDataAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -1144,10 +1200,14 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	IDEAL *SetupIntentConfirmPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *SetupIntentConfirmPaymentMethodDataInteracPresentParams `form:"interac_present"`
+	// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+	KakaoPay *SetupIntentConfirmPaymentMethodDataKakaoPayParams `form:"kakao_pay"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *SetupIntentConfirmPaymentMethodDataKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *SetupIntentConfirmPaymentMethodDataKonbiniParams `form:"konbini"`
+	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+	KrCard *SetupIntentConfirmPaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *SetupIntentConfirmPaymentMethodDataLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1156,10 +1216,14 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Mobilepay *SetupIntentConfirmPaymentMethodDataMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 	Multibanco *SetupIntentConfirmPaymentMethodDataMultibancoParams `form:"multibanco"`
+	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+	NaverPay *SetupIntentConfirmPaymentMethodDataNaverPayParams `form:"naver_pay"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentConfirmPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *SetupIntentConfirmPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+	Payco *SetupIntentConfirmPaymentMethodDataPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
@@ -1172,6 +1236,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentConfirmPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
+	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+	SamsungPay *SetupIntentConfirmPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.

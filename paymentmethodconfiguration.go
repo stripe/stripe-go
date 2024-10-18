@@ -83,6 +83,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationAlmaDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationAlmaDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationAlmaDisplayPreferencePreferenceNone PaymentMethodConfigurationAlmaDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationAlmaDisplayPreferencePreferenceOff  PaymentMethodConfigurationAlmaDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationAlmaDisplayPreferencePreferenceOn   PaymentMethodConfigurationAlmaDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationAlmaDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationAlmaDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationAlmaDisplayPreferenceValueOff PaymentMethodConfigurationAlmaDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationAlmaDisplayPreferenceValueOn  PaymentMethodConfigurationAlmaDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationAmazonPayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationAmazonPayDisplayPreferencePreference can take
@@ -829,6 +848,18 @@ type PaymentMethodConfigurationAlipayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationAlmaDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Alma is a Buy Now, Pay Later payment method that offers customers the ability to pay in 2, 3, or 4 installments.
+type PaymentMethodConfigurationAlmaParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationAlmaDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationAmazonPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1242,7 +1273,7 @@ type PaymentMethodConfigurationUSBankAccountDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://stripe.com/docs/payments/ach-debit) for more details.
+// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://stripe.com/docs/payments/ach-direct-debit) for more details.
 type PaymentMethodConfigurationUSBankAccountParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUSBankAccountDisplayPreferenceParams `form:"display_preference"`
@@ -1285,6 +1316,8 @@ type PaymentMethodConfigurationParams struct {
 	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpayParams `form:"afterpay_clearpay"`
 	// Alipay is a digital wallet in China that has more than a billion active users worldwide. Alipay users can pay on the web or on a mobile device using login credentials or their Alipay app. Alipay has a low dispute rate and reduces fraud by authenticating payments using the customer's login credentials. Check this [page](https://stripe.com/docs/payments/alipay) for more details.
 	Alipay *PaymentMethodConfigurationAlipayParams `form:"alipay"`
+	// Alma is a Buy Now, Pay Later payment method that offers customers the ability to pay in 2, 3, or 4 installments.
+	Alma *PaymentMethodConfigurationAlmaParams `form:"alma"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 	AmazonPay *PaymentMethodConfigurationAmazonPayParams `form:"amazon_pay"`
 	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
@@ -1359,7 +1392,7 @@ type PaymentMethodConfigurationParams struct {
 	Swish *PaymentMethodConfigurationSwishParams `form:"swish"`
 	// Twint is a payment method popular in Switzerland. It allows customers to pay using their mobile phone. Check this [page](https://docs.stripe.com/payments/twint) for more details.
 	TWINT *PaymentMethodConfigurationTWINTParams `form:"twint"`
-	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://stripe.com/docs/payments/ach-debit) for more details.
+	// Stripe users in the United States can accept ACH direct debit payments from customers with a US bank account using the Automated Clearing House (ACH) payments system operated by Nacha. Check this [page](https://stripe.com/docs/payments/ach-direct-debit) for more details.
 	USBankAccount *PaymentMethodConfigurationUSBankAccountParams `form:"us_bank_account"`
 	// WeChat, owned by Tencent, is China's leading mobile app with over 1 billion monthly active users. Chinese consumers can use WeChat Pay to pay for goods and services inside of businesses' apps and websites. WeChat Pay users buy most frequently in gaming, e-commerce, travel, online education, and food/nutrition. Check this [page](https://stripe.com/docs/payments/wechat-pay) for more details.
 	WeChatPay *PaymentMethodConfigurationWeChatPayParams `form:"wechat_pay"`
@@ -1423,6 +1456,19 @@ type PaymentMethodConfigurationAlipay struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationAlipayDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationAlmaDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationAlmaDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationAlmaDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationAlma struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                             `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationAlmaDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationAmazonPayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -1915,6 +1961,7 @@ type PaymentMethodConfiguration struct {
 	Affirm           *PaymentMethodConfigurationAffirm           `json:"affirm"`
 	AfterpayClearpay *PaymentMethodConfigurationAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodConfigurationAlipay           `json:"alipay"`
+	Alma             *PaymentMethodConfigurationAlma             `json:"alma"`
 	AmazonPay        *PaymentMethodConfigurationAmazonPay        `json:"amazon_pay"`
 	ApplePay         *PaymentMethodConfigurationApplePay         `json:"apple_pay"`
 	// For child configs, the Connect application associated with the configuration.
