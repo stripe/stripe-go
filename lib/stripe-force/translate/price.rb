@@ -143,7 +143,9 @@ class StripeForce::Translate
         billing_frequency: billing_frequency
       )
 
-      if is_order_frontend_prorated && @user.feature_enabled?(FeatureFlags::FRONTEND_PRORATIONS)
+      # Only initial orders can be frontend prorated. Ensure this OrderItem is from
+      is_order_amendment = OrderHelpers.is_order_amendment?(@user, sf_order)
+      if is_order_frontend_prorated && @user.feature_enabled?(FeatureFlags::FRONTEND_PRORATIONS) && !is_order_amendment
         log.info 'prorating price due to frontend prorated order', subscription_term: subscription_term, billing_frequency: billing_frequency, sf_order: sf_order.Id
 
         # frontend prorated Order (ie 9 month subscription on an annually billed item)
