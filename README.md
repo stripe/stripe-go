@@ -534,7 +534,7 @@ We would love for you to try these and share feedback with us before these featu
 To install a beta version of stripe-go use the commit notation of the `go get` command to point to a beta tag:
 
 ```
-go get -u github.com/stripe/stripe-go/v80@v77.1.0-beta.1
+go get -u github.com/stripe/stripe-go/v80@beta
 ```
 
 > **Note**
