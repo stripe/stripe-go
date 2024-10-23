@@ -306,6 +306,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeFPX                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "fpx"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeGiropay            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "giropay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeGrabpay            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "grabpay"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeIDBankTransfer     QuotePreviewInvoicePaymentSettingsPaymentMethodType = "id_bank_transfer"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeIDEAL              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "ideal"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeJPCreditTransfer   QuotePreviewInvoicePaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKakaoPay           QuotePreviewInvoicePaymentSettingsPaymentMethodType = "kakao_pay"
@@ -545,6 +546,9 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalance struc
 	FundingType QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
 }
 
+// If paying by `id_bank_transfer`, this sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer struct{}
+
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
 
@@ -581,6 +585,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	Card *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
+	// If paying by `id_bank_transfer`, this sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+	IDBankTransfer *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer `json:"id_bank_transfer"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.

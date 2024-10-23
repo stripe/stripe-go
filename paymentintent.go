@@ -684,6 +684,20 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsIDBankTransferSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsIDBankTransferSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsIDBankTransferSetupFutureUsageNone PaymentIntentPaymentMethodOptionsIDBankTransferSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 type PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsIDEALSetupFutureUsage can take
@@ -1764,6 +1778,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Gopay *PaymentMethodGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *PaymentMethodGrabpayParams `form:"grabpay"`
+	// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+	IDBankTransfer *PaymentMethodIDBankTransferParams `form:"id_bank_transfer"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 	IDEAL *PaymentMethodIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
@@ -2338,6 +2354,24 @@ type PaymentIntentPaymentMethodOptionsGopayParams struct {
 
 // If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
 type PaymentIntentPaymentMethodOptionsGrabpayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `id_bank_transfer` PaymentMethod, this sub-hash contains details about the Indonesia Bank Transfer payment method options.
+type PaymentIntentPaymentMethodOptionsIDBankTransferParams struct {
+	// The UNIX timestamp until which the virtual bank account is valid. Permitted range is from 5 minutes from now until 31 days from now. If unset, it defaults to 3 days from now.
+	ExpiresAfter *int64 `form:"expires_after"`
+	// The UNIX timestamp until which the virtual bank account is valid. Permitted range is from now until 30 days from now. If unset, it defaults to 1 days from now.
+	ExpiresAt *int64 `form:"expires_at"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2966,6 +3000,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Gopay *PaymentIntentPaymentMethodOptionsGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
 	Grabpay *PaymentIntentPaymentMethodOptionsGrabpayParams `form:"grabpay"`
+	// If this is a `id_bank_transfer` PaymentMethod, this sub-hash contains details about the Indonesia Bank Transfer payment method options.
+	IDBankTransfer *PaymentIntentPaymentMethodOptionsIDBankTransferParams `form:"id_bank_transfer"`
 	// If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
 	IDEAL *PaymentIntentPaymentMethodOptionsIDEALParams `form:"ideal"`
 	// If this is a `interac_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
@@ -4199,6 +4235,28 @@ func (p *PaymentIntentVerifyMicrodepositsParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// True to simulate success, false to simulate failure.
+type PaymentIntentTriggerActionScanQRCodeParams struct {
+	// Whether the QR Code scan's payment should succeed or fail.
+	Result *string `form:"result"`
+}
+
+// Trigger an external action on a PaymentIntent.
+type PaymentIntentTriggerActionParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// True to simulate success, false to simulate failure.
+	ScanQRCode *PaymentIntentTriggerActionScanQRCodeParams `form:"scan_qr_code"`
+	// The type of action to be simulated.
+	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentIntentTriggerActionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentIntentAmountDetailsTip struct {
 	// Portion of the amount that corresponds to a tip.
 	Amount int64 `json:"amount"`
@@ -5011,6 +5069,20 @@ type PaymentIntentPaymentMethodOptionsGrabpay struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsGrabpaySetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsIDBankTransfer struct {
+	// The UNIX timestamp until which the virtual bank account is valid. Permitted range is from now till 2678400 seconds (31 days) from now.
+	ExpiresAfter int64 `json:"expires_after"`
+	// The UNIX timestamp until which the virtual bank account is valid. Permitted range is from now until 30 days from now. If unset, it defaults to 1 days from now.
+	ExpiresAt int64 `json:"expires_at"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsIDBankTransferSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsIDEAL struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -5431,6 +5503,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Giropay          *PaymentIntentPaymentMethodOptionsGiropay          `json:"giropay"`
 	Gopay            *PaymentIntentPaymentMethodOptionsGopay            `json:"gopay"`
 	Grabpay          *PaymentIntentPaymentMethodOptionsGrabpay          `json:"grabpay"`
+	IDBankTransfer   *PaymentIntentPaymentMethodOptionsIDBankTransfer   `json:"id_bank_transfer"`
 	IDEAL            *PaymentIntentPaymentMethodOptionsIDEAL            `json:"ideal"`
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
 	KakaoPay         *PaymentIntentPaymentMethodOptionsKakaoPay         `json:"kakao_pay"`

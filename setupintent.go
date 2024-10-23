@@ -447,6 +447,12 @@ type SetupIntentPaymentMethodDataGopayParams struct{}
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type SetupIntentPaymentMethodDataGrabpayParams struct{}
 
+// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+type SetupIntentPaymentMethodDataIDBankTransferParams struct {
+	// Bank where the account is held.
+	Bank *string `form:"bank"`
+}
+
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type SetupIntentPaymentMethodDataIDEALParams struct {
 	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
@@ -648,6 +654,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Gopay *SetupIntentPaymentMethodDataGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *SetupIntentPaymentMethodDataGrabpayParams `form:"grabpay"`
+	// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+	IDBankTransfer *SetupIntentPaymentMethodDataIDBankTransferParams `form:"id_bank_transfer"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 	IDEAL *SetupIntentPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
@@ -1176,6 +1184,12 @@ type SetupIntentConfirmPaymentMethodDataGopayParams struct{}
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type SetupIntentConfirmPaymentMethodDataGrabpayParams struct{}
 
+// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+type SetupIntentConfirmPaymentMethodDataIDBankTransferParams struct {
+	// Bank where the account is held.
+	Bank *string `form:"bank"`
+}
+
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type SetupIntentConfirmPaymentMethodDataIDEALParams struct {
 	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
@@ -1377,6 +1391,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Gopay *SetupIntentConfirmPaymentMethodDataGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *SetupIntentConfirmPaymentMethodDataGrabpayParams `form:"grabpay"`
+	// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+	IDBankTransfer *SetupIntentConfirmPaymentMethodDataIDBankTransferParams `form:"id_bank_transfer"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 	IDEAL *SetupIntentConfirmPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.

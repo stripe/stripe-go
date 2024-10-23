@@ -177,6 +177,7 @@ const (
 	EventTypeIssuingTokenCreated                                  EventType = "issuing_token.created"
 	EventTypeIssuingTokenUpdated                                  EventType = "issuing_token.updated"
 	EventTypeIssuingTransactionCreated                            EventType = "issuing_transaction.created"
+	EventTypeIssuingTransactionPurchaseDetailsReceiptUpdated      EventType = "issuing_transaction.purchase_details_receipt_updated"
 	EventTypeIssuingTransactionUpdated                            EventType = "issuing_transaction.updated"
 	EventTypeMandateUpdated                                       EventType = "mandate.updated"
 	EventTypePaymentIntentAmountCapturableUpdated                 EventType = "payment_intent.amount_capturable_updated"

@@ -406,6 +406,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceNone PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOff  PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOn   PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOff PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOn  PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationIDEALDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationIDEALDisplayPreferencePreference can take
@@ -1083,6 +1102,18 @@ type PaymentMethodConfigurationGrabpayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationIDBankTransferDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
+type PaymentMethodConfigurationIDBankTransferParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationIDEALDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1385,6 +1416,8 @@ type PaymentMethodConfigurationParams struct {
 	GooglePay *PaymentMethodConfigurationGooglePayParams `form:"google_pay"`
 	// GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://stripe.com/docs/payments/grabpay) for more details.
 	Grabpay *PaymentMethodConfigurationGrabpayParams `form:"grabpay"`
+	// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
+	IDBankTransfer *PaymentMethodConfigurationIDBankTransferParams `form:"id_bank_transfer"`
 	// iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://stripe.com/docs/payments/ideal) for more details.
 	IDEAL *PaymentMethodConfigurationIDEALParams `form:"ideal"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
@@ -1711,6 +1744,19 @@ type PaymentMethodConfigurationGrabpay struct {
 	Available         bool                                                `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationGrabpayDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationIDBankTransferDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationIDBankTransfer struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                       `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationIDEALDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -2027,8 +2073,9 @@ type PaymentMethodConfiguration struct {
 	GooglePay       *PaymentMethodConfigurationGooglePay       `json:"google_pay"`
 	Grabpay         *PaymentMethodConfigurationGrabpay         `json:"grabpay"`
 	// Unique identifier for the object.
-	ID    string                           `json:"id"`
-	IDEAL *PaymentMethodConfigurationIDEAL `json:"ideal"`
+	ID             string                                    `json:"id"`
+	IDBankTransfer *PaymentMethodConfigurationIDBankTransfer `json:"id_bank_transfer"`
+	IDEAL          *PaymentMethodConfigurationIDEAL          `json:"ideal"`
 	// The default configuration is used whenever a payment method configuration is not specified.
 	IsDefault bool                               `json:"is_default"`
 	JCB       *PaymentMethodConfigurationJCB     `json:"jcb"`
