@@ -176,6 +176,17 @@ const (
 	ConfirmationTokenPaymentMethodPreviewFPXBankUob               ConfirmationTokenPaymentMethodPreviewFPXBank = "uob"
 )
 
+type ConfirmationTokenPaymentMethodPreviewIDBankTransferBank string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewIDBankTransferBank can take
+const (
+	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankBca     ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "bca"
+	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankBni     ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "bni"
+	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankBri     ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "bri"
+	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankCimb    ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "cimb"
+	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankPermata ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "permata"
+)
+
 // The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type ConfirmationTokenPaymentMethodPreviewIDEALBank string
 
@@ -331,6 +342,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeGiropay          ConfirmationTokenPaymentMethodPreviewType = "giropay"
 	ConfirmationTokenPaymentMethodPreviewTypeGopay            ConfirmationTokenPaymentMethodPreviewType = "gopay"
 	ConfirmationTokenPaymentMethodPreviewTypeGrabpay          ConfirmationTokenPaymentMethodPreviewType = "grabpay"
+	ConfirmationTokenPaymentMethodPreviewTypeIDBankTransfer   ConfirmationTokenPaymentMethodPreviewType = "id_bank_transfer"
 	ConfirmationTokenPaymentMethodPreviewTypeIDEAL            ConfirmationTokenPaymentMethodPreviewType = "ideal"
 	ConfirmationTokenPaymentMethodPreviewTypeInteracPresent   ConfirmationTokenPaymentMethodPreviewType = "interac_present"
 	ConfirmationTokenPaymentMethodPreviewTypeKakaoPay         ConfirmationTokenPaymentMethodPreviewType = "kakao_pay"
@@ -809,6 +821,12 @@ type ConfirmationTokenPaymentMethodPreviewFPX struct {
 type ConfirmationTokenPaymentMethodPreviewGiropay struct{}
 type ConfirmationTokenPaymentMethodPreviewGopay struct{}
 type ConfirmationTokenPaymentMethodPreviewGrabpay struct{}
+type ConfirmationTokenPaymentMethodPreviewIDBankTransfer struct {
+	Bank        ConfirmationTokenPaymentMethodPreviewIDBankTransferBank `json:"bank"`
+	BankCode    string                                                  `json:"bank_code"`
+	BankName    string                                                  `json:"bank_name"`
+	DisplayName string                                                  `json:"display_name"`
+}
 type ConfirmationTokenPaymentMethodPreviewIDEAL struct {
 	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank ConfirmationTokenPaymentMethodPreviewIDEALBank `json:"bank"`
@@ -1034,6 +1052,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Giropay         *ConfirmationTokenPaymentMethodPreviewGiropay         `json:"giropay"`
 	Gopay           *ConfirmationTokenPaymentMethodPreviewGopay           `json:"gopay"`
 	Grabpay         *ConfirmationTokenPaymentMethodPreviewGrabpay         `json:"grabpay"`
+	IDBankTransfer  *ConfirmationTokenPaymentMethodPreviewIDBankTransfer  `json:"id_bank_transfer"`
 	IDEAL           *ConfirmationTokenPaymentMethodPreviewIDEAL           `json:"ideal"`
 	InteracPresent  *ConfirmationTokenPaymentMethodPreviewInteracPresent  `json:"interac_present"`
 	KakaoPay        *ConfirmationTokenPaymentMethodPreviewKakaoPay        `json:"kakao_pay"`

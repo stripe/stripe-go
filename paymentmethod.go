@@ -196,6 +196,17 @@ const (
 	PaymentMethodFPXAccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
 )
 
+type PaymentMethodIDBankTransferBank string
+
+// List of values that PaymentMethodIDBankTransferBank can take
+const (
+	PaymentMethodIDBankTransferBankBca     PaymentMethodIDBankTransferBank = "bca"
+	PaymentMethodIDBankTransferBankBni     PaymentMethodIDBankTransferBank = "bni"
+	PaymentMethodIDBankTransferBankBri     PaymentMethodIDBankTransferBank = "bri"
+	PaymentMethodIDBankTransferBankCimb    PaymentMethodIDBankTransferBank = "cimb"
+	PaymentMethodIDBankTransferBankPermata PaymentMethodIDBankTransferBank = "permata"
+)
+
 // How card details were read in this transaction.
 type PaymentMethodInteracPresentReadMethod string
 
@@ -271,6 +282,7 @@ const (
 	PaymentMethodTypeGiropay          PaymentMethodType = "giropay"
 	PaymentMethodTypeGopay            PaymentMethodType = "gopay"
 	PaymentMethodTypeGrabpay          PaymentMethodType = "grabpay"
+	PaymentMethodTypeIDBankTransfer   PaymentMethodType = "id_bank_transfer"
 	PaymentMethodTypeIDEAL            PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent   PaymentMethodType = "interac_present"
 	PaymentMethodTypeKakaoPay         PaymentMethodType = "kakao_pay"
@@ -495,6 +507,12 @@ type PaymentMethodGopayParams struct{}
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type PaymentMethodGrabpayParams struct{}
 
+// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+type PaymentMethodIDBankTransferParams struct {
+	// Bank where the account is held.
+	Bank *string `form:"bank"`
+}
+
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type PaymentMethodIDEALParams struct {
 	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
@@ -702,6 +720,8 @@ type PaymentMethodParams struct {
 	Gopay *PaymentMethodGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *PaymentMethodGrabpayParams `form:"grabpay"`
+	// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+	IDBankTransfer *PaymentMethodIDBankTransferParams `form:"id_bank_transfer"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 	IDEAL *PaymentMethodIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
@@ -1161,6 +1181,12 @@ type PaymentMethodFPX struct {
 type PaymentMethodGiropay struct{}
 type PaymentMethodGopay struct{}
 type PaymentMethodGrabpay struct{}
+type PaymentMethodIDBankTransfer struct {
+	Bank        PaymentMethodIDBankTransferBank `json:"bank"`
+	BankCode    string                          `json:"bank_code"`
+	BankName    string                          `json:"bank_name"`
+	DisplayName string                          `json:"display_name"`
+}
 type PaymentMethodIDEAL struct {
 	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank string `json:"bank"`
@@ -1401,6 +1427,7 @@ type PaymentMethod struct {
 	Grabpay         *PaymentMethodGrabpay         `json:"grabpay"`
 	// Unique identifier for the object.
 	ID             string                       `json:"id"`
+	IDBankTransfer *PaymentMethodIDBankTransfer `json:"id_bank_transfer"`
 	IDEAL          *PaymentMethodIDEAL          `json:"ideal"`
 	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`
 	KakaoPay       *PaymentMethodKakaoPay       `json:"kakao_pay"`

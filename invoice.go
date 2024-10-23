@@ -180,6 +180,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeFPX                InvoicePaymentSettingsPaymentMethodType = "fpx"
 	InvoicePaymentSettingsPaymentMethodTypeGiropay            InvoicePaymentSettingsPaymentMethodType = "giropay"
 	InvoicePaymentSettingsPaymentMethodTypeGrabpay            InvoicePaymentSettingsPaymentMethodType = "grabpay"
+	InvoicePaymentSettingsPaymentMethodTypeIDBankTransfer     InvoicePaymentSettingsPaymentMethodType = "id_bank_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeIDEAL              InvoicePaymentSettingsPaymentMethodType = "ideal"
 	InvoicePaymentSettingsPaymentMethodTypeJPCreditTransfer   InvoicePaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeKakaoPay           InvoicePaymentSettingsPaymentMethodType = "kakao_pay"
@@ -299,6 +300,8 @@ type InvoiceParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
 	AutoAdvance *bool `form:"auto_advance"`
+	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state. To turn off automatic finalization, set `auto_advance` to false.
+	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions. Defaults to `charge_automatically`.
@@ -521,6 +524,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
 	FundingType *string `form:"funding_type"`
 }
 
+// If paying by `id_bank_transfer`, this sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsIDBankTransferParams struct{}
+
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
@@ -563,6 +569,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	// If paying by `id_bank_transfer`, this sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+	IDBankTransfer *InvoicePaymentSettingsPaymentMethodOptionsIDBankTransferParams `form:"id_bank_transfer"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
@@ -4706,6 +4714,9 @@ type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalance struct {
 	FundingType InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
 }
 
+// If paying by `id_bank_transfer`, this sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer struct{}
+
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
 
@@ -4742,6 +4753,8 @@ type InvoicePaymentSettingsPaymentMethodOptions struct {
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
+	// If paying by `id_bank_transfer`, this sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+	IDBankTransfer *InvoicePaymentSettingsPaymentMethodOptionsIDBankTransfer `json:"id_bank_transfer"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *InvoicePaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.

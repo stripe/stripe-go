@@ -329,6 +329,19 @@ func (c Client) IncrementAuthorization(id string, params *stripe.PaymentIntentIn
 	return paymentintent, err
 }
 
+// Trigger an external action on a PaymentIntent.
+func TriggerAction(id string, params *stripe.PaymentIntentTriggerActionParams) (*stripe.PaymentIntent, error) {
+	return getC().TriggerAction(id, params)
+}
+
+// Trigger an external action on a PaymentIntent.
+func (c Client) TriggerAction(id string, params *stripe.PaymentIntentTriggerActionParams) (*stripe.PaymentIntent, error) {
+	path := stripe.FormatURLPath("/v1/test/payment_intents/%s/trigger_action", id)
+	paymentintent := &stripe.PaymentIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
 // Verifies microdeposits on a PaymentIntent object.
 func VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepositsParams) (*stripe.PaymentIntent, error) {
 	return getC().VerifyMicrodeposits(id, params)

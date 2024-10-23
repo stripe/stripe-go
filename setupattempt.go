@@ -88,6 +88,18 @@ const (
 	SetupAttemptPaymentMethodDetailsCardPresentOfflineTypeDeferred SetupAttemptPaymentMethodDetailsCardPresentOfflineType = "deferred"
 )
 
+// Bank where the account is located.
+type SetupAttemptPaymentMethodDetailsIDBankTransferBank string
+
+// List of values that SetupAttemptPaymentMethodDetailsIDBankTransferBank can take
+const (
+	SetupAttemptPaymentMethodDetailsIDBankTransferBankBca     SetupAttemptPaymentMethodDetailsIDBankTransferBank = "bca"
+	SetupAttemptPaymentMethodDetailsIDBankTransferBankBni     SetupAttemptPaymentMethodDetailsIDBankTransferBank = "bni"
+	SetupAttemptPaymentMethodDetailsIDBankTransferBankBri     SetupAttemptPaymentMethodDetailsIDBankTransferBank = "bri"
+	SetupAttemptPaymentMethodDetailsIDBankTransferBankCimb    SetupAttemptPaymentMethodDetailsIDBankTransferBank = "cimb"
+	SetupAttemptPaymentMethodDetailsIDBankTransferBankPermata SetupAttemptPaymentMethodDetailsIDBankTransferBank = "permata"
+)
+
 // The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 type SetupAttemptPaymentMethodDetailsType string
 
@@ -253,6 +265,16 @@ type SetupAttemptPaymentMethodDetailsCardPresent struct {
 	Offline *SetupAttemptPaymentMethodDetailsCardPresentOffline `json:"offline"`
 }
 type SetupAttemptPaymentMethodDetailsCashApp struct{}
+type SetupAttemptPaymentMethodDetailsIDBankTransfer struct {
+	// Bank where the account is located.
+	Bank SetupAttemptPaymentMethodDetailsIDBankTransferBank `json:"bank"`
+	// Local bank code of the bank.
+	BankCode string `json:"bank_code"`
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Merchant name and billing details name, for the customer to check for the correct merchant when performing the bank transfer.
+	DisplayName string `json:"display_name"`
+}
 type SetupAttemptPaymentMethodDetailsIDEAL struct {
 	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank string `json:"bank"`
@@ -298,25 +320,26 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 }
 type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
 type SetupAttemptPaymentMethodDetails struct {
-	ACSSDebit   *SetupAttemptPaymentMethodDetailsACSSDebit   `json:"acss_debit"`
-	AmazonPay   *SetupAttemptPaymentMethodDetailsAmazonPay   `json:"amazon_pay"`
-	AUBECSDebit *SetupAttemptPaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
-	BACSDebit   *SetupAttemptPaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
-	Bancontact  *SetupAttemptPaymentMethodDetailsBancontact  `json:"bancontact"`
-	Boleto      *SetupAttemptPaymentMethodDetailsBoleto      `json:"boleto"`
-	Card        *SetupAttemptPaymentMethodDetailsCard        `json:"card"`
-	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`
-	CashApp     *SetupAttemptPaymentMethodDetailsCashApp     `json:"cashapp"`
-	IDEAL       *SetupAttemptPaymentMethodDetailsIDEAL       `json:"ideal"`
-	KakaoPay    *SetupAttemptPaymentMethodDetailsKakaoPay    `json:"kakao_pay"`
-	Klarna      *SetupAttemptPaymentMethodDetailsKlarna      `json:"klarna"`
-	KrCard      *SetupAttemptPaymentMethodDetailsKrCard      `json:"kr_card"`
-	Link        *SetupAttemptPaymentMethodDetailsLink        `json:"link"`
-	Paypal      *SetupAttemptPaymentMethodDetailsPaypal      `json:"paypal"`
-	Payto       *SetupAttemptPaymentMethodDetailsPayto       `json:"payto"`
-	RevolutPay  *SetupAttemptPaymentMethodDetailsRevolutPay  `json:"revolut_pay"`
-	SEPADebit   *SetupAttemptPaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
-	Sofort      *SetupAttemptPaymentMethodDetailsSofort      `json:"sofort"`
+	ACSSDebit      *SetupAttemptPaymentMethodDetailsACSSDebit      `json:"acss_debit"`
+	AmazonPay      *SetupAttemptPaymentMethodDetailsAmazonPay      `json:"amazon_pay"`
+	AUBECSDebit    *SetupAttemptPaymentMethodDetailsAUBECSDebit    `json:"au_becs_debit"`
+	BACSDebit      *SetupAttemptPaymentMethodDetailsBACSDebit      `json:"bacs_debit"`
+	Bancontact     *SetupAttemptPaymentMethodDetailsBancontact     `json:"bancontact"`
+	Boleto         *SetupAttemptPaymentMethodDetailsBoleto         `json:"boleto"`
+	Card           *SetupAttemptPaymentMethodDetailsCard           `json:"card"`
+	CardPresent    *SetupAttemptPaymentMethodDetailsCardPresent    `json:"card_present"`
+	CashApp        *SetupAttemptPaymentMethodDetailsCashApp        `json:"cashapp"`
+	IDBankTransfer *SetupAttemptPaymentMethodDetailsIDBankTransfer `json:"id_bank_transfer"`
+	IDEAL          *SetupAttemptPaymentMethodDetailsIDEAL          `json:"ideal"`
+	KakaoPay       *SetupAttemptPaymentMethodDetailsKakaoPay       `json:"kakao_pay"`
+	Klarna         *SetupAttemptPaymentMethodDetailsKlarna         `json:"klarna"`
+	KrCard         *SetupAttemptPaymentMethodDetailsKrCard         `json:"kr_card"`
+	Link           *SetupAttemptPaymentMethodDetailsLink           `json:"link"`
+	Paypal         *SetupAttemptPaymentMethodDetailsPaypal         `json:"paypal"`
+	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto"`
+	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay"`
+	SEPADebit      *SetupAttemptPaymentMethodDetailsSEPADebit      `json:"sepa_debit"`
+	Sofort         *SetupAttemptPaymentMethodDetailsSofort         `json:"sofort"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 	Type          SetupAttemptPaymentMethodDetailsType           `json:"type"`
 	USBankAccount *SetupAttemptPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
