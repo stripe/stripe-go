@@ -268,7 +268,9 @@ type SetupAttemptPaymentMethodDetailsIDEAL struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsKakaoPay struct{}
 type SetupAttemptPaymentMethodDetailsKlarna struct{}
+type SetupAttemptPaymentMethodDetailsKrCard struct{}
 type SetupAttemptPaymentMethodDetailsLink struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
@@ -305,7 +307,9 @@ type SetupAttemptPaymentMethodDetails struct {
 	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`
 	CashApp     *SetupAttemptPaymentMethodDetailsCashApp     `json:"cashapp"`
 	IDEAL       *SetupAttemptPaymentMethodDetailsIDEAL       `json:"ideal"`
+	KakaoPay    *SetupAttemptPaymentMethodDetailsKakaoPay    `json:"kakao_pay"`
 	Klarna      *SetupAttemptPaymentMethodDetailsKlarna      `json:"klarna"`
+	KrCard      *SetupAttemptPaymentMethodDetailsKrCard      `json:"kr_card"`
 	Link        *SetupAttemptPaymentMethodDetailsLink        `json:"link"`
 	Paypal      *SetupAttemptPaymentMethodDetailsPaypal      `json:"paypal"`
 	RevolutPay  *SetupAttemptPaymentMethodDetailsRevolutPay  `json:"revolut_pay"`

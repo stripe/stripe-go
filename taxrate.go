@@ -21,6 +21,15 @@ const (
 	TaxRateJurisdictionLevelState    TaxRateJurisdictionLevel = "state"
 )
 
+// Indicates the type of tax rate applied to the taxable amount. This value can be `null` when no tax applies to the location.
+type TaxRateRateType string
+
+// List of values that TaxRateRateType can take
+const (
+	TaxRateRateTypeFlatAmount TaxRateRateType = "flat_amount"
+	TaxRateRateTypePercentage TaxRateRateType = "percentage"
+)
+
 // The high-level tax type, such as `vat` or `sales_tax`.
 type TaxRateTaxType string
 
@@ -35,6 +44,7 @@ const (
 	TaxRateTaxTypeLeaseTax          TaxRateTaxType = "lease_tax"
 	TaxRateTaxTypePST               TaxRateTaxType = "pst"
 	TaxRateTaxTypeQST               TaxRateTaxType = "qst"
+	TaxRateTaxTypeRetailDeliveryFee TaxRateTaxType = "retail_delivery_fee"
 	TaxRateTaxTypeRST               TaxRateTaxType = "rst"
 	TaxRateTaxTypeSalesTax          TaxRateTaxType = "sales_tax"
 	TaxRateTaxTypeVAT               TaxRateTaxType = "vat"
@@ -101,6 +111,14 @@ func (p *TaxRateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// The amount of the tax rate when the `rate_type` is `flat_amount`. Tax rates with `rate_type` `percentage` can vary based on the transaction, resulting in this field being `null`. This field exposes the amount and currency of the flat tax rate.
+type TaxRateFlatAmount struct {
+	// Amount of the tax when the `rate_type` is `flat_amount`. This positive integer represents how much to charge in the smallest currency unit (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	Amount int64 `json:"amount"`
+	// Three-letter ISO currency code, in lowercase.
+	Currency Currency `json:"currency"`
+}
+
 // Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
 //
 // Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
@@ -120,6 +138,8 @@ type TaxRate struct {
 	// this percentage reflects the rate actually used to calculate tax based on the product's taxability
 	// and whether the user is registered to collect taxes in the corresponding jurisdiction.
 	EffectivePercentage float64 `json:"effective_percentage"`
+	// The amount of the tax rate when the `rate_type` is `flat_amount`. Tax rates with `rate_type` `percentage` can vary based on the transaction, resulting in this field being `null`. This field exposes the amount and currency of the flat tax rate.
+	FlatAmount *TaxRateFlatAmount `json:"flat_amount"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// This specifies if the tax rate is inclusive or exclusive.
@@ -136,6 +156,8 @@ type TaxRate struct {
 	Object string `json:"object"`
 	// Tax rate percentage out of 100. For tax calculations with automatic_tax[enabled]=true, this percentage includes the statutory tax rate of non-taxable jurisdictions.
 	Percentage float64 `json:"percentage"`
+	// Indicates the type of tax rate applied to the taxable amount. This value can be `null` when no tax applies to the location.
+	RateType TaxRateRateType `json:"rate_type"`
 	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2:US), without country prefix. For example, "NY" for New York, United States.
 	State string `json:"state"`
 	// The high-level tax type, such as `vat` or `sales_tax`.

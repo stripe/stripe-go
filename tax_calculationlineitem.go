@@ -50,6 +50,7 @@ const (
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"

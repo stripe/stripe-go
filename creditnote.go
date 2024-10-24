@@ -122,7 +122,7 @@ type CreditNoteLineTaxAmountParams struct {
 
 // Line items that make up the credit note.
 type CreditNoteLineParams struct {
-	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
 	Description *string `form:"description"`
@@ -218,7 +218,7 @@ type CreditNotePreviewLineTaxAmountParams struct {
 
 // Line items that make up the credit note.
 type CreditNotePreviewLineParams struct {
-	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
 	Description *string `form:"description"`
@@ -303,7 +303,7 @@ type CreditNotePreviewLinesLineTaxAmountParams struct {
 
 // Line items that make up the credit note.
 type CreditNotePreviewLinesLineParams struct {
-	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
 	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
 	Description *string `form:"description"`
@@ -408,6 +408,8 @@ type CreditNoteDiscountAmount struct {
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
 }
+
+// The pretax credit amounts (ex: discount, credit grants, etc) for all line items.
 type CreditNotePretaxCreditAmount struct {
 	// The amount, in cents (or local equivalent), of the pretax credit amount.
 	Amount int64 `json:"amount"`
@@ -503,7 +505,8 @@ type CreditNote struct {
 	// Amount that was credited outside of Stripe.
 	OutOfBandAmount int64 `json:"out_of_band_amount"`
 	// The link to download the PDF of the credit note.
-	PDF                 string                          `json:"pdf"`
+	PDF string `json:"pdf"`
+	// The pretax credit amounts (ex: discount, credit grants, etc) for all line items.
 	PretaxCreditAmounts []*CreditNotePretaxCreditAmount `json:"pretax_credit_amounts"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason CreditNoteReason `json:"reason"`

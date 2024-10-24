@@ -21,6 +21,7 @@ func (p *UsageRecordSummaryListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// A usage record summary represents an aggregated view of how much usage was accrued for a subscription item within a subscription billing period.
 type UsageRecordSummary struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`

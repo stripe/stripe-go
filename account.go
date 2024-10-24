@@ -227,6 +227,8 @@ type AccountParams struct {
 	//
 	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
+	// A hash of account group type to tokens. These are account groups this account should be added to
+	Groups *AccountGroupsParams `form:"groups"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -311,6 +313,12 @@ type AccountCapabilitiesAffirmPaymentsParams struct {
 
 // The afterpay_clearpay_payments capability.
 type AccountCapabilitiesAfterpayClearpayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The alma_payments capability.
+type AccountCapabilitiesAlmaPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -435,6 +443,12 @@ type AccountCapabilitiesJPBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The kakao_pay_payments capability.
+type AccountCapabilitiesKakaoPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The klarna_payments capability.
 type AccountCapabilitiesKlarnaPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -443,6 +457,12 @@ type AccountCapabilitiesKlarnaPaymentsParams struct {
 
 // The konbini_payments capability.
 type AccountCapabilitiesKonbiniPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The kr_card_payments capability.
+type AccountCapabilitiesKrCardPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -477,6 +497,12 @@ type AccountCapabilitiesMXBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The naver_pay_payments capability.
+type AccountCapabilitiesNaverPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The oxxo_payments capability.
 type AccountCapabilitiesOXXOPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -485,6 +511,12 @@ type AccountCapabilitiesOXXOPaymentsParams struct {
 
 // The p24_payments capability.
 type AccountCapabilitiesP24PaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The payco_payments capability.
+type AccountCapabilitiesPaycoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -503,6 +535,12 @@ type AccountCapabilitiesPromptPayPaymentsParams struct {
 
 // The revolut_pay_payments capability.
 type AccountCapabilitiesRevolutPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The samsung_pay_payments capability.
+type AccountCapabilitiesSamsungPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -594,6 +632,8 @@ type AccountCapabilitiesParams struct {
 	AffirmPayments *AccountCapabilitiesAffirmPaymentsParams `form:"affirm_payments"`
 	// The afterpay_clearpay_payments capability.
 	AfterpayClearpayPayments *AccountCapabilitiesAfterpayClearpayPaymentsParams `form:"afterpay_clearpay_payments"`
+	// The alma_payments capability.
+	AlmaPayments *AccountCapabilitiesAlmaPaymentsParams `form:"alma_payments"`
 	// The amazon_pay_payments capability.
 	AmazonPayPayments *AccountCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments"`
 	// The au_becs_debit_payments capability.
@@ -634,10 +674,14 @@ type AccountCapabilitiesParams struct {
 	JCBPayments *AccountCapabilitiesJCBPaymentsParams `form:"jcb_payments"`
 	// The jp_bank_transfer_payments capability.
 	JPBankTransferPayments *AccountCapabilitiesJPBankTransferPaymentsParams `form:"jp_bank_transfer_payments"`
+	// The kakao_pay_payments capability.
+	KakaoPayPayments *AccountCapabilitiesKakaoPayPaymentsParams `form:"kakao_pay_payments"`
 	// The klarna_payments capability.
 	KlarnaPayments *AccountCapabilitiesKlarnaPaymentsParams `form:"klarna_payments"`
 	// The konbini_payments capability.
 	KonbiniPayments *AccountCapabilitiesKonbiniPaymentsParams `form:"konbini_payments"`
+	// The kr_card_payments capability.
+	KrCardPayments *AccountCapabilitiesKrCardPaymentsParams `form:"kr_card_payments"`
 	// The legacy_payments capability.
 	LegacyPayments *AccountCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The link_payments capability.
@@ -648,16 +692,22 @@ type AccountCapabilitiesParams struct {
 	MultibancoPayments *AccountCapabilitiesMultibancoPaymentsParams `form:"multibanco_payments"`
 	// The mx_bank_transfer_payments capability.
 	MXBankTransferPayments *AccountCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments"`
+	// The naver_pay_payments capability.
+	NaverPayPayments *AccountCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments"`
 	// The oxxo_payments capability.
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
 	P24Payments *AccountCapabilitiesP24PaymentsParams `form:"p24_payments"`
+	// The payco_payments capability.
+	PaycoPayments *AccountCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The revolut_pay_payments capability.
 	RevolutPayPayments *AccountCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments"`
+	// The samsung_pay_payments capability.
+	SamsungPayPayments *AccountCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments"`
 	// The sepa_bank_transfer_payments capability.
 	SEPABankTransferPayments *AccountCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments"`
 	// The sepa_debit_payments capability.
@@ -880,6 +930,12 @@ func (p *AccountExternalAccountParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// A hash of account group type to tokens. These are account groups this account should be added to
+type AccountGroupsParams struct {
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	PaymentsPricing *string `form:"payments_pricing"`
 }
 
 // Settings specific to Bacs Direct Debit payments.
@@ -1139,6 +1195,8 @@ type AccountCapabilities struct {
 	AffirmPayments AccountCapabilityStatus `json:"affirm_payments"`
 	// The status of the Afterpay Clearpay capability of the account, or whether the account can directly process Afterpay Clearpay charges.
 	AfterpayClearpayPayments AccountCapabilityStatus `json:"afterpay_clearpay_payments"`
+	// The status of the Alma capability of the account, or whether the account can directly process Alma payments.
+	AlmaPayments AccountCapabilityStatus `json:"alma_payments"`
 	// The status of the AmazonPay capability of the account, or whether the account can directly process AmazonPay payments.
 	AmazonPayPayments AccountCapabilityStatus `json:"amazon_pay_payments"`
 	// The status of the BECS Direct Debit (AU) payments capability of the account, or whether the account can directly process BECS Direct Debit (AU) charges.
@@ -1179,10 +1237,14 @@ type AccountCapabilities struct {
 	JCBPayments AccountCapabilityStatus `json:"jcb_payments"`
 	// The status of the Japanese customer_balance payments (JPY currency) capability of the account, or whether the account can directly process Japanese customer_balance charges.
 	JPBankTransferPayments AccountCapabilityStatus `json:"jp_bank_transfer_payments"`
+	// The status of the KakaoPay capability of the account, or whether the account can directly process KakaoPay payments.
+	KakaoPayPayments AccountCapabilityStatus `json:"kakao_pay_payments"`
 	// The status of the Klarna payments capability of the account, or whether the account can directly process Klarna charges.
 	KlarnaPayments AccountCapabilityStatus `json:"klarna_payments"`
 	// The status of the konbini payments capability of the account, or whether the account can directly process konbini charges.
 	KonbiniPayments AccountCapabilityStatus `json:"konbini_payments"`
+	// The status of the KrCard capability of the account, or whether the account can directly process KrCard payments.
+	KrCardPayments AccountCapabilityStatus `json:"kr_card_payments"`
 	// The status of the legacy payments capability of the account.
 	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
 	// The status of the link_payments capability of the account, or whether the account can directly process Link charges.
@@ -1193,16 +1255,22 @@ type AccountCapabilities struct {
 	MultibancoPayments AccountCapabilityStatus `json:"multibanco_payments"`
 	// The status of the Mexican customer_balance payments (MXN currency) capability of the account, or whether the account can directly process Mexican customer_balance charges.
 	MXBankTransferPayments AccountCapabilityStatus `json:"mx_bank_transfer_payments"`
+	// The status of the NaverPay capability of the account, or whether the account can directly process NaverPay payments.
+	NaverPayPayments AccountCapabilityStatus `json:"naver_pay_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
 	P24Payments AccountCapabilityStatus `json:"p24_payments"`
+	// The status of the Payco capability of the account, or whether the account can directly process Payco payments.
+	PaycoPayments AccountCapabilityStatus `json:"payco_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
 	PromptPayPayments AccountCapabilityStatus `json:"promptpay_payments"`
 	// The status of the RevolutPay capability of the account, or whether the account can directly process RevolutPay payments.
 	RevolutPayPayments AccountCapabilityStatus `json:"revolut_pay_payments"`
+	// The status of the SamsungPay capability of the account, or whether the account can directly process SamsungPay payments.
+	SamsungPayPayments AccountCapabilityStatus `json:"samsung_pay_payments"`
 	// The status of the SEPA customer_balance payments (EUR currency) capability of the account, or whether the account can directly process SEPA customer_balance charges.
 	SEPABankTransferPayments AccountCapabilityStatus `json:"sepa_bank_transfer_payments"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
@@ -1386,6 +1454,12 @@ type AccountFutureRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 
+// The groups associated with the account.
+type AccountGroups struct {
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	PaymentsPricing string `json:"payments_pricing"`
+}
+
 // Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 type AccountRequirementsAlternative struct {
 	// Fields that can be provided to satisfy all fields in `original_fields_due`.
@@ -1561,7 +1635,7 @@ type Account struct {
 	// The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	BusinessType AccountBusinessType  `json:"business_type"`
 	Capabilities *AccountCapabilities `json:"capabilities"`
-	// Whether the account can create live charges.
+	// Whether the account can process charges.
 	ChargesEnabled bool               `json:"charges_enabled"`
 	Company        *AccountCompany    `json:"company"`
 	Controller     *AccountController `json:"controller"`
@@ -1579,6 +1653,8 @@ type Account struct {
 	// External accounts (bank accounts and debit cards) currently attached to this account. External accounts are only returned for requests where `controller[is_controller]` is true.
 	ExternalAccounts   *AccountExternalAccountList `json:"external_accounts"`
 	FutureRequirements *AccountFutureRequirements  `json:"future_requirements"`
+	// The groups associated with the account.
+	Groups *AccountGroups `json:"groups"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// This is an object representing a person associated with a Stripe account.
@@ -1591,7 +1667,7 @@ type Account struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Whether Stripe can send payouts to this account.
+	// Whether the funds in this account can be paid out.
 	PayoutsEnabled bool                 `json:"payouts_enabled"`
 	Requirements   *AccountRequirements `json:"requirements"`
 	// Options for customizing how the account functions within Stripe.

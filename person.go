@@ -483,7 +483,7 @@ type Person struct {
 	FullNameAliases []string `json:"full_name_aliases"`
 	// Information about the [upcoming new requirements for this person](https://stripe.com/docs/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
 	FutureRequirements *PersonFutureRequirements `json:"future_requirements"`
-	// The person's gender (International regulations require either "male" or "female").
+	// The person's gender.
 	Gender string `json:"gender"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

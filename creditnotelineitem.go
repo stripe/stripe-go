@@ -31,6 +31,8 @@ type CreditNoteLineItemDiscountAmount struct {
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
 }
+
+// The pretax credit amounts (ex: discount, credit grants, etc) for this line item.
 type CreditNoteLineItemPretaxCreditAmount struct {
 	// The amount, in cents (or local equivalent), of the pretax credit amount.
 	Amount int64 `json:"amount"`
@@ -63,7 +65,8 @@ type CreditNoteLineItem struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object              string                                  `json:"object"`
+	Object string `json:"object"`
+	// The pretax credit amounts (ex: discount, credit grants, etc) for this line item.
 	PretaxCreditAmounts []*CreditNoteLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
 	// The number of units of product being credited.
 	Quantity int64 `json:"quantity"`
