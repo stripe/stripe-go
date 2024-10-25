@@ -1552,7 +1552,7 @@ func TestRawRequestTelemetry(t *testing.T) {
 
 func TestAddBetaVersion(t *testing.T) {
 	AddBetaVersion("feature_beta", "v3")
-	expectedAPIVersion := APIVersion+"; feature_beta=v3"
+	expectedAPIVersion := APIVersion + "; feature_beta=v3"
 	assert.Equal(t, expectedAPIVersion, apiVersionWithBetaHeaders)
 	err := AddBetaVersion("feature_beta", "v3")
 	assert.Equal(t, "Stripe version header "+expectedAPIVersion+" already contains entry for beta feature_beta", err.Error())
