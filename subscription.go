@@ -207,6 +207,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeFPX                SubscriptionPaymentSettingsPaymentMethodType = "fpx"
 	SubscriptionPaymentSettingsPaymentMethodTypeGiropay            SubscriptionPaymentSettingsPaymentMethodType = "giropay"
 	SubscriptionPaymentSettingsPaymentMethodTypeGrabpay            SubscriptionPaymentSettingsPaymentMethodType = "grabpay"
+	SubscriptionPaymentSettingsPaymentMethodTypeIDBankTransfer     SubscriptionPaymentSettingsPaymentMethodType = "id_bank_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeIDEAL              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
 	SubscriptionPaymentSettingsPaymentMethodTypeJPCreditTransfer   SubscriptionPaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeKakaoPay           SubscriptionPaymentSettingsPaymentMethodType = "kakao_pay"
@@ -676,6 +677,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct
 	FundingType *string `form:"funding_type"`
 }
 
+// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsIDBankTransferParams struct{}
+
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
@@ -718,6 +722,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+	IDBankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsIDBankTransferParams `form:"id_bank_transfer"`
 	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
@@ -1003,6 +1009,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalance struct {
 	FundingType SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
 }
 
+// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsIDBankTransfer struct{}
+
 // This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbini struct{}
 
@@ -1039,6 +1048,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to invoices created by the subscription.
 	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
+	// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to invoices created by the subscription.
+	IDBankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsIDBankTransfer `json:"id_bank_transfer"`
 	// This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.

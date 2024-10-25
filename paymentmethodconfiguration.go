@@ -387,6 +387,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationGopayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationGopayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationGopayDisplayPreferencePreferenceNone PaymentMethodConfigurationGopayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationGopayDisplayPreferencePreferenceOff  PaymentMethodConfigurationGopayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationGopayDisplayPreferencePreferenceOn   PaymentMethodConfigurationGopayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationGopayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationGopayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationGopayDisplayPreferenceValueOff PaymentMethodConfigurationGopayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationGopayDisplayPreferenceValueOn  PaymentMethodConfigurationGopayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationGrabpayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationGrabpayDisplayPreferencePreference can take
@@ -403,6 +422,25 @@ type PaymentMethodConfigurationGrabpayDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationGrabpayDisplayPreferenceValueOff PaymentMethodConfigurationGrabpayDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationGrabpayDisplayPreferenceValueOn  PaymentMethodConfigurationGrabpayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceNone PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOff  PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationIDBankTransferDisplayPreferencePreferenceOn   PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOff PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationIDBankTransferDisplayPreferenceValueOn  PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -653,6 +691,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationQrisDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationQrisDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationQrisDisplayPreferencePreferenceNone PaymentMethodConfigurationQrisDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationQrisDisplayPreferencePreferenceOff  PaymentMethodConfigurationQrisDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationQrisDisplayPreferencePreferenceOn   PaymentMethodConfigurationQrisDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationQrisDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationQrisDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationQrisDisplayPreferenceValueOff PaymentMethodConfigurationQrisDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationQrisDisplayPreferenceValueOn  PaymentMethodConfigurationQrisDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationRevolutPayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationRevolutPayDisplayPreferencePreference can take
@@ -688,6 +745,25 @@ type PaymentMethodConfigurationSEPADebitDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationSEPADebitDisplayPreferenceValueOff PaymentMethodConfigurationSEPADebitDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationSEPADebitDisplayPreferenceValueOn  PaymentMethodConfigurationSEPADebitDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationShopeepayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationShopeepayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationShopeepayDisplayPreferencePreferenceNone PaymentMethodConfigurationShopeepayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationShopeepayDisplayPreferencePreferenceOff  PaymentMethodConfigurationShopeepayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationShopeepayDisplayPreferencePreferenceOn   PaymentMethodConfigurationShopeepayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationShopeepayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationShopeepayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationShopeepayDisplayPreferenceValueOff PaymentMethodConfigurationShopeepayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationShopeepayDisplayPreferenceValueOn  PaymentMethodConfigurationShopeepayDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -1071,6 +1147,18 @@ type PaymentMethodConfigurationGooglePayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationGopayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// GoPay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
+type PaymentMethodConfigurationGopayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationGopayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationGrabpayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1080,6 +1168,18 @@ type PaymentMethodConfigurationGrabpayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationGrabpayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationGrabpayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationIDBankTransferDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
+type PaymentMethodConfigurationIDBankTransferParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1239,6 +1339,18 @@ type PaymentMethodConfigurationPromptPayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationQrisDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
+type PaymentMethodConfigurationQrisParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationQrisDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationRevolutPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1260,6 +1372,18 @@ type PaymentMethodConfigurationSEPADebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationSEPADebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationSEPADebitDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationShopeepayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// ShopeePay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
+type PaymentMethodConfigurationShopeepayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationShopeepayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1383,8 +1507,12 @@ type PaymentMethodConfigurationParams struct {
 	Giropay *PaymentMethodConfigurationGiropayParams `form:"giropay"`
 	// Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://stripe.com/docs/google-pay) for more details.
 	GooglePay *PaymentMethodConfigurationGooglePayParams `form:"google_pay"`
+	// GoPay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
+	Gopay *PaymentMethodConfigurationGopayParams `form:"gopay"`
 	// GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://stripe.com/docs/payments/grabpay) for more details.
 	Grabpay *PaymentMethodConfigurationGrabpayParams `form:"grabpay"`
+	// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
+	IDBankTransfer *PaymentMethodConfigurationIDBankTransferParams `form:"id_bank_transfer"`
 	// iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://stripe.com/docs/payments/ideal) for more details.
 	IDEAL *PaymentMethodConfigurationIDEALParams `form:"ideal"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
@@ -1415,10 +1543,14 @@ type PaymentMethodConfigurationParams struct {
 	Payto *PaymentMethodConfigurationPaytoParams `form:"payto"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay"`
+	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
+	Qris *PaymentMethodConfigurationQrisParams `form:"qris"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationRevolutPayParams `form:"revolut_pay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit"`
+	// ShopeePay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
+	Shopeepay *PaymentMethodConfigurationShopeepayParams `form:"shopeepay"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://stripe.com/docs/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationSofortParams `form:"sofort"`
 	// Swish is a [real-time](https://stripe.com/docs/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://stripe.com/docs/payments/swish) for more details.
@@ -1698,6 +1830,19 @@ type PaymentMethodConfigurationGooglePay struct {
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationGooglePayDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationGopayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationGopayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationGopayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationGopay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationGopayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationGrabpayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1710,6 +1855,19 @@ type PaymentMethodConfigurationGrabpay struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationGrabpayDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationIDBankTransferDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationIDBankTransferDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationIDBankTransferDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationIDBankTransfer struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                       `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationIDBankTransferDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationIDEALDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -1880,6 +2038,19 @@ type PaymentMethodConfigurationPromptPay struct {
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationPromptPayDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationQrisDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationQrisDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationQrisDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationQris struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                             `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationQrisDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationRevolutPayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1905,6 +2076,19 @@ type PaymentMethodConfigurationSEPADebit struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationSEPADebitDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationShopeepayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationShopeepayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationShopeepayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationShopeepay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                  `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationShopeepayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationSofortDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -2025,10 +2209,12 @@ type PaymentMethodConfiguration struct {
 	FPX             *PaymentMethodConfigurationFPX             `json:"fpx"`
 	Giropay         *PaymentMethodConfigurationGiropay         `json:"giropay"`
 	GooglePay       *PaymentMethodConfigurationGooglePay       `json:"google_pay"`
+	Gopay           *PaymentMethodConfigurationGopay           `json:"gopay"`
 	Grabpay         *PaymentMethodConfigurationGrabpay         `json:"grabpay"`
 	// Unique identifier for the object.
-	ID    string                           `json:"id"`
-	IDEAL *PaymentMethodConfigurationIDEAL `json:"ideal"`
+	ID             string                                    `json:"id"`
+	IDBankTransfer *PaymentMethodConfigurationIDBankTransfer `json:"id_bank_transfer"`
+	IDEAL          *PaymentMethodConfigurationIDEAL          `json:"ideal"`
 	// The default configuration is used whenever a payment method configuration is not specified.
 	IsDefault bool                               `json:"is_default"`
 	JCB       *PaymentMethodConfigurationJCB     `json:"jcb"`
@@ -2051,8 +2237,10 @@ type PaymentMethodConfiguration struct {
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
 	Payto         *PaymentMethodConfigurationPayto         `json:"payto"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
+	Qris          *PaymentMethodConfigurationQris          `json:"qris"`
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`
+	Shopeepay     *PaymentMethodConfigurationShopeepay     `json:"shopeepay"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort"`
 	Swish         *PaymentMethodConfigurationSwish         `json:"swish"`
 	TWINT         *PaymentMethodConfigurationTWINT         `json:"twint"`
