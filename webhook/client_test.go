@@ -17,11 +17,25 @@ var testPayloadFormat = `{
 }`
 
 var testPayload = []byte(fmt.Sprintf(testPayloadFormat, trimApiVersion(stripe.APIVersion)))
+
+var testPayloadWithNewVersionInReleaseTrain = []byte(fmt.Sprintf(`{
+	"id": "evt_test_webhook",
+	"object": "event",
+	"api_version": "%s"
+  }`, "2099-10-10."+strings.Split(stripe.APIVersion, ".")[1]))
+
 var testPayloadWithAPIVersionMismatch = []byte(`{
 	"id": "evt_test_webhook",
 	"object": "event",
 	"api_version": "2020-01-01"
   }`)
+
+var testPayloadWithReleaseTrainVersionMismatch = []byte(`{
+	"id": "evt_test_webhook",
+	"object": "event",
+	"api_version": "2099-10-10.the_larch"
+  }`)
+
 var testSecret = "whsec_test_secret"
 
 func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
@@ -181,7 +195,39 @@ func TestTokenNew(t *testing.T) {
 	}
 }
 
-func TestConstructEvent_ErrorOnAPIVersionMismatch(t *testing.T) {
+func TestConstructEvent_SuccessOnExpectedAPIVersion(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Payload = testPayload
+	})
+
+	evt, err := ConstructEvent(p.Payload, p.Header, p.Secret)
+
+	if err != nil {
+		t.Errorf("Unexpected error in ConstructEvent: %v", err)
+	}
+
+	if evt.APIVersion != stripe.APIVersion {
+		t.Errorf("Expected API versions to match")
+	}
+}
+
+func TestConstructEvent_SuccessOnNewAPIVersionInExpectedReleaseTrain(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Payload = testPayloadWithNewVersionInReleaseTrain
+	})
+
+	evt, err := ConstructEvent(p.Payload, p.Header, p.Secret)
+
+	if err != nil {
+		t.Errorf("Unexpected error in ConstructEvent: %v", err)
+	}
+
+	expectedSuffix := "." + strings.Split(stripe.APIVersion, ".")[1]
+	if !strings.HasSuffix(evt.APIVersion, expectedSuffix) {
+		t.Errorf("Expected API release trains to match")
+	}
+}
+func TestConstructEvent_ErrorOnLegacyAPIVersionMismatch(t *testing.T) {
 	p := newSignedPayload(func(p *SignedPayload) {
 		p.Payload = testPayloadWithAPIVersionMismatch
 	})
@@ -197,28 +243,21 @@ func TestConstructEvent_ErrorOnAPIVersionMismatch(t *testing.T) {
 	}
 }
 
-func TestConstructEvent_GlobalVersionHasBetas(t *testing.T) {
-
+func TestConstructEvent_ErrorOnReleaseTrainMismatch(t *testing.T) {
 	p := newSignedPayload(func(p *SignedPayload) {
-		p.Payload = []byte(fmt.Sprintf(testPayloadFormat, "12-23-2023"))
+		p.Payload = testPayloadWithReleaseTrainVersionMismatch
 	})
 
-	oldVersion := stripe.APIVersion
-	stripe.APIVersion = "12-23-2023; feature_in_beta=v3"
+	_, err := ConstructEvent(p.Payload, p.Header, p.Secret)
 
-	evt, err := ConstructEvent(p.Payload, p.Header, p.Secret)
-
-	if err != nil {
-		t.Errorf("Expected no error, versions match.")
+	if err == nil {
+		t.Errorf("Expected error due to API version mismatch.")
 	}
 
-	if evt.ID != "evt_test_webhook" {
-		t.Errorf("Expected a parsed event matching the test payload, got %v", evt)
+	if !strings.Contains(err.Error(), "Received event with API version") {
+		t.Errorf("Expected API version mismatch error but received %v", err)
 	}
-
-	stripe.APIVersion = oldVersion
 }
-
 func TestConstructEventWithOptions_IgnoreAPIVersionMismatch(t *testing.T) {
 
 	p := newSignedPayload(func(p *SignedPayload) {
