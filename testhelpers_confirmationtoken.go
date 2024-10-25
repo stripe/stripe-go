@@ -100,6 +100,12 @@ type TestHelpersConfirmationTokenPaymentMethodDataGopayParams struct{}
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataGrabpayParams struct{}
 
+// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataIDBankTransferParams struct {
+	// Bank where the account is held.
+	Bank *string `form:"bank"`
+}
+
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataIDEALParams struct {
 	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
@@ -300,6 +306,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Gopay *TestHelpersConfirmationTokenPaymentMethodDataGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *TestHelpersConfirmationTokenPaymentMethodDataGrabpayParams `form:"grabpay"`
+	// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+	IDBankTransfer *TestHelpersConfirmationTokenPaymentMethodDataIDBankTransferParams `form:"id_bank_transfer"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 	IDEAL *TestHelpersConfirmationTokenPaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
