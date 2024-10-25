@@ -36,6 +36,9 @@ const (
 	// APIURL is the URL of the API service backend.
 	APIURL string = "https://api.stripe.com"
 
+	// APIVersion is the currently supported API version
+	APIVersion string = apiVersion
+
 	// ClientVersion is the version of the stripe-go library being used.
 	ClientVersion string = clientversion
 
@@ -80,9 +83,6 @@ var EnableTelemetry = true
 
 // Key is the Stripe API key used globally in the binding.
 var Key string
-
-// APIVersion is the currently supported API version
-var APIVersion string = apiVersion
 
 //
 // Public types
@@ -556,7 +556,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 
 	req.Header.Add("Authorization", authorization)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Stripe-Version", APIVersion)
+	req.Header.Add("Stripe-Version", apiVersionWithBetaHeaders)
 	req.Header.Add("User-Agent", encodedUserAgent)
 	req.Header.Add("X-Stripe-Client-User-Agent", getEncodedStripeUserAgent())
 
@@ -1382,10 +1382,10 @@ func StringSlice(v []string) []*string {
 }
 
 func AddBetaVersion(betaName string, betaVersion string) error {
-	if strings.Contains(APIVersion, "; "+betaName+"=") {
-		return fmt.Errorf("Stripe version header %s already contains entry for beta %s", APIVersion, betaName)
+	if strings.Contains(apiVersionWithBetaHeaders, "; "+betaName+"=") {
+		return fmt.Errorf("Stripe version header %s already contains entry for beta %s", apiVersionWithBetaHeaders, betaName)
 	}
-	APIVersion = fmt.Sprintf("%s; %s=%s", APIVersion, betaName, betaVersion)
+	apiVersionWithBetaHeaders = fmt.Sprintf("%s; %s=%s", apiVersionWithBetaHeaders, betaName, betaVersion)
 	return nil
 }
 
@@ -1458,6 +1458,9 @@ var backends Backends
 var encodedStripeUserAgent string
 var encodedStripeUserAgentReady *sync.Once
 var encodedUserAgent string
+
+// API Version with beta headers if any
+var apiVersionWithBetaHeaders string = apiVersion
 
 // The default HTTP client used for communication with any of Stripe's
 // backends.

@@ -57,9 +57,8 @@ func TestApiVersion(t *testing.T) {
 	assert.Equal(t, APIVersion, req.Header.Get("Stripe-Version"))
 }
 
-func TestCanSetApiVersion(t *testing.T) {
-	oldVersion := APIVersion
-	APIVersion = "12-23-2022; feature_in_beta=v3"
+func TestCanSetBetaHeaders(t *testing.T) {
+	AddBetaVersion("feature_in_beta", "v3")
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
@@ -67,9 +66,10 @@ func TestCanSetApiVersion(t *testing.T) {
 	req, err := c.NewRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
-	assert.Equal(t, "12-23-2022; feature_in_beta=v3", req.Header.Get("Stripe-Version"))
+	assert.Equal(t, APIVersion+"; feature_in_beta=v3", req.Header.Get("Stripe-Version"))
 
-	APIVersion = oldVersion
+	// clean up
+	apiVersionWithBetaHeaders = APIVersion
 }
 
 func TestContext(t *testing.T) {
@@ -1551,11 +1551,11 @@ func TestRawRequestTelemetry(t *testing.T) {
 }
 
 func TestAddBetaVersion(t *testing.T) {
-	APIVersion = "2024-02-26"
 	AddBetaVersion("feature_beta", "v3")
-	assert.Equal(t, "2024-02-26; feature_beta=v3", APIVersion)
+	expectedAPIVersion := APIVersion + "; feature_beta=v3"
+	assert.Equal(t, expectedAPIVersion, apiVersionWithBetaHeaders)
 	err := AddBetaVersion("feature_beta", "v3")
-	assert.Equal(t, "Stripe version header 2024-02-26; feature_beta=v3 already contains entry for beta feature_beta", err.Error())
+	assert.Equal(t, "Stripe version header "+expectedAPIVersion+" already contains entry for beta feature_beta", err.Error())
 }
 
 //
