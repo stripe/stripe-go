@@ -53,6 +53,10 @@ const (
 	// by a Stripe client.
 	DefaultMaxNetworkRetries int64 = 2
 
+	MeterEventsBackend SupportedBackend = "meterevents"
+
+	MeterEventsURL = "https://meter-events.stripe.com"
+
 	// UnknownPlatform is the string returned as the system name if we couldn't get
 	// one from `uname`.
 	UnknownPlatform string = "unknown platform"
@@ -1228,9 +1232,25 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 		cfg.URL = String(normalizeURL(*cfg.URL))
 
 		return newBackendImplementation(backendType, &cfg)
+
+	case MeterEventsBackend:
+		if cfg.URL == nil {
+			cfg.URL = String(MeterEventsURL)
+		}
+
+		cfg.URL = String(normalizeURL(*cfg.URL))
+
+		return newBackendImplementation(backendType, &cfg)
 	}
 
 	return nil
+}
+
+func GetRawRequestBackend(backendType SupportedBackend) (RawRequestBackend, error) {
+	if bi, ok := GetBackend(backendType).(RawRequestBackend); ok {
+		return bi, nil
+	}
+	return nil, fmt.Errorf("Error: cannot call RawRequest if requested backend type is initialized with a backend that doesn't implement RawRequestBackend")
 }
 
 // Int64 returns a pointer to the int64 value passed in.
@@ -1366,7 +1386,7 @@ func StringSlice(v []string) []*string {
 //
 
 // clientversion is the binding version
-const clientversion = "80.0.0"
+const clientversion = "80.2.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

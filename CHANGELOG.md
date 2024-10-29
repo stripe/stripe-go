@@ -1,5 +1,13 @@
 # Changelog
 
+## 80.2.0 - 2024-10-09
+* [#1929](https://github.com/stripe/stripe-go/pull/1929), [#1933](https://github.com/stripe/stripe-go/pull/1933) Remove rawrequests Post, Get, and Delete in favor of rawrequests.Client
+  * The individual `rawrequests` functions for Post, Get, and Delete methods are removed in favor of the client model which allows local configuration of backend and api key, which enables more flexible calls to new/preview/unsupported APIs. 
+
+## 80.1.0 - 2024-10-03
+* [#1928](https://github.com/stripe/stripe-go/pull/1928) Update generated code
+  * Remove the support for resource `Margin` that was accidentally made public in the last release
+
 ## 80.0.0 - 2024-10-01
 * [#1926](https://github.com/stripe/stripe-go/pull/1926) Support for APIs in the new API version 2024-09-30.acacia
   
