@@ -72,6 +72,34 @@ func TestCanSetBetaHeaders(t *testing.T) {
 	apiVersionWithBetaHeaders = APIVersion
 }
 
+func TestCannotSetSameBetaHeaderTwice(t *testing.T) {
+	err := AddBetaVersion("feature_in_beta", "v3")
+	assert.Nil(t, err)
+
+	err = AddBetaVersion("feature_in_beta", "v3")
+
+	assert.Contains(t, err.Error(), "already contains entry for beta feature_in_beta")
+
+	// clean up
+	apiVersionWithBetaHeaders = APIVersion
+}
+
+func TestCanSetSecondBetaHeaders(t *testing.T) {
+	AddBetaVersion("feature_in_beta", "v3")
+	AddBetaVersion("second_feature_in_beta", "v2")
+
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, APIVersion+"; feature_in_beta=v3; second_feature_in_beta=v2", req.Header.Get("Stripe-Version"))
+
+	// clean up
+	apiVersionWithBetaHeaders = APIVersion
+}
+
 func TestContext(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{Context: context.Background()}
