@@ -1,5 +1,18 @@
 # Changelog
 
+## 81.1.0-beta.1 - 2024-10-29
+* [#1945](https://github.com/stripe/stripe-go/pull/1945) Update generated code for beta
+  * Add support for `TriggerAction` method on resource `PaymentIntent`
+  * Add support for `IDBankTransferPaymentsBca` and `IDBankTransferPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `BankBcaOnboarding` on `AccountSettingsParams` and `AccountSettings`
+  * Add support for `SendMoney` on `AccountSessionComponentsRecipientsFeaturesParams`
+  * Remove support for value `payout_statement_descriptor_profanity` from enums `InvoiceLastFinalizationErrorCode`, `PaymentIntentLastPaymentErrorCode`, `SetupAttemptSetupErrorCode`, `SetupIntentLastSetupErrorCode`, and `StripeErrorCode`
+  * Add support for `IDBankTransfer` on `ChargePaymentMethodDetails`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `RefundDestinationDetails`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, `SetupIntentPaymentMethodDataParams`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`
+  * Add support for `Gopay`, `Qris`, and `Shopeepay` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+* [#1941](https://github.com/stripe/stripe-go/pull/1941) Do not allow setting API Version directly 
+  * `stripe.APIVersion` is no longer settable. If you were using this to set the beta headers, use the helper method `stripe.AddBetaVersion()` instead.
+  
+
 ## 81.0.0 - 2024-10-29
 * [#1931](https://github.com/stripe/stripe-go/pull/1931) This release changes the pinned API version to `2024-10-28.acacia`.
   * Add support for new resource `V2.EventDestinations`

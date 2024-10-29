@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v80"
-	_ "github.com/stripe/stripe-go/v80/testing"
+	stripe "github.com/stripe/stripe-go/v81"
+	_ "github.com/stripe/stripe-go/v81/testing"
 )
 
 func TestQuoteGet(t *testing.T) {

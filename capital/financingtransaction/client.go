@@ -10,8 +10,8 @@ package financingtransaction
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v80"
-	"github.com/stripe/stripe-go/v80/form"
+	stripe "github.com/stripe/stripe-go/v81"
+	"github.com/stripe/stripe-go/v81/form"
 )
 
 // Client is used to invoke /capital/financing_transactions APIs.

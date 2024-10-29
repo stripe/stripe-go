@@ -10,8 +10,8 @@ package customercashbalancetransaction
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v80"
-	"github.com/stripe/stripe-go/v80/form"
+	stripe "github.com/stripe/stripe-go/v81"
+	"github.com/stripe/stripe-go/v81/form"
 )
 
 // Client is used to invoke /customers/{customer}/cash_balance_transactions APIs.
