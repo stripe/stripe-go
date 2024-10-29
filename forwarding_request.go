@@ -60,6 +60,8 @@ type ForwardingRequestParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The PaymentMethod to insert into the forwarded request. Forwarding previously consumed PaymentMethods is allowed.
 	PaymentMethod *string `form:"payment_method"`
 	// The field kinds to be replaced in the forwarded request.
@@ -73,6 +75,15 @@ type ForwardingRequestParams struct {
 // AddExpand appends a new field to expand.
 func (p *ForwardingRequestParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ForwardingRequestParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Context about the request from Stripe's servers to the destination endpoint.
@@ -143,6 +154,8 @@ type ForwardingRequest struct {
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The PaymentMethod to insert into the forwarded request. Forwarding previously consumed PaymentMethods is allowed.
