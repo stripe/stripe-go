@@ -142,6 +142,8 @@ type AccountSessionComponentsDocumentsParams struct {
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsDocumentsFeaturesParams `form:"features"`
 }
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsFinancialAccountFeaturesParams struct {
 	// Disables Stripe user authentication for this embedded component. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
@@ -158,7 +160,8 @@ type AccountSessionComponentsFinancialAccountFeaturesParams struct {
 // Configuration for the financial account component.
 type AccountSessionComponentsFinancialAccountParams struct {
 	// Whether the embedded component is enabled.
-	Enabled  *bool                                                   `form:"enabled"`
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsFinancialAccountFeaturesParams `form:"features"`
 }
 type AccountSessionComponentsFinancialAccountTransactionsFeaturesParams struct {
@@ -303,13 +306,15 @@ type AccountSessionComponentsPayoutsListParams struct {
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsPayoutsListFeaturesParams `form:"features"`
 }
+type AccountSessionComponentsRecipientsFeaturesParams struct {
+	// Whether to allow sending money.
+	SendMoney *bool `form:"send_money"`
+}
 
-// The list of features enabled in the embedded component.
-type AccountSessionComponentsRecipientsFeaturesParams struct{}
+// Configuration for the recipients component.
 type AccountSessionComponentsRecipientsParams struct {
 	// Whether the embedded component is enabled.
-	Enabled *bool `form:"enabled"`
-	// The list of features enabled in the embedded component.
+	Enabled  *bool                                             `form:"enabled"`
 	Features *AccountSessionComponentsRecipientsFeaturesParams `form:"features"`
 }
 
@@ -388,7 +393,8 @@ type AccountSessionComponentsParams struct {
 	Payouts *AccountSessionComponentsPayoutsParams `form:"payouts"`
 	// Configuration for the payouts list embedded component.
 	PayoutsList *AccountSessionComponentsPayoutsListParams `form:"payouts_list"`
-	Recipients  *AccountSessionComponentsRecipientsParams  `form:"recipients"`
+	// Configuration for the recipients component.
+	Recipients *AccountSessionComponentsRecipientsParams `form:"recipients"`
 	// Configuration for the reporting chart embedded component.
 	ReportingChart *AccountSessionComponentsReportingChartParams `form:"reporting_chart"`
 	// Configuration for the tax registrations embedded component.

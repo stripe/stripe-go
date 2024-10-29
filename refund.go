@@ -184,6 +184,12 @@ type RefundDestinationDetailsGBBankTransfer struct {
 }
 type RefundDestinationDetailsGiropay struct{}
 type RefundDestinationDetailsGrabpay struct{}
+type RefundDestinationDetailsIDBankTransfer struct {
+	// The reference assigned to the refund.
+	Reference string `json:"reference"`
+	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
+	ReferenceStatus string `json:"reference_status"`
+}
 type RefundDestinationDetailsJPBankTransfer struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -251,6 +257,7 @@ type RefundDestinationDetails struct {
 	GBBankTransfer      *RefundDestinationDetailsGBBankTransfer      `json:"gb_bank_transfer"`
 	Giropay             *RefundDestinationDetailsGiropay             `json:"giropay"`
 	Grabpay             *RefundDestinationDetailsGrabpay             `json:"grabpay"`
+	IDBankTransfer      *RefundDestinationDetailsIDBankTransfer      `json:"id_bank_transfer"`
 	JPBankTransfer      *RefundDestinationDetailsJPBankTransfer      `json:"jp_bank_transfer"`
 	Klarna              *RefundDestinationDetailsKlarna              `json:"klarna"`
 	Multibanco          *RefundDestinationDetailsMultibanco          `json:"multibanco"`
@@ -275,15 +282,12 @@ type RefundNextActionDisplayDetailsEmailSent struct {
 	// The recipient's email address.
 	EmailSentTo string `json:"email_sent_to"`
 }
-
-// Contains the refund details.
 type RefundNextActionDisplayDetails struct {
 	EmailSent *RefundNextActionDisplayDetailsEmailSent `json:"email_sent"`
 	// The expiry timestamp.
 	ExpiresAt int64 `json:"expires_at"`
 }
 type RefundNextAction struct {
-	// Contains the refund details.
 	DisplayDetails *RefundNextActionDisplayDetails `json:"display_details"`
 	// Type of the next action to perform.
 	Type string `json:"type"`

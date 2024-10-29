@@ -438,6 +438,18 @@ type AccountCapabilitiesGrabpayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The id_bank_transfer_payments capability.
+type AccountCapabilitiesIDBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The id_bank_transfer_payments_bca capability.
+type AccountCapabilitiesIDBankTransferPaymentsBcaParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The ideal_payments capability.
 type AccountCapabilitiesIDEALPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -741,6 +753,10 @@ type AccountCapabilitiesParams struct {
 	GopayPayments *AccountCapabilitiesGopayPaymentsParams `form:"gopay_payments"`
 	// The grabpay_payments capability.
 	GrabpayPayments *AccountCapabilitiesGrabpayPaymentsParams `form:"grabpay_payments"`
+	// The id_bank_transfer_payments capability.
+	IDBankTransferPayments *AccountCapabilitiesIDBankTransferPaymentsParams `form:"id_bank_transfer_payments"`
+	// The id_bank_transfer_payments_bca capability.
+	IDBankTransferPaymentsBca *AccountCapabilitiesIDBankTransferPaymentsBcaParams `form:"id_bank_transfer_payments_bca"`
 	// The ideal_payments capability.
 	IDEALPayments *AccountCapabilitiesIDEALPaymentsParams `form:"ideal_payments"`
 	// The india_international_payments capability.
@@ -1059,6 +1075,14 @@ type AccountSettingsBACSDebitPaymentsParams struct {
 	DisplayName *string `form:"display_name"`
 }
 
+// Settings specific to bank BCA onboarding for Indonesia bank transfers payments method.
+type AccountSettingsBankBcaOnboardingParams struct {
+	// Bank BCA business account holder name
+	AccountHolderName *string `form:"account_holder_name"`
+	// Bank BCA business account number
+	BusinessAccountNumber *string `form:"business_account_number"`
+}
+
 // Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 type AccountSettingsBrandingParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) An icon for the account. Must be square and at least 128px x 128px.
@@ -1187,6 +1211,8 @@ type AccountSettingsTreasuryParams struct {
 type AccountSettingsParams struct {
 	// Settings specific to Bacs Direct Debit payments.
 	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	// Settings specific to bank BCA onboarding for Indonesia bank transfers payments method.
+	BankBcaOnboarding *AccountSettingsBankBcaOnboardingParams `form:"bank_bca_onboarding"`
 	// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 	Branding *AccountSettingsBrandingParams `form:"branding"`
 	// Settings specific to the account's use of the Capital product.
@@ -1384,6 +1410,10 @@ type AccountCapabilities struct {
 	GopayPayments AccountCapabilityStatus `json:"gopay_payments"`
 	// The status of the GrabPay payments capability of the account, or whether the account can directly process GrabPay charges.
 	GrabpayPayments AccountCapabilityStatus `json:"grabpay_payments"`
+	// The status of the Indonesia Bank Transfer payments capability of the account, or whether the account can directly process Indonesia Bank Transfer charges.
+	IDBankTransferPayments AccountCapabilityStatus `json:"id_bank_transfer_payments"`
+	// The status of Bank BCA onboarding of the account.
+	IDBankTransferPaymentsBca AccountCapabilityStatus `json:"id_bank_transfer_payments_bca"`
 	// The status of the iDEAL payments capability of the account, or whether the account can directly process iDEAL charges.
 	IDEALPayments AccountCapabilityStatus `json:"ideal_payments"`
 	// The status of the india_international_payments capability of the account, or whether the account can process international charges (non INR) in India.
@@ -1700,6 +1730,12 @@ type AccountSettingsBACSDebitPayments struct {
 	// The Bacs Direct Debit Service user number for this account. For payments made with Bacs Direct Debit, this number is a unique identifier of the account with our banking partners.
 	ServiceUserNumber string `json:"service_user_number"`
 }
+type AccountSettingsBankBcaOnboarding struct {
+	// Bank BCA business account holder name.
+	AccountHolderName string `json:"account_holder_name"`
+	// Bank BCA business account number.
+	BusinessAccountNumber string `json:"business_account_number"`
+}
 type AccountSettingsBranding struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) An icon for the account. Must be square and at least 128px x 128px.
 	Icon *File `json:"icon"`
@@ -1804,6 +1840,7 @@ type AccountSettingsTreasury struct {
 // Options for customizing how the account functions within Stripe.
 type AccountSettings struct {
 	BACSDebitPayments *AccountSettingsBACSDebitPayments `json:"bacs_debit_payments"`
+	BankBcaOnboarding *AccountSettingsBankBcaOnboarding `json:"bank_bca_onboarding"`
 	Branding          *AccountSettingsBranding          `json:"branding"`
 	Capital           *AccountSettingsCapital           `json:"capital"`
 	CardIssuing       *AccountSettingsCardIssuing       `json:"card_issuing"`
