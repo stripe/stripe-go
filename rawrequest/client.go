@@ -2,7 +2,7 @@
 package rawrequest
 
 import (
-	stripe "github.com/stripe/stripe-go/v80"
+	stripe "github.com/stripe/stripe-go/v81"
 )
 
 // Client is used to invoke raw requests against the specified backend
