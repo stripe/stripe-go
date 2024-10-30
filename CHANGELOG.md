@@ -1,6 +1,9 @@
 # Changelog
 
 ## 81.0.0 - 2024-10-29
+
+While monthly releases within Stripe's [new API release schedule](https://stripe.com/blog/introducing-stripes-new-api-release-process) are compatible (and considered SEMVER minor), the we decided to ship `2024-10-28.acacia` as a SEMVER major. This ensures that everyone using `2024-09-30.acacia` on the `80.x.y` release line had access to [a bugfix for deserializing events from a different API release](https://github.com/stripe/stripe-go/pull/1940) (without having to update their API version). Going forward, we expect non-major API versions (e.g. the rest of the `Acacia` line) to be minor releases.
+
 * [#1931](https://github.com/stripe/stripe-go/pull/1931) This release changes the pinned API version to `2024-10-28.acacia`.
   * Add support for new resource `V2.EventDestinations`
   * Add support for `New`, `Retrieve`, `Update`, `List`, `Delete`, `Disable`, `Enable` and `Ping` methods on resource `V2.EventDestinations`
