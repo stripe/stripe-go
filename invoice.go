@@ -175,6 +175,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeBoleto             InvoicePaymentSettingsPaymentMethodType = "boleto"
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
 	InvoicePaymentSettingsPaymentMethodTypeCashApp            InvoicePaymentSettingsPaymentMethodType = "cashapp"
+	InvoicePaymentSettingsPaymentMethodTypeCustom             InvoicePaymentSettingsPaymentMethodType = "custom"
 	InvoicePaymentSettingsPaymentMethodTypeCustomerBalance    InvoicePaymentSettingsPaymentMethodType = "customer_balance"
 	InvoicePaymentSettingsPaymentMethodTypeEPS                InvoicePaymentSettingsPaymentMethodType = "eps"
 	InvoicePaymentSettingsPaymentMethodTypeFPX                InvoicePaymentSettingsPaymentMethodType = "fpx"
@@ -3168,8 +3169,8 @@ func (p *InvoiceAddLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The out of band payment to attach to the invoice.
-type InvoiceAttachPaymentOutOfBandPaymentParams struct {
+// The PaymentRecord data for attaching an out of band payment to the invoice.
+type InvoiceAttachPaymentPaymentRecordDataParams struct {
 	// The amount that was paid out of band.
 	Amount *int64 `form:"amount"`
 	// The currency that was paid out of band.
@@ -3185,7 +3186,7 @@ type InvoiceAttachPaymentOutOfBandPaymentParams struct {
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
-func (p *InvoiceAttachPaymentOutOfBandPaymentParams) AddMetadata(key string, value string) {
+func (p *InvoiceAttachPaymentPaymentRecordDataParams) AddMetadata(key string, value string) {
 	if p.Metadata == nil {
 		p.Metadata = make(map[string]string)
 	}
@@ -3212,10 +3213,12 @@ type InvoiceAttachPaymentParams struct {
 	AmountRequested *int64 `form:"amount_requested"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The out of band payment to attach to the invoice.
-	OutOfBandPayment *InvoiceAttachPaymentOutOfBandPaymentParams `form:"out_of_band_payment"`
 	// The ID of the PaymentIntent to attach to the invoice.
 	PaymentIntent *string `form:"payment_intent"`
+	// The ID of the PaymentRecord to detach from the invoice.
+	PaymentRecord *string `form:"payment_record"`
+	// The PaymentRecord data for attaching an out of band payment to the invoice.
+	PaymentRecordData *InvoiceAttachPaymentPaymentRecordDataParams `form:"payment_record_data"`
 }
 
 // AddExpand appends a new field to expand.

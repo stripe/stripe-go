@@ -77,6 +77,7 @@ import (
 	issuingcreditunderwritingrecord "github.com/stripe/stripe-go/v81/issuing/creditunderwritingrecord"
 	issuingdispute "github.com/stripe/stripe-go/v81/issuing/dispute"
 	issuingdisputesettlementdetail "github.com/stripe/stripe-go/v81/issuing/disputesettlementdetail"
+	issuingfraudliabilitydebit "github.com/stripe/stripe-go/v81/issuing/fraudliabilitydebit"
 	issuingpersonalizationdesign "github.com/stripe/stripe-go/v81/issuing/personalizationdesign"
 	issuingphysicalbundle "github.com/stripe/stripe-go/v81/issuing/physicalbundle"
 	issuingtoken "github.com/stripe/stripe-go/v81/issuing/token"
@@ -303,6 +304,8 @@ type API struct {
 	IssuingDisputes *issuingdispute.Client
 	// IssuingDisputeSettlementDetails is the client used to invoke /issuing/dispute_settlement_details APIs.
 	IssuingDisputeSettlementDetails *issuingdisputesettlementdetail.Client
+	// IssuingFraudLiabilityDebits is the client used to invoke /issuing/fraud_liability_debits APIs.
+	IssuingFraudLiabilityDebits *issuingfraudliabilitydebit.Client
 	// IssuingPersonalizationDesigns is the client used to invoke /issuing/personalization_designs APIs.
 	IssuingPersonalizationDesigns *issuingpersonalizationdesign.Client
 	// IssuingPhysicalBundles is the client used to invoke /issuing/physical_bundles APIs.
@@ -555,6 +558,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IssuingCreditUnderwritingRecords = &issuingcreditunderwritingrecord.Client{B: backends.API, Key: key}
 	a.IssuingDisputes = &issuingdispute.Client{B: backends.API, Key: key}
 	a.IssuingDisputeSettlementDetails = &issuingdisputesettlementdetail.Client{B: backends.API, Key: key}
+	a.IssuingFraudLiabilityDebits = &issuingfraudliabilitydebit.Client{B: backends.API, Key: key}
 	a.IssuingPersonalizationDesigns = &issuingpersonalizationdesign.Client{B: backends.API, Key: key}
 	a.IssuingPhysicalBundles = &issuingphysicalbundle.Client{B: backends.API, Key: key}
 	a.IssuingTokens = &issuingtoken.Client{B: backends.API, Key: key}

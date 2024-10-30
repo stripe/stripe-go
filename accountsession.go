@@ -195,6 +195,8 @@ type AccountSessionComponentsIssuingCardsListFeaturesParams struct {
 	CardManagement *bool `form:"card_management"`
 	// Whether to allow card spend dispute management features.
 	CardSpendDisputeManagement *bool `form:"card_spend_dispute_management"`
+	// Disables Stripe user authentication for this embedded component. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts.
+	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether to allow spend control management features.
 	SpendControlManagement *bool `form:"spend_control_management"`
 }

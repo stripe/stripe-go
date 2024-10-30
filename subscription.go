@@ -202,6 +202,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCard               SubscriptionPaymentSettingsPaymentMethodType = "card"
 	SubscriptionPaymentSettingsPaymentMethodTypeCashApp            SubscriptionPaymentSettingsPaymentMethodType = "cashapp"
+	SubscriptionPaymentSettingsPaymentMethodTypeCustom             SubscriptionPaymentSettingsPaymentMethodType = "custom"
 	SubscriptionPaymentSettingsPaymentMethodTypeCustomerBalance    SubscriptionPaymentSettingsPaymentMethodType = "customer_balance"
 	SubscriptionPaymentSettingsPaymentMethodTypeEPS                SubscriptionPaymentSettingsPaymentMethodType = "eps"
 	SubscriptionPaymentSettingsPaymentMethodTypeFPX                SubscriptionPaymentSettingsPaymentMethodType = "fpx"

@@ -1691,8 +1691,13 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Additional fields for Mandate creation
+type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptionsParams struct{}
+
 // contains details about the Bacs Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1864,6 +1869,8 @@ type CheckoutSessionPaymentMethodOptionsIDEALParams struct {
 
 // contains details about the Kakao Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsKakaoPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1902,6 +1909,8 @@ type CheckoutSessionPaymentMethodOptionsKonbiniParams struct {
 
 // contains details about the Korean card payment method options.
 type CheckoutSessionPaymentMethodOptionsKrCardParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1948,8 +1957,10 @@ type CheckoutSessionPaymentMethodOptionsMultibancoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// contains details about the Kakao Pay payment method options.
+// contains details about the Naver Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsNaverPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1989,7 +2000,10 @@ type CheckoutSessionPaymentMethodOptionsP24Params struct {
 }
 
 // contains details about the PAYCO payment method options.
-type CheckoutSessionPaymentMethodOptionsPaycoParams struct{}
+type CheckoutSessionPaymentMethodOptionsPaycoParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
 
 // contains details about the PayNow payment method options.
 type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
@@ -2080,7 +2094,10 @@ type CheckoutSessionPaymentMethodOptionsRevolutPayParams struct {
 }
 
 // contains details about the Samsung Pay payment method options.
-type CheckoutSessionPaymentMethodOptionsSamsungPayParams struct{}
+type CheckoutSessionPaymentMethodOptionsSamsungPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
 
 // contains details about the Sepa Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
@@ -2202,7 +2219,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Mobilepay *CheckoutSessionPaymentMethodOptionsMobilepayParams `form:"mobilepay"`
 	// contains details about the Multibanco payment method options.
 	Multibanco *CheckoutSessionPaymentMethodOptionsMultibancoParams `form:"multibanco"`
-	// contains details about the Kakao Pay payment method options.
+	// contains details about the Naver Pay payment method options.
 	NaverPay *CheckoutSessionPaymentMethodOptionsNaverPayParams `form:"naver_pay"`
 	// contains details about the OXXO payment method options.
 	OXXO *CheckoutSessionPaymentMethodOptionsOXXOParams `form:"oxxo"`
@@ -3000,7 +3017,9 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebit struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsAUBECSDebitSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptions struct{}
 type CheckoutSessionPaymentMethodOptionsBACSDebit struct {
+	MandateOptions *CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
