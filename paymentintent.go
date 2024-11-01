@@ -447,6 +447,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkGirocard        PaymentIntentPaymentMethodOptionsCardNetwork = "girocard"
 	PaymentIntentPaymentMethodOptionsCardNetworkInterac         PaymentIntentPaymentMethodOptionsCardNetwork = "interac"
 	PaymentIntentPaymentMethodOptionsCardNetworkJCB             PaymentIntentPaymentMethodOptionsCardNetwork = "jcb"
+	PaymentIntentPaymentMethodOptionsCardNetworkLink            PaymentIntentPaymentMethodOptionsCardNetwork = "link"
 	PaymentIntentPaymentMethodOptionsCardNetworkMastercard      PaymentIntentPaymentMethodOptionsCardNetwork = "mastercard"
 	PaymentIntentPaymentMethodOptionsCardNetworkUnionpay        PaymentIntentPaymentMethodOptionsCardNetwork = "unionpay"
 	PaymentIntentPaymentMethodOptionsCardNetworkUnknown         PaymentIntentPaymentMethodOptionsCardNetwork = "unknown"
@@ -3148,7 +3149,7 @@ type PaymentIntentParams struct {
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
 	PaymentMethod *string `form:"payment_method"`
-	// The ID of the payment method configuration to use with this PaymentIntent.
+	// The ID of the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) to use with this PaymentIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
 	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
@@ -4153,6 +4154,15 @@ type PaymentIntentIncrementAuthorizationAsyncWorkflowsParams struct {
 	Inputs *PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsParams `form:"inputs"`
 }
 
+// Configuration for any card payments attempted on this PaymentIntent.
+type PaymentIntentIncrementAuthorizationPaymentMethodOptionsCardParams struct{}
+
+// Payment method-specific configuration for this PaymentIntent.
+type PaymentIntentIncrementAuthorizationPaymentMethodOptionsParams struct {
+	// Configuration for any card payments attempted on this PaymentIntent.
+	Card *PaymentIntentIncrementAuthorizationPaymentMethodOptionsCardParams `form:"card"`
+}
+
 // The parameters used to automatically create a transfer after the payment is captured.
 // Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentIncrementAuthorizationTransferDataParams struct {
@@ -4198,6 +4208,8 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// Payment method-specific configuration for this PaymentIntent.
+	PaymentMethodOptions *PaymentIntentIncrementAuthorizationPaymentMethodOptionsParams `form:"payment_method_options"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card or card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// The parameters used to automatically create a transfer after the payment is captured.
@@ -4740,7 +4752,7 @@ type PaymentIntentPaymentDetails struct {
 	Subscription *PaymentIntentPaymentDetailsSubscription `json:"subscription"`
 }
 
-// Information about the payment method configuration used for this PaymentIntent.
+// Information about the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) used for this PaymentIntent.
 type PaymentIntentPaymentMethodConfigurationDetails struct {
 	// ID of the payment method configuration used.
 	ID string `json:"id"`
@@ -5637,7 +5649,7 @@ type PaymentIntent struct {
 	PaymentDetails *PaymentIntentPaymentDetails `json:"payment_details"`
 	// ID of the payment method used in this PaymentIntent.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
-	// Information about the payment method configuration used for this PaymentIntent.
+	// Information about the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) used for this PaymentIntent.
 	PaymentMethodConfigurationDetails *PaymentIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`

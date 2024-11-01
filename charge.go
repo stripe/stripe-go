@@ -94,7 +94,7 @@ const (
 	ChargePaymentMethodDetailsCardMulticaptureStatusUnavailable ChargePaymentMethodDetailsCardMulticaptureStatus = "unavailable"
 )
 
-// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type ChargePaymentMethodDetailsCardNetwork string
 
 // List of values that ChargePaymentMethodDetailsCardNetwork can take
@@ -180,7 +180,7 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
-// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type ChargePaymentMethodDetailsCardPresentNetwork string
 
 // List of values that ChargePaymentMethodDetailsCardPresentNetwork can take
@@ -1490,7 +1490,7 @@ type ChargePaymentMethodDetailsCard struct {
 	AmountAuthorized int64 `json:"amount_authorized"`
 	// Authorization code on the charge.
 	AuthorizationCode string `json:"authorization_code"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
 	CaptureBefore int64 `json:"capture_before"`
@@ -1522,7 +1522,7 @@ type ChargePaymentMethodDetailsCard struct {
 	// True if this payment was marked as MOTO and out of scope for SCA.
 	MOTO         bool                                        `json:"moto"`
 	Multicapture *ChargePaymentMethodDetailsCardMulticapture `json:"multicapture"`
-	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardNetwork `json:"network"`
 	// If this card has network token credentials, this contains the details of the network token credentials.
 	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token"`
@@ -1577,7 +1577,7 @@ type ChargePaymentMethodDetailsCardPresentWallet struct {
 type ChargePaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -1605,7 +1605,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	IncrementalAuthorizationSupported bool `json:"incremental_authorization_supported"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
-	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardPresentNetwork `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. The first three digits of the Trace ID is the Financial Network Code, the next 6 digits is the Banknet Reference Number, and the last 4 digits represent the date (MM/DD). This field will be available for successful Visa, Mastercard, or American Express transactions and always null for other card brands.
 	NetworkTransactionID string `json:"network_transaction_id"`
@@ -1741,7 +1741,7 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	GeneratedCard string `json:"generated_card"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
-	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. The first three digits of the Trace ID is the Financial Network Code, the next 6 digits is the Banknet Reference Number, and the last 4 digits represent the date (MM/DD). This field will be available for successful Visa, Mastercard, or American Express transactions and always null for other card brands.
 	NetworkTransactionID string `json:"network_transaction_id"`

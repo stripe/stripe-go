@@ -122,6 +122,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkGirocard        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "girocard"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkInterac         SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "interac"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkJCB             SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "jcb"
+	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkLink            SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "link"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkMastercard      SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "mastercard"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkUnionpay        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "unionpay"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkUnknown         SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "unknown"
