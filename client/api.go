@@ -87,11 +87,13 @@ import (
 	"github.com/stripe/stripe-go/v81/margin"
 	"github.com/stripe/stripe-go/v81/oauth"
 	"github.com/stripe/stripe-go/v81/order"
+	"github.com/stripe/stripe-go/v81/paymentattemptrecord"
 	"github.com/stripe/stripe-go/v81/paymentintent"
 	"github.com/stripe/stripe-go/v81/paymentlink"
 	"github.com/stripe/stripe-go/v81/paymentmethod"
 	"github.com/stripe/stripe-go/v81/paymentmethodconfiguration"
 	"github.com/stripe/stripe-go/v81/paymentmethoddomain"
+	"github.com/stripe/stripe-go/v81/paymentrecord"
 	"github.com/stripe/stripe-go/v81/paymentsource"
 	"github.com/stripe/stripe-go/v81/payout"
 	"github.com/stripe/stripe-go/v81/person"
@@ -324,6 +326,8 @@ type API struct {
 	OAuth *oauth.Client
 	// Orders is the client used to invoke /orders APIs.
 	Orders *order.Client
+	// PaymentAttemptRecords is the client used to invoke /payment_attempt_records APIs.
+	PaymentAttemptRecords *paymentattemptrecord.Client
 	// PaymentIntents is the client used to invoke /payment_intents APIs.
 	PaymentIntents *paymentintent.Client
 	// PaymentLinks is the client used to invoke /payment_links APIs.
@@ -334,6 +338,8 @@ type API struct {
 	PaymentMethodDomains *paymentmethoddomain.Client
 	// PaymentMethods is the client used to invoke /payment_methods APIs.
 	PaymentMethods *paymentmethod.Client
+	// PaymentRecords is the client used to invoke /payment_records APIs.
+	PaymentRecords *paymentrecord.Client
 	// PaymentSources is the client used to invoke /customers/{customer}/sources APIs.
 	PaymentSources *paymentsource.Client
 	// Payouts is the client used to invoke /payouts APIs.
@@ -568,11 +574,13 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Margins = &margin.Client{B: backends.API, Key: key}
 	a.OAuth = &oauth.Client{B: backends.Connect, Key: key}
 	a.Orders = &order.Client{B: backends.API, Key: key}
+	a.PaymentAttemptRecords = &paymentattemptrecord.Client{B: backends.API, Key: key}
 	a.PaymentIntents = &paymentintent.Client{B: backends.API, Key: key}
 	a.PaymentLinks = &paymentlink.Client{B: backends.API, Key: key}
 	a.PaymentMethodConfigurations = &paymentmethodconfiguration.Client{B: backends.API, Key: key}
 	a.PaymentMethodDomains = &paymentmethoddomain.Client{B: backends.API, Key: key}
 	a.PaymentMethods = &paymentmethod.Client{B: backends.API, Key: key}
+	a.PaymentRecords = &paymentrecord.Client{B: backends.API, Key: key}
 	a.PaymentSources = &paymentsource.Client{B: backends.API, Key: key}
 	a.Payouts = &payout.Client{B: backends.API, Key: key}
 	a.Persons = &person.Client{B: backends.API, Key: key}
