@@ -101,6 +101,8 @@ type PaymentRecordReportPaymentAttemptPaymentMethodDetailsBillingDetailsParams s
 type PaymentRecordReportPaymentAttemptPaymentMethodDetailsCustomParams struct {
 	// Display name for the custom (user-defined) payment method type used to make this payment.
 	DisplayName *string `form:"display_name"`
+	// The custom payment method type associated with this payment.
+	Type *string `form:"type"`
 }
 
 // Information about the Payment Method debited for this payment.
@@ -238,6 +240,8 @@ type PaymentRecordReportPaymentPaymentMethodDetailsBillingDetailsParams struct {
 type PaymentRecordReportPaymentPaymentMethodDetailsCustomParams struct {
 	// Display name for the custom (user-defined) payment method type used to make this payment.
 	DisplayName *string `form:"display_name"`
+	// The custom payment method type associated with this payment.
+	Type *string `form:"type"`
 }
 
 // Information about the Payment Method debited for this payment.
