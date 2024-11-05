@@ -160,6 +160,7 @@ const (
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "service_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
@@ -211,6 +212,7 @@ const (
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "service_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 

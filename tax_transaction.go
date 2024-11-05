@@ -160,6 +160,7 @@ const (
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "service_tax"
 	TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
