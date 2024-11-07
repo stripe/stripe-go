@@ -66,7 +66,7 @@ func TestAccount_Unmarshal(t *testing.T) {
 				"tos_acceptance.date",
 				"tos_acceptance.ip",
 			},
-			"disabled_reason": "fields_needed",
+			"disabled_reason": "rejected.fraud",
 			"errors": []map[string]interface{}{
 				{
 					"code":        "invalid_value_other",
@@ -140,7 +140,7 @@ func TestAccount_Unmarshal(t *testing.T) {
 
 	assert.Equal(t, int64(1234567890), account.Requirements.CurrentDeadline)
 	assert.Equal(t, 2, len(account.Requirements.CurrentlyDue))
-	assert.Equal(t, AccountRequirementsDisabledReasonFieldsNeeded, account.Requirements.DisabledReason)
+	assert.Equal(t, AccountRequirementsDisabledReasonRejectedFraud, account.Requirements.DisabledReason)
 	assert.Equal(t, 1, len(account.Requirements.Errors))
 	assert.Equal(t, "invalid_value_other", account.Requirements.Errors[0].Code)
 	assert.Equal(t, 1, len(account.Requirements.EventuallyDue))

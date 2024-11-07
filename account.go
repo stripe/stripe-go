@@ -150,19 +150,48 @@ const (
 	AccountExternalAccountTypeCard        AccountExternalAccountType = "card"
 )
 
-// If the account is disabled, this string describes why. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification). Can be `action_required.requested_capabilities`, `requirements.past_due`, `requirements.pending_verification`, `listed`, `platform_paused`, `rejected.fraud`, `rejected.incomplete_verification`, `rejected.listed`, `rejected.other`, `rejected.terms_of_service`, `under_review`, or `other`.
+// This is typed as an enum for consistency with `requirements.disabled_reason`.
+type AccountFutureRequirementsDisabledReason string
+
+// List of values that AccountFutureRequirementsDisabledReason can take
+const (
+	AccountFutureRequirementsDisabledReasonActionRequiredRequestedCapabilities AccountFutureRequirementsDisabledReason = "action_required.requested_capabilities"
+	AccountFutureRequirementsDisabledReasonListed                              AccountFutureRequirementsDisabledReason = "listed"
+	AccountFutureRequirementsDisabledReasonOther                               AccountFutureRequirementsDisabledReason = "other"
+	AccountFutureRequirementsDisabledReasonPlatformPaused                      AccountFutureRequirementsDisabledReason = "platform_paused"
+	AccountFutureRequirementsDisabledReasonRejectedFraud                       AccountFutureRequirementsDisabledReason = "rejected.fraud"
+	AccountFutureRequirementsDisabledReasonRejectedIncompleteVerification      AccountFutureRequirementsDisabledReason = "rejected.incomplete_verification"
+	AccountFutureRequirementsDisabledReasonRejectedListed                      AccountFutureRequirementsDisabledReason = "rejected.listed"
+	AccountFutureRequirementsDisabledReasonRejectedOther                       AccountFutureRequirementsDisabledReason = "rejected.other"
+	AccountFutureRequirementsDisabledReasonRejectedPlatformFraud               AccountFutureRequirementsDisabledReason = "rejected.platform_fraud"
+	AccountFutureRequirementsDisabledReasonRejectedPlatformOther               AccountFutureRequirementsDisabledReason = "rejected.platform_other"
+	AccountFutureRequirementsDisabledReasonRejectedPlatformTermsOfService      AccountFutureRequirementsDisabledReason = "rejected.platform_terms_of_service"
+	AccountFutureRequirementsDisabledReasonRejectedTermsOfService              AccountFutureRequirementsDisabledReason = "rejected.terms_of_service"
+	AccountFutureRequirementsDisabledReasonRequirementsPastDue                 AccountFutureRequirementsDisabledReason = "requirements.past_due"
+	AccountFutureRequirementsDisabledReasonRequirementsPendingVerification     AccountFutureRequirementsDisabledReason = "requirements.pending_verification"
+	AccountFutureRequirementsDisabledReasonUnderReview                         AccountFutureRequirementsDisabledReason = "under_review"
+)
+
+// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification).
 type AccountRequirementsDisabledReason string
 
 // List of values that AccountRequirementsDisabledReason can take
 const (
-	AccountRequirementsDisabledReasonFieldsNeeded           AccountRequirementsDisabledReason = "fields_needed"
-	AccountRequirementsDisabledReasonListed                 AccountRequirementsDisabledReason = "listed"
-	AccountRequirementsDisabledReasonOther                  AccountRequirementsDisabledReason = "other"
-	AccountRequirementsDisabledReasonRejectedFraud          AccountRequirementsDisabledReason = "rejected.fraud"
-	AccountRequirementsDisabledReasonRejectedListed         AccountRequirementsDisabledReason = "rejected.listed"
-	AccountRequirementsDisabledReasonRejectedOther          AccountRequirementsDisabledReason = "rejected.other"
-	AccountRequirementsDisabledReasonRejectedTermsOfService AccountRequirementsDisabledReason = "rejected.terms_of_service"
-	AccountRequirementsDisabledReasonUnderReview            AccountRequirementsDisabledReason = "under_review"
+	AccountRequirementsDisabledReasonActionRequiredRequestedCapabilities AccountRequirementsDisabledReason = "action_required.requested_capabilities"
+	AccountRequirementsDisabledReasonListed                              AccountRequirementsDisabledReason = "listed"
+	AccountRequirementsDisabledReasonOther                               AccountRequirementsDisabledReason = "other"
+	AccountRequirementsDisabledReasonPlatformPaused                      AccountRequirementsDisabledReason = "platform_paused"
+	AccountRequirementsDisabledReasonRejectedFraud                       AccountRequirementsDisabledReason = "rejected.fraud"
+	AccountRequirementsDisabledReasonRejectedIncompleteVerification      AccountRequirementsDisabledReason = "rejected.incomplete_verification"
+	AccountRequirementsDisabledReasonRejectedListed                      AccountRequirementsDisabledReason = "rejected.listed"
+	AccountRequirementsDisabledReasonRejectedOther                       AccountRequirementsDisabledReason = "rejected.other"
+	AccountRequirementsDisabledReasonRejectedPlatformFraud               AccountRequirementsDisabledReason = "rejected.platform_fraud"
+	AccountRequirementsDisabledReasonRejectedPlatformOther               AccountRequirementsDisabledReason = "rejected.platform_other"
+	AccountRequirementsDisabledReasonRejectedPlatformTermsOfService      AccountRequirementsDisabledReason = "rejected.platform_terms_of_service"
+	AccountRequirementsDisabledReasonRejectedTermsOfService              AccountRequirementsDisabledReason = "rejected.terms_of_service"
+	AccountRequirementsDisabledReasonRequirementsPastDue                 AccountRequirementsDisabledReason = "requirements.past_due"
+	AccountRequirementsDisabledReasonRequirementsPendingVerification     AccountRequirementsDisabledReason = "requirements.pending_verification"
+	AccountRequirementsDisabledReasonUnderReview                         AccountRequirementsDisabledReason = "under_review"
 )
 
 // How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
@@ -1659,8 +1688,8 @@ type AccountFutureRequirements struct {
 	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be collected to keep the account enabled. If not collected by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
 	CurrentlyDue []string `json:"currently_due"`
-	// This is typed as a string for consistency with `requirements.disabled_reason`.
-	DisabledReason string `json:"disabled_reason"`
+	// This is typed as an enum for consistency with `requirements.disabled_reason`.
+	DisabledReason AccountFutureRequirementsDisabledReason `json:"disabled_reason"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountFutureRequirementsError `json:"errors"`
 	// Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in `currently_due` as well.
@@ -1701,7 +1730,7 @@ type AccountRequirements struct {
 	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be collected to keep the account enabled. If not collected by `current_deadline`, these fields appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
-	// If the account is disabled, this string describes why. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification). Can be `action_required.requested_capabilities`, `requirements.past_due`, `requirements.pending_verification`, `listed`, `platform_paused`, `rejected.fraud`, `rejected.incomplete_verification`, `rejected.listed`, `rejected.other`, `rejected.terms_of_service`, `under_review`, or `other`.
+	// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification).
 	DisabledReason AccountRequirementsDisabledReason `json:"disabled_reason"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`

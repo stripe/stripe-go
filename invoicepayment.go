@@ -14,6 +14,7 @@ const (
 	InvoicePaymentPaymentTypeCharge           InvoicePaymentPaymentType = "charge"
 	InvoicePaymentPaymentTypeOutOfBandPayment InvoicePaymentPaymentType = "out_of_band_payment"
 	InvoicePaymentPaymentTypePaymentIntent    InvoicePaymentPaymentType = "payment_intent"
+	InvoicePaymentPaymentTypePaymentRecord    InvoicePaymentPaymentType = "payment_record"
 )
 
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
@@ -42,26 +43,13 @@ func (p *InvoicePaymentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-type InvoicePaymentPaymentOutOfBandPayment struct {
-	// Amount paid on this out of band payment, in cents (or local equivalent)
-	Amount int64 `json:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
-	// The type of money movement for this out of band payment record.
-	MoneyMovementType string `json:"money_movement_type"`
-	// The timestamp when this out of band payment was paid.
-	PaidAt int64 `json:"paid_at"`
-	// The reference for this out of band payment record.
-	PaymentReference string `json:"payment_reference"`
-}
 type InvoicePaymentPayment struct {
 	// ID of the successful charge for this payment when `type` is `charge`.
-	Charge           *Charge                                `json:"charge"`
-	OutOfBandPayment *InvoicePaymentPaymentOutOfBandPayment `json:"out_of_band_payment"`
+	Charge *Charge `json:"charge"`
 	// ID of the PaymentIntent associated with this payment when `type` is `payment_intent`. Note: This property is only populated for invoices finalized on or after March 15th, 2019.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// ID of the PaymentRecord associated with this payment when `type` is `payment_record`.
+	PaymentRecord *PaymentRecord `json:"payment_record"`
 	// Type of payment object associated with this invoice payment.
 	Type InvoicePaymentPaymentType `json:"type"`
 }
