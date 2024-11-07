@@ -34,7 +34,7 @@ const (
 	CheckoutSessionBillingAddressCollectionRequired CheckoutSessionBillingAddressCollection = "required"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
 type CheckoutSessionCollectedInformationTaxIDType string
 
 // List of values that CheckoutSessionCollectedInformationTaxIDType can take
@@ -85,6 +85,7 @@ const (
 	CheckoutSessionCollectedInformationTaxIDTypeKRBRN    CheckoutSessionCollectedInformationTaxIDType = "kr_brn"
 	CheckoutSessionCollectedInformationTaxIDTypeKzBin    CheckoutSessionCollectedInformationTaxIDType = "kz_bin"
 	CheckoutSessionCollectedInformationTaxIDTypeLIUID    CheckoutSessionCollectedInformationTaxIDType = "li_uid"
+	CheckoutSessionCollectedInformationTaxIDTypeLiVAT    CheckoutSessionCollectedInformationTaxIDType = "li_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMaVAT    CheckoutSessionCollectedInformationTaxIDType = "ma_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMdVAT    CheckoutSessionCollectedInformationTaxIDType = "md_vat"
 	CheckoutSessionCollectedInformationTaxIDTypeMXRFC    CheckoutSessionCollectedInformationTaxIDType = "mx_rfc"
@@ -208,7 +209,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDType string
 
 // List of values that CheckoutSessionCustomerDetailsTaxIDType can take
@@ -259,6 +260,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDTypeKRBRN    CheckoutSessionCustomerDetailsTaxIDType = "kr_brn"
 	CheckoutSessionCustomerDetailsTaxIDTypeKzBin    CheckoutSessionCustomerDetailsTaxIDType = "kz_bin"
 	CheckoutSessionCustomerDetailsTaxIDTypeLIUID    CheckoutSessionCustomerDetailsTaxIDType = "li_uid"
+	CheckoutSessionCustomerDetailsTaxIDTypeLiVAT    CheckoutSessionCustomerDetailsTaxIDType = "li_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMaVAT    CheckoutSessionCustomerDetailsTaxIDType = "ma_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMdVAT    CheckoutSessionCustomerDetailsTaxIDType = "md_vat"
 	CheckoutSessionCustomerDetailsTaxIDTypeMXRFC    CheckoutSessionCustomerDetailsTaxIDType = "mx_rfc"
@@ -493,6 +495,51 @@ const (
 	CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsage = "none"
 	CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsage = "off_session"
 	CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsageOnSession  CheckoutSessionPaymentMethodOptionsBoletoSetupFutureUsage = "on_session"
+)
+
+// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
+type CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorization string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorization can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorizationIfAvailable CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorization = "if_available"
+	CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorizationNever       CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorization = "never"
+)
+
+// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
+type CheckoutSessionPaymentMethodOptionsCardRequestExtendedAuthorization string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardRequestExtendedAuthorization can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardRequestExtendedAuthorizationIfAvailable CheckoutSessionPaymentMethodOptionsCardRequestExtendedAuthorization = "if_available"
+	CheckoutSessionPaymentMethodOptionsCardRequestExtendedAuthorizationNever       CheckoutSessionPaymentMethodOptionsCardRequestExtendedAuthorization = "never"
+)
+
+// Request ability to [increment the authorization](https://stripe.com/payments/incremental-authorization) for this CheckoutSession.
+type CheckoutSessionPaymentMethodOptionsCardRequestIncrementalAuthorization string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardRequestIncrementalAuthorization can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardRequestIncrementalAuthorizationIfAvailable CheckoutSessionPaymentMethodOptionsCardRequestIncrementalAuthorization = "if_available"
+	CheckoutSessionPaymentMethodOptionsCardRequestIncrementalAuthorizationNever       CheckoutSessionPaymentMethodOptionsCardRequestIncrementalAuthorization = "never"
+)
+
+// Request ability to make [multiple captures](https://stripe.com/payments/multicapture) for this CheckoutSession.
+type CheckoutSessionPaymentMethodOptionsCardRequestMulticapture string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardRequestMulticapture can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardRequestMulticaptureIfAvailable CheckoutSessionPaymentMethodOptionsCardRequestMulticapture = "if_available"
+	CheckoutSessionPaymentMethodOptionsCardRequestMulticaptureNever       CheckoutSessionPaymentMethodOptionsCardRequestMulticapture = "never"
+)
+
+// Request ability to [overcapture](https://stripe.com/payments/overcapture) for this CheckoutSession.
+type CheckoutSessionPaymentMethodOptionsCardRequestOvercapture string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardRequestOvercapture can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardRequestOvercaptureIfAvailable CheckoutSessionPaymentMethodOptionsCardRequestOvercapture = "if_available"
+	CheckoutSessionPaymentMethodOptionsCardRequestOvercaptureNever       CheckoutSessionPaymentMethodOptionsCardRequestOvercapture = "never"
 )
 
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
@@ -1212,6 +1259,12 @@ func (p *CheckoutSessionListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
+type CheckoutSessionAdaptivePricingParams struct {
+	// Set to `true` to enable [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
+	Enabled *bool `form:"enabled"`
+}
+
 // Configure a Checkout Session that can be used to recover an expired session.
 type CheckoutSessionAfterExpirationRecoveryParams struct {
 	// Enables user redeemable promotion codes on the recovered Checkout Sessions. Defaults to `false`
@@ -1691,8 +1744,13 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebitParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Additional fields for Mandate creation
+type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptionsParams struct{}
+
 // contains details about the Bacs Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsBACSDebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1740,6 +1798,16 @@ type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
 type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	// Installment options for card payments
 	Installments *CheckoutSessionPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
+	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
+	RequestDecrementalAuthorization *string `form:"request_decremental_authorization"`
+	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
+	RequestExtendedAuthorization *string `form:"request_extended_authorization"`
+	// Request ability to [increment the authorization](https://stripe.com/payments/incremental-authorization) for this CheckoutSession.
+	RequestIncrementalAuthorization *string `form:"request_incremental_authorization"`
+	// Request ability to make [multiple captures](https://stripe.com/payments/multicapture) for this CheckoutSession.
+	RequestMulticapture *string `form:"request_multicapture"`
+	// Request ability to [overcapture](https://stripe.com/payments/overcapture) for this CheckoutSession.
+	RequestOvercapture *string `form:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1864,6 +1932,8 @@ type CheckoutSessionPaymentMethodOptionsIDEALParams struct {
 
 // contains details about the Kakao Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsKakaoPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1902,6 +1972,8 @@ type CheckoutSessionPaymentMethodOptionsKonbiniParams struct {
 
 // contains details about the Korean card payment method options.
 type CheckoutSessionPaymentMethodOptionsKrCardParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1948,8 +2020,10 @@ type CheckoutSessionPaymentMethodOptionsMultibancoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// contains details about the Kakao Pay payment method options.
+// contains details about the Naver Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsNaverPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1989,7 +2063,10 @@ type CheckoutSessionPaymentMethodOptionsP24Params struct {
 }
 
 // contains details about the PAYCO payment method options.
-type CheckoutSessionPaymentMethodOptionsPaycoParams struct{}
+type CheckoutSessionPaymentMethodOptionsPaycoParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
 
 // contains details about the PayNow payment method options.
 type CheckoutSessionPaymentMethodOptionsPayNowParams struct {
@@ -2080,10 +2157,18 @@ type CheckoutSessionPaymentMethodOptionsRevolutPayParams struct {
 }
 
 // contains details about the Samsung Pay payment method options.
-type CheckoutSessionPaymentMethodOptionsSamsungPayParams struct{}
+type CheckoutSessionPaymentMethodOptionsSamsungPayParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+}
+
+// Additional fields for Mandate creation
+type CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
 
 // contains details about the Sepa Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2202,7 +2287,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Mobilepay *CheckoutSessionPaymentMethodOptionsMobilepayParams `form:"mobilepay"`
 	// contains details about the Multibanco payment method options.
 	Multibanco *CheckoutSessionPaymentMethodOptionsMultibancoParams `form:"multibanco"`
-	// contains details about the Kakao Pay payment method options.
+	// contains details about the Naver Pay payment method options.
 	NaverPay *CheckoutSessionPaymentMethodOptionsNaverPayParams `form:"naver_pay"`
 	// contains details about the OXXO payment method options.
 	OXXO *CheckoutSessionPaymentMethodOptionsOXXOParams `form:"oxxo"`
@@ -2291,7 +2376,7 @@ func (p *CheckoutSessionSetupIntentDataParams) AddMetadata(key string, value str
 // When set, provides configuration for Checkout to collect a shipping address from a customer.
 type CheckoutSessionShippingAddressCollectionParams struct {
 	// An array of two-letter ISO country codes representing which countries Checkout should provide as options for
-	// shipping locations. Unsupported country codes: `AS, CX, CC, CU, HM, IR, KP, MH, FM, NF, MP, PW, SD, SY, UM, VI`.
+	// shipping locations.
 	AllowedCountries []*string `form:"allowed_countries"`
 }
 
@@ -2461,6 +2546,8 @@ type CheckoutSessionTaxIDCollectionParams struct {
 // Creates a Session object.
 type CheckoutSessionParams struct {
 	Params `form:"*"`
+	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
+	AdaptivePricing *CheckoutSessionAdaptivePricingParams `form:"adaptive_pricing"`
 	// Configure actions after a Checkout Session has expired.
 	AfterExpiration *CheckoutSessionAfterExpirationParams `form:"after_expiration"`
 	// Enables user redeemable promotion codes.
@@ -2658,6 +2745,12 @@ func (p *CheckoutSessionExpireParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
+type CheckoutSessionAdaptivePricing struct {
+	// Whether Adaptive Pricing is enabled.
+	Enabled bool `json:"enabled"`
+}
+
 // When set, configuration used to recover the Checkout Session on expiry.
 type CheckoutSessionAfterExpirationRecovery struct {
 	// Enables user redeemable promotion codes on the recovered Checkout Sessions. Defaults to `false`
@@ -2696,7 +2789,7 @@ type CheckoutSessionAutomaticTax struct {
 
 // Customer's tax ids for this Checkout Session.
 type CheckoutSessionCollectedInformationTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
 	Type CheckoutSessionCollectedInformationTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -2849,7 +2942,7 @@ type CheckoutSessionCustomText struct {
 
 // The customer's tax IDs after a completed Checkout Session.
 type CheckoutSessionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
 	Type CheckoutSessionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -3000,7 +3093,9 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebit struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsAUBECSDebitSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptions struct{}
 type CheckoutSessionPaymentMethodOptionsBACSDebit struct {
+	MandateOptions *CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3038,6 +3133,16 @@ type CheckoutSessionPaymentMethodOptionsCardInstallments struct {
 }
 type CheckoutSessionPaymentMethodOptionsCard struct {
 	Installments *CheckoutSessionPaymentMethodOptionsCardInstallments `json:"installments"`
+	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
+	RequestDecrementalAuthorization CheckoutSessionPaymentMethodOptionsCardRequestDecrementalAuthorization `json:"request_decremental_authorization"`
+	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
+	RequestExtendedAuthorization CheckoutSessionPaymentMethodOptionsCardRequestExtendedAuthorization `json:"request_extended_authorization"`
+	// Request ability to [increment the authorization](https://stripe.com/payments/incremental-authorization) for this CheckoutSession.
+	RequestIncrementalAuthorization CheckoutSessionPaymentMethodOptionsCardRequestIncrementalAuthorization `json:"request_incremental_authorization"`
+	// Request ability to make [multiple captures](https://stripe.com/payments/multicapture) for this CheckoutSession.
+	RequestMulticapture CheckoutSessionPaymentMethodOptionsCardRequestMulticapture `json:"request_multicapture"`
+	// Request ability to [overcapture](https://stripe.com/payments/overcapture) for this CheckoutSession.
+	RequestOvercapture CheckoutSessionPaymentMethodOptionsCardRequestOvercapture `json:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure CheckoutSessionPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3318,7 +3423,9 @@ type CheckoutSessionPaymentMethodOptionsSamsungPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod `json:"capture_method"`
 }
+type CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptions struct{}
 type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
+	MandateOptions *CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3557,6 +3664,8 @@ type CheckoutSessionTotalDetails struct {
 // Related guide: [Checkout quickstart](https://stripe.com/docs/checkout/quickstart)
 type CheckoutSession struct {
 	APIResource
+	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
+	AdaptivePricing *CheckoutSessionAdaptivePricing `json:"adaptive_pricing"`
 	// When set, provides configuration for actions to take if this Checkout Session expires.
 	AfterExpiration *CheckoutSessionAfterExpiration `json:"after_expiration"`
 	// Enables user redeemable promotion codes.

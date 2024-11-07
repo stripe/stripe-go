@@ -16,7 +16,7 @@ const (
 	BillingCreditGrantAmountTypeMonetary BillingCreditGrantAmountType = "monetary"
 )
 
-// The price type to which credit grants can apply to. We currently only support `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+// The price type for which credit grants can apply. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 type BillingCreditGrantApplicabilityConfigScopePriceType string
 
 // List of values that BillingCreditGrantApplicabilityConfigScopePriceType can take
@@ -24,7 +24,7 @@ const (
 	BillingCreditGrantApplicabilityConfigScopePriceTypeMetered BillingCreditGrantApplicabilityConfigScopePriceType = "metered"
 )
 
-// The category of this credit grant. This is for tracking purposes and will not be displayed to the customer.
+// The category of this credit grant. This is for tracking purposes and isn't displayed to the customer.
 type BillingCreditGrantCategory string
 
 // List of values that BillingCreditGrantCategory can take
@@ -33,7 +33,7 @@ const (
 	BillingCreditGrantCategoryPromotional BillingCreditGrantCategory = "promotional"
 )
 
-// Retrieve a list of credit grants
+// Retrieve a list of credit grants.
 type BillingCreditGrantListParams struct {
 	ListParams `form:"*"`
 	// Only return credit grants for this customer.
@@ -65,7 +65,7 @@ type BillingCreditGrantAmountParams struct {
 
 // Specify the scope of this applicability config.
 type BillingCreditGrantApplicabilityConfigScopeParams struct {
-	// The price type to which credit grants can apply to. We currently only support `metered` price type.
+	// The price type for which credit grants can apply. We currently only support the `metered` price type.
 	PriceType *string `form:"price_type"`
 }
 
@@ -84,17 +84,17 @@ type BillingCreditGrantParams struct {
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config"`
 	// The category of this credit grant.
 	Category *string `form:"category"`
-	// ID of the customer to whom the billing credits should be granted.
+	// ID of the customer to receive the billing credits.
 	Customer *string `form:"customer"`
-	// The time when the billing credits become effective i.e when they are eligible to be used. Defaults to the current timestamp if not specified.
+	// The time when the billing credits become effective—when they're eligible for use. Defaults to the current timestamp if not specified.
 	EffectiveAt *int64 `form:"effective_at"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The time when the billing credits created by this credit grant will expire. If set to empty, the billing credits will never expire.
+	// The time when the billing credits created by this credit grant expire. If set to empty, the billing credits never expire.
 	ExpiresAt *int64 `form:"expires_at"`
-	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object (ex: cost basis) in a structured format.
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object (for example, cost basis) in a structured format.
 	Metadata map[string]string `form:"metadata"`
-	// A descriptive name shown in dashboard.
+	// A descriptive name shown in the Dashboard.
 	Name *string `form:"name"`
 }
 
@@ -112,7 +112,7 @@ func (p *BillingCreditGrantParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Expires a credit grant
+// Expires a credit grant.
 type BillingCreditGrantExpireParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -124,7 +124,7 @@ func (p *BillingCreditGrantExpireParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Voids a credit grant
+// Voids a credit grant.
 type BillingCreditGrantVoidGrantParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -150,7 +150,7 @@ type BillingCreditGrantAmount struct {
 	Type BillingCreditGrantAmountType `json:"type"`
 }
 type BillingCreditGrantApplicabilityConfigScope struct {
-	// The price type to which credit grants can apply to. We currently only support `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+	// The price type for which credit grants can apply. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 	PriceType BillingCreditGrantApplicabilityConfigScopePriceType `json:"price_type"`
 }
 type BillingCreditGrantApplicabilityConfig struct {
@@ -160,20 +160,19 @@ type BillingCreditGrantApplicabilityConfig struct {
 // A credit grant is an API resource that documents the allocation of some billing credits to a customer.
 //
 // Related guide: [Billing credits](https://docs.stripe.com/billing/subscriptions/usage-based/billing-credits)
-// end
 type BillingCreditGrant struct {
 	APIResource
 	Amount              *BillingCreditGrantAmount              `json:"amount"`
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfig `json:"applicability_config"`
-	// The category of this credit grant. This is for tracking purposes and will not be displayed to the customer.
+	// The category of this credit grant. This is for tracking purposes and isn't displayed to the customer.
 	Category BillingCreditGrantCategory `json:"category"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// ID of the customer to whom the billing credits are granted.
+	// ID of the customer receiving the billing credits.
 	Customer *Customer `json:"customer"`
-	// The time when the billing credits become effective i.e when they are eligible to be used.
+	// The time when the billing credits become effective—when they're eligible for use.
 	EffectiveAt int64 `json:"effective_at"`
-	// The time when the billing credits will expire. If not present, the billing credits will never expire.
+	// The time when the billing credits expire. If not present, the billing credits don't expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

@@ -53,6 +53,7 @@ const (
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "service_tax"
 	TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 

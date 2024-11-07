@@ -464,7 +464,7 @@ type IssuingAuthorization struct {
 	AuthorizationMethod IssuingAuthorizationAuthorizationMethod `json:"authorization_method"`
 	// List of balance transactions associated with this authorization.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
-	// You can [create physical or virtual cards](https://stripe.com/docs/issuing/cards) that are issued to cardholders.
+	// You can [create physical or virtual cards](https://stripe.com/docs/issuing) that are issued to cardholders.
 	Card *IssuingCard `json:"card"`
 	// The cardholder to whom this authorization belongs.
 	Cardholder *IssuingCardholder `json:"cardholder"`

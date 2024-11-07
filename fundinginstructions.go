@@ -53,8 +53,14 @@ const (
 
 // ABA Records contain U.S. bank account details per the ABA format.
 type FundingInstructionsBankTransferFinancialAddressABA struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
+	// The account holder name
+	AccountHolderName string `json:"account_holder_name"`
 	// The ABA account number
 	AccountNumber string `json:"account_number"`
+	// The account type
+	AccountType string   `json:"account_type"`
+	BankAddress *Address `json:"bank_address"`
 	// The bank name
 	BankName string `json:"bank_name"`
 	// The ABA routing number
@@ -95,8 +101,14 @@ type FundingInstructionsBankTransferFinancialAddressSpei struct {
 
 // SWIFT Records contain U.S. bank account details per the SWIFT format.
 type FundingInstructionsBankTransferFinancialAddressSwift struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
+	// The account holder name
+	AccountHolderName string `json:"account_holder_name"`
 	// The account number
 	AccountNumber string `json:"account_number"`
+	// The account type
+	AccountType string   `json:"account_type"`
+	BankAddress *Address `json:"bank_address"`
 	// The bank name
 	BankName string `json:"bank_name"`
 	// The SWIFT code

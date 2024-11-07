@@ -64,12 +64,12 @@ func (c Client) Update(id string, params *stripe.BillingCreditGrantParams) (*str
 	return creditgrant, err
 }
 
-// Expires a credit grant
+// Expires a credit grant.
 func Expire(id string, params *stripe.BillingCreditGrantExpireParams) (*stripe.BillingCreditGrant, error) {
 	return getC().Expire(id, params)
 }
 
-// Expires a credit grant
+// Expires a credit grant.
 func (c Client) Expire(id string, params *stripe.BillingCreditGrantExpireParams) (*stripe.BillingCreditGrant, error) {
 	path := stripe.FormatURLPath("/v1/billing/credit_grants/%s/expire", id)
 	creditgrant := &stripe.BillingCreditGrant{}
@@ -77,12 +77,12 @@ func (c Client) Expire(id string, params *stripe.BillingCreditGrantExpireParams)
 	return creditgrant, err
 }
 
-// Voids a credit grant
+// Voids a credit grant.
 func VoidGrant(id string, params *stripe.BillingCreditGrantVoidGrantParams) (*stripe.BillingCreditGrant, error) {
 	return getC().VoidGrant(id, params)
 }
 
-// Voids a credit grant
+// Voids a credit grant.
 func (c Client) VoidGrant(id string, params *stripe.BillingCreditGrantVoidGrantParams) (*stripe.BillingCreditGrant, error) {
 	path := stripe.FormatURLPath("/v1/billing/credit_grants/%s/void", id)
 	creditgrant := &stripe.BillingCreditGrant{}
@@ -90,12 +90,12 @@ func (c Client) VoidGrant(id string, params *stripe.BillingCreditGrantVoidGrantP
 	return creditgrant, err
 }
 
-// Retrieve a list of credit grants
+// Retrieve a list of credit grants.
 func List(params *stripe.BillingCreditGrantListParams) *Iter {
 	return getC().List(params)
 }
 
-// Retrieve a list of credit grants
+// Retrieve a list of credit grants.
 func (c Client) List(listParams *stripe.BillingCreditGrantListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
