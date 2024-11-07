@@ -101,6 +101,22 @@ func (c Client) Increment(id string, params *stripe.TestHelpersIssuingAuthorizat
 	return authorization, err
 }
 
+// Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
+func Respond(id string, params *stripe.TestHelpersIssuingAuthorizationRespondParams) (*stripe.IssuingAuthorization, error) {
+	return getC().Respond(id, params)
+}
+
+// Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
+func (c Client) Respond(id string, params *stripe.TestHelpersIssuingAuthorizationRespondParams) (*stripe.IssuingAuthorization, error) {
+	path := stripe.FormatURLPath(
+		"/v1/test_helpers/issuing/authorizations/%s/fraud_challenges/respond",
+		id,
+	)
+	authorization := &stripe.IssuingAuthorization{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	return authorization, err
+}
+
 // Reverse a test-mode Authorization.
 func Reverse(id string, params *stripe.TestHelpersIssuingAuthorizationReverseParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Reverse(id, params)

@@ -432,6 +432,20 @@ func (p *TestHelpersIssuingAuthorizationFinalizeAmountParams) AddExpand(f string
 	p.Expand = append(p.Expand, &f)
 }
 
+// Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
+type TestHelpersIssuingAuthorizationRespondParams struct {
+	Params `form:"*"`
+	// Whether to simulate the user confirming that the transaction was legitimate (true) or telling Stripe that it was fraudulent (false).
+	Confirmed *bool `form:"confirmed"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingAuthorizationRespondParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Increment a test-mode Authorization.
 type TestHelpersIssuingAuthorizationIncrementParams struct {
 	Params `form:"*"`
