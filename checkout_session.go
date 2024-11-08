@@ -1178,10 +1178,11 @@ type CheckoutSessionSubmitType string
 
 // List of values that CheckoutSessionSubmitType can take
 const (
-	CheckoutSessionSubmitTypeAuto   CheckoutSessionSubmitType = "auto"
-	CheckoutSessionSubmitTypeBook   CheckoutSessionSubmitType = "book"
-	CheckoutSessionSubmitTypeDonate CheckoutSessionSubmitType = "donate"
-	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
+	CheckoutSessionSubmitTypeAuto      CheckoutSessionSubmitType = "auto"
+	CheckoutSessionSubmitTypeBook      CheckoutSessionSubmitType = "book"
+	CheckoutSessionSubmitTypeDonate    CheckoutSessionSubmitType = "donate"
+	CheckoutSessionSubmitTypePay       CheckoutSessionSubmitType = "pay"
+	CheckoutSessionSubmitTypeSubscribe CheckoutSessionSubmitType = "subscribe"
 )
 
 // Indicates whether a tax ID is required on the payment page

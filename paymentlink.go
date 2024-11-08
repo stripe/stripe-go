@@ -180,10 +180,11 @@ type PaymentLinkSubmitType string
 
 // List of values that PaymentLinkSubmitType can take
 const (
-	PaymentLinkSubmitTypeAuto   PaymentLinkSubmitType = "auto"
-	PaymentLinkSubmitTypeBook   PaymentLinkSubmitType = "book"
-	PaymentLinkSubmitTypeDonate PaymentLinkSubmitType = "donate"
-	PaymentLinkSubmitTypePay    PaymentLinkSubmitType = "pay"
+	PaymentLinkSubmitTypeAuto      PaymentLinkSubmitType = "auto"
+	PaymentLinkSubmitTypeBook      PaymentLinkSubmitType = "book"
+	PaymentLinkSubmitTypeDonate    PaymentLinkSubmitType = "donate"
+	PaymentLinkSubmitTypePay       PaymentLinkSubmitType = "pay"
+	PaymentLinkSubmitTypeSubscribe PaymentLinkSubmitType = "subscribe"
 )
 
 // Type of the account referenced.
