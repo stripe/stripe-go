@@ -420,7 +420,7 @@ type QuoteLineEndsAt struct {
 	Type QuoteLineEndsAtType `json:"type"`
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 type QuoteLineSetPauseCollectionSet struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior QuoteLineSetPauseCollectionSetBehavior `json:"behavior"`
@@ -428,7 +428,7 @@ type QuoteLineSetPauseCollectionSet struct {
 
 // Details to modify the pause_collection behavior of the subscription schedule.
 type QuoteLineSetPauseCollection struct {
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	Set *QuoteLineSetPauseCollectionSet `json:"set"`
 	// Defines the type of the pause_collection behavior for the quote line.
 	Type QuoteLineSetPauseCollectionType `json:"type"`

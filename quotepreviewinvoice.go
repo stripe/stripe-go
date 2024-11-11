@@ -661,7 +661,7 @@ type QuotePreviewInvoiceStatusTransitions struct {
 	VoidedAt int64 `json:"voided_at"`
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 type QuotePreviewInvoiceSubscriptionDetailsPauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehavior `json:"behavior"`
@@ -674,7 +674,7 @@ type QuotePreviewInvoiceSubscriptionDetails struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) defined as subscription metadata when an invoice is created. Becomes an immutable snapshot of the subscription metadata at the time of invoice finalization.
 	//  *Note: This attribute is populated only for invoices created on or after June 29, 2023.*
 	Metadata map[string]string `json:"metadata"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *QuotePreviewInvoiceSubscriptionDetailsPauseCollection `json:"pause_collection"`
 }
 
