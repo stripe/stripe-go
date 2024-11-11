@@ -383,7 +383,7 @@ type IssuingCard struct {
 	CancellationReason IssuingCardCancellationReason `json:"cancellation_reason"`
 	// An Issuing `Cardholder` object represents an individual or business entity who is [issued](https://stripe.com/docs/issuing) cards.
 	//
-	// Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards#create-cardholder)
+	// Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards/virtual/issue-cards#create-cardholder)
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
