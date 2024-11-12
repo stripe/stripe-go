@@ -40,6 +40,35 @@ const (
 	IssuingAuthorizationFleetServiceTypeSelfService        IssuingAuthorizationFleetServiceType = "self_service"
 )
 
+// The method by which the fraud challenge was delivered to the cardholder.
+type IssuingAuthorizationFraudChallengeChannel string
+
+// List of values that IssuingAuthorizationFraudChallengeChannel can take
+const (
+	IssuingAuthorizationFraudChallengeChannelSms IssuingAuthorizationFraudChallengeChannel = "sms"
+)
+
+// The status of the fraud challenge.
+type IssuingAuthorizationFraudChallengeStatus string
+
+// List of values that IssuingAuthorizationFraudChallengeStatus can take
+const (
+	IssuingAuthorizationFraudChallengeStatusExpired       IssuingAuthorizationFraudChallengeStatus = "expired"
+	IssuingAuthorizationFraudChallengeStatusPending       IssuingAuthorizationFraudChallengeStatus = "pending"
+	IssuingAuthorizationFraudChallengeStatusRejected      IssuingAuthorizationFraudChallengeStatus = "rejected"
+	IssuingAuthorizationFraudChallengeStatusUndeliverable IssuingAuthorizationFraudChallengeStatus = "undeliverable"
+	IssuingAuthorizationFraudChallengeStatusVerified      IssuingAuthorizationFraudChallengeStatus = "verified"
+)
+
+// If the challenge is not deliverable, the reason why.
+type IssuingAuthorizationFraudChallengeUndeliverableReason string
+
+// List of values that IssuingAuthorizationFraudChallengeUndeliverableReason can take
+const (
+	IssuingAuthorizationFraudChallengeUndeliverableReasonNoPhoneNumber          IssuingAuthorizationFraudChallengeUndeliverableReason = "no_phone_number"
+	IssuingAuthorizationFraudChallengeUndeliverableReasonUnsupportedPhoneNumber IssuingAuthorizationFraudChallengeUndeliverableReason = "unsupported_phone_number"
+)
+
 // The type of fuel that was purchased.
 type IssuingAuthorizationFuelType string
 
@@ -315,6 +344,16 @@ type IssuingAuthorizationFleet struct {
 	ServiceType IssuingAuthorizationFleetServiceType `json:"service_type"`
 }
 
+// Fraud challenges sent to the cardholder, if this authorization was declined for fraud risk reasons.
+type IssuingAuthorizationFraudChallenge struct {
+	// The method by which the fraud challenge was delivered to the cardholder.
+	Channel IssuingAuthorizationFraudChallengeChannel `json:"channel"`
+	// The status of the fraud challenge.
+	Status IssuingAuthorizationFraudChallengeStatus `json:"status"`
+	// If the challenge is not deliverable, the reason why.
+	UndeliverableReason IssuingAuthorizationFraudChallengeUndeliverableReason `json:"undeliverable_reason"`
+}
+
 // Information about fuel that was purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
 type IssuingAuthorizationFuel struct {
 	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
@@ -464,7 +503,7 @@ type IssuingAuthorization struct {
 	AuthorizationMethod IssuingAuthorizationAuthorizationMethod `json:"authorization_method"`
 	// List of balance transactions associated with this authorization.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
-	// You can [create physical or virtual cards](https://stripe.com/docs/issuing/cards) that are issued to cardholders.
+	// You can [create physical or virtual cards](https://stripe.com/docs/issuing) that are issued to cardholders.
 	Card *IssuingCard `json:"card"`
 	// The cardholder to whom this authorization belongs.
 	Cardholder *IssuingCardholder `json:"cardholder"`
@@ -474,6 +513,8 @@ type IssuingAuthorization struct {
 	Currency Currency `json:"currency"`
 	// Fleet-specific information for authorizations using Fleet cards.
 	Fleet *IssuingAuthorizationFleet `json:"fleet"`
+	// Fraud challenges sent to the cardholder, if this authorization was declined for fraud risk reasons.
+	FraudChallenges []*IssuingAuthorizationFraudChallenge `json:"fraud_challenges"`
 	// Information about fuel that was purchased with this transaction. Typically this information is received from the merchant after the authorization has been approved and the fuel dispensed.
 	Fuel *IssuingAuthorizationFuel `json:"fuel"`
 	// Unique identifier for the object.
@@ -504,6 +545,8 @@ type IssuingAuthorization struct {
 	// [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).
 	Treasury         *IssuingAuthorizationTreasury         `json:"treasury"`
 	VerificationData *IssuingAuthorizationVerificationData `json:"verification_data"`
+	// Whether the authorization bypassed fraud risk checks because the cardholder has previously completed a fraud challenge on a similar high-risk authorization from the same merchant.
+	VerifiedByFraudChallenge bool `json:"verified_by_fraud_challenge"`
 	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.
 	Wallet IssuingAuthorizationWallet `json:"wallet"`
 }

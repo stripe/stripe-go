@@ -207,7 +207,7 @@ type SetupAttemptPaymentMethodDetailsCardWallet struct {
 	Type SetupAttemptPaymentMethodDetailsCardWalletType `json:"type"`
 }
 type SetupAttemptPaymentMethodDetailsCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
 	// Check results by Card networks on Card address and CVC at the time of authorization
 	Checks *SetupAttemptPaymentMethodDetailsCardChecks `json:"checks"`
@@ -231,7 +231,7 @@ type SetupAttemptPaymentMethodDetailsCard struct {
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
-	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// Populated if this authorization used 3D Secure authentication.
 	ThreeDSecure *SetupAttemptPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`

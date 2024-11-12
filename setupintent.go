@@ -150,6 +150,7 @@ const (
 	SetupIntentPaymentMethodOptionsCardNetworkGirocard        SetupIntentPaymentMethodOptionsCardNetwork = "girocard"
 	SetupIntentPaymentMethodOptionsCardNetworkInterac         SetupIntentPaymentMethodOptionsCardNetwork = "interac"
 	SetupIntentPaymentMethodOptionsCardNetworkJCB             SetupIntentPaymentMethodOptionsCardNetwork = "jcb"
+	SetupIntentPaymentMethodOptionsCardNetworkLink            SetupIntentPaymentMethodOptionsCardNetwork = "link"
 	SetupIntentPaymentMethodOptionsCardNetworkMastercard      SetupIntentPaymentMethodOptionsCardNetwork = "mastercard"
 	SetupIntentPaymentMethodOptionsCardNetworkUnionpay        SetupIntentPaymentMethodOptionsCardNetwork = "unionpay"
 	SetupIntentPaymentMethodOptionsCardNetworkUnknown         SetupIntentPaymentMethodOptionsCardNetwork = "unknown"
@@ -892,14 +893,14 @@ type SetupIntentParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent. To unset this field to null, pass in an empty string.
 	PaymentMethod *string `form:"payment_method"`
-	// The ID of the payment method configuration to use with this SetupIntent.
+	// The ID of the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) to use with this SetupIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
 	// value in the SetupIntent.
 	PaymentMethodData *SetupIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this array, it defaults to ["card"].
+	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url"`
@@ -1377,7 +1378,7 @@ type SetupIntentNextAction struct {
 	VerifyWithMicrodeposits *SetupIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits"`
 }
 
-// Information about the payment method configuration used for this Setup Intent.
+// Information about the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) used for this Setup Intent.
 type SetupIntentPaymentMethodConfigurationDetails struct {
 	// ID of the payment method configuration used.
 	ID string `json:"id"`
@@ -1560,7 +1561,7 @@ type SetupIntent struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// ID of the payment method used with this SetupIntent. If the payment method is `card_present` and isn't a digital wallet, then the [generated_card](https://docs.stripe.com/api/setup_attempts/object#setup_attempt_object-payment_method_details-card_present-generated_card) associated with the `latest_attempt` is attached to the Customer instead.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
-	// Information about the payment method configuration used for this Setup Intent.
+	// Information about the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) used for this Setup Intent.
 	PaymentMethodConfigurationDetails *SetupIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptions `json:"payment_method_options"`

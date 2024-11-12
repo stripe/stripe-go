@@ -29,6 +29,7 @@ const (
 	FilePurposeDisputeEvidence                  FilePurpose = "dispute_evidence"
 	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeFinanceReportRun                 FilePurpose = "finance_report_run"
+	FilePurposeFinancialAccountStatement        FilePurpose = "financial_account_statement"
 	FilePurposeIdentityDocument                 FilePurpose = "identity_document"
 	FilePurposeIdentityDocumentDownloadable     FilePurpose = "identity_document_downloadable"
 	FilePurposeIssuingRegulatoryReporting       FilePurpose = "issuing_regulatory_reporting"

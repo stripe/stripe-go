@@ -163,6 +163,10 @@ type TestHelpersIssuingAuthorizationParams struct {
 	Fuel *TestHelpersIssuingAuthorizationFuelParams `form:"fuel"`
 	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
 	IsAmountControllable *bool `form:"is_amount_controllable"`
+	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	MerchantAmount *int64 `form:"merchant_amount"`
+	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	MerchantCurrency *string `form:"merchant_currency"`
 	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
 	MerchantData *TestHelpersIssuingAuthorizationMerchantDataParams `form:"merchant_data"`
 	// Details about the authorization, such as identifiers, set by the card network.
@@ -425,6 +429,20 @@ type TestHelpersIssuingAuthorizationFinalizeAmountParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingAuthorizationFinalizeAmountParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
+type TestHelpersIssuingAuthorizationRespondParams struct {
+	Params `form:"*"`
+	// Whether to simulate the user confirming that the transaction was legitimate (true) or telling Stripe that it was fraudulent (false).
+	Confirmed *bool `form:"confirmed"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingAuthorizationRespondParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 

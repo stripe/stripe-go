@@ -174,10 +174,11 @@ type PaymentLinkSubmitType string
 
 // List of values that PaymentLinkSubmitType can take
 const (
-	PaymentLinkSubmitTypeAuto   PaymentLinkSubmitType = "auto"
-	PaymentLinkSubmitTypeBook   PaymentLinkSubmitType = "book"
-	PaymentLinkSubmitTypeDonate PaymentLinkSubmitType = "donate"
-	PaymentLinkSubmitTypePay    PaymentLinkSubmitType = "pay"
+	PaymentLinkSubmitTypeAuto      PaymentLinkSubmitType = "auto"
+	PaymentLinkSubmitTypeBook      PaymentLinkSubmitType = "book"
+	PaymentLinkSubmitTypeDonate    PaymentLinkSubmitType = "donate"
+	PaymentLinkSubmitTypePay       PaymentLinkSubmitType = "pay"
+	PaymentLinkSubmitTypeSubscribe PaymentLinkSubmitType = "subscribe"
 )
 
 // Type of the account referenced.
@@ -512,7 +513,7 @@ type PaymentLinkRestrictionsParams struct {
 // Configuration for collecting the customer's shipping address.
 type PaymentLinkShippingAddressCollectionParams struct {
 	// An array of two-letter ISO country codes representing which countries Checkout should provide as options for
-	// shipping locations. Unsupported country codes: `AS, CX, CC, CU, HM, IR, KP, MH, FM, NF, MP, PW, SD, SY, UM, VI`.
+	// shipping locations.
 	AllowedCountries []*string `form:"allowed_countries"`
 }
 
