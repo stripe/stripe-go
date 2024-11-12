@@ -236,6 +236,8 @@ type PersonDocumentsParams struct {
 
 // The relationship that this person has with the account's legal entity.
 type PersonRelationshipParams struct {
+	// Whether the person is the authorizer of the account's representative.
+	Authorizer *bool `form:"authorizer"`
 	// Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
 	Director *bool `form:"director"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
@@ -270,6 +272,8 @@ type PersonVerificationParams struct {
 
 // Filters on the list of people returned based on the person's relationship to the account's company.
 type PersonListRelationshipParams struct {
+	// A filter on the list of people returned based on whether these people are authorizers of the account's representative.
+	Authorizer *bool `form:"authorizer"`
 	// A filter on the list of people returned based on whether these people are directors of the account's company.
 	Director *bool `form:"director"`
 	// A filter on the list of people returned based on whether these people are executives of the account's company.
@@ -389,6 +393,8 @@ type PersonFutureRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 type PersonRelationship struct {
+	// Whether the person is the authorizer of the account's representative.
+	Authorizer bool `json:"authorizer"`
 	// Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
 	Director bool `json:"director"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
