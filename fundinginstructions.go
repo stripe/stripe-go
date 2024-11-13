@@ -119,12 +119,14 @@ type FundingInstructionsBankTransferFinancialAddressSwift struct {
 
 // Zengin Records contain Japan bank account details per the Zengin format.
 type FundingInstructionsBankTransferFinancialAddressZengin struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
 	// The account holder name
 	AccountHolderName string `json:"account_holder_name"`
 	// The account number
 	AccountNumber string `json:"account_number"`
 	// The bank account type. In Japan, this can only be `futsu` or `toza`.
-	AccountType string `json:"account_type"`
+	AccountType string   `json:"account_type"`
+	BankAddress *Address `json:"bank_address"`
 	// The bank code of the account
 	BankCode string `json:"bank_code"`
 	// The bank name of the account
