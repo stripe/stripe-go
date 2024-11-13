@@ -69,10 +69,8 @@ type FundingInstructionsBankTransferFinancialAddressABA struct {
 
 // Iban Records contain E.U. bank account details per the SEPA format.
 type FundingInstructionsBankTransferFinancialAddressIBAN struct {
-	AccountHolderAddress *Address `json:"account_holder_address"`
 	// The name of the person or business that owns the bank account
-	AccountHolderName string   `json:"account_holder_name"`
-	BankAddress       *Address `json:"bank_address"`
+	AccountHolderName string `json:"account_holder_name"`
 	// The BIC/SWIFT code of the account.
 	BIC string `json:"bic"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
