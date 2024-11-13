@@ -93,6 +93,10 @@ type FundingInstructionsBankTransferFinancialAddressSortCode struct {
 
 // SPEI Records contain Mexico bank account details per the SPEI format.
 type FundingInstructionsBankTransferFinancialAddressSpei struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
+	// The account holder name
+	AccountHolderName string   `json:"account_holder_name"`
+	BankAddress       *Address `json:"bank_address"`
 	// The three-digit bank code
 	BankCode string `json:"bank_code"`
 	// The short banking institution name
