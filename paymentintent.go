@@ -2835,7 +2835,7 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 
 // If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
 type PaymentIntentPaymentMethodOptionsSwishParams struct {
-	// The order ID displayed in the Swish app after the payment is authorized.
+	// A reference for this payment to be displayed in the Swish app.
 	Reference *string `form:"reference"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -5416,7 +5416,7 @@ type PaymentIntentPaymentMethodOptionsSofort struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsSwish struct {
-	// The order ID displayed in the Swish app after the payment is authorized.
+	// A reference for this payment to be displayed in the Swish app.
 	Reference string `json:"reference"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
