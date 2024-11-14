@@ -4359,10 +4359,12 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN 
 
 // Sort Code Records contain U.K. bank account details per the sort code format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSortCode struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
 	// The name of the person or business that owns the bank account
 	AccountHolderName string `json:"account_holder_name"`
 	// The account number
-	AccountNumber string `json:"account_number"`
+	AccountNumber string   `json:"account_number"`
+	BankAddress   *Address `json:"bank_address"`
 	// The six-digit sort code
 	SortCode string `json:"sort_code"`
 }
