@@ -2835,7 +2835,7 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 
 // If this is a `Swish` PaymentMethod, this sub-hash contains details about the Swish payment method options.
 type PaymentIntentPaymentMethodOptionsSwishParams struct {
-	// The order ID displayed in the Swish app after the payment is authorized.
+	// A reference for this payment to be displayed in the Swish app.
 	Reference *string `form:"reference"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -4345,8 +4345,10 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressABA s
 
 // Iban Records contain E.U. bank account details per the SEPA format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
 	// The name of the person or business that owns the bank account
-	AccountHolderName string `json:"account_holder_name"`
+	AccountHolderName string   `json:"account_holder_name"`
+	BankAddress       *Address `json:"bank_address"`
 	// The BIC/SWIFT code of the account.
 	BIC string `json:"bic"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
@@ -4357,16 +4359,22 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressIBAN 
 
 // Sort Code Records contain U.K. bank account details per the sort code format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSortCode struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
 	// The name of the person or business that owns the bank account
 	AccountHolderName string `json:"account_holder_name"`
 	// The account number
-	AccountNumber string `json:"account_number"`
+	AccountNumber string   `json:"account_number"`
+	BankAddress   *Address `json:"bank_address"`
 	// The six-digit sort code
 	SortCode string `json:"sort_code"`
 }
 
 // SPEI Records contain Mexico bank account details per the SPEI format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSpei struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
+	// The account holder name
+	AccountHolderName string   `json:"account_holder_name"`
+	BankAddress       *Address `json:"bank_address"`
 	// The three-digit bank code
 	BankCode string `json:"bank_code"`
 	// The short banking institution name
@@ -4393,12 +4401,14 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSwift
 
 // Zengin Records contain Japan bank account details per the Zengin format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengin struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
 	// The account holder name
 	AccountHolderName string `json:"account_holder_name"`
 	// The account number
 	AccountNumber string `json:"account_number"`
 	// The bank account type. In Japan, this can only be `futsu` or `toza`.
-	AccountType string `json:"account_type"`
+	AccountType string   `json:"account_type"`
+	BankAddress *Address `json:"bank_address"`
 	// The bank code of the account
 	BankCode string `json:"bank_code"`
 	// The bank name of the account
@@ -5408,7 +5418,7 @@ type PaymentIntentPaymentMethodOptionsSofort struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsSofortSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsSwish struct {
-	// The order ID displayed in the Swish app after the payment is authorized.
+	// A reference for this payment to be displayed in the Swish app.
 	Reference string `json:"reference"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
