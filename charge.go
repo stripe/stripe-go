@@ -1251,6 +1251,10 @@ type ChargeOutcomeRule struct {
 
 // Details about whether the payment was accepted, and why. See [understanding declines](https://stripe.com/docs/declines) for details.
 type ChargeOutcome struct {
+	// For charges declined by the network, a 2 digit code which indicates the advice returned by the network on how to proceed with an error.
+	NetworkAdviceCode string `json:"network_advice_code"`
+	// For charges declined by the network, a brand specific 2, 3, or 4 digit code which indicates the reason the authorization failed.
+	NetworkDeclineCode string `json:"network_decline_code"`
 	// Possible values are `approved_by_network`, `declined_by_network`, `not_sent_to_network`, and `reversed_after_approval`. The value `reversed_after_approval` indicates the payment was [blocked by Stripe](https://stripe.com/docs/declines#blocked-payments) after bank authorization, and may temporarily appear as "pending" on a cardholder's statement.
 	NetworkStatus string `json:"network_status"`
 	// An enumerated value providing a more detailed explanation of the outcome's `type`. Charges blocked by Radar's default block rule have the value `highest_risk_level`. Charges placed in review by Radar's default review rule have the value `elevated_risk_level`. Charges authorized, blocked, or placed in review by custom rules have the value `rule`. See [understanding declines](https://stripe.com/docs/declines) for more details.
