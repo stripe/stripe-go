@@ -25,6 +25,14 @@ const (
 	ChargeFraudUserReportSafe       ChargeFraudUserReport = "safe"
 )
 
+// funding type of the underlying payment method.
+type ChargePaymentMethodDetailsAmazonPayFundingType string
+
+// List of values that ChargePaymentMethodDetailsAmazonPayFundingType can take
+const (
+	ChargePaymentMethodDetailsAmazonPayFundingTypeCard ChargePaymentMethodDetailsAmazonPayFundingType = "card"
+)
+
 // If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type ChargePaymentMethodDetailsCardChecksAddressLine1Check string
 
@@ -308,6 +316,14 @@ const (
 	ChargePaymentMethodDetailsPaypalSellerProtectionStatusEligible          ChargePaymentMethodDetailsPaypalSellerProtectionStatus = "eligible"
 	ChargePaymentMethodDetailsPaypalSellerProtectionStatusNotEligible       ChargePaymentMethodDetailsPaypalSellerProtectionStatus = "not_eligible"
 	ChargePaymentMethodDetailsPaypalSellerProtectionStatusPartiallyEligible ChargePaymentMethodDetailsPaypalSellerProtectionStatus = "partially_eligible"
+)
+
+// funding type of the underlying payment method.
+type ChargePaymentMethodDetailsRevolutPayFundingType string
+
+// List of values that ChargePaymentMethodDetailsRevolutPayFundingType can take
+const (
+	ChargePaymentMethodDetailsRevolutPayFundingTypeCard ChargePaymentMethodDetailsRevolutPayFundingType = "card"
 )
 
 // The type of transaction-specific details of the payment method used in the payment, one of `ach_credit_transfer`, `ach_debit`, `acss_debit`, `alipay`, `au_becs_debit`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `stripe_account`, or `wechat`.
@@ -1325,7 +1341,28 @@ type ChargePaymentMethodDetailsAlipay struct {
 	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsAlma struct{}
-type ChargePaymentMethodDetailsAmazonPay struct{}
+type ChargePaymentMethodDetailsAmazonPayFundingCard struct {
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+}
+type ChargePaymentMethodDetailsAmazonPayFunding struct {
+	Card *ChargePaymentMethodDetailsAmazonPayFundingCard `json:"card"`
+	// funding type of the underlying payment method.
+	Type ChargePaymentMethodDetailsAmazonPayFundingType `json:"type"`
+}
+type ChargePaymentMethodDetailsAmazonPay struct {
+	Funding *ChargePaymentMethodDetailsAmazonPayFunding `json:"funding"`
+}
 type ChargePaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -1916,7 +1953,28 @@ type ChargePaymentMethodDetailsPromptPay struct {
 }
 type ChargePaymentMethodDetailsQris struct{}
 type ChargePaymentMethodDetailsRechnung struct{}
-type ChargePaymentMethodDetailsRevolutPay struct{}
+type ChargePaymentMethodDetailsRevolutPayFundingCard struct {
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+}
+type ChargePaymentMethodDetailsRevolutPayFunding struct {
+	Card *ChargePaymentMethodDetailsRevolutPayFundingCard `json:"card"`
+	// funding type of the underlying payment method.
+	Type ChargePaymentMethodDetailsRevolutPayFundingType `json:"type"`
+}
+type ChargePaymentMethodDetailsRevolutPay struct {
+	Funding *ChargePaymentMethodDetailsRevolutPayFunding `json:"funding"`
+}
 type ChargePaymentMethodDetailsSamsungPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
