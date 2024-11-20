@@ -114,6 +114,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkGirocard        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "girocard"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkInterac         SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "interac"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkJCB             SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "jcb"
+	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkLink            SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "link"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkMastercard      SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "mastercard"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkUnionpay        SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "unionpay"
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardNetworkUnknown         SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork = "unknown"
@@ -246,7 +247,7 @@ const (
 //
 // A subscription that is currently in a trial period is `trialing` and moves to `active` when the trial period is over.
 //
-// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://stripe.com/billing/subscriptions/trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
+// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://stripe.com/docs/billing/subscriptions/trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
 //
 // If subscription `collection_method=charge_automatically`, it becomes `past_due` when payment is required but cannot be paid (due to failed payment or awaiting additional user actions). Once Stripe has exhausted all payment retry attempts, the subscription will become `canceled` or `unpaid` (depending on your subscriptions settings).
 //
@@ -362,7 +363,7 @@ type SubscriptionParams struct {
 	OffSession *bool `form:"off_session"`
 	// The account on behalf of which to charge, for each of the subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionPauseCollectionParams `form:"pause_collection"`
 	// Only applies to subscriptions with `collection_method=charge_automatically`.
 	//
@@ -544,7 +545,7 @@ func (p *SubscriptionItemsParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollectionParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior *string `form:"behavior"`
@@ -855,7 +856,7 @@ type SubscriptionInvoiceSettings struct {
 	Issuer        *SubscriptionInvoiceSettingsIssuer `json:"issuer"`
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 type SubscriptionPauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior SubscriptionPauseCollectionBehavior `json:"behavior"`
@@ -1076,7 +1077,7 @@ type Subscription struct {
 	Object string `json:"object"`
 	// The account (if any) the charge was made on behalf of for charges associated with this subscription. See the Connect documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/billing/subscriptions/pause-payment).
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionPauseCollection `json:"pause_collection"`
 	// Payment settings passed on to invoices created by the subscription.
 	PaymentSettings *SubscriptionPaymentSettings `json:"payment_settings"`
@@ -1096,7 +1097,7 @@ type Subscription struct {
 	//
 	// A subscription that is currently in a trial period is `trialing` and moves to `active` when the trial period is over.
 	//
-	// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://stripe.com/billing/subscriptions/trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://stripe.com/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
+	// A subscription can only enter a `paused` status [when a trial ends without a payment method](https://stripe.com/docs/billing/subscriptions/trials#create-free-trials-without-payment). A `paused` subscription doesn't generate invoices and can be resumed after your customer adds their payment method. The `paused` status is different from [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment), which still generates invoices and leaves the subscription's status unchanged.
 	//
 	// If subscription `collection_method=charge_automatically`, it becomes `past_due` when payment is required but cannot be paid (due to failed payment or awaiting additional user actions). Once Stripe has exhausted all payment retry attempts, the subscription will become `canceled` or `unpaid` (depending on your subscriptions settings).
 	//

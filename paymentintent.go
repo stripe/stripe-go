@@ -392,6 +392,7 @@ const (
 	PaymentIntentPaymentMethodOptionsCardNetworkGirocard        PaymentIntentPaymentMethodOptionsCardNetwork = "girocard"
 	PaymentIntentPaymentMethodOptionsCardNetworkInterac         PaymentIntentPaymentMethodOptionsCardNetwork = "interac"
 	PaymentIntentPaymentMethodOptionsCardNetworkJCB             PaymentIntentPaymentMethodOptionsCardNetwork = "jcb"
+	PaymentIntentPaymentMethodOptionsCardNetworkLink            PaymentIntentPaymentMethodOptionsCardNetwork = "link"
 	PaymentIntentPaymentMethodOptionsCardNetworkMastercard      PaymentIntentPaymentMethodOptionsCardNetwork = "mastercard"
 	PaymentIntentPaymentMethodOptionsCardNetworkUnionpay        PaymentIntentPaymentMethodOptionsCardNetwork = "unionpay"
 	PaymentIntentPaymentMethodOptionsCardNetworkUnknown         PaymentIntentPaymentMethodOptionsCardNetwork = "unknown"
@@ -2394,7 +2395,7 @@ type PaymentIntentParams struct {
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
 	PaymentMethod *string `form:"payment_method"`
-	// The ID of the payment method configuration to use with this PaymentIntent.
+	// The ID of the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) to use with this PaymentIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
 	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
@@ -2402,7 +2403,7 @@ type PaymentIntentParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, it defaults to ["card"]. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentRadarOptionsParams `form:"radar_options"`
@@ -2780,8 +2781,14 @@ type PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCode struct {
 
 // ABA Records contain U.S. bank account details per the ABA format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressABA struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
+	// The account holder name
+	AccountHolderName string `json:"account_holder_name"`
 	// The ABA account number
 	AccountNumber string `json:"account_number"`
+	// The account type
+	AccountType string   `json:"account_type"`
+	BankAddress *Address `json:"bank_address"`
 	// The bank name
 	BankName string `json:"bank_name"`
 	// The ABA routing number
@@ -2822,8 +2829,14 @@ type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSpei 
 
 // SWIFT Records contain U.S. bank account details per the SWIFT format.
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSwift struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
+	// The account holder name
+	AccountHolderName string `json:"account_holder_name"`
 	// The account number
 	AccountNumber string `json:"account_number"`
+	// The account type
+	AccountType string   `json:"account_type"`
+	BankAddress *Address `json:"bank_address"`
 	// The bank name
 	BankName string `json:"bank_name"`
 	// The SWIFT code
@@ -3070,7 +3083,7 @@ type PaymentIntentNextAction struct {
 	WeChatPayRedirectToIOSApp     *PaymentIntentNextActionWeChatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
 
-// Information about the payment method configuration used for this PaymentIntent.
+// Information about the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) used for this PaymentIntent.
 type PaymentIntentPaymentMethodConfigurationDetails struct {
 	// ID of the payment method configuration used.
 	ID string `json:"id"`
@@ -3832,7 +3845,7 @@ type PaymentIntent struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// ID of the payment method used in this PaymentIntent.
 	PaymentMethod *PaymentMethod `json:"payment_method"`
-	// Information about the payment method configuration used for this PaymentIntent.
+	// Information about the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) used for this PaymentIntent.
 	PaymentMethodConfigurationDetails *PaymentIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`

@@ -146,6 +146,8 @@ type RefundDestinationDetailsAlma struct{}
 type RefundDestinationDetailsAmazonPay struct{}
 type RefundDestinationDetailsAuBankTransfer struct{}
 type RefundDestinationDetailsBLIK struct {
+	// For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed.
+	NetworkDeclineCode string `json:"network_decline_code"`
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
 	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
@@ -215,6 +217,8 @@ type RefundDestinationDetailsPix struct{}
 type RefundDestinationDetailsRevolut struct{}
 type RefundDestinationDetailsSofort struct{}
 type RefundDestinationDetailsSwish struct {
+	// For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed.
+	NetworkDeclineCode string `json:"network_decline_code"`
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
 	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.

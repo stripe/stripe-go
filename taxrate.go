@@ -47,6 +47,7 @@ const (
 	TaxRateTaxTypeRetailDeliveryFee TaxRateTaxType = "retail_delivery_fee"
 	TaxRateTaxTypeRST               TaxRateTaxType = "rst"
 	TaxRateTaxTypeSalesTax          TaxRateTaxType = "sales_tax"
+	TaxRateTaxTypeServiceTax        TaxRateTaxType = "service_tax"
 	TaxRateTaxTypeVAT               TaxRateTaxType = "vat"
 )
 
