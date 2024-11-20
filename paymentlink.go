@@ -260,7 +260,9 @@ type PaymentLinkAutomaticTaxLiabilityParams struct {
 
 // Configuration for automatic tax collection.
 type PaymentLinkAutomaticTaxParams struct {
-	// If `true`, tax will be calculated automatically using the customer's location.
+	// Set to `true` to [calculate tax automatically](https://docs.stripe.com/tax) using the customer's location.
+	//
+	// Enabling this parameter causes the payment link to collect any billing address information necessary for tax calculation.
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *PaymentLinkAutomaticTaxLiabilityParams `form:"liability"`

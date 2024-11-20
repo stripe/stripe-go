@@ -1305,7 +1305,9 @@ type CheckoutSessionAutomaticTaxLiabilityParams struct {
 
 // Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 type CheckoutSessionAutomaticTaxParams struct {
-	// Set to true to enable automatic taxes.
+	// Set to `true` to [calculate tax automatically](https://docs.stripe.com/tax) using the customer's location.
+	//
+	// Enabling this parameter causes Checkout to collect any billing address information necessary for tax calculation.
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *CheckoutSessionAutomaticTaxLiabilityParams `form:"liability"`
