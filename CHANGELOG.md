@@ -1,5 +1,26 @@
 # Changelog
 
+## 81.1.0 - 2024-11-20
+* [#1951](https://github.com/stripe/stripe-go/pull/1951) This release changes the pinned API version to `2024-11-20.acacia`.
+  * Add support for `Respond` test helper method on resource `Issuing.Authorization`
+  * Add support for `Authorizer` on `AccountPersonsRelationshipParams` and `TokenPersonRelationshipParams`
+  * Change type of `AccountFutureRequirementsDisabledReason` and `AccountRequirementsDisabledReason` from `string` to `enum`
+  * Add support for `AdaptivePricing` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `MandateOptions` on `CheckoutSessionPaymentMethodOptionsBacsDebitParams`, `CheckoutSessionPaymentMethodOptionsBacsDebit`, `CheckoutSessionPaymentMethodOptionsSepaDebitParams`, and `CheckoutSessionPaymentMethodOptionsSepaDebit`
+  * Add support for `RequestExtendedAuthorization`, `RequestIncrementalAuthorization`, `RequestMulticapture`, and `RequestOvercapture` on `CheckoutSessionPaymentMethodOptionsCardParams` and `CheckoutSessionPaymentMethodOptionsCard`
+  * Add support for `CaptureMethod` on `CheckoutSessionPaymentMethodOptionsKakaoPayParams`, `CheckoutSessionPaymentMethodOptionsKrCardParams`, `CheckoutSessionPaymentMethodOptionsNaverPayParams`, `CheckoutSessionPaymentMethodOptionsPaycoParams`, and `CheckoutSessionPaymentMethodOptionsSamsungPayParams`
+  * Add support for new value `li_vat` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, `TaxCalculationCustomerDetailsTaxIdsType`, `TaxIdType`, and `TaxTransactionCustomerDetailsTaxIdsType`
+  * Add support for new value `subscribe` on enums `CheckoutSessionSubmitType` and `PaymentLinkSubmitType`
+  * Add support for new value `financial_account_statement` on enum `FilePurpose`
+  * Add support for `AccountHolderAddress`, `AccountHolderName`, `AccountType`, and `BankAddress` on `FundingInstructionsBankTransferFinancialAddressesAba`, `FundingInstructionsBankTransferFinancialAddressesSwift`, `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesAba`, and `PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressesSwift`
+  * Add support for `MerchantAmount` and `MerchantCurrency` on `IssuingAuthorizationParams`
+  * Add support for `FraudChallenges` and `VerifiedByFraudChallenge` on `IssuingAuthorization`
+  * Add support for new value `link` on enums `PaymentIntentPaymentMethodOptionsCardNetwork`, `SetupIntentPaymentMethodOptionsCardNetwork`, and `SubscriptionPaymentSettingsPaymentMethodOptionsCardNetwork`
+  * Add support for `SubmitType` on `PaymentLinkParams`
+  * Add support for `TraceID` on `Payout`
+  * Add support for `NetworkDeclineCode` on `RefundDestinationDetailsBlik` and `RefundDestinationDetailsSwish`
+  * Add support for new value `service_tax` on enums `TaxCalculationLineItemTaxBreakdownTaxRateDetailsTaxType`, `TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType`, `TaxCalculationTaxBreakdownTaxRateDetailsTaxType`, `TaxRateTaxType`, and `TaxTransactionShippingCostTaxBreakdownTaxRateDetailsTaxType`
+
 ## 81.0.0 - 2024-10-29
 
 Historically, when upgrading webhooks to a new API version, you also had to upgrade your SDK version. Your webhook's API version needed to match the API version pinned by the SDK you were using to ensure successful deserialization of events. With the `2024-09-30.acacia` release, Stripe follows a [new API release process](https://stripe.com/blog/introducing-stripes-new-api-release-process). As a result, you can safely upgrade your webhook endpoints to any API version within a biannual release (like `acacia`) without upgrading the SDK.
