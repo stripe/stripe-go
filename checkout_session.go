@@ -1088,6 +1088,19 @@ const (
 	CheckoutSessionPaymentStatusUnpaid            CheckoutSessionPaymentStatus = "unpaid"
 )
 
+// Determines which entity is allowed to update the line items.
+//
+// Default is `client_only`. Stripe Checkout client will automatically update the line items. If set to `server_only`, only your server is allowed to update the line items.
+//
+// When set to `server_only`, you must add the onLineItemsChange event handler when initializing the Stripe Checkout client and manually update the line items from your server using the Stripe API.
+type CheckoutSessionPermissionsUpdateLineItems string
+
+// List of values that CheckoutSessionPermissionsUpdateLineItems can take
+const (
+	CheckoutSessionPermissionsUpdateLineItemsClientOnly CheckoutSessionPermissionsUpdateLineItems = "client_only"
+	CheckoutSessionPermissionsUpdateLineItemsServerOnly CheckoutSessionPermissionsUpdateLineItems = "server_only"
+)
+
 // Determines which entity is allowed to update the shipping details.
 //
 // Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
@@ -1495,7 +1508,7 @@ type CheckoutSessionInvoiceCreationParams struct {
 
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 type CheckoutSessionLineItemAdjustableQuantityParams struct {
-	// Set to true if the quantity can be adjusted to any non-negative integer.
+	// Set to true if the quantity can be adjusted to any positive integer. Setting to false will remove any previously specified constraints on quantity.
 	Enabled *bool `form:"enabled"`
 	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999999.
 	Maximum *int64 `form:"maximum"`
@@ -1562,6 +1575,10 @@ type CheckoutSessionLineItemParams struct {
 	AdjustableQuantity *CheckoutSessionLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
 	// The [tax rates](https://stripe.com/docs/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU.
 	DynamicTaxRates []*string `form:"dynamic_tax_rates"`
+	// ID of an existing line item.
+	ID *string `form:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -1570,6 +1587,15 @@ type CheckoutSessionLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The [tax rates](https://stripe.com/docs/api/tax_rates) which apply to this line item.
 	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionLineItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The parameters used to automatically create a Transfer when the payment succeeds.
@@ -2322,6 +2348,12 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 
 // Permissions for updating the Checkout Session.
 type CheckoutSessionPermissionsUpdateParams struct {
+	// Determines which entity is allowed to update the line items.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the line items. If set to `server_only`, only your server is allowed to update the line items.
+	//
+	// When set to `server_only`, you must add the onLineItemsChange event handler when initializing the Stripe Checkout client and manually update the line items from your server using the Stripe API.
+	LineItems *string `form:"line_items"`
 	// Determines which entity is allowed to update the shipping details.
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
@@ -2611,11 +2643,19 @@ type CheckoutSessionParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionInvoiceCreationParams `form:"invoice_creation"`
-	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+	// A list of items the customer is purchasing.
 	//
-	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
+	// When updating line items, the entire array of line items must be retransmitted.
 	//
-	// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices will be on the initial invoice only.
+	// To retain an existing line item, specify its `id`.
+	//
+	// To update an existing line item, specify its `id` along with the new values of the fields to be updated.
+	//
+	// To add a new line item, specify a `price` and `quantity`. Recurring prices are not supported yet.
+	//
+	// To remove an existing line item, omit the line item's ID from the retransmitted array.
+	//
+	// To reorder a line item, specify it at the desired position in the retransmitted array.
 	LineItems []*CheckoutSessionLineItemParams `form:"line_items"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale"`
@@ -3528,6 +3568,12 @@ type CheckoutSessionPaymentMethodOptions struct {
 
 // Permissions for updating the Checkout Session.
 type CheckoutSessionPermissionsUpdate struct {
+	// Determines which entity is allowed to update the line items.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the line items. If set to `server_only`, only your server is allowed to update the line items.
+	//
+	// When set to `server_only`, you must add the onLineItemsChange event handler when initializing the Stripe Checkout client and manually update the line items from your server using the Stripe API.
+	LineItems CheckoutSessionPermissionsUpdateLineItems `json:"line_items"`
 	// Determines which entity is allowed to update the shipping details.
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
