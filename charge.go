@@ -128,6 +128,17 @@ const (
 	ChargePaymentMethodDetailsCardOvercaptureStatusUnavailable ChargePaymentMethodDetailsCardOvercaptureStatus = "unavailable"
 )
 
+// Indicates whether the transaction requested for partial authorization feature and the authorization outcome.
+type ChargePaymentMethodDetailsCardPartialAuthorizationStatus string
+
+// List of values that ChargePaymentMethodDetailsCardPartialAuthorizationStatus can take
+const (
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusDeclined            ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "declined"
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusFullyAuthorized     ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "fully_authorized"
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusNotRequested        ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "not_requested"
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusPartiallyAuthorized ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "partially_authorized"
+)
+
 // For authenticated transactions: how the customer was authenticated by
 // the issuing bank.
 type ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -1461,6 +1472,10 @@ type ChargePaymentMethodDetailsCardOvercapture struct {
 	// Indicates whether or not the authorized amount can be over-captured.
 	Status ChargePaymentMethodDetailsCardOvercaptureStatus `json:"status"`
 }
+type ChargePaymentMethodDetailsCardPartialAuthorization struct {
+	// Indicates whether the transaction requested for partial authorization feature and the authorization outcome.
+	Status ChargePaymentMethodDetailsCardPartialAuthorizationStatus `json:"status"`
+}
 
 // Populated if this transaction used 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
@@ -1529,6 +1544,8 @@ type ChargePaymentMethodDetailsCardWallet struct {
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
+	// The latest amount intended to be authorized by this charge.
+	AmountRequested int64 `json:"amount_requested"`
 	// Authorization code on the charge.
 	AuthorizationCode string `json:"authorization_code"`
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
@@ -1566,8 +1583,9 @@ type ChargePaymentMethodDetailsCard struct {
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardNetwork `json:"network"`
 	// If this card has network token credentials, this contains the details of the network token credentials.
-	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token"`
-	Overcapture  *ChargePaymentMethodDetailsCardOvercapture  `json:"overcapture"`
+	NetworkToken         *ChargePaymentMethodDetailsCardNetworkToken         `json:"network_token"`
+	Overcapture          *ChargePaymentMethodDetailsCardOvercapture          `json:"overcapture"`
+	PartialAuthorization *ChargePaymentMethodDetailsCardPartialAuthorization `json:"partial_authorization"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
