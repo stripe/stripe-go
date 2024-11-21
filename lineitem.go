@@ -28,6 +28,12 @@ const (
 	LineItemTaxTaxabilityReasonZeroRated            LineItemTaxTaxabilityReason = "zero_rated"
 )
 
+type LineItemAdjustableQuantity struct {
+	Enabled bool  `json:"enabled"`
+	Maximum int64 `json:"maximum"`
+	Minimum int64 `json:"minimum"`
+}
+
 // The discounts applied to the line item.
 type LineItemDiscount struct {
 	// The amount discounted.
@@ -37,6 +43,11 @@ type LineItemDiscount struct {
 	//
 	// Related guide: [Applying discounts to subscriptions](https://stripe.com/docs/billing/subscriptions/discounts)
 	Discount *Discount `json:"discount"`
+}
+type LineItemDisplay struct {
+	Description string   `json:"description"`
+	Images      []string `json:"images"`
+	Name        string   `json:"name"`
 }
 
 // The taxes applied to the line item.
@@ -55,6 +66,7 @@ type LineItemTax struct {
 
 // A line item.
 type LineItem struct {
+	AdjustableQuantity *LineItemAdjustableQuantity `json:"adjustable_quantity"`
 	// Total discount amount applied. If no discounts were applied, defaults to 0.
 	AmountDiscount int64 `json:"amount_discount"`
 	// Total before any discounts or taxes are applied.
@@ -69,8 +81,11 @@ type LineItem struct {
 	Description string `json:"description"`
 	// The discounts applied to the line item.
 	Discounts []*LineItemDiscount `json:"discounts"`
+	Display   *LineItemDisplay    `json:"display"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The price used to generate the line item.

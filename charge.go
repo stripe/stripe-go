@@ -25,6 +25,14 @@ const (
 	ChargeFraudUserReportSafe       ChargeFraudUserReport = "safe"
 )
 
+// funding type of the underlying payment method.
+type ChargePaymentMethodDetailsAmazonPayFundingType string
+
+// List of values that ChargePaymentMethodDetailsAmazonPayFundingType can take
+const (
+	ChargePaymentMethodDetailsAmazonPayFundingTypeCard ChargePaymentMethodDetailsAmazonPayFundingType = "card"
+)
+
 // If a address line1 was provided, results of the check, one of `pass`, `fail`, `unavailable`, or `unchecked`.
 type ChargePaymentMethodDetailsCardChecksAddressLine1Check string
 
@@ -118,6 +126,17 @@ type ChargePaymentMethodDetailsCardOvercaptureStatus string
 const (
 	ChargePaymentMethodDetailsCardOvercaptureStatusAvailable   ChargePaymentMethodDetailsCardOvercaptureStatus = "available"
 	ChargePaymentMethodDetailsCardOvercaptureStatusUnavailable ChargePaymentMethodDetailsCardOvercaptureStatus = "unavailable"
+)
+
+// Indicates whether the transaction requested for partial authorization feature and the authorization outcome.
+type ChargePaymentMethodDetailsCardPartialAuthorizationStatus string
+
+// List of values that ChargePaymentMethodDetailsCardPartialAuthorizationStatus can take
+const (
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusDeclined            ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "declined"
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusFullyAuthorized     ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "fully_authorized"
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusNotRequested        ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "not_requested"
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusPartiallyAuthorized ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "partially_authorized"
 )
 
 // For authenticated transactions: how the customer was authenticated by
@@ -308,6 +327,14 @@ const (
 	ChargePaymentMethodDetailsPaypalSellerProtectionStatusEligible          ChargePaymentMethodDetailsPaypalSellerProtectionStatus = "eligible"
 	ChargePaymentMethodDetailsPaypalSellerProtectionStatusNotEligible       ChargePaymentMethodDetailsPaypalSellerProtectionStatus = "not_eligible"
 	ChargePaymentMethodDetailsPaypalSellerProtectionStatusPartiallyEligible ChargePaymentMethodDetailsPaypalSellerProtectionStatus = "partially_eligible"
+)
+
+// funding type of the underlying payment method.
+type ChargePaymentMethodDetailsRevolutPayFundingType string
+
+// List of values that ChargePaymentMethodDetailsRevolutPayFundingType can take
+const (
+	ChargePaymentMethodDetailsRevolutPayFundingTypeCard ChargePaymentMethodDetailsRevolutPayFundingType = "card"
 )
 
 // The type of transaction-specific details of the payment method used in the payment, one of `ach_credit_transfer`, `ach_debit`, `acss_debit`, `alipay`, `au_becs_debit`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `stripe_account`, or `wechat`.
@@ -1235,6 +1262,10 @@ type ChargeOutcomeRule struct {
 
 // Details about whether the payment was accepted, and why. See [understanding declines](https://stripe.com/docs/declines) for details.
 type ChargeOutcome struct {
+	// For charges declined by the network, a 2 digit code which indicates the advice returned by the network on how to proceed with an error.
+	NetworkAdviceCode string `json:"network_advice_code"`
+	// For charges declined by the network, a brand specific 2, 3, or 4 digit code which indicates the reason the authorization failed.
+	NetworkDeclineCode string `json:"network_decline_code"`
 	// Possible values are `approved_by_network`, `declined_by_network`, `not_sent_to_network`, and `reversed_after_approval`. The value `reversed_after_approval` indicates the payment was [blocked by Stripe](https://stripe.com/docs/declines#blocked-payments) after bank authorization, and may temporarily appear as "pending" on a cardholder's statement.
 	NetworkStatus string `json:"network_status"`
 	// An enumerated value providing a more detailed explanation of the outcome's `type`. Charges blocked by Radar's default block rule have the value `highest_risk_level`. Charges placed in review by Radar's default review rule have the value `elevated_risk_level`. Charges authorized, blocked, or placed in review by custom rules have the value `rule`. See [understanding declines](https://stripe.com/docs/declines) for more details.
@@ -1325,7 +1356,28 @@ type ChargePaymentMethodDetailsAlipay struct {
 	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsAlma struct{}
-type ChargePaymentMethodDetailsAmazonPay struct{}
+type ChargePaymentMethodDetailsAmazonPayFundingCard struct {
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+}
+type ChargePaymentMethodDetailsAmazonPayFunding struct {
+	Card *ChargePaymentMethodDetailsAmazonPayFundingCard `json:"card"`
+	// funding type of the underlying payment method.
+	Type ChargePaymentMethodDetailsAmazonPayFundingType `json:"type"`
+}
+type ChargePaymentMethodDetailsAmazonPay struct {
+	Funding *ChargePaymentMethodDetailsAmazonPayFunding `json:"funding"`
+}
 type ChargePaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
 	BSBNumber string `json:"bsb_number"`
@@ -1420,6 +1472,10 @@ type ChargePaymentMethodDetailsCardOvercapture struct {
 	// Indicates whether or not the authorized amount can be over-captured.
 	Status ChargePaymentMethodDetailsCardOvercaptureStatus `json:"status"`
 }
+type ChargePaymentMethodDetailsCardPartialAuthorization struct {
+	// Indicates whether the transaction requested for partial authorization feature and the authorization outcome.
+	Status ChargePaymentMethodDetailsCardPartialAuthorizationStatus `json:"status"`
+}
 
 // Populated if this transaction used 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
@@ -1488,6 +1544,8 @@ type ChargePaymentMethodDetailsCardWallet struct {
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
+	// The latest amount intended to be authorized by this charge.
+	AmountRequested int64 `json:"amount_requested"`
 	// Authorization code on the charge.
 	AuthorizationCode string `json:"authorization_code"`
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
@@ -1525,8 +1583,9 @@ type ChargePaymentMethodDetailsCard struct {
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network ChargePaymentMethodDetailsCardNetwork `json:"network"`
 	// If this card has network token credentials, this contains the details of the network token credentials.
-	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token"`
-	Overcapture  *ChargePaymentMethodDetailsCardOvercapture  `json:"overcapture"`
+	NetworkToken         *ChargePaymentMethodDetailsCardNetworkToken         `json:"network_token"`
+	Overcapture          *ChargePaymentMethodDetailsCardOvercapture          `json:"overcapture"`
+	PartialAuthorization *ChargePaymentMethodDetailsCardPartialAuthorization `json:"partial_authorization"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -1916,7 +1975,28 @@ type ChargePaymentMethodDetailsPromptPay struct {
 }
 type ChargePaymentMethodDetailsQris struct{}
 type ChargePaymentMethodDetailsRechnung struct{}
-type ChargePaymentMethodDetailsRevolutPay struct{}
+type ChargePaymentMethodDetailsRevolutPayFundingCard struct {
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+}
+type ChargePaymentMethodDetailsRevolutPayFunding struct {
+	Card *ChargePaymentMethodDetailsRevolutPayFundingCard `json:"card"`
+	// funding type of the underlying payment method.
+	Type ChargePaymentMethodDetailsRevolutPayFundingType `json:"type"`
+}
+type ChargePaymentMethodDetailsRevolutPay struct {
+	Funding *ChargePaymentMethodDetailsRevolutPayFunding `json:"funding"`
+}
 type ChargePaymentMethodDetailsSamsungPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
