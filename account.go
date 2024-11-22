@@ -377,6 +377,12 @@ type AccountCapabilitiesAUBECSDebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The automatic_indirect_tax capability.
+type AccountCapabilitiesAutomaticIndirectTaxParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The bacs_debit_payments capability.
 type AccountCapabilitiesBACSDebitPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -752,6 +758,8 @@ type AccountCapabilitiesParams struct {
 	AmazonPayPayments *AccountCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments"`
 	// The au_becs_debit_payments capability.
 	AUBECSDebitPayments *AccountCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments"`
+	// The automatic_indirect_tax capability.
+	AutomaticIndirectTax *AccountCapabilitiesAutomaticIndirectTaxParams `form:"automatic_indirect_tax"`
 	// The bacs_debit_payments capability.
 	BACSDebitPayments *AccountCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments"`
 	// The bancontact_payments capability.
@@ -1409,6 +1417,8 @@ type AccountCapabilities struct {
 	AmazonPayPayments AccountCapabilityStatus `json:"amazon_pay_payments"`
 	// The status of the BECS Direct Debit (AU) payments capability of the account, or whether the account can directly process BECS Direct Debit (AU) charges.
 	AUBECSDebitPayments AccountCapabilityStatus `json:"au_becs_debit_payments"`
+	// The status of the automatic_indirect_tax capability of the account.
+	AutomaticIndirectTax AccountCapabilityStatus `json:"automatic_indirect_tax"`
 	// The status of the Bacs Direct Debits payments capability of the account, or whether the account can directly process Bacs Direct Debits charges.
 	BACSDebitPayments AccountCapabilityStatus `json:"bacs_debit_payments"`
 	// The status of the Bancontact payments capability of the account, or whether the account can directly process Bancontact charges.
