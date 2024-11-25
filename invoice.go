@@ -21,6 +21,15 @@ const (
 	InvoiceAmountsDueStatusPastDue InvoiceAmountsDueStatus = "past_due"
 )
 
+// If Stripe disabled automatic tax, this enum describes why.
+type InvoiceAutomaticTaxDisabledReason string
+
+// List of values that InvoiceAutomaticTaxDisabledReason can take
+const (
+	InvoiceAutomaticTaxDisabledReasonFinalizationRequiresLocationInputs InvoiceAutomaticTaxDisabledReason = "finalization_requires_location_inputs"
+	InvoiceAutomaticTaxDisabledReasonFinalizationSystemError            InvoiceAutomaticTaxDisabledReason = "finalization_system_error"
+)
+
 // Type of the account referenced.
 type InvoiceAutomaticTaxLiabilityType string
 
@@ -4635,6 +4644,8 @@ type InvoiceAutomaticTaxLiability struct {
 	Type InvoiceAutomaticTaxLiabilityType `json:"type"`
 }
 type InvoiceAutomaticTax struct {
+	// If Stripe disabled automatic tax, this enum describes why.
+	DisabledReason InvoiceAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.

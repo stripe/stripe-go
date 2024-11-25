@@ -11,6 +11,14 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
+// If Stripe disabled automatic tax, this enum describes why.
+type SubscriptionAutomaticTaxDisabledReason string
+
+// List of values that SubscriptionAutomaticTaxDisabledReason can take
+const (
+	SubscriptionAutomaticTaxDisabledReasonRequiresLocationInputs SubscriptionAutomaticTaxDisabledReason = "requires_location_inputs"
+)
+
 // Type of the account referenced.
 type SubscriptionAutomaticTaxLiabilityType string
 
@@ -886,6 +894,8 @@ type SubscriptionAutomaticTaxLiability struct {
 	Type SubscriptionAutomaticTaxLiabilityType `json:"type"`
 }
 type SubscriptionAutomaticTax struct {
+	// If Stripe disabled automatic tax, this enum describes why.
+	DisabledReason SubscriptionAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on this subscription.
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
