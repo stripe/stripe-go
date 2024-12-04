@@ -1061,7 +1061,10 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypalParams struct {
 }
 
 // Additional fields for Mandate creation
-type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
+type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+	ReferencePrefix *string `form:"reference_prefix"`
+}
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
@@ -1629,7 +1632,10 @@ type OrderPaymentSettingsPaymentMethodOptionsPaypal struct {
 	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
 	Subsellers []string `json:"subsellers"`
 }
-type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptions struct{}
+type OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptions struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+	ReferencePrefix string `json:"reference_prefix"`
+}
 type OrderPaymentSettingsPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *OrderPaymentSettingsPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.

@@ -1774,7 +1774,10 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebitParams struct {
 }
 
 // Additional fields for Mandate creation
-type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptionsParams struct{}
+type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptionsParams struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
+	ReferencePrefix *string `form:"reference_prefix"`
+}
 
 // contains details about the Bacs Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsBACSDebitParams struct {
@@ -2192,7 +2195,10 @@ type CheckoutSessionPaymentMethodOptionsSamsungPayParams struct {
 }
 
 // Additional fields for Mandate creation
-type CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
+type CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+	ReferencePrefix *string `form:"reference_prefix"`
+}
 
 // contains details about the Sepa Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
@@ -3136,7 +3142,10 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebit struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsAUBECSDebitSetupFutureUsage `json:"setup_future_usage"`
 }
-type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptions struct{}
+type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptions struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
+	ReferencePrefix string `json:"reference_prefix"`
+}
 type CheckoutSessionPaymentMethodOptionsBACSDebit struct {
 	MandateOptions *CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3466,7 +3475,10 @@ type CheckoutSessionPaymentMethodOptionsSamsungPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod CheckoutSessionPaymentMethodOptionsSamsungPayCaptureMethod `json:"capture_method"`
 }
-type CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptions struct{}
+type CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptions struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+	ReferencePrefix string `json:"reference_prefix"`
+}
 type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *CheckoutSessionPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3732,7 +3744,7 @@ type CheckoutSession struct {
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// Session with your internal systems.
 	ClientReferenceID string `json:"client_reference_id"`
-	// The client secret of the Session. Use this with [initCustomCheckout](https://stripe.com/docs/js/custom_checkout/init) on your front end.
+	// The client secret of the Session. Use this with [initCheckout](https://stripe.com/docs/js/custom_checkout/init) on your front end.
 	ClientSecret string `json:"client_secret"`
 	// Information about the customer collected within the Checkout Session.
 	CollectedInformation *CheckoutSessionCollectedInformation `json:"collected_information"`
