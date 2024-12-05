@@ -1,5 +1,8 @@
 # Changelog
 
+## 81.1.1 - 2024-12-05
+* [#1955](https://github.com/stripe/stripe-go/pull/1955) Temporarily add payment_method parameter to BankAccountParams
+
 ## 81.1.0 - 2024-11-20
 * [#1951](https://github.com/stripe/stripe-go/pull/1951) This release changes the pinned API version to `2024-11-20.acacia`.
   * Add support for `Respond` test helper method on resource `Issuing.Authorization`
