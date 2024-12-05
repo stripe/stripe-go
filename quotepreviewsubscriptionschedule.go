@@ -24,6 +24,14 @@ const (
 	QuotePreviewSubscriptionScheduleBillingBehaviorProrateUpFront     QuotePreviewSubscriptionScheduleBillingBehavior = "prorate_up_front"
 )
 
+// If Stripe disabled automatic tax, this enum describes why.
+type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxDisabledReason string
+
+// List of values that QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxDisabledReason can take
+const (
+	QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxDisabledReasonRequiresLocationInputs QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxDisabledReason = "requires_location_inputs"
+)
+
 // Type of the account referenced.
 type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType string
 
@@ -85,6 +93,14 @@ type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType 
 // List of values that QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType can take
 const (
 	QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndTypeTimestamp QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType = "timestamp"
+)
+
+// If Stripe disabled automatic tax, this enum describes why.
+type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReason string
+
+// List of values that QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReason can take
+const (
+	QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReasonRequiresLocationInputs QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReason = "requires_location_inputs"
 )
 
 // Type of the account referenced.
@@ -245,6 +261,8 @@ type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiability struct
 	Type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiabilityType `json:"type"`
 }
 type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTax struct {
+	// If Stripe disabled automatic tax, this enum describes why.
+	DisabledReason QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on invoices created during this phase.
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -358,6 +376,8 @@ type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiability struct {
 	Type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiabilityType `json:"type"`
 }
 type QuotePreviewSubscriptionSchedulePhaseAutomaticTax struct {
+	// If Stripe disabled automatic tax, this enum describes why.
+	DisabledReason QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on invoices created during this phase.
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.

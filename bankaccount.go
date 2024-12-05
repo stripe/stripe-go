@@ -286,6 +286,14 @@ type BankAccountParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name *string `form:"name"`
+	// The ID of a Payment Method with a `type` of `us_bank_account`. The Payment Method's bank account information will be copied and
+	// returned as a Bank Account Token. This parameter is exclusive with respect to all other parameters in the `bank_account` hash.
+	// You must include the top-level `customer` parameter if the Payment Method is attached to a `Customer` object. If the Payment
+	// Method is not attached to a `Customer` object, it will be consumed and cannot be used again. You may not use Payment Methods which were
+	// created by a Setup Intent with `attach_to_self=true`.
+	// This is used for TokenParams.BankAccountParams only and will be removed in the next major version.
+	// **DO NOT USE THIS FOR OTHER METHODS.**
+	PaymentMethod *string `form:"payment_method"`
 	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
 	RoutingNumber *string `form:"routing_number"`
 	// ID is used when tokenizing a bank account for shared customers

@@ -51,7 +51,7 @@ const (
 	BillingCreditBalanceTransactionTypeDebit  BillingCreditBalanceTransactionType = "debit"
 )
 
-// Retrieve a list of credit balance transactions
+// Retrieve a list of credit balance transactions.
 type BillingCreditBalanceTransactionListParams struct {
 	ListParams `form:"*"`
 	// The credit grant for which to fetch credit balance transactions.
@@ -67,7 +67,7 @@ func (p *BillingCreditBalanceTransactionListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves a credit balance transaction
+// Retrieves a credit balance transaction.
 type BillingCreditBalanceTransactionParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

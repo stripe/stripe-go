@@ -11,6 +11,14 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
+// If Stripe disabled automatic tax, this enum describes why.
+type SubscriptionAutomaticTaxDisabledReason string
+
+// List of values that SubscriptionAutomaticTaxDisabledReason can take
+const (
+	SubscriptionAutomaticTaxDisabledReasonRequiresLocationInputs SubscriptionAutomaticTaxDisabledReason = "requires_location_inputs"
+)
+
 // Type of the account referenced.
 type SubscriptionAutomaticTaxLiabilityType string
 
@@ -576,7 +584,7 @@ type SubscriptionItemsParams struct {
 	Params `form:"*"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
-	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
+	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
@@ -738,7 +746,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 type SubscriptionPaymentSettingsParams struct {
 	// Payment-method-specific configuration to provide to invoices created by the subscription.
 	PaymentMethodOptions *SubscriptionPaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
+	// The list of payment method types (e.g. card) to provide to the invoice's PaymentIntent. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice). Should not be specified with payment_method_configuration
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Configure whether Stripe updates `subscription.default_payment_method` when payment succeeds. Defaults to `off` if unspecified.
 	SaveDefaultPaymentMethod *string `form:"save_default_payment_method"`
@@ -886,6 +894,8 @@ type SubscriptionAutomaticTaxLiability struct {
 	Type SubscriptionAutomaticTaxLiabilityType `json:"type"`
 }
 type SubscriptionAutomaticTax struct {
+	// If Stripe disabled automatic tax, this enum describes why.
+	DisabledReason SubscriptionAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on this subscription.
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.

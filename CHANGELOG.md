@@ -1,5 +1,8 @@
 # Changelog
 
+## 81.1.1 - 2024-12-05
+* [#1955](https://github.com/stripe/stripe-go/pull/1955) Temporarily add payment_method parameter to BankAccountParams
+
 ## 81.2.0-beta.1 - 2024-11-21
 * [#1952](https://github.com/stripe/stripe-go/pull/1952) Update generated code for beta
   * Add support for `NetworkAdviceCode` and `NetworkDeclineCode` on `ChargeOutcome`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
@@ -11,6 +14,7 @@
   * Add support for `AdjustableQuantity` and `Display` on `LineItem`
   * Add support for `RequestPartialAuthorization` on `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, and `PaymentIntentPaymentMethodOptionsCard`
   * Add support for `PaymentMethodOptions` on `PaymentIntentIncrementAuthorizationParams`
+
 
 ## 81.1.0 - 2024-11-20
 * [#1951](https://github.com/stripe/stripe-go/pull/1951) This release changes the pinned API version to `2024-11-20.acacia`.

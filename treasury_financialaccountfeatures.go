@@ -499,7 +499,7 @@ type TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetail struct {
 	Restriction TreasuryFinancialAccountFeaturesInboundTransfersACHStatusDetailRestriction `json:"restriction"`
 }
 
-// Toggle settings for enabling/disabling an ACH specific feature
+// Toggle settings for enabling/disabling an inbound ACH specific feature
 type TreasuryFinancialAccountFeaturesInboundTransfersACH struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested bool `json:"requested"`
@@ -511,7 +511,7 @@ type TreasuryFinancialAccountFeaturesInboundTransfersACH struct {
 
 // InboundTransfers contains inbound transfers features for a FinancialAccount.
 type TreasuryFinancialAccountFeaturesInboundTransfers struct {
-	// Toggle settings for enabling/disabling an ACH specific feature
+	// Toggle settings for enabling/disabling an inbound ACH specific feature
 	ACH *TreasuryFinancialAccountFeaturesInboundTransfersACH `json:"ach"`
 }
 
@@ -545,7 +545,7 @@ type TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetail struct {
 	Restriction TreasuryFinancialAccountFeaturesOutboundPaymentsACHStatusDetailRestriction `json:"restriction"`
 }
 
-// Toggle settings for enabling/disabling an ACH specific feature
+// Toggle settings for enabling/disabling an outbound ACH specific feature
 type TreasuryFinancialAccountFeaturesOutboundPaymentsACH struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested bool `json:"requested"`
@@ -577,7 +577,7 @@ type TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWire struct {
 
 // Settings related to Outbound Payments features on a Financial Account
 type TreasuryFinancialAccountFeaturesOutboundPayments struct {
-	// Toggle settings for enabling/disabling an ACH specific feature
+	// Toggle settings for enabling/disabling an outbound ACH specific feature
 	ACH *TreasuryFinancialAccountFeaturesOutboundPaymentsACH `json:"ach"`
 	// Toggle settings for enabling/disabling a feature
 	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundPaymentsUSDomesticWire `json:"us_domestic_wire"`
@@ -593,7 +593,7 @@ type TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetail struct {
 	Restriction TreasuryFinancialAccountFeaturesOutboundTransfersACHStatusDetailRestriction `json:"restriction"`
 }
 
-// Toggle settings for enabling/disabling an ACH specific feature
+// Toggle settings for enabling/disabling an outbound ACH specific feature
 type TreasuryFinancialAccountFeaturesOutboundTransfersACH struct {
 	// Whether the FinancialAccount should have the Feature.
 	Requested bool `json:"requested"`
@@ -625,7 +625,7 @@ type TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWire struct {
 
 // OutboundTransfers contains outbound transfers features for a FinancialAccount.
 type TreasuryFinancialAccountFeaturesOutboundTransfers struct {
-	// Toggle settings for enabling/disabling an ACH specific feature
+	// Toggle settings for enabling/disabling an outbound ACH specific feature
 	ACH *TreasuryFinancialAccountFeaturesOutboundTransfersACH `json:"ach"`
 	// Toggle settings for enabling/disabling a feature
 	USDomesticWire *TreasuryFinancialAccountFeaturesOutboundTransfersUSDomesticWire `json:"us_domestic_wire"`

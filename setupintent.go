@@ -766,7 +766,10 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 type SetupIntentPaymentMethodOptionsAmazonPayParams struct{}
 
 // Additional fields for Mandate creation
-type SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams struct{}
+type SetupIntentPaymentMethodOptionsBACSDebitMandateOptionsParams struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
+	ReferencePrefix *string `form:"reference_prefix"`
+}
 
 // If this is a `bacs_debit` SetupIntent, this sub-hash contains details about the Bacs Debit payment method options.
 type SetupIntentPaymentMethodOptionsBACSDebitParams struct {
@@ -910,7 +913,10 @@ type SetupIntentPaymentMethodOptionsPaytoParams struct {
 }
 
 // Additional fields for Mandate creation
-type SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct{}
+type SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+	ReferencePrefix *string `form:"reference_prefix"`
+}
 
 // If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 type SetupIntentPaymentMethodOptionsSEPADebitParams struct {
@@ -1612,7 +1618,10 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 type SetupIntentPaymentMethodOptionsAmazonPay struct{}
-type SetupIntentPaymentMethodOptionsBACSDebitMandateOptions struct{}
+type SetupIntentPaymentMethodOptionsBACSDebitMandateOptions struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
+	ReferencePrefix string `json:"reference_prefix"`
+}
 type SetupIntentPaymentMethodOptionsBACSDebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsBACSDebitMandateOptions `json:"mandate_options"`
 }
@@ -1681,7 +1690,10 @@ type SetupIntentPaymentMethodOptionsPaytoMandateOptions struct {
 type SetupIntentPaymentMethodOptionsPayto struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsPaytoMandateOptions `json:"mandate_options"`
 }
-type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct{}
+type SetupIntentPaymentMethodOptionsSEPADebitMandateOptions struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+	ReferencePrefix string `json:"reference_prefix"`
+}
 type SetupIntentPaymentMethodOptionsSEPADebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptions `json:"mandate_options"`
 }

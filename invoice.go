@@ -21,6 +21,15 @@ const (
 	InvoiceAmountsDueStatusPastDue InvoiceAmountsDueStatus = "past_due"
 )
 
+// If Stripe disabled automatic tax, this enum describes why.
+type InvoiceAutomaticTaxDisabledReason string
+
+// List of values that InvoiceAutomaticTaxDisabledReason can take
+const (
+	InvoiceAutomaticTaxDisabledReasonFinalizationRequiresLocationInputs InvoiceAutomaticTaxDisabledReason = "finalization_requires_location_inputs"
+	InvoiceAutomaticTaxDisabledReasonFinalizationSystemError            InvoiceAutomaticTaxDisabledReason = "finalization_system_error"
+)
+
 // Type of the account referenced.
 type InvoiceAutomaticTaxLiabilityType string
 
@@ -1617,7 +1626,7 @@ type InvoiceUpcomingSubscriptionDetailsItemPriceDataParams struct {
 type InvoiceUpcomingSubscriptionDetailsItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *InvoiceUpcomingSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds"`
-	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
+	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
@@ -2739,7 +2748,7 @@ type InvoiceUpcomingLinesSubscriptionDetailsItemPriceDataParams struct {
 type InvoiceUpcomingLinesSubscriptionDetailsItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *InvoiceUpcomingLinesSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds"`
-	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
+	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
@@ -2884,7 +2893,7 @@ type InvoiceUpcomingLinesSubscriptionItemPriceDataParams struct {
 type InvoiceUpcomingLinesSubscriptionItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *InvoiceUpcomingLinesSubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
-	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
+	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
@@ -4467,7 +4476,7 @@ type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams struct {
 type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds"`
-	// Delete all usage for a given subscription item. Allowed only when `deleted` is set to `true` and the current plan's `usage_type` is `metered`.
+	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
 	Deleted *bool `form:"deleted"`
@@ -4635,6 +4644,8 @@ type InvoiceAutomaticTaxLiability struct {
 	Type InvoiceAutomaticTaxLiabilityType `json:"type"`
 }
 type InvoiceAutomaticTax struct {
+	// If Stripe disabled automatic tax, this enum describes why.
+	DisabledReason InvoiceAutomaticTaxDisabledReason `json:"disabled_reason"`
 	// Whether Stripe automatically computes tax on this invoice. Note that incompatible invoice items (invoice items with manually specified [tax rates](https://stripe.com/docs/api/tax_rates), negative amounts, or `tax_behavior=unspecified`) cannot be added to automatic tax invoices.
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
