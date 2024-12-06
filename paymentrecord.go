@@ -339,14 +339,6 @@ type PaymentRecordAmountGuaranteed struct {
 }
 
 // A representation of an amount of money, consisting of an amount and a currency.
-type PaymentRecordAmountRefunded struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) e.g., 100 cents for $1.00 or 100 for ¥100, a zero-decimal currency).
-	Value int64 `json:"value"`
-}
-
-// A representation of an amount of money, consisting of an amount and a currency.
 type PaymentRecordAmountRequested struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
@@ -420,8 +412,6 @@ type PaymentRecord struct {
 	AmountFailed *PaymentRecordAmountFailed `json:"amount_failed"`
 	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountGuaranteed *PaymentRecordAmountGuaranteed `json:"amount_guaranteed"`
-	// A representation of an amount of money, consisting of an amount and a currency.
-	AmountRefunded *PaymentRecordAmountRefunded `json:"amount_refunded"`
 	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountRequested *PaymentRecordAmountRequested `json:"amount_requested"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
