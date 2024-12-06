@@ -111,6 +111,7 @@ const (
 	IssuingAuthorizationRequestHistoryReasonCardholderVerificationRequired IssuingAuthorizationRequestHistoryReason = "cardholder_verification_required"
 	IssuingAuthorizationRequestHistoryReasonInsecureAuthorizationMethod    IssuingAuthorizationRequestHistoryReason = "insecure_authorization_method"
 	IssuingAuthorizationRequestHistoryReasonInsufficientFunds              IssuingAuthorizationRequestHistoryReason = "insufficient_funds"
+	IssuingAuthorizationRequestHistoryReasonNetworkFallback                IssuingAuthorizationRequestHistoryReason = "network_fallback"
 	IssuingAuthorizationRequestHistoryReasonNotAllowed                     IssuingAuthorizationRequestHistoryReason = "not_allowed"
 	IssuingAuthorizationRequestHistoryReasonPINBlocked                     IssuingAuthorizationRequestHistoryReason = "pin_blocked"
 	IssuingAuthorizationRequestHistoryReasonSpendingControls               IssuingAuthorizationRequestHistoryReason = "spending_controls"
