@@ -128,6 +128,15 @@ const (
 	ChargePaymentMethodDetailsCardOvercaptureStatusUnavailable ChargePaymentMethodDetailsCardOvercaptureStatus = "unavailable"
 )
 
+// Status of a card based on the card issuer.
+type ChargePaymentMethodDetailsCardRegulatedStatus string
+
+// List of values that ChargePaymentMethodDetailsCardRegulatedStatus can take
+const (
+	ChargePaymentMethodDetailsCardRegulatedStatusRegulated   ChargePaymentMethodDetailsCardRegulatedStatus = "regulated"
+	ChargePaymentMethodDetailsCardRegulatedStatusUnregulated ChargePaymentMethodDetailsCardRegulatedStatus = "unregulated"
+)
+
 // For authenticated transactions: how the customer was authenticated by
 // the issuing bank.
 type ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -1568,6 +1577,8 @@ type ChargePaymentMethodDetailsCard struct {
 	// If this card has network token credentials, this contains the details of the network token credentials.
 	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token"`
 	Overcapture  *ChargePaymentMethodDetailsCardOvercapture  `json:"overcapture"`
+	// Status of a card based on the card issuer.
+	RegulatedStatus ChargePaymentMethodDetailsCardRegulatedStatus `json:"regulated_status"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
