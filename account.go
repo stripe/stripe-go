@@ -256,7 +256,7 @@ type AccountParams struct {
 	//
 	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
-	// A hash of account group type to tokens. These are account groups this account should be added to
+	// A hash of account group type to tokens. These are account groups this account should be added to.
 	Groups *AccountGroupsParams `form:"groups"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
@@ -961,7 +961,7 @@ func (p *AccountExternalAccountParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// A hash of account group type to tokens. These are account groups this account should be added to
+// A hash of account group type to tokens. These are account groups this account should be added to.
 type AccountGroupsParams struct {
 	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
 	PaymentsPricing *string `form:"payments_pricing"`
@@ -1467,7 +1467,7 @@ type AccountFutureRequirementsError struct {
 type AccountFutureRequirements struct {
 	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 	Alternatives []*AccountFutureRequirementsAlternative `json:"alternatives"`
-	// Date on which `future_requirements` merges with the main `requirements` hash and `future_requirements` becomes empty. After the transition, `currently_due` requirements may immediately become `past_due`, but the account may also be given a grace period depending on its enablement state prior to transitioning.
+	// Date on which `future_requirements` becomes the main `requirements` hash and `future_requirements` becomes empty. After the transition, `currently_due` requirements may immediately become `past_due`, but the account may also be given a grace period depending on its enablement state prior to transitioning.
 	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be collected to keep the account enabled. If not collected by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
 	CurrentlyDue []string `json:"currently_due"`

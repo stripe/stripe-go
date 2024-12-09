@@ -69,8 +69,10 @@ type FundingInstructionsBankTransferFinancialAddressABA struct {
 
 // Iban Records contain E.U. bank account details per the SEPA format.
 type FundingInstructionsBankTransferFinancialAddressIBAN struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
 	// The name of the person or business that owns the bank account
-	AccountHolderName string `json:"account_holder_name"`
+	AccountHolderName string   `json:"account_holder_name"`
+	BankAddress       *Address `json:"bank_address"`
 	// The BIC/SWIFT code of the account.
 	BIC string `json:"bic"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
@@ -81,16 +83,22 @@ type FundingInstructionsBankTransferFinancialAddressIBAN struct {
 
 // Sort Code Records contain U.K. bank account details per the sort code format.
 type FundingInstructionsBankTransferFinancialAddressSortCode struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
 	// The name of the person or business that owns the bank account
 	AccountHolderName string `json:"account_holder_name"`
 	// The account number
-	AccountNumber string `json:"account_number"`
+	AccountNumber string   `json:"account_number"`
+	BankAddress   *Address `json:"bank_address"`
 	// The six-digit sort code
 	SortCode string `json:"sort_code"`
 }
 
 // SPEI Records contain Mexico bank account details per the SPEI format.
 type FundingInstructionsBankTransferFinancialAddressSpei struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
+	// The account holder name
+	AccountHolderName string   `json:"account_holder_name"`
+	BankAddress       *Address `json:"bank_address"`
 	// The three-digit bank code
 	BankCode string `json:"bank_code"`
 	// The short banking institution name
@@ -117,12 +125,14 @@ type FundingInstructionsBankTransferFinancialAddressSwift struct {
 
 // Zengin Records contain Japan bank account details per the Zengin format.
 type FundingInstructionsBankTransferFinancialAddressZengin struct {
+	AccountHolderAddress *Address `json:"account_holder_address"`
 	// The account holder name
 	AccountHolderName string `json:"account_holder_name"`
 	// The account number
 	AccountNumber string `json:"account_number"`
 	// The bank account type. In Japan, this can only be `futsu` or `toza`.
-	AccountType string `json:"account_type"`
+	AccountType string   `json:"account_type"`
+	BankAddress *Address `json:"bank_address"`
 	// The bank code of the account
 	BankCode string `json:"bank_code"`
 	// The bank name of the account

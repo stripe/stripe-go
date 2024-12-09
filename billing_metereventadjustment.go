@@ -29,7 +29,7 @@ type BillingMeterEventAdjustmentCancelParams struct {
 	Identifier *string `form:"identifier"`
 }
 
-// Creates a billing meter event adjustment
+// Creates a billing meter event adjustment.
 type BillingMeterEventAdjustmentParams struct {
 	Params `form:"*"`
 	// Specifies which event to cancel.
