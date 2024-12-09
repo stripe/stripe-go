@@ -24,7 +24,7 @@ const (
 
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryFilterApplicabilityScopeParams struct {
-	// The price type for which credit grants can apply. We currently only support the `metered` price type.
+	// The price type that credit grants can apply to. We currently only support the `metered` price type.
 	PriceType *string `form:"price_type"`
 }
 
@@ -38,7 +38,7 @@ type BillingCreditBalanceSummaryFilterParams struct {
 	Type *string `form:"type"`
 }
 
-// Retrieves the credit balance summary for a customer
+// Retrieves the credit balance summary for a customer.
 type BillingCreditBalanceSummaryParams struct {
 	Params `form:"*"`
 	// The customer for which to fetch credit balance summary.

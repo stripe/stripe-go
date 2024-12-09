@@ -102,7 +102,7 @@ type CapabilityFutureRequirementsError struct {
 type CapabilityFutureRequirements struct {
 	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 	Alternatives []*CapabilityFutureRequirementsAlternative `json:"alternatives"`
-	// Date on which `future_requirements` merges with the main `requirements` hash and `future_requirements` becomes empty. After the transition, `currently_due` requirements may immediately become `past_due`, but the account may also be given a grace period depending on the capability's enablement state prior to transitioning.
+	// Date on which `future_requirements` becomes the main `requirements` hash and `future_requirements` becomes empty. After the transition, `currently_due` requirements may immediately become `past_due`, but the account may also be given a grace period depending on the capability's enablement state prior to transitioning.
 	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be collected to keep the capability enabled. If not collected by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
 	CurrentlyDue []string `json:"currently_due"`

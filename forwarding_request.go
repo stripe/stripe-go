@@ -11,10 +11,11 @@ type ForwardingRequestReplacement string
 
 // List of values that ForwardingRequestReplacement can take
 const (
-	ForwardingRequestReplacementCardCVC        ForwardingRequestReplacement = "card_cvc"
-	ForwardingRequestReplacementCardExpiry     ForwardingRequestReplacement = "card_expiry"
-	ForwardingRequestReplacementCardNumber     ForwardingRequestReplacement = "card_number"
-	ForwardingRequestReplacementCardholderName ForwardingRequestReplacement = "cardholder_name"
+	ForwardingRequestReplacementCardCVC          ForwardingRequestReplacement = "card_cvc"
+	ForwardingRequestReplacementCardExpiry       ForwardingRequestReplacement = "card_expiry"
+	ForwardingRequestReplacementCardNumber       ForwardingRequestReplacement = "card_number"
+	ForwardingRequestReplacementCardholderName   ForwardingRequestReplacement = "cardholder_name"
+	ForwardingRequestReplacementRequestSignature ForwardingRequestReplacement = "request_signature"
 )
 
 // The HTTP method used to call the destination endpoint.
