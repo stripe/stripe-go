@@ -111,6 +111,7 @@ const (
 	IssuingAuthorizationRequestHistoryReasonCardholderVerificationRequired IssuingAuthorizationRequestHistoryReason = "cardholder_verification_required"
 	IssuingAuthorizationRequestHistoryReasonInsecureAuthorizationMethod    IssuingAuthorizationRequestHistoryReason = "insecure_authorization_method"
 	IssuingAuthorizationRequestHistoryReasonInsufficientFunds              IssuingAuthorizationRequestHistoryReason = "insufficient_funds"
+	IssuingAuthorizationRequestHistoryReasonNetworkFallback                IssuingAuthorizationRequestHistoryReason = "network_fallback"
 	IssuingAuthorizationRequestHistoryReasonNotAllowed                     IssuingAuthorizationRequestHistoryReason = "not_allowed"
 	IssuingAuthorizationRequestHistoryReasonPINBlocked                     IssuingAuthorizationRequestHistoryReason = "pin_blocked"
 	IssuingAuthorizationRequestHistoryReasonSpendingControls               IssuingAuthorizationRequestHistoryReason = "spending_controls"
@@ -384,6 +385,8 @@ type IssuingAuthorizationMerchantData struct {
 	PostalCode string `json:"postal_code"`
 	// State where the seller is located
 	State string `json:"state"`
+	// The seller's tax identification number. Currently populated for French merchants only.
+	TaxID string `json:"tax_id"`
 	// An ID assigned by the seller to the location of the sale.
 	TerminalID string `json:"terminal_id"`
 	// URL provided by the merchant on a 3DS request
