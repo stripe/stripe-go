@@ -499,6 +499,15 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestOvercaptureNever       PaymentIntentPaymentMethodOptionsCardRequestOvercapture = "never"
 )
 
+// Request partial authorization on this PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorization string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorization can take
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorizationIfAvailable PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorization = "if_available"
+	PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorizationNever       PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorization = "never"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -2203,6 +2212,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	RequestMulticapture *string `form:"request_multicapture"`
 	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture *string `form:"request_overcapture"`
+	// Request partial authorization on this PaymentIntent.
+	RequestPartialAuthorization *string `form:"request_partial_authorization"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
@@ -4160,6 +4171,18 @@ type PaymentIntentIncrementAuthorizationAsyncWorkflowsParams struct {
 	Inputs *PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsParams `form:"inputs"`
 }
 
+// Configuration for any card payments attempted on this PaymentIntent.
+type PaymentIntentIncrementAuthorizationPaymentMethodOptionsCardParams struct {
+	// Request partial authorization on this PaymentIntent.
+	RequestPartialAuthorization *string `form:"request_partial_authorization"`
+}
+
+// Payment method-specific configuration for this PaymentIntent.
+type PaymentIntentIncrementAuthorizationPaymentMethodOptionsParams struct {
+	// Configuration for any card payments attempted on this PaymentIntent.
+	Card *PaymentIntentIncrementAuthorizationPaymentMethodOptionsCardParams `form:"card"`
+}
+
 // The parameters used to automatically create a transfer after the payment is captured.
 // Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentIncrementAuthorizationTransferDataParams struct {
@@ -4205,6 +4228,8 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// Payment method-specific configuration for this PaymentIntent.
+	PaymentMethodOptions *PaymentIntentIncrementAuthorizationPaymentMethodOptionsParams `form:"payment_method_options"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card or card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	StatementDescriptor *string `form:"statement_descriptor"`
 	// The parameters used to automatically create a transfer after the payment is captured.
@@ -4984,6 +5009,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	RequestMulticapture PaymentIntentPaymentMethodOptionsCardRequestMulticapture `json:"request_multicapture"`
 	// Request ability to [overcapture](https://stripe.com/docs/payments/overcapture) for this PaymentIntent.
 	RequestOvercapture PaymentIntentPaymentMethodOptionsCardRequestOvercapture `json:"request_overcapture"`
+	// Request partial authorization on this PaymentIntent.
+	RequestPartialAuthorization PaymentIntentPaymentMethodOptionsCardRequestPartialAuthorization `json:"request_partial_authorization"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 	// When enabled, using a card that is attached to a customer will require the CVC to be provided again (i.e. using the cvc_token parameter).
