@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Creates a credit grant
+// Creates a credit grant.
 func New(params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	return getC().New(params)
 }
 
-// Creates a credit grant
+// Creates a credit grant.
 func (c Client) New(params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	creditgrant := &stripe.BillingCreditGrant{}
 	err := c.B.Call(
@@ -38,12 +38,12 @@ func (c Client) New(params *stripe.BillingCreditGrantParams) (*stripe.BillingCre
 	return creditgrant, err
 }
 
-// Retrieves a credit grant
+// Retrieves a credit grant.
 func Get(id string, params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieves a credit grant
+// Retrieves a credit grant.
 func (c Client) Get(id string, params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	path := stripe.FormatURLPath("/v1/billing/credit_grants/%s", id)
 	creditgrant := &stripe.BillingCreditGrant{}
@@ -51,12 +51,12 @@ func (c Client) Get(id string, params *stripe.BillingCreditGrantParams) (*stripe
 	return creditgrant, err
 }
 
-// Updates a credit grant
+// Updates a credit grant.
 func Update(id string, params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	return getC().Update(id, params)
 }
 
-// Updates a credit grant
+// Updates a credit grant.
 func (c Client) Update(id string, params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	path := stripe.FormatURLPath("/v1/billing/credit_grants/%s", id)
 	creditgrant := &stripe.BillingCreditGrant{}

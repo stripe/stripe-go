@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieves a credit balance transaction
+// Retrieves a credit balance transaction.
 func Get(id string, params *stripe.BillingCreditBalanceTransactionParams) (*stripe.BillingCreditBalanceTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieves a credit balance transaction
+// Retrieves a credit balance transaction.
 func (c Client) Get(id string, params *stripe.BillingCreditBalanceTransactionParams) (*stripe.BillingCreditBalanceTransaction, error) {
 	path := stripe.FormatURLPath("/v1/billing/credit_balance_transactions/%s", id)
 	creditbalancetransaction := &stripe.BillingCreditBalanceTransaction{}
@@ -33,12 +33,12 @@ func (c Client) Get(id string, params *stripe.BillingCreditBalanceTransactionPar
 	return creditbalancetransaction, err
 }
 
-// Retrieve a list of credit balance transactions
+// Retrieve a list of credit balance transactions.
 func List(params *stripe.BillingCreditBalanceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// Retrieve a list of credit balance transactions
+// Retrieve a list of credit balance transactions.
 func (c Client) List(listParams *stripe.BillingCreditBalanceTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

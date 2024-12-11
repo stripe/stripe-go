@@ -59,7 +59,7 @@ func (p *BillingMeterListParams) AddExpand(f string) {
 
 // Fields that specify how to map a meter event to a customer.
 type BillingMeterCustomerMappingParams struct {
-	// The key in the usage event payload to use for mapping the event to a customer.
+	// The key in the meter event payload to use for mapping the event to a customer.
 	EventPayloadKey *string `form:"event_payload_key"`
 	// The method for mapping a meter event to a customer. Must be `by_id`.
 	Type *string `form:"type"`
@@ -77,14 +77,14 @@ type BillingMeterValueSettingsParams struct {
 	EventPayloadKey *string `form:"event_payload_key"`
 }
 
-// Creates a billing meter
+// Creates a billing meter.
 type BillingMeterParams struct {
 	Params `form:"*"`
 	// Fields that specify how to map a meter event to a customer.
 	CustomerMapping *BillingMeterCustomerMappingParams `form:"customer_mapping"`
 	// The default settings to aggregate a meter's events with.
 	DefaultAggregation *BillingMeterDefaultAggregationParams `form:"default_aggregation"`
-	// The meter's name.
+	// The meter's name. Not visible to the customer.
 	DisplayName *string `form:"display_name"`
 	// The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events.
 	EventName *string `form:"event_name"`
@@ -101,7 +101,7 @@ func (p *BillingMeterParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Deactivates a billing meter
+// When a meter is deactivated, no more meter events will be accepted for this meter. You can't attach a deactivated meter to a price.
 type BillingMeterDeactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -113,7 +113,7 @@ func (p *BillingMeterDeactivateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Reactivates a billing meter
+// When a meter is reactivated, events for this meter can be accepted and you can attach the meter to a price.
 type BillingMeterReactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -144,7 +144,7 @@ type BillingMeterValueSettings struct {
 	EventPayloadKey string `json:"event_payload_key"`
 }
 
-// A billing meter is a resource that allows you to track usage of a particular event. For example, you might create a billing meter to track the number of API calls made by a particular user. You can then attach the billing meter to a price and attach the price to a subscription to charge the user for the number of API calls they make.
+// Meters specify how to aggregate meter events over a billing period. Meter events represent the actions that customers take in your system. Meters attach to prices and form the basis of the bill.
 //
 // Related guide: [Usage based billing](https://docs.stripe.com/billing/subscriptions/usage-based)
 type BillingMeter struct {

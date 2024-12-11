@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieves the credit balance summary for a customer
+// Retrieves the credit balance summary for a customer.
 func Get(params *stripe.BillingCreditBalanceSummaryParams) (*stripe.BillingCreditBalanceSummary, error) {
 	return getC().Get(params)
 }
 
-// Retrieves the credit balance summary for a customer
+// Retrieves the credit balance summary for a customer.
 func (c Client) Get(params *stripe.BillingCreditBalanceSummaryParams) (*stripe.BillingCreditBalanceSummary, error) {
 	creditbalancesummary := &stripe.BillingCreditBalanceSummary{}
 	err := c.B.Call(
