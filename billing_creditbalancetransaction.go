@@ -21,7 +21,8 @@ type BillingCreditBalanceTransactionCreditType string
 
 // List of values that BillingCreditBalanceTransactionCreditType can take
 const (
-	BillingCreditBalanceTransactionCreditTypeCreditsGranted BillingCreditBalanceTransactionCreditType = "credits_granted"
+	BillingCreditBalanceTransactionCreditTypeCreditsApplicationInvoiceVoided BillingCreditBalanceTransactionCreditType = "credits_application_invoice_voided"
+	BillingCreditBalanceTransactionCreditTypeCreditsGranted                  BillingCreditBalanceTransactionCreditType = "credits_granted"
 )
 
 // The type of this amount. We currently only support `monetary` billing credits.
@@ -93,9 +94,19 @@ type BillingCreditBalanceTransactionCreditAmount struct {
 	Type BillingCreditBalanceTransactionCreditAmountType `json:"type"`
 }
 
+// Details of the invoice to which the reinstated credits were originally applied. Only present if `type` is `credits_application_invoice_voided`.
+type BillingCreditBalanceTransactionCreditCreditsApplicationInvoiceVoided struct {
+	// The invoice to which the reinstated billing credits were originally applied.
+	Invoice *Invoice `json:"invoice"`
+	// The invoice line item to which the reinstated billing credits were originally applied.
+	InvoiceLineItem string `json:"invoice_line_item"`
+}
+
 // Credit details for this credit balance transaction. Only present if type is `credit`.
 type BillingCreditBalanceTransactionCredit struct {
 	Amount *BillingCreditBalanceTransactionCreditAmount `json:"amount"`
+	// Details of the invoice to which the reinstated credits were originally applied. Only present if `type` is `credits_application_invoice_voided`.
+	CreditsApplicationInvoiceVoided *BillingCreditBalanceTransactionCreditCreditsApplicationInvoiceVoided `json:"credits_application_invoice_voided"`
 	// The type of credit transaction.
 	Type BillingCreditBalanceTransactionCreditType `json:"type"`
 }
