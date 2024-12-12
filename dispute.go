@@ -47,6 +47,15 @@ const (
 	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3StatusRequiresAction DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status = "requires_action"
 )
 
+// Visa Compelling Evidence 3.0 eligibility status.
+type DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus string
+
+// List of values that DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus can take
+const (
+	DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatusFeeAcknowledged            DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus = "fee_acknowledged"
+	DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatusRequiresFeeAcknowledgement DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus = "requires_fee_acknowledgement"
+)
+
 // The AmazonPay dispute type, chargeback or claim
 type DisputePaymentMethodDetailsAmazonPayDisputeType string
 
@@ -206,10 +215,18 @@ type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3Params struct {
 	PriorUndisputedTransactions []*DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams `form:"prior_undisputed_transactions"`
 }
 
+// Evidence provided for Visa Compliance evidence submission.
+type DisputeEvidenceEnhancedEvidenceVisaComplianceParams struct {
+	// A field acknowledging the fee incurred when countering a Visa Compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute, and you may incur a $500 fee if the case is lost.
+	FeeAcknowledged *bool `form:"fee_acknowledged"`
+}
+
 // Additional evidence for qualifying evidence programs.
 type DisputeEvidenceEnhancedEvidenceParams struct {
 	// Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
 	VisaCompellingEvidence3 *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3Params `form:"visa_compelling_evidence_3"`
+	// Evidence provided for Visa Compliance evidence submission.
+	VisaCompliance *DisputeEvidenceEnhancedEvidenceVisaComplianceParams `form:"visa_compliance"`
 }
 
 // Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
@@ -317,8 +334,13 @@ type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3 struct {
 	// List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
 	PriorUndisputedTransactions []*DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransaction `json:"prior_undisputed_transactions"`
 }
+type DisputeEvidenceEnhancedEvidenceVisaCompliance struct {
+	// A field acknowledging the fee incurred when countering a Visa Compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute, and you may incur a $500 fee if the case is lost.
+	FeeAcknowledged bool `json:"fee_acknowledged"`
+}
 type DisputeEvidenceEnhancedEvidence struct {
 	VisaCompellingEvidence3 *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3 `json:"visa_compelling_evidence_3"`
+	VisaCompliance          *DisputeEvidenceEnhancedEvidenceVisaCompliance          `json:"visa_compliance"`
 }
 type DisputeEvidence struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity.
@@ -383,8 +405,13 @@ type DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3 struct {
 	// Visa Compelling Evidence 3.0 eligibility status.
 	Status DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status `json:"status"`
 }
+type DisputeEvidenceDetailsEnhancedEligibilityVisaCompliance struct {
+	// Visa Compelling Evidence 3.0 eligibility status.
+	Status DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus `json:"status"`
+}
 type DisputeEvidenceDetailsEnhancedEligibility struct {
 	VisaCompellingEvidence3 *DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3 `json:"visa_compelling_evidence_3"`
+	VisaCompliance          *DisputeEvidenceDetailsEnhancedEligibilityVisaCompliance          `json:"visa_compliance"`
 }
 type DisputeEvidenceDetails struct {
 	// Date by which evidence must be submitted in order to successfully challenge dispute. Will be 0 if the customer's bank or credit card company doesn't allow a response for this particular dispute.
