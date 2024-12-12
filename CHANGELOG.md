@@ -1,5 +1,13 @@
 # Changelog
 
+## 81.2.0-beta.3 - 2024-12-12
+* [#1956](https://github.com/stripe/stripe-go/pull/1956) Update generated code for beta
+  * Add support for `AllowRedisplay` on `Card` and `Source`
+  * Add support for new values `am_tin`, `ao_tin`, `ba_tin`, `bb_tin`, `bs_tin`, `cd_nif`, `gn_nif`, `kh_tin`, `me_pib`, `mk_vat`, `mr_nif`, `np_pan`, `sn_ninea`, `sr_fin`, `tj_tin`, `ug_tin`, `zm_tin`, and `zw_tin` on enums `CheckoutSessionCollectedInformationTaxIdsType` and `OrderTaxDetailsTaxIdsType`
+  * Add support for new value `network_fallback` on enum `IssuingAuthorizationRequestHistoryReason`
+  * Remove support for `AmountRefunded` on `PaymentRecord`
+  * Add support for `Account` on `TerminalReaderActionCollectPaymentMethod`, `TerminalReaderActionConfirmPaymentIntent`, `TerminalReaderActionProcessPaymentIntent`, and `TerminalReaderActionRefundPayment`
+
 ## 81.2.0-beta.2 - 2024-12-05
 * [#1953](https://github.com/stripe/stripe-go/pull/1953) Update generated code for beta
   * Add support for `AutomaticIndirectTax` on `AccountCapabilitiesParams` and `AccountCapabilities`
