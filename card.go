@@ -34,16 +34,6 @@ const (
 	CardAddressZipCheckUnchecked   CardAddressZipCheck = "unchecked"
 )
 
-// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
-type CardAllowRedisplay string
-
-// List of values that CardAllowRedisplay can take
-const (
-	CardAllowRedisplayAlways      CardAllowRedisplay = "always"
-	CardAllowRedisplayLimited     CardAllowRedisplay = "limited"
-	CardAllowRedisplayUnspecified CardAllowRedisplay = "unspecified"
-)
-
 // A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
 type CardAvailablePayoutMethod string
 
@@ -88,15 +78,6 @@ const (
 	CardFundingDebit   CardFunding = "debit"
 	CardFundingPrepaid CardFunding = "prepaid"
 	CardFundingUnknown CardFunding = "unknown"
-)
-
-// Status of a card based on the card issuer.
-type CardRegulatedStatus string
-
-// List of values that CardRegulatedStatus can take
-const (
-	CardRegulatedStatusRegulated   CardRegulatedStatus = "regulated"
-	CardRegulatedStatusUnregulated CardRegulatedStatus = "unregulated"
 )
 
 // If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.
@@ -332,8 +313,6 @@ type Card struct {
 	AddressZip string `json:"address_zip"`
 	// If `address_zip` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressZipCheck CardAddressZipCheck `json:"address_zip_check"`
-	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
-	AllowRedisplay CardAllowRedisplay `json:"allow_redisplay"`
 	// A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
 	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods"`
 	// Card brand. Can be `American Express`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
@@ -390,8 +369,6 @@ type Card struct {
 	Networks *CardNetworks `json:"networks"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// Status of a card based on the card issuer.
-	RegulatedStatus CardRegulatedStatus `json:"regulated_status"`
 	// For external accounts that are cards, possible values are `new` and `errored`. If a payout fails, the status is set to `errored` and [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) are stopped until account details are updated.
 	Status string `json:"status"`
 	// If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.

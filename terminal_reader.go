@@ -555,8 +555,6 @@ type TerminalReaderActionCollectPaymentMethodCollectConfig struct {
 
 // Represents a reader action to collect a payment method
 type TerminalReaderActionCollectPaymentMethod struct {
-	// Account the payment intent belongs to.
-	Account string `json:"account"`
 	// Represents a per-transaction override of a reader configuration
 	CollectConfig *TerminalReaderActionCollectPaymentMethodCollectConfig `json:"collect_config"`
 	// Most recent PaymentIntent processed by the reader.
@@ -567,18 +565,14 @@ type TerminalReaderActionCollectPaymentMethod struct {
 	//
 	// Related guides: [Payment Methods](https://stripe.com/docs/payments/payment-methods) and [More Payment Scenarios](https://stripe.com/docs/payments/more-payment-scenarios).
 	PaymentMethod *PaymentMethod `json:"payment_method"`
-	// This field will be deprecated. Please use `account` instead.
-	StripeAccount string `json:"stripe_account"`
+	StripeAccount string         `json:"stripe_account"`
 }
 
 // Represents a reader action to confirm a payment
 type TerminalReaderActionConfirmPaymentIntent struct {
-	// Account the payment intent belongs to.
-	Account string `json:"account"`
 	// Most recent PaymentIntent processed by the reader.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
-	// This field will be deprecated. Please use `account` instead.
-	StripeAccount string `json:"stripe_account"`
+	StripeAccount string         `json:"stripe_account"`
 }
 
 // Represents a per-transaction tipping configuration
@@ -599,14 +593,11 @@ type TerminalReaderActionProcessPaymentIntentProcessConfig struct {
 
 // Represents a reader action to process a payment intent
 type TerminalReaderActionProcessPaymentIntent struct {
-	// Account the payment intent belongs to.
-	Account string `json:"account"`
 	// Most recent PaymentIntent processed by the reader.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// Represents a per-transaction override of a reader configuration
 	ProcessConfig *TerminalReaderActionProcessPaymentIntentProcessConfig `json:"process_config"`
-	// This field will be deprecated. Please use `account` instead.
-	StripeAccount string `json:"stripe_account"`
+	StripeAccount string                                                 `json:"stripe_account"`
 }
 
 // Represents a per-setup override of a reader configuration
@@ -633,8 +624,6 @@ type TerminalReaderActionRefundPaymentRefundPaymentConfig struct {
 
 // Represents a reader action to refund a payment
 type TerminalReaderActionRefundPayment struct {
-	// Account the payment intent belongs to.
-	Account string `json:"account"`
 	// The amount being refunded.
 	Amount int64 `json:"amount"`
 	// Charge that is being refunded.
@@ -652,9 +641,8 @@ type TerminalReaderActionRefundPayment struct {
 	// Represents a per-transaction override of a reader configuration
 	RefundPaymentConfig *TerminalReaderActionRefundPaymentRefundPaymentConfig `json:"refund_payment_config"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
-	ReverseTransfer bool `json:"reverse_transfer"`
-	// This field will be deprecated. Please use `account` instead.
-	StripeAccount string `json:"stripe_account"`
+	ReverseTransfer bool   `json:"reverse_transfer"`
+	StripeAccount   string `json:"stripe_account"`
 }
 
 // List of line items in the cart.

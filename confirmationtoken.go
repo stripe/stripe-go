@@ -58,15 +58,6 @@ const (
 	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
-// Status of a card based on the card issuer.
-type ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus string
-
-// List of values that ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus can take
-const (
-	ConfirmationTokenPaymentMethodPreviewCardRegulatedStatusRegulated   ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus = "regulated"
-	ConfirmationTokenPaymentMethodPreviewCardRegulatedStatusUnregulated ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus = "unregulated"
-)
-
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 type ConfirmationTokenPaymentMethodPreviewCardWalletType string
 
@@ -748,8 +739,6 @@ type ConfirmationTokenPaymentMethodPreviewCard struct {
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
 	Networks *ConfirmationTokenPaymentMethodPreviewCardNetworks `json:"networks"`
-	// Status of a card based on the card issuer.
-	RegulatedStatus ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus `json:"regulated_status"`
 	// Contains details on how this Card may be used for 3D Secure authentication.
 	ThreeDSecureUsage *ConfirmationTokenPaymentMethodPreviewCardThreeDSecureUsage `json:"three_d_secure_usage"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
