@@ -8,7 +8,7 @@ package stripe
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAccountManagementFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
@@ -24,7 +24,7 @@ type AccountSessionComponentsAccountManagementParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAccountOnboardingFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
@@ -40,7 +40,7 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsBalancesFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
@@ -73,7 +73,7 @@ type AccountSessionComponentsDocumentsParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsNotificationBannerFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
@@ -129,7 +129,7 @@ type AccountSessionComponentsPaymentsParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsPayoutsFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
@@ -225,7 +225,7 @@ func (p *AccountSessionParams) AddExpand(f string) {
 }
 
 type AccountSessionComponentsAccountManagementFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
 	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
@@ -236,7 +236,7 @@ type AccountSessionComponentsAccountManagement struct {
 	Features *AccountSessionComponentsAccountManagementFeatures `json:"features"`
 }
 type AccountSessionComponentsAccountOnboardingFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
 	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
@@ -247,7 +247,7 @@ type AccountSessionComponentsAccountOnboarding struct {
 	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
 }
 type AccountSessionComponentsBalancesFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
 	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
@@ -270,7 +270,7 @@ type AccountSessionComponentsDocuments struct {
 	Features *AccountSessionComponentsDocumentsFeatures `json:"features"`
 }
 type AccountSessionComponentsNotificationBannerFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
 	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
@@ -311,7 +311,7 @@ type AccountSessionComponentsPayments struct {
 	Features *AccountSessionComponentsPaymentsFeatures `json:"features"`
 }
 type AccountSessionComponentsPayoutsFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Disables Stripe user authentication for this embedded component. This feature can only be `true` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `false` when `external_account_collection` is enabled and `true` otherwise.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
 	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
