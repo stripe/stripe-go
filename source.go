@@ -6,6 +6,16 @@
 
 package stripe
 
+// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
+type SourceAllowRedisplay string
+
+// List of values that SourceAllowRedisplay can take
+const (
+	SourceAllowRedisplayAlways      SourceAllowRedisplay = "always"
+	SourceAllowRedisplayLimited     SourceAllowRedisplay = "limited"
+	SourceAllowRedisplayUnspecified SourceAllowRedisplay = "unspecified"
+)
+
 // The status of the code verification, either `pending` (awaiting verification, `attempts_remaining` should be greater than 0), `succeeded` (successful verification) or `failed` (failed verification, cannot be verified anymore as `attempts_remaining` should be 0).
 type SourceCodeVerificationStatus string
 
@@ -573,6 +583,8 @@ type Source struct {
 	ACHDebit          *SourceACHDebit          `json:"ach_debit"`
 	ACSSDebit         *SourceACSSDebit         `json:"acss_debit"`
 	Alipay            *SourceAlipay            `json:"alipay"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
+	AllowRedisplay SourceAllowRedisplay `json:"allow_redisplay"`
 	// A positive integer in the smallest currency unit (that is, 100 cents for $1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for `single_use` sources.
 	Amount      int64              `json:"amount"`
 	AUBECSDebit *SourceAUBECSDebit `json:"au_becs_debit"`

@@ -128,6 +128,26 @@ const (
 	ChargePaymentMethodDetailsCardOvercaptureStatusUnavailable ChargePaymentMethodDetailsCardOvercaptureStatus = "unavailable"
 )
 
+// Indicates whether the transaction requested for partial authorization feature and the authorization outcome.
+type ChargePaymentMethodDetailsCardPartialAuthorizationStatus string
+
+// List of values that ChargePaymentMethodDetailsCardPartialAuthorizationStatus can take
+const (
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusDeclined            ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "declined"
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusFullyAuthorized     ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "fully_authorized"
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusNotRequested        ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "not_requested"
+	ChargePaymentMethodDetailsCardPartialAuthorizationStatusPartiallyAuthorized ChargePaymentMethodDetailsCardPartialAuthorizationStatus = "partially_authorized"
+)
+
+// Status of a card based on the card issuer.
+type ChargePaymentMethodDetailsCardRegulatedStatus string
+
+// List of values that ChargePaymentMethodDetailsCardRegulatedStatus can take
+const (
+	ChargePaymentMethodDetailsCardRegulatedStatusRegulated   ChargePaymentMethodDetailsCardRegulatedStatus = "regulated"
+	ChargePaymentMethodDetailsCardRegulatedStatusUnregulated ChargePaymentMethodDetailsCardRegulatedStatus = "unregulated"
+)
+
 // For authenticated transactions: how the customer was authenticated by
 // the issuing bank.
 type ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -1461,6 +1481,10 @@ type ChargePaymentMethodDetailsCardOvercapture struct {
 	// Indicates whether or not the authorized amount can be over-captured.
 	Status ChargePaymentMethodDetailsCardOvercaptureStatus `json:"status"`
 }
+type ChargePaymentMethodDetailsCardPartialAuthorization struct {
+	// Indicates whether the transaction requested for partial authorization feature and the authorization outcome.
+	Status ChargePaymentMethodDetailsCardPartialAuthorizationStatus `json:"status"`
+}
 
 // Populated if this transaction used 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
@@ -1529,6 +1553,8 @@ type ChargePaymentMethodDetailsCardWallet struct {
 type ChargePaymentMethodDetailsCard struct {
 	// The authorized amount.
 	AmountAuthorized int64 `json:"amount_authorized"`
+	// The latest amount intended to be authorized by this charge.
+	AmountRequested int64 `json:"amount_requested"`
 	// Authorization code on the charge.
 	AuthorizationCode string `json:"authorization_code"`
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
@@ -1567,7 +1593,12 @@ type ChargePaymentMethodDetailsCard struct {
 	Network ChargePaymentMethodDetailsCardNetwork `json:"network"`
 	// If this card has network token credentials, this contains the details of the network token credentials.
 	NetworkToken *ChargePaymentMethodDetailsCardNetworkToken `json:"network_token"`
-	Overcapture  *ChargePaymentMethodDetailsCardOvercapture  `json:"overcapture"`
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. The first three digits of the Trace ID is the Financial Network Code, the next 6 digits is the Banknet Reference Number, and the last 4 digits represent the date (MM/DD). This field will be available for successful Visa, Mastercard, or American Express transactions and always null for other card brands.
+	NetworkTransactionID string                                              `json:"network_transaction_id"`
+	Overcapture          *ChargePaymentMethodDetailsCardOvercapture          `json:"overcapture"`
+	PartialAuthorization *ChargePaymentMethodDetailsCardPartialAuthorization `json:"partial_authorization"`
+	// Status of a card based on the card issuer.
+	RegulatedStatus ChargePaymentMethodDetailsCardRegulatedStatus `json:"regulated_status"`
 	// Populated if this transaction used 3D Secure authentication.
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
