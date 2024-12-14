@@ -385,7 +385,7 @@ type PersonFutureRequirements struct {
 	CurrentlyDue []string `json:"currently_due"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*PersonFutureRequirementsError `json:"errors"`
-	// Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `future_requirements[current_deadline]` becomes set.
+	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `future_requirements[current_deadline]` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
 	// Fields that weren't collected by the account's `requirements.current_deadline`. These fields need to be collected to enable the person's account. New fields will never appear here; `future_requirements.past_due` will always be a subset of `requirements.past_due`.
 	PastDue []string `json:"past_due"`
@@ -427,7 +427,7 @@ type PersonRequirements struct {
 	CurrentlyDue []string `json:"currently_due"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
-	// Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `current_deadline` becomes set.
+	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
 	// Fields that weren't collected by the account's `current_deadline`. These fields need to be collected to enable the person's account.
 	PastDue []string `json:"past_due"`
