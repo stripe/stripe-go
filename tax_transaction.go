@@ -15,21 +15,27 @@ const (
 	TaxTransactionCustomerDetailsAddressSourceShipping TaxTransactionCustomerDetailsAddressSource = "shipping"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or `unknown`
 type TaxTransactionCustomerDetailsTaxIDType string
 
 // List of values that TaxTransactionCustomerDetailsTaxIDType can take
 const (
 	TaxTransactionCustomerDetailsTaxIDTypeADNRT    TaxTransactionCustomerDetailsTaxIDType = "ad_nrt"
 	TaxTransactionCustomerDetailsTaxIDTypeAETRN    TaxTransactionCustomerDetailsTaxIDType = "ae_trn"
+	TaxTransactionCustomerDetailsTaxIDTypeAlTin    TaxTransactionCustomerDetailsTaxIDType = "al_tin"
+	TaxTransactionCustomerDetailsTaxIDTypeAmTin    TaxTransactionCustomerDetailsTaxIDType = "am_tin"
+	TaxTransactionCustomerDetailsTaxIDTypeAoTin    TaxTransactionCustomerDetailsTaxIDType = "ao_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeARCUIT   TaxTransactionCustomerDetailsTaxIDType = "ar_cuit"
 	TaxTransactionCustomerDetailsTaxIDTypeAUABN    TaxTransactionCustomerDetailsTaxIDType = "au_abn"
 	TaxTransactionCustomerDetailsTaxIDTypeAUARN    TaxTransactionCustomerDetailsTaxIDType = "au_arn"
+	TaxTransactionCustomerDetailsTaxIDTypeBaTin    TaxTransactionCustomerDetailsTaxIDType = "ba_tin"
+	TaxTransactionCustomerDetailsTaxIDTypeBbTin    TaxTransactionCustomerDetailsTaxIDType = "bb_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeBGUIC    TaxTransactionCustomerDetailsTaxIDType = "bg_uic"
 	TaxTransactionCustomerDetailsTaxIDTypeBhVAT    TaxTransactionCustomerDetailsTaxIDType = "bh_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeBOTIN    TaxTransactionCustomerDetailsTaxIDType = "bo_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeBRCNPJ   TaxTransactionCustomerDetailsTaxIDType = "br_cnpj"
 	TaxTransactionCustomerDetailsTaxIDTypeBRCPF    TaxTransactionCustomerDetailsTaxIDType = "br_cpf"
+	TaxTransactionCustomerDetailsTaxIDTypeBsTin    TaxTransactionCustomerDetailsTaxIDType = "bs_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeByTin    TaxTransactionCustomerDetailsTaxIDType = "by_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeCABN     TaxTransactionCustomerDetailsTaxIDType = "ca_bn"
 	TaxTransactionCustomerDetailsTaxIDTypeCAGSTHST TaxTransactionCustomerDetailsTaxIDType = "ca_gst_hst"
@@ -37,6 +43,7 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeCAPSTMB  TaxTransactionCustomerDetailsTaxIDType = "ca_pst_mb"
 	TaxTransactionCustomerDetailsTaxIDTypeCAPSTSK  TaxTransactionCustomerDetailsTaxIDType = "ca_pst_sk"
 	TaxTransactionCustomerDetailsTaxIDTypeCAQST    TaxTransactionCustomerDetailsTaxIDType = "ca_qst"
+	TaxTransactionCustomerDetailsTaxIDTypeCdNif    TaxTransactionCustomerDetailsTaxIDType = "cd_nif"
 	TaxTransactionCustomerDetailsTaxIDTypeCHUID    TaxTransactionCustomerDetailsTaxIDType = "ch_uid"
 	TaxTransactionCustomerDetailsTaxIDTypeCHVAT    TaxTransactionCustomerDetailsTaxIDType = "ch_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeCLTIN    TaxTransactionCustomerDetailsTaxIDType = "cl_tin"
@@ -52,6 +59,7 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeEUVAT    TaxTransactionCustomerDetailsTaxIDType = "eu_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeGBVAT    TaxTransactionCustomerDetailsTaxIDType = "gb_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeGEVAT    TaxTransactionCustomerDetailsTaxIDType = "ge_vat"
+	TaxTransactionCustomerDetailsTaxIDTypeGnNif    TaxTransactionCustomerDetailsTaxIDType = "gn_nif"
 	TaxTransactionCustomerDetailsTaxIDTypeHKBR     TaxTransactionCustomerDetailsTaxIDType = "hk_br"
 	TaxTransactionCustomerDetailsTaxIDTypeHROIB    TaxTransactionCustomerDetailsTaxIDType = "hr_oib"
 	TaxTransactionCustomerDetailsTaxIDTypeHUTIN    TaxTransactionCustomerDetailsTaxIDType = "hu_tin"
@@ -63,12 +71,16 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeJPRN     TaxTransactionCustomerDetailsTaxIDType = "jp_rn"
 	TaxTransactionCustomerDetailsTaxIDTypeJPTRN    TaxTransactionCustomerDetailsTaxIDType = "jp_trn"
 	TaxTransactionCustomerDetailsTaxIDTypeKEPIN    TaxTransactionCustomerDetailsTaxIDType = "ke_pin"
+	TaxTransactionCustomerDetailsTaxIDTypeKhTin    TaxTransactionCustomerDetailsTaxIDType = "kh_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeKRBRN    TaxTransactionCustomerDetailsTaxIDType = "kr_brn"
 	TaxTransactionCustomerDetailsTaxIDTypeKzBin    TaxTransactionCustomerDetailsTaxIDType = "kz_bin"
 	TaxTransactionCustomerDetailsTaxIDTypeLIUID    TaxTransactionCustomerDetailsTaxIDType = "li_uid"
 	TaxTransactionCustomerDetailsTaxIDTypeLiVAT    TaxTransactionCustomerDetailsTaxIDType = "li_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeMaVAT    TaxTransactionCustomerDetailsTaxIDType = "ma_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeMdVAT    TaxTransactionCustomerDetailsTaxIDType = "md_vat"
+	TaxTransactionCustomerDetailsTaxIDTypeMePib    TaxTransactionCustomerDetailsTaxIDType = "me_pib"
+	TaxTransactionCustomerDetailsTaxIDTypeMkVAT    TaxTransactionCustomerDetailsTaxIDType = "mk_vat"
+	TaxTransactionCustomerDetailsTaxIDTypeMrNif    TaxTransactionCustomerDetailsTaxIDType = "mr_nif"
 	TaxTransactionCustomerDetailsTaxIDTypeMXRFC    TaxTransactionCustomerDetailsTaxIDType = "mx_rfc"
 	TaxTransactionCustomerDetailsTaxIDTypeMYFRP    TaxTransactionCustomerDetailsTaxIDType = "my_frp"
 	TaxTransactionCustomerDetailsTaxIDTypeMYITN    TaxTransactionCustomerDetailsTaxIDType = "my_itn"
@@ -76,6 +88,7 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeNgTin    TaxTransactionCustomerDetailsTaxIDType = "ng_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeNOVAT    TaxTransactionCustomerDetailsTaxIDType = "no_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeNOVOEC   TaxTransactionCustomerDetailsTaxIDType = "no_voec"
+	TaxTransactionCustomerDetailsTaxIDTypeNpPan    TaxTransactionCustomerDetailsTaxIDType = "np_pan"
 	TaxTransactionCustomerDetailsTaxIDTypeNZGST    TaxTransactionCustomerDetailsTaxIDType = "nz_gst"
 	TaxTransactionCustomerDetailsTaxIDTypeOmVAT    TaxTransactionCustomerDetailsTaxIDType = "om_vat"
 	TaxTransactionCustomerDetailsTaxIDTypePERUC    TaxTransactionCustomerDetailsTaxIDType = "pe_ruc"
@@ -88,12 +101,16 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeSGGST    TaxTransactionCustomerDetailsTaxIDType = "sg_gst"
 	TaxTransactionCustomerDetailsTaxIDTypeSGUEN    TaxTransactionCustomerDetailsTaxIDType = "sg_uen"
 	TaxTransactionCustomerDetailsTaxIDTypeSITIN    TaxTransactionCustomerDetailsTaxIDType = "si_tin"
+	TaxTransactionCustomerDetailsTaxIDTypeSnNinea  TaxTransactionCustomerDetailsTaxIDType = "sn_ninea"
+	TaxTransactionCustomerDetailsTaxIDTypeSrFin    TaxTransactionCustomerDetailsTaxIDType = "sr_fin"
 	TaxTransactionCustomerDetailsTaxIDTypeSVNIT    TaxTransactionCustomerDetailsTaxIDType = "sv_nit"
 	TaxTransactionCustomerDetailsTaxIDTypeTHVAT    TaxTransactionCustomerDetailsTaxIDType = "th_vat"
+	TaxTransactionCustomerDetailsTaxIDTypeTjTin    TaxTransactionCustomerDetailsTaxIDType = "tj_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeTRTIN    TaxTransactionCustomerDetailsTaxIDType = "tr_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeTWVAT    TaxTransactionCustomerDetailsTaxIDType = "tw_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeTzVAT    TaxTransactionCustomerDetailsTaxIDType = "tz_vat"
 	TaxTransactionCustomerDetailsTaxIDTypeUAVAT    TaxTransactionCustomerDetailsTaxIDType = "ua_vat"
+	TaxTransactionCustomerDetailsTaxIDTypeUgTin    TaxTransactionCustomerDetailsTaxIDType = "ug_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeUnknown  TaxTransactionCustomerDetailsTaxIDType = "unknown"
 	TaxTransactionCustomerDetailsTaxIDTypeUSEIN    TaxTransactionCustomerDetailsTaxIDType = "us_ein"
 	TaxTransactionCustomerDetailsTaxIDTypeUYRUC    TaxTransactionCustomerDetailsTaxIDType = "uy_ruc"
@@ -102,6 +119,8 @@ const (
 	TaxTransactionCustomerDetailsTaxIDTypeVERIF    TaxTransactionCustomerDetailsTaxIDType = "ve_rif"
 	TaxTransactionCustomerDetailsTaxIDTypeVNTIN    TaxTransactionCustomerDetailsTaxIDType = "vn_tin"
 	TaxTransactionCustomerDetailsTaxIDTypeZAVAT    TaxTransactionCustomerDetailsTaxIDType = "za_vat"
+	TaxTransactionCustomerDetailsTaxIDTypeZmTin    TaxTransactionCustomerDetailsTaxIDType = "zm_tin"
+	TaxTransactionCustomerDetailsTaxIDTypeZwTin    TaxTransactionCustomerDetailsTaxIDType = "zw_tin"
 )
 
 // The taxability override used for taxation.
@@ -320,7 +339,7 @@ func (p *TaxTransactionCreateReversalParams) AddMetadata(key string, value strin
 
 // The customer's tax IDs (for example, EU VAT numbers).
 type TaxTransactionCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or `unknown`
 	Type TaxTransactionCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

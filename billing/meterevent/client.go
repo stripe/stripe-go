@@ -19,12 +19,12 @@ type Client struct {
 	Key string
 }
 
-// Creates a billing meter event
+// Creates a billing meter event.
 func New(params *stripe.BillingMeterEventParams) (*stripe.BillingMeterEvent, error) {
 	return getC().New(params)
 }
 
-// Creates a billing meter event
+// Creates a billing meter event.
 func (c Client) New(params *stripe.BillingMeterEventParams) (*stripe.BillingMeterEvent, error) {
 	meterevent := &stripe.BillingMeterEvent{}
 	err := c.B.Call(

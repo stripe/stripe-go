@@ -16,6 +16,30 @@ const (
 	TaxRegistrationCountryOptionsAeTypeStandard TaxRegistrationCountryOptionsAeType = "standard"
 )
 
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsAlType string
+
+// List of values that TaxRegistrationCountryOptionsAlType can take
+const (
+	TaxRegistrationCountryOptionsAlTypeStandard TaxRegistrationCountryOptionsAlType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsAmType string
+
+// List of values that TaxRegistrationCountryOptionsAmType can take
+const (
+	TaxRegistrationCountryOptionsAmTypeSimplified TaxRegistrationCountryOptionsAmType = "simplified"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsAoType string
+
+// List of values that TaxRegistrationCountryOptionsAoType can take
+const (
+	TaxRegistrationCountryOptionsAoTypeStandard TaxRegistrationCountryOptionsAoType = "standard"
+)
+
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme string
 
@@ -42,6 +66,22 @@ type TaxRegistrationCountryOptionsAuType string
 // List of values that TaxRegistrationCountryOptionsAuType can take
 const (
 	TaxRegistrationCountryOptionsAuTypeStandard TaxRegistrationCountryOptionsAuType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsBaType string
+
+// List of values that TaxRegistrationCountryOptionsBaType can take
+const (
+	TaxRegistrationCountryOptionsBaTypeStandard TaxRegistrationCountryOptionsBaType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsBbType string
+
+// List of values that TaxRegistrationCountryOptionsBbType can take
+const (
+	TaxRegistrationCountryOptionsBbTypeStandard TaxRegistrationCountryOptionsBbType = "standard"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -93,6 +133,14 @@ const (
 )
 
 // Type of registration in `country`.
+type TaxRegistrationCountryOptionsBsType string
+
+// List of values that TaxRegistrationCountryOptionsBsType can take
+const (
+	TaxRegistrationCountryOptionsBsTypeStandard TaxRegistrationCountryOptionsBsType = "standard"
+)
+
+// Type of registration in `country`.
 type TaxRegistrationCountryOptionsByType string
 
 // List of values that TaxRegistrationCountryOptionsByType can take
@@ -108,6 +156,14 @@ const (
 	TaxRegistrationCountryOptionsCaTypeProvinceStandard TaxRegistrationCountryOptionsCaType = "province_standard"
 	TaxRegistrationCountryOptionsCaTypeSimplified       TaxRegistrationCountryOptionsCaType = "simplified"
 	TaxRegistrationCountryOptionsCaTypeStandard         TaxRegistrationCountryOptionsCaType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsCdType string
+
+// List of values that TaxRegistrationCountryOptionsCdType can take
+const (
+	TaxRegistrationCountryOptionsCdTypeStandard TaxRegistrationCountryOptionsCdType = "standard"
 )
 
 // Type of registration in `country`.
@@ -334,6 +390,14 @@ const (
 	TaxRegistrationCountryOptionsGeTypeSimplified TaxRegistrationCountryOptionsGeType = "simplified"
 )
 
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsGnType string
+
+// List of values that TaxRegistrationCountryOptionsGnType can take
+const (
+	TaxRegistrationCountryOptionsGnTypeStandard TaxRegistrationCountryOptionsGnType = "standard"
+)
+
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme string
 
@@ -467,6 +531,14 @@ const (
 )
 
 // Type of registration in `country`.
+type TaxRegistrationCountryOptionsKhType string
+
+// List of values that TaxRegistrationCountryOptionsKhType can take
+const (
+	TaxRegistrationCountryOptionsKhTypeSimplified TaxRegistrationCountryOptionsKhType = "simplified"
+)
+
+// Type of registration in `country`.
 type TaxRegistrationCountryOptionsKrType string
 
 // List of values that TaxRegistrationCountryOptionsKrType can take
@@ -558,6 +630,30 @@ const (
 	TaxRegistrationCountryOptionsMdTypeSimplified TaxRegistrationCountryOptionsMdType = "simplified"
 )
 
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsMeType string
+
+// List of values that TaxRegistrationCountryOptionsMeType can take
+const (
+	TaxRegistrationCountryOptionsMeTypeStandard TaxRegistrationCountryOptionsMeType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsMkType string
+
+// List of values that TaxRegistrationCountryOptionsMkType can take
+const (
+	TaxRegistrationCountryOptionsMkTypeStandard TaxRegistrationCountryOptionsMkType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsMrType string
+
+// List of values that TaxRegistrationCountryOptionsMrType can take
+const (
+	TaxRegistrationCountryOptionsMrTypeStandard TaxRegistrationCountryOptionsMrType = "standard"
+)
+
 // Place of supply scheme used in an EU standard registration.
 type TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme string
 
@@ -631,6 +727,14 @@ const (
 )
 
 // Type of registration in `country`.
+type TaxRegistrationCountryOptionsNpType string
+
+// List of values that TaxRegistrationCountryOptionsNpType can take
+const (
+	TaxRegistrationCountryOptionsNpTypeSimplified TaxRegistrationCountryOptionsNpType = "simplified"
+)
+
+// Type of registration in `country`.
 type TaxRegistrationCountryOptionsNzType string
 
 // List of values that TaxRegistrationCountryOptionsNzType can take
@@ -644,6 +748,14 @@ type TaxRegistrationCountryOptionsOmType string
 // List of values that TaxRegistrationCountryOptionsOmType can take
 const (
 	TaxRegistrationCountryOptionsOmTypeStandard TaxRegistrationCountryOptionsOmType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsPeType string
+
+// List of values that TaxRegistrationCountryOptionsPeType can take
+const (
+	TaxRegistrationCountryOptionsPeTypeSimplified TaxRegistrationCountryOptionsPeType = "simplified"
 )
 
 // Place of supply scheme used in an EU standard registration.
@@ -799,11 +911,35 @@ const (
 )
 
 // Type of registration in `country`.
+type TaxRegistrationCountryOptionsSnType string
+
+// List of values that TaxRegistrationCountryOptionsSnType can take
+const (
+	TaxRegistrationCountryOptionsSnTypeSimplified TaxRegistrationCountryOptionsSnType = "simplified"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsSrType string
+
+// List of values that TaxRegistrationCountryOptionsSrType can take
+const (
+	TaxRegistrationCountryOptionsSrTypeStandard TaxRegistrationCountryOptionsSrType = "standard"
+)
+
+// Type of registration in `country`.
 type TaxRegistrationCountryOptionsTHType string
 
 // List of values that TaxRegistrationCountryOptionsTHType can take
 const (
 	TaxRegistrationCountryOptionsTHTypeSimplified TaxRegistrationCountryOptionsTHType = "simplified"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsTjType string
+
+// List of values that TaxRegistrationCountryOptionsTjType can take
+const (
+	TaxRegistrationCountryOptionsTjTypeSimplified TaxRegistrationCountryOptionsTjType = "simplified"
 )
 
 // Type of registration in `country`.
@@ -820,6 +956,14 @@ type TaxRegistrationCountryOptionsTzType string
 // List of values that TaxRegistrationCountryOptionsTzType can take
 const (
 	TaxRegistrationCountryOptionsTzTypeSimplified TaxRegistrationCountryOptionsTzType = "simplified"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsUgType string
+
+// List of values that TaxRegistrationCountryOptionsUgType can take
+const (
+	TaxRegistrationCountryOptionsUgTypeSimplified TaxRegistrationCountryOptionsUgType = "simplified"
 )
 
 // The type of the election for the state sales tax registration.
@@ -845,6 +989,14 @@ const (
 )
 
 // Type of registration in `country`.
+type TaxRegistrationCountryOptionsUyType string
+
+// List of values that TaxRegistrationCountryOptionsUyType can take
+const (
+	TaxRegistrationCountryOptionsUyTypeStandard TaxRegistrationCountryOptionsUyType = "standard"
+)
+
+// Type of registration in `country`.
 type TaxRegistrationCountryOptionsUzType string
 
 // List of values that TaxRegistrationCountryOptionsUzType can take
@@ -866,6 +1018,22 @@ type TaxRegistrationCountryOptionsZaType string
 // List of values that TaxRegistrationCountryOptionsZaType can take
 const (
 	TaxRegistrationCountryOptionsZaTypeStandard TaxRegistrationCountryOptionsZaType = "standard"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsZmType string
+
+// List of values that TaxRegistrationCountryOptionsZmType can take
+const (
+	TaxRegistrationCountryOptionsZmTypeSimplified TaxRegistrationCountryOptionsZmType = "simplified"
+)
+
+// Type of registration in `country`.
+type TaxRegistrationCountryOptionsZwType string
+
+// List of values that TaxRegistrationCountryOptionsZwType can take
+const (
+	TaxRegistrationCountryOptionsZwTypeStandard TaxRegistrationCountryOptionsZwType = "standard"
 )
 
 // The status of the registration. This field is present for convenience and can be deduced from `active_from` and `expires_at`.
@@ -898,6 +1066,24 @@ type TaxRegistrationCountryOptionsAeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in AL.
+type TaxRegistrationCountryOptionsAlParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in AM.
+type TaxRegistrationCountryOptionsAmParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in AO.
+type TaxRegistrationCountryOptionsAoParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsAtStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -914,6 +1100,18 @@ type TaxRegistrationCountryOptionsAtParams struct {
 
 // Options for the registration in AU.
 type TaxRegistrationCountryOptionsAuParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in BA.
+type TaxRegistrationCountryOptionsBaParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in BB.
+type TaxRegistrationCountryOptionsBbParams struct {
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -952,6 +1150,12 @@ type TaxRegistrationCountryOptionsBhParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in BS.
+type TaxRegistrationCountryOptionsBsParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in BY.
 type TaxRegistrationCountryOptionsByParams struct {
 	// Type of registration to be created in `country`.
@@ -969,6 +1173,12 @@ type TaxRegistrationCountryOptionsCaParams struct {
 	// Options for the provincial tax registration.
 	ProvinceStandard *TaxRegistrationCountryOptionsCaProvinceStandardParams `form:"province_standard"`
 	// Type of registration to be created in Canada.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in CD.
+type TaxRegistrationCountryOptionsCdParams struct {
+	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
@@ -1132,6 +1342,12 @@ type TaxRegistrationCountryOptionsGeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in GN.
+type TaxRegistrationCountryOptionsGnParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsGrStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1226,6 +1442,12 @@ type TaxRegistrationCountryOptionsKeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in KH.
+type TaxRegistrationCountryOptionsKhParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in KR.
 type TaxRegistrationCountryOptionsKrParams struct {
 	// Type of registration to be created in `country`.
@@ -1292,6 +1514,24 @@ type TaxRegistrationCountryOptionsMdParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in ME.
+type TaxRegistrationCountryOptionsMeParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in MK.
+type TaxRegistrationCountryOptionsMkParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in MR.
+type TaxRegistrationCountryOptionsMrParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the standard registration.
 type TaxRegistrationCountryOptionsMTStandardParams struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1344,6 +1584,12 @@ type TaxRegistrationCountryOptionsNoParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in NP.
+type TaxRegistrationCountryOptionsNpParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in NZ.
 type TaxRegistrationCountryOptionsNzParams struct {
 	// Type of registration to be created in `country`.
@@ -1352,6 +1598,12 @@ type TaxRegistrationCountryOptionsNzParams struct {
 
 // Options for the registration in OM.
 type TaxRegistrationCountryOptionsOmParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in PE.
+type TaxRegistrationCountryOptionsPeParams struct {
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1464,8 +1716,26 @@ type TaxRegistrationCountryOptionsSKParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in SN.
+type TaxRegistrationCountryOptionsSnParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in SR.
+type TaxRegistrationCountryOptionsSrParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in TH.
 type TaxRegistrationCountryOptionsTHParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in TJ.
+type TaxRegistrationCountryOptionsTjParams struct {
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1478,6 +1748,12 @@ type TaxRegistrationCountryOptionsTRParams struct {
 
 // Options for the registration in TZ.
 type TaxRegistrationCountryOptionsTzParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in UG.
+type TaxRegistrationCountryOptionsUgParams struct {
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1522,6 +1798,12 @@ type TaxRegistrationCountryOptionsUSParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in UY.
+type TaxRegistrationCountryOptionsUyParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in UZ.
 type TaxRegistrationCountryOptionsUzParams struct {
 	// Type of registration to be created in `country`.
@@ -1540,24 +1822,50 @@ type TaxRegistrationCountryOptionsZaParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in ZM.
+type TaxRegistrationCountryOptionsZmParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in ZW.
+type TaxRegistrationCountryOptionsZwParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Specific options for a registration in the specified `country`.
 type TaxRegistrationCountryOptionsParams struct {
 	// Options for the registration in AE.
 	Ae *TaxRegistrationCountryOptionsAeParams `form:"ae"`
+	// Options for the registration in AL.
+	Al *TaxRegistrationCountryOptionsAlParams `form:"al"`
+	// Options for the registration in AM.
+	Am *TaxRegistrationCountryOptionsAmParams `form:"am"`
+	// Options for the registration in AO.
+	Ao *TaxRegistrationCountryOptionsAoParams `form:"ao"`
 	// Options for the registration in AT.
 	At *TaxRegistrationCountryOptionsAtParams `form:"at"`
 	// Options for the registration in AU.
 	Au *TaxRegistrationCountryOptionsAuParams `form:"au"`
+	// Options for the registration in BA.
+	Ba *TaxRegistrationCountryOptionsBaParams `form:"ba"`
+	// Options for the registration in BB.
+	Bb *TaxRegistrationCountryOptionsBbParams `form:"bb"`
 	// Options for the registration in BE.
 	Be *TaxRegistrationCountryOptionsBeParams `form:"be"`
 	// Options for the registration in BG.
 	BG *TaxRegistrationCountryOptionsBGParams `form:"bg"`
 	// Options for the registration in BH.
 	Bh *TaxRegistrationCountryOptionsBhParams `form:"bh"`
+	// Options for the registration in BS.
+	Bs *TaxRegistrationCountryOptionsBsParams `form:"bs"`
 	// Options for the registration in BY.
 	By *TaxRegistrationCountryOptionsByParams `form:"by"`
 	// Options for the registration in CA.
 	Ca *TaxRegistrationCountryOptionsCaParams `form:"ca"`
+	// Options for the registration in CD.
+	Cd *TaxRegistrationCountryOptionsCdParams `form:"cd"`
 	// Options for the registration in CH.
 	Ch *TaxRegistrationCountryOptionsChParams `form:"ch"`
 	// Options for the registration in CL.
@@ -1590,6 +1898,8 @@ type TaxRegistrationCountryOptionsParams struct {
 	GB *TaxRegistrationCountryOptionsGBParams `form:"gb"`
 	// Options for the registration in GE.
 	Ge *TaxRegistrationCountryOptionsGeParams `form:"ge"`
+	// Options for the registration in GN.
+	Gn *TaxRegistrationCountryOptionsGnParams `form:"gn"`
 	// Options for the registration in GR.
 	Gr *TaxRegistrationCountryOptionsGrParams `form:"gr"`
 	// Options for the registration in HR.
@@ -1608,6 +1918,8 @@ type TaxRegistrationCountryOptionsParams struct {
 	JP *TaxRegistrationCountryOptionsJPParams `form:"jp"`
 	// Options for the registration in KE.
 	Ke *TaxRegistrationCountryOptionsKeParams `form:"ke"`
+	// Options for the registration in KH.
+	Kh *TaxRegistrationCountryOptionsKhParams `form:"kh"`
 	// Options for the registration in KR.
 	Kr *TaxRegistrationCountryOptionsKrParams `form:"kr"`
 	// Options for the registration in KZ.
@@ -1622,6 +1934,12 @@ type TaxRegistrationCountryOptionsParams struct {
 	Ma *TaxRegistrationCountryOptionsMaParams `form:"ma"`
 	// Options for the registration in MD.
 	Md *TaxRegistrationCountryOptionsMdParams `form:"md"`
+	// Options for the registration in ME.
+	Me *TaxRegistrationCountryOptionsMeParams `form:"me"`
+	// Options for the registration in MK.
+	Mk *TaxRegistrationCountryOptionsMkParams `form:"mk"`
+	// Options for the registration in MR.
+	Mr *TaxRegistrationCountryOptionsMrParams `form:"mr"`
 	// Options for the registration in MT.
 	MT *TaxRegistrationCountryOptionsMTParams `form:"mt"`
 	// Options for the registration in MX.
@@ -1634,10 +1952,14 @@ type TaxRegistrationCountryOptionsParams struct {
 	NL *TaxRegistrationCountryOptionsNLParams `form:"nl"`
 	// Options for the registration in NO.
 	No *TaxRegistrationCountryOptionsNoParams `form:"no"`
+	// Options for the registration in NP.
+	Np *TaxRegistrationCountryOptionsNpParams `form:"np"`
 	// Options for the registration in NZ.
 	Nz *TaxRegistrationCountryOptionsNzParams `form:"nz"`
 	// Options for the registration in OM.
 	Om *TaxRegistrationCountryOptionsOmParams `form:"om"`
+	// Options for the registration in PE.
+	Pe *TaxRegistrationCountryOptionsPeParams `form:"pe"`
 	// Options for the registration in PL.
 	PL *TaxRegistrationCountryOptionsPLParams `form:"pl"`
 	// Options for the registration in PT.
@@ -1658,20 +1980,34 @@ type TaxRegistrationCountryOptionsParams struct {
 	Si *TaxRegistrationCountryOptionsSiParams `form:"si"`
 	// Options for the registration in SK.
 	SK *TaxRegistrationCountryOptionsSKParams `form:"sk"`
+	// Options for the registration in SN.
+	Sn *TaxRegistrationCountryOptionsSnParams `form:"sn"`
+	// Options for the registration in SR.
+	Sr *TaxRegistrationCountryOptionsSrParams `form:"sr"`
 	// Options for the registration in TH.
 	TH *TaxRegistrationCountryOptionsTHParams `form:"th"`
+	// Options for the registration in TJ.
+	Tj *TaxRegistrationCountryOptionsTjParams `form:"tj"`
 	// Options for the registration in TR.
 	TR *TaxRegistrationCountryOptionsTRParams `form:"tr"`
 	// Options for the registration in TZ.
 	Tz *TaxRegistrationCountryOptionsTzParams `form:"tz"`
+	// Options for the registration in UG.
+	Ug *TaxRegistrationCountryOptionsUgParams `form:"ug"`
 	// Options for the registration in US.
 	US *TaxRegistrationCountryOptionsUSParams `form:"us"`
+	// Options for the registration in UY.
+	Uy *TaxRegistrationCountryOptionsUyParams `form:"uy"`
 	// Options for the registration in UZ.
 	Uz *TaxRegistrationCountryOptionsUzParams `form:"uz"`
 	// Options for the registration in VN.
 	Vn *TaxRegistrationCountryOptionsVnParams `form:"vn"`
 	// Options for the registration in ZA.
 	Za *TaxRegistrationCountryOptionsZaParams `form:"za"`
+	// Options for the registration in ZM.
+	Zm *TaxRegistrationCountryOptionsZmParams `form:"zm"`
+	// Options for the registration in ZW.
+	Zw *TaxRegistrationCountryOptionsZwParams `form:"zw"`
 }
 
 // Creates a new Tax Registration object.
@@ -1710,6 +2046,18 @@ type TaxRegistrationCountryOptionsAe struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsAeType `json:"type"`
 }
+type TaxRegistrationCountryOptionsAl struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsAlType `json:"type"`
+}
+type TaxRegistrationCountryOptionsAm struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsAmType `json:"type"`
+}
+type TaxRegistrationCountryOptionsAo struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsAoType `json:"type"`
+}
 type TaxRegistrationCountryOptionsAtStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
@@ -1722,6 +2070,14 @@ type TaxRegistrationCountryOptionsAt struct {
 type TaxRegistrationCountryOptionsAu struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsAuType `json:"type"`
+}
+type TaxRegistrationCountryOptionsBa struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsBaType `json:"type"`
+}
+type TaxRegistrationCountryOptionsBb struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsBbType `json:"type"`
 }
 type TaxRegistrationCountryOptionsBeStandard struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -1745,6 +2101,10 @@ type TaxRegistrationCountryOptionsBh struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsBhType `json:"type"`
 }
+type TaxRegistrationCountryOptionsBs struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsBsType `json:"type"`
+}
 type TaxRegistrationCountryOptionsBy struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsByType `json:"type"`
@@ -1757,6 +2117,10 @@ type TaxRegistrationCountryOptionsCa struct {
 	ProvinceStandard *TaxRegistrationCountryOptionsCaProvinceStandard `json:"province_standard"`
 	// Type of registration in Canada.
 	Type TaxRegistrationCountryOptionsCaType `json:"type"`
+}
+type TaxRegistrationCountryOptionsCd struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsCdType `json:"type"`
 }
 type TaxRegistrationCountryOptionsCh struct {
 	// Type of registration in `country`.
@@ -1862,6 +2226,10 @@ type TaxRegistrationCountryOptionsGe struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsGeType `json:"type"`
 }
+type TaxRegistrationCountryOptionsGn struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsGnType `json:"type"`
+}
 type TaxRegistrationCountryOptionsGrStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
@@ -1923,6 +2291,10 @@ type TaxRegistrationCountryOptionsKe struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsKeType `json:"type"`
 }
+type TaxRegistrationCountryOptionsKh struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsKhType `json:"type"`
+}
 type TaxRegistrationCountryOptionsKr struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsKrType `json:"type"`
@@ -1966,6 +2338,18 @@ type TaxRegistrationCountryOptionsMd struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsMdType `json:"type"`
 }
+type TaxRegistrationCountryOptionsMe struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsMeType `json:"type"`
+}
+type TaxRegistrationCountryOptionsMk struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsMkType `json:"type"`
+}
+type TaxRegistrationCountryOptionsMr struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsMrType `json:"type"`
+}
 type TaxRegistrationCountryOptionsMTStandard struct {
 	// Place of supply scheme used in an EU standard registration.
 	PlaceOfSupplyScheme TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
@@ -2000,6 +2384,10 @@ type TaxRegistrationCountryOptionsNo struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsNoType `json:"type"`
 }
+type TaxRegistrationCountryOptionsNp struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsNpType `json:"type"`
+}
 type TaxRegistrationCountryOptionsNz struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsNzType `json:"type"`
@@ -2007,6 +2395,10 @@ type TaxRegistrationCountryOptionsNz struct {
 type TaxRegistrationCountryOptionsOm struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsOmType `json:"type"`
+}
+type TaxRegistrationCountryOptionsPe struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsPeType `json:"type"`
 }
 type TaxRegistrationCountryOptionsPLStandard struct {
 	// Place of supply scheme used in an EU standard registration.
@@ -2078,9 +2470,21 @@ type TaxRegistrationCountryOptionsSK struct {
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsSKType `json:"type"`
 }
+type TaxRegistrationCountryOptionsSn struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsSnType `json:"type"`
+}
+type TaxRegistrationCountryOptionsSr struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsSrType `json:"type"`
+}
 type TaxRegistrationCountryOptionsTH struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsTHType `json:"type"`
+}
+type TaxRegistrationCountryOptionsTj struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsTjType `json:"type"`
 }
 type TaxRegistrationCountryOptionsTR struct {
 	// Type of registration in `country`.
@@ -2089,6 +2493,10 @@ type TaxRegistrationCountryOptionsTR struct {
 type TaxRegistrationCountryOptionsTz struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsTzType `json:"type"`
+}
+type TaxRegistrationCountryOptionsUg struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsUgType `json:"type"`
 }
 type TaxRegistrationCountryOptionsUSLocalAmusementTax struct {
 	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction.
@@ -2119,6 +2527,10 @@ type TaxRegistrationCountryOptionsUS struct {
 	// Type of registration in the US.
 	Type TaxRegistrationCountryOptionsUSType `json:"type"`
 }
+type TaxRegistrationCountryOptionsUy struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsUyType `json:"type"`
+}
 type TaxRegistrationCountryOptionsUz struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsUzType `json:"type"`
@@ -2131,15 +2543,30 @@ type TaxRegistrationCountryOptionsZa struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsZaType `json:"type"`
 }
+type TaxRegistrationCountryOptionsZm struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsZmType `json:"type"`
+}
+type TaxRegistrationCountryOptionsZw struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsZwType `json:"type"`
+}
 type TaxRegistrationCountryOptions struct {
 	Ae *TaxRegistrationCountryOptionsAe `json:"ae"`
+	Al *TaxRegistrationCountryOptionsAl `json:"al"`
+	Am *TaxRegistrationCountryOptionsAm `json:"am"`
+	Ao *TaxRegistrationCountryOptionsAo `json:"ao"`
 	At *TaxRegistrationCountryOptionsAt `json:"at"`
 	Au *TaxRegistrationCountryOptionsAu `json:"au"`
+	Ba *TaxRegistrationCountryOptionsBa `json:"ba"`
+	Bb *TaxRegistrationCountryOptionsBb `json:"bb"`
 	Be *TaxRegistrationCountryOptionsBe `json:"be"`
 	BG *TaxRegistrationCountryOptionsBG `json:"bg"`
 	Bh *TaxRegistrationCountryOptionsBh `json:"bh"`
+	Bs *TaxRegistrationCountryOptionsBs `json:"bs"`
 	By *TaxRegistrationCountryOptionsBy `json:"by"`
 	Ca *TaxRegistrationCountryOptionsCa `json:"ca"`
+	Cd *TaxRegistrationCountryOptionsCd `json:"cd"`
 	Ch *TaxRegistrationCountryOptionsCh `json:"ch"`
 	Cl *TaxRegistrationCountryOptionsCl `json:"cl"`
 	Co *TaxRegistrationCountryOptionsCo `json:"co"`
@@ -2156,6 +2583,7 @@ type TaxRegistrationCountryOptions struct {
 	FR *TaxRegistrationCountryOptionsFR `json:"fr"`
 	GB *TaxRegistrationCountryOptionsGB `json:"gb"`
 	Ge *TaxRegistrationCountryOptionsGe `json:"ge"`
+	Gn *TaxRegistrationCountryOptionsGn `json:"gn"`
 	Gr *TaxRegistrationCountryOptionsGr `json:"gr"`
 	HR *TaxRegistrationCountryOptionsHR `json:"hr"`
 	HU *TaxRegistrationCountryOptionsHU `json:"hu"`
@@ -2165,6 +2593,7 @@ type TaxRegistrationCountryOptions struct {
 	IT *TaxRegistrationCountryOptionsIT `json:"it"`
 	JP *TaxRegistrationCountryOptionsJP `json:"jp"`
 	Ke *TaxRegistrationCountryOptionsKe `json:"ke"`
+	Kh *TaxRegistrationCountryOptionsKh `json:"kh"`
 	Kr *TaxRegistrationCountryOptionsKr `json:"kr"`
 	Kz *TaxRegistrationCountryOptionsKz `json:"kz"`
 	LT *TaxRegistrationCountryOptionsLT `json:"lt"`
@@ -2172,14 +2601,19 @@ type TaxRegistrationCountryOptions struct {
 	LV *TaxRegistrationCountryOptionsLV `json:"lv"`
 	Ma *TaxRegistrationCountryOptionsMa `json:"ma"`
 	Md *TaxRegistrationCountryOptionsMd `json:"md"`
+	Me *TaxRegistrationCountryOptionsMe `json:"me"`
+	Mk *TaxRegistrationCountryOptionsMk `json:"mk"`
+	Mr *TaxRegistrationCountryOptionsMr `json:"mr"`
 	MT *TaxRegistrationCountryOptionsMT `json:"mt"`
 	MX *TaxRegistrationCountryOptionsMX `json:"mx"`
 	My *TaxRegistrationCountryOptionsMy `json:"my"`
 	Ng *TaxRegistrationCountryOptionsNg `json:"ng"`
 	NL *TaxRegistrationCountryOptionsNL `json:"nl"`
 	No *TaxRegistrationCountryOptionsNo `json:"no"`
+	Np *TaxRegistrationCountryOptionsNp `json:"np"`
 	Nz *TaxRegistrationCountryOptionsNz `json:"nz"`
 	Om *TaxRegistrationCountryOptionsOm `json:"om"`
+	Pe *TaxRegistrationCountryOptionsPe `json:"pe"`
 	PL *TaxRegistrationCountryOptionsPL `json:"pl"`
 	PT *TaxRegistrationCountryOptionsPT `json:"pt"`
 	RO *TaxRegistrationCountryOptionsRO `json:"ro"`
@@ -2190,13 +2624,20 @@ type TaxRegistrationCountryOptions struct {
 	Sg *TaxRegistrationCountryOptionsSg `json:"sg"`
 	Si *TaxRegistrationCountryOptionsSi `json:"si"`
 	SK *TaxRegistrationCountryOptionsSK `json:"sk"`
+	Sn *TaxRegistrationCountryOptionsSn `json:"sn"`
+	Sr *TaxRegistrationCountryOptionsSr `json:"sr"`
 	TH *TaxRegistrationCountryOptionsTH `json:"th"`
+	Tj *TaxRegistrationCountryOptionsTj `json:"tj"`
 	TR *TaxRegistrationCountryOptionsTR `json:"tr"`
 	Tz *TaxRegistrationCountryOptionsTz `json:"tz"`
+	Ug *TaxRegistrationCountryOptionsUg `json:"ug"`
 	US *TaxRegistrationCountryOptionsUS `json:"us"`
+	Uy *TaxRegistrationCountryOptionsUy `json:"uy"`
 	Uz *TaxRegistrationCountryOptionsUz `json:"uz"`
 	Vn *TaxRegistrationCountryOptionsVn `json:"vn"`
 	Za *TaxRegistrationCountryOptionsZa `json:"za"`
+	Zm *TaxRegistrationCountryOptionsZm `json:"zm"`
+	Zw *TaxRegistrationCountryOptionsZw `json:"zw"`
 }
 
 // A Tax `Registration` lets us know that your business is registered to collect tax on payments within a region, enabling you to [automatically collect tax](https://stripe.com/docs/tax).

@@ -102,7 +102,7 @@ type CapabilityFutureRequirementsError struct {
 type CapabilityFutureRequirements struct {
 	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 	Alternatives []*CapabilityFutureRequirementsAlternative `json:"alternatives"`
-	// Date on which `future_requirements` merges with the main `requirements` hash and `future_requirements` becomes empty. After the transition, `currently_due` requirements may immediately become `past_due`, but the account may also be given a grace period depending on the capability's enablement state prior to transitioning.
+	// Date on which `future_requirements` becomes the main `requirements` hash and `future_requirements` becomes empty. After the transition, `currently_due` requirements may immediately become `past_due`, but the account may also be given a grace period depending on the capability's enablement state prior to transitioning.
 	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be collected to keep the capability enabled. If not collected by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
 	CurrentlyDue []string `json:"currently_due"`
@@ -110,7 +110,7 @@ type CapabilityFutureRequirements struct {
 	DisabledReason CapabilityFutureRequirementsDisabledReason `json:"disabled_reason"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*CapabilityFutureRequirementsError `json:"errors"`
-	// Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in `currently_due` as well.
+	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well.
 	EventuallyDue []string `json:"eventually_due"`
 	// Fields that weren't collected by `requirements.current_deadline`. These fields need to be collected to enable the capability on the account. New fields will never appear here; `future_requirements.past_due` will always be a subset of `requirements.past_due`.
 	PastDue []string `json:"past_due"`
@@ -136,7 +136,7 @@ type CapabilityRequirements struct {
 	DisabledReason CapabilityDisabledReason `json:"disabled_reason"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
-	// Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in `currently_due` as well, and `current_deadline` becomes set.
+	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
 	// Fields that weren't collected by `current_deadline`. These fields need to be collected to enable the capability on the account.
 	PastDue []string `json:"past_due"`
