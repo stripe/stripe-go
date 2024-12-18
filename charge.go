@@ -1941,6 +1941,8 @@ type ChargePaymentMethodDetailsPaypalSellerProtection struct {
 	Status ChargePaymentMethodDetailsPaypalSellerProtectionStatus `json:"status"`
 }
 type ChargePaymentMethodDetailsPaypal struct {
+	// Two-letter ISO code representing the buyer's country. Values are provided by PayPal directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	Country string `json:"country"`
 	// Owner's email. Values are provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	PayerEmail string `json:"payer_email"`
