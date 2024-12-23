@@ -1574,6 +1574,14 @@ type AccountCompanyAddressKanji struct {
 	// Town/cho-me.
 	Town string `json:"town"`
 }
+type AccountCompanyDirectorshipDeclaration struct {
+	// The Unix timestamp marking when the directorship declaration attestation was made.
+	Date int64 `json:"date"`
+	// The IP address from which the directorship declaration attestation was made.
+	IP string `json:"ip"`
+	// The user-agent string from the browser where the directorship declaration attestation was made.
+	UserAgent string `json:"user_agent"`
+}
 
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 type AccountCompanyOwnershipDeclaration struct {
@@ -1604,7 +1612,8 @@ type AccountCompany struct {
 	// The Kana variation of the company's primary address (Japan only).
 	AddressKana *AccountCompanyAddressKana `json:"address_kana"`
 	// The Kanji variation of the company's primary address (Japan only).
-	AddressKanji *AccountCompanyAddressKanji `json:"address_kanji"`
+	AddressKanji            *AccountCompanyAddressKanji            `json:"address_kanji"`
+	DirectorshipDeclaration *AccountCompanyDirectorshipDeclaration `json:"directorship_declaration"`
 	// Whether the company's directors have been provided. This Boolean will be `true` if you've manually indicated that all directors are provided via [the `directors_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-directors_provided).
 	DirectorsProvided bool `json:"directors_provided"`
 	// Whether the company's executives have been provided. This Boolean will be `true` if you've manually indicated that all executives are provided via [the `executives_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-executives_provided), or if Stripe determined that sufficient executives were provided.
