@@ -32,6 +32,14 @@ const (
 	AccountCapabilityStatusPending  AccountCapabilityStatus = "pending"
 )
 
+type AccountCompanyOwnershipExemptionReason string
+
+// List of values that AccountCompanyOwnershipExemptionReason can take
+const (
+	AccountCompanyOwnershipExemptionReasonQualifiedEntityExceedsOwnershipThreshold AccountCompanyOwnershipExemptionReason = "qualified_entity_exceeds_ownership_threshold"
+	AccountCompanyOwnershipExemptionReasonQualifiesAsFinancialInstitution          AccountCompanyOwnershipExemptionReason = "qualifies_as_financial_institution"
+)
+
 // The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
@@ -965,7 +973,8 @@ type AccountCompanyParams struct {
 	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 	OwnershipDeclaration *AccountCompanyOwnershipDeclarationParams `form:"ownership_declaration"`
 	// This parameter can only be used on Token creation.
-	OwnershipDeclarationShownAndSigned *bool `form:"ownership_declaration_shown_and_signed"`
+	OwnershipDeclarationShownAndSigned *bool   `form:"ownership_declaration_shown_and_signed"`
+	OwnershipExemptionReason           *string `form:"ownership_exemption_reason"`
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
@@ -1629,7 +1638,8 @@ type AccountCompany struct {
 	// The Kanji variation of the company's legal name (Japan only).
 	NameKanji string `json:"name_kanji"`
 	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
-	OwnershipDeclaration *AccountCompanyOwnershipDeclaration `json:"ownership_declaration"`
+	OwnershipDeclaration     *AccountCompanyOwnershipDeclaration    `json:"ownership_declaration"`
+	OwnershipExemptionReason AccountCompanyOwnershipExemptionReason `json:"ownership_exemption_reason"`
 	// Whether the company's owners have been provided. This Boolean will be `true` if you've manually indicated that all owners are provided via [the `owners_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the `percent_ownership` of each owner together).
 	OwnersProvided bool `json:"owners_provided"`
 	// The company's phone number (used for verification).
