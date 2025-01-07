@@ -318,6 +318,7 @@ type SourceCard struct {
 	AddressLine1Check  string `json:"address_line1_check"`
 	AddressZipCheck    string `json:"address_zip_check"`
 	Brand              string `json:"brand"`
+	BrandProduct       string `json:"brand_product"`
 	Country            string `json:"country"`
 	CVCCheck           string `json:"cvc_check"`
 	Description        string `json:"description"`
@@ -339,6 +340,7 @@ type SourceCardPresent struct {
 	AuthorizationCode              string `json:"authorization_code"`
 	AuthorizationResponseCode      string `json:"authorization_response_code"`
 	Brand                          string `json:"brand"`
+	BrandProduct                   string `json:"brand_product"`
 	Country                        string `json:"country"`
 	CVMType                        string `json:"cvm_type"`
 	DataType                       string `json:"data_type"`
@@ -544,6 +546,7 @@ type SourceThreeDSecure struct {
 	AddressZipCheck    string `json:"address_zip_check"`
 	Authenticated      bool   `json:"authenticated"`
 	Brand              string `json:"brand"`
+	BrandProduct       string `json:"brand_product"`
 	Card               string `json:"card"`
 	Country            string `json:"country"`
 	Customer           string `json:"customer"`
