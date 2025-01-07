@@ -2422,6 +2422,8 @@ type CheckoutSessionPermissionsParams struct {
 // before using this feature. Learn more about [collecting phone numbers with Checkout](https://stripe.com/docs/payments/checkout/phone-numbers).
 type CheckoutSessionPhoneNumberCollectionParams struct {
 	// Set to `true` to enable phone number collection.
+	//
+	// Can only be set in `payment` and `subscription` mode.
 	Enabled *bool `form:"enabled"`
 }
 
