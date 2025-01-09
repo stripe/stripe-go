@@ -50,7 +50,6 @@ type BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior strin
 
 // List of values that BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior can take
 const (
-	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorAlwaysInvoice    BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "always_invoice"
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorCreateProrations BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "create_prorations"
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorNone             BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "none"
 )

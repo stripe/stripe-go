@@ -47,7 +47,7 @@ const (
 	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3StatusRequiresAction DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status = "requires_action"
 )
 
-// Visa Compelling Evidence 3.0 eligibility status.
+// Visa compliance eligibility status.
 type DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus string
 
 // List of values that DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus can take
@@ -215,9 +215,9 @@ type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3Params struct {
 	PriorUndisputedTransactions []*DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams `form:"prior_undisputed_transactions"`
 }
 
-// Evidence provided for Visa Compliance evidence submission.
+// Evidence provided for Visa compliance evidence submission.
 type DisputeEvidenceEnhancedEvidenceVisaComplianceParams struct {
-	// A field acknowledging the fee incurred when countering a Visa Compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute, and you may incur a $500 fee if the case is lost.
+	// A field acknowledging the fee incurred when countering a Visa compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute. Stripe collects a 500 USD (or local equivalent) amount to cover the network costs associated with resolving compliance disputes. Stripe refunds the 500 USD network fee if you win the dispute.
 	FeeAcknowledged *bool `form:"fee_acknowledged"`
 }
 
@@ -225,7 +225,7 @@ type DisputeEvidenceEnhancedEvidenceVisaComplianceParams struct {
 type DisputeEvidenceEnhancedEvidenceParams struct {
 	// Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
 	VisaCompellingEvidence3 *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3Params `form:"visa_compelling_evidence_3"`
-	// Evidence provided for Visa Compliance evidence submission.
+	// Evidence provided for Visa compliance evidence submission.
 	VisaCompliance *DisputeEvidenceEnhancedEvidenceVisaComplianceParams `form:"visa_compliance"`
 }
 
@@ -335,7 +335,7 @@ type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3 struct {
 	PriorUndisputedTransactions []*DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransaction `json:"prior_undisputed_transactions"`
 }
 type DisputeEvidenceEnhancedEvidenceVisaCompliance struct {
-	// A field acknowledging the fee incurred when countering a Visa Compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute, and you may incur a $500 fee if the case is lost.
+	// A field acknowledging the fee incurred when countering a Visa compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute. Stripe collects a 500 USD (or local equivalent) amount to cover the network costs associated with resolving compliance disputes. Stripe refunds the 500 USD network fee if you win the dispute.
 	FeeAcknowledged bool `json:"fee_acknowledged"`
 }
 type DisputeEvidenceEnhancedEvidence struct {
@@ -406,7 +406,7 @@ type DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3 struct {
 	Status DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status `json:"status"`
 }
 type DisputeEvidenceDetailsEnhancedEligibilityVisaCompliance struct {
-	// Visa Compelling Evidence 3.0 eligibility status.
+	// Visa compliance eligibility status.
 	Status DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus `json:"status"`
 }
 type DisputeEvidenceDetailsEnhancedEligibility struct {

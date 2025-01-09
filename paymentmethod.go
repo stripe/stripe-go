@@ -1288,6 +1288,8 @@ type PaymentMethodP24 struct {
 type PaymentMethodPayco struct{}
 type PaymentMethodPayNow struct{}
 type PaymentMethodPaypal struct {
+	// Two-letter ISO code representing the buyer's country. Values are provided by PayPal directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	Country string `json:"country"`
 	// Uniquely identifies this particular PayPal account. You can use this attribute to check whether two PayPal accounts are the same.
 	Fingerprint string `json:"fingerprint"`
 	// Owner's email. Values are provided by PayPal directly
