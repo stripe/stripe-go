@@ -1,5 +1,24 @@
 # Changelog
 
+## 81.3.0-beta.1 - 2025-01-09
+* [#1958](https://github.com/stripe/stripe-go/pull/1958) Update generated code for beta
+  * Add support for `Close` method on resource `Treasury.FinancialAccount`
+  * Add support for `OwnershipExemptionReason` on `AccountCompanyParams`, `AccountCompany`, and `TokenAccountCompanyParams`
+  * Add support for `DirectorshipDeclaration` on `AccountCompany`
+  * Add support for `AdviceCode` on `ChargeOutcome`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+  * Remove support for value `always_invoice` from enum `BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior`
+  * Add support for `BrandProduct` on `Card`, `SourceCardPresent`, `SourceCard`, and `SourceThreeDSecure`
+  * Add support for `Country` on `ChargePaymentMethodDetailsPaypal`, `ConfirmationTokenPaymentMethodPreviewPaypal`, and `PaymentMethodPaypal`
+  * Add support for new value `al_tin` on enums `CheckoutSessionCollectedInformationTaxIdsType` and `OrderTaxDetailsTaxIdsType`
+  * Add support for `Nickname` on `TreasuryFinancialAccountParams` and `TreasuryFinancialAccount`
+  * Add support for `ForwardingSettings` on `TreasuryFinancialAccountParams`
+  * Add support for `IsDefault` on `TreasuryFinancialAccount`
+  * Add support for `DestinationPaymentMethodData` on `TreasuryOutboundTransferParams`
+  * Add support for `FinancialAccount` on `TreasuryOutboundTransferDestinationPaymentMethodDetails`
+  * Change type of `TreasuryOutboundTransferDestinationPaymentMethodDetailsType` from `literal('us_bank_account')` to `enum('financial_account'|'us_bank_account')`
+  * Add support for `OutboundTransfer` on `TreasuryReceivedCreditLinkedFlowsSourceFlowDetails`
+  * Add support for new value `outbound_transfer` on enum `TreasuryReceivedCreditLinkedFlowsSourceFlowDetailsType`
+
 ## 81.2.0 - 2024-12-18
 * [#1957](https://github.com/stripe/stripe-go/pull/1957) This release changes the pinned API version to `2024-12-18.acacia`.
   * Add support for `NetworkAdviceCode` and `NetworkDeclineCode` on `ChargeOutcome`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
