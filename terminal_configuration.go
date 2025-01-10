@@ -138,6 +138,16 @@ type TerminalConfigurationTippingHKDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
+// Tipping configuration for JPY
+type TerminalConfigurationTippingJpyParams struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []*int64 `form:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []*int64 `form:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
+}
+
 // Tipping configuration for MYR
 type TerminalConfigurationTippingMYRParams struct {
 	// Fixed amounts displayed when collecting a tip
@@ -226,6 +236,8 @@ type TerminalConfigurationTippingParams struct {
 	GBP *TerminalConfigurationTippingGBPParams `form:"gbp"`
 	// Tipping configuration for HKD
 	HKD *TerminalConfigurationTippingHKDParams `form:"hkd"`
+	// Tipping configuration for JPY
+	Jpy *TerminalConfigurationTippingJpyParams `form:"jpy"`
 	// Tipping configuration for MYR
 	MYR *TerminalConfigurationTippingMYRParams `form:"myr"`
 	// Tipping configuration for NOK
@@ -344,6 +356,14 @@ type TerminalConfigurationTippingHKD struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
+type TerminalConfigurationTippingJpy struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []int64 `json:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []int64 `json:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold int64 `json:"smart_tip_threshold"`
+}
 type TerminalConfigurationTippingMYR struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
@@ -409,6 +429,7 @@ type TerminalConfigurationTipping struct {
 	EUR *TerminalConfigurationTippingEUR `json:"eur"`
 	GBP *TerminalConfigurationTippingGBP `json:"gbp"`
 	HKD *TerminalConfigurationTippingHKD `json:"hkd"`
+	Jpy *TerminalConfigurationTippingJpy `json:"jpy"`
 	MYR *TerminalConfigurationTippingMYR `json:"myr"`
 	NOK *TerminalConfigurationTippingNOK `json:"nok"`
 	NZD *TerminalConfigurationTippingNZD `json:"nzd"`
