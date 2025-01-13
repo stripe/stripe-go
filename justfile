@@ -15,6 +15,9 @@ test *args="./...":
 
 # check for potential mistakes (slow)
 lint: install
+    echo $PATH
+    go env GOBIN
+    ls $HOME/go/bin
     go vet ./...
     staticcheck
 
