@@ -2,7 +2,11 @@ set quiet
 
 import? '../sdk-codegen/justfile'
 
+# ensure tools installed with `go install` are available to call
+export PATH := `go env GOBIN` + ":" + env('PATH')
+
 _default:
+    echo {{ PATH }}
     just --list --unsorted
 
 # ⭐ run all unit tests, or pass a package name (./invoice) to only run those tests
@@ -15,7 +19,7 @@ lint: install
     staticcheck
 
 # ⭐ format all files
-format: install
+format: install && _normalize-imports
     scripts/gofmt.sh
     goimports -w example/generated_examples_test.go
 
