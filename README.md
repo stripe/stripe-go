@@ -2,7 +2,6 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v81)
 [![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
-[![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-go/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-go?branch=master)
 
 The official [Stripe][stripe] Go client library.
 
@@ -628,6 +627,7 @@ func make_raw_request() error {
 }
 
 ```
+
 See more examples in the [/example/v2 folder](example/v2).
 
 ## Support
@@ -641,19 +641,13 @@ the following guidelines in mind:
 
 1. Code must be `go fmt` compliant.
 2. All types, structs and funcs should be documented.
-3. Ensure that `make test` succeeds.
+3. Ensure that `just test` succeeds.
 
 ## Test
 
-The test suite needs testify's `require` package to run:
+We use [just](https://github.com/casey/just) for conveniently running development tasks. You can use them directly, or copy the commands out of the `justfile`. To our help docs, run `just`.
 
-    github.com/stretchr/testify/require
-
-Before running the tests, make sure to grab all of the package's dependencies:
-
-    go get -t -v
-
-It also depends on [stripe-mock][stripe-mock], so make sure to fetch and run it from a
+This package depends on [stripe-mock][stripe-mock], so make sure to fetch and run it from a
 background terminal ([stripe-mock's README][stripe-mock-usage] also contains
 instructions for installing via Homebrew and other methods):
 
@@ -662,15 +656,15 @@ instructions for installing via Homebrew and other methods):
 
 Run all tests:
 
-    make test
+    just test
 
 Run tests for one package:
 
-    go test ./invoice
+    just test ./invoice
 
 Run a single test:
 
-    go test ./invoice -run TestInvoiceGet
+    just test ./invoice -run TestInvoiceGet
 
 For any requests, bug or comments, please [open an issue][issues] or [submit a
 pull request][pulls].
