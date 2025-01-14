@@ -595,6 +595,12 @@ type AccountCapabilitiesP24PaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The pay_by_bank_payments capability.
+type AccountCapabilitiesPayByBankPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The payco_payments capability.
 type AccountCapabilitiesPaycoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -836,6 +842,8 @@ type AccountCapabilitiesParams struct {
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
 	P24Payments *AccountCapabilitiesP24PaymentsParams `form:"p24_payments"`
+	// The pay_by_bank_payments capability.
+	PayByBankPayments *AccountCapabilitiesPayByBankPaymentsParams `form:"pay_by_bank_payments"`
 	// The payco_payments capability.
 	PaycoPayments *AccountCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
@@ -1496,6 +1504,8 @@ type AccountCapabilities struct {
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
 	P24Payments AccountCapabilityStatus `json:"p24_payments"`
+	// The status of the pay_by_bank payments capability of the account, or whether the account can directly process pay_by_bank charges.
+	PayByBankPayments AccountCapabilityStatus `json:"pay_by_bank_payments"`
 	// The status of the Payco capability of the account, or whether the account can directly process Payco payments.
 	PaycoPayments AccountCapabilityStatus `json:"payco_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
