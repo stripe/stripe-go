@@ -3054,6 +3054,14 @@ type CheckoutSessionCustomerDetails struct {
 	TaxIDs []*CheckoutSessionCustomerDetailsTaxID `json:"tax_ids"`
 }
 
+// List of coupons and promotion codes attached to the Checkout Session.
+type CheckoutSessionDiscount struct {
+	// Coupon attached to the Checkout Session.
+	Coupon *Coupon `json:"coupon"`
+	// Promotion code attached to the Checkout Session.
+	PromotionCode *PromotionCode `json:"promotion_code"`
+}
+
 // Custom fields displayed on the invoice.
 type CheckoutSessionInvoiceCreationInvoiceDataCustomField struct {
 	// The name of the custom field.
@@ -3817,6 +3825,8 @@ type CheckoutSession struct {
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 	CustomFields []*CheckoutSessionCustomField `json:"custom_fields"`
 	CustomText   *CheckoutSessionCustomText    `json:"custom_text"`
+	// List of coupons and promotion codes attached to the Checkout Session.
+	Discounts []*CheckoutSessionDiscount `json:"discounts"`
 	// The timestamp at which the Checkout Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
