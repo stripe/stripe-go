@@ -363,6 +363,17 @@ type AccountSessionComponentsTaxSettingsParams struct {
 	Features *AccountSessionComponentsTaxSettingsFeaturesParams `form:"features"`
 }
 
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsTaxThresholdMonitoringFeaturesParams struct{}
+
+// Configuration for the tax threshold monitoring embedded component.
+type AccountSessionComponentsTaxThresholdMonitoringParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the account management embedded component.
@@ -413,6 +424,8 @@ type AccountSessionComponentsParams struct {
 	TaxRegistrations *AccountSessionComponentsTaxRegistrationsParams `form:"tax_registrations"`
 	// Configuration for the tax settings embedded component.
 	TaxSettings *AccountSessionComponentsTaxSettingsParams `form:"tax_settings"`
+	// Configuration for the tax threshold monitoring embedded component.
+	TaxThresholdMonitoring *AccountSessionComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring"`
 }
 
 // Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
