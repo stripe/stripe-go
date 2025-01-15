@@ -643,6 +643,8 @@ the following guidelines in mind:
 2. All types, structs and funcs should be documented.
 3. Ensure that `make test` succeeds.
 
+[Other contribution guidelines for this project](CONTRIBUTING.md)
+
 ## Test
 
 The test suite needs testify's `require` package to run:
