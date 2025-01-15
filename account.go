@@ -932,6 +932,16 @@ type AccountCompanyAddressKanjiParams struct {
 	Town *string `form:"town"`
 }
 
+// This hash is used to attest that the directors information provided to Stripe is both current and correct.
+type AccountCompanyDirectorshipDeclarationParams struct {
+	// The Unix timestamp marking when the directorship declaration attestation was made.
+	Date *int64 `form:"date"`
+	// The IP address from which the directorship declaration attestation was made.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the directorship declaration attestation was made.
+	UserAgent *string `form:"user_agent"`
+}
+
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 type AccountCompanyOwnershipDeclarationParams struct {
 	// The Unix timestamp marking when the beneficial owner attestation was made.
@@ -964,6 +974,8 @@ type AccountCompanyParams struct {
 	AddressKana *AccountCompanyAddressKanaParams `form:"address_kana"`
 	// The Kanji variation of the company's primary address (Japan only).
 	AddressKanji *AccountCompanyAddressKanjiParams `form:"address_kanji"`
+	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
+	DirectorshipDeclaration *AccountCompanyDirectorshipDeclarationParams `form:"directorship_declaration"`
 	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
 	DirectorsProvided *bool `form:"directors_provided"`
 	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
