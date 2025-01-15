@@ -1055,6 +1055,12 @@ type AccountDocumentsProofOfRegistrationParams struct {
 	Files []*string `form:"files"`
 }
 
+// One or more documents that demonstrate proof of ultimate beneficial ownership.
+type AccountDocumentsProofOfUltimateBeneficialOwnershipParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
 // Documents that may be submitted to satisfy various informational requests.
 type AccountDocumentsParams struct {
 	// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
@@ -1071,6 +1077,8 @@ type AccountDocumentsParams struct {
 	CompanyTaxIDVerification *AccountDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
+	// One or more documents that demonstrate proof of ultimate beneficial ownership.
+	ProofOfUltimateBeneficialOwnership *AccountDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership"`
 }
 
 // AccountExternalAccountParams are the parameters allowed to reference an
