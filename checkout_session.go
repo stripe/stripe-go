@@ -2132,6 +2132,9 @@ type CheckoutSessionPaymentMethodOptionsP24Params struct {
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
+// contains details about the Pay By Bank payment method options.
+type CheckoutSessionPaymentMethodOptionsPayByBankParams struct{}
+
 // contains details about the PAYCO payment method options.
 type CheckoutSessionPaymentMethodOptionsPaycoParams struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -2366,6 +2369,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	OXXO *CheckoutSessionPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// contains details about the P24 payment method options.
 	P24 *CheckoutSessionPaymentMethodOptionsP24Params `form:"p24"`
+	// contains details about the Pay By Bank payment method options.
+	PayByBank *CheckoutSessionPaymentMethodOptionsPayByBankParams `form:"pay_by_bank"`
 	// contains details about the PAYCO payment method options.
 	Payco *CheckoutSessionPaymentMethodOptionsPaycoParams `form:"payco"`
 	// contains details about the PayNow payment method options.

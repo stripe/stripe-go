@@ -365,6 +365,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeNaverPay         ConfirmationTokenPaymentMethodPreviewType = "naver_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeOXXO             ConfirmationTokenPaymentMethodPreviewType = "oxxo"
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
+	ConfirmationTokenPaymentMethodPreviewTypePayByBank        ConfirmationTokenPaymentMethodPreviewType = "pay_by_bank"
 	ConfirmationTokenPaymentMethodPreviewTypePayco            ConfirmationTokenPaymentMethodPreviewType = "payco"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
@@ -925,6 +926,7 @@ type ConfirmationTokenPaymentMethodPreviewP24 struct {
 	// The customer's bank, if provided.
 	Bank ConfirmationTokenPaymentMethodPreviewP24Bank `json:"bank"`
 }
+type ConfirmationTokenPaymentMethodPreviewPayByBank struct{}
 type ConfirmationTokenPaymentMethodPreviewPayco struct{}
 type ConfirmationTokenPaymentMethodPreviewPayNow struct{}
 type ConfirmationTokenPaymentMethodPreviewPaypal struct {
@@ -1079,6 +1081,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	NaverPay        *ConfirmationTokenPaymentMethodPreviewNaverPay        `json:"naver_pay"`
 	OXXO            *ConfirmationTokenPaymentMethodPreviewOXXO            `json:"oxxo"`
 	P24             *ConfirmationTokenPaymentMethodPreviewP24             `json:"p24"`
+	PayByBank       *ConfirmationTokenPaymentMethodPreviewPayByBank       `json:"pay_by_bank"`
 	Payco           *ConfirmationTokenPaymentMethodPreviewPayco           `json:"payco"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`
 	Paypal          *ConfirmationTokenPaymentMethodPreviewPaypal          `json:"paypal"`
