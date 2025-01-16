@@ -643,6 +643,8 @@ the following guidelines in mind:
 2. All types, structs and funcs should be documented.
 3. Ensure that `just test` succeeds.
 
+[Other contribution guidelines for this project](CONTRIBUTING.md)
+
 ## Test
 
 We use [just](https://github.com/casey/just) for conveniently running development tasks. You can use them directly, or copy the commands out of the `justfile`. To our help docs, run `just`.
