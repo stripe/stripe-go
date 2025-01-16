@@ -1,6 +1,6 @@
 set quiet
 
-import? '../sdk-codegen/justfile'
+import? '../sdk-codegen/utils.just'
 
 # ensure tools installed with `go install` are available to call
 export PATH := home_directory() + "/go/bin:" + env('PATH')
@@ -38,7 +38,7 @@ build:
 
 # install dependencies (including those needed for development). Mostly called by other recipes
 install:
-    go get
+    go get -t
     go install honnef.co/go/tools/cmd/staticcheck@v0.4.7
     go install golang.org/x/tools/cmd/goimports@v0.24.0
 

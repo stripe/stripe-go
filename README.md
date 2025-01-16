@@ -656,15 +656,24 @@ instructions for installing via Homebrew and other methods):
 
 Run all tests:
 
-    just test
+```sh
+just test
+# or: go test ./...
+```
 
 Run tests for one package:
 
-    just test ./invoice
+```sh
+just test ./invoice
+# or: go test ./invoice
+```
 
 Run a single test:
 
-    just test ./invoice -run TestInvoiceGet
+```sh
+just test ./invoice -run TestInvoiceGet
+# or: go test ./invoice -run TestInvoiceGet
+```
 
 For any requests, bug or comments, please [open an issue][issues] or [submit a
 pull request][pulls].
