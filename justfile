@@ -19,7 +19,7 @@ lint: install
 
 # don't depend on `install` in this step! Before formatting, our `go` code isn't syntactically valid
 # ⭐ format all files
-format: && _normalize-imports
+format: _normalize-imports install
     scripts/gofmt.sh
     goimports -w example/generated_examples_test.go
 
