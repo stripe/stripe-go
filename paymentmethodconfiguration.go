@@ -577,6 +577,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationPayByBankDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationPayByBankDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceNone PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceOff  PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationPayByBankDisplayPreferencePreferenceOn   PaymentMethodConfigurationPayByBankDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationPayByBankDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationPayByBankDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOff PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOn  PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationPayNowDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationPayNowDisplayPreferencePreference can take
@@ -1172,6 +1191,18 @@ type PaymentMethodConfigurationP24Params struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationPayByBankDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
+type PaymentMethodConfigurationPayByBankParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPayNowDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1376,6 +1407,8 @@ type PaymentMethodConfigurationParams struct {
 	P24 *PaymentMethodConfigurationP24Params `form:"p24"`
 	// Configuration's parent configuration. Specify to create a child configuration.
 	Parent *string `form:"parent"`
+	// Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
+	PayByBank *PaymentMethodConfigurationPayByBankParams `form:"pay_by_bank"`
 	// PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://stripe.com/docs/payments/paynow) for more details.
 	PayNow *PaymentMethodConfigurationPayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
@@ -1795,6 +1828,19 @@ type PaymentMethodConfigurationP24 struct {
 	Available         bool                                            `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationP24DisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationPayByBankDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationPayByBankDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationPayByBankDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationPayByBank struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                  `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationPayNowDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -2001,6 +2047,7 @@ type PaymentMethodConfiguration struct {
 	P24    *PaymentMethodConfigurationP24  `json:"p24"`
 	// For child configs, the configuration's parent configuration.
 	Parent        string                                   `json:"parent"`
+	PayByBank     *PaymentMethodConfigurationPayByBank     `json:"pay_by_bank"`
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`

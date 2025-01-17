@@ -64,6 +64,19 @@ func (c Client) Update(id string, params *stripe.TreasuryFinancialAccountParams)
 	return financialaccount, err
 }
 
+// Closes a FinancialAccount. A FinancialAccount can only be closed if it has a zero balance, has no pending InboundTransfers, and has canceled all attached Issuing cards.
+func Close(id string, params *stripe.TreasuryFinancialAccountCloseParams) (*stripe.TreasuryFinancialAccount, error) {
+	return getC().Close(id, params)
+}
+
+// Closes a FinancialAccount. A FinancialAccount can only be closed if it has a zero balance, has no pending InboundTransfers, and has canceled all attached Issuing cards.
+func (c Client) Close(id string, params *stripe.TreasuryFinancialAccountCloseParams) (*stripe.TreasuryFinancialAccount, error) {
+	path := stripe.FormatURLPath("/v1/treasury/financial_accounts/%s/close", id)
+	financialaccount := &stripe.TreasuryFinancialAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, financialaccount)
+	return financialaccount, err
+}
+
 // Retrieves Features information associated with the FinancialAccount.
 func RetrieveFeatures(id string, params *stripe.TreasuryFinancialAccountRetrieveFeaturesParams) (*stripe.TreasuryFinancialAccountFeatures, error) {
 	return getC().RetrieveFeatures(id, params)

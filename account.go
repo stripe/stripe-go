@@ -32,6 +32,14 @@ const (
 	AccountCapabilityStatusPending  AccountCapabilityStatus = "pending"
 )
 
+type AccountCompanyOwnershipExemptionReason string
+
+// List of values that AccountCompanyOwnershipExemptionReason can take
+const (
+	AccountCompanyOwnershipExemptionReasonQualifiedEntityExceedsOwnershipThreshold AccountCompanyOwnershipExemptionReason = "qualified_entity_exceeds_ownership_threshold"
+	AccountCompanyOwnershipExemptionReasonQualifiesAsFinancialInstitution          AccountCompanyOwnershipExemptionReason = "qualifies_as_financial_institution"
+)
+
 // The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
@@ -544,6 +552,12 @@ type AccountCapabilitiesP24PaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The pay_by_bank_payments capability.
+type AccountCapabilitiesPayByBankPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The payco_payments capability.
 type AccountCapabilitiesPaycoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -727,6 +741,8 @@ type AccountCapabilitiesParams struct {
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
 	P24Payments *AccountCapabilitiesP24PaymentsParams `form:"p24_payments"`
+	// The pay_by_bank_payments capability.
+	PayByBankPayments *AccountCapabilitiesPayByBankPaymentsParams `form:"pay_by_bank_payments"`
 	// The payco_payments capability.
 	PaycoPayments *AccountCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
@@ -799,6 +815,16 @@ type AccountCompanyAddressKanjiParams struct {
 	Town *string `form:"town"`
 }
 
+// This hash is used to attest that the directors information provided to Stripe is both current and correct.
+type AccountCompanyDirectorshipDeclarationParams struct {
+	// The Unix timestamp marking when the directorship declaration attestation was made.
+	Date *int64 `form:"date"`
+	// The IP address from which the directorship declaration attestation was made.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the directorship declaration attestation was made.
+	UserAgent *string `form:"user_agent"`
+}
+
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 type AccountCompanyOwnershipDeclarationParams struct {
 	// The Unix timestamp marking when the beneficial owner attestation was made.
@@ -831,6 +857,8 @@ type AccountCompanyParams struct {
 	AddressKana *AccountCompanyAddressKanaParams `form:"address_kana"`
 	// The Kanji variation of the company's primary address (Japan only).
 	AddressKanji *AccountCompanyAddressKanjiParams `form:"address_kanji"`
+	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
+	DirectorshipDeclaration *AccountCompanyDirectorshipDeclarationParams `form:"directorship_declaration"`
 	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
 	DirectorsProvided *bool `form:"directors_provided"`
 	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
@@ -848,7 +876,8 @@ type AccountCompanyParams struct {
 	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 	OwnershipDeclaration *AccountCompanyOwnershipDeclarationParams `form:"ownership_declaration"`
 	// This parameter can only be used on Token creation.
-	OwnershipDeclarationShownAndSigned *bool `form:"ownership_declaration_shown_and_signed"`
+	OwnershipDeclarationShownAndSigned *bool   `form:"ownership_declaration_shown_and_signed"`
+	OwnershipExemptionReason           *string `form:"ownership_exemption_reason"`
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
@@ -909,6 +938,12 @@ type AccountDocumentsProofOfRegistrationParams struct {
 	Files []*string `form:"files"`
 }
 
+// One or more documents that demonstrate proof of ultimate beneficial ownership.
+type AccountDocumentsProofOfUltimateBeneficialOwnershipParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
 // Documents that may be submitted to satisfy various informational requests.
 type AccountDocumentsParams struct {
 	// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
@@ -925,6 +960,8 @@ type AccountDocumentsParams struct {
 	CompanyTaxIDVerification *AccountDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
+	// One or more documents that demonstrate proof of ultimate beneficial ownership.
+	ProofOfUltimateBeneficialOwnership *AccountDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership"`
 }
 
 // AccountExternalAccountParams are the parameters allowed to reference an
@@ -1290,6 +1327,8 @@ type AccountCapabilities struct {
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
 	P24Payments AccountCapabilityStatus `json:"p24_payments"`
+	// The status of the pay_by_bank payments capability of the account, or whether the account can directly process pay_by_bank charges.
+	PayByBankPayments AccountCapabilityStatus `json:"pay_by_bank_payments"`
 	// The status of the Payco capability of the account, or whether the account can directly process Payco payments.
 	PaycoPayments AccountCapabilityStatus `json:"payco_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
@@ -1362,6 +1401,16 @@ type AccountCompanyAddressKanji struct {
 	Town string `json:"town"`
 }
 
+// This hash is used to attest that the director information provided to Stripe is both current and correct.
+type AccountCompanyDirectorshipDeclaration struct {
+	// The Unix timestamp marking when the directorship declaration attestation was made.
+	Date int64 `json:"date"`
+	// The IP address from which the directorship declaration attestation was made.
+	IP string `json:"ip"`
+	// The user-agent string from the browser where the directorship declaration attestation was made.
+	UserAgent string `json:"user_agent"`
+}
+
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 type AccountCompanyOwnershipDeclaration struct {
 	// The Unix timestamp marking when the beneficial owner attestation was made.
@@ -1392,6 +1441,8 @@ type AccountCompany struct {
 	AddressKana *AccountCompanyAddressKana `json:"address_kana"`
 	// The Kanji variation of the company's primary address (Japan only).
 	AddressKanji *AccountCompanyAddressKanji `json:"address_kanji"`
+	// This hash is used to attest that the director information provided to Stripe is both current and correct.
+	DirectorshipDeclaration *AccountCompanyDirectorshipDeclaration `json:"directorship_declaration"`
 	// Whether the company's directors have been provided. This Boolean will be `true` if you've manually indicated that all directors are provided via [the `directors_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-directors_provided).
 	DirectorsProvided bool `json:"directors_provided"`
 	// Whether the company's executives have been provided. This Boolean will be `true` if you've manually indicated that all executives are provided via [the `executives_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-executives_provided), or if Stripe determined that sufficient executives were provided.
@@ -1407,7 +1458,8 @@ type AccountCompany struct {
 	// The Kanji variation of the company's legal name (Japan only).
 	NameKanji string `json:"name_kanji"`
 	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
-	OwnershipDeclaration *AccountCompanyOwnershipDeclaration `json:"ownership_declaration"`
+	OwnershipDeclaration     *AccountCompanyOwnershipDeclaration    `json:"ownership_declaration"`
+	OwnershipExemptionReason AccountCompanyOwnershipExemptionReason `json:"ownership_exemption_reason"`
 	// Whether the company's owners have been provided. This Boolean will be `true` if you've manually indicated that all owners are provided via [the `owners_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the `percent_ownership` of each owner together).
 	OwnersProvided bool `json:"owners_provided"`
 	// The company's phone number (used for verification).

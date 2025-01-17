@@ -1246,6 +1246,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *PaymentMethodP24Params `form:"p24"`
+	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+	PayByBank *PaymentMethodPayByBankParams `form:"pay_by_bank"`
 	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
 	Payco *PaymentMethodPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
@@ -1969,6 +1971,9 @@ type PaymentIntentPaymentMethodOptionsP24Params struct {
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
+// If this is a `pay_by_bank` PaymentMethod, this sub-hash contains details about the PayByBank payment method options.
+type PaymentIntentPaymentMethodOptionsPayByBankParams struct{}
+
 // If this is a `payco` PaymentMethod, this sub-hash contains details about the PAYCO payment method options.
 type PaymentIntentPaymentMethodOptionsPaycoParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -2293,6 +2298,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	OXXO *PaymentIntentPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this sub-hash contains details about the Przelewy24 payment method options.
 	P24 *PaymentIntentPaymentMethodOptionsP24Params `form:"p24"`
+	// If this is a `pay_by_bank` PaymentMethod, this sub-hash contains details about the PayByBank payment method options.
+	PayByBank *PaymentIntentPaymentMethodOptionsPayByBankParams `form:"pay_by_bank"`
 	// If this is a `payco` PaymentMethod, this sub-hash contains details about the PAYCO payment method options.
 	Payco *PaymentIntentPaymentMethodOptionsPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this sub-hash contains details about the PayNow payment method options.
@@ -3543,6 +3550,7 @@ type PaymentIntentPaymentMethodOptionsP24 struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsP24SetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsPayByBank struct{}
 type PaymentIntentPaymentMethodOptionsPayco struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsPaycoCaptureMethod `json:"capture_method"`
@@ -3753,6 +3761,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	NaverPay         *PaymentIntentPaymentMethodOptionsNaverPay         `json:"naver_pay"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
+	PayByBank        *PaymentIntentPaymentMethodOptionsPayByBank        `json:"pay_by_bank"`
 	Payco            *PaymentIntentPaymentMethodOptionsPayco            `json:"payco"`
 	PayNow           *PaymentIntentPaymentMethodOptionsPayNow           `json:"paynow"`
 	Paypal           *PaymentIntentPaymentMethodOptionsPaypal           `json:"paypal"`

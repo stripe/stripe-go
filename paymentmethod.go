@@ -291,6 +291,7 @@ const (
 	PaymentMethodTypeNaverPay         PaymentMethodType = "naver_pay"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
+	PaymentMethodTypePayByBank        PaymentMethodType = "pay_by_bank"
 	PaymentMethodTypePayco            PaymentMethodType = "payco"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
 	PaymentMethodTypePaypal           PaymentMethodType = "paypal"
@@ -553,6 +554,9 @@ type PaymentMethodP24Params struct {
 	Bank *string `form:"bank"`
 }
 
+// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+type PaymentMethodPayByBankParams struct{}
+
 // If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
 type PaymentMethodPaycoParams struct{}
 
@@ -691,6 +695,8 @@ type PaymentMethodParams struct {
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *PaymentMethodP24Params `form:"p24"`
+	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+	PayByBank *PaymentMethodPayByBankParams `form:"pay_by_bank"`
 	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
 	Payco *PaymentMethodPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
@@ -1201,9 +1207,12 @@ type PaymentMethodP24 struct {
 	// The customer's bank, if provided.
 	Bank string `json:"bank"`
 }
+type PaymentMethodPayByBank struct{}
 type PaymentMethodPayco struct{}
 type PaymentMethodPayNow struct{}
 type PaymentMethodPaypal struct {
+	// Two-letter ISO code representing the buyer's country. Values are provided by PayPal directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	Country string `json:"country"`
 	// Owner's email. Values are provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	PayerEmail string `json:"payer_email"`
@@ -1343,6 +1352,7 @@ type PaymentMethod struct {
 	Object    string                  `json:"object"`
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
 	P24       *PaymentMethodP24       `json:"p24"`
+	PayByBank *PaymentMethodPayByBank `json:"pay_by_bank"`
 	Payco     *PaymentMethodPayco     `json:"payco"`
 	PayNow    *PaymentMethodPayNow    `json:"paynow"`
 	Paypal    *PaymentMethodPaypal    `json:"paypal"`

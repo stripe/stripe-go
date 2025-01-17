@@ -1906,6 +1906,9 @@ type CheckoutSessionPaymentMethodOptionsP24Params struct {
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
+// contains details about the Pay By Bank payment method options.
+type CheckoutSessionPaymentMethodOptionsPayByBankParams struct{}
+
 // contains details about the PAYCO payment method options.
 type CheckoutSessionPaymentMethodOptionsPaycoParams struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -2104,6 +2107,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	OXXO *CheckoutSessionPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// contains details about the P24 payment method options.
 	P24 *CheckoutSessionPaymentMethodOptionsP24Params `form:"p24"`
+	// contains details about the Pay By Bank payment method options.
+	PayByBank *CheckoutSessionPaymentMethodOptionsPayByBankParams `form:"pay_by_bank"`
 	// contains details about the PAYCO payment method options.
 	Payco *CheckoutSessionPaymentMethodOptionsPaycoParams `form:"payco"`
 	// contains details about the PayNow payment method options.
@@ -2134,6 +2139,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 // before using this feature. Learn more about [collecting phone numbers with Checkout](https://stripe.com/docs/payments/checkout/phone-numbers).
 type CheckoutSessionPhoneNumberCollectionParams struct {
 	// Set to `true` to enable phone number collection.
+	//
+	// Can only be set in `payment` and `subscription` mode.
 	Enabled *bool `form:"enabled"`
 }
 
@@ -2714,6 +2721,14 @@ type CheckoutSessionCustomerDetails struct {
 	TaxIDs []*CheckoutSessionCustomerDetailsTaxID `json:"tax_ids"`
 }
 
+// List of coupons and promotion codes attached to the Checkout Session.
+type CheckoutSessionDiscount struct {
+	// Coupon attached to the Checkout Session.
+	Coupon *Coupon `json:"coupon"`
+	// Promotion code attached to the Checkout Session.
+	PromotionCode *PromotionCode `json:"promotion_code"`
+}
+
 // Custom fields displayed on the invoice.
 type CheckoutSessionInvoiceCreationInvoiceDataCustomField struct {
 	// The name of the custom field.
@@ -3258,7 +3273,7 @@ type CheckoutSessionSavedPaymentMethodOptions struct {
 // When set, provides configuration for Checkout to collect a shipping address from a customer.
 type CheckoutSessionShippingAddressCollection struct {
 	// An array of two-letter ISO country codes representing which countries Checkout should provide as options for
-	// shipping locations. Unsupported country codes: `AS, CX, CC, CU, HM, IR, KP, MH, FM, NF, MP, PW, SD, SY, UM, VI`.
+	// shipping locations. Unsupported country codes: `AS, CX, CC, CU, HM, IR, KP, MH, FM, NF, MP, PW, SY, UM, VI`.
 	AllowedCountries []string `json:"allowed_countries"`
 }
 
@@ -3412,6 +3427,8 @@ type CheckoutSession struct {
 	// Collect additional information from your customer using custom fields. Up to 3 fields are supported.
 	CustomFields []*CheckoutSessionCustomField `json:"custom_fields"`
 	CustomText   *CheckoutSessionCustomText    `json:"custom_text"`
+	// List of coupons and promotion codes attached to the Checkout Session.
+	Discounts []*CheckoutSessionDiscount `json:"discounts"`
 	// The timestamp at which the Checkout Session will expire.
 	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.

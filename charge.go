@@ -25,6 +25,16 @@ const (
 	ChargeFraudUserReportSafe       ChargeFraudUserReport = "safe"
 )
 
+// An enumerated value providing a more detailed explanation on [how to proceed with an error](https://stripe.com/docs/declines#retrying-issuer-declines).
+type ChargeOutcomeAdviceCode string
+
+// List of values that ChargeOutcomeAdviceCode can take
+const (
+	ChargeOutcomeAdviceCodeConfirmCardData ChargeOutcomeAdviceCode = "confirm_card_data"
+	ChargeOutcomeAdviceCodeDoNotTryAgain   ChargeOutcomeAdviceCode = "do_not_try_again"
+	ChargeOutcomeAdviceCodeTryAgainLater   ChargeOutcomeAdviceCode = "try_again_later"
+)
+
 // funding type of the underlying payment method.
 type ChargePaymentMethodDetailsAmazonPayFundingType string
 
@@ -615,6 +625,8 @@ type ChargeOutcomeRule struct {
 
 // Details about whether the payment was accepted, and why. See [understanding declines](https://stripe.com/docs/declines) for details.
 type ChargeOutcome struct {
+	// An enumerated value providing a more detailed explanation on [how to proceed with an error](https://stripe.com/docs/declines#retrying-issuer-declines).
+	AdviceCode ChargeOutcomeAdviceCode `json:"advice_code"`
 	// For charges declined by the network, a 2 digit code which indicates the advice returned by the network on how to proceed with an error.
 	NetworkAdviceCode string `json:"network_advice_code"`
 	// For charges declined by the network, a brand specific 2, 3, or 4 digit code which indicates the reason the authorization failed.
@@ -1242,6 +1254,7 @@ type ChargePaymentMethodDetailsP24 struct {
 	// Przelewy24 rarely provides this information so the attribute is usually empty.
 	VerifiedName string `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsPayByBank struct{}
 type ChargePaymentMethodDetailsPayco struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
@@ -1259,6 +1272,8 @@ type ChargePaymentMethodDetailsPaypalSellerProtection struct {
 	Status ChargePaymentMethodDetailsPaypalSellerProtectionStatus `json:"status"`
 }
 type ChargePaymentMethodDetailsPaypal struct {
+	// Two-letter ISO code representing the buyer's country. Values are provided by PayPal directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	Country string `json:"country"`
 	// Owner's email. Values are provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	PayerEmail string `json:"payer_email"`
@@ -1422,6 +1437,7 @@ type ChargePaymentMethodDetails struct {
 	NaverPay           *ChargePaymentMethodDetailsNaverPay           `json:"naver_pay"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
 	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
+	PayByBank          *ChargePaymentMethodDetailsPayByBank          `json:"pay_by_bank"`
 	Payco              *ChargePaymentMethodDetailsPayco              `json:"payco"`
 	PayNow             *ChargePaymentMethodDetailsPayNow             `json:"paynow"`
 	Paypal             *ChargePaymentMethodDetailsPaypal             `json:"paypal"`
