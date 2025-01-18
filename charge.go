@@ -1936,6 +1936,7 @@ type ChargePaymentMethodDetailsP24 struct {
 	// Przelewy24 rarely provides this information so the attribute is usually empty.
 	VerifiedName string `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsPayByBank struct{}
 type ChargePaymentMethodDetailsPayco struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
@@ -2148,6 +2149,7 @@ type ChargePaymentMethodDetails struct {
 	NaverPay           *ChargePaymentMethodDetailsNaverPay           `json:"naver_pay"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
 	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
+	PayByBank          *ChargePaymentMethodDetailsPayByBank          `json:"pay_by_bank"`
 	Payco              *ChargePaymentMethodDetailsPayco              `json:"payco"`
 	PayNow             *ChargePaymentMethodDetailsPayNow             `json:"paynow"`
 	Paypal             *ChargePaymentMethodDetailsPaypal             `json:"paypal"`

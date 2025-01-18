@@ -167,6 +167,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataP24Params struct {
 	Bank *string `form:"bank"`
 }
 
+// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataPayByBankParams struct{}
+
 // If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataPaycoParams struct{}
 
@@ -336,6 +339,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	OXXO *TestHelpersConfirmationTokenPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *TestHelpersConfirmationTokenPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+	PayByBank *TestHelpersConfirmationTokenPaymentMethodDataPayByBankParams `form:"pay_by_bank"`
 	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
 	Payco *TestHelpersConfirmationTokenPaymentMethodDataPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.

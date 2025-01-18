@@ -155,7 +155,7 @@ type AccountSessionComponentsFinancialAccountFeaturesParams struct {
 	TransferBalance *bool `form:"transfer_balance"`
 }
 
-// Configuration for the financial account component.
+// Configuration for the financial account embedded component.
 type AccountSessionComponentsFinancialAccountParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -169,7 +169,7 @@ type AccountSessionComponentsFinancialAccountTransactionsFeaturesParams struct {
 	CardSpendDisputeManagement *bool `form:"card_spend_dispute_management"`
 }
 
-// Configuration for the financial account transactions component.
+// Configuration for the financial account transactions embedded component.
 type AccountSessionComponentsFinancialAccountTransactionsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -189,7 +189,7 @@ type AccountSessionComponentsIssuingCardFeaturesParams struct {
 	SpendControlManagement *bool `form:"spend_control_management"`
 }
 
-// Configuration for the issuing card component.
+// Configuration for the issuing card embedded component.
 type AccountSessionComponentsIssuingCardParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -211,7 +211,7 @@ type AccountSessionComponentsIssuingCardsListFeaturesParams struct {
 	SpendControlManagement *bool `form:"spend_control_management"`
 }
 
-// Configuration for the issuing cards list component.
+// Configuration for the issuing cards list embedded component.
 type AccountSessionComponentsIssuingCardsListParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -363,6 +363,17 @@ type AccountSessionComponentsTaxSettingsParams struct {
 	Features *AccountSessionComponentsTaxSettingsFeaturesParams `form:"features"`
 }
 
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsTaxThresholdMonitoringFeaturesParams struct{}
+
+// Configuration for the tax threshold monitoring embedded component.
+type AccountSessionComponentsTaxThresholdMonitoringParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
 	// Configuration for the account management embedded component.
@@ -385,13 +396,13 @@ type AccountSessionComponentsParams struct {
 	CapitalOverview *AccountSessionComponentsCapitalOverviewParams `form:"capital_overview"`
 	// Configuration for the documents embedded component.
 	Documents *AccountSessionComponentsDocumentsParams `form:"documents"`
-	// Configuration for the financial account component.
+	// Configuration for the financial account embedded component.
 	FinancialAccount *AccountSessionComponentsFinancialAccountParams `form:"financial_account"`
-	// Configuration for the financial account transactions component.
+	// Configuration for the financial account transactions embedded component.
 	FinancialAccountTransactions *AccountSessionComponentsFinancialAccountTransactionsParams `form:"financial_account_transactions"`
-	// Configuration for the issuing card component.
+	// Configuration for the issuing card embedded component.
 	IssuingCard *AccountSessionComponentsIssuingCardParams `form:"issuing_card"`
-	// Configuration for the issuing cards list component.
+	// Configuration for the issuing cards list embedded component.
 	IssuingCardsList *AccountSessionComponentsIssuingCardsListParams `form:"issuing_cards_list"`
 	// Configuration for the notification banner embedded component.
 	NotificationBanner *AccountSessionComponentsNotificationBannerParams `form:"notification_banner"`
@@ -413,6 +424,8 @@ type AccountSessionComponentsParams struct {
 	TaxRegistrations *AccountSessionComponentsTaxRegistrationsParams `form:"tax_registrations"`
 	// Configuration for the tax settings embedded component.
 	TaxSettings *AccountSessionComponentsTaxSettingsParams `form:"tax_settings"`
+	// Configuration for the tax threshold monitoring embedded component.
+	TaxThresholdMonitoring *AccountSessionComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring"`
 }
 
 // Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.
@@ -494,6 +507,62 @@ type AccountSessionComponentsDocuments struct {
 	Enabled  bool                                       `json:"enabled"`
 	Features *AccountSessionComponentsDocumentsFeatures `json:"features"`
 }
+type AccountSessionComponentsFinancialAccountFeatures struct {
+	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
+	// Whether to allow external accounts to be linked for money transfer.
+	ExternalAccountCollection bool `json:"external_account_collection"`
+	// Whether to allow sending money.
+	SendMoney bool `json:"send_money"`
+	// Whether to allow transferring balance.
+	TransferBalance bool `json:"transfer_balance"`
+}
+type AccountSessionComponentsFinancialAccount struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                              `json:"enabled"`
+	Features *AccountSessionComponentsFinancialAccountFeatures `json:"features"`
+}
+type AccountSessionComponentsFinancialAccountTransactionsFeatures struct {
+	// Whether to allow card spend dispute management features.
+	CardSpendDisputeManagement bool `json:"card_spend_dispute_management"`
+}
+type AccountSessionComponentsFinancialAccountTransactions struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                          `json:"enabled"`
+	Features *AccountSessionComponentsFinancialAccountTransactionsFeatures `json:"features"`
+}
+type AccountSessionComponentsIssuingCardFeatures struct {
+	// Whether to allow cardholder management features.
+	CardholderManagement bool `json:"cardholder_management"`
+	// Whether to allow card management features.
+	CardManagement bool `json:"card_management"`
+	// Whether to allow card spend dispute management features.
+	CardSpendDisputeManagement bool `json:"card_spend_dispute_management"`
+	// Whether to allow spend control management features.
+	SpendControlManagement bool `json:"spend_control_management"`
+}
+type AccountSessionComponentsIssuingCard struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                         `json:"enabled"`
+	Features *AccountSessionComponentsIssuingCardFeatures `json:"features"`
+}
+type AccountSessionComponentsIssuingCardsListFeatures struct {
+	// Whether to allow cardholder management features.
+	CardholderManagement bool `json:"cardholder_management"`
+	// Whether to allow card management features.
+	CardManagement bool `json:"card_management"`
+	// Whether to allow card spend dispute management features.
+	CardSpendDisputeManagement bool `json:"card_spend_dispute_management"`
+	// Disables Stripe user authentication for this embedded component. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts.
+	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
+	// Whether to allow spend control management features.
+	SpendControlManagement bool `json:"spend_control_management"`
+}
+type AccountSessionComponentsIssuingCardsList struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                              `json:"enabled"`
+	Features *AccountSessionComponentsIssuingCardsListFeatures `json:"features"`
+}
 type AccountSessionComponentsNotificationBannerFeatures struct {
 	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
@@ -571,20 +640,24 @@ type AccountSessionComponentsTaxSettings struct {
 	Features *AccountSessionComponentsTaxSettingsFeatures `json:"features"`
 }
 type AccountSessionComponents struct {
-	AccountManagement           *AccountSessionComponentsAccountManagement           `json:"account_management"`
-	AccountOnboarding           *AccountSessionComponentsAccountOnboarding           `json:"account_onboarding"`
-	Balances                    *AccountSessionComponentsBalances                    `json:"balances"`
-	CapitalFinancing            *AccountSessionComponentsCapitalFinancing            `json:"capital_financing"`
-	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplication `json:"capital_financing_application"`
-	CapitalFinancingPromotion   *AccountSessionComponentsCapitalFinancingPromotion   `json:"capital_financing_promotion"`
-	Documents                   *AccountSessionComponentsDocuments                   `json:"documents"`
-	NotificationBanner          *AccountSessionComponentsNotificationBanner          `json:"notification_banner"`
-	PaymentDetails              *AccountSessionComponentsPaymentDetails              `json:"payment_details"`
-	Payments                    *AccountSessionComponentsPayments                    `json:"payments"`
-	Payouts                     *AccountSessionComponentsPayouts                     `json:"payouts"`
-	PayoutsList                 *AccountSessionComponentsPayoutsList                 `json:"payouts_list"`
-	TaxRegistrations            *AccountSessionComponentsTaxRegistrations            `json:"tax_registrations"`
-	TaxSettings                 *AccountSessionComponentsTaxSettings                 `json:"tax_settings"`
+	AccountManagement            *AccountSessionComponentsAccountManagement            `json:"account_management"`
+	AccountOnboarding            *AccountSessionComponentsAccountOnboarding            `json:"account_onboarding"`
+	Balances                     *AccountSessionComponentsBalances                     `json:"balances"`
+	CapitalFinancing             *AccountSessionComponentsCapitalFinancing             `json:"capital_financing"`
+	CapitalFinancingApplication  *AccountSessionComponentsCapitalFinancingApplication  `json:"capital_financing_application"`
+	CapitalFinancingPromotion    *AccountSessionComponentsCapitalFinancingPromotion    `json:"capital_financing_promotion"`
+	Documents                    *AccountSessionComponentsDocuments                    `json:"documents"`
+	FinancialAccount             *AccountSessionComponentsFinancialAccount             `json:"financial_account"`
+	FinancialAccountTransactions *AccountSessionComponentsFinancialAccountTransactions `json:"financial_account_transactions"`
+	IssuingCard                  *AccountSessionComponentsIssuingCard                  `json:"issuing_card"`
+	IssuingCardsList             *AccountSessionComponentsIssuingCardsList             `json:"issuing_cards_list"`
+	NotificationBanner           *AccountSessionComponentsNotificationBanner           `json:"notification_banner"`
+	PaymentDetails               *AccountSessionComponentsPaymentDetails               `json:"payment_details"`
+	Payments                     *AccountSessionComponentsPayments                     `json:"payments"`
+	Payouts                      *AccountSessionComponentsPayouts                      `json:"payouts"`
+	PayoutsList                  *AccountSessionComponentsPayoutsList                  `json:"payouts_list"`
+	TaxRegistrations             *AccountSessionComponentsTaxRegistrations             `json:"tax_registrations"`
+	TaxSettings                  *AccountSessionComponentsTaxSettings                  `json:"tax_settings"`
 }
 
 // An AccountSession allows a Connect platform to grant access to a connected account in Connect embedded components.
