@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // Assessments from Stripe. If set, the value is `fraudulent`.
 type ChargeFraudStripeReport string
@@ -613,7 +616,7 @@ type ChargePaymentDetailsCarRentalParams struct {
 	// Car pick-up address.
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt *int64 `form:"pickup_at"`
+	PickupAt *time.Time `form:"pickup_at"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -623,7 +626,7 @@ type ChargePaymentDetailsCarRentalParams struct {
 	// Car return address.
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt *int64 `form:"return_at"`
+	ReturnAt *time.Time `form:"return_at"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
 }
@@ -665,13 +668,13 @@ type ChargePaymentDetailsEventDetailsParams struct {
 	// Delivery details for this purchase.
 	Delivery *ChargePaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
 	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *time.Time `form:"ends_at"`
 	// Type of the event entertainment (concert, sports event etc)
 	Genre *string `form:"genre"`
 	// The name of the event.
 	Name *string `form:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *time.Time `form:"starts_at"`
 }
 
 // Affiliate details for this purchase.
@@ -711,11 +714,11 @@ type ChargePaymentDetailsFlightSegmentParams struct {
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
-	ArrivesAt *int64 `form:"arrives_at"`
+	ArrivesAt *time.Time `form:"arrives_at"`
 	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
 	Carrier *string `form:"carrier"`
 	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *time.Time `form:"departs_at"`
 	// The International Air Transport Association (IATA) airport code for the departure airport.
 	DepartureAirport *string `form:"departure_airport"`
 	// The flight number associated with the segment
@@ -787,9 +790,9 @@ type ChargePaymentDetailsLodgingParams struct {
 	// The lodging category
 	Category *string `form:"category"`
 	// Loding check-in time. Measured in seconds since the Unix epoch.
-	CheckinAt *int64 `form:"checkin_at"`
+	CheckinAt *time.Time `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
-	CheckoutAt *int64 `form:"checkout_at"`
+	CheckoutAt *time.Time `form:"checkout_at"`
 	// The customer service phone number of the lodging company.
 	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
 	// The daily lodging room rate.
@@ -843,11 +846,11 @@ type ChargePaymentDetailsSubscriptionParams struct {
 	// Subscription billing details for this purchase.
 	BillingInterval *ChargePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
 	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *time.Time `form:"ends_at"`
 	// Name of the product on subscription. e.g. Apple Music Subscription
 	Name *string `form:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *time.Time `form:"starts_at"`
 }
 
 // Provides industry-specific information about the charge.
@@ -940,7 +943,7 @@ type ChargeCapturePaymentDetailsCarRentalParams struct {
 	// Car pick-up address.
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt *int64 `form:"pickup_at"`
+	PickupAt *time.Time `form:"pickup_at"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -950,7 +953,7 @@ type ChargeCapturePaymentDetailsCarRentalParams struct {
 	// Car return address.
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt *int64 `form:"return_at"`
+	ReturnAt *time.Time `form:"return_at"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
 }
@@ -992,13 +995,13 @@ type ChargeCapturePaymentDetailsEventDetailsParams struct {
 	// Delivery details for this purchase.
 	Delivery *ChargeCapturePaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
 	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *time.Time `form:"ends_at"`
 	// Type of the event entertainment (concert, sports event etc)
 	Genre *string `form:"genre"`
 	// The name of the event.
 	Name *string `form:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *time.Time `form:"starts_at"`
 }
 
 // Affiliate details for this purchase.
@@ -1038,11 +1041,11 @@ type ChargeCapturePaymentDetailsFlightSegmentParams struct {
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
-	ArrivesAt *int64 `form:"arrives_at"`
+	ArrivesAt *time.Time `form:"arrives_at"`
 	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
 	Carrier *string `form:"carrier"`
 	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
-	DepartsAt *int64 `form:"departs_at"`
+	DepartsAt *time.Time `form:"departs_at"`
 	// The International Air Transport Association (IATA) airport code for the departure airport.
 	DepartureAirport *string `form:"departure_airport"`
 	// The flight number associated with the segment
@@ -1114,9 +1117,9 @@ type ChargeCapturePaymentDetailsLodgingParams struct {
 	// The lodging category
 	Category *string `form:"category"`
 	// Loding check-in time. Measured in seconds since the Unix epoch.
-	CheckinAt *int64 `form:"checkin_at"`
+	CheckinAt *time.Time `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
-	CheckoutAt *int64 `form:"checkout_at"`
+	CheckoutAt *time.Time `form:"checkout_at"`
 	// The customer service phone number of the lodging company.
 	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
 	// The daily lodging room rate.
@@ -1170,11 +1173,11 @@ type ChargeCapturePaymentDetailsSubscriptionParams struct {
 	// Subscription billing details for this purchase.
 	BillingInterval *ChargeCapturePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
 	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *int64 `form:"ends_at"`
+	EndsAt *time.Time `form:"ends_at"`
 	// Name of the product on subscription. e.g. Apple Music Subscription
 	Name *string `form:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *int64 `form:"starts_at"`
+	StartsAt *time.Time `form:"starts_at"`
 }
 
 // Provides industry-specific information about the charge.
@@ -1572,7 +1575,7 @@ type ChargePaymentMethodDetailsCard struct {
 	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
-	CaptureBefore int64 `json:"capture_before"`
+	CaptureBefore time.Time `json:"capture_before"`
 	// Check results by Card networks on Card address and CVC at time of payment.
 	Checks *ChargePaymentMethodDetailsCardChecks `json:"checks"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
@@ -1628,7 +1631,7 @@ type ChargePaymentMethodDetailsCard struct {
 // Details about payments collected offline.
 type ChargePaymentMethodDetailsCardPresentOffline struct {
 	// Time at which the payment was collected while offline
-	StoredAt int64 `json:"stored_at"`
+	StoredAt time.Time `json:"stored_at"`
 	// The method used to process this payment method offline. Only deferred is allowed.
 	Type ChargePaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
@@ -1666,7 +1669,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
 	// When using manual capture, a future timestamp after which the charge will be automatically refunded if uncaptured.
-	CaptureBefore int64 `json:"capture_before"`
+	CaptureBefore time.Time `json:"capture_before"`
 	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
 	CardholderName string `json:"cardholder_name"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
@@ -2219,7 +2222,7 @@ type Charge struct {
 	// If the charge was created without capturing, this Boolean represents whether it is still uncaptured or has since been captured.
 	Captured bool `json:"captured"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// ID of the customer this charge is for if one exists.
@@ -2319,11 +2322,142 @@ func (c *Charge) UnmarshalJSON(data []byte) error {
 	}
 
 	type charge Charge
-	var v charge
+	v := struct {
+		Created int64 `json:"created"`
+		*charge
+	}{
+		charge: (*charge)(c),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*c = Charge(v)
+	c.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// UnmarshalJSON handles deserialization of a ChargePaymentMethodDetailsCard.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *ChargePaymentMethodDetailsCard) UnmarshalJSON(data []byte) error {
+	type chargePaymentMethodDetailsCard ChargePaymentMethodDetailsCard
+	v := struct {
+		CaptureBefore int64 `json:"capture_before"`
+		*chargePaymentMethodDetailsCard
+	}{
+		chargePaymentMethodDetailsCard: (*chargePaymentMethodDetailsCard)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.CaptureBefore = time.Unix(v.CaptureBefore, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a ChargePaymentMethodDetailsCardPresentOffline.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *ChargePaymentMethodDetailsCardPresentOffline) UnmarshalJSON(data []byte) error {
+	type chargePaymentMethodDetailsCardPresentOffline ChargePaymentMethodDetailsCardPresentOffline
+	v := struct {
+		StoredAt int64 `json:"stored_at"`
+		*chargePaymentMethodDetailsCardPresentOffline
+	}{
+		chargePaymentMethodDetailsCardPresentOffline: (*chargePaymentMethodDetailsCardPresentOffline)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.StoredAt = time.Unix(v.StoredAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a ChargePaymentMethodDetailsCardPresent.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *ChargePaymentMethodDetailsCardPresent) UnmarshalJSON(data []byte) error {
+	type chargePaymentMethodDetailsCardPresent ChargePaymentMethodDetailsCardPresent
+	v := struct {
+		CaptureBefore int64 `json:"capture_before"`
+		*chargePaymentMethodDetailsCardPresent
+	}{
+		chargePaymentMethodDetailsCardPresent: (*chargePaymentMethodDetailsCardPresent)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.CaptureBefore = time.Unix(v.CaptureBefore, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a ChargePaymentMethodDetailsCard.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c ChargePaymentMethodDetailsCard) MarshalJSON() ([]byte, error) {
+	type chargePaymentMethodDetailsCard ChargePaymentMethodDetailsCard
+	v := struct {
+		CaptureBefore int64 `json:"capture_before"`
+		chargePaymentMethodDetailsCard
+	}{
+		chargePaymentMethodDetailsCard: (chargePaymentMethodDetailsCard)(c),
+		CaptureBefore:                  c.CaptureBefore.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a ChargePaymentMethodDetailsCardPresentOffline.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c ChargePaymentMethodDetailsCardPresentOffline) MarshalJSON() ([]byte, error) {
+	type chargePaymentMethodDetailsCardPresentOffline ChargePaymentMethodDetailsCardPresentOffline
+	v := struct {
+		StoredAt int64 `json:"stored_at"`
+		chargePaymentMethodDetailsCardPresentOffline
+	}{
+		chargePaymentMethodDetailsCardPresentOffline: (chargePaymentMethodDetailsCardPresentOffline)(c),
+		StoredAt: c.StoredAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a ChargePaymentMethodDetailsCardPresent.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c ChargePaymentMethodDetailsCardPresent) MarshalJSON() ([]byte, error) {
+	type chargePaymentMethodDetailsCardPresent ChargePaymentMethodDetailsCardPresent
+	v := struct {
+		CaptureBefore int64 `json:"capture_before"`
+		chargePaymentMethodDetailsCardPresent
+	}{
+		chargePaymentMethodDetailsCardPresent: (chargePaymentMethodDetailsCardPresent)(c),
+		CaptureBefore:                         c.CaptureBefore.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a Charge.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c Charge) MarshalJSON() ([]byte, error) {
+	type charge Charge
+	v := struct {
+		Created int64 `json:"created"`
+		charge
+	}{
+		charge:  (charge)(c),
+		Created: c.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

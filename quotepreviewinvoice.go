@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The status of the payment, one of `open`, `paid`, or `past_due`
 type QuotePreviewInvoiceAmountsDueStatus string
 
@@ -471,9 +476,9 @@ type QuotePreviewInvoiceAmountsDue struct {
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
 	// Date on which a payment plan's payment is due.
-	DueDate int64 `json:"due_date"`
+	DueDate time.Time `json:"due_date"`
 	// Timestamp when the payment was paid.
-	PaidAt int64 `json:"paid_at"`
+	PaidAt time.Time `json:"paid_at"`
 	// The status of the payment, one of `open`, `paid`, or `past_due`
 	Status QuotePreviewInvoiceAmountsDueStatus `json:"status"`
 }
@@ -682,13 +687,13 @@ type QuotePreviewInvoiceShippingCost struct {
 }
 type QuotePreviewInvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
-	FinalizedAt int64 `json:"finalized_at"`
+	FinalizedAt time.Time `json:"finalized_at"`
 	// The time that the invoice was marked uncollectible.
-	MarkedUncollectibleAt int64 `json:"marked_uncollectible_at"`
+	MarkedUncollectibleAt time.Time `json:"marked_uncollectible_at"`
 	// The time that the invoice was paid.
-	PaidAt int64 `json:"paid_at"`
+	PaidAt time.Time `json:"paid_at"`
 	// The time that the invoice was voided.
-	VoidedAt int64 `json:"voided_at"`
+	VoidedAt time.Time `json:"voided_at"`
 }
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
@@ -696,7 +701,7 @@ type QuotePreviewInvoiceSubscriptionDetailsPauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehavior `json:"behavior"`
 	// The time after which the subscription will resume collecting payments.
-	ResumesAt int64 `json:"resumes_at"`
+	ResumesAt time.Time `json:"resumes_at"`
 }
 
 // Details about the subscription that created this invoice.
@@ -835,7 +840,7 @@ type QuotePreviewInvoice struct {
 	// Whether an attempt has been made to pay the invoice. An invoice is not attempted until 1 hour after the `invoice.created` webhook, for example, so you might not want to display that invoice as unpaid to your users.
 	Attempted bool `json:"attempted"`
 	// The time when this invoice is currently scheduled to be automatically finalized. The field will be `null` if the invoice is not scheduled to finalize in the future. If the invoice is not in the draft state, this field will always be `null` - see `finalized_at` for the time when an already-finalized invoice was finalized.
-	AutomaticallyFinalizesAt int64                            `json:"automatically_finalizes_at"`
+	AutomaticallyFinalizesAt time.Time                        `json:"automatically_finalizes_at"`
 	AutomaticTax             *QuotePreviewInvoiceAutomaticTax `json:"automatic_tax"`
 	// Indicates the reason why the invoice was created.
 	//
@@ -850,7 +855,7 @@ type QuotePreviewInvoice struct {
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.
 	CollectionMethod QuotePreviewInvoiceCollectionMethod `json:"collection_method"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The customer's address. Until the invoice is finalized, this field will equal `customer.address`. Once the invoice is finalized, this field will no longer be updated.
@@ -884,9 +889,9 @@ type QuotePreviewInvoice struct {
 	// The discounts applied to the invoice. Line item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// The date on which payment for this invoice is due. This value will be `null` for invoices where `collection_method=charge_automatically`.
-	DueDate int64 `json:"due_date"`
+	DueDate time.Time `json:"due_date"`
 	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
-	EffectiveAt int64 `json:"effective_at"`
+	EffectiveAt time.Time `json:"effective_at"`
 	// Ending customer balance after the invoice is finalized. Invoices are finalized approximately an hour after successful webhook delivery or when payment collection is attempted for the invoice. If the invoice has not been finalized yet, this will be null.
 	EndingBalance int64 `json:"ending_balance"`
 	// Footer displayed on the invoice.
@@ -907,7 +912,7 @@ type QuotePreviewInvoice struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The time at which payment will next be attempted. This value will be `null` for invoices where `collection_method=send_invoice`.
-	NextPaymentAttempt int64 `json:"next_payment_attempt"`
+	NextPaymentAttempt time.Time `json:"next_payment_attempt"`
 	// A unique, identifying string that appears on emails sent to the customer for this invoice. This starts with the customer's unique invoice_prefix if it is specified.
 	Number string `json:"number"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -924,9 +929,9 @@ type QuotePreviewInvoice struct {
 	Payments        *InvoicePaymentList                 `json:"payments"`
 	PaymentSettings *QuotePreviewInvoicePaymentSettings `json:"payment_settings"`
 	// End of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
-	PeriodEnd int64 `json:"period_end"`
+	PeriodEnd time.Time `json:"period_end"`
 	// Start of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
-	PeriodStart int64 `json:"period_start"`
+	PeriodStart time.Time `json:"period_start"`
 	// Total amount of all post-payment credit notes issued for this invoice.
 	PostPaymentCreditNotesAmount int64 `json:"post_payment_credit_notes_amount"`
 	// Total amount of all pre-payment credit notes issued for this invoice.
@@ -952,7 +957,7 @@ type QuotePreviewInvoice struct {
 	// Details about the subscription that created this invoice.
 	SubscriptionDetails *QuotePreviewInvoiceSubscriptionDetails `json:"subscription_details"`
 	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
-	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
+	SubscriptionProrationDate time.Time `json:"subscription_proration_date"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`
 	// The integer amount in cents (or local equivalent) representing the subtotal of the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
@@ -977,7 +982,7 @@ type QuotePreviewInvoice struct {
 	// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.
 	TransferData *QuotePreviewInvoiceTransferData `json:"transfer_data"`
 	// Invoices are automatically paid or sent 1 hour after webhooks are delivered, or until all webhook delivery attempts have [been exhausted](https://stripe.com/docs/billing/webhooks#understand). This field tracks the time when webhooks for this invoice were successfully delivered. If the invoice had no webhooks to deliver, this will be set while the invoice is being created.
-	WebhooksDeliveredAt int64 `json:"webhooks_delivered_at"`
+	WebhooksDeliveredAt time.Time `json:"webhooks_delivered_at"`
 }
 
 // QuotePreviewInvoiceList is a list of QuotePreviewInvoices as retrieved from a list endpoint.
@@ -985,4 +990,196 @@ type QuotePreviewInvoiceList struct {
 	APIResource
 	ListMeta
 	Data []*QuotePreviewInvoice `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewInvoiceAmountsDue.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewInvoiceAmountsDue) UnmarshalJSON(data []byte) error {
+	type quotePreviewInvoiceAmountsDue QuotePreviewInvoiceAmountsDue
+	v := struct {
+		DueDate int64 `json:"due_date"`
+		PaidAt  int64 `json:"paid_at"`
+		*quotePreviewInvoiceAmountsDue
+	}{
+		quotePreviewInvoiceAmountsDue: (*quotePreviewInvoiceAmountsDue)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.DueDate = time.Unix(v.DueDate, 0)
+	q.PaidAt = time.Unix(v.PaidAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewInvoiceStatusTransitions.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewInvoiceStatusTransitions) UnmarshalJSON(data []byte) error {
+	type quotePreviewInvoiceStatusTransitions QuotePreviewInvoiceStatusTransitions
+	v := struct {
+		FinalizedAt           int64 `json:"finalized_at"`
+		MarkedUncollectibleAt int64 `json:"marked_uncollectible_at"`
+		PaidAt                int64 `json:"paid_at"`
+		VoidedAt              int64 `json:"voided_at"`
+		*quotePreviewInvoiceStatusTransitions
+	}{
+		quotePreviewInvoiceStatusTransitions: (*quotePreviewInvoiceStatusTransitions)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.FinalizedAt = time.Unix(v.FinalizedAt, 0)
+	q.MarkedUncollectibleAt = time.Unix(v.MarkedUncollectibleAt, 0)
+	q.PaidAt = time.Unix(v.PaidAt, 0)
+	q.VoidedAt = time.Unix(v.VoidedAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewInvoiceSubscriptionDetailsPauseCollection.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewInvoiceSubscriptionDetailsPauseCollection) UnmarshalJSON(data []byte) error {
+	type quotePreviewInvoiceSubscriptionDetailsPauseCollection QuotePreviewInvoiceSubscriptionDetailsPauseCollection
+	v := struct {
+		ResumesAt int64 `json:"resumes_at"`
+		*quotePreviewInvoiceSubscriptionDetailsPauseCollection
+	}{
+		quotePreviewInvoiceSubscriptionDetailsPauseCollection: (*quotePreviewInvoiceSubscriptionDetailsPauseCollection)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.ResumesAt = time.Unix(v.ResumesAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewInvoice.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewInvoice) UnmarshalJSON(data []byte) error {
+	type quotePreviewInvoice QuotePreviewInvoice
+	v := struct {
+		AutomaticallyFinalizesAt  int64 `json:"automatically_finalizes_at"`
+		Created                   int64 `json:"created"`
+		DueDate                   int64 `json:"due_date"`
+		EffectiveAt               int64 `json:"effective_at"`
+		NextPaymentAttempt        int64 `json:"next_payment_attempt"`
+		PeriodEnd                 int64 `json:"period_end"`
+		PeriodStart               int64 `json:"period_start"`
+		SubscriptionProrationDate int64 `json:"subscription_proration_date"`
+		WebhooksDeliveredAt       int64 `json:"webhooks_delivered_at"`
+		*quotePreviewInvoice
+	}{
+		quotePreviewInvoice: (*quotePreviewInvoice)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.AutomaticallyFinalizesAt = time.Unix(v.AutomaticallyFinalizesAt, 0)
+	q.Created = time.Unix(v.Created, 0)
+	q.DueDate = time.Unix(v.DueDate, 0)
+	q.EffectiveAt = time.Unix(v.EffectiveAt, 0)
+	q.NextPaymentAttempt = time.Unix(v.NextPaymentAttempt, 0)
+	q.PeriodEnd = time.Unix(v.PeriodEnd, 0)
+	q.PeriodStart = time.Unix(v.PeriodStart, 0)
+	q.SubscriptionProrationDate = time.Unix(v.SubscriptionProrationDate, 0)
+	q.WebhooksDeliveredAt = time.Unix(v.WebhooksDeliveredAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a QuotePreviewInvoiceAmountsDue.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewInvoiceAmountsDue) MarshalJSON() ([]byte, error) {
+	type quotePreviewInvoiceAmountsDue QuotePreviewInvoiceAmountsDue
+	v := struct {
+		DueDate int64 `json:"due_date"`
+		PaidAt  int64 `json:"paid_at"`
+		quotePreviewInvoiceAmountsDue
+	}{
+		quotePreviewInvoiceAmountsDue: (quotePreviewInvoiceAmountsDue)(q),
+		DueDate:                       q.DueDate.Unix(),
+		PaidAt:                        q.PaidAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewInvoiceStatusTransitions.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewInvoiceStatusTransitions) MarshalJSON() ([]byte, error) {
+	type quotePreviewInvoiceStatusTransitions QuotePreviewInvoiceStatusTransitions
+	v := struct {
+		FinalizedAt           int64 `json:"finalized_at"`
+		MarkedUncollectibleAt int64 `json:"marked_uncollectible_at"`
+		PaidAt                int64 `json:"paid_at"`
+		VoidedAt              int64 `json:"voided_at"`
+		quotePreviewInvoiceStatusTransitions
+	}{
+		quotePreviewInvoiceStatusTransitions: (quotePreviewInvoiceStatusTransitions)(q),
+		FinalizedAt:                          q.FinalizedAt.Unix(),
+		MarkedUncollectibleAt:                q.MarkedUncollectibleAt.Unix(),
+		PaidAt:                               q.PaidAt.Unix(),
+		VoidedAt:                             q.VoidedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewInvoiceSubscriptionDetailsPauseCollection.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewInvoiceSubscriptionDetailsPauseCollection) MarshalJSON() ([]byte, error) {
+	type quotePreviewInvoiceSubscriptionDetailsPauseCollection QuotePreviewInvoiceSubscriptionDetailsPauseCollection
+	v := struct {
+		ResumesAt int64 `json:"resumes_at"`
+		quotePreviewInvoiceSubscriptionDetailsPauseCollection
+	}{
+		quotePreviewInvoiceSubscriptionDetailsPauseCollection: (quotePreviewInvoiceSubscriptionDetailsPauseCollection)(q),
+		ResumesAt: q.ResumesAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewInvoice.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewInvoice) MarshalJSON() ([]byte, error) {
+	type quotePreviewInvoice QuotePreviewInvoice
+	v := struct {
+		AutomaticallyFinalizesAt  int64 `json:"automatically_finalizes_at"`
+		Created                   int64 `json:"created"`
+		DueDate                   int64 `json:"due_date"`
+		EffectiveAt               int64 `json:"effective_at"`
+		NextPaymentAttempt        int64 `json:"next_payment_attempt"`
+		PeriodEnd                 int64 `json:"period_end"`
+		PeriodStart               int64 `json:"period_start"`
+		SubscriptionProrationDate int64 `json:"subscription_proration_date"`
+		WebhooksDeliveredAt       int64 `json:"webhooks_delivered_at"`
+		quotePreviewInvoice
+	}{
+		quotePreviewInvoice:       (quotePreviewInvoice)(q),
+		AutomaticallyFinalizesAt:  q.AutomaticallyFinalizesAt.Unix(),
+		Created:                   q.Created.Unix(),
+		DueDate:                   q.DueDate.Unix(),
+		EffectiveAt:               q.EffectiveAt.Unix(),
+		NextPaymentAttempt:        q.NextPaymentAttempt.Unix(),
+		PeriodEnd:                 q.PeriodEnd.Unix(),
+		PeriodStart:               q.PeriodStart.Unix(),
+		SubscriptionProrationDate: q.SubscriptionProrationDate.Unix(),
+		WebhooksDeliveredAt:       q.WebhooksDeliveredAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

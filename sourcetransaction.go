@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // List source transactions for a given source.
 type SourceTransactionListParams struct {
 	ListParams `form:"*"`
@@ -82,7 +87,7 @@ type SourceTransaction struct {
 	Amount            int64                               `json:"amount"`
 	CHFCreditTransfer *SourceTransactionCHFCreditTransfer `json:"chf_credit_transfer"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency          Currency                            `json:"currency"`
 	GBPCreditTransfer *SourceTransactionGBPCreditTransfer `json:"gbp_credit_transfer"`
@@ -107,4 +112,40 @@ type SourceTransactionList struct {
 	APIResource
 	ListMeta
 	Data []*SourceTransaction `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a SourceTransaction.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (s *SourceTransaction) UnmarshalJSON(data []byte) error {
+	type sourceTransaction SourceTransaction
+	v := struct {
+		Created int64 `json:"created"`
+		*sourceTransaction
+	}{
+		sourceTransaction: (*sourceTransaction)(s),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	s.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a SourceTransaction.
+// This custom marshaling is needed to handle the time fields correctly.
+func (s SourceTransaction) MarshalJSON() ([]byte, error) {
+	type sourceTransaction SourceTransaction
+	v := struct {
+		Created int64 `json:"created"`
+		sourceTransaction
+	}{
+		sourceTransaction: (sourceTransaction)(s),
+		Created:           s.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

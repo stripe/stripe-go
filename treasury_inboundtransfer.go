@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Reason for the failure.
 type TreasuryInboundTransferFailureDetailsCode string
 
@@ -178,11 +183,11 @@ type TreasuryInboundTransferOriginPaymentMethodDetails struct {
 }
 type TreasuryInboundTransferStatusTransitions struct {
 	// Timestamp describing when an InboundTransfer changed status to `canceled`.
-	CanceledAt int64 `json:"canceled_at"`
+	CanceledAt time.Time `json:"canceled_at"`
 	// Timestamp describing when an InboundTransfer changed status to `failed`.
-	FailedAt int64 `json:"failed_at"`
+	FailedAt time.Time `json:"failed_at"`
 	// Timestamp describing when an InboundTransfer changed status to `succeeded`.
-	SucceededAt int64 `json:"succeeded_at"`
+	SucceededAt time.Time `json:"succeeded_at"`
 }
 
 // Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://stripe.com/docs/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
@@ -195,7 +200,7 @@ type TreasuryInboundTransfer struct {
 	// Returns `true` if the InboundTransfer is able to be canceled.
 	Cancelable bool `json:"cancelable"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -235,4 +240,84 @@ type TreasuryInboundTransferList struct {
 	APIResource
 	ListMeta
 	Data []*TreasuryInboundTransfer `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a TreasuryInboundTransferStatusTransitions.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *TreasuryInboundTransferStatusTransitions) UnmarshalJSON(data []byte) error {
+	type treasuryInboundTransferStatusTransitions TreasuryInboundTransferStatusTransitions
+	v := struct {
+		CanceledAt  int64 `json:"canceled_at"`
+		FailedAt    int64 `json:"failed_at"`
+		SucceededAt int64 `json:"succeeded_at"`
+		*treasuryInboundTransferStatusTransitions
+	}{
+		treasuryInboundTransferStatusTransitions: (*treasuryInboundTransferStatusTransitions)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.CanceledAt = time.Unix(v.CanceledAt, 0)
+	t.FailedAt = time.Unix(v.FailedAt, 0)
+	t.SucceededAt = time.Unix(v.SucceededAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a TreasuryInboundTransfer.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *TreasuryInboundTransfer) UnmarshalJSON(data []byte) error {
+	type treasuryInboundTransfer TreasuryInboundTransfer
+	v := struct {
+		Created int64 `json:"created"`
+		*treasuryInboundTransfer
+	}{
+		treasuryInboundTransfer: (*treasuryInboundTransfer)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a TreasuryInboundTransferStatusTransitions.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TreasuryInboundTransferStatusTransitions) MarshalJSON() ([]byte, error) {
+	type treasuryInboundTransferStatusTransitions TreasuryInboundTransferStatusTransitions
+	v := struct {
+		CanceledAt  int64 `json:"canceled_at"`
+		FailedAt    int64 `json:"failed_at"`
+		SucceededAt int64 `json:"succeeded_at"`
+		treasuryInboundTransferStatusTransitions
+	}{
+		treasuryInboundTransferStatusTransitions: (treasuryInboundTransferStatusTransitions)(t),
+		CanceledAt:                               t.CanceledAt.Unix(),
+		FailedAt:                                 t.FailedAt.Unix(),
+		SucceededAt:                              t.SucceededAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a TreasuryInboundTransfer.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TreasuryInboundTransfer) MarshalJSON() ([]byte, error) {
+	type treasuryInboundTransfer TreasuryInboundTransfer
+	v := struct {
+		Created int64 `json:"created"`
+		treasuryInboundTransfer
+	}{
+		treasuryInboundTransfer: (treasuryInboundTransfer)(t),
+		Created:                 t.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

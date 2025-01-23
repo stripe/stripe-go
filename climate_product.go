@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // Lists all available Climate product objects.
 type ClimateProductListParams struct {
@@ -47,7 +50,7 @@ type ClimateProductCurrentPricesPerMetricTon struct {
 type ClimateProduct struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Current prices for a metric ton of carbon removal in a currency's smallest unit.
 	CurrentPricesPerMetricTon map[string]*ClimateProductCurrentPricesPerMetricTon `json:"current_prices_per_metric_ton"`
 	// The year in which the carbon removal is expected to be delivered.
@@ -85,11 +88,34 @@ func (c *ClimateProduct) UnmarshalJSON(data []byte) error {
 	}
 
 	type climateProduct ClimateProduct
-	var v climateProduct
+	v := struct {
+		Created int64 `json:"created"`
+		*climateProduct
+	}{
+		climateProduct: (*climateProduct)(c),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*c = ClimateProduct(v)
+	c.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a ClimateProduct.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c ClimateProduct) MarshalJSON() ([]byte, error) {
+	type climateProduct ClimateProduct
+	v := struct {
+		Created int64 `json:"created"`
+		climateProduct
+	}{
+		climateProduct: (climateProduct)(c),
+		Created:        c.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

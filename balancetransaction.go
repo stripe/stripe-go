@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // Learn more about how [reporting categories](https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.
 type BalanceTransactionReportingCategory string
@@ -184,9 +187,9 @@ type BalanceTransaction struct {
 	// Gross amount of this transaction (in cents (or local equivalent)). A positive value represents funds charged to another party, and a negative value represents funds sent to another party.
 	Amount int64 `json:"amount"`
 	// The date that the transaction's net funds become available in the Stripe balance.
-	AvailableOn int64 `json:"available_on"`
+	AvailableOn time.Time `json:"available_on"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -251,12 +254,19 @@ func (b *BalanceTransaction) UnmarshalJSON(data []byte) error {
 	}
 
 	type balanceTransaction BalanceTransaction
-	var v balanceTransaction
+	v := struct {
+		AvailableOn int64 `json:"available_on"`
+		Created     int64 `json:"created"`
+		*balanceTransaction
+	}{
+		balanceTransaction: (*balanceTransaction)(b),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*b = BalanceTransaction(v)
+	b.AvailableOn = time.Unix(v.AvailableOn, 0)
+	b.Created = time.Unix(v.Created, 0)
 	return nil
 }
 
@@ -313,4 +323,24 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.TransferReversal)
 	}
 	return err
+}
+
+// MarshalJSON handles serialization of a BalanceTransaction.
+// This custom marshaling is needed to handle the time fields correctly.
+func (b BalanceTransaction) MarshalJSON() ([]byte, error) {
+	type balanceTransaction BalanceTransaction
+	v := struct {
+		AvailableOn int64 `json:"available_on"`
+		Created     int64 `json:"created"`
+		balanceTransaction
+	}{
+		balanceTransaction: (balanceTransaction)(b),
+		AvailableOn:        b.AvailableOn.Unix(),
+		Created:            b.Created.Unix(),
+	}
+	bb, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return bb, err
 }

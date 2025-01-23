@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Type of the account referenced.
 type CheckoutSessionAutomaticTaxLiabilityType string
 
@@ -2582,7 +2587,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. To use an application fee percent, the request must be made on behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
-	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchor *time.Time `form:"billing_cycle_anchor"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
 	// from the subscription.
@@ -2604,7 +2609,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// Unix timestamp representing the end of the trial period the customer
 	// will get before being charged for the first time. Has to be at least
 	// 48 hours in the future.
-	TrialEnd *int64 `form:"trial_end"`
+	TrialEnd *time.Time `form:"trial_end"`
 	// Integer representing the number of trial period days before the
 	// customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
@@ -2693,7 +2698,7 @@ type CheckoutSessionParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The Epoch time in seconds at which the Checkout Session will expire. It can be anywhere from 30 minutes to 24 hours after Checkout Session creation. By default, this value is 24 hours from creation.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *time.Time `form:"expires_at"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionInvoiceCreationParams `form:"invoice_creation"`
 	// A list of items the customer is purchasing.
@@ -2854,7 +2859,7 @@ type CheckoutSessionAfterExpirationRecovery struct {
 	// Checkout Session object upon expiration.
 	Enabled bool `json:"enabled"`
 	// The timestamp at which the recovery URL will expire.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// URL that creates a new Checkout Session when clicked that is a copy of this expired Checkout Session
 	URL string `json:"url"`
 }
@@ -3806,7 +3811,7 @@ type CheckoutSession struct {
 	// When set, provides configuration for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollection `json:"consent_collection"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Currency conversion details for [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing) sessions
@@ -3833,7 +3838,7 @@ type CheckoutSession struct {
 	// List of coupons and promotion codes attached to the Checkout Session.
 	Discounts []*CheckoutSessionDiscount `json:"discounts"`
 	// The timestamp at which the Checkout Session will expire.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// ID of the invoice created by the Checkout Session, if it exists.
@@ -3917,4 +3922,80 @@ type CheckoutSessionList struct {
 	APIResource
 	ListMeta
 	Data []*CheckoutSession `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a CheckoutSessionAfterExpirationRecovery.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *CheckoutSessionAfterExpirationRecovery) UnmarshalJSON(data []byte) error {
+	type checkoutSessionAfterExpirationRecovery CheckoutSessionAfterExpirationRecovery
+	v := struct {
+		ExpiresAt int64 `json:"expires_at"`
+		*checkoutSessionAfterExpirationRecovery
+	}{
+		checkoutSessionAfterExpirationRecovery: (*checkoutSessionAfterExpirationRecovery)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a CheckoutSession.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *CheckoutSession) UnmarshalJSON(data []byte) error {
+	type checkoutSession CheckoutSession
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		*checkoutSession
+	}{
+		checkoutSession: (*checkoutSession)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.Created = time.Unix(v.Created, 0)
+	c.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a CheckoutSessionAfterExpirationRecovery.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c CheckoutSessionAfterExpirationRecovery) MarshalJSON() ([]byte, error) {
+	type checkoutSessionAfterExpirationRecovery CheckoutSessionAfterExpirationRecovery
+	v := struct {
+		ExpiresAt int64 `json:"expires_at"`
+		checkoutSessionAfterExpirationRecovery
+	}{
+		checkoutSessionAfterExpirationRecovery: (checkoutSessionAfterExpirationRecovery)(c),
+		ExpiresAt:                              c.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a CheckoutSession.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c CheckoutSession) MarshalJSON() ([]byte, error) {
+	type checkoutSession CheckoutSession
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		checkoutSession
+	}{
+		checkoutSession: (checkoutSession)(c),
+		Created:         c.Created.Unix(),
+		ExpiresAt:       c.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

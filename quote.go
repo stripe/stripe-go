@@ -9,6 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/stripe/stripe-go/v81/form"
+	"time"
 )
 
 // Type of the account referenced.
@@ -388,7 +389,7 @@ type QuoteDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *QuoteDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -442,7 +443,7 @@ type QuoteLineItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *QuoteLineItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -532,7 +533,7 @@ type QuoteLineActionAddItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *QuoteLineActionAddItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -621,7 +622,7 @@ type QuoteLineActionSetItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *QuoteLineActionSetItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -736,7 +737,7 @@ type QuoteLineEndsAtParams struct {
 	// Time span for the quote line starting from the `starts_at` date.
 	Duration *QuoteLineEndsAtDurationParams `form:"duration"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// Select a way to pass in `ends_at`.
 	Type *string `form:"type"`
 }
@@ -776,7 +777,7 @@ type QuoteLineStartsAtParams struct {
 	// The timestamp the given line ends at.
 	LineEndsAt *QuoteLineStartsAtLineEndsAtParams `form:"line_ends_at"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// Select a way to pass in `starts_at`.
 	Type *string `form:"type"`
 }
@@ -832,7 +833,7 @@ type QuoteSubscriptionDataBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
 	LineStartsAt *QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// The type of method to specify the `bill_from` time.
 	Type *string `form:"type"`
 }
@@ -860,7 +861,7 @@ type QuoteSubscriptionDataBillOnAcceptanceBillUntilParams struct {
 	// Details of a Quote line item from which to bill until.
 	LineEndsAt *QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// The type of method to specify the `bill_until` time.
 	Type *string `form:"type"`
 }
@@ -890,8 +891,8 @@ type QuoteSubscriptionDataParams struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
-	EffectiveDate                 *int64 `form:"effective_date"`
-	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	EffectiveDate                 *time.Time `form:"effective_date"`
+	EffectiveDateCurrentPeriodEnd *bool      `form:"-"` // See custom AppendTo
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior *string `form:"end_behavior"`
 	// The id of a subscription that the quote will update. By default, the quote will contain the state of the subscription (such as line items, collection method and billing thresholds) unless overridden.
@@ -951,7 +952,7 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromParams struct {
 	// Details of a Quote line to start the bill period from.
 	LineStartsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAtParams `form:"line_starts_at"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// The type of method to specify the `bill_from` time.
 	Type *string `form:"type"`
 }
@@ -979,7 +980,7 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilParams struct {
 	// Details of a Quote line item from which to bill until.
 	LineEndsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAtParams `form:"line_ends_at"`
 	// A precise Unix timestamp.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// The type of method to specify the `bill_until` time.
 	Type *string `form:"type"`
 }
@@ -1050,7 +1051,7 @@ type QuoteParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch. If no value is passed, the default expiration date configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *time.Time `form:"expires_at"`
 	// A footer that will be displayed on the quote PDF. If no value is passed, the default footer configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
 	Footer *string `form:"footer"`
 	// Clone an existing quote. The new quote will be created in `status=draft`. When using this parameter, you cannot specify any other parameters except for `expires_at`.
@@ -1160,7 +1161,7 @@ type QuoteFinalizeQuoteParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// A future timestamp on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *time.Time `form:"expires_at"`
 }
 
 // AddExpand appends a new field to expand.
@@ -1373,7 +1374,7 @@ type QuoteComputed struct {
 	// The definitive totals and line items the customer will be charged on a recurring basis. Takes into account the line items with recurring prices and discounts with `duration=forever` coupons only. Defaults to `null` if no inputted line items with recurring prices.
 	Recurring *QuoteComputedRecurring `json:"recurring"`
 	// The time at which the quote's estimated schedules and upcoming invoices were generated.
-	UpdatedAt int64                 `json:"updated_at"`
+	UpdatedAt time.Time             `json:"updated_at"`
 	Upfront   *QuoteComputedUpfront `json:"upfront"`
 }
 
@@ -1399,13 +1400,13 @@ type QuoteStatusDetailsCanceled struct {
 	// The reason this quote was marked as canceled.
 	Reason QuoteStatusDetailsCanceledReason `json:"reason"`
 	// Time at which the quote was marked as canceled. Measured in seconds since the Unix epoch.
-	TransitionedAt int64 `json:"transitioned_at"`
+	TransitionedAt time.Time `json:"transitioned_at"`
 }
 
 // The IDs of the lines that are invalid if the stale reason type is `lines_invalid`.
 type QuoteStatusDetailsStaleLastReasonLinesInvalid struct {
 	// The timestamp at which the lines were marked as invalid.
-	InvalidAt int64 `json:"invalid_at"`
+	InvalidAt time.Time `json:"invalid_at"`
 	// The list of lines that became invalid at the given timestamp.
 	Lines []string `json:"lines"`
 }
@@ -1441,13 +1442,13 @@ type QuoteStatusDetailsStaleLastReason struct {
 }
 type QuoteStatusDetailsStale struct {
 	// Time at which the quote expires. Measured in seconds since the Unix epoch.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// The most recent reason this quote was marked as stale.
 	LastReason *QuoteStatusDetailsStaleLastReason `json:"last_reason"`
 	// Time at which the stale reason was updated. Measured in seconds since the Unix epoch.
-	LastUpdatedAt int64 `json:"last_updated_at"`
+	LastUpdatedAt time.Time `json:"last_updated_at"`
 	// Time at which the quote was marked as stale. Measured in seconds since the Unix epoch.
-	TransitionedAt int64 `json:"transitioned_at"`
+	TransitionedAt time.Time `json:"transitioned_at"`
 }
 
 // Details on when and why a quote has been marked as stale or canceled.
@@ -1457,11 +1458,11 @@ type QuoteStatusDetails struct {
 }
 type QuoteStatusTransitions struct {
 	// The time that the quote was accepted. Measured in seconds since Unix epoch.
-	AcceptedAt int64 `json:"accepted_at"`
+	AcceptedAt time.Time `json:"accepted_at"`
 	// The time that the quote was canceled. Measured in seconds since Unix epoch.
-	CanceledAt int64 `json:"canceled_at"`
+	CanceledAt time.Time `json:"canceled_at"`
 	// The time that the quote was finalized. Measured in seconds since Unix epoch.
-	FinalizedAt int64 `json:"finalized_at"`
+	FinalizedAt time.Time `json:"finalized_at"`
 }
 
 // The timestamp the given line starts at.
@@ -1473,11 +1474,11 @@ type QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAt struct {
 // The start of the period to bill from when the Quote is accepted.
 type QuoteSubscriptionDataBillOnAcceptanceBillFrom struct {
 	// The materialized time.
-	Computed int64 `json:"computed"`
+	Computed time.Time `json:"computed"`
 	// The timestamp the given line starts at.
 	LineStartsAt *QuoteSubscriptionDataBillOnAcceptanceBillFromLineStartsAt `json:"line_starts_at"`
 	// A precise Unix timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The type of method to specify the `bill_from` time.
 	Type QuoteSubscriptionDataBillOnAcceptanceBillFromType `json:"type"`
 }
@@ -1499,13 +1500,13 @@ type QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAt struct {
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataBillOnAcceptanceBillUntil struct {
 	// The materialized time.
-	Computed int64 `json:"computed"`
+	Computed time.Time `json:"computed"`
 	// Time span for the quote line starting from the `starts_at` date.
 	Duration *QuoteSubscriptionDataBillOnAcceptanceBillUntilDuration `json:"duration"`
 	// The timestamp the given line ends at.
 	LineEndsAt *QuoteSubscriptionDataBillOnAcceptanceBillUntilLineEndsAt `json:"line_ends_at"`
 	// A precise Unix timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The type of method to specify the `bill_until` time.
 	Type QuoteSubscriptionDataBillOnAcceptanceBillUntilType `json:"type"`
 }
@@ -1532,7 +1533,7 @@ type QuoteSubscriptionData struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.
-	EffectiveDate int64 `json:"effective_date"`
+	EffectiveDate time.Time `json:"effective_date"`
 	// Behavior of the subscription schedule and underlying subscription when it ends.
 	EndBehavior QuoteSubscriptionDataEndBehavior `json:"end_behavior"`
 	// The id of the subscription that will be updated when the quote is accepted.
@@ -1564,11 +1565,11 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAt struct {
 // The start of the period to bill from when the Quote is accepted.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom struct {
 	// The materialized time.
-	Computed int64 `json:"computed"`
+	Computed time.Time `json:"computed"`
 	// The timestamp the given line starts at.
 	LineStartsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromLineStartsAt `json:"line_starts_at"`
 	// A precise Unix timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The type of method to specify the `bill_from` time.
 	Type QuoteSubscriptionDataOverrideBillOnAcceptanceBillFromType `json:"type"`
 }
@@ -1590,13 +1591,13 @@ type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAt struct {
 // The end of the period to bill until when the Quote is accepted.
 type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil struct {
 	// The materialized time.
-	Computed int64 `json:"computed"`
+	Computed time.Time `json:"computed"`
 	// Time span for the quote line starting from the `starts_at` date.
 	Duration *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilDuration `json:"duration"`
 	// The timestamp the given line ends at.
 	LineEndsAt *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilLineEndsAt `json:"line_ends_at"`
 	// A precise Unix timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The type of method to specify the `bill_until` time.
 	Type QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntilType `json:"type"`
 }
@@ -1712,7 +1713,7 @@ type Quote struct {
 	CollectionMethod QuoteCollectionMethod `json:"collection_method"`
 	Computed         *QuoteComputed        `json:"computed"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The customer which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
@@ -1724,7 +1725,7 @@ type Quote struct {
 	// The discounts applied to this quote.
 	Discounts []*Discount `json:"discounts"`
 	// The date on which the quote will be canceled if in `open` or `draft` status. Measured in seconds since the Unix epoch.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// A footer that will be displayed on the quote PDF.
 	Footer string `json:"footer"`
 	// Details of the quote that was cloned. See the [cloning documentation](https://stripe.com/docs/quotes/clone) for more details.
@@ -1788,11 +1789,430 @@ func (q *Quote) UnmarshalJSON(data []byte) error {
 	}
 
 	type quote Quote
-	var v quote
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		*quote
+	}{
+		quote: (*quote)(q),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*q = Quote(v)
+	q.Created = time.Unix(v.Created, 0)
+	q.ExpiresAt = time.Unix(v.ExpiresAt, 0)
 	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteComputed.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteComputed) UnmarshalJSON(data []byte) error {
+	type quoteComputed QuoteComputed
+	v := struct {
+		UpdatedAt int64 `json:"updated_at"`
+		*quoteComputed
+	}{
+		quoteComputed: (*quoteComputed)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.UpdatedAt = time.Unix(v.UpdatedAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteStatusDetailsCanceled.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteStatusDetailsCanceled) UnmarshalJSON(data []byte) error {
+	type quoteStatusDetailsCanceled QuoteStatusDetailsCanceled
+	v := struct {
+		TransitionedAt int64 `json:"transitioned_at"`
+		*quoteStatusDetailsCanceled
+	}{
+		quoteStatusDetailsCanceled: (*quoteStatusDetailsCanceled)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.TransitionedAt = time.Unix(v.TransitionedAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteStatusDetailsStaleLastReasonLinesInvalid.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteStatusDetailsStaleLastReasonLinesInvalid) UnmarshalJSON(data []byte) error {
+	type quoteStatusDetailsStaleLastReasonLinesInvalid QuoteStatusDetailsStaleLastReasonLinesInvalid
+	v := struct {
+		InvalidAt int64 `json:"invalid_at"`
+		*quoteStatusDetailsStaleLastReasonLinesInvalid
+	}{
+		quoteStatusDetailsStaleLastReasonLinesInvalid: (*quoteStatusDetailsStaleLastReasonLinesInvalid)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.InvalidAt = time.Unix(v.InvalidAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteStatusDetailsStale.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteStatusDetailsStale) UnmarshalJSON(data []byte) error {
+	type quoteStatusDetailsStale QuoteStatusDetailsStale
+	v := struct {
+		ExpiresAt      int64 `json:"expires_at"`
+		LastUpdatedAt  int64 `json:"last_updated_at"`
+		TransitionedAt int64 `json:"transitioned_at"`
+		*quoteStatusDetailsStale
+	}{
+		quoteStatusDetailsStale: (*quoteStatusDetailsStale)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	q.LastUpdatedAt = time.Unix(v.LastUpdatedAt, 0)
+	q.TransitionedAt = time.Unix(v.TransitionedAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteStatusTransitions.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteStatusTransitions) UnmarshalJSON(data []byte) error {
+	type quoteStatusTransitions QuoteStatusTransitions
+	v := struct {
+		AcceptedAt  int64 `json:"accepted_at"`
+		CanceledAt  int64 `json:"canceled_at"`
+		FinalizedAt int64 `json:"finalized_at"`
+		*quoteStatusTransitions
+	}{
+		quoteStatusTransitions: (*quoteStatusTransitions)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.AcceptedAt = time.Unix(v.AcceptedAt, 0)
+	q.CanceledAt = time.Unix(v.CanceledAt, 0)
+	q.FinalizedAt = time.Unix(v.FinalizedAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteSubscriptionDataBillOnAcceptanceBillFrom.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteSubscriptionDataBillOnAcceptanceBillFrom) UnmarshalJSON(data []byte) error {
+	type quoteSubscriptionDataBillOnAcceptanceBillFrom QuoteSubscriptionDataBillOnAcceptanceBillFrom
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		*quoteSubscriptionDataBillOnAcceptanceBillFrom
+	}{
+		quoteSubscriptionDataBillOnAcceptanceBillFrom: (*quoteSubscriptionDataBillOnAcceptanceBillFrom)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Computed = time.Unix(v.Computed, 0)
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteSubscriptionDataBillOnAcceptanceBillUntil.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteSubscriptionDataBillOnAcceptanceBillUntil) UnmarshalJSON(data []byte) error {
+	type quoteSubscriptionDataBillOnAcceptanceBillUntil QuoteSubscriptionDataBillOnAcceptanceBillUntil
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		*quoteSubscriptionDataBillOnAcceptanceBillUntil
+	}{
+		quoteSubscriptionDataBillOnAcceptanceBillUntil: (*quoteSubscriptionDataBillOnAcceptanceBillUntil)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Computed = time.Unix(v.Computed, 0)
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteSubscriptionData.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteSubscriptionData) UnmarshalJSON(data []byte) error {
+	type quoteSubscriptionData QuoteSubscriptionData
+	v := struct {
+		EffectiveDate int64 `json:"effective_date"`
+		*quoteSubscriptionData
+	}{
+		quoteSubscriptionData: (*quoteSubscriptionData)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.EffectiveDate = time.Unix(v.EffectiveDate, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom) UnmarshalJSON(data []byte) error {
+	type quoteSubscriptionDataOverrideBillOnAcceptanceBillFrom QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		*quoteSubscriptionDataOverrideBillOnAcceptanceBillFrom
+	}{
+		quoteSubscriptionDataOverrideBillOnAcceptanceBillFrom: (*quoteSubscriptionDataOverrideBillOnAcceptanceBillFrom)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Computed = time.Unix(v.Computed, 0)
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil) UnmarshalJSON(data []byte) error {
+	type quoteSubscriptionDataOverrideBillOnAcceptanceBillUntil QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		*quoteSubscriptionDataOverrideBillOnAcceptanceBillUntil
+	}{
+		quoteSubscriptionDataOverrideBillOnAcceptanceBillUntil: (*quoteSubscriptionDataOverrideBillOnAcceptanceBillUntil)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Computed = time.Unix(v.Computed, 0)
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a QuoteComputed.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteComputed) MarshalJSON() ([]byte, error) {
+	type quoteComputed QuoteComputed
+	v := struct {
+		UpdatedAt int64 `json:"updated_at"`
+		quoteComputed
+	}{
+		quoteComputed: (quoteComputed)(q),
+		UpdatedAt:     q.UpdatedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteStatusDetailsCanceled.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteStatusDetailsCanceled) MarshalJSON() ([]byte, error) {
+	type quoteStatusDetailsCanceled QuoteStatusDetailsCanceled
+	v := struct {
+		TransitionedAt int64 `json:"transitioned_at"`
+		quoteStatusDetailsCanceled
+	}{
+		quoteStatusDetailsCanceled: (quoteStatusDetailsCanceled)(q),
+		TransitionedAt:             q.TransitionedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteStatusDetailsStaleLastReasonLinesInvalid.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteStatusDetailsStaleLastReasonLinesInvalid) MarshalJSON() ([]byte, error) {
+	type quoteStatusDetailsStaleLastReasonLinesInvalid QuoteStatusDetailsStaleLastReasonLinesInvalid
+	v := struct {
+		InvalidAt int64 `json:"invalid_at"`
+		quoteStatusDetailsStaleLastReasonLinesInvalid
+	}{
+		quoteStatusDetailsStaleLastReasonLinesInvalid: (quoteStatusDetailsStaleLastReasonLinesInvalid)(q),
+		InvalidAt: q.InvalidAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteStatusDetailsStale.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteStatusDetailsStale) MarshalJSON() ([]byte, error) {
+	type quoteStatusDetailsStale QuoteStatusDetailsStale
+	v := struct {
+		ExpiresAt      int64 `json:"expires_at"`
+		LastUpdatedAt  int64 `json:"last_updated_at"`
+		TransitionedAt int64 `json:"transitioned_at"`
+		quoteStatusDetailsStale
+	}{
+		quoteStatusDetailsStale: (quoteStatusDetailsStale)(q),
+		ExpiresAt:               q.ExpiresAt.Unix(),
+		LastUpdatedAt:           q.LastUpdatedAt.Unix(),
+		TransitionedAt:          q.TransitionedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteStatusTransitions.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteStatusTransitions) MarshalJSON() ([]byte, error) {
+	type quoteStatusTransitions QuoteStatusTransitions
+	v := struct {
+		AcceptedAt  int64 `json:"accepted_at"`
+		CanceledAt  int64 `json:"canceled_at"`
+		FinalizedAt int64 `json:"finalized_at"`
+		quoteStatusTransitions
+	}{
+		quoteStatusTransitions: (quoteStatusTransitions)(q),
+		AcceptedAt:             q.AcceptedAt.Unix(),
+		CanceledAt:             q.CanceledAt.Unix(),
+		FinalizedAt:            q.FinalizedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteSubscriptionDataBillOnAcceptanceBillFrom.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteSubscriptionDataBillOnAcceptanceBillFrom) MarshalJSON() ([]byte, error) {
+	type quoteSubscriptionDataBillOnAcceptanceBillFrom QuoteSubscriptionDataBillOnAcceptanceBillFrom
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		quoteSubscriptionDataBillOnAcceptanceBillFrom
+	}{
+		quoteSubscriptionDataBillOnAcceptanceBillFrom: (quoteSubscriptionDataBillOnAcceptanceBillFrom)(q),
+		Computed:  q.Computed.Unix(),
+		Timestamp: q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteSubscriptionDataBillOnAcceptanceBillUntil.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteSubscriptionDataBillOnAcceptanceBillUntil) MarshalJSON() ([]byte, error) {
+	type quoteSubscriptionDataBillOnAcceptanceBillUntil QuoteSubscriptionDataBillOnAcceptanceBillUntil
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		quoteSubscriptionDataBillOnAcceptanceBillUntil
+	}{
+		quoteSubscriptionDataBillOnAcceptanceBillUntil: (quoteSubscriptionDataBillOnAcceptanceBillUntil)(q),
+		Computed:  q.Computed.Unix(),
+		Timestamp: q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteSubscriptionData.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteSubscriptionData) MarshalJSON() ([]byte, error) {
+	type quoteSubscriptionData QuoteSubscriptionData
+	v := struct {
+		EffectiveDate int64 `json:"effective_date"`
+		quoteSubscriptionData
+	}{
+		quoteSubscriptionData: (quoteSubscriptionData)(q),
+		EffectiveDate:         q.EffectiveDate.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom) MarshalJSON() ([]byte, error) {
+	type quoteSubscriptionDataOverrideBillOnAcceptanceBillFrom QuoteSubscriptionDataOverrideBillOnAcceptanceBillFrom
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		quoteSubscriptionDataOverrideBillOnAcceptanceBillFrom
+	}{
+		quoteSubscriptionDataOverrideBillOnAcceptanceBillFrom: (quoteSubscriptionDataOverrideBillOnAcceptanceBillFrom)(q),
+		Computed:  q.Computed.Unix(),
+		Timestamp: q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil) MarshalJSON() ([]byte, error) {
+	type quoteSubscriptionDataOverrideBillOnAcceptanceBillUntil QuoteSubscriptionDataOverrideBillOnAcceptanceBillUntil
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		quoteSubscriptionDataOverrideBillOnAcceptanceBillUntil
+	}{
+		quoteSubscriptionDataOverrideBillOnAcceptanceBillUntil: (quoteSubscriptionDataOverrideBillOnAcceptanceBillUntil)(q),
+		Computed:  q.Computed.Unix(),
+		Timestamp: q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a Quote.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q Quote) MarshalJSON() ([]byte, error) {
+	type quote Quote
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		quote
+	}{
+		quote:     (quote)(q),
+		Created:   q.Created.Unix(),
+		ExpiresAt: q.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

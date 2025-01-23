@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Reason for the cancellation of this order.
 type ClimateOrderCancellationReason string
 
@@ -118,7 +123,7 @@ type ClimateOrderDeliveryDetailLocation struct {
 // Details about the delivery of carbon removal for this order.
 type ClimateOrderDeliveryDetail struct {
 	// Time at which the delivery occurred. Measured in seconds since the Unix epoch.
-	DeliveredAt int64 `json:"delivered_at"`
+	DeliveredAt time.Time `json:"delivered_at"`
 	// Specific location of this delivery.
 	Location *ClimateOrderDeliveryDetailLocation `json:"location"`
 	// Quantity of carbon removal supplied by this delivery.
@@ -141,21 +146,21 @@ type ClimateOrder struct {
 	AmountTotal int64                    `json:"amount_total"`
 	Beneficiary *ClimateOrderBeneficiary `json:"beneficiary"`
 	// Time at which the order was canceled. Measured in seconds since the Unix epoch.
-	CanceledAt int64 `json:"canceled_at"`
+	CanceledAt time.Time `json:"canceled_at"`
 	// Reason for the cancellation of this order.
 	CancellationReason ClimateOrderCancellationReason `json:"cancellation_reason"`
 	// For delivered orders, a URL to a delivery certificate for the order.
 	Certificate string `json:"certificate"`
 	// Time at which the order was confirmed. Measured in seconds since the Unix epoch.
-	ConfirmedAt int64 `json:"confirmed_at"`
+	ConfirmedAt time.Time `json:"confirmed_at"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase, representing the currency for this order.
 	Currency Currency `json:"currency"`
 	// Time at which the order's expected_delivery_year was delayed. Measured in seconds since the Unix epoch.
-	DelayedAt int64 `json:"delayed_at"`
+	DelayedAt time.Time `json:"delayed_at"`
 	// Time at which the order was delivered. Measured in seconds since the Unix epoch.
-	DeliveredAt int64 `json:"delivered_at"`
+	DeliveredAt time.Time `json:"delivered_at"`
 	// Details about the delivery of carbon removal for this order.
 	DeliveryDetails []*ClimateOrderDeliveryDetail `json:"delivery_details"`
 	// The year this order is expected to be delivered.
@@ -173,7 +178,7 @@ type ClimateOrder struct {
 	// Unique ID for the Climate `Product` this order is purchasing.
 	Product *ClimateProduct `json:"product"`
 	// Time at which the order's product was substituted for a different product. Measured in seconds since the Unix epoch.
-	ProductSubstitutedAt int64 `json:"product_substituted_at"`
+	ProductSubstitutedAt time.Time `json:"product_substituted_at"`
 	// The current status of this order.
 	Status ClimateOrderStatus `json:"status"`
 }
@@ -183,4 +188,96 @@ type ClimateOrderList struct {
 	APIResource
 	ListMeta
 	Data []*ClimateOrder `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a ClimateOrderDeliveryDetail.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *ClimateOrderDeliveryDetail) UnmarshalJSON(data []byte) error {
+	type climateOrderDeliveryDetail ClimateOrderDeliveryDetail
+	v := struct {
+		DeliveredAt int64 `json:"delivered_at"`
+		*climateOrderDeliveryDetail
+	}{
+		climateOrderDeliveryDetail: (*climateOrderDeliveryDetail)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.DeliveredAt = time.Unix(v.DeliveredAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a ClimateOrder.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *ClimateOrder) UnmarshalJSON(data []byte) error {
+	type climateOrder ClimateOrder
+	v := struct {
+		CanceledAt           int64 `json:"canceled_at"`
+		ConfirmedAt          int64 `json:"confirmed_at"`
+		Created              int64 `json:"created"`
+		DelayedAt            int64 `json:"delayed_at"`
+		DeliveredAt          int64 `json:"delivered_at"`
+		ProductSubstitutedAt int64 `json:"product_substituted_at"`
+		*climateOrder
+	}{
+		climateOrder: (*climateOrder)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.CanceledAt = time.Unix(v.CanceledAt, 0)
+	c.ConfirmedAt = time.Unix(v.ConfirmedAt, 0)
+	c.Created = time.Unix(v.Created, 0)
+	c.DelayedAt = time.Unix(v.DelayedAt, 0)
+	c.DeliveredAt = time.Unix(v.DeliveredAt, 0)
+	c.ProductSubstitutedAt = time.Unix(v.ProductSubstitutedAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a ClimateOrderDeliveryDetail.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c ClimateOrderDeliveryDetail) MarshalJSON() ([]byte, error) {
+	type climateOrderDeliveryDetail ClimateOrderDeliveryDetail
+	v := struct {
+		DeliveredAt int64 `json:"delivered_at"`
+		climateOrderDeliveryDetail
+	}{
+		climateOrderDeliveryDetail: (climateOrderDeliveryDetail)(c),
+		DeliveredAt:                c.DeliveredAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a ClimateOrder.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c ClimateOrder) MarshalJSON() ([]byte, error) {
+	type climateOrder ClimateOrder
+	v := struct {
+		CanceledAt           int64 `json:"canceled_at"`
+		ConfirmedAt          int64 `json:"confirmed_at"`
+		Created              int64 `json:"created"`
+		DelayedAt            int64 `json:"delayed_at"`
+		DeliveredAt          int64 `json:"delivered_at"`
+		ProductSubstitutedAt int64 `json:"product_substituted_at"`
+		climateOrder
+	}{
+		climateOrder:         (climateOrder)(c),
+		CanceledAt:           c.CanceledAt.Unix(),
+		ConfirmedAt:          c.ConfirmedAt.Unix(),
+		Created:              c.Created.Unix(),
+		DelayedAt:            c.DelayedAt.Unix(),
+		DeliveredAt:          c.DeliveredAt.Unix(),
+		ProductSubstitutedAt: c.ProductSubstitutedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

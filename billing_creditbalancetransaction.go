@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The type of this amount. We currently only support `monetary` billing credits.
 type BillingCreditBalanceTransactionCreditAmountType string
@@ -146,7 +149,7 @@ type BillingCreditBalanceTransactionDebit struct {
 type BillingCreditBalanceTransaction struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Credit details for this credit balance transaction. Only present if type is `credit`.
 	Credit *BillingCreditBalanceTransactionCredit `json:"credit"`
 	// The credit grant associated with this credit balance transaction.
@@ -154,7 +157,7 @@ type BillingCreditBalanceTransaction struct {
 	// Debit details for this credit balance transaction. Only present if type is `debit`.
 	Debit *BillingCreditBalanceTransactionDebit `json:"debit"`
 	// The effective time of this credit balance transaction.
-	EffectiveAt int64 `json:"effective_at"`
+	EffectiveAt time.Time `json:"effective_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -184,11 +187,38 @@ func (b *BillingCreditBalanceTransaction) UnmarshalJSON(data []byte) error {
 	}
 
 	type billingCreditBalanceTransaction BillingCreditBalanceTransaction
-	var v billingCreditBalanceTransaction
+	v := struct {
+		Created     int64 `json:"created"`
+		EffectiveAt int64 `json:"effective_at"`
+		*billingCreditBalanceTransaction
+	}{
+		billingCreditBalanceTransaction: (*billingCreditBalanceTransaction)(b),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*b = BillingCreditBalanceTransaction(v)
+	b.Created = time.Unix(v.Created, 0)
+	b.EffectiveAt = time.Unix(v.EffectiveAt, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a BillingCreditBalanceTransaction.
+// This custom marshaling is needed to handle the time fields correctly.
+func (b BillingCreditBalanceTransaction) MarshalJSON() ([]byte, error) {
+	type billingCreditBalanceTransaction BillingCreditBalanceTransaction
+	v := struct {
+		Created     int64 `json:"created"`
+		EffectiveAt int64 `json:"effective_at"`
+		billingCreditBalanceTransaction
+	}{
+		billingCreditBalanceTransaction: (billingCreditBalanceTransaction)(b),
+		Created:                         b.Created.Unix(),
+		EffectiveAt:                     b.EffectiveAt.Unix(),
+	}
+	bb, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return bb, err
 }

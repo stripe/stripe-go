@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The card network for this settlement report. One of ["visa", "maestro"]
 type IssuingSettlementNetwork string
@@ -31,9 +34,9 @@ type IssuingSettlement struct {
 	// The Bank Identification Number reflecting this settlement record.
 	Bin string `json:"bin"`
 	// The date that the transactions are cleared and posted to user's accounts.
-	ClearingDate int64 `json:"clearing_date"`
+	ClearingDate time.Time `json:"clearing_date"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Unique identifier for the object.
@@ -74,11 +77,38 @@ func (i *IssuingSettlement) UnmarshalJSON(data []byte) error {
 	}
 
 	type issuingSettlement IssuingSettlement
-	var v issuingSettlement
+	v := struct {
+		ClearingDate int64 `json:"clearing_date"`
+		Created      int64 `json:"created"`
+		*issuingSettlement
+	}{
+		issuingSettlement: (*issuingSettlement)(i),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = IssuingSettlement(v)
+	i.ClearingDate = time.Unix(v.ClearingDate, 0)
+	i.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of an IssuingSettlement.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i IssuingSettlement) MarshalJSON() ([]byte, error) {
+	type issuingSettlement IssuingSettlement
+	v := struct {
+		ClearingDate int64 `json:"clearing_date"`
+		Created      int64 `json:"created"`
+		issuingSettlement
+	}{
+		issuingSettlement: (issuingSettlement)(i),
+		ClearingDate:      i.ClearingDate.Unix(),
+		Created:           i.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

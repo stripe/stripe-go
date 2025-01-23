@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The source balance this transfer came from. One of `card`, `fpx`, or `bank_account`.
 type TransferSourceType string
@@ -94,7 +97,7 @@ type Transfer struct {
 	// Balance transaction that describes the impact of this transfer on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// Time that this record of the transfer was first created.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -140,11 +143,34 @@ func (t *Transfer) UnmarshalJSON(data []byte) error {
 	}
 
 	type transfer Transfer
-	var v transfer
+	v := struct {
+		Created int64 `json:"created"`
+		*transfer
+	}{
+		transfer: (*transfer)(t),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*t = Transfer(v)
+	t.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a Transfer.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t Transfer) MarshalJSON() ([]byte, error) {
+	type transfer Transfer
+	v := struct {
+		Created int64 `json:"created"`
+		transfer
+	}{
+		transfer: (transfer)(t),
+		Created:  t.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

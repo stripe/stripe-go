@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Reason the notice is being sent. The reason determines what copy the notice must contain. See the [regulated customer notices](https://stripe.com/docs/issuing/compliance-us/issuing-regulated-customer-notices) guide. All reasons might not apply to your integration, and Stripe might add new reasons in the future, so we recommend an internal warning when you receive an unknown reason.
 type AccountNoticeReason string
 
@@ -50,7 +55,7 @@ type AccountNoticeParams struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Date when you sent the notice.
-	SentAt *int64 `form:"sent_at"`
+	SentAt *time.Time `form:"sent_at"`
 }
 
 // AddExpand appends a new field to expand.
@@ -103,9 +108,9 @@ type AccountNoticeLinkedObjects struct {
 type AccountNotice struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// When present, the deadline for sending the notice to meet the relevant regulations.
-	Deadline int64 `json:"deadline"`
+	Deadline time.Time `json:"deadline"`
 	// Information about the email when sent.
 	Email *AccountNoticeEmail `json:"email"`
 	// Unique identifier for the object.
@@ -121,7 +126,7 @@ type AccountNotice struct {
 	// Reason the notice is being sent. The reason determines what copy the notice must contain. See the [regulated customer notices](https://stripe.com/docs/issuing/compliance-us/issuing-regulated-customer-notices) guide. All reasons might not apply to your integration, and Stripe might add new reasons in the future, so we recommend an internal warning when you receive an unknown reason.
 	Reason AccountNoticeReason `json:"reason"`
 	// Date when the notice was sent. When absent, you must send the notice, update the content of the email and date when it was sent.
-	SentAt int64 `json:"sent_at"`
+	SentAt time.Time `json:"sent_at"`
 }
 
 // AccountNoticeList is a list of AccountNotices as retrieved from a list endpoint.
@@ -129,4 +134,48 @@ type AccountNoticeList struct {
 	APIResource
 	ListMeta
 	Data []*AccountNotice `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of an AccountNotice.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (a *AccountNotice) UnmarshalJSON(data []byte) error {
+	type accountNotice AccountNotice
+	v := struct {
+		Created  int64 `json:"created"`
+		Deadline int64 `json:"deadline"`
+		SentAt   int64 `json:"sent_at"`
+		*accountNotice
+	}{
+		accountNotice: (*accountNotice)(a),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	a.Created = time.Unix(v.Created, 0)
+	a.Deadline = time.Unix(v.Deadline, 0)
+	a.SentAt = time.Unix(v.SentAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an AccountNotice.
+// This custom marshaling is needed to handle the time fields correctly.
+func (a AccountNotice) MarshalJSON() ([]byte, error) {
+	type accountNotice AccountNotice
+	v := struct {
+		Created  int64 `json:"created"`
+		Deadline int64 `json:"deadline"`
+		SentAt   int64 `json:"sent_at"`
+		accountNotice
+	}{
+		accountNotice: (accountNotice)(a),
+		Created:       a.Created.Unix(),
+		Deadline:      a.Deadline.Unix(),
+		SentAt:        a.SentAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Type of the token: `account`, `bank_account`, `card`, or `pii`.
 type TokenType string
 
@@ -107,7 +112,7 @@ type Token struct {
 	// IP address of the client that generates the token.
 	ClientIP string `json:"client_ip"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -118,4 +123,40 @@ type Token struct {
 	Type TokenType `json:"type"`
 	// Determines if you have already used this token (you can only use tokens once).
 	Used bool `json:"used"`
+}
+
+// UnmarshalJSON handles deserialization of a Token.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *Token) UnmarshalJSON(data []byte) error {
+	type token Token
+	v := struct {
+		Created int64 `json:"created"`
+		*token
+	}{
+		token: (*token)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a Token.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t Token) MarshalJSON() ([]byte, error) {
+	type token Token
+	v := struct {
+		Created int64 `json:"created"`
+		token
+	}{
+		token:   (token)(t),
+		Created: t.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The types of customer updates that are supported. When empty, customers are not updateable.
 type BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate string
@@ -330,7 +333,7 @@ type BillingPortalConfiguration struct {
 	Application     *Application                               `json:"application"`
 	BusinessProfile *BillingPortalConfigurationBusinessProfile `json:"business_profile"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
 	DefaultReturnURL string                              `json:"default_return_url"`
 	Features         *BillingPortalConfigurationFeatures `json:"features"`
@@ -346,7 +349,7 @@ type BillingPortalConfiguration struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
-	Updated int64 `json:"updated"`
+	Updated time.Time `json:"updated"`
 }
 
 // BillingPortalConfigurationList is a list of Configurations as retrieved from a list endpoint.
@@ -366,11 +369,38 @@ func (b *BillingPortalConfiguration) UnmarshalJSON(data []byte) error {
 	}
 
 	type billingPortalConfiguration BillingPortalConfiguration
-	var v billingPortalConfiguration
+	v := struct {
+		Created int64 `json:"created"`
+		Updated int64 `json:"updated"`
+		*billingPortalConfiguration
+	}{
+		billingPortalConfiguration: (*billingPortalConfiguration)(b),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*b = BillingPortalConfiguration(v)
+	b.Created = time.Unix(v.Created, 0)
+	b.Updated = time.Unix(v.Updated, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a BillingPortalConfiguration.
+// This custom marshaling is needed to handle the time fields correctly.
+func (b BillingPortalConfiguration) MarshalJSON() ([]byte, error) {
+	type billingPortalConfiguration BillingPortalConfiguration
+	v := struct {
+		Created int64 `json:"created"`
+		Updated int64 `json:"updated"`
+		billingPortalConfiguration
+	}{
+		billingPortalConfiguration: (billingPortalConfiguration)(b),
+		Created:                    b.Created.Unix(),
+		Updated:                    b.Updated.Unix(),
+	}
+	bb, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return bb, err
 }

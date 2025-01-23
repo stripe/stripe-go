@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // List of eligibility types that are included in `enhanced_evidence`.
 type DisputeEnhancedEligibilityType string
@@ -415,7 +418,7 @@ type DisputeEvidenceDetailsEnhancedEligibility struct {
 }
 type DisputeEvidenceDetails struct {
 	// Date by which evidence must be submitted in order to successfully challenge dispute. Will be 0 if the customer's bank or credit card company doesn't allow a response for this particular dispute.
-	DueBy               int64                                      `json:"due_by"`
+	DueBy               time.Time                                  `json:"due_by"`
 	EnhancedEligibility *DisputeEvidenceDetailsEnhancedEligibility `json:"enhanced_eligibility"`
 	// Whether evidence has been staged for this dispute.
 	HasEvidence bool `json:"has_evidence"`
@@ -469,7 +472,7 @@ type Dispute struct {
 	// ID of the charge that's disputed.
 	Charge *Charge `json:"charge"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// List of eligibility types that are included in `enhanced_evidence`.
@@ -514,11 +517,70 @@ func (d *Dispute) UnmarshalJSON(data []byte) error {
 	}
 
 	type dispute Dispute
-	var v dispute
+	v := struct {
+		Created int64 `json:"created"`
+		*dispute
+	}{
+		dispute: (*dispute)(d),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*d = Dispute(v)
+	d.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// UnmarshalJSON handles deserialization of a DisputeEvidenceDetails.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (d *DisputeEvidenceDetails) UnmarshalJSON(data []byte) error {
+	type disputeEvidenceDetails DisputeEvidenceDetails
+	v := struct {
+		DueBy int64 `json:"due_by"`
+		*disputeEvidenceDetails
+	}{
+		disputeEvidenceDetails: (*disputeEvidenceDetails)(d),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	d.DueBy = time.Unix(v.DueBy, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a DisputeEvidenceDetails.
+// This custom marshaling is needed to handle the time fields correctly.
+func (d DisputeEvidenceDetails) MarshalJSON() ([]byte, error) {
+	type disputeEvidenceDetails DisputeEvidenceDetails
+	v := struct {
+		DueBy int64 `json:"due_by"`
+		disputeEvidenceDetails
+	}{
+		disputeEvidenceDetails: (disputeEvidenceDetails)(d),
+		DueBy:                  d.DueBy.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a Dispute.
+// This custom marshaling is needed to handle the time fields correctly.
+func (d Dispute) MarshalJSON() ([]byte, error) {
+	type dispute Dispute
+	v := struct {
+		Created int64 `json:"created"`
+		dispute
+	}{
+		dispute: (dispute)(d),
+		Created: d.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

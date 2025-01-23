@@ -14,6 +14,7 @@ import (
 	"mime/multipart"
 	"net/url"
 	"path/filepath"
+	"time"
 )
 
 // The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
@@ -64,7 +65,7 @@ type FileFileLinkDataParams struct {
 	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `issuing_regulatory_reporting`, `pci_document`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
 	Create *bool `form:"create"`
 	// The link isn't available after this future timestamp.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *time.Time `form:"expires_at"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 }
@@ -111,9 +112,9 @@ func (p *FileParams) AddExpand(f string) {
 type File struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The file expires and isn't available at this time in epoch seconds.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// The suitable name for saving the file to a filesystem.
 	Filename string `json:"filename"`
 	// Unique identifier for the object.
@@ -204,11 +205,38 @@ func (f *File) UnmarshalJSON(data []byte) error {
 	}
 
 	type file File
-	var v file
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		*file
+	}{
+		file: (*file)(f),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*f = File(v)
+	f.Created = time.Unix(v.Created, 0)
+	f.ExpiresAt = time.Unix(v.ExpiresAt, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a File.
+// This custom marshaling is needed to handle the time fields correctly.
+func (f File) MarshalJSON() ([]byte, error) {
+	type file File
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		file
+	}{
+		file:      (file)(f),
+		Created:   f.Created.Unix(),
+		ExpiresAt: f.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

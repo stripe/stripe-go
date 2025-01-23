@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The type of data collected by the reader.
 type TerminalReaderCollectedDataType string
 
@@ -36,7 +41,7 @@ type TerminalReaderCollectedDataMagstripe struct {
 type TerminalReaderCollectedData struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -47,4 +52,40 @@ type TerminalReaderCollectedData struct {
 	Object string `json:"object"`
 	// The type of data collected by the reader.
 	Type TerminalReaderCollectedDataType `json:"type"`
+}
+
+// UnmarshalJSON handles deserialization of a TerminalReaderCollectedData.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *TerminalReaderCollectedData) UnmarshalJSON(data []byte) error {
+	type terminalReaderCollectedData TerminalReaderCollectedData
+	v := struct {
+		Created int64 `json:"created"`
+		*terminalReaderCollectedData
+	}{
+		terminalReaderCollectedData: (*terminalReaderCollectedData)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a TerminalReaderCollectedData.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TerminalReaderCollectedData) MarshalJSON() ([]byte, error) {
+	type terminalReaderCollectedData TerminalReaderCollectedData
+	v := struct {
+		Created int64 `json:"created"`
+		terminalReaderCollectedData
+	}{
+		terminalReaderCollectedData: (terminalReaderCollectedData)(t),
+		Created:                     t.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }
