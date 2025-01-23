@@ -469,8 +469,8 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 }
 
 func makeTypeEncoder(t reflect.Type) encoderFunc {
-	// For time.Time, we want to encode it as a Unix timestamp,
-	// and don't want to recurse into it.
+	// For time.Time, we want to encode imediately it as a Unix timestamp,
+	// and don't want to inspect into it and encode it as a struct.
 	if t == reflect.TypeOf(time.Time{}) {
 		return timeEncoder
 	}
