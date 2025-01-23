@@ -1,5 +1,9 @@
 # Changelog
 
+## 81.3.0-beta.3 - 2025-01-23
+* [#1971](https://github.com/stripe/stripe-go/pull/1971) Update generated code for beta
+  * Remove support for `StripeAccount` on `TerminalReaderActionCollectPaymentMethod`, `TerminalReaderActionConfirmPaymentIntent`, `TerminalReaderActionProcessPaymentIntent`, and `TerminalReaderActionRefundPayment`
+
 ## 81.3.0-beta.2 - 2025-01-17
 * [#1963](https://github.com/stripe/stripe-go/pull/1963) Update generated code for beta
   * Add support for `PayByBankPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
