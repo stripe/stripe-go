@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // This is typed as an enum for consistency with `requirements.disabled_reason`, but it safe to assume `future_requirements.disabled_reason` is null because fields in `future_requirements` will never disable the account.
 type CapabilityFutureRequirementsDisabledReason string
 
@@ -103,7 +108,7 @@ type CapabilityFutureRequirements struct {
 	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 	Alternatives []*CapabilityFutureRequirementsAlternative `json:"alternatives"`
 	// Date on which `future_requirements` becomes the main `requirements` hash and `future_requirements` becomes empty. After the transition, `currently_due` requirements may immediately become `past_due`, but the account may also be given a grace period depending on the capability's enablement state prior to transitioning.
-	CurrentDeadline int64 `json:"current_deadline"`
+	CurrentDeadline time.Time `json:"current_deadline"`
 	// Fields that need to be collected to keep the capability enabled. If not collected by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
 	CurrentlyDue []string `json:"currently_due"`
 	// This is typed as an enum for consistency with `requirements.disabled_reason`, but it safe to assume `future_requirements.disabled_reason` is null because fields in `future_requirements` will never disable the account.
@@ -129,7 +134,7 @@ type CapabilityRequirements struct {
 	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 	Alternatives []*CapabilityRequirementsAlternative `json:"alternatives"`
 	// Date by which the fields in `currently_due` must be collected to keep the capability enabled for the account. These fields may disable the capability sooner if the next threshold is reached before they are collected.
-	CurrentDeadline int64 `json:"current_deadline"`
+	CurrentDeadline time.Time `json:"current_deadline"`
 	// Fields that need to be collected to keep the capability enabled. If not collected by `current_deadline`, these fields appear in `past_due` as well, and the capability is disabled.
 	CurrentlyDue []string `json:"currently_due"`
 	// Description of why the capability is disabled. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification).
@@ -159,7 +164,7 @@ type Capability struct {
 	// Whether the capability has been requested.
 	Requested bool `json:"requested"`
 	// Time at which the capability was requested. Measured in seconds since the Unix epoch.
-	RequestedAt  int64                   `json:"requested_at"`
+	RequestedAt  time.Time               `json:"requested_at"`
 	Requirements *CapabilityRequirements `json:"requirements"`
 	// The status of the capability.
 	Status CapabilityStatus `json:"status"`
@@ -170,4 +175,112 @@ type CapabilityList struct {
 	APIResource
 	ListMeta
 	Data []*Capability `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a CapabilityFutureRequirements.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *CapabilityFutureRequirements) UnmarshalJSON(data []byte) error {
+	type capabilityFutureRequirements CapabilityFutureRequirements
+	v := struct {
+		CurrentDeadline int64 `json:"current_deadline"`
+		*capabilityFutureRequirements
+	}{
+		capabilityFutureRequirements: (*capabilityFutureRequirements)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.CurrentDeadline = time.Unix(v.CurrentDeadline, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a CapabilityRequirements.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *CapabilityRequirements) UnmarshalJSON(data []byte) error {
+	type capabilityRequirements CapabilityRequirements
+	v := struct {
+		CurrentDeadline int64 `json:"current_deadline"`
+		*capabilityRequirements
+	}{
+		capabilityRequirements: (*capabilityRequirements)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.CurrentDeadline = time.Unix(v.CurrentDeadline, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a Capability.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *Capability) UnmarshalJSON(data []byte) error {
+	type capability Capability
+	v := struct {
+		RequestedAt int64 `json:"requested_at"`
+		*capability
+	}{
+		capability: (*capability)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.RequestedAt = time.Unix(v.RequestedAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a CapabilityFutureRequirements.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c CapabilityFutureRequirements) MarshalJSON() ([]byte, error) {
+	type capabilityFutureRequirements CapabilityFutureRequirements
+	v := struct {
+		CurrentDeadline int64 `json:"current_deadline"`
+		capabilityFutureRequirements
+	}{
+		capabilityFutureRequirements: (capabilityFutureRequirements)(c),
+		CurrentDeadline:              c.CurrentDeadline.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a CapabilityRequirements.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c CapabilityRequirements) MarshalJSON() ([]byte, error) {
+	type capabilityRequirements CapabilityRequirements
+	v := struct {
+		CurrentDeadline int64 `json:"current_deadline"`
+		capabilityRequirements
+	}{
+		capabilityRequirements: (capabilityRequirements)(c),
+		CurrentDeadline:        c.CurrentDeadline.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a Capability.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c Capability) MarshalJSON() ([]byte, error) {
+	type capability Capability
+	v := struct {
+		RequestedAt int64 `json:"requested_at"`
+		capability
+	}{
+		capability:  (capability)(c),
+		RequestedAt: c.RequestedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

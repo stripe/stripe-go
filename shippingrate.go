@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // A unit of time.
 type ShippingRateDeliveryEstimateMaximumUnit string
@@ -206,7 +209,7 @@ type ShippingRate struct {
 	// Whether the shipping rate can be used for new purchases. Defaults to `true`.
 	Active bool `json:"active"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DeliveryEstimate *ShippingRateDeliveryEstimate `json:"delivery_estimate"`
 	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
@@ -245,11 +248,34 @@ func (s *ShippingRate) UnmarshalJSON(data []byte) error {
 	}
 
 	type shippingRate ShippingRate
-	var v shippingRate
+	v := struct {
+		Created int64 `json:"created"`
+		*shippingRate
+	}{
+		shippingRate: (*shippingRate)(s),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*s = ShippingRate(v)
+	s.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a ShippingRate.
+// This custom marshaling is needed to handle the time fields correctly.
+func (s ShippingRate) MarshalJSON() ([]byte, error) {
+	type shippingRate ShippingRate
+	v := struct {
+		Created int64 `json:"created"`
+		shippingRate
+	}{
+		shippingRate: (shippingRate)(s),
+		Created:      s.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

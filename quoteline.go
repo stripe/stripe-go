@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The discount end type.
 type QuoteLineActionAddDiscountDiscountEndType string
 
@@ -217,7 +222,7 @@ type QuoteLineActionAddDiscount struct {
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionAddItemDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The discount end type.
 	Type QuoteLineActionAddItemDiscountDiscountEndType `json:"type"`
 }
@@ -261,7 +266,7 @@ type QuoteLineActionAddItem struct {
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionRemoveDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The discount end type.
 	Type QuoteLineActionRemoveDiscountDiscountEndType `json:"type"`
 }
@@ -287,7 +292,7 @@ type QuoteLineActionRemoveItem struct {
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionSetDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The discount end type.
 	Type QuoteLineActionSetDiscountDiscountEndType `json:"type"`
 }
@@ -307,7 +312,7 @@ type QuoteLineActionSetDiscount struct {
 // Details to determine how long the discount should be applied for.
 type QuoteLineActionSetItemDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The discount end type.
 	Type QuoteLineActionSetItemDiscountDiscountEndType `json:"type"`
 }
@@ -409,13 +414,13 @@ type QuoteLineEndsAtDuration struct {
 // Details to identify the end of the time range modified by the proposed change. If not supplied, the quote line is considered a point-in-time operation that only affects the exact timestamp at `starts_at`, and a restricted set of attributes is supported on the quote line.
 type QuoteLineEndsAt struct {
 	// The timestamp value that will be used to determine when to make changes to the subscription schedule, as computed from the `ends_at` field. For example, if `ends_at[type]=upcoming_invoice`, the upcoming invoice date will be computed at the time the `ends_at` field was specified and saved. This field will not be recomputed upon future requests to update or finalize the quote unless `ends_at` is respecified. This field is guaranteed to be populated after quote acceptance.
-	Computed int64 `json:"computed"`
+	Computed time.Time `json:"computed"`
 	// Use the `end` time of a given discount.
 	DiscountEnd *QuoteLineEndsAtDiscountEnd `json:"discount_end"`
 	// Time span for the quote line starting from the `starts_at` date.
 	Duration *QuoteLineEndsAtDuration `json:"duration"`
 	// A precise Unix timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// Select a way to pass in `ends_at`.
 	Type QuoteLineEndsAtType `json:"type"`
 }
@@ -449,13 +454,13 @@ type QuoteLineStartsAtLineEndsAt struct {
 // Details to identify the earliest timestamp where the proposed change should take effect.
 type QuoteLineStartsAt struct {
 	// The timestamp value that will be used to determine when to make changes to the subscription schedule, as computed from the `starts_at` field. For example, if `starts_at[type]=upcoming_invoice`, the upcoming invoice date will be computed at the time the `starts_at` field was specified and saved. This field will not be recomputed upon future requests to update or finalize the quote unless `starts_at` is respecified. This field is guaranteed to be populated after quote acceptance.
-	Computed int64 `json:"computed"`
+	Computed time.Time `json:"computed"`
 	// Use the `end` time of a given discount.
 	DiscountEnd *QuoteLineStartsAtDiscountEnd `json:"discount_end"`
 	// The timestamp the given line ends at.
 	LineEndsAt *QuoteLineStartsAtLineEndsAt `json:"line_ends_at"`
 	// A precise Unix timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// Select a way to pass in `starts_at`.
 	Type QuoteLineStartsAtType `json:"type"`
 }
@@ -505,4 +510,228 @@ type QuoteLineList struct {
 	APIResource
 	ListMeta
 	Data []*QuoteLine `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a QuoteLineActionAddItemDiscountDiscountEnd.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteLineActionAddItemDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
+	type quoteLineActionAddItemDiscountDiscountEnd QuoteLineActionAddItemDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		*quoteLineActionAddItemDiscountDiscountEnd
+	}{
+		quoteLineActionAddItemDiscountDiscountEnd: (*quoteLineActionAddItemDiscountDiscountEnd)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteLineActionRemoveDiscountDiscountEnd.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteLineActionRemoveDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
+	type quoteLineActionRemoveDiscountDiscountEnd QuoteLineActionRemoveDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		*quoteLineActionRemoveDiscountDiscountEnd
+	}{
+		quoteLineActionRemoveDiscountDiscountEnd: (*quoteLineActionRemoveDiscountDiscountEnd)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteLineActionSetDiscountDiscountEnd.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteLineActionSetDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
+	type quoteLineActionSetDiscountDiscountEnd QuoteLineActionSetDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		*quoteLineActionSetDiscountDiscountEnd
+	}{
+		quoteLineActionSetDiscountDiscountEnd: (*quoteLineActionSetDiscountDiscountEnd)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteLineActionSetItemDiscountDiscountEnd.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteLineActionSetItemDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
+	type quoteLineActionSetItemDiscountDiscountEnd QuoteLineActionSetItemDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		*quoteLineActionSetItemDiscountDiscountEnd
+	}{
+		quoteLineActionSetItemDiscountDiscountEnd: (*quoteLineActionSetItemDiscountDiscountEnd)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteLineEndsAt.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteLineEndsAt) UnmarshalJSON(data []byte) error {
+	type quoteLineEndsAt QuoteLineEndsAt
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		*quoteLineEndsAt
+	}{
+		quoteLineEndsAt: (*quoteLineEndsAt)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Computed = time.Unix(v.Computed, 0)
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuoteLineStartsAt.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuoteLineStartsAt) UnmarshalJSON(data []byte) error {
+	type quoteLineStartsAt QuoteLineStartsAt
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		*quoteLineStartsAt
+	}{
+		quoteLineStartsAt: (*quoteLineStartsAt)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Computed = time.Unix(v.Computed, 0)
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a QuoteLineActionAddItemDiscountDiscountEnd.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteLineActionAddItemDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
+	type quoteLineActionAddItemDiscountDiscountEnd QuoteLineActionAddItemDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		quoteLineActionAddItemDiscountDiscountEnd
+	}{
+		quoteLineActionAddItemDiscountDiscountEnd: (quoteLineActionAddItemDiscountDiscountEnd)(q),
+		Timestamp: q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteLineActionRemoveDiscountDiscountEnd.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteLineActionRemoveDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
+	type quoteLineActionRemoveDiscountDiscountEnd QuoteLineActionRemoveDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		quoteLineActionRemoveDiscountDiscountEnd
+	}{
+		quoteLineActionRemoveDiscountDiscountEnd: (quoteLineActionRemoveDiscountDiscountEnd)(q),
+		Timestamp:                                q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteLineActionSetDiscountDiscountEnd.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteLineActionSetDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
+	type quoteLineActionSetDiscountDiscountEnd QuoteLineActionSetDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		quoteLineActionSetDiscountDiscountEnd
+	}{
+		quoteLineActionSetDiscountDiscountEnd: (quoteLineActionSetDiscountDiscountEnd)(q),
+		Timestamp:                             q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteLineActionSetItemDiscountDiscountEnd.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteLineActionSetItemDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
+	type quoteLineActionSetItemDiscountDiscountEnd QuoteLineActionSetItemDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		quoteLineActionSetItemDiscountDiscountEnd
+	}{
+		quoteLineActionSetItemDiscountDiscountEnd: (quoteLineActionSetItemDiscountDiscountEnd)(q),
+		Timestamp: q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteLineEndsAt.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteLineEndsAt) MarshalJSON() ([]byte, error) {
+	type quoteLineEndsAt QuoteLineEndsAt
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		quoteLineEndsAt
+	}{
+		quoteLineEndsAt: (quoteLineEndsAt)(q),
+		Computed:        q.Computed.Unix(),
+		Timestamp:       q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuoteLineStartsAt.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuoteLineStartsAt) MarshalJSON() ([]byte, error) {
+	type quoteLineStartsAt QuoteLineStartsAt
+	v := struct {
+		Computed  int64 `json:"computed"`
+		Timestamp int64 `json:"timestamp"`
+		quoteLineStartsAt
+	}{
+		quoteLineStartsAt: (quoteLineStartsAt)(q),
+		Computed:          q.Computed.Unix(),
+		Timestamp:         q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

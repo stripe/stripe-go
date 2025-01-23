@@ -6,6 +6,8 @@
 
 package stripe
 
+import "time"
+
 // Type of the pretax credit amount referenced.
 type InvoiceLineItemPretaxCreditAmountType string
 
@@ -38,7 +40,7 @@ type InvoiceLineItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceLineItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *int64 `form:"timestamp"`
+	Timestamp *time.Time `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -58,9 +60,9 @@ type InvoiceLineItemDiscountParams struct {
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceLineItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
-	End *int64 `form:"end"`
+	End *time.Time `form:"end"`
 	// The start of the period. This value is inclusive.
-	Start *int64 `form:"start"`
+	Start *time.Time `form:"start"`
 }
 
 // Data used to generate a new product object inline. One of `product` or `product_data` is required.

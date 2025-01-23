@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The status of the template, one of `active` or `archived`.
 type InvoiceRenderingTemplateStatus string
 
@@ -70,7 +75,7 @@ func (p *InvoiceRenderingTemplateUnarchiveParams) AddExpand(f string) {
 type InvoiceRenderingTemplate struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -92,4 +97,40 @@ type InvoiceRenderingTemplateList struct {
 	APIResource
 	ListMeta
 	Data []*InvoiceRenderingTemplate `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of an InvoiceRenderingTemplate.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (i *InvoiceRenderingTemplate) UnmarshalJSON(data []byte) error {
+	type invoiceRenderingTemplate InvoiceRenderingTemplate
+	v := struct {
+		Created int64 `json:"created"`
+		*invoiceRenderingTemplate
+	}{
+		invoiceRenderingTemplate: (*invoiceRenderingTemplate)(i),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	i.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an InvoiceRenderingTemplate.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i InvoiceRenderingTemplate) MarshalJSON() ([]byte, error) {
+	type invoiceRenderingTemplate InvoiceRenderingTemplate
+	v := struct {
+		Created int64 `json:"created"`
+		invoiceRenderingTemplate
+	}{
+		invoiceRenderingTemplate: (invoiceRenderingTemplate)(i),
+		Created:                  i.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

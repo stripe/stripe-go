@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Status of this report run. This will be `pending` when the run is initially created.
 //
 //	When the run finishes, this will be set to `succeeded` and the `result` field will be populated.
@@ -44,9 +49,9 @@ type ReportingReportRunParametersParams struct {
 	// Currency of objects to be included in the report run.
 	Currency *string `form:"currency"`
 	// Ending timestamp of data to be included in the report run (exclusive).
-	IntervalEnd *int64 `form:"interval_end"`
+	IntervalEnd *time.Time `form:"interval_end"`
 	// Starting timestamp of data to be included in the report run.
-	IntervalStart *int64 `form:"interval_start"`
+	IntervalStart *time.Time `form:"interval_start"`
 	// Payout ID by which to filter the report run.
 	Payout *string `form:"payout"`
 	// Category of balance transactions to be included in the report run.
@@ -79,9 +84,9 @@ type ReportingReportRunParameters struct {
 	// Currency of objects to be included in the report run.
 	Currency Currency `json:"currency"`
 	// Ending timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after the user specified `interval_start` and 1 second before this report's last `data_available_end` value.
-	IntervalEnd int64 `json:"interval_end"`
+	IntervalEnd time.Time `json:"interval_end"`
 	// Starting timestamp of data to be included in the report run. Can be any UTC timestamp between 1 second after this report's `data_available_start` and 1 second before the user specified `interval_end` value.
-	IntervalStart int64 `json:"interval_start"`
+	IntervalStart time.Time `json:"interval_start"`
 	// Payout ID by which to filter the report run.
 	Payout string `json:"payout"`
 	// Category of balance transactions to be included in the report run.
@@ -101,7 +106,7 @@ type ReportingReportRunParameters struct {
 type ReportingReportRun struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// If something should go wrong during the run, a message about the failure (populated when
 	//  `status=failed`).
 	Error string `json:"error"`
@@ -123,7 +128,7 @@ type ReportingReportRun struct {
 	Status ReportingReportRunStatus `json:"status"`
 	// Timestamp at which this run successfully finished (populated when
 	//  `status=succeeded`). Measured in seconds since the Unix epoch.
-	SucceededAt int64 `json:"succeeded_at"`
+	SucceededAt time.Time `json:"succeeded_at"`
 }
 
 // ReportingReportRunList is a list of ReportRuns as retrieved from a list endpoint.
@@ -131,4 +136,84 @@ type ReportingReportRunList struct {
 	APIResource
 	ListMeta
 	Data []*ReportingReportRun `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a ReportingReportRunParameters.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (r *ReportingReportRunParameters) UnmarshalJSON(data []byte) error {
+	type reportingReportRunParameters ReportingReportRunParameters
+	v := struct {
+		IntervalEnd   int64 `json:"interval_end"`
+		IntervalStart int64 `json:"interval_start"`
+		*reportingReportRunParameters
+	}{
+		reportingReportRunParameters: (*reportingReportRunParameters)(r),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	r.IntervalEnd = time.Unix(v.IntervalEnd, 0)
+	r.IntervalStart = time.Unix(v.IntervalStart, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a ReportingReportRun.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (r *ReportingReportRun) UnmarshalJSON(data []byte) error {
+	type reportingReportRun ReportingReportRun
+	v := struct {
+		Created     int64 `json:"created"`
+		SucceededAt int64 `json:"succeeded_at"`
+		*reportingReportRun
+	}{
+		reportingReportRun: (*reportingReportRun)(r),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	r.Created = time.Unix(v.Created, 0)
+	r.SucceededAt = time.Unix(v.SucceededAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a ReportingReportRunParameters.
+// This custom marshaling is needed to handle the time fields correctly.
+func (r ReportingReportRunParameters) MarshalJSON() ([]byte, error) {
+	type reportingReportRunParameters ReportingReportRunParameters
+	v := struct {
+		IntervalEnd   int64 `json:"interval_end"`
+		IntervalStart int64 `json:"interval_start"`
+		reportingReportRunParameters
+	}{
+		reportingReportRunParameters: (reportingReportRunParameters)(r),
+		IntervalEnd:                  r.IntervalEnd.Unix(),
+		IntervalStart:                r.IntervalStart.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a ReportingReportRun.
+// This custom marshaling is needed to handle the time fields correctly.
+func (r ReportingReportRun) MarshalJSON() ([]byte, error) {
+	type reportingReportRun ReportingReportRun
+	v := struct {
+		Created     int64 `json:"created"`
+		SucceededAt int64 `json:"succeeded_at"`
+		reportingReportRun
+	}{
+		reportingReportRun: (reportingReportRun)(r),
+		Created:            r.Created.Unix(),
+		SucceededAt:        r.SucceededAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

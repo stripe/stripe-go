@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The reason for the financing transaction (if applicable).
 type CapitalFinancingTransactionDetailsReason string
 
@@ -99,7 +104,7 @@ type CapitalFinancingTransaction struct {
 	// The ID of the merchant associated with this financing transaction.
 	Account string `json:"account"`
 	// Time at which the financing transaction was created. Given in seconds since unix epoch.
-	CreatedAt int64 `json:"created_at"`
+	CreatedAt time.Time `json:"created_at"`
 	// This is an object representing a transaction on a Capital financing offer.
 	Details *CapitalFinancingTransactionDetails `json:"details"`
 	// The Capital financing offer for this financing transaction.
@@ -125,4 +130,40 @@ type CapitalFinancingTransactionList struct {
 	APIResource
 	ListMeta
 	Data []*CapitalFinancingTransaction `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a CapitalFinancingTransaction.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (c *CapitalFinancingTransaction) UnmarshalJSON(data []byte) error {
+	type capitalFinancingTransaction CapitalFinancingTransaction
+	v := struct {
+		CreatedAt int64 `json:"created_at"`
+		*capitalFinancingTransaction
+	}{
+		capitalFinancingTransaction: (*capitalFinancingTransaction)(c),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	c.CreatedAt = time.Unix(v.CreatedAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a CapitalFinancingTransaction.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c CapitalFinancingTransaction) MarshalJSON() ([]byte, error) {
+	type capitalFinancingTransaction CapitalFinancingTransaction
+	v := struct {
+		CreatedAt int64 `json:"created_at"`
+		capitalFinancingTransaction
+	}{
+		capitalFinancingTransaction: (capitalFinancingTransaction)(c),
+		CreatedAt:                   c.CreatedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

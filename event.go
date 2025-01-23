@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"time"
 )
 
 // The type of the `automation_action`.
@@ -432,7 +433,7 @@ type Event struct {
 	// The Stripe API version used to render `data`. This property is populated only for events on or after October 31, 2014.
 	APIVersion string `json:"api_version"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64      `json:"created"`
+	Created time.Time  `json:"created"`
 	Data    *EventData `json:"data"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -515,4 +516,40 @@ func getValue(m map[string]interface{}, keys []string) string {
 	}
 
 	return fmt.Sprintf("%v", node)
+}
+
+// UnmarshalJSON handles deserialization of an Event.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (e *Event) UnmarshalJSON(data []byte) error {
+	type event Event
+	v := struct {
+		Created int64 `json:"created"`
+		*event
+	}{
+		event: (*event)(e),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	e.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an Event.
+// This custom marshaling is needed to handle the time fields correctly.
+func (e Event) MarshalJSON() ([]byte, error) {
+	type event Event
+	v := struct {
+		Created int64 `json:"created"`
+		event
+	}{
+		event:   (event)(e),
+		Created: e.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

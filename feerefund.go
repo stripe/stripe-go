@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // By default, you can see the 10 most recent refunds stored directly on the application fee object, but you can also retrieve details about a specific refund stored on the application fee.
 type FeeRefundParams struct {
@@ -60,7 +63,7 @@ type FeeRefund struct {
 	// Balance transaction that describes the impact on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// ID of the application fee that was refunded.
@@ -90,11 +93,34 @@ func (f *FeeRefund) UnmarshalJSON(data []byte) error {
 	}
 
 	type feeRefund FeeRefund
-	var v feeRefund
+	v := struct {
+		Created int64 `json:"created"`
+		*feeRefund
+	}{
+		feeRefund: (*feeRefund)(f),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*f = FeeRefund(v)
+	f.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a FeeRefund.
+// This custom marshaling is needed to handle the time fields correctly.
+func (f FeeRefund) MarshalJSON() ([]byte, error) {
+	type feeRefund FeeRefund
+	v := struct {
+		Created int64 `json:"created"`
+		feeRefund
+	}{
+		feeRefund: (feeRefund)(f),
+		Created:   f.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

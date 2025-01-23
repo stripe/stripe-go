@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // Returns a list of your promotion codes.
 type PromotionCodeListParams struct {
@@ -66,7 +69,7 @@ type PromotionCodeParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The timestamp at which this promotion code will expire. If the coupon has specified a `redeems_by`, then this value cannot be after the coupon's `redeems_by`.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *time.Time `form:"expires_at"`
 	// A positive integer specifying the number of times the promotion code can be redeemed. If the coupon has specified a `max_redemptions`, then this value cannot be greater than the coupon's `max_redemptions`.
 	MaxRedemptions *int64 `form:"max_redemptions"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -118,11 +121,11 @@ type PromotionCode struct {
 	// [checkout sessions](https://stripe.com/docs/api/checkout/sessions), [quotes](https://stripe.com/docs/api#quotes), and more. Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge) or [payment intents](https://stripe.com/docs/api/payment_intents).
 	Coupon *Coupon `json:"coupon"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The customer that this promotion code can be used by.
 	Customer *Customer `json:"customer"`
 	// Date at which the promotion code can no longer be redeemed.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -155,11 +158,38 @@ func (p *PromotionCode) UnmarshalJSON(data []byte) error {
 	}
 
 	type promotionCode PromotionCode
-	var v promotionCode
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		*promotionCode
+	}{
+		promotionCode: (*promotionCode)(p),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*p = PromotionCode(v)
+	p.Created = time.Unix(v.Created, 0)
+	p.ExpiresAt = time.Unix(v.ExpiresAt, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a PromotionCode.
+// This custom marshaling is needed to handle the time fields correctly.
+func (p PromotionCode) MarshalJSON() ([]byte, error) {
+	type promotionCode PromotionCode
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		promotionCode
+	}{
+		promotionCode: (promotionCode)(p),
+		Created:       p.Created.Unix(),
+		ExpiresAt:     p.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

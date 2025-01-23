@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_overpaid`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
 type CustomerBalanceTransactionType string
@@ -79,7 +82,7 @@ type CustomerBalanceTransaction struct {
 	// The amount of the transaction. A negative value is a credit for the customer's balance, and a positive value is a debit to the customer's `balance`.
 	Amount int64 `json:"amount"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The ID of the credit note (if any) related to the transaction.
 	CreditNote *CreditNote `json:"credit_note"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -121,11 +124,34 @@ func (c *CustomerBalanceTransaction) UnmarshalJSON(data []byte) error {
 	}
 
 	type customerBalanceTransaction CustomerBalanceTransaction
-	var v customerBalanceTransaction
+	v := struct {
+		Created int64 `json:"created"`
+		*customerBalanceTransaction
+	}{
+		customerBalanceTransaction: (*customerBalanceTransaction)(c),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*c = CustomerBalanceTransaction(v)
+	c.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a CustomerBalanceTransaction.
+// This custom marshaling is needed to handle the time fields correctly.
+func (c CustomerBalanceTransaction) MarshalJSON() ([]byte, error) {
+	type customerBalanceTransaction CustomerBalanceTransaction
+	v := struct {
+		Created int64 `json:"created"`
+		customerBalanceTransaction
+	}{
+		customerBalanceTransaction: (customerBalanceTransaction)(c),
+		Created:                    c.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

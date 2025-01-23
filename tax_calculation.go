@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The type of customer address provided.
 type TaxCalculationCustomerDetailsAddressSource string
 
@@ -276,7 +281,7 @@ type TaxCalculationParams struct {
 	// Shipping cost details to be used for the calculation.
 	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
-	TaxDate *int64 `form:"tax_date"`
+	TaxDate *time.Time `form:"tax_date"`
 }
 
 // AddExpand appends a new field to expand.
@@ -478,7 +483,7 @@ type TaxCalculation struct {
 	Customer        string                         `json:"customer"`
 	CustomerDetails *TaxCalculationCustomerDetails `json:"customer_details"`
 	// Timestamp of date at which the tax calculation will expire.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// Unique identifier for the calculation.
 	ID string `json:"id"`
 	// The list of items the customer is purchasing.
@@ -498,5 +503,45 @@ type TaxCalculation struct {
 	// Breakdown of individual tax amounts that add up to the total.
 	TaxBreakdown []*TaxCalculationTaxBreakdown `json:"tax_breakdown"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation.
-	TaxDate int64 `json:"tax_date"`
+	TaxDate time.Time `json:"tax_date"`
+}
+
+// UnmarshalJSON handles deserialization of a TaxCalculation.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *TaxCalculation) UnmarshalJSON(data []byte) error {
+	type taxCalculation TaxCalculation
+	v := struct {
+		ExpiresAt int64 `json:"expires_at"`
+		TaxDate   int64 `json:"tax_date"`
+		*taxCalculation
+	}{
+		taxCalculation: (*taxCalculation)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	t.TaxDate = time.Unix(v.TaxDate, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a TaxCalculation.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TaxCalculation) MarshalJSON() ([]byte, error) {
+	type taxCalculation TaxCalculation
+	v := struct {
+		ExpiresAt int64 `json:"expires_at"`
+		TaxDate   int64 `json:"tax_date"`
+		taxCalculation
+	}{
+		taxCalculation: (taxCalculation)(t),
+		ExpiresAt:      t.ExpiresAt.Unix(),
+		TaxDate:        t.TaxDate.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

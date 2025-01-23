@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The token service provider / card network associated with the token.
 type IssuingTokenNetwork string
@@ -223,7 +226,7 @@ type IssuingToken struct {
 	// Card associated with this token.
 	Card *IssuingCard `json:"card"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The hashed ID derived from the device ID from the card network associated with the token.
 	DeviceFingerprint string `json:"device_fingerprint"`
 	// Unique identifier for the object.
@@ -236,7 +239,7 @@ type IssuingToken struct {
 	Network     IssuingTokenNetwork      `json:"network"`
 	NetworkData *IssuingTokenNetworkData `json:"network_data"`
 	// Time at which the token was last updated by the card network. Measured in seconds since the Unix epoch.
-	NetworkUpdatedAt int64 `json:"network_updated_at"`
+	NetworkUpdatedAt time.Time `json:"network_updated_at"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The usage state of the token.
@@ -262,11 +265,38 @@ func (i *IssuingToken) UnmarshalJSON(data []byte) error {
 	}
 
 	type issuingToken IssuingToken
-	var v issuingToken
+	v := struct {
+		Created          int64 `json:"created"`
+		NetworkUpdatedAt int64 `json:"network_updated_at"`
+		*issuingToken
+	}{
+		issuingToken: (*issuingToken)(i),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = IssuingToken(v)
+	i.Created = time.Unix(v.Created, 0)
+	i.NetworkUpdatedAt = time.Unix(v.NetworkUpdatedAt, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of an IssuingToken.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i IssuingToken) MarshalJSON() ([]byte, error) {
+	type issuingToken IssuingToken
+	v := struct {
+		Created          int64 `json:"created"`
+		NetworkUpdatedAt int64 `json:"network_updated_at"`
+		issuingToken
+	}{
+		issuingToken:     (issuingToken)(i),
+		Created:          i.Created.Unix(),
+		NetworkUpdatedAt: i.NetworkUpdatedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

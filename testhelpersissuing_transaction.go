@@ -6,6 +6,8 @@
 
 package stripe
 
+import "time"
+
 // Refund a test-mode Transaction.
 type TestHelpersIssuingTransactionRefundParams struct {
 	Params `form:"*"`
@@ -117,7 +119,7 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightSegment
 // Information about the flight that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightParams struct {
 	// The time that the flight departed.
-	DepartureAt *int64 `form:"departure_at"`
+	DepartureAt *time.Time `form:"departure_at"`
 	// The name of the passenger.
 	PassengerName *string `form:"passenger_name"`
 	// Whether the ticket is refundable.
@@ -145,7 +147,7 @@ type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFuelParams st
 // Information about lodging that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams struct {
 	// The time of checking into the lodging.
-	CheckInAt *int64 `form:"check_in_at"`
+	CheckInAt *time.Time `form:"check_in_at"`
 	// The number of nights stayed at the lodging.
 	Nights *int64 `form:"nights"`
 }
@@ -293,7 +295,7 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightSegme
 // Information about the flight that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightParams struct {
 	// The time that the flight departed.
-	DepartureAt *int64 `form:"departure_at"`
+	DepartureAt *time.Time `form:"departure_at"`
 	// The name of the passenger.
 	PassengerName *string `form:"passenger_name"`
 	// Whether the ticket is refundable.
@@ -321,7 +323,7 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFuelParams 
 // Information about lodging that was purchased with this transaction.
 type TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams struct {
 	// The time of checking into the lodging.
-	CheckInAt *int64 `form:"check_in_at"`
+	CheckInAt *time.Time `form:"check_in_at"`
 	// The number of nights stayed at the lodging.
 	Nights *int64 `form:"nights"`
 }

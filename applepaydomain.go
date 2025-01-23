@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Delete an apple pay domain.
 type ApplePayDomainParams struct {
 	Params     `form:"*"`
@@ -35,9 +40,9 @@ func (p *ApplePayDomainListParams) AddExpand(f string) {
 type ApplePayDomain struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created    int64  `json:"created"`
-	Deleted    bool   `json:"deleted"`
-	DomainName string `json:"domain_name"`
+	Created    time.Time `json:"created"`
+	Deleted    bool      `json:"deleted"`
+	DomainName string    `json:"domain_name"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -51,4 +56,40 @@ type ApplePayDomainList struct {
 	APIResource
 	ListMeta
 	Data []*ApplePayDomain `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of an ApplePayDomain.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (a *ApplePayDomain) UnmarshalJSON(data []byte) error {
+	type applePayDomain ApplePayDomain
+	v := struct {
+		Created int64 `json:"created"`
+		*applePayDomain
+	}{
+		applePayDomain: (*applePayDomain)(a),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	a.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an ApplePayDomain.
+// This custom marshaling is needed to handle the time fields correctly.
+func (a ApplePayDomain) MarshalJSON() ([]byte, error) {
+	type applePayDomain ApplePayDomain
+	v := struct {
+		Created int64 `json:"created"`
+		applePayDomain
+	}{
+		applePayDomain: (applePayDomain)(a),
+		Created:        a.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

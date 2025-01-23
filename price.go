@@ -9,6 +9,7 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/stripe/stripe-go/v81/form"
+	"time"
 )
 
 // Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
@@ -343,7 +344,7 @@ type PriceMigrateToParams struct {
 	// The behavior controlling the point in the subscription lifecycle after which to migrate the price. Currently must be `at_cycle_end`.
 	Behavior *string `form:"behavior"`
 	// The time after which subscriptions should start using the new price.
-	EffectiveAfter *int64 `form:"effective_after"`
+	EffectiveAfter *time.Time `form:"effective_after"`
 	// The ID of the price object.
 	Price *string `form:"price"`
 }
@@ -418,7 +419,7 @@ type PriceMigrateTo struct {
 	// The behavior controlling at what point in the subscription lifecycle to migrate the price
 	Behavior PriceMigrateToBehavior `json:"behavior"`
 	// The unix timestamp after at which subscriptions will start to migrate to the new price.
-	EffectiveAfter int64 `json:"effective_after"`
+	EffectiveAfter time.Time `json:"effective_after"`
 	// The id of the price being migrated to
 	Price string `json:"price"`
 }
@@ -474,7 +475,7 @@ type Price struct {
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
 	BillingScheme PriceBillingScheme `json:"billing_scheme"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
@@ -540,11 +541,70 @@ func (p *Price) UnmarshalJSON(data []byte) error {
 	}
 
 	type price Price
-	var v price
+	v := struct {
+		Created int64 `json:"created"`
+		*price
+	}{
+		price: (*price)(p),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*p = Price(v)
+	p.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// UnmarshalJSON handles deserialization of a PriceMigrateTo.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (p *PriceMigrateTo) UnmarshalJSON(data []byte) error {
+	type priceMigrateTo PriceMigrateTo
+	v := struct {
+		EffectiveAfter int64 `json:"effective_after"`
+		*priceMigrateTo
+	}{
+		priceMigrateTo: (*priceMigrateTo)(p),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	p.EffectiveAfter = time.Unix(v.EffectiveAfter, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a PriceMigrateTo.
+// This custom marshaling is needed to handle the time fields correctly.
+func (p PriceMigrateTo) MarshalJSON() ([]byte, error) {
+	type priceMigrateTo PriceMigrateTo
+	v := struct {
+		EffectiveAfter int64 `json:"effective_after"`
+		priceMigrateTo
+	}{
+		priceMigrateTo: (priceMigrateTo)(p),
+		EffectiveAfter: p.EffectiveAfter.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a Price.
+// This custom marshaling is needed to handle the time fields correctly.
+func (p Price) MarshalJSON() ([]byte, error) {
+	type price Price
+	v := struct {
+		Created int64 `json:"created"`
+		price
+	}{
+		price:   (price)(p),
+		Created: p.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Specifies the requirements that Stripe collects from connected accounts in the Connect Onboarding flow.
 type AccountLinkCollectionOptionsParams struct {
 	// Specifies whether the platform collects only currently_due requirements (`currently_due`) or both currently_due and eventually_due requirements (`eventually_due`). If you don't specify `collection_options`, the default value is `currently_due`.
@@ -63,11 +68,51 @@ func (p *AccountLinkParams) AddExpand(f string) {
 type AccountLink struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The timestamp at which this account link will expire.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The URL for the account link.
 	URL string `json:"url"`
+}
+
+// UnmarshalJSON handles deserialization of an AccountLink.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (a *AccountLink) UnmarshalJSON(data []byte) error {
+	type accountLink AccountLink
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		*accountLink
+	}{
+		accountLink: (*accountLink)(a),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	a.Created = time.Unix(v.Created, 0)
+	a.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an AccountLink.
+// This custom marshaling is needed to handle the time fields correctly.
+func (a AccountLink) MarshalJSON() ([]byte, error) {
+	type accountLink AccountLink
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		accountLink
+	}{
+		accountLink: (accountLink)(a),
+		Created:     a.Created.Unix(),
+		ExpiresAt:   a.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

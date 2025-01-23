@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The specified type of behavior after the flow is completed.
 type BillingPortalSessionFlowAfterCompletionType string
 
@@ -259,7 +264,7 @@ type BillingPortalSession struct {
 	// The configuration used by this session, describing the features available.
 	Configuration *BillingPortalConfiguration `json:"configuration"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The ID of the customer for this session.
 	Customer string `json:"customer"`
 	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
@@ -278,4 +283,40 @@ type BillingPortalSession struct {
 	ReturnURL string `json:"return_url"`
 	// The short-lived URL of the session that gives customers access to the customer portal.
 	URL string `json:"url"`
+}
+
+// UnmarshalJSON handles deserialization of a BillingPortalSession.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (b *BillingPortalSession) UnmarshalJSON(data []byte) error {
+	type billingPortalSession BillingPortalSession
+	v := struct {
+		Created int64 `json:"created"`
+		*billingPortalSession
+	}{
+		billingPortalSession: (*billingPortalSession)(b),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	b.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a BillingPortalSession.
+// This custom marshaling is needed to handle the time fields correctly.
+func (b BillingPortalSession) MarshalJSON() ([]byte, error) {
+	type billingPortalSession BillingPortalSession
+	v := struct {
+		Created int64 `json:"created"`
+		billingPortalSession
+	}{
+		billingPortalSession: (billingPortalSession)(b),
+		Created:              b.Created.Unix(),
+	}
+	bb, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return bb, err
 }

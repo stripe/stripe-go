@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // Indicates whether the customer was present in your checkout flow during this payment.
 type PaymentRecordCustomerPresence string
@@ -43,7 +46,7 @@ type PaymentRecordReportPaymentAttemptFailedParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// When the reported payment failed. Measured in seconds since the Unix epoch.
-	FailedAt *int64            `form:"failed_at"`
+	FailedAt *time.Time        `form:"failed_at"`
 	Metadata map[string]string `form:"metadata"`
 }
 
@@ -67,7 +70,7 @@ type PaymentRecordReportPaymentAttemptGuaranteedParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
-	GuaranteedAt *int64            `form:"guaranteed_at"`
+	GuaranteedAt *time.Time        `form:"guaranteed_at"`
 	Metadata     map[string]string `form:"metadata"`
 }
 
@@ -141,7 +144,7 @@ type PaymentRecordReportPaymentAttemptParams struct {
 	// Information about the payment attempt guarantee.
 	Guaranteed *PaymentRecordReportPaymentAttemptGuaranteedParams `form:"guaranteed"`
 	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
-	InitiatedAt *int64 `form:"initiated_at"`
+	InitiatedAt *time.Time `form:"initiated_at"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The outcome of the reported payment.
@@ -172,7 +175,7 @@ func (p *PaymentRecordReportPaymentAttemptParams) AddMetadata(key string, value 
 type PaymentRecordReportPaymentAttemptCanceledParams struct {
 	Params `form:"*"`
 	// When the reported payment was canceled. Measured in seconds since the Unix epoch.
-	CanceledAt *int64 `form:"canceled_at"`
+	CanceledAt *time.Time `form:"canceled_at"`
 	// Specifies which fields in the response should be expanded.
 	Expand   []*string         `form:"expand"`
 	Metadata map[string]string `form:"metadata"`
@@ -215,13 +218,13 @@ type PaymentRecordReportPaymentCustomerDetailsParams struct {
 // Information about the payment attempt failure.
 type PaymentRecordReportPaymentFailedParams struct {
 	// When the reported payment failed. Measured in seconds since the Unix epoch.
-	FailedAt *int64 `form:"failed_at"`
+	FailedAt *time.Time `form:"failed_at"`
 }
 
 // Information about the payment attempt guarantee.
 type PaymentRecordReportPaymentGuaranteedParams struct {
 	// When the reported payment was guaranteed. Measured in seconds since the Unix epoch.
-	GuaranteedAt *int64 `form:"guaranteed_at"`
+	GuaranteedAt *time.Time `form:"guaranteed_at"`
 }
 
 // The billing details associated with the method of payment.
@@ -287,7 +290,7 @@ type PaymentRecordReportPaymentParams struct {
 	// Information about the payment attempt guarantee.
 	Guaranteed *PaymentRecordReportPaymentGuaranteedParams `form:"guaranteed"`
 	// When the reported payment was initiated. Measured in seconds since the Unix epoch.
-	InitiatedAt *int64 `form:"initiated_at"`
+	InitiatedAt *time.Time `form:"initiated_at"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The outcome of the reported payment.
@@ -415,7 +418,7 @@ type PaymentRecord struct {
 	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountRequested *PaymentRecordAmountRequested `json:"amount_requested"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Customer information for this payment.
 	CustomerDetails *PaymentRecordCustomerDetails `json:"customer_details"`
 	// Indicates whether the customer was present in your checkout flow during this payment.
@@ -450,11 +453,34 @@ func (p *PaymentRecord) UnmarshalJSON(data []byte) error {
 	}
 
 	type paymentRecord PaymentRecord
-	var v paymentRecord
+	v := struct {
+		Created int64 `json:"created"`
+		*paymentRecord
+	}{
+		paymentRecord: (*paymentRecord)(p),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*p = PaymentRecord(v)
+	p.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a PaymentRecord.
+// This custom marshaling is needed to handle the time fields correctly.
+func (p PaymentRecord) MarshalJSON() ([]byte, error) {
+	type paymentRecord PaymentRecord
+	v := struct {
+		Created int64 `json:"created"`
+		paymentRecord
+	}{
+		paymentRecord: (paymentRecord)(p),
+		Created:       p.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

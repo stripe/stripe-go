@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The type of refund. This can be `refund`, `reversal`, or `pending`.
 type RefundDestinationDetailsCardType string
@@ -282,14 +285,14 @@ type RefundDestinationDetails struct {
 }
 type RefundNextActionDisplayDetailsEmailSent struct {
 	// The timestamp when the email was sent.
-	EmailSentAt int64 `json:"email_sent_at"`
+	EmailSentAt time.Time `json:"email_sent_at"`
 	// The recipient's email address.
 	EmailSentTo string `json:"email_sent_to"`
 }
 type RefundNextActionDisplayDetails struct {
 	EmailSent *RefundNextActionDisplayDetailsEmailSent `json:"email_sent"`
 	// The expiry timestamp.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 }
 type RefundNextAction struct {
 	DisplayDetails *RefundNextActionDisplayDetails `json:"display_details"`
@@ -311,7 +314,7 @@ type Refund struct {
 	// ID of the charge that's refunded.
 	Charge *Charge `json:"charge"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. You can use this for displaying to users (available on non-card refunds only).
@@ -361,11 +364,106 @@ func (r *Refund) UnmarshalJSON(data []byte) error {
 	}
 
 	type refund Refund
-	var v refund
+	v := struct {
+		Created int64 `json:"created"`
+		*refund
+	}{
+		refund: (*refund)(r),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*r = Refund(v)
+	r.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// UnmarshalJSON handles deserialization of a RefundNextActionDisplayDetailsEmailSent.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (r *RefundNextActionDisplayDetailsEmailSent) UnmarshalJSON(data []byte) error {
+	type refundNextActionDisplayDetailsEmailSent RefundNextActionDisplayDetailsEmailSent
+	v := struct {
+		EmailSentAt int64 `json:"email_sent_at"`
+		*refundNextActionDisplayDetailsEmailSent
+	}{
+		refundNextActionDisplayDetailsEmailSent: (*refundNextActionDisplayDetailsEmailSent)(r),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	r.EmailSentAt = time.Unix(v.EmailSentAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a RefundNextActionDisplayDetails.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (r *RefundNextActionDisplayDetails) UnmarshalJSON(data []byte) error {
+	type refundNextActionDisplayDetails RefundNextActionDisplayDetails
+	v := struct {
+		ExpiresAt int64 `json:"expires_at"`
+		*refundNextActionDisplayDetails
+	}{
+		refundNextActionDisplayDetails: (*refundNextActionDisplayDetails)(r),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	r.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a RefundNextActionDisplayDetailsEmailSent.
+// This custom marshaling is needed to handle the time fields correctly.
+func (r RefundNextActionDisplayDetailsEmailSent) MarshalJSON() ([]byte, error) {
+	type refundNextActionDisplayDetailsEmailSent RefundNextActionDisplayDetailsEmailSent
+	v := struct {
+		EmailSentAt int64 `json:"email_sent_at"`
+		refundNextActionDisplayDetailsEmailSent
+	}{
+		refundNextActionDisplayDetailsEmailSent: (refundNextActionDisplayDetailsEmailSent)(r),
+		EmailSentAt:                             r.EmailSentAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a RefundNextActionDisplayDetails.
+// This custom marshaling is needed to handle the time fields correctly.
+func (r RefundNextActionDisplayDetails) MarshalJSON() ([]byte, error) {
+	type refundNextActionDisplayDetails RefundNextActionDisplayDetails
+	v := struct {
+		ExpiresAt int64 `json:"expires_at"`
+		refundNextActionDisplayDetails
+	}{
+		refundNextActionDisplayDetails: (refundNextActionDisplayDetails)(r),
+		ExpiresAt:                      r.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a Refund.
+// This custom marshaling is needed to handle the time fields correctly.
+func (r Refund) MarshalJSON() ([]byte, error) {
+	type refund Refund
+	v := struct {
+		Created int64 `json:"created"`
+		refund
+	}{
+		refund:  (refund)(r),
+		Created: r.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

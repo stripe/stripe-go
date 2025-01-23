@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The reason why the card was canceled.
 type IssuingCardCancellationReason string
@@ -311,7 +314,7 @@ type IssuingCardShipping struct {
 	// Additional information that may be required for clearing customs.
 	Customs *IssuingCardShippingCustoms `json:"customs"`
 	// A unix timestamp representing a best estimate of when the card will be delivered.
-	ETA int64 `json:"eta"`
+	ETA time.Time `json:"eta"`
 	// Recipient name.
 	Name string `json:"name"`
 	// The phone number of the receiver of the shipment. Our courier partners will use this number to contact you in the event of card delivery issues. For individual shipments to the EU/UK, if this field is empty, we will provide them with the phone number provided when the cardholder was initially created.
@@ -386,7 +389,7 @@ type IssuingCard struct {
 	// Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards/virtual/issue-cards#create-cardholder)
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Supported currencies are `usd` in the US, `eur` in the EU, and `gbp` in the UK.
 	Currency Currency `json:"currency"`
 	// The card's CVC. For security reasons, this is only available for virtual cards, and will be omitted unless you explicitly request it with [the `expand` parameter](https://stripe.com/docs/api/expanding_objects). Additionally, it's only available via the ["Retrieve a card" endpoint](https://stripe.com/docs/api/issuing/cards/retrieve), not via "List all cards" or any other endpoint.
@@ -445,11 +448,70 @@ func (i *IssuingCard) UnmarshalJSON(data []byte) error {
 	}
 
 	type issuingCard IssuingCard
-	var v issuingCard
+	v := struct {
+		Created int64 `json:"created"`
+		*issuingCard
+	}{
+		issuingCard: (*issuingCard)(i),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = IssuingCard(v)
+	i.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// UnmarshalJSON handles deserialization of an IssuingCardShipping.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (i *IssuingCardShipping) UnmarshalJSON(data []byte) error {
+	type issuingCardShipping IssuingCardShipping
+	v := struct {
+		ETA int64 `json:"eta"`
+		*issuingCardShipping
+	}{
+		issuingCardShipping: (*issuingCardShipping)(i),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	i.ETA = time.Unix(v.ETA, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an IssuingCardShipping.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i IssuingCardShipping) MarshalJSON() ([]byte, error) {
+	type issuingCardShipping IssuingCardShipping
+	v := struct {
+		ETA int64 `json:"eta"`
+		issuingCardShipping
+	}{
+		issuingCardShipping: (issuingCardShipping)(i),
+		ETA:                 i.ETA.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of an IssuingCard.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i IssuingCard) MarshalJSON() ([]byte, error) {
+	type issuingCard IssuingCard
+	v := struct {
+		Created int64 `json:"created"`
+		issuingCard
+	}{
+		issuingCard: (issuingCard)(i),
+		Created:     i.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

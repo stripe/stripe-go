@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Indicates whether the customer was present in your checkout flow during this payment.
 type PaymentAttemptRecordCustomerPresence string
 
@@ -150,7 +155,7 @@ type PaymentAttemptRecord struct {
 	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountRequested *PaymentAttemptRecordAmountRequested `json:"amount_requested"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Customer information for this payment.
 	CustomerDetails *PaymentAttemptRecordCustomerDetails `json:"customer_details"`
 	// Indicates whether the customer was present in your checkout flow during this payment.
@@ -180,4 +185,40 @@ type PaymentAttemptRecordList struct {
 	APIResource
 	ListMeta
 	Data []*PaymentAttemptRecord `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a PaymentAttemptRecord.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (p *PaymentAttemptRecord) UnmarshalJSON(data []byte) error {
+	type paymentAttemptRecord PaymentAttemptRecord
+	v := struct {
+		Created int64 `json:"created"`
+		*paymentAttemptRecord
+	}{
+		paymentAttemptRecord: (*paymentAttemptRecord)(p),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	p.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a PaymentAttemptRecord.
+// This custom marshaling is needed to handle the time fields correctly.
+func (p PaymentAttemptRecord) MarshalJSON() ([]byte, error) {
+	type paymentAttemptRecord PaymentAttemptRecord
+	v := struct {
+		Created int64 `json:"created"`
+		paymentAttemptRecord
+	}{
+		paymentAttemptRecord: (paymentAttemptRecord)(p),
+		Created:              p.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

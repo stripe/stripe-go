@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 type SourceAllowRedisplay string
 
@@ -184,7 +189,7 @@ type SourceMandateAcceptanceOfflineParams struct {
 // The parameters required to store a mandate accepted online. Should only be set if `mandate[type]` is `online`
 type SourceMandateAcceptanceOnlineParams struct {
 	// The Unix timestamp (in seconds) when the mandate was accepted or refused by the customer.
-	Date *int64 `form:"date"`
+	Date *time.Time `form:"date"`
 	// The IP address from which the mandate was accepted or refused by the customer.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the mandate was accepted or refused by the customer.
@@ -194,7 +199,7 @@ type SourceMandateAcceptanceOnlineParams struct {
 // The parameters required to notify Stripe of a mandate acceptance or refusal by the customer.
 type SourceMandateAcceptanceParams struct {
 	// The Unix timestamp (in seconds) when the mandate was accepted or refused by the customer.
-	Date *int64 `form:"date"`
+	Date *time.Time `form:"date"`
 	// The IP address from which the mandate was accepted or refused by the customer.
 	IP *string `form:"ip"`
 	// The parameters required to store a mandate accepted offline. Should only be set if `mandate[type]` is `offline`
@@ -598,7 +603,7 @@ type Source struct {
 	ClientSecret     string                  `json:"client_secret"`
 	CodeVerification *SourceCodeVerification `json:"code_verification"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) associated with the source. This is the currency for which the source will be chargeable once ready. Required for `single_use` sources.
 	Currency Currency `json:"currency"`
 	// The ID of the customer to which this source is attached. This will not be present when the source has not been attached to a customer.
@@ -638,4 +643,40 @@ type Source struct {
 	// Either `reusable` or `single_use`. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
 	Usage  SourceUsage   `json:"usage"`
 	WeChat *SourceWeChat `json:"wechat"`
+}
+
+// UnmarshalJSON handles deserialization of a Source.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (s *Source) UnmarshalJSON(data []byte) error {
+	type source Source
+	v := struct {
+		Created int64 `json:"created"`
+		*source
+	}{
+		source: (*source)(s),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	s.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a Source.
+// This custom marshaling is needed to handle the time fields correctly.
+func (s Source) MarshalJSON() ([]byte, error) {
+	type source Source
+	v := struct {
+		Created int64 `json:"created"`
+		source
+	}{
+		source:  (source)(s),
+		Created: s.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

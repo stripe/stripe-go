@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Describes whether the quote line is affecting a new schedule or an existing schedule.
 type QuotePreviewSubscriptionScheduleAppliesToType string
 
@@ -248,9 +253,9 @@ type QuotePreviewSubscriptionScheduleAppliesTo struct {
 // Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 type QuotePreviewSubscriptionScheduleCurrentPhase struct {
 	// The end of this phase of the subscription schedule.
-	EndDate int64 `json:"end_date"`
+	EndDate time.Time `json:"end_date"`
 	// The start of this phase of the subscription schedule.
-	StartDate int64 `json:"start_date"`
+	StartDate time.Time `json:"start_date"`
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -329,7 +334,7 @@ type QuotePreviewSubscriptionScheduleLastPriceMigrationErrorFailedTransition str
 // Details of the most recent price migration that failed for the subscription schedule.
 type QuotePreviewSubscriptionScheduleLastPriceMigrationError struct {
 	// The time at which the price migration encountered an error.
-	ErroredAt int64 `json:"errored_at"`
+	ErroredAt time.Time `json:"errored_at"`
 	// The involved price pairs in each failed transition.
 	FailedTransitions []*QuotePreviewSubscriptionScheduleLastPriceMigrationErrorFailedTransition `json:"failed_transitions"`
 	// The type of error encountered by the price migration.
@@ -339,7 +344,7 @@ type QuotePreviewSubscriptionScheduleLastPriceMigrationError struct {
 // Details to determine how long the discount should be applied for.
 type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The discount end type.
 	Type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType `json:"type"`
 }
@@ -395,7 +400,7 @@ type QuotePreviewSubscriptionSchedulePhaseBillingThresholds struct {
 // Details to determine how long the discount should be applied for.
 type QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The discount end type.
 	Type QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEndType `json:"type"`
 }
@@ -439,7 +444,7 @@ type QuotePreviewSubscriptionSchedulePhaseItemBillingThresholds struct {
 // Details to determine how long the discount should be applied for.
 type QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp int64 `json:"timestamp"`
+	Timestamp time.Time `json:"timestamp"`
 	// The discount end type.
 	Type QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEndType `json:"type"`
 }
@@ -536,7 +541,7 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
 	Discounts []*QuotePreviewSubscriptionSchedulePhaseDiscount `json:"discounts"`
 	// The end of this phase of the subscription schedule.
-	EndDate int64 `json:"end_date"`
+	EndDate time.Time `json:"end_date"`
 	// The invoice settings applicable during this phase.
 	InvoiceSettings *QuotePreviewSubscriptionSchedulePhaseInvoiceSettings `json:"invoice_settings"`
 	// Subscription items to configure the subscription to during this phase of the subscription schedule.
@@ -550,13 +555,13 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 	ProrationBehavior QuotePreviewSubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
 	// The start of this phase of the subscription schedule.
-	StartDate int64 `json:"start_date"`
+	StartDate time.Time `json:"start_date"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *QuotePreviewSubscriptionSchedulePhaseTransferData `json:"transfer_data"`
 	// Specify behavior of the trial when crossing schedule phase boundaries
 	TrialContinuation QuotePreviewSubscriptionSchedulePhaseTrialContinuation `json:"trial_continuation"`
 	// When the trial ends within the phase.
-	TrialEnd int64 `json:"trial_end"`
+	TrialEnd time.Time `json:"trial_end"`
 	// Settings related to any trials on the subscription during this phase.
 	TrialSettings *QuotePreviewSubscriptionSchedulePhaseTrialSettings `json:"trial_settings"`
 }
@@ -566,9 +571,9 @@ type QuotePreviewSubscriptionSchedulePrebilling struct {
 	// ID of the prebilling invoice.
 	Invoice *Invoice `json:"invoice"`
 	// The end of the last period for which the invoice pre-bills.
-	PeriodEnd int64 `json:"period_end"`
+	PeriodEnd time.Time `json:"period_end"`
 	// The start of the first period for which the invoice pre-bills.
-	PeriodStart int64 `json:"period_start"`
+	PeriodStart time.Time `json:"period_start"`
 	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
 	UpdateBehavior QuotePreviewSubscriptionSchedulePrebillingUpdateBehavior `json:"update_behavior"`
 }
@@ -579,11 +584,11 @@ type QuotePreviewSubscriptionSchedule struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior QuotePreviewSubscriptionScheduleBillingBehavior `json:"billing_behavior"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
-	CanceledAt int64 `json:"canceled_at"`
+	CanceledAt time.Time `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.
-	CompletedAt int64 `json:"completed_at"`
+	CompletedAt time.Time `json:"completed_at"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 	CurrentPhase *QuotePreviewSubscriptionScheduleCurrentPhase `json:"current_phase"`
 	// ID of the customer who owns the subscription schedule.
@@ -606,7 +611,7 @@ type QuotePreviewSubscriptionSchedule struct {
 	// Time period and invoice for a Subscription billed in advance.
 	Prebilling *QuotePreviewSubscriptionSchedulePrebilling `json:"prebilling"`
 	// Time at which the subscription schedule was released. Measured in seconds since the Unix epoch.
-	ReleasedAt int64 `json:"released_at"`
+	ReleasedAt time.Time `json:"released_at"`
 	// ID of the subscription once managed by the subscription schedule (if it is released).
 	ReleasedSubscription string `json:"released_subscription"`
 	// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
@@ -622,4 +627,320 @@ type QuotePreviewSubscriptionScheduleList struct {
 	APIResource
 	ListMeta
 	Data []*QuotePreviewSubscriptionSchedule `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewSubscriptionScheduleCurrentPhase.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewSubscriptionScheduleCurrentPhase) UnmarshalJSON(data []byte) error {
+	type quotePreviewSubscriptionScheduleCurrentPhase QuotePreviewSubscriptionScheduleCurrentPhase
+	v := struct {
+		EndDate   int64 `json:"end_date"`
+		StartDate int64 `json:"start_date"`
+		*quotePreviewSubscriptionScheduleCurrentPhase
+	}{
+		quotePreviewSubscriptionScheduleCurrentPhase: (*quotePreviewSubscriptionScheduleCurrentPhase)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.EndDate = time.Unix(v.EndDate, 0)
+	q.StartDate = time.Unix(v.StartDate, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewSubscriptionScheduleLastPriceMigrationError.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewSubscriptionScheduleLastPriceMigrationError) UnmarshalJSON(data []byte) error {
+	type quotePreviewSubscriptionScheduleLastPriceMigrationError QuotePreviewSubscriptionScheduleLastPriceMigrationError
+	v := struct {
+		ErroredAt int64 `json:"errored_at"`
+		*quotePreviewSubscriptionScheduleLastPriceMigrationError
+	}{
+		quotePreviewSubscriptionScheduleLastPriceMigrationError: (*quotePreviewSubscriptionScheduleLastPriceMigrationError)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.ErroredAt = time.Unix(v.ErroredAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
+	type quotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		*quotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd
+	}{
+		quotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd: (*quotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
+	type quotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		*quotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd
+	}{
+		quotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd: (*quotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
+	type quotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		*quotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd
+	}{
+		quotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd: (*quotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.Timestamp = time.Unix(v.Timestamp, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewSubscriptionSchedulePhase.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewSubscriptionSchedulePhase) UnmarshalJSON(data []byte) error {
+	type quotePreviewSubscriptionSchedulePhase QuotePreviewSubscriptionSchedulePhase
+	v := struct {
+		EndDate   int64 `json:"end_date"`
+		StartDate int64 `json:"start_date"`
+		TrialEnd  int64 `json:"trial_end"`
+		*quotePreviewSubscriptionSchedulePhase
+	}{
+		quotePreviewSubscriptionSchedulePhase: (*quotePreviewSubscriptionSchedulePhase)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.EndDate = time.Unix(v.EndDate, 0)
+	q.StartDate = time.Unix(v.StartDate, 0)
+	q.TrialEnd = time.Unix(v.TrialEnd, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewSubscriptionSchedulePrebilling.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewSubscriptionSchedulePrebilling) UnmarshalJSON(data []byte) error {
+	type quotePreviewSubscriptionSchedulePrebilling QuotePreviewSubscriptionSchedulePrebilling
+	v := struct {
+		PeriodEnd   int64 `json:"period_end"`
+		PeriodStart int64 `json:"period_start"`
+		*quotePreviewSubscriptionSchedulePrebilling
+	}{
+		quotePreviewSubscriptionSchedulePrebilling: (*quotePreviewSubscriptionSchedulePrebilling)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.PeriodEnd = time.Unix(v.PeriodEnd, 0)
+	q.PeriodStart = time.Unix(v.PeriodStart, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a QuotePreviewSubscriptionSchedule.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (q *QuotePreviewSubscriptionSchedule) UnmarshalJSON(data []byte) error {
+	type quotePreviewSubscriptionSchedule QuotePreviewSubscriptionSchedule
+	v := struct {
+		CanceledAt  int64 `json:"canceled_at"`
+		CompletedAt int64 `json:"completed_at"`
+		Created     int64 `json:"created"`
+		ReleasedAt  int64 `json:"released_at"`
+		*quotePreviewSubscriptionSchedule
+	}{
+		quotePreviewSubscriptionSchedule: (*quotePreviewSubscriptionSchedule)(q),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	q.CanceledAt = time.Unix(v.CanceledAt, 0)
+	q.CompletedAt = time.Unix(v.CompletedAt, 0)
+	q.Created = time.Unix(v.Created, 0)
+	q.ReleasedAt = time.Unix(v.ReleasedAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a QuotePreviewSubscriptionScheduleCurrentPhase.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewSubscriptionScheduleCurrentPhase) MarshalJSON() ([]byte, error) {
+	type quotePreviewSubscriptionScheduleCurrentPhase QuotePreviewSubscriptionScheduleCurrentPhase
+	v := struct {
+		EndDate   int64 `json:"end_date"`
+		StartDate int64 `json:"start_date"`
+		quotePreviewSubscriptionScheduleCurrentPhase
+	}{
+		quotePreviewSubscriptionScheduleCurrentPhase: (quotePreviewSubscriptionScheduleCurrentPhase)(q),
+		EndDate:   q.EndDate.Unix(),
+		StartDate: q.StartDate.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewSubscriptionScheduleLastPriceMigrationError.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewSubscriptionScheduleLastPriceMigrationError) MarshalJSON() ([]byte, error) {
+	type quotePreviewSubscriptionScheduleLastPriceMigrationError QuotePreviewSubscriptionScheduleLastPriceMigrationError
+	v := struct {
+		ErroredAt int64 `json:"errored_at"`
+		quotePreviewSubscriptionScheduleLastPriceMigrationError
+	}{
+		quotePreviewSubscriptionScheduleLastPriceMigrationError: (quotePreviewSubscriptionScheduleLastPriceMigrationError)(q),
+		ErroredAt: q.ErroredAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
+	type quotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		quotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd
+	}{
+		quotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd: (quotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd)(q),
+		Timestamp: q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
+	type quotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		quotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd
+	}{
+		quotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd: (quotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd)(q),
+		Timestamp: q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
+	type quotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd
+	v := struct {
+		Timestamp int64 `json:"timestamp"`
+		quotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd
+	}{
+		quotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd: (quotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd)(q),
+		Timestamp: q.Timestamp.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewSubscriptionSchedulePhase.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewSubscriptionSchedulePhase) MarshalJSON() ([]byte, error) {
+	type quotePreviewSubscriptionSchedulePhase QuotePreviewSubscriptionSchedulePhase
+	v := struct {
+		EndDate   int64 `json:"end_date"`
+		StartDate int64 `json:"start_date"`
+		TrialEnd  int64 `json:"trial_end"`
+		quotePreviewSubscriptionSchedulePhase
+	}{
+		quotePreviewSubscriptionSchedulePhase: (quotePreviewSubscriptionSchedulePhase)(q),
+		EndDate:                               q.EndDate.Unix(),
+		StartDate:                             q.StartDate.Unix(),
+		TrialEnd:                              q.TrialEnd.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewSubscriptionSchedulePrebilling.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewSubscriptionSchedulePrebilling) MarshalJSON() ([]byte, error) {
+	type quotePreviewSubscriptionSchedulePrebilling QuotePreviewSubscriptionSchedulePrebilling
+	v := struct {
+		PeriodEnd   int64 `json:"period_end"`
+		PeriodStart int64 `json:"period_start"`
+		quotePreviewSubscriptionSchedulePrebilling
+	}{
+		quotePreviewSubscriptionSchedulePrebilling: (quotePreviewSubscriptionSchedulePrebilling)(q),
+		PeriodEnd:   q.PeriodEnd.Unix(),
+		PeriodStart: q.PeriodStart.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a QuotePreviewSubscriptionSchedule.
+// This custom marshaling is needed to handle the time fields correctly.
+func (q QuotePreviewSubscriptionSchedule) MarshalJSON() ([]byte, error) {
+	type quotePreviewSubscriptionSchedule QuotePreviewSubscriptionSchedule
+	v := struct {
+		CanceledAt  int64 `json:"canceled_at"`
+		CompletedAt int64 `json:"completed_at"`
+		Created     int64 `json:"created"`
+		ReleasedAt  int64 `json:"released_at"`
+		quotePreviewSubscriptionSchedule
+	}{
+		quotePreviewSubscriptionSchedule: (quotePreviewSubscriptionSchedule)(q),
+		CanceledAt:                       q.CanceledAt.Unix(),
+		CompletedAt:                      q.CompletedAt.Unix(),
+		Created:                          q.Created.Unix(),
+		ReleasedAt:                       q.ReleasedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

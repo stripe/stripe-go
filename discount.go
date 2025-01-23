@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // A discount represents the actual application of a [coupon](https://stripe.com/docs/api#coupons) or [promotion code](https://stripe.com/docs/api#promotion_codes).
 // It contains information about when the discount began, when it will end, and what it is applied to.
@@ -23,7 +26,7 @@ type Discount struct {
 	Customer *Customer `json:"customer"`
 	Deleted  bool      `json:"deleted"`
 	// If the coupon has a duration of `repeating`, the date that this discount will end. If the coupon has a duration of `once` or `forever`, this attribute will be null.
-	End int64 `json:"end"`
+	End time.Time `json:"end"`
 	// The ID of the discount object. Discounts cannot be fetched by ID. Use `expand[]=discounts` in API calls to expand discount IDs in an array.
 	ID string `json:"id"`
 	// The invoice that the discount's coupon was applied to, if it was applied directly to a particular invoice.
@@ -35,7 +38,7 @@ type Discount struct {
 	// The promotion code applied to create this discount.
 	PromotionCode *PromotionCode `json:"promotion_code"`
 	// Date that the coupon was applied.
-	Start int64 `json:"start"`
+	Start time.Time `json:"start"`
 	// The subscription that this coupon is applied to, if it is applied to a particular subscription.
 	Subscription string `json:"subscription"`
 	// The subscription item that this coupon is applied to, if it is applied to a particular subscription item.
@@ -52,11 +55,38 @@ func (d *Discount) UnmarshalJSON(data []byte) error {
 	}
 
 	type discount Discount
-	var v discount
+	v := struct {
+		End   int64 `json:"end"`
+		Start int64 `json:"start"`
+		*discount
+	}{
+		discount: (*discount)(d),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*d = Discount(v)
+	d.End = time.Unix(v.End, 0)
+	d.Start = time.Unix(v.Start, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a Discount.
+// This custom marshaling is needed to handle the time fields correctly.
+func (d Discount) MarshalJSON() ([]byte, error) {
+	type discount Discount
+	v := struct {
+		End   int64 `json:"end"`
+		Start int64 `json:"start"`
+		discount
+	}{
+		discount: (discount)(d),
+		End:      d.End.Unix(),
+		Start:    d.Start.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }
