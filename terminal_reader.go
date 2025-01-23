@@ -567,8 +567,6 @@ type TerminalReaderActionCollectPaymentMethod struct {
 	//
 	// Related guides: [Payment Methods](https://stripe.com/docs/payments/payment-methods) and [More Payment Scenarios](https://stripe.com/docs/payments/more-payment-scenarios).
 	PaymentMethod *PaymentMethod `json:"payment_method"`
-	// This field will be deprecated. Please use `account` instead.
-	StripeAccount string `json:"stripe_account"`
 }
 
 // Represents a reader action to confirm a payment
@@ -577,8 +575,6 @@ type TerminalReaderActionConfirmPaymentIntent struct {
 	Account string `json:"account"`
 	// Most recent PaymentIntent processed by the reader.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
-	// This field will be deprecated. Please use `account` instead.
-	StripeAccount string `json:"stripe_account"`
 }
 
 // Represents a per-transaction tipping configuration
@@ -605,8 +601,6 @@ type TerminalReaderActionProcessPaymentIntent struct {
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// Represents a per-transaction override of a reader configuration
 	ProcessConfig *TerminalReaderActionProcessPaymentIntentProcessConfig `json:"process_config"`
-	// This field will be deprecated. Please use `account` instead.
-	StripeAccount string `json:"stripe_account"`
 }
 
 // Represents a per-setup override of a reader configuration
@@ -653,8 +647,6 @@ type TerminalReaderActionRefundPayment struct {
 	RefundPaymentConfig *TerminalReaderActionRefundPaymentRefundPaymentConfig `json:"refund_payment_config"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
 	ReverseTransfer bool `json:"reverse_transfer"`
-	// This field will be deprecated. Please use `account` instead.
-	StripeAccount string `json:"stripe_account"`
 }
 
 // List of line items in the cart.
