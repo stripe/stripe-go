@@ -37,6 +37,21 @@ jobs:
         run: |
           just lint format-check
 
+  govulncheck:
+    name: govulncheck
+    runs-on: "ubuntu-24.04"
+    if: github.ref == 'refs/heads/beta'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: "1.23"
+      - name: Install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      - name: Run vulnerability scan
+        run: govulncheck ./...
+
   test:
     runs-on: "ubuntu-24.04"
     strategy:
