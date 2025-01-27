@@ -245,8 +245,12 @@ type TreasuryFinancialAccountParams struct {
 	Expand []*string `form:"expand"`
 	// Encodes whether a FinancialAccount has access to a particular feature, with a status enum and associated `status_details`. Stripe or the platform may control features via the requested field.
 	Features *TreasuryFinancialAccountFeaturesParams `form:"features"`
+	// A different bank account where funds can be deposited/debited in order to get the closing FA's balance to $0
+	ForwardingSettings *TreasuryFinancialAccountForwardingSettingsParams `form:"forwarding_settings"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// The nickname for the FinancialAccount.
+	Nickname *string `form:"nickname"`
 	// The set of functionalities that the platform can restrict on the FinancialAccount.
 	PlatformRestrictions *TreasuryFinancialAccountPlatformRestrictionsParams `form:"platform_restrictions"`
 	// The currencies the FinancialAccount can hold a balance in.
@@ -265,6 +269,16 @@ func (p *TreasuryFinancialAccountParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// A different bank account where funds can be deposited/debited in order to get the closing FA's balance to $0
+type TreasuryFinancialAccountForwardingSettingsParams struct {
+	// The financial_account id
+	FinancialAccount *string `form:"financial_account"`
+	// The payment_method or bank account id. This needs to be a verified bank account.
+	PaymentMethod *string `form:"payment_method"`
+	// The type of the bank account provided. This can be either "financial_account" or "payment_method"
+	Type *string `form:"type"`
 }
 
 // Retrieves Features information associated with the FinancialAccount.
@@ -387,6 +401,30 @@ func (p *TreasuryFinancialAccountUpdateFeaturesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// A different bank account where funds can be deposited/debited in order to get the closing FA's balance to $0
+type TreasuryFinancialAccountCloseForwardingSettingsParams struct {
+	// The financial_account id
+	FinancialAccount *string `form:"financial_account"`
+	// The payment_method or bank account id. This needs to be a verified bank account.
+	PaymentMethod *string `form:"payment_method"`
+	// The type of the bank account provided. This can be either "financial_account" or "payment_method"
+	Type *string `form:"type"`
+}
+
+// Closes a FinancialAccount. A FinancialAccount can only be closed if it has a zero balance, has no pending InboundTransfers, and has canceled all attached Issuing cards.
+type TreasuryFinancialAccountCloseParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A different bank account where funds can be deposited/debited in order to get the closing FA's balance to $0
+	ForwardingSettings *TreasuryFinancialAccountCloseForwardingSettingsParams `form:"forwarding_settings"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryFinancialAccountCloseParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Balance information for the FinancialAccount
 type TreasuryFinancialAccountBalance struct {
 	// Funds the user can spend right now.
@@ -457,11 +495,14 @@ type TreasuryFinancialAccount struct {
 	// The set of credentials that resolve to a FinancialAccount.
 	FinancialAddresses []*TreasuryFinancialAccountFinancialAddress `json:"financial_addresses"`
 	// Unique identifier for the object.
-	ID string `json:"id"`
+	ID        string `json:"id"`
+	IsDefault bool   `json:"is_default"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// The nickname for the FinancialAccount.
+	Nickname string `json:"nickname"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The array of paths to pending Features in the Features hash.

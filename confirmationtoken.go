@@ -351,6 +351,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeNaverPay         ConfirmationTokenPaymentMethodPreviewType = "naver_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeOXXO             ConfirmationTokenPaymentMethodPreviewType = "oxxo"
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
+	ConfirmationTokenPaymentMethodPreviewTypePayByBank        ConfirmationTokenPaymentMethodPreviewType = "pay_by_bank"
 	ConfirmationTokenPaymentMethodPreviewTypePayco            ConfirmationTokenPaymentMethodPreviewType = "payco"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
@@ -899,9 +900,12 @@ type ConfirmationTokenPaymentMethodPreviewP24 struct {
 	// The customer's bank, if provided.
 	Bank ConfirmationTokenPaymentMethodPreviewP24Bank `json:"bank"`
 }
+type ConfirmationTokenPaymentMethodPreviewPayByBank struct{}
 type ConfirmationTokenPaymentMethodPreviewPayco struct{}
 type ConfirmationTokenPaymentMethodPreviewPayNow struct{}
 type ConfirmationTokenPaymentMethodPreviewPaypal struct {
+	// Two-letter ISO code representing the buyer's country. Values are provided by PayPal directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	Country string `json:"country"`
 	// Owner's email. Values are provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	PayerEmail string `json:"payer_email"`
@@ -1020,6 +1024,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	NaverPay        *ConfirmationTokenPaymentMethodPreviewNaverPay        `json:"naver_pay"`
 	OXXO            *ConfirmationTokenPaymentMethodPreviewOXXO            `json:"oxxo"`
 	P24             *ConfirmationTokenPaymentMethodPreviewP24             `json:"p24"`
+	PayByBank       *ConfirmationTokenPaymentMethodPreviewPayByBank       `json:"pay_by_bank"`
 	Payco           *ConfirmationTokenPaymentMethodPreviewPayco           `json:"payco"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`
 	Paypal          *ConfirmationTokenPaymentMethodPreviewPaypal          `json:"paypal"`

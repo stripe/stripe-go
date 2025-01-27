@@ -451,6 +451,9 @@ type SetupIntentPaymentMethodDataP24Params struct {
 	Bank *string `form:"bank"`
 }
 
+// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+type SetupIntentPaymentMethodDataPayByBankParams struct{}
+
 // If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
 type SetupIntentPaymentMethodDataPaycoParams struct{}
 
@@ -583,6 +586,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	OXXO *SetupIntentPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *SetupIntentPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+	PayByBank *SetupIntentPaymentMethodDataPayByBankParams `form:"pay_by_bank"`
 	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
 	Payco *SetupIntentPaymentMethodDataPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
@@ -1097,6 +1102,9 @@ type SetupIntentConfirmPaymentMethodDataP24Params struct {
 	Bank *string `form:"bank"`
 }
 
+// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+type SetupIntentConfirmPaymentMethodDataPayByBankParams struct{}
+
 // If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
 type SetupIntentConfirmPaymentMethodDataPaycoParams struct{}
 
@@ -1229,6 +1237,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	OXXO *SetupIntentConfirmPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *SetupIntentConfirmPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+	PayByBank *SetupIntentConfirmPaymentMethodDataPayByBankParams `form:"pay_by_bank"`
 	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
 	Payco *SetupIntentConfirmPaymentMethodDataPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
