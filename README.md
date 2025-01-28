@@ -7,7 +7,7 @@ The official [Stripe][stripe] Go client library.
 
 ## Requirements
 
-- Go 1.15 or later
+- Go 1.18 or later
 
 ## Installation
 
