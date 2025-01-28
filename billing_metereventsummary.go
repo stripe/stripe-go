@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Retrieve a list of billing meter event summaries.
 type BillingMeterEventSummaryListParams struct {
 	ListParams `form:"*"`
@@ -13,11 +18,11 @@ type BillingMeterEventSummaryListParams struct {
 	// The customer for which to fetch event summaries.
 	Customer *string `form:"customer"`
 	// The timestamp from when to stop aggregating meter events (exclusive). Must be aligned with minute boundaries.
-	EndTime *int64 `form:"end_time"`
+	EndTime *time.Time `form:"end_time"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The timestamp from when to start aggregating meter events (inclusive). Must be aligned with minute boundaries.
-	StartTime *int64 `form:"start_time"`
+	StartTime *time.Time `form:"start_time"`
 	// Specifies what granularity to use when generating event summaries. If not specified, a single event summary would be returned for the specified time range. For hourly granularity, start and end times must align with hour boundaries (e.g., 00:00, 01:00, ..., 23:00). For daily granularity, start and end times must align with UTC day boundaries (00:00 UTC).
 	ValueGroupingWindow *string `form:"value_grouping_window"`
 }
@@ -33,7 +38,7 @@ type BillingMeterEventSummary struct {
 	// Aggregated value of all the events within `start_time` (inclusive) and `end_time` (inclusive). The aggregation strategy is defined on meter via `default_aggregation`.
 	AggregatedValue float64 `json:"aggregated_value"`
 	// End timestamp for this event summary (exclusive). Must be aligned with minute boundaries.
-	EndTime int64 `json:"end_time"`
+	EndTime time.Time `json:"end_time"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -43,7 +48,7 @@ type BillingMeterEventSummary struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Start timestamp for this event summary (inclusive). Must be aligned with minute boundaries.
-	StartTime int64 `json:"start_time"`
+	StartTime time.Time `json:"start_time"`
 }
 
 // BillingMeterEventSummaryList is a list of MeterEventSummaries as retrieved from a list endpoint.
@@ -51,4 +56,44 @@ type BillingMeterEventSummaryList struct {
 	APIResource
 	ListMeta
 	Data []*BillingMeterEventSummary `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a BillingMeterEventSummary.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (b *BillingMeterEventSummary) UnmarshalJSON(data []byte) error {
+	type billingMeterEventSummary BillingMeterEventSummary
+	v := struct {
+		EndTime   int64 `json:"end_time"`
+		StartTime int64 `json:"start_time"`
+		*billingMeterEventSummary
+	}{
+		billingMeterEventSummary: (*billingMeterEventSummary)(b),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	b.EndTime = time.Unix(v.EndTime, 0)
+	b.StartTime = time.Unix(v.StartTime, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a BillingMeterEventSummary.
+// This custom marshaling is needed to handle the time fields correctly.
+func (b BillingMeterEventSummary) MarshalJSON() ([]byte, error) {
+	type billingMeterEventSummary BillingMeterEventSummary
+	v := struct {
+		EndTime   int64 `json:"end_time"`
+		StartTime int64 `json:"start_time"`
+		billingMeterEventSummary
+	}{
+		billingMeterEventSummary: (billingMeterEventSummary)(b),
+		EndTime:                  b.EndTime.Unix(),
+		StartTime:                b.StartTime.Unix(),
+	}
+	bb, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return bb, err
 }

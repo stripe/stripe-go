@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The cardholder's preferred locales (languages), ordered by preference. Locales can be `de`, `en`, `es`, `fr`, or `it`.
 //
@@ -104,7 +107,7 @@ type IssuingCardholderCompanyParams struct {
 // Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptanceParams struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
-	Date *int64 `form:"date"`
+	Date *time.Time `form:"date"`
 	// The IP address from which the cardholder accepted the Authorized User Terms. Required for Celtic Spend Card users.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
@@ -239,7 +242,7 @@ type IssuingCardholderCompany struct {
 // Information about cardholder acceptance of Celtic [Authorized User Terms](https://stripe.com/docs/issuing/cards#accept-authorized-user-terms). Required for cards backed by a Celtic program.
 type IssuingCardholderIndividualCardIssuingUserTermsAcceptance struct {
 	// The Unix timestamp marking when the cardholder accepted the Authorized User Terms.
-	Date int64 `json:"date"`
+	Date time.Time `json:"date"`
 	// The IP address from which the cardholder accepted the Authorized User Terms.
 	IP string `json:"ip"`
 	// The user agent of the browser from which the cardholder accepted the Authorized User Terms.
@@ -331,7 +334,7 @@ type IssuingCardholder struct {
 	// Additional information about a `company` cardholder.
 	Company *IssuingCardholderCompany `json:"company"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The cardholder's email address.
 	Email string `json:"email"`
 	// Unique identifier for the object.
@@ -377,11 +380,70 @@ func (i *IssuingCardholder) UnmarshalJSON(data []byte) error {
 	}
 
 	type issuingCardholder IssuingCardholder
-	var v issuingCardholder
+	v := struct {
+		Created int64 `json:"created"`
+		*issuingCardholder
+	}{
+		issuingCardholder: (*issuingCardholder)(i),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = IssuingCardholder(v)
+	i.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// UnmarshalJSON handles deserialization of an IssuingCardholderIndividualCardIssuingUserTermsAcceptance.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (i *IssuingCardholderIndividualCardIssuingUserTermsAcceptance) UnmarshalJSON(data []byte) error {
+	type issuingCardholderIndividualCardIssuingUserTermsAcceptance IssuingCardholderIndividualCardIssuingUserTermsAcceptance
+	v := struct {
+		Date int64 `json:"date"`
+		*issuingCardholderIndividualCardIssuingUserTermsAcceptance
+	}{
+		issuingCardholderIndividualCardIssuingUserTermsAcceptance: (*issuingCardholderIndividualCardIssuingUserTermsAcceptance)(i),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	i.Date = time.Unix(v.Date, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an IssuingCardholderIndividualCardIssuingUserTermsAcceptance.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i IssuingCardholderIndividualCardIssuingUserTermsAcceptance) MarshalJSON() ([]byte, error) {
+	type issuingCardholderIndividualCardIssuingUserTermsAcceptance IssuingCardholderIndividualCardIssuingUserTermsAcceptance
+	v := struct {
+		Date int64 `json:"date"`
+		issuingCardholderIndividualCardIssuingUserTermsAcceptance
+	}{
+		issuingCardholderIndividualCardIssuingUserTermsAcceptance: (issuingCardholderIndividualCardIssuingUserTermsAcceptance)(i),
+		Date: i.Date.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of an IssuingCardholder.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i IssuingCardholder) MarshalJSON() ([]byte, error) {
+	type issuingCardholder IssuingCardholder
+	v := struct {
+		Created int64 `json:"created"`
+		issuingCardholder
+	}{
+		issuingCardholder: (issuingCardholder)(i),
+		Created:           i.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

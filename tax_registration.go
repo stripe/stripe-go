@@ -6,7 +6,11 @@
 
 package stripe
 
-import "github.com/stripe/stripe-go/v81/form"
+import (
+	"encoding/json"
+	"github.com/stripe/stripe-go/v81/form"
+	"time"
+)
 
 // Type of registration in `country`.
 type TaxRegistrationCountryOptionsAeType string
@@ -2014,8 +2018,8 @@ type TaxRegistrationCountryOptionsParams struct {
 type TaxRegistrationParams struct {
 	Params `form:"*"`
 	// Time at which the Tax Registration becomes active. It can be either `now` to indicate the current time, or a future timestamp measured in seconds since the Unix epoch.
-	ActiveFrom    *int64 `form:"active_from"`
-	ActiveFromNow *bool  `form:"-"` // See custom AppendTo
+	ActiveFrom    *time.Time `form:"active_from"`
+	ActiveFromNow *bool      `form:"-"` // See custom AppendTo
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country *string `form:"country"`
 	// Specific options for a registration in the specified `country`.
@@ -2023,8 +2027,8 @@ type TaxRegistrationParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
-	ExpiresAt    *int64 `form:"expires_at"`
-	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
+	ExpiresAt    *time.Time `form:"expires_at"`
+	ExpiresAtNow *bool      `form:"-"` // See custom AppendTo
 }
 
 // AddExpand appends a new field to expand.
@@ -2648,14 +2652,14 @@ type TaxRegistrationCountryOptions struct {
 type TaxRegistration struct {
 	APIResource
 	// Time at which the registration becomes active. Measured in seconds since the Unix epoch.
-	ActiveFrom int64 `json:"active_from"`
+	ActiveFrom time.Time `json:"active_from"`
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country        string                         `json:"country"`
 	CountryOptions *TaxRegistrationCountryOptions `json:"country_options"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. Measured in seconds since the Unix epoch.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -2671,4 +2675,48 @@ type TaxRegistrationList struct {
 	APIResource
 	ListMeta
 	Data []*TaxRegistration `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a TaxRegistration.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *TaxRegistration) UnmarshalJSON(data []byte) error {
+	type taxRegistration TaxRegistration
+	v := struct {
+		ActiveFrom int64 `json:"active_from"`
+		Created    int64 `json:"created"`
+		ExpiresAt  int64 `json:"expires_at"`
+		*taxRegistration
+	}{
+		taxRegistration: (*taxRegistration)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.ActiveFrom = time.Unix(v.ActiveFrom, 0)
+	t.Created = time.Unix(v.Created, 0)
+	t.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a TaxRegistration.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TaxRegistration) MarshalJSON() ([]byte, error) {
+	type taxRegistration TaxRegistration
+	v := struct {
+		ActiveFrom int64 `json:"active_from"`
+		Created    int64 `json:"created"`
+		ExpiresAt  int64 `json:"expires_at"`
+		taxRegistration
+	}{
+		taxRegistration: (taxRegistration)(t),
+		ActiveFrom:      t.ActiveFrom.Unix(),
+		Created:         t.Created.Unix(),
+		ExpiresAt:       t.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

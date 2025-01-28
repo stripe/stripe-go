@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 type PayoutDestinationType string
 
@@ -203,13 +206,13 @@ type Payout struct {
 	// The amount of the application fee (if any) requested for the payout. [See the Connect documentation](https://stripe.com/docs/connect/instant-payouts#monetization-and-fees) for details.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// Date that you can expect the payout to arrive in the bank. This factors in delays to account for weekends or bank holidays.
-	ArrivalDate int64 `json:"arrival_date"`
+	ArrivalDate time.Time `json:"arrival_date"`
 	// Returns `true` if the payout is created by an [automated payout schedule](https://stripe.com/docs/payouts#payout-schedule) and `false` if it's [requested manually](https://stripe.com/docs/payouts#manual-payouts).
 	Automatic bool `json:"automatic"`
 	// ID of the balance transaction that describes the impact of this payout on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -274,12 +277,19 @@ func (p *Payout) UnmarshalJSON(data []byte) error {
 	}
 
 	type payout Payout
-	var v payout
+	v := struct {
+		ArrivalDate int64 `json:"arrival_date"`
+		Created     int64 `json:"created"`
+		*payout
+	}{
+		payout: (*payout)(p),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*p = Payout(v)
+	p.ArrivalDate = time.Unix(v.ArrivalDate, 0)
+	p.Created = time.Unix(v.Created, 0)
 	return nil
 }
 
@@ -308,4 +318,24 @@ func (p *PayoutDestination) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &p.Card)
 	}
 	return err
+}
+
+// MarshalJSON handles serialization of a Payout.
+// This custom marshaling is needed to handle the time fields correctly.
+func (p Payout) MarshalJSON() ([]byte, error) {
+	type payout Payout
+	v := struct {
+		ArrivalDate int64 `json:"arrival_date"`
+		Created     int64 `json:"created"`
+		payout
+	}{
+		payout:      (payout)(p),
+		ArrivalDate: p.ArrivalDate.Unix(),
+		Created:     p.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

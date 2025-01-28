@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The field kinds to be replaced in the forwarded request.
 type ForwardingRequestReplacement string
 
@@ -150,7 +155,7 @@ type ForwardingRequestResponseDetails struct {
 type ForwardingRequest struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -178,4 +183,40 @@ type ForwardingRequestList struct {
 	APIResource
 	ListMeta
 	Data []*ForwardingRequest `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a ForwardingRequest.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (f *ForwardingRequest) UnmarshalJSON(data []byte) error {
+	type forwardingRequest ForwardingRequest
+	v := struct {
+		Created int64 `json:"created"`
+		*forwardingRequest
+	}{
+		forwardingRequest: (*forwardingRequest)(f),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	f.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a ForwardingRequest.
+// This custom marshaling is needed to handle the time fields correctly.
+func (f ForwardingRequest) MarshalJSON() ([]byte, error) {
+	type forwardingRequest ForwardingRequest
+	v := struct {
+		Created int64 `json:"created"`
+		forwardingRequest
+	}{
+		forwardingRequest: (forwardingRequest)(f),
+		Created:           f.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 type BillingMeterErrorReportReasonErrorTypeSampleErrorAPIRequest struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -49,7 +54,47 @@ type BillingMeterErrorReport struct {
 	// Summary of invalid events
 	Summary string `json:"summary"`
 	// Time when validation ended. Measured in seconds since the Unix epoch
-	ValidationEnd int64 `json:"validation_end"`
+	ValidationEnd time.Time `json:"validation_end"`
 	// Time when validation started. Measured in seconds since the Unix epoch
-	ValidationStart int64 `json:"validation_start"`
+	ValidationStart time.Time `json:"validation_start"`
+}
+
+// UnmarshalJSON handles deserialization of a BillingMeterErrorReport.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (b *BillingMeterErrorReport) UnmarshalJSON(data []byte) error {
+	type billingMeterErrorReport BillingMeterErrorReport
+	v := struct {
+		ValidationEnd   int64 `json:"validation_end"`
+		ValidationStart int64 `json:"validation_start"`
+		*billingMeterErrorReport
+	}{
+		billingMeterErrorReport: (*billingMeterErrorReport)(b),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	b.ValidationEnd = time.Unix(v.ValidationEnd, 0)
+	b.ValidationStart = time.Unix(v.ValidationStart, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a BillingMeterErrorReport.
+// This custom marshaling is needed to handle the time fields correctly.
+func (b BillingMeterErrorReport) MarshalJSON() ([]byte, error) {
+	type billingMeterErrorReport BillingMeterErrorReport
+	v := struct {
+		ValidationEnd   int64 `json:"validation_end"`
+		ValidationStart int64 `json:"validation_start"`
+		billingMeterErrorReport
+	}{
+		billingMeterErrorReport: (billingMeterErrorReport)(b),
+		ValidationEnd:           b.ValidationEnd.Unix(),
+		ValidationStart:         b.ValidationStart.Unix(),
+	}
+	bb, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return bb, err
 }

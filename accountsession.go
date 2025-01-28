@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAccountManagementFeaturesParams struct {
 	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
@@ -679,9 +684,45 @@ type AccountSession struct {
 	ClientSecret string                    `json:"client_secret"`
 	Components   *AccountSessionComponents `json:"components"`
 	// The timestamp at which this AccountSession will expire.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+}
+
+// UnmarshalJSON handles deserialization of an AccountSession.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (a *AccountSession) UnmarshalJSON(data []byte) error {
+	type accountSession AccountSession
+	v := struct {
+		ExpiresAt int64 `json:"expires_at"`
+		*accountSession
+	}{
+		accountSession: (*accountSession)(a),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	a.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an AccountSession.
+// This custom marshaling is needed to handle the time fields correctly.
+func (a AccountSession) MarshalJSON() ([]byte, error) {
+	type accountSession AccountSession
+	v := struct {
+		ExpiresAt int64 `json:"expires_at"`
+		accountSession
+	}{
+		accountSession: (accountSession)(a),
+		ExpiresAt:      a.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

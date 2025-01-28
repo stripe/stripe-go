@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The mandate includes the type of customer acceptance information, such as: `online` or `offline`.
 type MandateCustomerAcceptanceType string
@@ -173,7 +176,7 @@ type MandateCustomerAcceptanceOnline struct {
 }
 type MandateCustomerAcceptance struct {
 	// The time that the customer accepts the mandate.
-	AcceptedAt int64                             `json:"accepted_at"`
+	AcceptedAt time.Time                         `json:"accepted_at"`
 	Offline    *MandateCustomerAcceptanceOffline `json:"offline"`
 	Online     *MandateCustomerAcceptanceOnline  `json:"online"`
 	// The mandate includes the type of customer acceptance information, such as: `online` or `offline`.
@@ -313,4 +316,40 @@ func (m *Mandate) UnmarshalJSON(data []byte) error {
 
 	*m = Mandate(v)
 	return nil
+}
+
+// UnmarshalJSON handles deserialization of a MandateCustomerAcceptance.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (m *MandateCustomerAcceptance) UnmarshalJSON(data []byte) error {
+	type mandateCustomerAcceptance MandateCustomerAcceptance
+	v := struct {
+		AcceptedAt int64 `json:"accepted_at"`
+		*mandateCustomerAcceptance
+	}{
+		mandateCustomerAcceptance: (*mandateCustomerAcceptance)(m),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	m.AcceptedAt = time.Unix(v.AcceptedAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a MandateCustomerAcceptance.
+// This custom marshaling is needed to handle the time fields correctly.
+func (m MandateCustomerAcceptance) MarshalJSON() ([]byte, error) {
+	type mandateCustomerAcceptance MandateCustomerAcceptance
+	v := struct {
+		AcceptedAt int64 `json:"accepted_at"`
+		mandateCustomerAcceptance
+	}{
+		mandateCustomerAcceptance: (mandateCustomerAcceptance)(m),
+		AcceptedAt:                m.AcceptedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

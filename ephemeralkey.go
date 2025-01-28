@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // Invalidates a short-lived API key for a given resource.
 type EphemeralKeyParams struct {
@@ -32,9 +35,9 @@ func (p *EphemeralKeyParams) AddExpand(f string) {
 type EphemeralKey struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Time at which the key will expire. Measured in seconds since the Unix epoch.
-	Expires int64 `json:"expires"`
+	Expires time.Time `json:"expires"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -58,11 +61,19 @@ type EphemeralKey struct {
 
 func (e *EphemeralKey) UnmarshalJSON(data []byte) error {
 	type ephemeralKey EphemeralKey
-	var ee ephemeralKey
-	err := json.Unmarshal(data, &ee)
-	if err == nil {
-		*e = EphemeralKey(ee)
+	v := struct {
+		Created int64 `json:"created"`
+		Expires int64 `json:"expires"`
+		*ephemeralKey
+	}{
+		ephemeralKey: (*ephemeralKey)(e),
 	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	e.Created = time.Unix(v.Created, 0)
+	e.Expires = time.Unix(v.Expires, 0)
 
 	// Go does guarantee the longevity of `data`, so copy when assigning `RawJSON`
 	// See https://golang.org/pkg/encoding/json/#Unmarshaler
@@ -70,4 +81,24 @@ func (e *EphemeralKey) UnmarshalJSON(data []byte) error {
 	e.RawJSON = append(e.RawJSON[:0], data...)
 
 	return nil
+}
+
+// MarshalJSON handles serialization of an EphemeralKey.
+// This custom marshaling is needed to handle the time fields correctly.
+func (e EphemeralKey) MarshalJSON() ([]byte, error) {
+	type ephemeralKey EphemeralKey
+	v := struct {
+		Created int64 `json:"created"`
+		Expires int64 `json:"expires"`
+		ephemeralKey
+	}{
+		ephemeralKey: (ephemeralKey)(e),
+		Created:      e.Created.Unix(),
+		Expires:      e.Expires.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

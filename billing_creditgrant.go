@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The type of this amount. We currently only support `monetary` billing credits.
 type BillingCreditGrantAmountType string
@@ -87,11 +90,11 @@ type BillingCreditGrantParams struct {
 	// ID of the customer to receive the billing credits.
 	Customer *string `form:"customer"`
 	// The time when the billing credits become effective-when they're eligible for use. It defaults to the current timestamp if not specified.
-	EffectiveAt *int64 `form:"effective_at"`
+	EffectiveAt *time.Time `form:"effective_at"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The time when the billing credits created by this credit grant expire. If set to empty, the billing credits never expire.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *time.Time `form:"expires_at"`
 	// Set of key-value pairs that you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format.
 	Metadata map[string]string `form:"metadata"`
 	// A descriptive name shown in the Dashboard.
@@ -167,13 +170,13 @@ type BillingCreditGrant struct {
 	// The category of this credit grant. This is for tracking purposes and isn't displayed to the customer.
 	Category BillingCreditGrantCategory `json:"category"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// ID of the customer receiving the billing credits.
 	Customer *Customer `json:"customer"`
 	// The time when the billing credits become effective-when they're eligible for use.
-	EffectiveAt int64 `json:"effective_at"`
+	EffectiveAt time.Time `json:"effective_at"`
 	// The time when the billing credits expire. If not present, the billing credits don't expire.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -187,9 +190,9 @@ type BillingCreditGrant struct {
 	// ID of the test clock this credit grant belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
-	Updated int64 `json:"updated"`
+	Updated time.Time `json:"updated"`
 	// The time when this credit grant was voided. If not present, the credit grant hasn't been voided.
-	VoidedAt int64 `json:"voided_at"`
+	VoidedAt time.Time `json:"voided_at"`
 }
 
 // BillingCreditGrantList is a list of CreditGrants as retrieved from a list endpoint.
@@ -209,11 +212,50 @@ func (b *BillingCreditGrant) UnmarshalJSON(data []byte) error {
 	}
 
 	type billingCreditGrant BillingCreditGrant
-	var v billingCreditGrant
+	v := struct {
+		Created     int64 `json:"created"`
+		EffectiveAt int64 `json:"effective_at"`
+		ExpiresAt   int64 `json:"expires_at"`
+		Updated     int64 `json:"updated"`
+		VoidedAt    int64 `json:"voided_at"`
+		*billingCreditGrant
+	}{
+		billingCreditGrant: (*billingCreditGrant)(b),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*b = BillingCreditGrant(v)
+	b.Created = time.Unix(v.Created, 0)
+	b.EffectiveAt = time.Unix(v.EffectiveAt, 0)
+	b.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	b.Updated = time.Unix(v.Updated, 0)
+	b.VoidedAt = time.Unix(v.VoidedAt, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a BillingCreditGrant.
+// This custom marshaling is needed to handle the time fields correctly.
+func (b BillingCreditGrant) MarshalJSON() ([]byte, error) {
+	type billingCreditGrant BillingCreditGrant
+	v := struct {
+		Created     int64 `json:"created"`
+		EffectiveAt int64 `json:"effective_at"`
+		ExpiresAt   int64 `json:"expires_at"`
+		Updated     int64 `json:"updated"`
+		VoidedAt    int64 `json:"voided_at"`
+		billingCreditGrant
+	}{
+		billingCreditGrant: (billingCreditGrant)(b),
+		Created:            b.Created.Unix(),
+		EffectiveAt:        b.EffectiveAt.Unix(),
+		ExpiresAt:          b.ExpiresAt.Unix(),
+		Updated:            b.Updated.Unix(),
+		VoidedAt:           b.VoidedAt.Unix(),
+	}
+	bb, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return bb, err
 }

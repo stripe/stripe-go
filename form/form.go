@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 const tagName = "form"
@@ -325,6 +326,14 @@ func intEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero b
 	values.Add(FormatKey(keyParts), strconv.FormatInt(val, 10))
 }
 
+func timeEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
+	val := v.Interface().(time.Time)
+	if val.IsZero() && !encodeZero {
+		return
+	}
+	values.Add(FormatKey(keyParts), strconv.FormatInt(val.Unix(), 10))
+}
+
 func interfaceEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
 	// interfaceEncoder never encodes a `nil`, but it will pass through an
 	// `encodeZero` value into its chained encoder
@@ -383,7 +392,6 @@ func uintEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero 
 // interface{}.
 func reflectValue(values *Values, v reflect.Value, encodeZero bool, keyParts []string) {
 	t := v.Type()
-
 	f := getCachedOrBuildTypeEncoder(t)
 	if f != nil {
 		f(values, v, keyParts, encodeZero || v.Kind() == reflect.Ptr, nil)
@@ -461,6 +469,12 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 }
 
 func makeTypeEncoder(t reflect.Type) encoderFunc {
+	// For time.Time, we want to encode imediately it as a Unix timestamp,
+	// and don't want to inspect into it and encode it as a struct.
+	if t == reflect.TypeOf(time.Time{}) {
+		return timeEncoder
+	}
+
 	switch t.Kind() {
 	case reflect.Array, reflect.Slice:
 		return buildArrayOrSliceEncoder(t)

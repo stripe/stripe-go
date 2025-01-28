@@ -23,10 +23,10 @@ func TestSourceNew(t *testing.T) {
 		Mandate: &stripe.SourceMandateParams{
 			Amount: stripe.Int64(1000),
 			Acceptance: &stripe.SourceMandateAcceptanceParams{
-				Date: stripe.Int64(1528573382),
+				Date: stripe.UnixTime(1528573382),
 				IP:   stripe.String("127.0.0.1"),
 				Online: &stripe.SourceMandateAcceptanceOnlineParams{
-					Date:      stripe.Int64(1528573382),
+					Date:      stripe.UnixTime(1528573382),
 					IP:        stripe.String("127.0.0.1"),
 					UserAgent: stripe.String("User-Agent"),
 				},

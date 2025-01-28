@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The secret scope type.
 type AppsSecretScopeType string
 
@@ -51,7 +56,7 @@ type AppsSecretParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The Unix timestamp for the expiry time of the secret, after which the secret deletes.
-	ExpiresAt *int64 `form:"expires_at"`
+	ExpiresAt *time.Time `form:"expires_at"`
 	// A name for the secret that's unique within the scope.
 	Name *string `form:"name"`
 	// The plaintext secret value to be stored.
@@ -132,11 +137,11 @@ type AppsSecretScope struct {
 type AppsSecret struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// If true, indicates that this secret has been deleted
 	Deleted bool `json:"deleted"`
 	// The Unix timestamp for the expiry time of the secret, after which the secret deletes.
-	ExpiresAt int64 `json:"expires_at"`
+	ExpiresAt time.Time `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -155,4 +160,44 @@ type AppsSecretList struct {
 	APIResource
 	ListMeta
 	Data []*AppsSecret `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of an AppsSecret.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (a *AppsSecret) UnmarshalJSON(data []byte) error {
+	type appsSecret AppsSecret
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		*appsSecret
+	}{
+		appsSecret: (*appsSecret)(a),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	a.Created = time.Unix(v.Created, 0)
+	a.ExpiresAt = time.Unix(v.ExpiresAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an AppsSecret.
+// This custom marshaling is needed to handle the time fields correctly.
+func (a AppsSecret) MarshalJSON() ([]byte, error) {
+	type appsSecret AppsSecret
+	v := struct {
+		Created   int64 `json:"created"`
+		ExpiresAt int64 `json:"expires_at"`
+		appsSecret
+	}{
+		appsSecret: (appsSecret)(a),
+		Created:    a.Created.Unix(),
+		ExpiresAt:  a.ExpiresAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

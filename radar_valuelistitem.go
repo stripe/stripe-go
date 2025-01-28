@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Deletes a ValueListItem object, removing it from its parent value list.
 type RadarValueListItemParams struct {
 	Params `form:"*"`
@@ -48,7 +53,7 @@ func (p *RadarValueListItemListParams) AddExpand(f string) {
 type RadarValueListItem struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The name or email address of the user who added this item to the value list.
 	CreatedBy string `json:"created_by"`
 	Deleted   bool   `json:"deleted"`
@@ -69,4 +74,40 @@ type RadarValueListItemList struct {
 	APIResource
 	ListMeta
 	Data []*RadarValueListItem `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a RadarValueListItem.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (r *RadarValueListItem) UnmarshalJSON(data []byte) error {
+	type radarValueListItem RadarValueListItem
+	v := struct {
+		Created int64 `json:"created"`
+		*radarValueListItem
+	}{
+		radarValueListItem: (*radarValueListItem)(r),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	r.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a RadarValueListItem.
+// This custom marshaling is needed to handle the time fields correctly.
+func (r RadarValueListItem) MarshalJSON() ([]byte, error) {
+	type radarValueListItem RadarValueListItem
+	v := struct {
+		Created int64 `json:"created"`
+		radarValueListItem
+	}{
+		radarValueListItem: (radarValueListItem)(r),
+		Created:            r.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

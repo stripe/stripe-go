@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The type of event corresponding to this dispute settlement detail, representing the stage in the dispute network lifecycle.
 type IssuingDisputeSettlementDetailEventType string
 
@@ -61,7 +66,7 @@ type IssuingDisputeSettlementDetail struct {
 	// The card used to make the original transaction.
 	Card string `json:"card"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The currency the original transaction was made in. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The ID of the linked dispute.
@@ -85,4 +90,40 @@ type IssuingDisputeSettlementDetailList struct {
 	APIResource
 	ListMeta
 	Data []*IssuingDisputeSettlementDetail `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of an IssuingDisputeSettlementDetail.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (i *IssuingDisputeSettlementDetail) UnmarshalJSON(data []byte) error {
+	type issuingDisputeSettlementDetail IssuingDisputeSettlementDetail
+	v := struct {
+		Created int64 `json:"created"`
+		*issuingDisputeSettlementDetail
+	}{
+		issuingDisputeSettlementDetail: (*issuingDisputeSettlementDetail)(i),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	i.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an IssuingDisputeSettlementDetail.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i IssuingDisputeSettlementDetail) MarshalJSON() ([]byte, error) {
+	type issuingDisputeSettlementDetail IssuingDisputeSettlementDetail
+	v := struct {
+		Created int64 `json:"created"`
+		issuingDisputeSettlementDetail
+	}{
+		issuingDisputeSettlementDetail: (issuingDisputeSettlementDetail)(i),
+		Created:                        i.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

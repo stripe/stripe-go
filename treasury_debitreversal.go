@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The rails used to reverse the funds.
 type TreasuryDebitReversalNetwork string
 
@@ -77,7 +82,7 @@ type TreasuryDebitReversalLinkedFlows struct {
 }
 type TreasuryDebitReversalStatusTransitions struct {
 	// Timestamp describing when the DebitReversal changed status to `completed`.
-	CompletedAt int64 `json:"completed_at"`
+	CompletedAt time.Time `json:"completed_at"`
 }
 
 // You can reverse some [ReceivedDebits](https://stripe.com/docs/api#received_debits) depending on their network and source flow. Reversing a ReceivedDebit leads to the creation of a new object known as a DebitReversal.
@@ -86,7 +91,7 @@ type TreasuryDebitReversal struct {
 	// Amount (in cents) transferred.
 	Amount int64 `json:"amount"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The FinancialAccount to reverse funds from.
@@ -119,4 +124,76 @@ type TreasuryDebitReversalList struct {
 	APIResource
 	ListMeta
 	Data []*TreasuryDebitReversal `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a TreasuryDebitReversalStatusTransitions.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *TreasuryDebitReversalStatusTransitions) UnmarshalJSON(data []byte) error {
+	type treasuryDebitReversalStatusTransitions TreasuryDebitReversalStatusTransitions
+	v := struct {
+		CompletedAt int64 `json:"completed_at"`
+		*treasuryDebitReversalStatusTransitions
+	}{
+		treasuryDebitReversalStatusTransitions: (*treasuryDebitReversalStatusTransitions)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.CompletedAt = time.Unix(v.CompletedAt, 0)
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a TreasuryDebitReversal.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *TreasuryDebitReversal) UnmarshalJSON(data []byte) error {
+	type treasuryDebitReversal TreasuryDebitReversal
+	v := struct {
+		Created int64 `json:"created"`
+		*treasuryDebitReversal
+	}{
+		treasuryDebitReversal: (*treasuryDebitReversal)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a TreasuryDebitReversalStatusTransitions.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TreasuryDebitReversalStatusTransitions) MarshalJSON() ([]byte, error) {
+	type treasuryDebitReversalStatusTransitions TreasuryDebitReversalStatusTransitions
+	v := struct {
+		CompletedAt int64 `json:"completed_at"`
+		treasuryDebitReversalStatusTransitions
+	}{
+		treasuryDebitReversalStatusTransitions: (treasuryDebitReversalStatusTransitions)(t),
+		CompletedAt:                            t.CompletedAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
+}
+
+// MarshalJSON handles serialization of a TreasuryDebitReversal.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TreasuryDebitReversal) MarshalJSON() ([]byte, error) {
+	type treasuryDebitReversal TreasuryDebitReversal
+	v := struct {
+		Created int64 `json:"created"`
+		treasuryDebitReversal
+	}{
+		treasuryDebitReversal: (treasuryDebitReversal)(t),
+		Created:               t.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

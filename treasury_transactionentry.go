@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // Type of the flow that created the Transaction. Set to the same value as `flow_type`.
 type TreasuryTransactionEntryFlowDetailsType string
 
@@ -153,11 +158,11 @@ type TreasuryTransactionEntry struct {
 	// Change to a FinancialAccount's balance
 	BalanceImpact *TreasuryTransactionEntryBalanceImpact `json:"balance_impact"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// When the TransactionEntry will impact the FinancialAccount's balance.
-	EffectiveAt int64 `json:"effective_at"`
+	EffectiveAt time.Time `json:"effective_at"`
 	// The FinancialAccount associated with this object.
 	FinancialAccount string `json:"financial_account"`
 	// Token of the flow associated with the TransactionEntry.
@@ -183,4 +188,44 @@ type TreasuryTransactionEntryList struct {
 	APIResource
 	ListMeta
 	Data []*TreasuryTransactionEntry `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a TreasuryTransactionEntry.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *TreasuryTransactionEntry) UnmarshalJSON(data []byte) error {
+	type treasuryTransactionEntry TreasuryTransactionEntry
+	v := struct {
+		Created     int64 `json:"created"`
+		EffectiveAt int64 `json:"effective_at"`
+		*treasuryTransactionEntry
+	}{
+		treasuryTransactionEntry: (*treasuryTransactionEntry)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.Created = time.Unix(v.Created, 0)
+	t.EffectiveAt = time.Unix(v.EffectiveAt, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a TreasuryTransactionEntry.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TreasuryTransactionEntry) MarshalJSON() ([]byte, error) {
+	type treasuryTransactionEntry TreasuryTransactionEntry
+	v := struct {
+		Created     int64 `json:"created"`
+		EffectiveAt int64 `json:"effective_at"`
+		treasuryTransactionEntry
+	}{
+		treasuryTransactionEntry: (treasuryTransactionEntry)(t),
+		Created:                  t.Created.Unix(),
+		EffectiveAt:              t.EffectiveAt.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

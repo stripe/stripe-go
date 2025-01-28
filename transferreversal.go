@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // You can see a list of the reversals belonging to a specific transfer. Note that the 10 most recent reversals are always available by default on the transfer object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional reversals.
 type TransferReversalListParams struct {
@@ -75,7 +78,7 @@ type TransferReversal struct {
 	// Balance transaction that describes the impact on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Linked payment refund for the transfer reversal.
@@ -109,11 +112,34 @@ func (t *TransferReversal) UnmarshalJSON(data []byte) error {
 	}
 
 	type transferReversal TransferReversal
-	var v transferReversal
+	v := struct {
+		Created int64 `json:"created"`
+		*transferReversal
+	}{
+		transferReversal: (*transferReversal)(t),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*t = TransferReversal(v)
+	t.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of a TransferReversal.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TransferReversal) MarshalJSON() ([]byte, error) {
+	type transferReversal TransferReversal
+	v := struct {
+		Created int64 `json:"created"`
+		transferReversal
+	}{
+		transferReversal: (transferReversal)(t),
+		Created:          t.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

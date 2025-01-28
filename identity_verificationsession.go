@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // A short machine-readable string giving the reason for the verification or user-session failure.
 type IdentityVerificationSessionLastErrorCode string
 
@@ -313,7 +318,7 @@ type IdentityVerificationSession struct {
 	// The short-lived client secret used by Stripe.js to [show a verification modal](https://stripe.com/docs/js/identity/modal) inside your app. This client secret expires after 24 hours and can only be used once. Don't store it, log it, embed it in a URL, or expose it to anyone other than the user. Make sure that you have TLS enabled on any page that includes the client secret. Refer to our docs on [passing the client secret to the frontend](https://stripe.com/docs/identity/verification-sessions#client-secret) to learn more.
 	ClientSecret string `json:"client_secret"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If present, this property tells you the last error encountered when processing the verification.
@@ -351,4 +356,40 @@ type IdentityVerificationSessionList struct {
 	APIResource
 	ListMeta
 	Data []*IdentityVerificationSession `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of an IdentityVerificationSession.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (i *IdentityVerificationSession) UnmarshalJSON(data []byte) error {
+	type identityVerificationSession IdentityVerificationSession
+	v := struct {
+		Created int64 `json:"created"`
+		*identityVerificationSession
+	}{
+		identityVerificationSession: (*identityVerificationSession)(i),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	i.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of an IdentityVerificationSession.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i IdentityVerificationSession) MarshalJSON() ([]byte, error) {
+	type identityVerificationSession IdentityVerificationSession
+	v := struct {
+		Created int64 `json:"created"`
+		identityVerificationSession
+	}{
+		identityVerificationSession: (identityVerificationSession)(i),
+		Created:                     i.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

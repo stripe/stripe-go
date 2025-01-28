@@ -6,6 +6,11 @@
 
 package stripe
 
+import (
+	"encoding/json"
+	"time"
+)
+
 // The array of paths to active Features in the Features hash.
 type TreasuryFinancialAccountActiveFeature string
 
@@ -494,7 +499,7 @@ type TreasuryFinancialAccount struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country string `json:"country"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// The display name for the FinancialAccount. Use this field to customize the names of the FinancialAccounts for your connected accounts. Unlike the `nickname` field, `display_name` is not internal metadata and will be exposed to connected accounts.
 	DisplayName string `json:"display_name"`
 	// Encodes whether a FinancialAccount has access to a particular Feature, with a `status` enum and associated `status_details`.
@@ -531,4 +536,40 @@ type TreasuryFinancialAccountList struct {
 	APIResource
 	ListMeta
 	Data []*TreasuryFinancialAccount `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a TreasuryFinancialAccount.
+// This custom unmarshaling is needed to handle the time fields correctly.
+func (t *TreasuryFinancialAccount) UnmarshalJSON(data []byte) error {
+	type treasuryFinancialAccount TreasuryFinancialAccount
+	v := struct {
+		Created int64 `json:"created"`
+		*treasuryFinancialAccount
+	}{
+		treasuryFinancialAccount: (*treasuryFinancialAccount)(t),
+	}
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	t.Created = time.Unix(v.Created, 0)
+	return nil
+}
+
+// MarshalJSON handles serialization of a TreasuryFinancialAccount.
+// This custom marshaling is needed to handle the time fields correctly.
+func (t TreasuryFinancialAccount) MarshalJSON() ([]byte, error) {
+	type treasuryFinancialAccount TreasuryFinancialAccount
+	v := struct {
+		Created int64 `json:"created"`
+		treasuryFinancialAccount
+	}{
+		treasuryFinancialAccount: (treasuryFinancialAccount)(t),
+		Created:                  t.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }

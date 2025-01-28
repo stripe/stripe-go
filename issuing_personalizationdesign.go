@@ -6,7 +6,10 @@
 
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"time"
+)
 
 // The reason(s) the card logo was rejected.
 type IssuingPersonalizationDesignRejectionReasonsCardLogo string
@@ -161,7 +164,7 @@ type IssuingPersonalizationDesign struct {
 	// Hash containing carrier text, for use with physical bundles that support carrier text.
 	CarrierText *IssuingPersonalizationDesignCarrierText `json:"carrier_text"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created time.Time `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -199,11 +202,34 @@ func (i *IssuingPersonalizationDesign) UnmarshalJSON(data []byte) error {
 	}
 
 	type issuingPersonalizationDesign IssuingPersonalizationDesign
-	var v issuingPersonalizationDesign
+	v := struct {
+		Created int64 `json:"created"`
+		*issuingPersonalizationDesign
+	}{
+		issuingPersonalizationDesign: (*issuingPersonalizationDesign)(i),
+	}
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = IssuingPersonalizationDesign(v)
+	i.Created = time.Unix(v.Created, 0)
 	return nil
+}
+
+// MarshalJSON handles serialization of an IssuingPersonalizationDesign.
+// This custom marshaling is needed to handle the time fields correctly.
+func (i IssuingPersonalizationDesign) MarshalJSON() ([]byte, error) {
+	type issuingPersonalizationDesign IssuingPersonalizationDesign
+	v := struct {
+		Created int64 `json:"created"`
+		issuingPersonalizationDesign
+	}{
+		issuingPersonalizationDesign: (issuingPersonalizationDesign)(i),
+		Created:                      i.Created.Unix(),
+	}
+	b, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	return b, err
 }
