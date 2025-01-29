@@ -40,7 +40,6 @@ jobs:
   govulncheck:
     name: govulncheck
     runs-on: "ubuntu-24.04"
-    if: github.base_ref == 'sdk-release/next-major'
     steps:
       - uses: actions/checkout@v4
       - name: Set up Go
