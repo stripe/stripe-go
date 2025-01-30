@@ -28,18 +28,11 @@ func Get(id string, params *stripe.CustomerCashBalanceTransactionParams) (*strip
 // Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
 func (c Client) Get(id string, params *stripe.CustomerCashBalanceTransactionParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/cash_balance_transactions/%s",
-		stripe.StringValue(params.Customer),
-		id,
-	)
+		"/v1/customers/%s/cash_balance_transactions/%s", stripe.StringValue(
+			params.Customer), id)
 	customercashbalancetransaction := &stripe.CustomerCashBalanceTransaction{}
 	err := c.B.Call(
-		http.MethodGet,
-		path,
-		c.Key,
-		params,
-		customercashbalancetransaction,
-	)
+		http.MethodGet, path, c.Key, params, customercashbalancetransaction)
 	return customercashbalancetransaction, err
 }
 
@@ -51,9 +44,8 @@ func List(params *stripe.CustomerCashBalanceTransactionListParams) *Iter {
 // Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
 func (c Client) List(listParams *stripe.CustomerCashBalanceTransactionListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/cash_balance_transactions",
-		stripe.StringValue(listParams.Customer),
-	)
+		"/v1/customers/%s/cash_balance_transactions", stripe.StringValue(
+			listParams.Customer))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CustomerCashBalanceTransactionList{}

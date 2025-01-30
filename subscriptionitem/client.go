@@ -29,12 +29,7 @@ func New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error
 func (c Client) New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	subscriptionitem := &stripe.SubscriptionItem{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/subscription_items",
-		c.Key,
-		params,
-		subscriptionitem,
-	)
+		http.MethodPost, "/v1/subscription_items", c.Key, params, subscriptionitem)
 	return subscriptionitem, err
 }
 
@@ -128,9 +123,8 @@ func UsageRecordSummaries(params *stripe.SubscriptionItemUsageRecordSummariesPar
 // The list is sorted in reverse-chronological order (newest first). The first list item represents the most current usage period that hasn't ended yet. Since new usage records can still be added, the returned summary information for the subscription item's ID should be seen as unstable until the subscription billing period ends.
 func (c Client) UsageRecordSummaries(listParams *stripe.SubscriptionItemUsageRecordSummariesParams) *UsageRecordSummaryIter {
 	path := stripe.FormatURLPath(
-		"/v1/subscription_items/%s/usage_record_summaries",
-		stripe.StringValue(listParams.SubscriptionItem),
-	)
+		"/v1/subscription_items/%s/usage_record_summaries", stripe.StringValue(
+			listParams.SubscriptionItem))
 	return &UsageRecordSummaryIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.UsageRecordSummaryList{}

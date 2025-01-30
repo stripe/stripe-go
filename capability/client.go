@@ -30,14 +30,10 @@ func Get(id string, params *stripe.CapabilityParams) (*stripe.Capability, error)
 func (c Client) Get(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Account must be set",
-		)
+			"params cannot be nil, and params.Account must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/capabilities/%s",
-		stripe.StringValue(params.Account),
-		id,
-	)
+		"/v1/accounts/%s/capabilities/%s", stripe.StringValue(params.Account), id)
 	capability := &stripe.Capability{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, capability)
 	return capability, err
@@ -51,10 +47,7 @@ func Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, err
 // Updates an existing Account Capability. Request or remove a capability by updating its requested parameter.
 func (c Client) Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/capabilities/%s",
-		stripe.StringValue(params.Account),
-		id,
-	)
+		"/v1/accounts/%s/capabilities/%s", stripe.StringValue(params.Account), id)
 	capability := &stripe.Capability{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, capability)
 	return capability, err
@@ -68,9 +61,7 @@ func List(params *stripe.CapabilityListParams) *Iter {
 // Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.
 func (c Client) List(listParams *stripe.CapabilityListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/capabilities",
-		stripe.StringValue(listParams.Account),
-	)
+		"/v1/accounts/%s/capabilities", stripe.StringValue(listParams.Account))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CapabilityList{}

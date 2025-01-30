@@ -29,12 +29,7 @@ func New(params *stripe.ForwardingRequestParams) (*stripe.ForwardingRequest, err
 func (c Client) New(params *stripe.ForwardingRequestParams) (*stripe.ForwardingRequest, error) {
 	request := &stripe.ForwardingRequest{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/forwarding/requests",
-		c.Key,
-		params,
-		request,
-	)
+		http.MethodPost, "/v1/forwarding/requests", c.Key, params, request)
 	return request, err
 }
 

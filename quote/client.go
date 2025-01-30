@@ -158,9 +158,8 @@ func ListComputedUpfrontLineItems(params *stripe.QuoteListComputedUpfrontLineIte
 // When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 func (c Client) ListComputedUpfrontLineItems(listParams *stripe.QuoteListComputedUpfrontLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/quotes/%s/computed_upfront_line_items",
-		stripe.StringValue(listParams.Quote),
-	)
+		"/v1/quotes/%s/computed_upfront_line_items", stripe.StringValue(
+			listParams.Quote))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
@@ -201,9 +200,7 @@ func ListLineItems(params *stripe.QuoteListLineItemsParams) *LineItemIter {
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLineItems(listParams *stripe.QuoteListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/quotes/%s/line_items",
-		stripe.StringValue(listParams.Quote),
-	)
+		"/v1/quotes/%s/line_items", stripe.StringValue(listParams.Quote))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}

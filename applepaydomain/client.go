@@ -29,12 +29,7 @@ func New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 func (c Client) New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	applepaydomain := &stripe.ApplePayDomain{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/apple_pay/domains",
-		c.Key,
-		params,
-		applepaydomain,
-	)
+		http.MethodPost, "/v1/apple_pay/domains", c.Key, params, applepaydomain)
 	return applepaydomain, err
 }
 
