@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Determines the type of trial for this item.
 type SubscriptionItemTrialType string
@@ -53,7 +50,7 @@ type SubscriptionItemParams struct {
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
-	ProrationDate *time.Time `form:"proration_date"`
+	ProrationDate *int64 `form:"proration_date"`
 	// The quantity you'd like to apply to the subscription item you're creating.
 	Quantity *int64 `form:"quantity"`
 	// The identifier of the subscription to modify.
@@ -97,7 +94,7 @@ type SubscriptionItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *SubscriptionItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -196,8 +193,8 @@ type SubscriptionItem struct {
 	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
-	Deleted bool      `json:"deleted"`
+	Created int64 `json:"created"`
+	Deleted bool  `json:"deleted"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// Unique identifier for the object.
@@ -249,34 +246,11 @@ func (s *SubscriptionItem) UnmarshalJSON(data []byte) error {
 	}
 
 	type subscriptionItem SubscriptionItem
-	v := struct {
-		Created int64 `json:"created"`
-		*subscriptionItem
-	}{
-		subscriptionItem: (*subscriptionItem)(s),
-	}
+	var v subscriptionItem
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	s.Created = time.Unix(v.Created, 0)
+	*s = SubscriptionItem(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a SubscriptionItem.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionItem) MarshalJSON() ([]byte, error) {
-	type subscriptionItem SubscriptionItem
-	v := struct {
-		Created int64 `json:"created"`
-		subscriptionItem
-	}{
-		subscriptionItem: (subscriptionItem)(s),
-		Created:          s.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

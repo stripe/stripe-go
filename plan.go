@@ -10,7 +10,6 @@ import (
 	"encoding/json"
 	"github.com/stripe/stripe-go/v81/form"
 	"strconv"
-	"time"
 )
 
 // Specifies a usage aggregation strategy for plans of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
@@ -257,7 +256,7 @@ type Plan struct {
 	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `amount`) will be charged per unit in `quantity` (for plans with `usage_type=licensed`), or per unit of total usage (for plans with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
 	BillingScheme PlanBillingScheme `json:"billing_scheme"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	Deleted  bool     `json:"deleted"`
@@ -308,34 +307,11 @@ func (p *Plan) UnmarshalJSON(data []byte) error {
 	}
 
 	type plan Plan
-	v := struct {
-		Created int64 `json:"created"`
-		*plan
-	}{
-		plan: (*plan)(p),
-	}
+	var v plan
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	p.Created = time.Unix(v.Created, 0)
+	*p = Plan(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a Plan.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p Plan) MarshalJSON() ([]byte, error) {
-	type plan Plan
-	v := struct {
-		Created int64 `json:"created"`
-		plan
-	}{
-		plan:    (plan)(p),
-		Created: p.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

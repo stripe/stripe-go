@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Indicates the directions of money movement for which this payment method is intended to be used.
 //
@@ -257,7 +254,7 @@ type SetupAttemptPaymentMethodDetailsCard struct {
 // Details about payments collected offline.
 type SetupAttemptPaymentMethodDetailsCardPresentOffline struct {
 	// Time at which the payment was collected while offline
-	StoredAt time.Time `json:"stored_at"`
+	StoredAt int64 `json:"stored_at"`
 	// The method used to process this payment method offline. Only deferred is allowed.
 	Type SetupAttemptPaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
@@ -361,7 +358,7 @@ type SetupAttempt struct {
 	// It can only be used for this Stripe Account's own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.
 	AttachToSelf bool `json:"attach_to_self"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The value of [customer](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-customer) on the SetupIntent at the time of this confirmation.
 	Customer *Customer `json:"customer"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
@@ -406,70 +403,11 @@ func (s *SetupAttempt) UnmarshalJSON(data []byte) error {
 	}
 
 	type setupAttempt SetupAttempt
-	v := struct {
-		Created int64 `json:"created"`
-		*setupAttempt
-	}{
-		setupAttempt: (*setupAttempt)(s),
-	}
+	var v setupAttempt
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	s.Created = time.Unix(v.Created, 0)
+	*s = SetupAttempt(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SetupAttemptPaymentMethodDetailsCardPresentOffline.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SetupAttemptPaymentMethodDetailsCardPresentOffline) UnmarshalJSON(data []byte) error {
-	type setupAttemptPaymentMethodDetailsCardPresentOffline SetupAttemptPaymentMethodDetailsCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		*setupAttemptPaymentMethodDetailsCardPresentOffline
-	}{
-		setupAttemptPaymentMethodDetailsCardPresentOffline: (*setupAttemptPaymentMethodDetailsCardPresentOffline)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.StoredAt = time.Unix(v.StoredAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a SetupAttemptPaymentMethodDetailsCardPresentOffline.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SetupAttemptPaymentMethodDetailsCardPresentOffline) MarshalJSON() ([]byte, error) {
-	type setupAttemptPaymentMethodDetailsCardPresentOffline SetupAttemptPaymentMethodDetailsCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		setupAttemptPaymentMethodDetailsCardPresentOffline
-	}{
-		setupAttemptPaymentMethodDetailsCardPresentOffline: (setupAttemptPaymentMethodDetailsCardPresentOffline)(s),
-		StoredAt: s.StoredAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SetupAttempt.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SetupAttempt) MarshalJSON() ([]byte, error) {
-	type setupAttempt SetupAttempt
-	v := struct {
-		Created int64 `json:"created"`
-		setupAttempt
-	}{
-		setupAttempt: (setupAttempt)(s),
-		Created:      s.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

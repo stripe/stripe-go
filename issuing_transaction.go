@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 type IssuingTransactionPurchaseDetailsFuelType string
@@ -197,7 +194,7 @@ type IssuingTransactionPurchaseDetailsFlightSegment struct {
 // Information about the flight that was purchased with this transaction.
 type IssuingTransactionPurchaseDetailsFlight struct {
 	// The time that the flight departed.
-	DepartureAt time.Time `json:"departure_at"`
+	DepartureAt int64 `json:"departure_at"`
 	// The name of the passenger.
 	PassengerName string `json:"passenger_name"`
 	// Whether the ticket is refundable.
@@ -225,7 +222,7 @@ type IssuingTransactionPurchaseDetailsFuel struct {
 // Information about lodging that was purchased with this transaction.
 type IssuingTransactionPurchaseDetailsLodging struct {
 	// The time of checking into the lodging.
-	CheckInAt time.Time `json:"check_in_at"`
+	CheckInAt int64 `json:"check_in_at"`
 	// The number of nights stayed at the lodging.
 	Nights int64 `json:"nights"`
 }
@@ -286,7 +283,7 @@ type IssuingTransaction struct {
 	// The cardholder to whom this transaction belongs.
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// If you've disputed the transaction, the ID of the dispute.
@@ -336,106 +333,11 @@ func (i *IssuingTransaction) UnmarshalJSON(data []byte) error {
 	}
 
 	type issuingTransaction IssuingTransaction
-	v := struct {
-		Created int64 `json:"created"`
-		*issuingTransaction
-	}{
-		issuingTransaction: (*issuingTransaction)(i),
-	}
+	var v issuingTransaction
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	i.Created = time.Unix(v.Created, 0)
+	*i = IssuingTransaction(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of an IssuingTransactionPurchaseDetailsFlight.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingTransactionPurchaseDetailsFlight) UnmarshalJSON(data []byte) error {
-	type issuingTransactionPurchaseDetailsFlight IssuingTransactionPurchaseDetailsFlight
-	v := struct {
-		DepartureAt int64 `json:"departure_at"`
-		*issuingTransactionPurchaseDetailsFlight
-	}{
-		issuingTransactionPurchaseDetailsFlight: (*issuingTransactionPurchaseDetailsFlight)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.DepartureAt = time.Unix(v.DepartureAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an IssuingTransactionPurchaseDetailsLodging.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingTransactionPurchaseDetailsLodging) UnmarshalJSON(data []byte) error {
-	type issuingTransactionPurchaseDetailsLodging IssuingTransactionPurchaseDetailsLodging
-	v := struct {
-		CheckInAt int64 `json:"check_in_at"`
-		*issuingTransactionPurchaseDetailsLodging
-	}{
-		issuingTransactionPurchaseDetailsLodging: (*issuingTransactionPurchaseDetailsLodging)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.CheckInAt = time.Unix(v.CheckInAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an IssuingTransactionPurchaseDetailsFlight.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingTransactionPurchaseDetailsFlight) MarshalJSON() ([]byte, error) {
-	type issuingTransactionPurchaseDetailsFlight IssuingTransactionPurchaseDetailsFlight
-	v := struct {
-		DepartureAt int64 `json:"departure_at"`
-		issuingTransactionPurchaseDetailsFlight
-	}{
-		issuingTransactionPurchaseDetailsFlight: (issuingTransactionPurchaseDetailsFlight)(i),
-		DepartureAt:                             i.DepartureAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an IssuingTransactionPurchaseDetailsLodging.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingTransactionPurchaseDetailsLodging) MarshalJSON() ([]byte, error) {
-	type issuingTransactionPurchaseDetailsLodging IssuingTransactionPurchaseDetailsLodging
-	v := struct {
-		CheckInAt int64 `json:"check_in_at"`
-		issuingTransactionPurchaseDetailsLodging
-	}{
-		issuingTransactionPurchaseDetailsLodging: (issuingTransactionPurchaseDetailsLodging)(i),
-		CheckInAt:                                i.CheckInAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an IssuingTransaction.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingTransaction) MarshalJSON() ([]byte, error) {
-	type issuingTransaction IssuingTransaction
-	v := struct {
-		Created int64 `json:"created"`
-		issuingTransaction
-	}{
-		issuingTransaction: (issuingTransaction)(i),
-		Created:            i.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

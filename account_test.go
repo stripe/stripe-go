@@ -3,7 +3,6 @@ package stripe
 import (
 	"encoding/json"
 	"testing"
-	"time"
 
 	assert "github.com/stretchr/testify/require"
 	"github.com/stripe/stripe-go/v81/form"
@@ -139,7 +138,7 @@ func TestAccount_Unmarshal(t *testing.T) {
 	assert.Equal(t, "value1", account.Metadata["key1"])
 	assert.Equal(t, "value2", account.Metadata["key2"])
 
-	assert.Equal(t, time.Unix(1234567890, 0), account.Requirements.CurrentDeadline)
+	assert.Equal(t, int64(1234567890), account.Requirements.CurrentDeadline)
 	assert.Equal(t, 2, len(account.Requirements.CurrentlyDue))
 	assert.Equal(t, AccountRequirementsDisabledReasonRejectedFraud, account.Requirements.DisabledReason)
 	assert.Equal(t, 1, len(account.Requirements.Errors))
@@ -157,7 +156,7 @@ func TestAccount_Unmarshal(t *testing.T) {
 	assert.Equal(t, int64(2), account.Settings.Payouts.Schedule.DelayDays)
 	assert.Equal(t, AccountSettingsPayoutsScheduleIntervalWeekly, account.Settings.Payouts.Schedule.Interval)
 
-	assert.Equal(t, time.Unix(1528573382, 0), account.TOSAcceptance.Date)
+	assert.Equal(t, int64(1528573382), account.TOSAcceptance.Date)
 	assert.Equal(t, "127.0.0.1", account.TOSAcceptance.IP)
 	assert.Equal(t, "user agent", account.TOSAcceptance.UserAgent)
 	assert.Equal(t, AccountTOSAcceptanceServiceAgreementRecipient, account.TOSAcceptance.ServiceAgreement)

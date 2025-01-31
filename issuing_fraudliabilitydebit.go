@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // Returns a list of Issuing FraudLiabilityDebit objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingFraudLiabilityDebitListParams struct {
 	ListParams `form:"*"`
@@ -47,7 +42,7 @@ type IssuingFraudLiabilityDebit struct {
 	// ID of the [balance transaction](https://stripe.com/docs/api/balance_transactions) associated with this debit.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The currency of the debit. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The ID of the linked dispute.
@@ -65,40 +60,4 @@ type IssuingFraudLiabilityDebitList struct {
 	APIResource
 	ListMeta
 	Data []*IssuingFraudLiabilityDebit `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of an IssuingFraudLiabilityDebit.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingFraudLiabilityDebit) UnmarshalJSON(data []byte) error {
-	type issuingFraudLiabilityDebit IssuingFraudLiabilityDebit
-	v := struct {
-		Created int64 `json:"created"`
-		*issuingFraudLiabilityDebit
-	}{
-		issuingFraudLiabilityDebit: (*issuingFraudLiabilityDebit)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an IssuingFraudLiabilityDebit.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingFraudLiabilityDebit) MarshalJSON() ([]byte, error) {
-	type issuingFraudLiabilityDebit IssuingFraudLiabilityDebit
-	v := struct {
-		Created int64 `json:"created"`
-		issuingFraudLiabilityDebit
-	}{
-		issuingFraudLiabilityDebit: (issuingFraudLiabilityDebit)(i),
-		Created:                    i.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

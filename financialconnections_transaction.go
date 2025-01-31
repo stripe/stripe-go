@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The status of the transaction.
 type FinancialConnectionsTransactionStatus string
 
@@ -61,9 +56,9 @@ func (p *FinancialConnectionsTransactionParams) AddExpand(f string) {
 
 type FinancialConnectionsTransactionStatusTransitions struct {
 	// Time at which this transaction posted. Measured in seconds since the Unix epoch.
-	PostedAt time.Time `json:"posted_at"`
+	PostedAt int64 `json:"posted_at"`
 	// Time at which this transaction was voided. Measured in seconds since the Unix epoch.
-	VoidAt time.Time `json:"void_at"`
+	VoidAt int64 `json:"void_at"`
 }
 
 // A Transaction represents a real transaction that affects a Financial Connections Account balance.
@@ -87,11 +82,11 @@ type FinancialConnectionsTransaction struct {
 	Status            FinancialConnectionsTransactionStatus             `json:"status"`
 	StatusTransitions *FinancialConnectionsTransactionStatusTransitions `json:"status_transitions"`
 	// Time at which the transaction was transacted. Measured in seconds since the Unix epoch.
-	TransactedAt time.Time `json:"transacted_at"`
+	TransactedAt int64 `json:"transacted_at"`
 	// The token of the transaction refresh that last updated or created this transaction.
 	TransactionRefresh string `json:"transaction_refresh"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
-	Updated time.Time `json:"updated"`
+	Updated int64 `json:"updated"`
 }
 
 // FinancialConnectionsTransactionList is a list of Transactions as retrieved from a list endpoint.
@@ -99,84 +94,4 @@ type FinancialConnectionsTransactionList struct {
 	APIResource
 	ListMeta
 	Data []*FinancialConnectionsTransaction `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a FinancialConnectionsTransactionStatusTransitions.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (f *FinancialConnectionsTransactionStatusTransitions) UnmarshalJSON(data []byte) error {
-	type financialConnectionsTransactionStatusTransitions FinancialConnectionsTransactionStatusTransitions
-	v := struct {
-		PostedAt int64 `json:"posted_at"`
-		VoidAt   int64 `json:"void_at"`
-		*financialConnectionsTransactionStatusTransitions
-	}{
-		financialConnectionsTransactionStatusTransitions: (*financialConnectionsTransactionStatusTransitions)(f),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	f.PostedAt = time.Unix(v.PostedAt, 0)
-	f.VoidAt = time.Unix(v.VoidAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a FinancialConnectionsTransaction.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (f *FinancialConnectionsTransaction) UnmarshalJSON(data []byte) error {
-	type financialConnectionsTransaction FinancialConnectionsTransaction
-	v := struct {
-		TransactedAt int64 `json:"transacted_at"`
-		Updated      int64 `json:"updated"`
-		*financialConnectionsTransaction
-	}{
-		financialConnectionsTransaction: (*financialConnectionsTransaction)(f),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	f.TransactedAt = time.Unix(v.TransactedAt, 0)
-	f.Updated = time.Unix(v.Updated, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a FinancialConnectionsTransactionStatusTransitions.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FinancialConnectionsTransactionStatusTransitions) MarshalJSON() ([]byte, error) {
-	type financialConnectionsTransactionStatusTransitions FinancialConnectionsTransactionStatusTransitions
-	v := struct {
-		PostedAt int64 `json:"posted_at"`
-		VoidAt   int64 `json:"void_at"`
-		financialConnectionsTransactionStatusTransitions
-	}{
-		financialConnectionsTransactionStatusTransitions: (financialConnectionsTransactionStatusTransitions)(f),
-		PostedAt: f.PostedAt.Unix(),
-		VoidAt:   f.VoidAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a FinancialConnectionsTransaction.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FinancialConnectionsTransaction) MarshalJSON() ([]byte, error) {
-	type financialConnectionsTransaction FinancialConnectionsTransaction
-	v := struct {
-		TransactedAt int64 `json:"transacted_at"`
-		Updated      int64 `json:"updated"`
-		financialConnectionsTransaction
-	}{
-		financialConnectionsTransaction: (financialConnectionsTransaction)(f),
-		TransactedAt:                    f.TransactedAt.Unix(),
-		Updated:                         f.Updated.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

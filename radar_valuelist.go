@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The type of items in the value list. One of `card_fingerprint`, `us_bank_account_fingerprint`, `sepa_debit_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`.
 type RadarValueListItemType string
 
@@ -85,7 +80,7 @@ type RadarValueList struct {
 	// The name of the value list for use in rules.
 	Alias string `json:"alias"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The name or email address of the user who created this value list.
 	CreatedBy string `json:"created_by"`
 	Deleted   bool   `json:"deleted"`
@@ -110,40 +105,4 @@ type RadarValueListList struct {
 	APIResource
 	ListMeta
 	Data []*RadarValueList `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a RadarValueList.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (r *RadarValueList) UnmarshalJSON(data []byte) error {
-	type radarValueList RadarValueList
-	v := struct {
-		Created int64 `json:"created"`
-		*radarValueList
-	}{
-		radarValueList: (*radarValueList)(r),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	r.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a RadarValueList.
-// This custom marshaling is needed to handle the time fields correctly.
-func (r RadarValueList) MarshalJSON() ([]byte, error) {
-	type radarValueList RadarValueList
-	v := struct {
-		Created int64 `json:"created"`
-		radarValueList
-	}{
-		radarValueList: (radarValueList)(r),
-		Created:        r.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

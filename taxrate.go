@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // The level of the jurisdiction that imposes this tax rate. Will be `null` for manually defined tax rates.
 type TaxRateJurisdictionLevel string
@@ -133,7 +130,7 @@ type TaxRate struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country string `json:"country"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// An arbitrary string attached to the tax rate for your internal use only. It will not be visible to your customers.
 	Description string `json:"description"`
 	// The display name of the tax rates as it will appear to your customer on their receipt email, PDF, and the hosted invoice page.
@@ -185,34 +182,11 @@ func (t *TaxRate) UnmarshalJSON(data []byte) error {
 	}
 
 	type taxRate TaxRate
-	v := struct {
-		Created int64 `json:"created"`
-		*taxRate
-	}{
-		taxRate: (*taxRate)(t),
-	}
+	var v taxRate
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	t.Created = time.Unix(v.Created, 0)
+	*t = TaxRate(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a TaxRate.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TaxRate) MarshalJSON() ([]byte, error) {
-	type taxRate TaxRate
-	v := struct {
-		Created int64 `json:"created"`
-		taxRate
-	}{
-		taxRate: (taxRate)(t),
-		Created: t.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

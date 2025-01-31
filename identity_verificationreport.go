@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportDocumentErrorCode string
@@ -368,7 +365,7 @@ type IdentityVerificationReport struct {
 	// A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
 	ClientReferenceID string `json:"client_reference_id"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Result from a document check
 	Document *IdentityVerificationReportDocument `json:"document"`
 	// Result from a email check
@@ -411,34 +408,11 @@ func (i *IdentityVerificationReport) UnmarshalJSON(data []byte) error {
 	}
 
 	type identityVerificationReport IdentityVerificationReport
-	v := struct {
-		Created int64 `json:"created"`
-		*identityVerificationReport
-	}{
-		identityVerificationReport: (*identityVerificationReport)(i),
-	}
+	var v identityVerificationReport
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	i.Created = time.Unix(v.Created, 0)
+	*i = IdentityVerificationReport(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of an IdentityVerificationReport.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IdentityVerificationReport) MarshalJSON() ([]byte, error) {
-	type identityVerificationReport IdentityVerificationReport
-	v := struct {
-		Created int64 `json:"created"`
-		identityVerificationReport
-	}{
-		identityVerificationReport: (identityVerificationReport)(i),
-		Created:                    i.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Surfaces if automatic tax computation is possible given the current customer location information.
 type CustomerTaxAutomaticTax string
@@ -343,7 +340,7 @@ type Customer struct {
 	// The current funds being held by Stripe on behalf of the customer. You can apply these funds towards payment intents when the source is "cash_balance". The `settings[reconciliation_mode]` field describes if these funds apply to these payment intents manually or automatically.
 	CashBalance *CashBalance `json:"cash_balance"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) the customer can be charged in for recurring billing purposes.
 	Currency Currency `json:"currency"`
 	// ID of the default payment source for the customer.
@@ -422,34 +419,11 @@ func (c *Customer) UnmarshalJSON(data []byte) error {
 	}
 
 	type customer Customer
-	v := struct {
-		Created int64 `json:"created"`
-		*customer
-	}{
-		customer: (*customer)(c),
-	}
+	var v customer
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	c.Created = time.Unix(v.Created, 0)
+	*c = Customer(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a Customer.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c Customer) MarshalJSON() ([]byte, error) {
-	type customer Customer
-	v := struct {
-		Created int64 `json:"created"`
-		customer
-	}{
-		customer: (customer)(c),
-		Created:  c.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

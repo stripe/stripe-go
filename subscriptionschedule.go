@@ -9,7 +9,6 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/stripe/stripe-go/v81/form"
-	"time"
 )
 
 // Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
@@ -256,7 +255,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -316,7 +315,7 @@ type SubscriptionSchedulePhaseDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *SubscriptionSchedulePhaseDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -364,7 +363,7 @@ type SubscriptionSchedulePhaseItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *SubscriptionSchedulePhaseItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -465,8 +464,8 @@ type SubscriptionSchedulePhaseParams struct {
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*SubscriptionSchedulePhaseDiscountParams `form:"discounts"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
-	EndDate    *time.Time `form:"end_date"`
-	EndDateNow *bool      `form:"-"` // See custom AppendTo
+	EndDate    *int64 `form:"end_date"`
+	EndDateNow *bool  `form:"-"` // See custom AppendTo
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *SubscriptionSchedulePhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
@@ -482,8 +481,8 @@ type SubscriptionSchedulePhaseParams struct {
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
-	StartDate    *time.Time `form:"start_date"`
-	StartDateNow *bool      `form:"-"` // See custom AppendTo
+	StartDate    *int64 `form:"start_date"`
+	StartDateNow *bool  `form:"-"` // See custom AppendTo
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
@@ -491,8 +490,8 @@ type SubscriptionSchedulePhaseParams struct {
 	// Specify trial behavior when crossing phase boundaries
 	TrialContinuation *string `form:"trial_continuation"`
 	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
-	TrialEnd    *time.Time `form:"trial_end"`
-	TrialEndNow *bool      `form:"-"` // See custom AppendTo
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionSchedulePhaseTrialSettingsParams `form:"trial_settings"`
 }
@@ -551,8 +550,8 @@ type SubscriptionScheduleParams struct {
 	// If the update changes the current phase, indicates whether the changes should be prorated. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
-	StartDate    *time.Time `form:"start_date"`
-	StartDateNow *bool      `form:"-"` // See custom AppendTo
+	StartDate    *int64 `form:"start_date"`
+	StartDateNow *bool  `form:"-"` // See custom AppendTo
 }
 
 // AddExpand appends a new field to expand.
@@ -597,7 +596,7 @@ type SubscriptionScheduleAmendAmendmentAmendmentEndParams struct {
 	// Time span for the amendment starting from the `amendment_start`.
 	Duration *SubscriptionScheduleAmendAmendmentAmendmentEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_end`.
 	Type *string `form:"type"`
 }
@@ -621,7 +620,7 @@ type SubscriptionScheduleAmendAmendmentAmendmentStartParams struct {
 	// Use the `end` time of a given discount.
 	DiscountEnd *SubscriptionScheduleAmendAmendmentAmendmentStartDiscountEndParams `form:"discount_end"`
 	// A precise Unix timestamp for the amendment to start.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_start`.
 	Type *string `form:"type"`
 }
@@ -691,7 +690,7 @@ type SubscriptionScheduleAmendAmendmentItemActionAddDiscountDiscountEndParams st
 	// Time span for the redeemed discount.
 	Duration *SubscriptionScheduleAmendAmendmentItemActionAddDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -760,7 +759,7 @@ type SubscriptionScheduleAmendAmendmentItemActionSetDiscountDiscountEndParams st
 	// Time span for the redeemed discount.
 	Duration *SubscriptionScheduleAmendAmendmentItemActionSetDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -895,7 +894,7 @@ type SubscriptionScheduleAmendPrebillingBillFromParams struct {
 	// Start the prebilled period when a specified amendment begins.
 	AmendmentStart *SubscriptionScheduleAmendPrebillingBillFromAmendmentStartParams `form:"amendment_start"`
 	// Start the prebilled period at a precise integer timestamp, starting from the Unix epoch.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of several ways to pass the `bill_from` value.
 	Type *string `form:"type"`
 }
@@ -921,7 +920,7 @@ type SubscriptionScheduleAmendPrebillingBillUntilParams struct {
 	// Time span for prebilling, starting from `bill_from`.
 	Duration *SubscriptionScheduleAmendPrebillingBillUntilDurationParams `form:"duration"`
 	// End the prebilled period at a precise integer timestamp, starting from the Unix epoch.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of several ways to pass the `bill_until` value.
 	Type *string `form:"type"`
 }
@@ -998,9 +997,9 @@ func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
 // Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 type SubscriptionScheduleCurrentPhase struct {
 	// The end of this phase of the subscription schedule.
-	EndDate time.Time `json:"end_date"`
+	EndDate int64 `json:"end_date"`
 	// The start of this phase of the subscription schedule.
-	StartDate time.Time `json:"start_date"`
+	StartDate int64 `json:"start_date"`
 }
 type SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuer struct {
 	// The connected account being referenced when `type` is `account`.
@@ -1047,7 +1046,7 @@ type SubscriptionScheduleLastPriceMigrationErrorFailedTransition struct {
 // Details of the most recent price migration that failed for the subscription schedule.
 type SubscriptionScheduleLastPriceMigrationError struct {
 	// The time at which the price migration encountered an error.
-	ErroredAt time.Time `json:"errored_at"`
+	ErroredAt int64 `json:"errored_at"`
 	// The involved price pairs in each failed transition.
 	FailedTransitions []*SubscriptionScheduleLastPriceMigrationErrorFailedTransition `json:"failed_transitions"`
 	// The type of error encountered by the price migration.
@@ -1057,7 +1056,7 @@ type SubscriptionScheduleLastPriceMigrationError struct {
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp time.Time `json:"timestamp"`
+	Timestamp int64 `json:"timestamp"`
 	// The discount end type.
 	Type SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType `json:"type"`
 }
@@ -1089,7 +1088,7 @@ type SubscriptionSchedulePhaseAddInvoiceItem struct {
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp time.Time `json:"timestamp"`
+	Timestamp int64 `json:"timestamp"`
 	// The discount end type.
 	Type SubscriptionSchedulePhaseDiscountDiscountEndType `json:"type"`
 }
@@ -1127,7 +1126,7 @@ type SubscriptionSchedulePhaseInvoiceSettings struct {
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseItemDiscountDiscountEnd struct {
 	// The discount end timestamp.
-	Timestamp time.Time `json:"timestamp"`
+	Timestamp int64 `json:"timestamp"`
 	// The discount end type.
 	Type SubscriptionSchedulePhaseItemDiscountDiscountEndType `json:"type"`
 }
@@ -1216,7 +1215,7 @@ type SubscriptionSchedulePhase struct {
 	// The stackable discounts that will be applied to the subscription on this phase. Subscription item discounts are applied before subscription discounts.
 	Discounts []*SubscriptionSchedulePhaseDiscount `json:"discounts"`
 	// The end of this phase of the subscription schedule.
-	EndDate time.Time `json:"end_date"`
+	EndDate int64 `json:"end_date"`
 	// The invoice settings applicable during this phase.
 	InvoiceSettings *SubscriptionSchedulePhaseInvoiceSettings `json:"invoice_settings"`
 	// Subscription items to configure the subscription to during this phase of the subscription schedule.
@@ -1230,13 +1229,13 @@ type SubscriptionSchedulePhase struct {
 	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
 	ProrationBehavior SubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
 	// The start of this phase of the subscription schedule.
-	StartDate time.Time `json:"start_date"`
+	StartDate int64 `json:"start_date"`
 	// The account (if any) the associated subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 	// Specify behavior of the trial when crossing schedule phase boundaries
 	TrialContinuation SubscriptionSchedulePhaseTrialContinuation `json:"trial_continuation"`
 	// When the trial ends within the phase.
-	TrialEnd time.Time `json:"trial_end"`
+	TrialEnd int64 `json:"trial_end"`
 	// Settings related to any trials on the subscription during this phase.
 	TrialSettings *SubscriptionSchedulePhaseTrialSettings `json:"trial_settings"`
 }
@@ -1246,9 +1245,9 @@ type SubscriptionSchedulePrebilling struct {
 	// ID of the prebilling invoice.
 	Invoice *Invoice `json:"invoice"`
 	// The end of the last period for which the invoice pre-bills.
-	PeriodEnd time.Time `json:"period_end"`
+	PeriodEnd int64 `json:"period_end"`
 	// The start of the first period for which the invoice pre-bills.
-	PeriodStart time.Time `json:"period_start"`
+	PeriodStart int64 `json:"period_start"`
 	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
 	UpdateBehavior SubscriptionSchedulePrebillingUpdateBehavior `json:"update_behavior"`
 }
@@ -1263,11 +1262,11 @@ type SubscriptionSchedule struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior SubscriptionScheduleBillingBehavior `json:"billing_behavior"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.
-	CompletedAt time.Time `json:"completed_at"`
+	CompletedAt int64 `json:"completed_at"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 	CurrentPhase *SubscriptionScheduleCurrentPhase `json:"current_phase"`
 	// ID of the customer who owns the subscription schedule.
@@ -1290,7 +1289,7 @@ type SubscriptionSchedule struct {
 	// Time period and invoice for a Subscription billed in advance.
 	Prebilling *SubscriptionSchedulePrebilling `json:"prebilling"`
 	// Time at which the subscription schedule was released. Measured in seconds since the Unix epoch.
-	ReleasedAt time.Time `json:"released_at"`
+	ReleasedAt int64 `json:"released_at"`
 	// ID of the subscription once managed by the subscription schedule (if it is released).
 	ReleasedSubscription *Subscription `json:"released_subscription"`
 	// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
@@ -1318,314 +1317,11 @@ func (s *SubscriptionSchedule) UnmarshalJSON(data []byte) error {
 	}
 
 	type subscriptionSchedule SubscriptionSchedule
-	v := struct {
-		CanceledAt  int64 `json:"canceled_at"`
-		CompletedAt int64 `json:"completed_at"`
-		Created     int64 `json:"created"`
-		ReleasedAt  int64 `json:"released_at"`
-		*subscriptionSchedule
-	}{
-		subscriptionSchedule: (*subscriptionSchedule)(s),
-	}
+	var v subscriptionSchedule
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	s.CanceledAt = time.Unix(v.CanceledAt, 0)
-	s.CompletedAt = time.Unix(v.CompletedAt, 0)
-	s.Created = time.Unix(v.Created, 0)
-	s.ReleasedAt = time.Unix(v.ReleasedAt, 0)
+	*s = SubscriptionSchedule(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionScheduleCurrentPhase.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionScheduleCurrentPhase) UnmarshalJSON(data []byte) error {
-	type subscriptionScheduleCurrentPhase SubscriptionScheduleCurrentPhase
-	v := struct {
-		EndDate   int64 `json:"end_date"`
-		StartDate int64 `json:"start_date"`
-		*subscriptionScheduleCurrentPhase
-	}{
-		subscriptionScheduleCurrentPhase: (*subscriptionScheduleCurrentPhase)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.EndDate = time.Unix(v.EndDate, 0)
-	s.StartDate = time.Unix(v.StartDate, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionScheduleLastPriceMigrationError.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionScheduleLastPriceMigrationError) UnmarshalJSON(data []byte) error {
-	type subscriptionScheduleLastPriceMigrationError SubscriptionScheduleLastPriceMigrationError
-	v := struct {
-		ErroredAt int64 `json:"errored_at"`
-		*subscriptionScheduleLastPriceMigrationError
-	}{
-		subscriptionScheduleLastPriceMigrationError: (*subscriptionScheduleLastPriceMigrationError)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.ErroredAt = time.Unix(v.ErroredAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
-	type subscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd
-	v := struct {
-		Timestamp int64 `json:"timestamp"`
-		*subscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd
-	}{
-		subscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd: (*subscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.Timestamp = time.Unix(v.Timestamp, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionSchedulePhaseDiscountDiscountEnd.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionSchedulePhaseDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
-	type subscriptionSchedulePhaseDiscountDiscountEnd SubscriptionSchedulePhaseDiscountDiscountEnd
-	v := struct {
-		Timestamp int64 `json:"timestamp"`
-		*subscriptionSchedulePhaseDiscountDiscountEnd
-	}{
-		subscriptionSchedulePhaseDiscountDiscountEnd: (*subscriptionSchedulePhaseDiscountDiscountEnd)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.Timestamp = time.Unix(v.Timestamp, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionSchedulePhaseItemDiscountDiscountEnd.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionSchedulePhaseItemDiscountDiscountEnd) UnmarshalJSON(data []byte) error {
-	type subscriptionSchedulePhaseItemDiscountDiscountEnd SubscriptionSchedulePhaseItemDiscountDiscountEnd
-	v := struct {
-		Timestamp int64 `json:"timestamp"`
-		*subscriptionSchedulePhaseItemDiscountDiscountEnd
-	}{
-		subscriptionSchedulePhaseItemDiscountDiscountEnd: (*subscriptionSchedulePhaseItemDiscountDiscountEnd)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.Timestamp = time.Unix(v.Timestamp, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionSchedulePhase.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionSchedulePhase) UnmarshalJSON(data []byte) error {
-	type subscriptionSchedulePhase SubscriptionSchedulePhase
-	v := struct {
-		EndDate   int64 `json:"end_date"`
-		StartDate int64 `json:"start_date"`
-		TrialEnd  int64 `json:"trial_end"`
-		*subscriptionSchedulePhase
-	}{
-		subscriptionSchedulePhase: (*subscriptionSchedulePhase)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.EndDate = time.Unix(v.EndDate, 0)
-	s.StartDate = time.Unix(v.StartDate, 0)
-	s.TrialEnd = time.Unix(v.TrialEnd, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionSchedulePrebilling.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionSchedulePrebilling) UnmarshalJSON(data []byte) error {
-	type subscriptionSchedulePrebilling SubscriptionSchedulePrebilling
-	v := struct {
-		PeriodEnd   int64 `json:"period_end"`
-		PeriodStart int64 `json:"period_start"`
-		*subscriptionSchedulePrebilling
-	}{
-		subscriptionSchedulePrebilling: (*subscriptionSchedulePrebilling)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.PeriodEnd = time.Unix(v.PeriodEnd, 0)
-	s.PeriodStart = time.Unix(v.PeriodStart, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a SubscriptionScheduleCurrentPhase.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionScheduleCurrentPhase) MarshalJSON() ([]byte, error) {
-	type subscriptionScheduleCurrentPhase SubscriptionScheduleCurrentPhase
-	v := struct {
-		EndDate   int64 `json:"end_date"`
-		StartDate int64 `json:"start_date"`
-		subscriptionScheduleCurrentPhase
-	}{
-		subscriptionScheduleCurrentPhase: (subscriptionScheduleCurrentPhase)(s),
-		EndDate:                          s.EndDate.Unix(),
-		StartDate:                        s.StartDate.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionScheduleLastPriceMigrationError.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionScheduleLastPriceMigrationError) MarshalJSON() ([]byte, error) {
-	type subscriptionScheduleLastPriceMigrationError SubscriptionScheduleLastPriceMigrationError
-	v := struct {
-		ErroredAt int64 `json:"errored_at"`
-		subscriptionScheduleLastPriceMigrationError
-	}{
-		subscriptionScheduleLastPriceMigrationError: (subscriptionScheduleLastPriceMigrationError)(s),
-		ErroredAt: s.ErroredAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
-	type subscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd SubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd
-	v := struct {
-		Timestamp int64 `json:"timestamp"`
-		subscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd
-	}{
-		subscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd: (subscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEnd)(s),
-		Timestamp: s.Timestamp.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionSchedulePhaseDiscountDiscountEnd.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionSchedulePhaseDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
-	type subscriptionSchedulePhaseDiscountDiscountEnd SubscriptionSchedulePhaseDiscountDiscountEnd
-	v := struct {
-		Timestamp int64 `json:"timestamp"`
-		subscriptionSchedulePhaseDiscountDiscountEnd
-	}{
-		subscriptionSchedulePhaseDiscountDiscountEnd: (subscriptionSchedulePhaseDiscountDiscountEnd)(s),
-		Timestamp: s.Timestamp.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionSchedulePhaseItemDiscountDiscountEnd.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionSchedulePhaseItemDiscountDiscountEnd) MarshalJSON() ([]byte, error) {
-	type subscriptionSchedulePhaseItemDiscountDiscountEnd SubscriptionSchedulePhaseItemDiscountDiscountEnd
-	v := struct {
-		Timestamp int64 `json:"timestamp"`
-		subscriptionSchedulePhaseItemDiscountDiscountEnd
-	}{
-		subscriptionSchedulePhaseItemDiscountDiscountEnd: (subscriptionSchedulePhaseItemDiscountDiscountEnd)(s),
-		Timestamp: s.Timestamp.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionSchedulePhase.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionSchedulePhase) MarshalJSON() ([]byte, error) {
-	type subscriptionSchedulePhase SubscriptionSchedulePhase
-	v := struct {
-		EndDate   int64 `json:"end_date"`
-		StartDate int64 `json:"start_date"`
-		TrialEnd  int64 `json:"trial_end"`
-		subscriptionSchedulePhase
-	}{
-		subscriptionSchedulePhase: (subscriptionSchedulePhase)(s),
-		EndDate:                   s.EndDate.Unix(),
-		StartDate:                 s.StartDate.Unix(),
-		TrialEnd:                  s.TrialEnd.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionSchedulePrebilling.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionSchedulePrebilling) MarshalJSON() ([]byte, error) {
-	type subscriptionSchedulePrebilling SubscriptionSchedulePrebilling
-	v := struct {
-		PeriodEnd   int64 `json:"period_end"`
-		PeriodStart int64 `json:"period_start"`
-		subscriptionSchedulePrebilling
-	}{
-		subscriptionSchedulePrebilling: (subscriptionSchedulePrebilling)(s),
-		PeriodEnd:                      s.PeriodEnd.Unix(),
-		PeriodStart:                    s.PeriodStart.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionSchedule.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionSchedule) MarshalJSON() ([]byte, error) {
-	type subscriptionSchedule SubscriptionSchedule
-	v := struct {
-		CanceledAt  int64 `json:"canceled_at"`
-		CompletedAt int64 `json:"completed_at"`
-		Created     int64 `json:"created"`
-		ReleasedAt  int64 `json:"released_at"`
-		subscriptionSchedule
-	}{
-		subscriptionSchedule: (subscriptionSchedule)(s),
-		CanceledAt:           s.CanceledAt.Unix(),
-		CompletedAt:          s.CompletedAt.Unix(),
-		Created:              s.Created.Unix(),
-		ReleasedAt:           s.ReleasedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

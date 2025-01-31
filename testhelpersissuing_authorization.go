@@ -6,8 +6,6 @@
 
 package stripe
 
-import "time"
-
 // Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 type TestHelpersIssuingAuthorizationAmountDetailsParams struct {
 	// The ATM withdrawal fee.
@@ -259,7 +257,7 @@ type TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightSegmentParams st
 // Information about the flight that was purchased with this transaction.
 type TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightParams struct {
 	// The time that the flight departed.
-	DepartureAt *time.Time `form:"departure_at"`
+	DepartureAt *int64 `form:"departure_at"`
 	// The name of the passenger.
 	PassengerName *string `form:"passenger_name"`
 	// Whether the ticket is refundable.
@@ -287,7 +285,7 @@ type TestHelpersIssuingAuthorizationCapturePurchaseDetailsFuelParams struct {
 // Information about lodging that was purchased with this transaction.
 type TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams struct {
 	// The time of checking into the lodging.
-	CheckInAt *time.Time `form:"check_in_at"`
+	CheckInAt *int64 `form:"check_in_at"`
 	// The number of nights stayed at the lodging.
 	Nights *int64 `form:"nights"`
 }

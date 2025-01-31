@@ -2338,8 +2338,8 @@ func TestReportingReportRunsPost(t *testing.T) {
 	params := &stripe.ReportingReportRunParams{
 		ReportType: stripe.String("balance.summary.1"),
 		Parameters: &stripe.ReportingReportRunParametersParams{
-			IntervalStart: stripe.UnixTime(1522540800),
-			IntervalEnd:   stripe.UnixTime(1525132800),
+			IntervalStart: stripe.Int64(1522540800),
+			IntervalEnd:   stripe.Int64(1525132800),
 		},
 	}
 	result, err := reporting_reportrun.New(params)
@@ -2607,7 +2607,7 @@ func TestSubscriptionItemsUsageRecordSummariesGet(t *testing.T) {
 func TestSubscriptionItemsUsageRecordsPost(t *testing.T) {
 	params := &stripe.UsageRecordParams{
 		Quantity:         stripe.Int64(100),
-		Timestamp:        stripe.UnixTime(1571252444),
+		Timestamp:        stripe.Int64(1571252444),
 		SubscriptionItem: stripe.String("si_xxxxxxxxxxxxx"),
 	}
 	result, err := usagerecord.New(params)
@@ -2640,7 +2640,7 @@ func TestSubscriptionSchedulesGet2(t *testing.T) {
 func TestSubscriptionSchedulesPost(t *testing.T) {
 	params := &stripe.SubscriptionScheduleParams{
 		Customer:    stripe.String("cus_xxxxxxxxxxxxx"),
-		StartDate:   stripe.UnixTime(1676070661),
+		StartDate:   stripe.Int64(1676070661),
 		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
 		Phases: []*stripe.SubscriptionSchedulePhaseParams{
 			{
@@ -3117,7 +3117,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 		CloseAuthorization: stripe.Bool(true),
 		PurchaseDetails: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams{
 			Flight: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightParams{
-				DepartureAt:   stripe.UnixTime(1633651200),
+				DepartureAt:   stripe.Int64(1633651200),
 				PassengerName: stripe.String("John Doe"),
 				Refundable:    stripe.Bool(true),
 				Segments: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsFlightSegmentParams{
@@ -3139,7 +3139,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 				QuantityDecimal: stripe.Float64(10),
 			},
 			Lodging: &stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsLodgingParams{
-				CheckInAt: stripe.UnixTime(1633651200),
+				CheckInAt: stripe.Int64(1633651200),
 				Nights:    stripe.Int64(2),
 			},
 			Receipt: []*stripe.TestHelpersIssuingAuthorizationCapturePurchaseDetailsReceiptParams{
@@ -3314,7 +3314,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 		},
 		PurchaseDetails: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsParams{
 			Flight: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightParams{
-				DepartureAt:   stripe.UnixTime(1633651200),
+				DepartureAt:   stripe.Int64(1633651200),
 				PassengerName: stripe.String("John Doe"),
 				Refundable:    stripe.Bool(true),
 				Segments: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsFlightSegmentParams{
@@ -3336,7 +3336,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 				QuantityDecimal: stripe.Float64(10),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsLodgingParams{
-				CheckInAt: stripe.UnixTime(1533651200),
+				CheckInAt: stripe.Int64(1533651200),
 				Nights:    stripe.Int64(2),
 			},
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsReceiptParams{
@@ -3372,7 +3372,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 		},
 		PurchaseDetails: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsParams{
 			Flight: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightParams{
-				DepartureAt:   stripe.UnixTime(1533651200),
+				DepartureAt:   stripe.Int64(1533651200),
 				PassengerName: stripe.String("John Doe"),
 				Refundable:    stripe.Bool(true),
 				Segments: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsFlightSegmentParams{
@@ -3394,7 +3394,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 				QuantityDecimal: stripe.Float64(10),
 			},
 			Lodging: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsLodgingParams{
-				CheckInAt: stripe.UnixTime(1533651200),
+				CheckInAt: stripe.Int64(1533651200),
 				Nights:    stripe.Int64(2),
 			},
 			Receipt: []*stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsReceiptParams{
@@ -3434,7 +3434,7 @@ func TestTestHelpersRefundsExpirePost(t *testing.T) {
 
 func TestTestHelpersTestClocksAdvancePost(t *testing.T) {
 	params := &stripe.TestHelpersTestClockAdvanceParams{
-		FrozenTime: stripe.UnixTime(142),
+		FrozenTime: stripe.Int64(142),
 	}
 	result, err := testhelpers_testclock.Advance("clock_xyz", params)
 	assert.NotNil(t, result)
@@ -3443,7 +3443,7 @@ func TestTestHelpersTestClocksAdvancePost(t *testing.T) {
 
 func TestTestHelpersTestClocksAdvancePost2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockAdvanceParams{
-		FrozenTime: stripe.UnixTime(1675552261),
+		FrozenTime: stripe.Int64(1675552261),
 	}
 	result, err := testhelpers_testclock.Advance("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3495,7 +3495,7 @@ func TestTestHelpersTestClocksGet4(t *testing.T) {
 
 func TestTestHelpersTestClocksPost(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{
-		FrozenTime: stripe.UnixTime(123),
+		FrozenTime: stripe.Int64(123),
 		Name:       stripe.String("cogsworth"),
 	}
 	result, err := testhelpers_testclock.New(params)
@@ -3505,7 +3505,7 @@ func TestTestHelpersTestClocksPost(t *testing.T) {
 
 func TestTestHelpersTestClocksPost2(t *testing.T) {
 	params := &stripe.TestHelpersTestClockParams{
-		FrozenTime: stripe.UnixTime(1577836800),
+		FrozenTime: stripe.Int64(1577836800),
 	}
 	result, err := testhelpers_testclock.New(params)
 	assert.NotNil(t, result)

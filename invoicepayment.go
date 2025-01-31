@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // Type of payment object associated with this invoice payment.
 type InvoicePaymentPaymentType string
 
@@ -60,9 +55,9 @@ type InvoicePaymentPayment struct {
 }
 type InvoicePaymentStatusTransitions struct {
 	// The time that the payment was canceled.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt int64 `json:"canceled_at"`
 	// The time that the payment succeeded.
-	PaidAt time.Time `json:"paid_at"`
+	PaidAt int64 `json:"paid_at"`
 }
 
 // The invoice payment object
@@ -75,7 +70,7 @@ type InvoicePayment struct {
 	// Amount intended to be paid toward this invoice, in cents (or local equivalent)
 	AmountRequested int64 `json:"amount_requested"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Unique identifier for the object.
@@ -99,80 +94,4 @@ type InvoicePaymentList struct {
 	APIResource
 	ListMeta
 	Data []*InvoicePayment `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of an InvoicePaymentStatusTransitions.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *InvoicePaymentStatusTransitions) UnmarshalJSON(data []byte) error {
-	type invoicePaymentStatusTransitions InvoicePaymentStatusTransitions
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		PaidAt     int64 `json:"paid_at"`
-		*invoicePaymentStatusTransitions
-	}{
-		invoicePaymentStatusTransitions: (*invoicePaymentStatusTransitions)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.CanceledAt = time.Unix(v.CanceledAt, 0)
-	i.PaidAt = time.Unix(v.PaidAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an InvoicePayment.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *InvoicePayment) UnmarshalJSON(data []byte) error {
-	type invoicePayment InvoicePayment
-	v := struct {
-		Created int64 `json:"created"`
-		*invoicePayment
-	}{
-		invoicePayment: (*invoicePayment)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an InvoicePaymentStatusTransitions.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i InvoicePaymentStatusTransitions) MarshalJSON() ([]byte, error) {
-	type invoicePaymentStatusTransitions InvoicePaymentStatusTransitions
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		PaidAt     int64 `json:"paid_at"`
-		invoicePaymentStatusTransitions
-	}{
-		invoicePaymentStatusTransitions: (invoicePaymentStatusTransitions)(i),
-		CanceledAt:                      i.CanceledAt.Unix(),
-		PaidAt:                          i.PaidAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an InvoicePayment.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i InvoicePayment) MarshalJSON() ([]byte, error) {
-	type invoicePayment InvoicePayment
-	v := struct {
-		Created int64 `json:"created"`
-		invoicePayment
-	}{
-		invoicePayment: (invoicePayment)(i),
-		Created:        i.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

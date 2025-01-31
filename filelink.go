@@ -6,11 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"github.com/stripe/stripe-go/v81/form"
-	"time"
-)
+import "github.com/stripe/stripe-go/v81/form"
 
 // Returns a list of file links.
 type FileLinkListParams struct {
@@ -38,8 +34,8 @@ type FileLinkParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// A future timestamp after which the link will no longer be usable, or `now` to expire the link immediately.
-	ExpiresAt    *time.Time `form:"expires_at"`
-	ExpiresAtNow *bool      `form:"-"` // See custom AppendTo
+	ExpiresAt    *int64 `form:"expires_at"`
+	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
 	// The ID of the file. The file's `purpose` must be one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `finance_report_run`, `financial_account_statement`, `identity_document_downloadable`, `issuing_regulatory_reporting`, `pci_document`, `selfie`, `sigma_scheduled_query`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
 	File *string `form:"file"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -73,11 +69,11 @@ func (p *FileLinkParams) AppendTo(body *form.Values, keyParts []string) {
 type FileLink struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Returns if the link is already expired.
 	Expired bool `json:"expired"`
 	// Time that the link expires.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// The file object this link points to.
 	File *File `json:"file"`
 	// Unique identifier for the object.
@@ -97,44 +93,4 @@ type FileLinkList struct {
 	APIResource
 	ListMeta
 	Data []*FileLink `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a FileLink.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (f *FileLink) UnmarshalJSON(data []byte) error {
-	type fileLink FileLink
-	v := struct {
-		Created   int64 `json:"created"`
-		ExpiresAt int64 `json:"expires_at"`
-		*fileLink
-	}{
-		fileLink: (*fileLink)(f),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	f.Created = time.Unix(v.Created, 0)
-	f.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a FileLink.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FileLink) MarshalJSON() ([]byte, error) {
-	type fileLink FileLink
-	v := struct {
-		Created   int64 `json:"created"`
-		ExpiresAt int64 `json:"expires_at"`
-		fileLink
-	}{
-		fileLink:  (fileLink)(f),
-		Created:   f.Created.Unix(),
-		ExpiresAt: f.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

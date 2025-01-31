@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Whether the product was a merchandise or service.
 type IssuingDisputeEvidenceCanceledProductType string
@@ -135,13 +132,13 @@ type IssuingDisputeEvidenceCanceledParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	// Date when order was canceled.
-	CanceledAt *time.Time `form:"canceled_at"`
+	CanceledAt *int64 `form:"canceled_at"`
 	// Whether the cardholder was provided with a cancellation policy.
 	CancellationPolicyProvided *bool `form:"cancellation_policy_provided"`
 	// Reason for canceling the order.
 	CancellationReason *string `form:"cancellation_reason"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt *time.Time `form:"expected_at"`
+	ExpectedAt *int64 `form:"expected_at"`
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Description of the merchandise or service that was purchased.
@@ -149,7 +146,7 @@ type IssuingDisputeEvidenceCanceledParams struct {
 	// Whether the product was a merchandise or service.
 	ProductType *string `form:"product_type"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt *time.Time `form:"returned_at"`
+	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
 	ReturnStatus *string `form:"return_status"`
 }
@@ -185,11 +182,11 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribedParams struct {
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Date when the product was received.
-	ReceivedAt *time.Time `form:"received_at"`
+	ReceivedAt *int64 `form:"received_at"`
 	// Description of the cardholder's attempt to return the product.
 	ReturnDescription *string `form:"return_description"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt *time.Time `form:"returned_at"`
+	ReturnedAt *int64 `form:"returned_at"`
 	// Result of cardholder's attempt to return the product.
 	ReturnStatus *string `form:"return_status"`
 }
@@ -207,7 +204,7 @@ type IssuingDisputeEvidenceNotReceivedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt *time.Time `form:"expected_at"`
+	ExpectedAt *int64 `form:"expected_at"`
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Description of the merchandise or service that was purchased.
@@ -233,13 +230,13 @@ type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	// Date when order was canceled.
-	CanceledAt *time.Time `form:"canceled_at"`
+	CanceledAt *int64 `form:"canceled_at"`
 	// Reason for canceling the order.
 	CancellationReason *string `form:"cancellation_reason"`
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation *string `form:"explanation"`
 	// Date when the product was received.
-	ReceivedAt *time.Time `form:"received_at"`
+	ReceivedAt *int64 `form:"received_at"`
 }
 
 // Evidence provided for the dispute.
@@ -328,13 +325,13 @@ type IssuingDisputeEvidenceCanceled struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *File `json:"additional_documentation"`
 	// Date when order was canceled.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt int64 `json:"canceled_at"`
 	// Whether the cardholder was provided with a cancellation policy.
 	CancellationPolicyProvided bool `json:"cancellation_policy_provided"`
 	// Reason for canceling the order.
 	CancellationReason string `json:"cancellation_reason"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt time.Time `json:"expected_at"`
+	ExpectedAt int64 `json:"expected_at"`
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation string `json:"explanation"`
 	// Description of the merchandise or service that was purchased.
@@ -342,7 +339,7 @@ type IssuingDisputeEvidenceCanceled struct {
 	// Whether the product was a merchandise or service.
 	ProductType IssuingDisputeEvidenceCanceledProductType `json:"product_type"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt time.Time `json:"returned_at"`
+	ReturnedAt int64 `json:"returned_at"`
 	// Result of cardholder's attempt to return the product.
 	ReturnStatus IssuingDisputeEvidenceCanceledReturnStatus `json:"return_status"`
 }
@@ -372,11 +369,11 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribed struct {
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation string `json:"explanation"`
 	// Date when the product was received.
-	ReceivedAt time.Time `json:"received_at"`
+	ReceivedAt int64 `json:"received_at"`
 	// Description of the cardholder's attempt to return the product.
 	ReturnDescription string `json:"return_description"`
 	// Date when the product was returned or attempted to be returned.
-	ReturnedAt time.Time `json:"returned_at"`
+	ReturnedAt int64 `json:"returned_at"`
 	// Result of cardholder's attempt to return the product.
 	ReturnStatus IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus `json:"return_status"`
 }
@@ -390,7 +387,7 @@ type IssuingDisputeEvidenceNotReceived struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *File `json:"additional_documentation"`
 	// Date when the cardholder expected to receive the product.
-	ExpectedAt time.Time `json:"expected_at"`
+	ExpectedAt int64 `json:"expected_at"`
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation string `json:"explanation"`
 	// Description of the merchandise or service that was purchased.
@@ -412,13 +409,13 @@ type IssuingDisputeEvidenceServiceNotAsDescribed struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *File `json:"additional_documentation"`
 	// Date when order was canceled.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt int64 `json:"canceled_at"`
 	// Reason for canceling the order.
 	CancellationReason string `json:"cancellation_reason"`
 	// Explanation of why the cardholder is disputing this transaction.
 	Explanation string `json:"explanation"`
 	// Date when the product was received.
-	ReceivedAt time.Time `json:"received_at"`
+	ReceivedAt int64 `json:"received_at"`
 }
 type IssuingDisputeEvidence struct {
 	Canceled                  *IssuingDisputeEvidenceCanceled                  `json:"canceled"`
@@ -451,7 +448,7 @@ type IssuingDispute struct {
 	// List of balance transactions associated with the dispute.
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The currency the `transaction` was made in.
 	Currency Currency                `json:"currency"`
 	Evidence *IssuingDisputeEvidence `json:"evidence"`
@@ -490,194 +487,11 @@ func (i *IssuingDispute) UnmarshalJSON(data []byte) error {
 	}
 
 	type issuingDispute IssuingDispute
-	v := struct {
-		Created int64 `json:"created"`
-		*issuingDispute
-	}{
-		issuingDispute: (*issuingDispute)(i),
-	}
+	var v issuingDispute
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	i.Created = time.Unix(v.Created, 0)
+	*i = IssuingDispute(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of an IssuingDisputeEvidenceCanceled.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingDisputeEvidenceCanceled) UnmarshalJSON(data []byte) error {
-	type issuingDisputeEvidenceCanceled IssuingDisputeEvidenceCanceled
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		ExpectedAt int64 `json:"expected_at"`
-		ReturnedAt int64 `json:"returned_at"`
-		*issuingDisputeEvidenceCanceled
-	}{
-		issuingDisputeEvidenceCanceled: (*issuingDisputeEvidenceCanceled)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.CanceledAt = time.Unix(v.CanceledAt, 0)
-	i.ExpectedAt = time.Unix(v.ExpectedAt, 0)
-	i.ReturnedAt = time.Unix(v.ReturnedAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an IssuingDisputeEvidenceMerchandiseNotAsDescribed.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingDisputeEvidenceMerchandiseNotAsDescribed) UnmarshalJSON(data []byte) error {
-	type issuingDisputeEvidenceMerchandiseNotAsDescribed IssuingDisputeEvidenceMerchandiseNotAsDescribed
-	v := struct {
-		ReceivedAt int64 `json:"received_at"`
-		ReturnedAt int64 `json:"returned_at"`
-		*issuingDisputeEvidenceMerchandiseNotAsDescribed
-	}{
-		issuingDisputeEvidenceMerchandiseNotAsDescribed: (*issuingDisputeEvidenceMerchandiseNotAsDescribed)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.ReceivedAt = time.Unix(v.ReceivedAt, 0)
-	i.ReturnedAt = time.Unix(v.ReturnedAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an IssuingDisputeEvidenceNotReceived.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingDisputeEvidenceNotReceived) UnmarshalJSON(data []byte) error {
-	type issuingDisputeEvidenceNotReceived IssuingDisputeEvidenceNotReceived
-	v := struct {
-		ExpectedAt int64 `json:"expected_at"`
-		*issuingDisputeEvidenceNotReceived
-	}{
-		issuingDisputeEvidenceNotReceived: (*issuingDisputeEvidenceNotReceived)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.ExpectedAt = time.Unix(v.ExpectedAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an IssuingDisputeEvidenceServiceNotAsDescribed.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingDisputeEvidenceServiceNotAsDescribed) UnmarshalJSON(data []byte) error {
-	type issuingDisputeEvidenceServiceNotAsDescribed IssuingDisputeEvidenceServiceNotAsDescribed
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		ReceivedAt int64 `json:"received_at"`
-		*issuingDisputeEvidenceServiceNotAsDescribed
-	}{
-		issuingDisputeEvidenceServiceNotAsDescribed: (*issuingDisputeEvidenceServiceNotAsDescribed)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.CanceledAt = time.Unix(v.CanceledAt, 0)
-	i.ReceivedAt = time.Unix(v.ReceivedAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an IssuingDisputeEvidenceCanceled.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingDisputeEvidenceCanceled) MarshalJSON() ([]byte, error) {
-	type issuingDisputeEvidenceCanceled IssuingDisputeEvidenceCanceled
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		ExpectedAt int64 `json:"expected_at"`
-		ReturnedAt int64 `json:"returned_at"`
-		issuingDisputeEvidenceCanceled
-	}{
-		issuingDisputeEvidenceCanceled: (issuingDisputeEvidenceCanceled)(i),
-		CanceledAt:                     i.CanceledAt.Unix(),
-		ExpectedAt:                     i.ExpectedAt.Unix(),
-		ReturnedAt:                     i.ReturnedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an IssuingDisputeEvidenceMerchandiseNotAsDescribed.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingDisputeEvidenceMerchandiseNotAsDescribed) MarshalJSON() ([]byte, error) {
-	type issuingDisputeEvidenceMerchandiseNotAsDescribed IssuingDisputeEvidenceMerchandiseNotAsDescribed
-	v := struct {
-		ReceivedAt int64 `json:"received_at"`
-		ReturnedAt int64 `json:"returned_at"`
-		issuingDisputeEvidenceMerchandiseNotAsDescribed
-	}{
-		issuingDisputeEvidenceMerchandiseNotAsDescribed: (issuingDisputeEvidenceMerchandiseNotAsDescribed)(i),
-		ReceivedAt: i.ReceivedAt.Unix(),
-		ReturnedAt: i.ReturnedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an IssuingDisputeEvidenceNotReceived.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingDisputeEvidenceNotReceived) MarshalJSON() ([]byte, error) {
-	type issuingDisputeEvidenceNotReceived IssuingDisputeEvidenceNotReceived
-	v := struct {
-		ExpectedAt int64 `json:"expected_at"`
-		issuingDisputeEvidenceNotReceived
-	}{
-		issuingDisputeEvidenceNotReceived: (issuingDisputeEvidenceNotReceived)(i),
-		ExpectedAt:                        i.ExpectedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an IssuingDisputeEvidenceServiceNotAsDescribed.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingDisputeEvidenceServiceNotAsDescribed) MarshalJSON() ([]byte, error) {
-	type issuingDisputeEvidenceServiceNotAsDescribed IssuingDisputeEvidenceServiceNotAsDescribed
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		ReceivedAt int64 `json:"received_at"`
-		issuingDisputeEvidenceServiceNotAsDescribed
-	}{
-		issuingDisputeEvidenceServiceNotAsDescribed: (issuingDisputeEvidenceServiceNotAsDescribed)(i),
-		CanceledAt: i.CanceledAt.Unix(),
-		ReceivedAt: i.ReceivedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an IssuingDispute.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingDispute) MarshalJSON() ([]byte, error) {
-	type issuingDispute IssuingDispute
-	v := struct {
-		Created int64 `json:"created"`
-		issuingDispute
-	}{
-		issuingDispute: (issuingDispute)(i),
-		Created:        i.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

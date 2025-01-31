@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, or `redacted`.
 type ReviewClosedReason string
@@ -125,7 +122,7 @@ type Review struct {
 	// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, or `redacted`.
 	ClosedReason ReviewClosedReason `json:"closed_reason"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The IP address where the payment originated.
@@ -165,34 +162,11 @@ func (r *Review) UnmarshalJSON(data []byte) error {
 	}
 
 	type review Review
-	v := struct {
-		Created int64 `json:"created"`
-		*review
-	}{
-		review: (*review)(r),
-	}
+	var v review
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	r.Created = time.Unix(v.Created, 0)
+	*r = Review(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a Review.
-// This custom marshaling is needed to handle the time fields correctly.
-func (r Review) MarshalJSON() ([]byte, error) {
-	type review Review
-	v := struct {
-		Created int64 `json:"created"`
-		review
-	}{
-		review:  (review)(r),
-		Created: r.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

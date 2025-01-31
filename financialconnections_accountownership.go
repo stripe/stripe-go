@@ -6,15 +6,12 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Describes a snapshot of the owners of an account at a particular point in time.
 type FinancialConnectionsAccountOwnership struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -33,34 +30,11 @@ func (f *FinancialConnectionsAccountOwnership) UnmarshalJSON(data []byte) error 
 	}
 
 	type financialConnectionsAccountOwnership FinancialConnectionsAccountOwnership
-	v := struct {
-		Created int64 `json:"created"`
-		*financialConnectionsAccountOwnership
-	}{
-		financialConnectionsAccountOwnership: (*financialConnectionsAccountOwnership)(f),
-	}
+	var v financialConnectionsAccountOwnership
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	f.Created = time.Unix(v.Created, 0)
+	*f = FinancialConnectionsAccountOwnership(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a FinancialConnectionsAccountOwnership.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FinancialConnectionsAccountOwnership) MarshalJSON() ([]byte, error) {
-	type financialConnectionsAccountOwnership FinancialConnectionsAccountOwnership
-	v := struct {
-		Created int64 `json:"created"`
-		financialConnectionsAccountOwnership
-	}{
-		financialConnectionsAccountOwnership: (financialConnectionsAccountOwnership)(f),
-		Created:                              f.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

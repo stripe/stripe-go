@@ -9,7 +9,6 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/stripe/stripe-go/v81/form"
-	"time"
 )
 
 // The status of the payment, one of `open`, `paid`, or `past_due`
@@ -312,7 +311,7 @@ type InvoiceParams struct {
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
 	AutoAdvance *bool `form:"auto_advance"`
 	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state. To turn off automatic finalization, set `auto_advance` to false.
-	AutomaticallyFinalizesAt *time.Time `form:"automatically_finalizes_at"`
+	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions. Defaults to `charge_automatically`.
@@ -338,9 +337,9 @@ type InvoiceParams struct {
 	// The coupons and promotion codes to redeem into discounts for the invoice. If not specified, inherits the discount from the invoice's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceDiscountParams `form:"discounts"`
 	// The date on which payment for this invoice is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on `draft` invoices.
-	DueDate *time.Time `form:"due_date"`
+	DueDate *int64 `form:"due_date"`
 	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
-	EffectiveAt *time.Time `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Footer to be displayed on the invoice.
@@ -396,7 +395,7 @@ type InvoiceAmountsDueParams struct {
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Date on which a payment plan's payment is due.
-	DueDate *time.Time `form:"due_date"`
+	DueDate *int64 `form:"due_date"`
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -436,7 +435,7 @@ type InvoiceDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -811,9 +810,9 @@ type InvoiceUpcomingCustomerDetailsParams struct {
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceUpcomingInvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
-	End *time.Time `form:"end"`
+	End *int64 `form:"end"`
 	// The start of the period. This value is inclusive.
-	Start *time.Time `form:"start"`
+	Start *int64 `form:"start"`
 }
 
 // List of invoice items to add or update in the upcoming invoice preview (up to 250).
@@ -890,7 +889,7 @@ type InvoiceUpcomingScheduleDetailsAmendmentAmendmentEndParams struct {
 	// Time span for the amendment starting from the `amendment_start`.
 	Duration *InvoiceUpcomingScheduleDetailsAmendmentAmendmentEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_end`.
 	Type *string `form:"type"`
 }
@@ -914,7 +913,7 @@ type InvoiceUpcomingScheduleDetailsAmendmentAmendmentStartParams struct {
 	// Use the `end` time of a given discount.
 	DiscountEnd *InvoiceUpcomingScheduleDetailsAmendmentAmendmentStartDiscountEndParams `form:"discount_end"`
 	// A precise Unix timestamp for the amendment to start.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_start`.
 	Type *string `form:"type"`
 }
@@ -984,7 +983,7 @@ type InvoiceUpcomingScheduleDetailsAmendmentItemActionAddDiscountDiscountEndPara
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingScheduleDetailsAmendmentItemActionAddDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -1053,7 +1052,7 @@ type InvoiceUpcomingScheduleDetailsAmendmentItemActionSetDiscountDiscountEndPara
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingScheduleDetailsAmendmentItemActionSetDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -1190,7 +1189,7 @@ type InvoiceUpcomingScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndParams 
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -1272,7 +1271,7 @@ type InvoiceUpcomingScheduleDetailsPhaseDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingScheduleDetailsPhaseDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -1326,7 +1325,7 @@ type InvoiceUpcomingScheduleDetailsPhaseItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingScheduleDetailsPhaseItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -1459,8 +1458,8 @@ type InvoiceUpcomingScheduleDetailsPhaseParams struct {
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceUpcomingScheduleDetailsPhaseDiscountParams `form:"discounts"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
-	EndDate    *time.Time `form:"end_date"`
-	EndDateNow *bool      `form:"-"` // See custom AppendTo
+	EndDate    *int64 `form:"end_date"`
+	EndDateNow *bool  `form:"-"` // See custom AppendTo
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *InvoiceUpcomingScheduleDetailsPhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
@@ -1476,8 +1475,8 @@ type InvoiceUpcomingScheduleDetailsPhaseParams struct {
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
-	StartDate    *time.Time `form:"start_date"`
-	StartDateNow *bool      `form:"-"` // See custom AppendTo
+	StartDate    *int64 `form:"start_date"`
+	StartDateNow *bool  `form:"-"` // See custom AppendTo
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *InvoiceUpcomingScheduleDetailsPhaseTransferDataParams `form:"transfer_data"`
 	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
@@ -1485,8 +1484,8 @@ type InvoiceUpcomingScheduleDetailsPhaseParams struct {
 	// Specify trial behavior when crossing phase boundaries
 	TrialContinuation *string `form:"trial_continuation"`
 	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
-	TrialEnd    *time.Time `form:"trial_end"`
-	TrialEndNow *bool      `form:"-"` // See custom AppendTo
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Settings related to subscription trials.
 	TrialSettings *InvoiceUpcomingScheduleDetailsPhaseTrialSettingsParams `form:"trial_settings"`
 }
@@ -1534,7 +1533,7 @@ type InvoiceUpcomingScheduleDetailsPrebillingBillUntilParams struct {
 	// Time span for prebilling, starting from `bill_from`.
 	Duration *InvoiceUpcomingScheduleDetailsPrebillingBillUntilDurationParams `form:"duration"`
 	// End the prebilled period at a precise integer timestamp, starting from the Unix epoch.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of several ways to pass the `bill_until` value.
 	Type *string `form:"type"`
 }
@@ -1582,7 +1581,7 @@ type InvoiceUpcomingSubscriptionDetailsItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingSubscriptionDetailsItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -1667,11 +1666,11 @@ type InvoiceUpcomingSubscriptionDetailsPrebillingParams struct {
 // The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
 type InvoiceUpcomingSubscriptionDetailsParams struct {
 	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
-	BillingCycleAnchor          *time.Time `form:"billing_cycle_anchor"`
-	BillingCycleAnchorNow       *bool      `form:"-"` // See custom AppendTo
-	BillingCycleAnchorUnchanged *bool      `form:"-"` // See custom AppendTo
+	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
+	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt *time.Time `form:"cancel_at"`
+	CancelAt *int64 `form:"cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
@@ -1685,14 +1684,14 @@ type InvoiceUpcomingSubscriptionDetailsParams struct {
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_details.proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_details.items`, or `subscription_details.trial_end` are required. Also, `subscription_details.proration_behavior` cannot be set to 'none'.
-	ProrationDate *time.Time `form:"proration_date"`
+	ProrationDate *int64 `form:"proration_date"`
 	// For paused subscriptions, setting `subscription_details.resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
 	ResumeAt *string `form:"resume_at"`
 	// Date a subscription is intended to start (can be future or past).
-	StartDate *time.Time `form:"start_date"`
+	StartDate *int64 `form:"start_date"`
 	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_details.items` or `subscription` is required.
-	TrialEnd    *time.Time `form:"trial_end"`
-	TrialEndNow *bool      `form:"-"` // See custom AppendTo
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 }
 
 // AppendTo implements custom encoding logic for InvoiceUpcomingSubscriptionDetailsParams.
@@ -1752,11 +1751,11 @@ type InvoiceUpcomingParams struct {
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_details.items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_details.items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
 	Subscription *string `form:"subscription"`
 	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.billing_cycle_anchor` instead.
-	SubscriptionBillingCycleAnchor          *time.Time `form:"subscription_billing_cycle_anchor"`
-	SubscriptionBillingCycleAnchorNow       *bool      `form:"-"` // See custom AppendTo
-	SubscriptionBillingCycleAnchorUnchanged *bool      `form:"-"` // See custom AppendTo
+	SubscriptionBillingCycleAnchor          *int64 `form:"subscription_billing_cycle_anchor"`
+	SubscriptionBillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
+	SubscriptionBillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at` instead.
-	SubscriptionCancelAt *time.Time `form:"subscription_cancel_at"`
+	SubscriptionCancelAt *int64 `form:"subscription_cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at_period_end` instead.
 	SubscriptionCancelAtPeriodEnd *bool `form:"subscription_cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_now` instead.
@@ -1772,14 +1771,14 @@ type InvoiceUpcomingParams struct {
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_behavior` instead.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_date` instead.
-	SubscriptionProrationDate *time.Time `form:"subscription_proration_date"`
+	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
 	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed. This field has been deprecated and will be removed in a future API version. Use `subscription_details.resume_at` instead.
 	SubscriptionResumeAt *string `form:"subscription_resume_at"`
 	// Date a subscription is intended to start (can be future or past). This field has been deprecated and will be removed in a future API version. Use `subscription_details.start_date` instead.
-	SubscriptionStartDate *time.Time `form:"subscription_start_date"`
+	SubscriptionStartDate *int64 `form:"subscription_start_date"`
 	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required. This field has been deprecated and will be removed in a future API version. Use `subscription_details.trial_end` instead.
-	SubscriptionTrialEnd    *time.Time `form:"subscription_trial_end"`
-	SubscriptionTrialEndNow *bool      `form:"-"` // See custom AppendTo
+	SubscriptionTrialEnd    *int64 `form:"subscription_trial_end"`
+	SubscriptionTrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `subscription_trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `subscription_trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
 	SubscriptionTrialFromPlan *bool `form:"subscription_trial_from_plan"`
 }
@@ -1869,7 +1868,7 @@ type InvoiceUpcomingLinesDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingLinesDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -1899,7 +1898,7 @@ type InvoiceUpcomingLinesInvoiceItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingLinesInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -1919,9 +1918,9 @@ type InvoiceUpcomingLinesInvoiceItemDiscountParams struct {
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceUpcomingLinesInvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
-	End *time.Time `form:"end"`
+	End *int64 `form:"end"`
 	// The start of the period. This value is inclusive.
-	Start *time.Time `form:"start"`
+	Start *int64 `form:"start"`
 }
 
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -2012,7 +2011,7 @@ type InvoiceUpcomingLinesScheduleDetailsAmendmentAmendmentEndParams struct {
 	// Time span for the amendment starting from the `amendment_start`.
 	Duration *InvoiceUpcomingLinesScheduleDetailsAmendmentAmendmentEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_end`.
 	Type *string `form:"type"`
 }
@@ -2036,7 +2035,7 @@ type InvoiceUpcomingLinesScheduleDetailsAmendmentAmendmentStartParams struct {
 	// Use the `end` time of a given discount.
 	DiscountEnd *InvoiceUpcomingLinesScheduleDetailsAmendmentAmendmentStartDiscountEndParams `form:"discount_end"`
 	// A precise Unix timestamp for the amendment to start.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_start`.
 	Type *string `form:"type"`
 }
@@ -2106,7 +2105,7 @@ type InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionAddDiscountDiscountEn
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionAddDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -2175,7 +2174,7 @@ type InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionSetDiscountDiscountEn
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingLinesScheduleDetailsAmendmentItemActionSetDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -2312,7 +2311,7 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndPa
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingLinesScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -2394,7 +2393,7 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingLinesScheduleDetailsPhaseDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -2448,7 +2447,7 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseItemDiscountDiscountEndParams struc
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingLinesScheduleDetailsPhaseItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -2581,8 +2580,8 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseParams struct {
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceUpcomingLinesScheduleDetailsPhaseDiscountParams `form:"discounts"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
-	EndDate    *time.Time `form:"end_date"`
-	EndDateNow *bool      `form:"-"` // See custom AppendTo
+	EndDate    *int64 `form:"end_date"`
+	EndDateNow *bool  `form:"-"` // See custom AppendTo
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *InvoiceUpcomingLinesScheduleDetailsPhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
@@ -2598,8 +2597,8 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseParams struct {
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
-	StartDate    *time.Time `form:"start_date"`
-	StartDateNow *bool      `form:"-"` // See custom AppendTo
+	StartDate    *int64 `form:"start_date"`
+	StartDateNow *bool  `form:"-"` // See custom AppendTo
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *InvoiceUpcomingLinesScheduleDetailsPhaseTransferDataParams `form:"transfer_data"`
 	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
@@ -2607,8 +2606,8 @@ type InvoiceUpcomingLinesScheduleDetailsPhaseParams struct {
 	// Specify trial behavior when crossing phase boundaries
 	TrialContinuation *string `form:"trial_continuation"`
 	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
-	TrialEnd    *time.Time `form:"trial_end"`
-	TrialEndNow *bool      `form:"-"` // See custom AppendTo
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Settings related to subscription trials.
 	TrialSettings *InvoiceUpcomingLinesScheduleDetailsPhaseTrialSettingsParams `form:"trial_settings"`
 }
@@ -2656,7 +2655,7 @@ type InvoiceUpcomingLinesScheduleDetailsPrebillingBillUntilParams struct {
 	// Time span for prebilling, starting from `bill_from`.
 	Duration *InvoiceUpcomingLinesScheduleDetailsPrebillingBillUntilDurationParams `form:"duration"`
 	// End the prebilled period at a precise integer timestamp, starting from the Unix epoch.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of several ways to pass the `bill_until` value.
 	Type *string `form:"type"`
 }
@@ -2704,7 +2703,7 @@ type InvoiceUpcomingLinesSubscriptionDetailsItemDiscountDiscountEndParams struct
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingLinesSubscriptionDetailsItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -2789,11 +2788,11 @@ type InvoiceUpcomingLinesSubscriptionDetailsPrebillingParams struct {
 // The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
 type InvoiceUpcomingLinesSubscriptionDetailsParams struct {
 	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
-	BillingCycleAnchor          *time.Time `form:"billing_cycle_anchor"`
-	BillingCycleAnchorNow       *bool      `form:"-"` // See custom AppendTo
-	BillingCycleAnchorUnchanged *bool      `form:"-"` // See custom AppendTo
+	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
+	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt *time.Time `form:"cancel_at"`
+	CancelAt *int64 `form:"cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
@@ -2807,14 +2806,14 @@ type InvoiceUpcomingLinesSubscriptionDetailsParams struct {
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_details.proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_details.items`, or `subscription_details.trial_end` are required. Also, `subscription_details.proration_behavior` cannot be set to 'none'.
-	ProrationDate *time.Time `form:"proration_date"`
+	ProrationDate *int64 `form:"proration_date"`
 	// For paused subscriptions, setting `subscription_details.resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
 	ResumeAt *string `form:"resume_at"`
 	// Date a subscription is intended to start (can be future or past).
-	StartDate *time.Time `form:"start_date"`
+	StartDate *int64 `form:"start_date"`
 	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_details.items` or `subscription` is required.
-	TrialEnd    *time.Time `form:"trial_end"`
-	TrialEndNow *bool      `form:"-"` // See custom AppendTo
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 }
 
 // AppendTo implements custom encoding logic for InvoiceUpcomingLinesSubscriptionDetailsParams.
@@ -2849,7 +2848,7 @@ type InvoiceUpcomingLinesSubscriptionItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpcomingLinesSubscriptionItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -2963,11 +2962,11 @@ type InvoiceUpcomingLinesParams struct {
 	// The identifier of the subscription for which you'd like to retrieve the upcoming invoice. If not provided, but a `subscription_details.items` is provided, you will preview creating a subscription with those items. If neither `subscription` nor `subscription_details.items` is provided, you will retrieve the next upcoming invoice from among the customer's subscriptions.
 	Subscription *string `form:"subscription"`
 	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.billing_cycle_anchor` instead.
-	SubscriptionBillingCycleAnchor          *time.Time `form:"subscription_billing_cycle_anchor"`
-	SubscriptionBillingCycleAnchorNow       *bool      `form:"-"` // See custom AppendTo
-	SubscriptionBillingCycleAnchorUnchanged *bool      `form:"-"` // See custom AppendTo
+	SubscriptionBillingCycleAnchor          *int64 `form:"subscription_billing_cycle_anchor"`
+	SubscriptionBillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
+	SubscriptionBillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at` instead.
-	SubscriptionCancelAt *time.Time `form:"subscription_cancel_at"`
+	SubscriptionCancelAt *int64 `form:"subscription_cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_at_period_end` instead.
 	SubscriptionCancelAtPeriodEnd *bool `form:"subscription_cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately. This field has been deprecated and will be removed in a future API version. Use `subscription_details.cancel_now` instead.
@@ -2983,14 +2982,14 @@ type InvoiceUpcomingLinesParams struct {
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_behavior` instead.
 	SubscriptionProrationBehavior *string `form:"subscription_proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_items`, or `subscription_trial_end` are required. Also, `subscription_proration_behavior` cannot be set to 'none'. This field has been deprecated and will be removed in a future API version. Use `subscription_details.proration_date` instead.
-	SubscriptionProrationDate *time.Time `form:"subscription_proration_date"`
+	SubscriptionProrationDate *int64 `form:"subscription_proration_date"`
 	// For paused subscriptions, setting `subscription_resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed. This field has been deprecated and will be removed in a future API version. Use `subscription_details.resume_at` instead.
 	SubscriptionResumeAt *string `form:"subscription_resume_at"`
 	// Date a subscription is intended to start (can be future or past). This field has been deprecated and will be removed in a future API version. Use `subscription_details.start_date` instead.
-	SubscriptionStartDate *time.Time `form:"subscription_start_date"`
+	SubscriptionStartDate *int64 `form:"subscription_start_date"`
 	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_items` or `subscription` is required. This field has been deprecated and will be removed in a future API version. Use `subscription_details.trial_end` instead.
-	SubscriptionTrialEnd    *time.Time `form:"subscription_trial_end"`
-	SubscriptionTrialEndNow *bool      `form:"-"` // See custom AppendTo
+	SubscriptionTrialEnd    *int64 `form:"subscription_trial_end"`
+	SubscriptionTrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `subscription_trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `subscription_trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
 	SubscriptionTrialFromPlan *bool `form:"subscription_trial_from_plan"`
 }
@@ -3026,7 +3025,7 @@ type InvoiceAddLinesLineDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceAddLinesLineDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -3046,9 +3045,9 @@ type InvoiceAddLinesLineDiscountParams struct {
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceAddLinesLinePeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
-	End *time.Time `form:"end"`
+	End *int64 `form:"end"`
 	// The start of the period. This value is inclusive.
-	Start *time.Time `form:"start"`
+	Start *int64 `form:"start"`
 }
 
 // Data used to generate a new product object inline. One of `product` or `product_data` is required.
@@ -3190,7 +3189,7 @@ type InvoiceAttachPaymentPaymentRecordDataParams struct {
 	// The type of money movement for this out of band payment record.
 	MoneyMovementType *string `form:"money_movement_type"`
 	// The timestamp when this out of band payment was paid.
-	PaidAt *time.Time `form:"paid_at"`
+	PaidAt *int64 `form:"paid_at"`
 	// The reference for this out of band payment record.
 	PaymentReference *string `form:"payment_reference"`
 }
@@ -3363,7 +3362,7 @@ type InvoiceUpdateLinesLineDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceUpdateLinesLineDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -3383,9 +3382,9 @@ type InvoiceUpdateLinesLineDiscountParams struct {
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceUpdateLinesLinePeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
-	End *time.Time `form:"end"`
+	End *int64 `form:"end"`
 	// The start of the period. This value is inclusive.
-	Start *time.Time `form:"start"`
+	Start *int64 `form:"start"`
 }
 
 // Data used to generate a new product object inline. One of `product` or `product_data` is required.
@@ -3597,7 +3596,7 @@ type InvoiceCreatePreviewDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceCreatePreviewDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -3627,7 +3626,7 @@ type InvoiceCreatePreviewInvoiceItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceCreatePreviewInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -3647,9 +3646,9 @@ type InvoiceCreatePreviewInvoiceItemDiscountParams struct {
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceCreatePreviewInvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
-	End *time.Time `form:"end"`
+	End *int64 `form:"end"`
 	// The start of the period. This value is inclusive.
-	Start *time.Time `form:"start"`
+	Start *int64 `form:"start"`
 }
 
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -3740,7 +3739,7 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentEndParams struct {
 	// Time span for the amendment starting from the `amendment_start`.
 	Duration *InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the amendment to end. Must be after the `amendment_start`.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_end`.
 	Type *string `form:"type"`
 }
@@ -3764,7 +3763,7 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentStartParams struct {
 	// Use the `end` time of a given discount.
 	DiscountEnd *InvoiceCreatePreviewScheduleDetailsAmendmentAmendmentStartDiscountEndParams `form:"discount_end"`
 	// A precise Unix timestamp for the amendment to start.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of three ways to pass the `amendment_start`.
 	Type *string `form:"type"`
 }
@@ -3834,7 +3833,7 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountDiscountEn
 	// Time span for the redeemed discount.
 	Duration *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionAddDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -3903,7 +3902,7 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountDiscountEn
 	// Time span for the redeemed discount.
 	Duration *InvoiceCreatePreviewScheduleDetailsAmendmentItemActionSetDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -4040,7 +4039,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndPa
 	// Time span for the redeemed discount.
 	Duration *InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -4122,7 +4121,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -4176,7 +4175,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountDiscountEndParams struc
 	// Time span for the redeemed discount.
 	Duration *InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -4309,8 +4308,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams `form:"discounts"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
-	EndDate    *time.Time `form:"end_date"`
-	EndDateNow *bool      `form:"-"` // See custom AppendTo
+	EndDate    *int64 `form:"end_date"`
+	EndDateNow *bool  `form:"-"` // See custom AppendTo
 	// All invoices will be billed using the specified settings.
 	InvoiceSettings *InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
@@ -4326,8 +4325,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
-	StartDate    *time.Time `form:"start_date"`
-	StartDateNow *bool      `form:"-"` // See custom AppendTo
+	StartDate    *int64 `form:"start_date"`
+	StartDateNow *bool  `form:"-"` // See custom AppendTo
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *InvoiceCreatePreviewScheduleDetailsPhaseTransferDataParams `form:"transfer_data"`
 	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
@@ -4335,8 +4334,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	// Specify trial behavior when crossing phase boundaries
 	TrialContinuation *string `form:"trial_continuation"`
 	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
-	TrialEnd    *time.Time `form:"trial_end"`
-	TrialEndNow *bool      `form:"-"` // See custom AppendTo
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Settings related to subscription trials.
 	TrialSettings *InvoiceCreatePreviewScheduleDetailsPhaseTrialSettingsParams `form:"trial_settings"`
 }
@@ -4384,7 +4383,7 @@ type InvoiceCreatePreviewScheduleDetailsPrebillingBillUntilParams struct {
 	// Time span for prebilling, starting from `bill_from`.
 	Duration *InvoiceCreatePreviewScheduleDetailsPrebillingBillUntilDurationParams `form:"duration"`
 	// End the prebilled period at a precise integer timestamp, starting from the Unix epoch.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// Select one of several ways to pass the `bill_until` value.
 	Type *string `form:"type"`
 }
@@ -4432,7 +4431,7 @@ type InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndParams struct
 	// Time span for the redeemed discount.
 	Duration *InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -4517,11 +4516,11 @@ type InvoiceCreatePreviewSubscriptionDetailsPrebillingParams struct {
 // The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
 type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	// For new subscriptions, a future timestamp to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to `now` or `unchanged`.
-	BillingCycleAnchor          *time.Time `form:"billing_cycle_anchor"`
-	BillingCycleAnchorNow       *bool      `form:"-"` // See custom AppendTo
-	BillingCycleAnchorUnchanged *bool      `form:"-"` // See custom AppendTo
+	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
+	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt *time.Time `form:"cancel_at"`
+	CancelAt *int64 `form:"cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
@@ -4535,14 +4534,14 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If previewing an update to a subscription, and doing proration, `subscription_details.proration_date` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period and within the current phase of the schedule backing this subscription, if the schedule exists. If set, `subscription`, and one of `subscription_details.items`, or `subscription_details.trial_end` are required. Also, `subscription_details.proration_behavior` cannot be set to 'none'.
-	ProrationDate *time.Time `form:"proration_date"`
+	ProrationDate *int64 `form:"proration_date"`
 	// For paused subscriptions, setting `subscription_details.resume_at` to `now` will preview the invoice that will be generated if the subscription is resumed.
 	ResumeAt *string `form:"resume_at"`
 	// Date a subscription is intended to start (can be future or past).
-	StartDate *time.Time `form:"start_date"`
+	StartDate *int64 `form:"start_date"`
 	// If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of `subscription_details.items` or `subscription` is required.
-	TrialEnd    *time.Time `form:"trial_end"`
-	TrialEndNow *bool      `form:"-"` // See custom AppendTo
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 }
 
 // AppendTo implements custom encoding logic for InvoiceCreatePreviewSubscriptionDetailsParams.
@@ -4630,9 +4629,9 @@ type InvoiceAmountsDue struct {
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
 	// Date on which a payment plan's payment is due.
-	DueDate time.Time `json:"due_date"`
+	DueDate int64 `json:"due_date"`
 	// Timestamp when the payment was paid.
-	PaidAt time.Time `json:"paid_at"`
+	PaidAt int64 `json:"paid_at"`
 	// The status of the payment, one of `open`, `paid`, or `past_due`
 	Status InvoiceAmountsDueStatus `json:"status"`
 }
@@ -4833,13 +4832,13 @@ type InvoiceShippingCost struct {
 }
 type InvoiceStatusTransitions struct {
 	// The time that the invoice draft was finalized.
-	FinalizedAt time.Time `json:"finalized_at"`
+	FinalizedAt int64 `json:"finalized_at"`
 	// The time that the invoice was marked uncollectible.
-	MarkedUncollectibleAt time.Time `json:"marked_uncollectible_at"`
+	MarkedUncollectibleAt int64 `json:"marked_uncollectible_at"`
 	// The time that the invoice was paid.
-	PaidAt time.Time `json:"paid_at"`
+	PaidAt int64 `json:"paid_at"`
 	// The time that the invoice was voided.
-	VoidedAt time.Time `json:"voided_at"`
+	VoidedAt int64 `json:"voided_at"`
 }
 
 // If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
@@ -4847,7 +4846,7 @@ type InvoiceSubscriptionDetailsPauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior InvoiceSubscriptionDetailsPauseCollectionBehavior `json:"behavior"`
 	// The time after which the subscription will resume collecting payments.
-	ResumesAt time.Time `json:"resumes_at"`
+	ResumesAt int64 `json:"resumes_at"`
 }
 
 // Details about the subscription that created this invoice.
@@ -4988,7 +4987,7 @@ type Invoice struct {
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
 	AutoAdvance bool `json:"auto_advance"`
 	// The time when this invoice is currently scheduled to be automatically finalized. The field will be `null` if the invoice is not scheduled to finalize in the future. If the invoice is not in the draft state, this field will always be `null` - see `finalized_at` for the time when an already-finalized invoice was finalized.
-	AutomaticallyFinalizesAt time.Time            `json:"automatically_finalizes_at"`
+	AutomaticallyFinalizesAt int64                `json:"automatically_finalizes_at"`
 	AutomaticTax             *InvoiceAutomaticTax `json:"automatic_tax"`
 	// Indicates the reason why the invoice was created.
 	//
@@ -5005,7 +5004,7 @@ type Invoice struct {
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.
 	CollectionMethod InvoiceCollectionMethod `json:"collection_method"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The ID of the customer who will be billed.
@@ -5042,9 +5041,9 @@ type Invoice struct {
 	// The discounts applied to the invoice. Line item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// The date on which payment for this invoice is due. This value will be `null` for invoices where `collection_method=charge_automatically`.
-	DueDate time.Time `json:"due_date"`
+	DueDate int64 `json:"due_date"`
 	// The date when this invoice is in effect. Same as `finalized_at` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the invoice PDF and receipt.
-	EffectiveAt time.Time `json:"effective_at"`
+	EffectiveAt int64 `json:"effective_at"`
 	// Ending customer balance after the invoice is finalized. Invoices are finalized approximately an hour after successful webhook delivery or when payment collection is attempted for the invoice. If the invoice has not been finalized yet, this will be null.
 	EndingBalance int64 `json:"ending_balance"`
 	// Footer displayed on the invoice.
@@ -5069,7 +5068,7 @@ type Invoice struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The time at which payment will next be attempted. This value will be `null` for invoices where `collection_method=send_invoice`.
-	NextPaymentAttempt time.Time `json:"next_payment_attempt"`
+	NextPaymentAttempt int64 `json:"next_payment_attempt"`
 	// A unique, identifying string that appears on emails sent to the customer for this invoice. This starts with the customer's unique invoice_prefix if it is specified.
 	Number string `json:"number"`
 	// String representing the object's type. Objects of the same type share the same value.
@@ -5086,9 +5085,9 @@ type Invoice struct {
 	Payments        *InvoicePaymentList     `json:"payments"`
 	PaymentSettings *InvoicePaymentSettings `json:"payment_settings"`
 	// End of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
-	PeriodEnd time.Time `json:"period_end"`
+	PeriodEnd int64 `json:"period_end"`
 	// Start of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
-	PeriodStart time.Time `json:"period_start"`
+	PeriodStart int64 `json:"period_start"`
 	// Total amount of all post-payment credit notes issued for this invoice.
 	PostPaymentCreditNotesAmount int64 `json:"post_payment_credit_notes_amount"`
 	// Total amount of all pre-payment credit notes issued for this invoice.
@@ -5115,7 +5114,7 @@ type Invoice struct {
 	// Details about the subscription that created this invoice.
 	SubscriptionDetails *InvoiceSubscriptionDetails `json:"subscription_details"`
 	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
-	SubscriptionProrationDate time.Time `json:"subscription_proration_date"`
+	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`
 	// The integer amount in cents (or local equivalent) representing the subtotal of the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
@@ -5140,7 +5139,7 @@ type Invoice struct {
 	// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.
 	TransferData *InvoiceTransferData `json:"transfer_data"`
 	// Invoices are automatically paid or sent 1 hour after webhooks are delivered, or until all webhook delivery attempts have [been exhausted](https://stripe.com/docs/billing/webhooks#understand). This field tracks the time when webhooks for this invoice were successfully delivered. If the invoice had no webhooks to deliver, this will be set while the invoice is being created.
-	WebhooksDeliveredAt time.Time `json:"webhooks_delivered_at"`
+	WebhooksDeliveredAt int64 `json:"webhooks_delivered_at"`
 }
 
 // InvoiceList is a list of Invoices as retrieved from a list endpoint.
@@ -5167,190 +5166,11 @@ func (i *Invoice) UnmarshalJSON(data []byte) error {
 	}
 
 	type invoice Invoice
-	v := struct {
-		AutomaticallyFinalizesAt  int64 `json:"automatically_finalizes_at"`
-		Created                   int64 `json:"created"`
-		DueDate                   int64 `json:"due_date"`
-		EffectiveAt               int64 `json:"effective_at"`
-		NextPaymentAttempt        int64 `json:"next_payment_attempt"`
-		PeriodEnd                 int64 `json:"period_end"`
-		PeriodStart               int64 `json:"period_start"`
-		SubscriptionProrationDate int64 `json:"subscription_proration_date"`
-		WebhooksDeliveredAt       int64 `json:"webhooks_delivered_at"`
-		*invoice
-	}{
-		invoice: (*invoice)(i),
-	}
+	var v invoice
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	i.AutomaticallyFinalizesAt = time.Unix(v.AutomaticallyFinalizesAt, 0)
-	i.Created = time.Unix(v.Created, 0)
-	i.DueDate = time.Unix(v.DueDate, 0)
-	i.EffectiveAt = time.Unix(v.EffectiveAt, 0)
-	i.NextPaymentAttempt = time.Unix(v.NextPaymentAttempt, 0)
-	i.PeriodEnd = time.Unix(v.PeriodEnd, 0)
-	i.PeriodStart = time.Unix(v.PeriodStart, 0)
-	i.SubscriptionProrationDate = time.Unix(v.SubscriptionProrationDate, 0)
-	i.WebhooksDeliveredAt = time.Unix(v.WebhooksDeliveredAt, 0)
+	*i = Invoice(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of an InvoiceAmountsDue.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *InvoiceAmountsDue) UnmarshalJSON(data []byte) error {
-	type invoiceAmountsDue InvoiceAmountsDue
-	v := struct {
-		DueDate int64 `json:"due_date"`
-		PaidAt  int64 `json:"paid_at"`
-		*invoiceAmountsDue
-	}{
-		invoiceAmountsDue: (*invoiceAmountsDue)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.DueDate = time.Unix(v.DueDate, 0)
-	i.PaidAt = time.Unix(v.PaidAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an InvoiceStatusTransitions.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *InvoiceStatusTransitions) UnmarshalJSON(data []byte) error {
-	type invoiceStatusTransitions InvoiceStatusTransitions
-	v := struct {
-		FinalizedAt           int64 `json:"finalized_at"`
-		MarkedUncollectibleAt int64 `json:"marked_uncollectible_at"`
-		PaidAt                int64 `json:"paid_at"`
-		VoidedAt              int64 `json:"voided_at"`
-		*invoiceStatusTransitions
-	}{
-		invoiceStatusTransitions: (*invoiceStatusTransitions)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.FinalizedAt = time.Unix(v.FinalizedAt, 0)
-	i.MarkedUncollectibleAt = time.Unix(v.MarkedUncollectibleAt, 0)
-	i.PaidAt = time.Unix(v.PaidAt, 0)
-	i.VoidedAt = time.Unix(v.VoidedAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an InvoiceSubscriptionDetailsPauseCollection.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *InvoiceSubscriptionDetailsPauseCollection) UnmarshalJSON(data []byte) error {
-	type invoiceSubscriptionDetailsPauseCollection InvoiceSubscriptionDetailsPauseCollection
-	v := struct {
-		ResumesAt int64 `json:"resumes_at"`
-		*invoiceSubscriptionDetailsPauseCollection
-	}{
-		invoiceSubscriptionDetailsPauseCollection: (*invoiceSubscriptionDetailsPauseCollection)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.ResumesAt = time.Unix(v.ResumesAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an InvoiceAmountsDue.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i InvoiceAmountsDue) MarshalJSON() ([]byte, error) {
-	type invoiceAmountsDue InvoiceAmountsDue
-	v := struct {
-		DueDate int64 `json:"due_date"`
-		PaidAt  int64 `json:"paid_at"`
-		invoiceAmountsDue
-	}{
-		invoiceAmountsDue: (invoiceAmountsDue)(i),
-		DueDate:           i.DueDate.Unix(),
-		PaidAt:            i.PaidAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an InvoiceStatusTransitions.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i InvoiceStatusTransitions) MarshalJSON() ([]byte, error) {
-	type invoiceStatusTransitions InvoiceStatusTransitions
-	v := struct {
-		FinalizedAt           int64 `json:"finalized_at"`
-		MarkedUncollectibleAt int64 `json:"marked_uncollectible_at"`
-		PaidAt                int64 `json:"paid_at"`
-		VoidedAt              int64 `json:"voided_at"`
-		invoiceStatusTransitions
-	}{
-		invoiceStatusTransitions: (invoiceStatusTransitions)(i),
-		FinalizedAt:              i.FinalizedAt.Unix(),
-		MarkedUncollectibleAt:    i.MarkedUncollectibleAt.Unix(),
-		PaidAt:                   i.PaidAt.Unix(),
-		VoidedAt:                 i.VoidedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an InvoiceSubscriptionDetailsPauseCollection.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i InvoiceSubscriptionDetailsPauseCollection) MarshalJSON() ([]byte, error) {
-	type invoiceSubscriptionDetailsPauseCollection InvoiceSubscriptionDetailsPauseCollection
-	v := struct {
-		ResumesAt int64 `json:"resumes_at"`
-		invoiceSubscriptionDetailsPauseCollection
-	}{
-		invoiceSubscriptionDetailsPauseCollection: (invoiceSubscriptionDetailsPauseCollection)(i),
-		ResumesAt: i.ResumesAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an Invoice.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i Invoice) MarshalJSON() ([]byte, error) {
-	type invoice Invoice
-	v := struct {
-		AutomaticallyFinalizesAt  int64 `json:"automatically_finalizes_at"`
-		Created                   int64 `json:"created"`
-		DueDate                   int64 `json:"due_date"`
-		EffectiveAt               int64 `json:"effective_at"`
-		NextPaymentAttempt        int64 `json:"next_payment_attempt"`
-		PeriodEnd                 int64 `json:"period_end"`
-		PeriodStart               int64 `json:"period_start"`
-		SubscriptionProrationDate int64 `json:"subscription_proration_date"`
-		WebhooksDeliveredAt       int64 `json:"webhooks_delivered_at"`
-		invoice
-	}{
-		invoice:                   (invoice)(i),
-		AutomaticallyFinalizesAt:  i.AutomaticallyFinalizesAt.Unix(),
-		Created:                   i.Created.Unix(),
-		DueDate:                   i.DueDate.Unix(),
-		EffectiveAt:               i.EffectiveAt.Unix(),
-		NextPaymentAttempt:        i.NextPaymentAttempt.Unix(),
-		PeriodEnd:                 i.PeriodEnd.Unix(),
-		PeriodStart:               i.PeriodStart.Unix(),
-		SubscriptionProrationDate: i.SubscriptionProrationDate.Unix(),
-		WebhooksDeliveredAt:       i.WebhooksDeliveredAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }
