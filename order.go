@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The status of the most recent automated tax calculation for this Order.
 type OrderAutomaticTaxStatus string
 
@@ -1870,7 +1865,7 @@ type Order struct {
 	// Refer to our docs for [creating and processing an order](https://stripe.com/docs/orders-beta/create-and-process) to learn about how client_secret should be handled.
 	ClientSecret string `json:"client_secret"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The credits applied to the Order. At most 10 credits can be applied to an Order.
 	Credits []*OrderCredit `json:"credits"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1909,40 +1904,4 @@ type OrderList struct {
 	APIResource
 	ListMeta
 	Data []*Order `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of an Order.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (o *Order) UnmarshalJSON(data []byte) error {
-	type order Order
-	v := struct {
-		Created int64 `json:"created"`
-		*order
-	}{
-		order: (*order)(o),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	o.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an Order.
-// This custom marshaling is needed to handle the time fields correctly.
-func (o Order) MarshalJSON() ([]byte, error) {
-	type order Order
-	v := struct {
-		Created int64 `json:"created"`
-		order
-	}{
-		order:   (order)(o),
-		Created: o.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

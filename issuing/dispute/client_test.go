@@ -35,15 +35,15 @@ func TestIssuingDisputeNew(t *testing.T) {
 		Evidence: &stripe.IssuingDisputeEvidenceParams{
 			Canceled: &stripe.IssuingDisputeEvidenceCanceledParams{
 				AdditionalDocumentation:    stripe.String("file_123"),
-				CanceledAt:                 stripe.UnixTime(1528573382),
+				CanceledAt:                 stripe.Int64(1577836800),
 				CancellationPolicyProvided: stripe.Bool(true),
 				CancellationReason:         stripe.String("reason for cancellation"),
-				ExpectedAt:                 stripe.UnixTime(1528573382),
+				ExpectedAt:                 stripe.Int64(1577836800),
 				Explanation:                stripe.String("explanation"),
 				ProductDescription:         stripe.String("product description"),
 				ProductType:                stripe.String(string(stripe.IssuingDisputeEvidenceCanceledProductTypeMerchandise)),
 				ReturnStatus:               stripe.String(string(stripe.IssuingDisputeEvidenceCanceledReturnStatusMerchantRejected)),
-				ReturnedAt:                 stripe.UnixTime(1528573382),
+				ReturnedAt:                 stripe.Int64(1577836800),
 			},
 			Reason: stripe.String(string(stripe.IssuingDisputeEvidenceReasonCanceled)),
 		},

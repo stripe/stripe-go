@@ -6,11 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"github.com/stripe/stripe-go/v81/form"
-	"time"
-)
+import "github.com/stripe/stripe-go/v81/form"
 
 // Possible values for the action parameter on usage record creation.
 const (
@@ -35,8 +31,8 @@ type UsageRecordParams struct {
 	// The usage quantity for the specified timestamp.
 	Quantity *int64 `form:"quantity"`
 	// The timestamp for the usage event. This timestamp must be within the current billing period of the subscription of the provided `subscription_item`, and must not be in the future. When passing `"now"`, Stripe records usage for the current time. Default is `"now"` if a value is not provided.
-	Timestamp    *time.Time `form:"timestamp"`
-	TimestampNow *bool      `form:"-"` // See custom AppendTo
+	Timestamp    *int64 `form:"timestamp"`
+	TimestampNow *bool  `form:"-"` // See custom AppendTo
 }
 
 // AddExpand appends a new field to expand.
@@ -70,41 +66,5 @@ type UsageRecord struct {
 	// The ID of the subscription item this usage record contains data for.
 	SubscriptionItem string `json:"subscription_item"`
 	// The timestamp when this usage occurred.
-	Timestamp time.Time `json:"timestamp"`
-}
-
-// UnmarshalJSON handles deserialization of an UsageRecord.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (u *UsageRecord) UnmarshalJSON(data []byte) error {
-	type usageRecord UsageRecord
-	v := struct {
-		Timestamp int64 `json:"timestamp"`
-		*usageRecord
-	}{
-		usageRecord: (*usageRecord)(u),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	u.Timestamp = time.Unix(v.Timestamp, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an UsageRecord.
-// This custom marshaling is needed to handle the time fields correctly.
-func (u UsageRecord) MarshalJSON() ([]byte, error) {
-	type usageRecord UsageRecord
-	v := struct {
-		Timestamp int64 `json:"timestamp"`
-		usageRecord
-	}{
-		usageRecord: (usageRecord)(u),
-		Timestamp:   u.Timestamp.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
+	Timestamp int64 `json:"timestamp"`
 }

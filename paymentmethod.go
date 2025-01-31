@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 type PaymentMethodAllowRedisplay string
@@ -930,7 +927,7 @@ type PaymentMethodCardChecks struct {
 // Details about payments collected offline.
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline struct {
 	// Time at which the payment was collected while offline
-	StoredAt time.Time `json:"stored_at"`
+	StoredAt int64 `json:"stored_at"`
 	// The method used to process this payment method offline. Only deferred is allowed.
 	Type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
@@ -968,7 +965,7 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
 	// When using manual capture, a future timestamp after which the charge will be automatically refunded if uncaptured.
-	CaptureBefore time.Time `json:"capture_before"`
+	CaptureBefore int64 `json:"capture_before"`
 	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
 	CardholderName string `json:"cardholder_name"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
@@ -1136,7 +1133,7 @@ type PaymentMethodCardPresentNetworks struct {
 // Details about payment methods collected offline.
 type PaymentMethodCardPresentOffline struct {
 	// Time at which the payment was collected while offline
-	StoredAt time.Time `json:"stored_at"`
+	StoredAt int64 `json:"stored_at"`
 	// The method used to process this payment method offline. Only deferred is allowed.
 	Type PaymentMethodCardPresentOfflineType `json:"type"`
 }
@@ -1439,7 +1436,7 @@ type PaymentMethod struct {
 	CardPresent    *PaymentMethodCardPresent    `json:"card_present"`
 	CashApp        *PaymentMethodCashApp        `json:"cashapp"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
 	Customer        *Customer                     `json:"customer"`
 	CustomerBalance *PaymentMethodCustomerBalance `json:"customer_balance"`
@@ -1512,142 +1509,11 @@ func (p *PaymentMethod) UnmarshalJSON(data []byte) error {
 	}
 
 	type paymentMethod PaymentMethod
-	v := struct {
-		Created int64 `json:"created"`
-		*paymentMethod
-	}{
-		paymentMethod: (*paymentMethod)(p),
-	}
+	var v paymentMethod
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	p.Created = time.Unix(v.Created, 0)
+	*p = PaymentMethod(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline) UnmarshalJSON(data []byte) error {
-	type paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		*paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline
-	}{
-		paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline: (*paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.StoredAt = time.Unix(v.StoredAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent) UnmarshalJSON(data []byte) error {
-	type paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent
-	v := struct {
-		CaptureBefore int64 `json:"capture_before"`
-		*paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent
-	}{
-		paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent: (*paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.CaptureBefore = time.Unix(v.CaptureBefore, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentMethodCardPresentOffline.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentMethodCardPresentOffline) UnmarshalJSON(data []byte) error {
-	type paymentMethodCardPresentOffline PaymentMethodCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		*paymentMethodCardPresentOffline
-	}{
-		paymentMethodCardPresentOffline: (*paymentMethodCardPresentOffline)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.StoredAt = time.Unix(v.StoredAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline) MarshalJSON() ([]byte, error) {
-	type paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline
-	}{
-		paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline: (paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline)(p),
-		StoredAt: p.StoredAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent) MarshalJSON() ([]byte, error) {
-	type paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent
-	v := struct {
-		CaptureBefore int64 `json:"capture_before"`
-		paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent
-	}{
-		paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent: (paymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent)(p),
-		CaptureBefore: p.CaptureBefore.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentMethodCardPresentOffline.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentMethodCardPresentOffline) MarshalJSON() ([]byte, error) {
-	type paymentMethodCardPresentOffline PaymentMethodCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		paymentMethodCardPresentOffline
-	}{
-		paymentMethodCardPresentOffline: (paymentMethodCardPresentOffline)(p),
-		StoredAt:                        p.StoredAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentMethod.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentMethod) MarshalJSON() ([]byte, error) {
-	type paymentMethod PaymentMethod
-	v := struct {
-		Created int64 `json:"created"`
-		paymentMethod
-	}{
-		paymentMethod: (paymentMethod)(p),
-		Created:       p.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // One of `forever`, `once`, and `repeating`. Describes how long a customer who applies this coupon will get the discount.
 type CouponDuration string
@@ -50,7 +47,7 @@ type CouponParams struct {
 	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
 	PercentOff *float64 `form:"percent_off"`
 	// Unix timestamp specifying the last time at which the coupon can be redeemed. After the redeem_by date, the coupon can no longer be applied to new customers.
-	RedeemBy *time.Time `form:"redeem_by"`
+	RedeemBy *int64 `form:"redeem_by"`
 }
 
 // AddExpand appends a new field to expand.
@@ -114,7 +111,7 @@ type Coupon struct {
 	AmountOff int64            `json:"amount_off"`
 	AppliesTo *CouponAppliesTo `json:"applies_to"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// If `amount_off` has been set, the three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the amount to take off.
 	Currency Currency `json:"currency"`
 	// Coupons defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
@@ -139,7 +136,7 @@ type Coupon struct {
 	// Percent that will be taken off the subtotal of any invoices for this customer for the duration of the coupon. For example, a coupon with percent_off of 50 will make a $ (or local equivalent)100 invoice $ (or local equivalent)50 instead.
 	PercentOff float64 `json:"percent_off"`
 	// Date after which the coupon can no longer be redeemed.
-	RedeemBy time.Time `json:"redeem_by"`
+	RedeemBy int64 `json:"redeem_by"`
 	// Number of times this coupon has been applied to a customer.
 	TimesRedeemed int64 `json:"times_redeemed"`
 	// Taking account of the above properties, whether this coupon can still be applied to a customer.
@@ -163,38 +160,11 @@ func (c *Coupon) UnmarshalJSON(data []byte) error {
 	}
 
 	type coupon Coupon
-	v := struct {
-		Created  int64 `json:"created"`
-		RedeemBy int64 `json:"redeem_by"`
-		*coupon
-	}{
-		coupon: (*coupon)(c),
-	}
+	var v coupon
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	c.Created = time.Unix(v.Created, 0)
-	c.RedeemBy = time.Unix(v.RedeemBy, 0)
+	*c = Coupon(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a Coupon.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c Coupon) MarshalJSON() ([]byte, error) {
-	type coupon Coupon
-	v := struct {
-		Created  int64 `json:"created"`
-		RedeemBy int64 `json:"redeem_by"`
-		coupon
-	}{
-		coupon:   (coupon)(c),
-		Created:  c.Created.Unix(),
-		RedeemBy: c.RedeemBy.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

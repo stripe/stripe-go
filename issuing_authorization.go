@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // How the card details were provided.
 type IssuingAuthorizationAuthorizationMethod string
@@ -435,7 +432,7 @@ type IssuingAuthorizationRequestHistory struct {
 	// A code created by Stripe which is shared with the merchant to validate the authorization. This field will be populated if the authorization message was approved. The code typically starts with the letter "S", followed by a six-digit number. For example, "S498162". Please note that the code is not guaranteed to be unique across authorizations.
 	AuthorizationCode string `json:"authorization_code"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The `pending_request.merchant_amount` at the time of the request, presented in the `merchant_currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
@@ -449,7 +446,7 @@ type IssuingAuthorizationRequestHistory struct {
 	// If the `request_history.reason` is `webhook_error` because the direct webhook response is invalid (for example, parsing errors or missing parameters), we surface a more detailed error message via this field.
 	ReasonMessage string `json:"reason_message"`
 	// Time when the card network received an authorization request from the acquirer in UTC. Referred to by networks as transmission time.
-	RequestedAt time.Time `json:"requested_at"`
+	RequestedAt int64 `json:"requested_at"`
 }
 
 // [Treasury](https://stripe.com/docs/api/treasury) details related to this authorization if it was created on a [FinancialAccount](https://stripe.com/docs/api/treasury/financial_accounts).
@@ -514,7 +511,7 @@ type IssuingAuthorization struct {
 	// The cardholder to whom this authorization belongs.
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The currency of the cardholder. This currency can be different from the currency presented at authorization and the `merchant_currency` field on this authorization. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Fleet-specific information for authorizations using Fleet cards.
@@ -574,74 +571,11 @@ func (i *IssuingAuthorization) UnmarshalJSON(data []byte) error {
 	}
 
 	type issuingAuthorization IssuingAuthorization
-	v := struct {
-		Created int64 `json:"created"`
-		*issuingAuthorization
-	}{
-		issuingAuthorization: (*issuingAuthorization)(i),
-	}
+	var v issuingAuthorization
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	i.Created = time.Unix(v.Created, 0)
+	*i = IssuingAuthorization(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of an IssuingAuthorizationRequestHistory.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingAuthorizationRequestHistory) UnmarshalJSON(data []byte) error {
-	type issuingAuthorizationRequestHistory IssuingAuthorizationRequestHistory
-	v := struct {
-		Created     int64 `json:"created"`
-		RequestedAt int64 `json:"requested_at"`
-		*issuingAuthorizationRequestHistory
-	}{
-		issuingAuthorizationRequestHistory: (*issuingAuthorizationRequestHistory)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.Created = time.Unix(v.Created, 0)
-	i.RequestedAt = time.Unix(v.RequestedAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an IssuingAuthorizationRequestHistory.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingAuthorizationRequestHistory) MarshalJSON() ([]byte, error) {
-	type issuingAuthorizationRequestHistory IssuingAuthorizationRequestHistory
-	v := struct {
-		Created     int64 `json:"created"`
-		RequestedAt int64 `json:"requested_at"`
-		issuingAuthorizationRequestHistory
-	}{
-		issuingAuthorizationRequestHistory: (issuingAuthorizationRequestHistory)(i),
-		Created:                            i.Created.Unix(),
-		RequestedAt:                        i.RequestedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an IssuingAuthorization.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingAuthorization) MarshalJSON() ([]byte, error) {
-	type issuingAuthorization IssuingAuthorization
-	v := struct {
-		Created int64 `json:"created"`
-		issuingAuthorization
-	}{
-		issuingAuthorization: (issuingAuthorization)(i),
-		Created:              i.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

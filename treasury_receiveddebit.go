@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // Reason for the failure. A ReceivedDebit might fail because the FinancialAccount doesn't have sufficient funds, is closed, or is frozen.
 type TreasuryReceivedDebitFailureCode string
 
@@ -182,7 +177,7 @@ type TreasuryReceivedDebitNetworkDetails struct {
 // Details describing when a ReceivedDebit might be reversed.
 type TreasuryReceivedDebitReversalDetails struct {
 	// Time before which a ReceivedDebit can be reversed.
-	Deadline time.Time `json:"deadline"`
+	Deadline int64 `json:"deadline"`
 	// Set if a ReceivedDebit can't be reversed.
 	RestrictedReason TreasuryReceivedDebitReversalDetailsRestrictedReason `json:"restricted_reason"`
 }
@@ -193,7 +188,7 @@ type TreasuryReceivedDebit struct {
 	// Amount (in cents) transferred.
 	Amount int64 `json:"amount"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -229,76 +224,4 @@ type TreasuryReceivedDebitList struct {
 	APIResource
 	ListMeta
 	Data []*TreasuryReceivedDebit `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a TreasuryReceivedDebitReversalDetails.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (t *TreasuryReceivedDebitReversalDetails) UnmarshalJSON(data []byte) error {
-	type treasuryReceivedDebitReversalDetails TreasuryReceivedDebitReversalDetails
-	v := struct {
-		Deadline int64 `json:"deadline"`
-		*treasuryReceivedDebitReversalDetails
-	}{
-		treasuryReceivedDebitReversalDetails: (*treasuryReceivedDebitReversalDetails)(t),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	t.Deadline = time.Unix(v.Deadline, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a TreasuryReceivedDebit.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (t *TreasuryReceivedDebit) UnmarshalJSON(data []byte) error {
-	type treasuryReceivedDebit TreasuryReceivedDebit
-	v := struct {
-		Created int64 `json:"created"`
-		*treasuryReceivedDebit
-	}{
-		treasuryReceivedDebit: (*treasuryReceivedDebit)(t),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	t.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a TreasuryReceivedDebitReversalDetails.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TreasuryReceivedDebitReversalDetails) MarshalJSON() ([]byte, error) {
-	type treasuryReceivedDebitReversalDetails TreasuryReceivedDebitReversalDetails
-	v := struct {
-		Deadline int64 `json:"deadline"`
-		treasuryReceivedDebitReversalDetails
-	}{
-		treasuryReceivedDebitReversalDetails: (treasuryReceivedDebitReversalDetails)(t),
-		Deadline:                             t.Deadline.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a TreasuryReceivedDebit.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TreasuryReceivedDebit) MarshalJSON() ([]byte, error) {
-	type treasuryReceivedDebit TreasuryReceivedDebit
-	v := struct {
-		Created int64 `json:"created"`
-		treasuryReceivedDebit
-	}{
-		treasuryReceivedDebit: (treasuryReceivedDebit)(t),
-		Created:               t.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Type of owner referenced.
 type TaxIDOwnerType string
@@ -202,7 +199,7 @@ type TaxID struct {
 	// Two-letter ISO code representing the country of the tax ID.
 	Country string `json:"country"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// ID of the customer.
 	Customer *Customer `json:"customer"`
 	Deleted  bool      `json:"deleted"`
@@ -239,34 +236,11 @@ func (t *TaxID) UnmarshalJSON(data []byte) error {
 	}
 
 	type taxID TaxID
-	v := struct {
-		Created int64 `json:"created"`
-		*taxID
-	}{
-		taxID: (*taxID)(t),
-	}
+	var v taxID
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	t.Created = time.Unix(v.Created, 0)
+	*t = TaxID(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a TaxID.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TaxID) MarshalJSON() ([]byte, error) {
-	type taxID TaxID
-	v := struct {
-		Created int64 `json:"created"`
-		taxID
-	}{
-		taxID:   (taxID)(t),
-		Created: t.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

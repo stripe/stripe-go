@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Indicates the level of the jurisdiction where the form was filed.
 type TaxFormFilingStatusJurisdictionLevel string
@@ -134,7 +131,7 @@ type TaxFormFilingStatusJurisdiction struct {
 // A list of tax filing statuses. Note that a filing status will only be included if the form has been filed directly with the jurisdiction's tax authority.
 type TaxFormFilingStatus struct {
 	// Time when the filing status was updated.
-	EffectiveAt  time.Time                        `json:"effective_at"`
+	EffectiveAt  int64                            `json:"effective_at"`
 	Jurisdiction *TaxFormFilingStatusJurisdiction `json:"jurisdiction"`
 	// The current status of the filed form.
 	Value TaxFormFilingStatusValue `json:"value"`
@@ -182,7 +179,7 @@ type TaxForm struct {
 	// The form that corrects this form, if any.
 	CorrectedBy *TaxForm `json:"corrected_by"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time      `json:"created"`
+	Created int64          `json:"created"`
 	EUDac7  *TaxFormEUDac7 `json:"eu_dac7"`
 	// A list of tax filing statuses. Note that a filing status will only be included if the form has been filed directly with the jurisdiction's tax authority.
 	FilingStatuses []*TaxFormFilingStatus `json:"filing_statuses"`
@@ -219,70 +216,11 @@ func (t *TaxForm) UnmarshalJSON(data []byte) error {
 	}
 
 	type taxForm TaxForm
-	v := struct {
-		Created int64 `json:"created"`
-		*taxForm
-	}{
-		taxForm: (*taxForm)(t),
-	}
+	var v taxForm
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	t.Created = time.Unix(v.Created, 0)
+	*t = TaxForm(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of a TaxFormFilingStatus.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (t *TaxFormFilingStatus) UnmarshalJSON(data []byte) error {
-	type taxFormFilingStatus TaxFormFilingStatus
-	v := struct {
-		EffectiveAt int64 `json:"effective_at"`
-		*taxFormFilingStatus
-	}{
-		taxFormFilingStatus: (*taxFormFilingStatus)(t),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	t.EffectiveAt = time.Unix(v.EffectiveAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a TaxFormFilingStatus.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TaxFormFilingStatus) MarshalJSON() ([]byte, error) {
-	type taxFormFilingStatus TaxFormFilingStatus
-	v := struct {
-		EffectiveAt int64 `json:"effective_at"`
-		taxFormFilingStatus
-	}{
-		taxFormFilingStatus: (taxFormFilingStatus)(t),
-		EffectiveAt:         t.EffectiveAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a TaxForm.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TaxForm) MarshalJSON() ([]byte, error) {
-	type taxForm TaxForm
-	v := struct {
-		Created int64 `json:"created"`
-		taxForm
-	}{
-		taxForm: (taxForm)(t),
-		Created: t.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

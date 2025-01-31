@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The type of event that created this object.
 type GiftCardsTransactionCreatedByType string
 
@@ -160,9 +155,9 @@ type GiftCardsTransaction struct {
 	// The amount of this transaction. A positive value indicates that funds were added to the gift card. A negative value indicates that funds were removed from the gift card.
 	Amount int64 `json:"amount"`
 	// Time at which the transaction was confirmed. Measured in seconds since the Unix epoch.
-	ConfirmedAt time.Time `json:"confirmed_at"`
+	ConfirmedAt int64 `json:"confirmed_at"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The related Stripe objects that created this gift card transaction.
 	CreatedBy *GiftCardsTransactionCreatedBy `json:"created_by"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -188,44 +183,4 @@ type GiftCardsTransactionList struct {
 	APIResource
 	ListMeta
 	Data []*GiftCardsTransaction `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a GiftCardsTransaction.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (g *GiftCardsTransaction) UnmarshalJSON(data []byte) error {
-	type giftCardsTransaction GiftCardsTransaction
-	v := struct {
-		ConfirmedAt int64 `json:"confirmed_at"`
-		Created     int64 `json:"created"`
-		*giftCardsTransaction
-	}{
-		giftCardsTransaction: (*giftCardsTransaction)(g),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	g.ConfirmedAt = time.Unix(v.ConfirmedAt, 0)
-	g.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a GiftCardsTransaction.
-// This custom marshaling is needed to handle the time fields correctly.
-func (g GiftCardsTransaction) MarshalJSON() ([]byte, error) {
-	type giftCardsTransaction GiftCardsTransaction
-	v := struct {
-		ConfirmedAt int64 `json:"confirmed_at"`
-		Created     int64 `json:"created"`
-		giftCardsTransaction
-	}{
-		giftCardsTransaction: (giftCardsTransaction)(g),
-		ConfirmedAt:          g.ConfirmedAt.Unix(),
-		Created:              g.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

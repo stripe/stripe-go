@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // The funding method type used to fund the customer balance. Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
 type CustomerCashBalanceTransactionFundedBankTransferType string
@@ -150,7 +147,7 @@ type CustomerCashBalanceTransaction struct {
 	AdjustedForOverdraft *CustomerCashBalanceTransactionAdjustedForOverdraft `json:"adjusted_for_overdraft"`
 	AppliedToPayment     *CustomerCashBalanceTransactionAppliedToPayment     `json:"applied_to_payment"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The customer whose available cash balance changed as a result of this transaction.
@@ -190,34 +187,11 @@ func (c *CustomerCashBalanceTransaction) UnmarshalJSON(data []byte) error {
 	}
 
 	type customerCashBalanceTransaction CustomerCashBalanceTransaction
-	v := struct {
-		Created int64 `json:"created"`
-		*customerCashBalanceTransaction
-	}{
-		customerCashBalanceTransaction: (*customerCashBalanceTransaction)(c),
-	}
+	var v customerCashBalanceTransaction
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	c.Created = time.Unix(v.Created, 0)
+	*c = CustomerCashBalanceTransaction(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a CustomerCashBalanceTransaction.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c CustomerCashBalanceTransaction) MarshalJSON() ([]byte, error) {
-	type customerCashBalanceTransaction CustomerCashBalanceTransaction
-	v := struct {
-		Created int64 `json:"created"`
-		customerCashBalanceTransaction
-	}{
-		customerCashBalanceTransaction: (customerCashBalanceTransaction)(c),
-		Created:                        c.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

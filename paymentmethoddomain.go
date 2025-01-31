@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The status of the payment method on the domain.
 type PaymentMethodDomainAmazonPayStatus string
 
@@ -186,7 +181,7 @@ type PaymentMethodDomain struct {
 	// Indicates the status of a specific payment method on a payment method domain.
 	ApplePay *PaymentMethodDomainApplePay `json:"apple_pay"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The domain name that this payment method domain object represents.
 	DomainName string `json:"domain_name"`
 	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements.
@@ -210,40 +205,4 @@ type PaymentMethodDomainList struct {
 	APIResource
 	ListMeta
 	Data []*PaymentMethodDomain `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a PaymentMethodDomain.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentMethodDomain) UnmarshalJSON(data []byte) error {
-	type paymentMethodDomain PaymentMethodDomain
-	v := struct {
-		Created int64 `json:"created"`
-		*paymentMethodDomain
-	}{
-		paymentMethodDomain: (*paymentMethodDomain)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a PaymentMethodDomain.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentMethodDomain) MarshalJSON() ([]byte, error) {
-	type paymentMethodDomain PaymentMethodDomain
-	v := struct {
-		Created int64 `json:"created"`
-		paymentMethodDomain
-	}{
-		paymentMethodDomain: (paymentMethodDomain)(p),
-		Created:             p.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

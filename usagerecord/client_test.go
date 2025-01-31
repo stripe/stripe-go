@@ -10,9 +10,10 @@ import (
 )
 
 func TestUsageRecordNew(t *testing.T) {
+	now := int64(time.Now().Unix())
 	usageRecord, err := New(&stripe.UsageRecordParams{
 		Quantity:         stripe.Int64(123),
-		Timestamp:        stripe.Time(time.Now()),
+		Timestamp:        stripe.Int64(now),
 		Action:           stripe.String(stripe.UsageRecordActionIncrement),
 		SubscriptionItem: stripe.String("si_123"),
 	})

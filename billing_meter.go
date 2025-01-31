@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // The method for mapping a meter event to a customer.
 type BillingMeterCustomerMappingType string
@@ -140,7 +137,7 @@ type BillingMeterDefaultAggregation struct {
 }
 type BillingMeterStatusTransitions struct {
 	// The time the meter was deactivated, if any. Measured in seconds since Unix epoch.
-	DeactivatedAt time.Time `json:"deactivated_at"`
+	DeactivatedAt int64 `json:"deactivated_at"`
 }
 type BillingMeterValueSettings struct {
 	// The key in the meter event payload to use as the value for this meter.
@@ -153,7 +150,7 @@ type BillingMeterValueSettings struct {
 type BillingMeter struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created            time.Time                       `json:"created"`
+	Created            int64                           `json:"created"`
 	CustomerMapping    *BillingMeterCustomerMapping    `json:"customer_mapping"`
 	DefaultAggregation *BillingMeterDefaultAggregation `json:"default_aggregation"`
 	// The meter's name.
@@ -172,7 +169,7 @@ type BillingMeter struct {
 	Status            BillingMeterStatus             `json:"status"`
 	StatusTransitions *BillingMeterStatusTransitions `json:"status_transitions"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
-	Updated       time.Time                  `json:"updated"`
+	Updated       int64                      `json:"updated"`
 	ValueSettings *BillingMeterValueSettings `json:"value_settings"`
 }
 
@@ -193,74 +190,11 @@ func (b *BillingMeter) UnmarshalJSON(data []byte) error {
 	}
 
 	type billingMeter BillingMeter
-	v := struct {
-		Created int64 `json:"created"`
-		Updated int64 `json:"updated"`
-		*billingMeter
-	}{
-		billingMeter: (*billingMeter)(b),
-	}
+	var v billingMeter
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	b.Created = time.Unix(v.Created, 0)
-	b.Updated = time.Unix(v.Updated, 0)
+	*b = BillingMeter(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of a BillingMeterStatusTransitions.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (b *BillingMeterStatusTransitions) UnmarshalJSON(data []byte) error {
-	type billingMeterStatusTransitions BillingMeterStatusTransitions
-	v := struct {
-		DeactivatedAt int64 `json:"deactivated_at"`
-		*billingMeterStatusTransitions
-	}{
-		billingMeterStatusTransitions: (*billingMeterStatusTransitions)(b),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	b.DeactivatedAt = time.Unix(v.DeactivatedAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a BillingMeterStatusTransitions.
-// This custom marshaling is needed to handle the time fields correctly.
-func (b BillingMeterStatusTransitions) MarshalJSON() ([]byte, error) {
-	type billingMeterStatusTransitions BillingMeterStatusTransitions
-	v := struct {
-		DeactivatedAt int64 `json:"deactivated_at"`
-		billingMeterStatusTransitions
-	}{
-		billingMeterStatusTransitions: (billingMeterStatusTransitions)(b),
-		DeactivatedAt:                 b.DeactivatedAt.Unix(),
-	}
-	bb, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return bb, err
-}
-
-// MarshalJSON handles serialization of a BillingMeter.
-// This custom marshaling is needed to handle the time fields correctly.
-func (b BillingMeter) MarshalJSON() ([]byte, error) {
-	type billingMeter BillingMeter
-	v := struct {
-		Created int64 `json:"created"`
-		Updated int64 `json:"updated"`
-		billingMeter
-	}{
-		billingMeter: (billingMeter)(b),
-		Created:      b.Created.Unix(),
-		Updated:      b.Updated.Unix(),
-	}
-	bb, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return bb, err
 }

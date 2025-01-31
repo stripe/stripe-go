@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Controls whether this PaymentIntent will accept redirect-based payment methods.
 //
@@ -1404,7 +1401,7 @@ type PaymentIntentMandateDataCustomerAcceptanceOnlineParams struct {
 // This hash contains details about the customer acceptance of the Mandate.
 type PaymentIntentMandateDataCustomerAcceptanceParams struct {
 	// The time at which the customer accepted the Mandate.
-	AcceptedAt *time.Time `form:"accepted_at"`
+	AcceptedAt *int64 `form:"accepted_at"`
 	// If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
 	Offline *PaymentIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
@@ -1478,7 +1475,7 @@ type PaymentIntentPaymentDetailsCarRentalParams struct {
 	// Car pick-up address.
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt *time.Time `form:"pickup_at"`
+	PickupAt *int64 `form:"pickup_at"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -1488,7 +1485,7 @@ type PaymentIntentPaymentDetailsCarRentalParams struct {
 	// Car return address.
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt *time.Time `form:"return_at"`
+	ReturnAt *int64 `form:"return_at"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
 }
@@ -1530,13 +1527,13 @@ type PaymentIntentPaymentDetailsEventDetailsParams struct {
 	// Delivery details for this purchase.
 	Delivery *PaymentIntentPaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
 	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt *time.Time `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at"`
 	// Type of the event entertainment (concert, sports event etc)
 	Genre *string `form:"genre"`
 	// The name of the event.
 	Name *string `form:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt *time.Time `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at"`
 }
 
 // Affiliate details for this purchase.
@@ -1576,11 +1573,11 @@ type PaymentIntentPaymentDetailsFlightSegmentParams struct {
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
-	ArrivesAt *time.Time `form:"arrives_at"`
+	ArrivesAt *int64 `form:"arrives_at"`
 	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
 	Carrier *string `form:"carrier"`
 	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
-	DepartsAt *time.Time `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at"`
 	// The International Air Transport Association (IATA) airport code for the departure airport.
 	DepartureAirport *string `form:"departure_airport"`
 	// The flight number associated with the segment
@@ -1652,9 +1649,9 @@ type PaymentIntentPaymentDetailsLodgingParams struct {
 	// The lodging category
 	Category *string `form:"category"`
 	// Loding check-in time. Measured in seconds since the Unix epoch.
-	CheckinAt *time.Time `form:"checkin_at"`
+	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
-	CheckoutAt *time.Time `form:"checkout_at"`
+	CheckoutAt *int64 `form:"checkout_at"`
 	// The customer service phone number of the lodging company.
 	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
 	// The daily lodging room rate.
@@ -1708,11 +1705,11 @@ type PaymentIntentPaymentDetailsSubscriptionParams struct {
 	// Subscription billing details for this purchase.
 	BillingInterval *PaymentIntentPaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
 	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *time.Time `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at"`
 	// Name of the product on subscription. e.g. Apple Music Subscription
 	Name *string `form:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *time.Time `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at"`
 }
 
 // Provides industry-specific information about the charge.
@@ -2111,7 +2108,7 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description *string `form:"description"`
 	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
-	EndDate *time.Time `form:"end_date"`
+	EndDate *int64 `form:"end_date"`
 	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
 	Interval *string `form:"interval"`
 	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
@@ -2119,7 +2116,7 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Unique identifier for the mandate or subscription.
 	Reference *string `form:"reference"`
 	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
-	StartDate *time.Time `form:"start_date"`
+	StartDate *int64 `form:"start_date"`
 	// Specifies the type of mandates supported. Possible values are `india`.
 	SupportedTypes []*string `form:"supported_types"`
 }
@@ -2391,7 +2388,7 @@ type PaymentIntentPaymentMethodOptionsIDBankTransferParams struct {
 	// The UNIX timestamp until which the virtual bank account is valid. Permitted range is from 5 minutes from now until 31 days from now. If unset, it defaults to 3 days from now.
 	ExpiresAfter *int64 `form:"expires_after"`
 	// The UNIX timestamp until which the virtual bank account is valid. Permitted range is from now until 30 days from now. If unset, it defaults to 1 days from now.
-	ExpiresAt *time.Time `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2468,7 +2465,7 @@ type PaymentIntentPaymentMethodOptionsKonbiniParams struct {
 	// The number of calendar days (between 1 and 60) after which Konbini payment instructions will expire. For example, if a PaymentIntent is confirmed with Konbini and `expires_after_days` set to 2 on Monday JST, the instructions will expire on Wednesday 23:59:59 JST. Defaults to 3 days.
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
 	// The timestamp at which the Konbini payment instructions will expire. Only one of `expires_after_days` or `expires_at` may be set.
-	ExpiresAt *time.Time `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at"`
 	// A product descriptor of up to 22 characters, which will appear to customers at the convenience store.
 	ProductDescription *string `form:"product_description"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2734,7 +2731,7 @@ type PaymentIntentPaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
-	ExpiresAt *time.Time `form:"expires_at"`
+	ExpiresAt *int64 `form:"expires_at"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3371,7 +3368,7 @@ type PaymentIntentCapturePaymentDetailsCarRentalParams struct {
 	// Car pick-up address.
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt *time.Time `form:"pickup_at"`
+	PickupAt *int64 `form:"pickup_at"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -3381,7 +3378,7 @@ type PaymentIntentCapturePaymentDetailsCarRentalParams struct {
 	// Car return address.
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt *time.Time `form:"return_at"`
+	ReturnAt *int64 `form:"return_at"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
 }
@@ -3423,13 +3420,13 @@ type PaymentIntentCapturePaymentDetailsEventDetailsParams struct {
 	// Delivery details for this purchase.
 	Delivery *PaymentIntentCapturePaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
 	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt *time.Time `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at"`
 	// Type of the event entertainment (concert, sports event etc)
 	Genre *string `form:"genre"`
 	// The name of the event.
 	Name *string `form:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt *time.Time `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at"`
 }
 
 // Affiliate details for this purchase.
@@ -3469,11 +3466,11 @@ type PaymentIntentCapturePaymentDetailsFlightSegmentParams struct {
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
-	ArrivesAt *time.Time `form:"arrives_at"`
+	ArrivesAt *int64 `form:"arrives_at"`
 	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
 	Carrier *string `form:"carrier"`
 	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
-	DepartsAt *time.Time `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at"`
 	// The International Air Transport Association (IATA) airport code for the departure airport.
 	DepartureAirport *string `form:"departure_airport"`
 	// The flight number associated with the segment
@@ -3545,9 +3542,9 @@ type PaymentIntentCapturePaymentDetailsLodgingParams struct {
 	// The lodging category
 	Category *string `form:"category"`
 	// Loding check-in time. Measured in seconds since the Unix epoch.
-	CheckinAt *time.Time `form:"checkin_at"`
+	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
-	CheckoutAt *time.Time `form:"checkout_at"`
+	CheckoutAt *int64 `form:"checkout_at"`
 	// The customer service phone number of the lodging company.
 	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
 	// The daily lodging room rate.
@@ -3601,11 +3598,11 @@ type PaymentIntentCapturePaymentDetailsSubscriptionParams struct {
 	// Subscription billing details for this purchase.
 	BillingInterval *PaymentIntentCapturePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
 	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *time.Time `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at"`
 	// Name of the product on subscription. e.g. Apple Music Subscription
 	Name *string `form:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *time.Time `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at"`
 }
 
 // Provides industry-specific information about the charge.
@@ -3745,7 +3742,7 @@ type PaymentIntentConfirmPaymentDetailsCarRentalParams struct {
 	// Car pick-up address.
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt *time.Time `form:"pickup_at"`
+	PickupAt *int64 `form:"pickup_at"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -3755,7 +3752,7 @@ type PaymentIntentConfirmPaymentDetailsCarRentalParams struct {
 	// Car return address.
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt *time.Time `form:"return_at"`
+	ReturnAt *int64 `form:"return_at"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
 }
@@ -3797,13 +3794,13 @@ type PaymentIntentConfirmPaymentDetailsEventDetailsParams struct {
 	// Delivery details for this purchase.
 	Delivery *PaymentIntentConfirmPaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
 	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt *time.Time `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at"`
 	// Type of the event entertainment (concert, sports event etc)
 	Genre *string `form:"genre"`
 	// The name of the event.
 	Name *string `form:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt *time.Time `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at"`
 }
 
 // Affiliate details for this purchase.
@@ -3843,11 +3840,11 @@ type PaymentIntentConfirmPaymentDetailsFlightSegmentParams struct {
 	// The International Air Transport Association (IATA) airport code for the arrival airport.
 	ArrivalAirport *string `form:"arrival_airport"`
 	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
-	ArrivesAt *time.Time `form:"arrives_at"`
+	ArrivesAt *int64 `form:"arrives_at"`
 	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
 	Carrier *string `form:"carrier"`
 	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
-	DepartsAt *time.Time `form:"departs_at"`
+	DepartsAt *int64 `form:"departs_at"`
 	// The International Air Transport Association (IATA) airport code for the departure airport.
 	DepartureAirport *string `form:"departure_airport"`
 	// The flight number associated with the segment
@@ -3919,9 +3916,9 @@ type PaymentIntentConfirmPaymentDetailsLodgingParams struct {
 	// The lodging category
 	Category *string `form:"category"`
 	// Loding check-in time. Measured in seconds since the Unix epoch.
-	CheckinAt *time.Time `form:"checkin_at"`
+	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
-	CheckoutAt *time.Time `form:"checkout_at"`
+	CheckoutAt *int64 `form:"checkout_at"`
 	// The customer service phone number of the lodging company.
 	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
 	// The daily lodging room rate.
@@ -3975,11 +3972,11 @@ type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
 	// Subscription billing details for this purchase.
 	BillingInterval *PaymentIntentConfirmPaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
 	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt *time.Time `form:"ends_at"`
+	EndsAt *int64 `form:"ends_at"`
 	// Name of the product on subscription. e.g. Apple Music Subscription
 	Name *string `form:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt *time.Time `form:"starts_at"`
+	StartsAt *int64 `form:"starts_at"`
 }
 
 // Provides industry-specific information about the charge.
@@ -4338,7 +4335,7 @@ type PaymentIntentNextActionAlipayHandleRedirect struct {
 }
 type PaymentIntentNextActionBoletoDisplayDetails struct {
 	// The timestamp after which the boleto expires.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// The URL to the hosted boleto voucher page, which allows customers to view the boleto voucher.
 	HostedVoucherURL string `json:"hosted_voucher_url"`
 	// The boleto number.
@@ -4348,13 +4345,13 @@ type PaymentIntentNextActionBoletoDisplayDetails struct {
 }
 type PaymentIntentNextActionCardAwaitNotification struct {
 	// The time that payment will be attempted. If customer approval is required, they need to provide approval before this time.
-	ChargeAttemptAt time.Time `json:"charge_attempt_at"`
+	ChargeAttemptAt int64 `json:"charge_attempt_at"`
 	// For payments greater than INR 15000, the customer must provide explicit approval of the payment with their bank. For payments of lower amount, no customer action is required.
 	CustomerApprovalRequired bool `json:"customer_approval_required"`
 }
 type PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The date (unix timestamp) when the QR code expires.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// The image_url_png string used to render QR code
 	ImageURLPNG string `json:"image_url_png"`
 	// The image_url_svg string used to render QR code
@@ -4537,7 +4534,7 @@ type PaymentIntentNextActionKonbiniDisplayDetailsStores struct {
 }
 type PaymentIntentNextActionKonbiniDisplayDetails struct {
 	// The timestamp at which the pending Konbini payment expires.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// The URL for the Konbini payment instructions page, which allows customers to view and print a Konbini voucher.
 	HostedVoucherURL string                                              `json:"hosted_voucher_url"`
 	Stores           *PaymentIntentNextActionKonbiniDisplayDetailsStores `json:"stores"`
@@ -4546,7 +4543,7 @@ type PaymentIntentNextActionMultibancoDisplayDetails struct {
 	// Entity number associated with this Multibanco payment.
 	Entity string `json:"entity"`
 	// The timestamp at which the Multibanco voucher expires.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// The URL for the hosted Multibanco voucher page, which allows customers to view a Multibanco voucher.
 	HostedVoucherURL string `json:"hosted_voucher_url"`
 	// Reference number associated with this Multibanco payment.
@@ -4554,7 +4551,7 @@ type PaymentIntentNextActionMultibancoDisplayDetails struct {
 }
 type PaymentIntentNextActionOXXODisplayDetails struct {
 	// The timestamp after which the OXXO voucher expires.
-	ExpiresAfter time.Time `json:"expires_after"`
+	ExpiresAfter int64 `json:"expires_after"`
 	// The URL for the hosted OXXO voucher page, which allows customers to view and print an OXXO voucher.
 	HostedVoucherURL string `json:"hosted_voucher_url"`
 	// OXXO reference number.
@@ -4574,7 +4571,7 @@ type PaymentIntentNextActionPixDisplayQRCode struct {
 	// The raw data string used to generate QR code, it should be used together with QR code library.
 	Data string `json:"data"`
 	// The date (unix timestamp) when the PIX expires.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// The URL to the hosted pix instructions page, which allows customers to view the pix QR code.
 	HostedInstructionsURL string `json:"hosted_instructions_url"`
 	// The image_url_png string used to render png QR code
@@ -4618,7 +4615,7 @@ type PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode struct {
 type PaymentIntentNextActionUseStripeSDK struct{}
 type PaymentIntentNextActionVerifyWithMicrodeposits struct {
 	// The timestamp when the microdeposits are expected to land.
-	ArrivalDate time.Time `json:"arrival_date"`
+	ArrivalDate int64 `json:"arrival_date"`
 	// The URL for the hosted verification page, which allows customers to verify their bank account.
 	HostedVerificationURL string `json:"hosted_verification_url"`
 	// The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
@@ -4729,7 +4726,7 @@ type PaymentIntentPaymentDetailsCarRental struct {
 	NoShow        bool     `json:"no_show"`
 	PickupAddress *Address `json:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
-	PickupAt time.Time `json:"pickup_at"`
+	PickupAt int64 `json:"pickup_at"`
 	// Rental rate.
 	RateAmount int64 `json:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -4738,7 +4735,7 @@ type PaymentIntentPaymentDetailsCarRental struct {
 	RenterName    string   `json:"renter_name"`
 	ReturnAddress *Address `json:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
-	ReturnAt time.Time `json:"return_at"`
+	ReturnAt int64 `json:"return_at"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt bool `json:"tax_exempt"`
 }
@@ -4768,13 +4765,13 @@ type PaymentIntentPaymentDetailsEventDetails struct {
 	Company  string                                           `json:"company"`
 	Delivery *PaymentIntentPaymentDetailsEventDetailsDelivery `json:"delivery"`
 	// Event end time. Measured in seconds since the Unix epoch.
-	EndsAt time.Time `json:"ends_at"`
+	EndsAt int64 `json:"ends_at"`
 	// Type of the event entertainment (concert, sports event etc)
 	Genre string `json:"genre"`
 	// The name of the event.
 	Name string `json:"name"`
 	// Event start time. Measured in seconds since the Unix epoch.
-	StartsAt time.Time `json:"starts_at"`
+	StartsAt int64 `json:"starts_at"`
 }
 type PaymentIntentPaymentDetailsSubscriptionAffiliate struct {
 	// The name of the affiliate that originated the purchase.
@@ -4792,11 +4789,11 @@ type PaymentIntentPaymentDetailsSubscription struct {
 	AutoRenewal     bool                                                    `json:"auto_renewal"`
 	BillingInterval *PaymentIntentPaymentDetailsSubscriptionBillingInterval `json:"billing_interval"`
 	// Subscription end time. Measured in seconds since the Unix epoch.
-	EndsAt time.Time `json:"ends_at"`
+	EndsAt int64 `json:"ends_at"`
 	// Name of the product on subscription. e.g. Apple Music Subscription.
 	Name string `json:"name"`
 	// Subscription start time. Measured in seconds since the Unix epoch.
-	StartsAt time.Time `json:"starts_at"`
+	StartsAt int64 `json:"starts_at"`
 }
 type PaymentIntentPaymentDetails struct {
 	CarRental    *PaymentIntentPaymentDetailsCarRental    `json:"car_rental"`
@@ -4981,7 +4978,7 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptions struct {
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description string `json:"description"`
 	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
-	EndDate time.Time `json:"end_date"`
+	EndDate int64 `json:"end_date"`
 	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
 	Interval PaymentIntentPaymentMethodOptionsCardMandateOptionsInterval `json:"interval"`
 	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
@@ -4989,7 +4986,7 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptions struct {
 	// Unique identifier for the mandate or subscription.
 	Reference string `json:"reference"`
 	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
-	StartDate time.Time `json:"start_date"`
+	StartDate int64 `json:"start_date"`
 	// Specifies the type of mandates supported. Possible values are `india`.
 	SupportedTypes []PaymentIntentPaymentMethodOptionsCardMandateOptionsSupportedType `json:"supported_types"`
 }
@@ -5142,7 +5139,7 @@ type PaymentIntentPaymentMethodOptionsIDBankTransfer struct {
 	// The UNIX timestamp until which the virtual bank account is valid. Permitted range is from now till 2678400 seconds (31 days) from now.
 	ExpiresAfter int64 `json:"expires_after"`
 	// The UNIX timestamp until which the virtual bank account is valid. Permitted range is from now until 30 days from now. If unset, it defaults to 1 days from now.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5195,7 +5192,7 @@ type PaymentIntentPaymentMethodOptionsKonbini struct {
 	// The number of calendar days (between 1 and 60) after which Konbini payment instructions will expire. For example, if a PaymentIntent is confirmed with Konbini and `expires_after_days` set to 2 on Monday JST, the instructions will expire on Wednesday 23:59:59 JST.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
 	// The timestamp at which the Konbini payment instructions will expire. Only one of `expires_after_days` or `expires_at` may be set.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// A product descriptor of up to 22 characters, which will appear to customers at the convenience store.
 	ProductDescription string `json:"product_description"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5383,7 +5380,7 @@ type PaymentIntentPaymentMethodOptionsPix struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
 	// The timestamp at which the Pix expires.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5614,7 +5611,7 @@ type PaymentIntentProcessingCardCustomerNotification struct {
 	// Whether customer approval has been requested for this payment. For payments greater than INR 15000 or mandate amount, the customer must provide explicit approval of the payment with their bank.
 	ApprovalRequested bool `json:"approval_requested"`
 	// If customer approval is required, they need to provide approval before this time.
-	CompletesAt time.Time `json:"completes_at"`
+	CompletesAt int64 `json:"completes_at"`
 }
 type PaymentIntentProcessingCard struct {
 	CustomerNotification *PaymentIntentProcessingCardCustomerNotification `json:"customer_notification"`
@@ -5665,7 +5662,7 @@ type PaymentIntent struct {
 	// Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
 	AutomaticPaymentMethods *PaymentIntentAutomaticPaymentMethods `json:"automatic_payment_methods"`
 	// Populated when `status` is `canceled`, this is the time at which the PaymentIntent was canceled. Measured in seconds since the Unix epoch.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt int64 `json:"canceled_at"`
 	// Reason for cancellation of this PaymentIntent, either user-provided (`duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`) or generated by Stripe internally (`failed_invoice`, `void_invoice`, or `automatic`).
 	CancellationReason PaymentIntentCancellationReason `json:"cancellation_reason"`
 	// Controls when the funds will be captured from the customer's account.
@@ -5679,7 +5676,7 @@ type PaymentIntent struct {
 	// Describes whether we can confirm this PaymentIntent automatically, or if it requires customer action to confirm the payment.
 	ConfirmationMethod PaymentIntentConfirmationMethod `json:"confirmation_method"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// ID of the Customer this PaymentIntent belongs to, if one exists.
@@ -5775,630 +5772,11 @@ func (p *PaymentIntent) UnmarshalJSON(data []byte) error {
 	}
 
 	type paymentIntent PaymentIntent
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		Created    int64 `json:"created"`
-		*paymentIntent
-	}{
-		paymentIntent: (*paymentIntent)(p),
-	}
+	var v paymentIntent
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	p.CanceledAt = time.Unix(v.CanceledAt, 0)
-	p.Created = time.Unix(v.Created, 0)
+	*p = PaymentIntent(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentNextActionBoletoDisplayDetails.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentNextActionBoletoDisplayDetails) UnmarshalJSON(data []byte) error {
-	type paymentIntentNextActionBoletoDisplayDetails PaymentIntentNextActionBoletoDisplayDetails
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		*paymentIntentNextActionBoletoDisplayDetails
-	}{
-		paymentIntentNextActionBoletoDisplayDetails: (*paymentIntentNextActionBoletoDisplayDetails)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentNextActionCardAwaitNotification.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentNextActionCardAwaitNotification) UnmarshalJSON(data []byte) error {
-	type paymentIntentNextActionCardAwaitNotification PaymentIntentNextActionCardAwaitNotification
-	v := struct {
-		ChargeAttemptAt int64 `json:"charge_attempt_at"`
-		*paymentIntentNextActionCardAwaitNotification
-	}{
-		paymentIntentNextActionCardAwaitNotification: (*paymentIntentNextActionCardAwaitNotification)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ChargeAttemptAt = time.Unix(v.ChargeAttemptAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode) UnmarshalJSON(data []byte) error {
-	type paymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		*paymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode
-	}{
-		paymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode: (*paymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentNextActionKonbiniDisplayDetails.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentNextActionKonbiniDisplayDetails) UnmarshalJSON(data []byte) error {
-	type paymentIntentNextActionKonbiniDisplayDetails PaymentIntentNextActionKonbiniDisplayDetails
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		*paymentIntentNextActionKonbiniDisplayDetails
-	}{
-		paymentIntentNextActionKonbiniDisplayDetails: (*paymentIntentNextActionKonbiniDisplayDetails)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentNextActionMultibancoDisplayDetails.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentNextActionMultibancoDisplayDetails) UnmarshalJSON(data []byte) error {
-	type paymentIntentNextActionMultibancoDisplayDetails PaymentIntentNextActionMultibancoDisplayDetails
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		*paymentIntentNextActionMultibancoDisplayDetails
-	}{
-		paymentIntentNextActionMultibancoDisplayDetails: (*paymentIntentNextActionMultibancoDisplayDetails)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentNextActionOXXODisplayDetails.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentNextActionOXXODisplayDetails) UnmarshalJSON(data []byte) error {
-	type paymentIntentNextActionOXXODisplayDetails PaymentIntentNextActionOXXODisplayDetails
-	v := struct {
-		ExpiresAfter int64 `json:"expires_after"`
-		*paymentIntentNextActionOXXODisplayDetails
-	}{
-		paymentIntentNextActionOXXODisplayDetails: (*paymentIntentNextActionOXXODisplayDetails)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ExpiresAfter = time.Unix(v.ExpiresAfter, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentNextActionPixDisplayQRCode.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentNextActionPixDisplayQRCode) UnmarshalJSON(data []byte) error {
-	type paymentIntentNextActionPixDisplayQRCode PaymentIntentNextActionPixDisplayQRCode
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		*paymentIntentNextActionPixDisplayQRCode
-	}{
-		paymentIntentNextActionPixDisplayQRCode: (*paymentIntentNextActionPixDisplayQRCode)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentNextActionVerifyWithMicrodeposits.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentNextActionVerifyWithMicrodeposits) UnmarshalJSON(data []byte) error {
-	type paymentIntentNextActionVerifyWithMicrodeposits PaymentIntentNextActionVerifyWithMicrodeposits
-	v := struct {
-		ArrivalDate int64 `json:"arrival_date"`
-		*paymentIntentNextActionVerifyWithMicrodeposits
-	}{
-		paymentIntentNextActionVerifyWithMicrodeposits: (*paymentIntentNextActionVerifyWithMicrodeposits)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ArrivalDate = time.Unix(v.ArrivalDate, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentPaymentDetailsCarRental.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentPaymentDetailsCarRental) UnmarshalJSON(data []byte) error {
-	type paymentIntentPaymentDetailsCarRental PaymentIntentPaymentDetailsCarRental
-	v := struct {
-		PickupAt int64 `json:"pickup_at"`
-		ReturnAt int64 `json:"return_at"`
-		*paymentIntentPaymentDetailsCarRental
-	}{
-		paymentIntentPaymentDetailsCarRental: (*paymentIntentPaymentDetailsCarRental)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.PickupAt = time.Unix(v.PickupAt, 0)
-	p.ReturnAt = time.Unix(v.ReturnAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentPaymentDetailsEventDetails.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentPaymentDetailsEventDetails) UnmarshalJSON(data []byte) error {
-	type paymentIntentPaymentDetailsEventDetails PaymentIntentPaymentDetailsEventDetails
-	v := struct {
-		EndsAt   int64 `json:"ends_at"`
-		StartsAt int64 `json:"starts_at"`
-		*paymentIntentPaymentDetailsEventDetails
-	}{
-		paymentIntentPaymentDetailsEventDetails: (*paymentIntentPaymentDetailsEventDetails)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.EndsAt = time.Unix(v.EndsAt, 0)
-	p.StartsAt = time.Unix(v.StartsAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentPaymentDetailsSubscription.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentPaymentDetailsSubscription) UnmarshalJSON(data []byte) error {
-	type paymentIntentPaymentDetailsSubscription PaymentIntentPaymentDetailsSubscription
-	v := struct {
-		EndsAt   int64 `json:"ends_at"`
-		StartsAt int64 `json:"starts_at"`
-		*paymentIntentPaymentDetailsSubscription
-	}{
-		paymentIntentPaymentDetailsSubscription: (*paymentIntentPaymentDetailsSubscription)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.EndsAt = time.Unix(v.EndsAt, 0)
-	p.StartsAt = time.Unix(v.StartsAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentPaymentMethodOptionsCardMandateOptions.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentPaymentMethodOptionsCardMandateOptions) UnmarshalJSON(data []byte) error {
-	type paymentIntentPaymentMethodOptionsCardMandateOptions PaymentIntentPaymentMethodOptionsCardMandateOptions
-	v := struct {
-		EndDate   int64 `json:"end_date"`
-		StartDate int64 `json:"start_date"`
-		*paymentIntentPaymentMethodOptionsCardMandateOptions
-	}{
-		paymentIntentPaymentMethodOptionsCardMandateOptions: (*paymentIntentPaymentMethodOptionsCardMandateOptions)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.EndDate = time.Unix(v.EndDate, 0)
-	p.StartDate = time.Unix(v.StartDate, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentPaymentMethodOptionsIDBankTransfer.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentPaymentMethodOptionsIDBankTransfer) UnmarshalJSON(data []byte) error {
-	type paymentIntentPaymentMethodOptionsIDBankTransfer PaymentIntentPaymentMethodOptionsIDBankTransfer
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		*paymentIntentPaymentMethodOptionsIDBankTransfer
-	}{
-		paymentIntentPaymentMethodOptionsIDBankTransfer: (*paymentIntentPaymentMethodOptionsIDBankTransfer)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentPaymentMethodOptionsKonbini.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentPaymentMethodOptionsKonbini) UnmarshalJSON(data []byte) error {
-	type paymentIntentPaymentMethodOptionsKonbini PaymentIntentPaymentMethodOptionsKonbini
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		*paymentIntentPaymentMethodOptionsKonbini
-	}{
-		paymentIntentPaymentMethodOptionsKonbini: (*paymentIntentPaymentMethodOptionsKonbini)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentPaymentMethodOptionsPix.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentPaymentMethodOptionsPix) UnmarshalJSON(data []byte) error {
-	type paymentIntentPaymentMethodOptionsPix PaymentIntentPaymentMethodOptionsPix
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		*paymentIntentPaymentMethodOptionsPix
-	}{
-		paymentIntentPaymentMethodOptionsPix: (*paymentIntentPaymentMethodOptionsPix)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentProcessingCardCustomerNotification.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PaymentIntentProcessingCardCustomerNotification) UnmarshalJSON(data []byte) error {
-	type paymentIntentProcessingCardCustomerNotification PaymentIntentProcessingCardCustomerNotification
-	v := struct {
-		CompletesAt int64 `json:"completes_at"`
-		*paymentIntentProcessingCardCustomerNotification
-	}{
-		paymentIntentProcessingCardCustomerNotification: (*paymentIntentProcessingCardCustomerNotification)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.CompletesAt = time.Unix(v.CompletesAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a PaymentIntentNextActionBoletoDisplayDetails.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentNextActionBoletoDisplayDetails) MarshalJSON() ([]byte, error) {
-	type paymentIntentNextActionBoletoDisplayDetails PaymentIntentNextActionBoletoDisplayDetails
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		paymentIntentNextActionBoletoDisplayDetails
-	}{
-		paymentIntentNextActionBoletoDisplayDetails: (paymentIntentNextActionBoletoDisplayDetails)(p),
-		ExpiresAt: p.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentNextActionCardAwaitNotification.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentNextActionCardAwaitNotification) MarshalJSON() ([]byte, error) {
-	type paymentIntentNextActionCardAwaitNotification PaymentIntentNextActionCardAwaitNotification
-	v := struct {
-		ChargeAttemptAt int64 `json:"charge_attempt_at"`
-		paymentIntentNextActionCardAwaitNotification
-	}{
-		paymentIntentNextActionCardAwaitNotification: (paymentIntentNextActionCardAwaitNotification)(p),
-		ChargeAttemptAt: p.ChargeAttemptAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode) MarshalJSON() ([]byte, error) {
-	type paymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode PaymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		paymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode
-	}{
-		paymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode: (paymentIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode)(p),
-		ExpiresAt: p.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentNextActionKonbiniDisplayDetails.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentNextActionKonbiniDisplayDetails) MarshalJSON() ([]byte, error) {
-	type paymentIntentNextActionKonbiniDisplayDetails PaymentIntentNextActionKonbiniDisplayDetails
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		paymentIntentNextActionKonbiniDisplayDetails
-	}{
-		paymentIntentNextActionKonbiniDisplayDetails: (paymentIntentNextActionKonbiniDisplayDetails)(p),
-		ExpiresAt: p.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentNextActionMultibancoDisplayDetails.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentNextActionMultibancoDisplayDetails) MarshalJSON() ([]byte, error) {
-	type paymentIntentNextActionMultibancoDisplayDetails PaymentIntentNextActionMultibancoDisplayDetails
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		paymentIntentNextActionMultibancoDisplayDetails
-	}{
-		paymentIntentNextActionMultibancoDisplayDetails: (paymentIntentNextActionMultibancoDisplayDetails)(p),
-		ExpiresAt: p.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentNextActionOXXODisplayDetails.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentNextActionOXXODisplayDetails) MarshalJSON() ([]byte, error) {
-	type paymentIntentNextActionOXXODisplayDetails PaymentIntentNextActionOXXODisplayDetails
-	v := struct {
-		ExpiresAfter int64 `json:"expires_after"`
-		paymentIntentNextActionOXXODisplayDetails
-	}{
-		paymentIntentNextActionOXXODisplayDetails: (paymentIntentNextActionOXXODisplayDetails)(p),
-		ExpiresAfter: p.ExpiresAfter.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentNextActionPixDisplayQRCode.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentNextActionPixDisplayQRCode) MarshalJSON() ([]byte, error) {
-	type paymentIntentNextActionPixDisplayQRCode PaymentIntentNextActionPixDisplayQRCode
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		paymentIntentNextActionPixDisplayQRCode
-	}{
-		paymentIntentNextActionPixDisplayQRCode: (paymentIntentNextActionPixDisplayQRCode)(p),
-		ExpiresAt:                               p.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentNextActionVerifyWithMicrodeposits.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentNextActionVerifyWithMicrodeposits) MarshalJSON() ([]byte, error) {
-	type paymentIntentNextActionVerifyWithMicrodeposits PaymentIntentNextActionVerifyWithMicrodeposits
-	v := struct {
-		ArrivalDate int64 `json:"arrival_date"`
-		paymentIntentNextActionVerifyWithMicrodeposits
-	}{
-		paymentIntentNextActionVerifyWithMicrodeposits: (paymentIntentNextActionVerifyWithMicrodeposits)(p),
-		ArrivalDate: p.ArrivalDate.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentPaymentDetailsCarRental.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentPaymentDetailsCarRental) MarshalJSON() ([]byte, error) {
-	type paymentIntentPaymentDetailsCarRental PaymentIntentPaymentDetailsCarRental
-	v := struct {
-		PickupAt int64 `json:"pickup_at"`
-		ReturnAt int64 `json:"return_at"`
-		paymentIntentPaymentDetailsCarRental
-	}{
-		paymentIntentPaymentDetailsCarRental: (paymentIntentPaymentDetailsCarRental)(p),
-		PickupAt:                             p.PickupAt.Unix(),
-		ReturnAt:                             p.ReturnAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentPaymentDetailsEventDetails.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentPaymentDetailsEventDetails) MarshalJSON() ([]byte, error) {
-	type paymentIntentPaymentDetailsEventDetails PaymentIntentPaymentDetailsEventDetails
-	v := struct {
-		EndsAt   int64 `json:"ends_at"`
-		StartsAt int64 `json:"starts_at"`
-		paymentIntentPaymentDetailsEventDetails
-	}{
-		paymentIntentPaymentDetailsEventDetails: (paymentIntentPaymentDetailsEventDetails)(p),
-		EndsAt:                                  p.EndsAt.Unix(),
-		StartsAt:                                p.StartsAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentPaymentDetailsSubscription.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentPaymentDetailsSubscription) MarshalJSON() ([]byte, error) {
-	type paymentIntentPaymentDetailsSubscription PaymentIntentPaymentDetailsSubscription
-	v := struct {
-		EndsAt   int64 `json:"ends_at"`
-		StartsAt int64 `json:"starts_at"`
-		paymentIntentPaymentDetailsSubscription
-	}{
-		paymentIntentPaymentDetailsSubscription: (paymentIntentPaymentDetailsSubscription)(p),
-		EndsAt:                                  p.EndsAt.Unix(),
-		StartsAt:                                p.StartsAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentPaymentMethodOptionsCardMandateOptions.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentPaymentMethodOptionsCardMandateOptions) MarshalJSON() ([]byte, error) {
-	type paymentIntentPaymentMethodOptionsCardMandateOptions PaymentIntentPaymentMethodOptionsCardMandateOptions
-	v := struct {
-		EndDate   int64 `json:"end_date"`
-		StartDate int64 `json:"start_date"`
-		paymentIntentPaymentMethodOptionsCardMandateOptions
-	}{
-		paymentIntentPaymentMethodOptionsCardMandateOptions: (paymentIntentPaymentMethodOptionsCardMandateOptions)(p),
-		EndDate:   p.EndDate.Unix(),
-		StartDate: p.StartDate.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentPaymentMethodOptionsIDBankTransfer.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentPaymentMethodOptionsIDBankTransfer) MarshalJSON() ([]byte, error) {
-	type paymentIntentPaymentMethodOptionsIDBankTransfer PaymentIntentPaymentMethodOptionsIDBankTransfer
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		paymentIntentPaymentMethodOptionsIDBankTransfer
-	}{
-		paymentIntentPaymentMethodOptionsIDBankTransfer: (paymentIntentPaymentMethodOptionsIDBankTransfer)(p),
-		ExpiresAt: p.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentPaymentMethodOptionsKonbini.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentPaymentMethodOptionsKonbini) MarshalJSON() ([]byte, error) {
-	type paymentIntentPaymentMethodOptionsKonbini PaymentIntentPaymentMethodOptionsKonbini
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		paymentIntentPaymentMethodOptionsKonbini
-	}{
-		paymentIntentPaymentMethodOptionsKonbini: (paymentIntentPaymentMethodOptionsKonbini)(p),
-		ExpiresAt:                                p.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentPaymentMethodOptionsPix.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentPaymentMethodOptionsPix) MarshalJSON() ([]byte, error) {
-	type paymentIntentPaymentMethodOptionsPix PaymentIntentPaymentMethodOptionsPix
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		paymentIntentPaymentMethodOptionsPix
-	}{
-		paymentIntentPaymentMethodOptionsPix: (paymentIntentPaymentMethodOptionsPix)(p),
-		ExpiresAt:                            p.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntentProcessingCardCustomerNotification.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntentProcessingCardCustomerNotification) MarshalJSON() ([]byte, error) {
-	type paymentIntentProcessingCardCustomerNotification PaymentIntentProcessingCardCustomerNotification
-	v := struct {
-		CompletesAt int64 `json:"completes_at"`
-		paymentIntentProcessingCardCustomerNotification
-	}{
-		paymentIntentProcessingCardCustomerNotification: (paymentIntentProcessingCardCustomerNotification)(p),
-		CompletesAt: p.CompletesAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a PaymentIntent.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PaymentIntent) MarshalJSON() ([]byte, error) {
-	type paymentIntent PaymentIntent
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		Created    int64 `json:"created"`
-		paymentIntent
-	}{
-		paymentIntent: (paymentIntent)(p),
-		CanceledAt:    p.CanceledAt.Unix(),
-		Created:       p.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

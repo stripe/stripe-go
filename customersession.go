@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // A list of [`allow_redisplay`](https://docs.stripe.com/api/payment_methods/object#payment_method_object-allow_redisplay) values that controls which saved payment methods the Payment Element displays by filtering to only show payment methods with an `allow_redisplay` value that is present in this list.
 //
 // If not specified, defaults to ["always"]. In order to display all saved payment methods, specify ["always", "limited", "unspecified"].
@@ -204,53 +199,13 @@ type CustomerSession struct {
 	// Configuration for the components supported by this Customer Session.
 	Components *CustomerSessionComponents `json:"components"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The Customer the Customer Session was created for.
 	Customer *Customer `json:"customer"`
 	// The timestamp at which this Customer Session will expire.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-}
-
-// UnmarshalJSON handles deserialization of a CustomerSession.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (c *CustomerSession) UnmarshalJSON(data []byte) error {
-	type customerSession CustomerSession
-	v := struct {
-		Created   int64 `json:"created"`
-		ExpiresAt int64 `json:"expires_at"`
-		*customerSession
-	}{
-		customerSession: (*customerSession)(c),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	c.Created = time.Unix(v.Created, 0)
-	c.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a CustomerSession.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c CustomerSession) MarshalJSON() ([]byte, error) {
-	type customerSession CustomerSession
-	v := struct {
-		Created   int64 `json:"created"`
-		ExpiresAt int64 `json:"expires_at"`
-		customerSession
-	}{
-		customerSession: (customerSession)(c),
-		Created:         c.Created.Unix(),
-		ExpiresAt:       c.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

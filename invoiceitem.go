@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
 type InvoiceItemParams struct {
@@ -83,7 +80,7 @@ type InvoiceItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *InvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -103,9 +100,9 @@ type InvoiceItemDiscountParams struct {
 // The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 type InvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start. This value is inclusive.
-	End *time.Time `form:"end"`
+	End *int64 `form:"end"`
 	// The start of the period. This value is inclusive.
-	Start *time.Time `form:"start"`
+	Start *int64 `form:"start"`
 }
 
 // Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -164,8 +161,8 @@ type InvoiceItem struct {
 	// The ID of the customer who will be billed when this invoice item is billed.
 	Customer *Customer `json:"customer"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Date    time.Time `json:"date"`
-	Deleted bool      `json:"deleted"`
+	Date    int64 `json:"date"`
+	Deleted bool  `json:"deleted"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
 	// If true, discounts will apply to this invoice item. Always false for prorations.
@@ -224,34 +221,11 @@ func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
 	}
 
 	type invoiceItem InvoiceItem
-	v := struct {
-		Date int64 `json:"date"`
-		*invoiceItem
-	}{
-		invoiceItem: (*invoiceItem)(i),
-	}
+	var v invoiceItem
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	i.Date = time.Unix(v.Date, 0)
+	*i = InvoiceItem(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of an InvoiceItem.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i InvoiceItem) MarshalJSON() ([]byte, error) {
-	type invoiceItem InvoiceItem
-	v := struct {
-		Date int64 `json:"date"`
-		invoiceItem
-	}{
-		invoiceItem: (invoiceItem)(i),
-		Date:        i.Date.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }
