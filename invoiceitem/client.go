@@ -29,12 +29,7 @@ func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	invoiceitem := &stripe.InvoiceItem{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/invoiceitems",
-		c.Key,
-		params,
-		invoiceitem,
-	)
+		http.MethodPost, "/v1/invoiceitems", c.Key, params, invoiceitem)
 	return invoiceitem, err
 }
 

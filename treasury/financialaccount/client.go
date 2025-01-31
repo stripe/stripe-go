@@ -29,12 +29,7 @@ func New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinanci
 func (c Client) New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	financialaccount := &stripe.TreasuryFinancialAccount{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/treasury/financial_accounts",
-		c.Key,
-		params,
-		financialaccount,
-	)
+		http.MethodPost, "/v1/treasury/financial_accounts", c.Key, params, financialaccount)
 	return financialaccount, err
 }
 
@@ -85,9 +80,7 @@ func RetrieveFeatures(id string, params *stripe.TreasuryFinancialAccountRetrieve
 // Retrieves Features information associated with the FinancialAccount.
 func (c Client) RetrieveFeatures(id string, params *stripe.TreasuryFinancialAccountRetrieveFeaturesParams) (*stripe.TreasuryFinancialAccountFeatures, error) {
 	path := stripe.FormatURLPath(
-		"/v1/treasury/financial_accounts/%s/features",
-		id,
-	)
+		"/v1/treasury/financial_accounts/%s/features", id)
 	financialaccountfeatures := &stripe.TreasuryFinancialAccountFeatures{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, financialaccountfeatures)
 	return financialaccountfeatures, err
@@ -101,17 +94,10 @@ func UpdateFeatures(id string, params *stripe.TreasuryFinancialAccountUpdateFeat
 // Updates the Features associated with a FinancialAccount.
 func (c Client) UpdateFeatures(id string, params *stripe.TreasuryFinancialAccountUpdateFeaturesParams) (*stripe.TreasuryFinancialAccountFeatures, error) {
 	path := stripe.FormatURLPath(
-		"/v1/treasury/financial_accounts/%s/features",
-		id,
-	)
+		"/v1/treasury/financial_accounts/%s/features", id)
 	financialaccountfeatures := &stripe.TreasuryFinancialAccountFeatures{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		financialaccountfeatures,
-	)
+		http.MethodPost, path, c.Key, params, financialaccountfeatures)
 	return financialaccountfeatures, err
 }
 

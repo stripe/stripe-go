@@ -29,12 +29,7 @@ func New(params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) 
 func (c Client) New(params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
 	session := &stripe.CheckoutSession{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/checkout/sessions",
-		c.Key,
-		params,
-		session,
-	)
+		http.MethodPost, "/v1/checkout/sessions", c.Key, params, session)
 	return session, err
 }
 
@@ -128,9 +123,8 @@ func ListLineItems(params *stripe.CheckoutSessionListLineItemsParams) *LineItemI
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLineItems(listParams *stripe.CheckoutSessionListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/checkout/sessions/%s/line_items",
-		stripe.StringValue(listParams.Session),
-	)
+		"/v1/checkout/sessions/%s/line_items", stripe.StringValue(
+			listParams.Session))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}

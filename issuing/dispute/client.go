@@ -29,12 +29,7 @@ func New(params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 func (c Client) New(params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	dispute := &stripe.IssuingDispute{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/disputes",
-		c.Key,
-		params,
-		dispute,
-	)
+		http.MethodPost, "/v1/issuing/disputes", c.Key, params, dispute)
 	return dispute, err
 }
 

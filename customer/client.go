@@ -113,10 +113,8 @@ func RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMeth
 // Retrieves a PaymentMethod object for a given Customer.
 func (c Client) RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.PaymentMethod, error) {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/payment_methods/%s",
-		stripe.StringValue(params.Customer),
-		id,
-	)
+		"/v1/customers/%s/payment_methods/%s", stripe.StringValue(
+			params.Customer), id)
 	paymentmethod := &stripe.PaymentMethod{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentmethod)
 	return paymentmethod, err
@@ -169,9 +167,7 @@ func ListPaymentMethods(params *stripe.CustomerListPaymentMethodsParams) *Paymen
 // Returns a list of PaymentMethods for a given Customer
 func (c Client) ListPaymentMethods(listParams *stripe.CustomerListPaymentMethodsParams) *PaymentMethodIter {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/payment_methods",
-		stripe.StringValue(listParams.Customer),
-	)
+		"/v1/customers/%s/payment_methods", stripe.StringValue(listParams.Customer))
 	return &PaymentMethodIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentMethodList{}
