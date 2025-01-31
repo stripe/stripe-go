@@ -28,12 +28,7 @@ func Get(params *stripe.BillingCreditBalanceSummaryParams) (*stripe.BillingCredi
 func (c Client) Get(params *stripe.BillingCreditBalanceSummaryParams) (*stripe.BillingCreditBalanceSummary, error) {
 	creditbalancesummary := &stripe.BillingCreditBalanceSummary{}
 	err := c.B.Call(
-		http.MethodGet,
-		"/v1/billing/credit_balance_summary",
-		c.Key,
-		params,
-		creditbalancesummary,
-	)
+		http.MethodGet, "/v1/billing/credit_balance_summary", c.Key, params, creditbalancesummary)
 	return creditbalancesummary, err
 }
 

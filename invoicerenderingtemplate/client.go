@@ -43,12 +43,7 @@ func (c Client) Archive(id string, params *stripe.InvoiceRenderingTemplateArchiv
 	path := stripe.FormatURLPath("/v1/invoice_rendering_templates/%s/archive", id)
 	invoicerenderingtemplate := &stripe.InvoiceRenderingTemplate{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		invoicerenderingtemplate,
-	)
+		http.MethodPost, path, c.Key, params, invoicerenderingtemplate)
 	return invoicerenderingtemplate, err
 }
 
@@ -60,17 +55,10 @@ func Unarchive(id string, params *stripe.InvoiceRenderingTemplateUnarchiveParams
 // Unarchive an invoice rendering template so it can be used on new Stripe objects again.
 func (c Client) Unarchive(id string, params *stripe.InvoiceRenderingTemplateUnarchiveParams) (*stripe.InvoiceRenderingTemplate, error) {
 	path := stripe.FormatURLPath(
-		"/v1/invoice_rendering_templates/%s/unarchive",
-		id,
-	)
+		"/v1/invoice_rendering_templates/%s/unarchive", id)
 	invoicerenderingtemplate := &stripe.InvoiceRenderingTemplate{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		invoicerenderingtemplate,
-	)
+		http.MethodPost, path, c.Key, params, invoicerenderingtemplate)
 	return invoicerenderingtemplate, err
 }
 

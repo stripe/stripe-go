@@ -1,5 +1,35 @@
 # Changelog
 
+## 81.3.0 - 2025-01-27
+* [#1965](https://github.com/stripe/stripe-go/pull/1965) Update generated code
+  * Add support for `Close` method on resource `Treasury.FinancialAccount`
+  * Add support for `PayByBankPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `DirectorshipDeclaration` and `OwnershipExemptionReason` on `AccountCompanyParams`, `AccountCompany`, and `TokenAccountCompanyParams`
+  * Add support for `ProofOfUltimateBeneficialOwnership` on `AccountDocumentsParams`
+  * Add support for `FinancialAccount` on `AccountSessionComponentsParams`, `AccountSessionComponents`, and `TreasuryOutboundTransferDestinationPaymentMethodDetails`
+  * Add support for `FinancialAccountTransactions`, `IssuingCard`, and `IssuingCardsList` on `AccountSessionComponentsParams` and `AccountSessionComponents`
+  * Add support for `AdviceCode` on `ChargeOutcome`, `InvoiceLastFinalizationError`, `PaymentIntentLastPaymentError`, `SetupAttemptSetupError`, `SetupIntentLastSetupError`, and `StripeError`
+  * Add support for `PayByBank` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `Country` on `ChargePaymentMethodDetailsPaypal`, `ConfirmationTokenPaymentMethodPreviewPaypal`, and `PaymentMethodPaypal`
+  * Add support for `Discounts` on `CheckoutSession`
+  * Add support for new value `SD` on enums `CheckoutSessionShippingAddressCollectionAllowedCountries` and `PaymentLinkShippingAddressCollectionAllowedCountries`
+  * Add support for new value `pay_by_bank` on enums `ConfirmationTokenPaymentMethodPreviewType` and `PaymentMethodType`
+  * Add support for `PhoneNumberCollection` on `PaymentLinkParams`
+  * Add support for new value `pay_by_bank` on enum `PaymentLinkPaymentMethodTypes`
+  * Add support for `Jpy` on `TerminalConfigurationTippingParams` and `TerminalConfigurationTipping`
+  * Add support for `Nickname` on `TreasuryFinancialAccountParams` and `TreasuryFinancialAccount`
+  * Add support for `ForwardingSettings` on `TreasuryFinancialAccountParams`
+  * Add support for `IsDefault` on `TreasuryFinancialAccount`
+  * Add support for `DestinationPaymentMethodData` on `TreasuryOutboundTransferParams`
+  * Change type of `TreasuryOutboundTransferDestinationPaymentMethodDetailsType` from `literal('us_bank_account')` to `enum('financial_account'|'us_bank_account')`
+  * Add support for `OutboundTransfer` on `TreasuryReceivedCreditLinkedFlowsSourceFlowDetails`
+  * Add support for new value `outbound_transfer` on enum `TreasuryReceivedCreditLinkedFlowsSourceFlowDetailsType`
+* [#1970](https://github.com/stripe/stripe-go/pull/1970) fix justfile ordering bug
+* [#1969](https://github.com/stripe/stripe-go/pull/1969) pin CI and fix formatting
+* [#1964](https://github.com/stripe/stripe-go/pull/1964) add justfile, update readme, remove coveralls
+* [#1967](https://github.com/stripe/stripe-go/pull/1967) Added CONTRIBUTING.md file
+* [#1962](https://github.com/stripe/stripe-go/pull/1962) Added pull request template
+
 ## 81.3.0-beta.3 - 2025-01-23
 * [#1971](https://github.com/stripe/stripe-go/pull/1971) Update generated code for beta
   * Remove support for `StripeAccount` on `TerminalReaderActionCollectPaymentMethod`, `TerminalReaderActionConfirmPaymentIntent`, `TerminalReaderActionProcessPaymentIntent`, and `TerminalReaderActionRefundPayment`

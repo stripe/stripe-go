@@ -28,12 +28,7 @@ func New(params *stripe.BillingMeterEventAdjustmentParams) (*stripe.BillingMeter
 func (c Client) New(params *stripe.BillingMeterEventAdjustmentParams) (*stripe.BillingMeterEventAdjustment, error) {
 	metereventadjustment := &stripe.BillingMeterEventAdjustment{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/billing/meter_event_adjustments",
-		c.Key,
-		params,
-		metereventadjustment,
-	)
+		http.MethodPost, "/v1/billing/meter_event_adjustments", c.Key, params, metereventadjustment)
 	return metereventadjustment, err
 }
 

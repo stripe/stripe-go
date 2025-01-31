@@ -28,9 +28,7 @@ func List(params *stripe.BillingMeterEventSummaryListParams) *Iter {
 // Retrieve a list of billing meter event summaries.
 func (c Client) List(listParams *stripe.BillingMeterEventSummaryListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/billing/meters/%s/event_summaries",
-		stripe.StringValue(listParams.ID),
-	)
+		"/v1/billing/meters/%s/event_summaries", stripe.StringValue(listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.BillingMeterEventSummaryList{}

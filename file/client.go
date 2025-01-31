@@ -35,8 +35,7 @@ func New(params *stripe.FileParams) (*stripe.File, error) {
 func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Purpose and params.File must be set",
-		)
+			"params cannot be nil, and params.Purpose and params.File must be set")
 	}
 
 	bodyBuffer, boundary, err := params.GetBody()

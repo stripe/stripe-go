@@ -47,12 +47,7 @@ func New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 func (c Client) New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_intents",
-		c.Key,
-		params,
-		paymentintent,
-	)
+		http.MethodPost, "/v1/payment_intents", c.Key, params, paymentintent)
 	return paymentintent, err
 }
 
@@ -110,9 +105,7 @@ func ApplyCustomerBalance(id string, params *stripe.PaymentIntentApplyCustomerBa
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
 func (c Client) ApplyCustomerBalance(id string, params *stripe.PaymentIntentApplyCustomerBalanceParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_intents/%s/apply_customer_balance",
-		id,
-	)
+		"/v1/payment_intents/%s/apply_customer_balance", id)
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
@@ -259,9 +252,7 @@ func DecrementAuthorization(id string, params *stripe.PaymentIntentDecrementAuth
 // After it's fully captured, a PaymentIntent can no longer be decremented.
 func (c Client) DecrementAuthorization(id string, params *stripe.PaymentIntentDecrementAuthorizationParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_intents/%s/decrement_authorization",
-		id,
-	)
+		"/v1/payment_intents/%s/decrement_authorization", id)
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
@@ -321,9 +312,7 @@ func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuth
 // Learn more about [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations).
 func (c Client) IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_intents/%s/increment_authorization",
-		id,
-	)
+		"/v1/payment_intents/%s/increment_authorization", id)
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
@@ -350,9 +339,7 @@ func VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepos
 // Verifies microdeposits on a PaymentIntent object.
 func (c Client) VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepositsParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_intents/%s/verify_microdeposits",
-		id,
-	)
+		"/v1/payment_intents/%s/verify_microdeposits", id)
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err

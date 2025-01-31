@@ -157,9 +157,7 @@ func (p *FileParams) GetBody() (*bytes.Buffer, string, error) {
 
 	if p.FileReader != nil && p.Filename != nil {
 		part, err := writer.CreateFormFile(
-			"file",
-			filepath.Base(StringValue(p.Filename)),
-		)
+			"file", filepath.Base(StringValue(p.Filename)))
 
 		if err != nil {
 			return nil, "", err

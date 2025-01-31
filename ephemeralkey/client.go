@@ -38,12 +38,7 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 
 	ephemeralkey := &stripe.EphemeralKey{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/ephemeral_keys",
-		c.Key,
-		params,
-		ephemeralkey,
-	)
+		http.MethodPost, "/v1/ephemeral_keys", c.Key, params, ephemeralkey)
 	return ephemeralkey, err
 }
 

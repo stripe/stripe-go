@@ -47,12 +47,7 @@ func ReportPayment(params *stripe.PaymentRecordReportPaymentParams) (*stripe.Pay
 func (c Client) ReportPayment(params *stripe.PaymentRecordReportPaymentParams) (*stripe.PaymentRecord, error) {
 	paymentrecord := &stripe.PaymentRecord{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_records/report_payment",
-		c.Key,
-		params,
-		paymentrecord,
-	)
+		http.MethodPost, "/v1/payment_records/report_payment", c.Key, params, paymentrecord)
 	return paymentrecord, err
 }
 
@@ -68,9 +63,7 @@ func ReportPaymentAttempt(id string, params *stripe.PaymentRecordReportPaymentAt
 //	attempt can only be specified if all other payment attempts are canceled or failed.
 func (c Client) ReportPaymentAttempt(id string, params *stripe.PaymentRecordReportPaymentAttemptParams) (*stripe.PaymentRecord, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_records/%s/report_payment_attempt",
-		id,
-	)
+		"/v1/payment_records/%s/report_payment_attempt", id)
 	paymentrecord := &stripe.PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
@@ -88,9 +81,7 @@ func ReportPaymentAttemptCanceled(id string, params *stripe.PaymentRecordReportP
 //	was canceled.
 func (c Client) ReportPaymentAttemptCanceled(id string, params *stripe.PaymentRecordReportPaymentAttemptCanceledParams) (*stripe.PaymentRecord, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_records/%s/report_payment_attempt_canceled",
-		id,
-	)
+		"/v1/payment_records/%s/report_payment_attempt_canceled", id)
 	paymentrecord := &stripe.PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
@@ -108,9 +99,7 @@ func ReportPaymentAttemptFailed(id string, params *stripe.PaymentRecordReportPay
 //	failed or errored.
 func (c Client) ReportPaymentAttemptFailed(id string, params *stripe.PaymentRecordReportPaymentAttemptFailedParams) (*stripe.PaymentRecord, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_records/%s/report_payment_attempt_failed",
-		id,
-	)
+		"/v1/payment_records/%s/report_payment_attempt_failed", id)
 	paymentrecord := &stripe.PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
@@ -128,9 +117,7 @@ func ReportPaymentAttemptGuaranteed(id string, params *stripe.PaymentRecordRepor
 //	was guaranteed.
 func (c Client) ReportPaymentAttemptGuaranteed(id string, params *stripe.PaymentRecordReportPaymentAttemptGuaranteedParams) (*stripe.PaymentRecord, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_records/%s/report_payment_attempt_guaranteed",
-		id,
-	)
+		"/v1/payment_records/%s/report_payment_attempt_guaranteed", id)
 	paymentrecord := &stripe.PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
