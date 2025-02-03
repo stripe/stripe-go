@@ -1,5 +1,9 @@
 # Changelog
 
+## 81.3.1 - 2025-02-03
+* [#1980](https://github.com/stripe/stripe-go/pull/1980) Update generated code
+  * ⚠️  Fix acronym `JPY` in TerminalConfiguration that were not correctly capitalized
+
 ## 81.3.0 - 2025-01-27
 * [#1965](https://github.com/stripe/stripe-go/pull/1965) Update generated code
   * Add support for `Close` method on resource `Treasury.FinancialAccount`
