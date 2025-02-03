@@ -179,7 +179,7 @@ type TerminalConfigurationTippingNZDParams struct {
 }
 
 // Tipping configuration for PLN
-type TerminalConfigurationTippingPLNParams struct {
+type TerminalConfigurationTippingPlnParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -245,7 +245,7 @@ type TerminalConfigurationTippingParams struct {
 	// Tipping configuration for NZD
 	NZD *TerminalConfigurationTippingNZDParams `form:"nzd"`
 	// Tipping configuration for PLN
-	PLN *TerminalConfigurationTippingPLNParams `form:"pln"`
+	Pln *TerminalConfigurationTippingPlnParams `form:"pln"`
 	// Tipping configuration for SEK
 	SEK *TerminalConfigurationTippingSEKParams `form:"sek"`
 	// Tipping configuration for SGD
@@ -388,7 +388,7 @@ type TerminalConfigurationTippingNZD struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingPLN struct {
+type TerminalConfigurationTippingPln struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -433,7 +433,7 @@ type TerminalConfigurationTipping struct {
 	MYR *TerminalConfigurationTippingMYR `json:"myr"`
 	NOK *TerminalConfigurationTippingNOK `json:"nok"`
 	NZD *TerminalConfigurationTippingNZD `json:"nzd"`
-	PLN *TerminalConfigurationTippingPLN `json:"pln"`
+	Pln *TerminalConfigurationTippingPln `json:"pln"`
 	SEK *TerminalConfigurationTippingSEK `json:"sek"`
 	SGD *TerminalConfigurationTippingSGD `json:"sgd"`
 	USD *TerminalConfigurationTippingUSD `json:"usd"`
