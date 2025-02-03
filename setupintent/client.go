@@ -35,12 +35,7 @@ func New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 func (c Client) New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	setupintent := &stripe.SetupIntent{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/setup_intents",
-		c.Key,
-		params,
-		setupintent,
-	)
+		http.MethodPost, "/v1/setup_intents", c.Key, params, setupintent)
 	return setupintent, err
 }
 

@@ -115,12 +115,7 @@ func CreatePreview(params *stripe.InvoiceCreatePreviewParams) (*stripe.Invoice, 
 func (c Client) CreatePreview(params *stripe.InvoiceCreatePreviewParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/invoices/create_preview",
-		c.Key,
-		params,
-		invoice,
-	)
+		http.MethodPost, "/v1/invoices/create_preview", c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -214,12 +209,7 @@ func Upcoming(params *stripe.InvoiceUpcomingParams) (*stripe.Invoice, error) {
 func (c Client) Upcoming(params *stripe.InvoiceUpcomingParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(
-		http.MethodGet,
-		"/v1/invoices/upcoming",
-		c.Key,
-		params,
-		invoice,
-	)
+		http.MethodGet, "/v1/invoices/upcoming", c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -300,9 +290,7 @@ func ListLines(params *stripe.InvoiceListLinesParams) *LineItemIter {
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLines(listParams *stripe.InvoiceListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/invoices/%s/lines",
-		stripe.StringValue(listParams.Invoice),
-	)
+		"/v1/invoices/%s/lines", stripe.StringValue(listParams.Invoice))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}

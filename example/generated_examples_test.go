@@ -444,9 +444,7 @@ func TestBillingPortalConfigurationsPost2(t *testing.T) {
 		},
 	}
 	result, err := billingportal_configuration.Update(
-		"bpc_xxxxxxxxxxxxx",
-		params,
-	)
+		"bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -705,9 +703,7 @@ func TestCustomersBalanceTransactionsPost2(t *testing.T) {
 	}
 	params.AddMetadata("order_id", "6735")
 	result, err := customerbalancetransaction.Update(
-		"cbtxn_xxxxxxxxxxxxx",
-		params,
-	)
+		"cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -1008,9 +1004,7 @@ func TestFinancialConnectionsAccountsDisconnectPost(t *testing.T) {
 func TestFinancialConnectionsAccountsDisconnectPost2(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	result, err := financialconnections_account.Disconnect(
-		"fca_xxxxxxxxxxxxx",
-		params,
-	)
+		"fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -1043,9 +1037,7 @@ func TestFinancialConnectionsAccountsGet3(t *testing.T) {
 func TestFinancialConnectionsAccountsGet4(t *testing.T) {
 	params := &stripe.FinancialConnectionsAccountParams{}
 	result, err := financialconnections_account.GetByID(
-		"fca_xxxxxxxxxxxxx",
-		params,
-	)
+		"fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -1108,9 +1100,7 @@ func TestFinancialConnectionsSessionsGet(t *testing.T) {
 func TestFinancialConnectionsSessionsGet2(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{}
 	result, err := financialconnections_session.Get(
-		"fcsess_xxxxxxxxxxxxx",
-		params,
-	)
+		"fcsess_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -1183,9 +1173,7 @@ func TestIdentityVerificationReportsGet2(t *testing.T) {
 func TestIdentityVerificationSessionsCancelPost(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionCancelParams{}
 	result, err := identity_verificationsession.Cancel(
-		"vs_xxxxxxxxxxxxx",
-		params,
-	)
+		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -1219,9 +1207,7 @@ func TestIdentityVerificationSessionsPost2(t *testing.T) {
 		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeIDNumber)),
 	}
 	result, err := identity_verificationsession.Update(
-		"vs_xxxxxxxxxxxxx",
-		params,
-	)
+		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -1229,9 +1215,7 @@ func TestIdentityVerificationSessionsPost2(t *testing.T) {
 func TestIdentityVerificationSessionsRedactPost(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionRedactParams{}
 	result, err := identity_verificationsession.Redact(
-		"vs_xxxxxxxxxxxxx",
-		params,
-	)
+		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -1621,9 +1605,7 @@ func TestPaymentIntentsIncrementAuthorizationPost(t *testing.T) {
 		Amount: stripe.Int64(2099),
 	}
 	result, err := paymentintent.IncrementAuthorization(
-		"pi_xxxxxxxxxxxxx",
-		params,
-	)
+		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -2660,9 +2642,7 @@ func TestSubscriptionSchedulesPost2(t *testing.T) {
 func TestSubscriptionSchedulesReleasePost(t *testing.T) {
 	params := &stripe.SubscriptionScheduleReleaseParams{}
 	result, err := subscriptionschedule.Release(
-		"sub_sched_xxxxxxxxxxxxx",
-		params,
-	)
+		"sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3063,9 +3043,7 @@ func TestTerminalReadersProcessPaymentIntentPost(t *testing.T) {
 		PaymentIntent: stripe.String("pi_xxxxxxxxxxxxx"),
 	}
 	result, err := terminal_reader.ProcessPaymentIntent(
-		"tmr_xxxxxxxxxxxxx",
-		params,
-	)
+		"tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3076,9 +3054,7 @@ func TestTerminalReadersProcessSetupIntentPost(t *testing.T) {
 		AllowRedisplay: stripe.String("always"),
 	}
 	result, err := terminal_reader.ProcessSetupIntent(
-		"tmr_xxxxxxxxxxxxx",
-		params,
-	)
+		"tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3136,9 +3112,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 		},
 	}
 	result, err := testhelpers_issuing_authorization.Capture(
-		"example_authorization",
-		params,
-	)
+		"example_authorization", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3146,9 +3120,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 func TestTestHelpersIssuingAuthorizationsExpirePost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingAuthorizationExpireParams{}
 	result, err := testhelpers_issuing_authorization.Expire(
-		"example_authorization",
-		params,
-	)
+		"example_authorization", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3159,9 +3131,7 @@ func TestTestHelpersIssuingAuthorizationsIncrementPost(t *testing.T) {
 		IsAmountControllable: stripe.Bool(true),
 	}
 	result, err := testhelpers_issuing_authorization.Increment(
-		"example_authorization",
-		params,
-	)
+		"example_authorization", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3208,9 +3178,7 @@ func TestTestHelpersIssuingAuthorizationsReversePost(t *testing.T) {
 		ReverseAmount: stripe.Int64(20),
 	}
 	result, err := testhelpers_issuing_authorization.Reverse(
-		"example_authorization",
-		params,
-	)
+		"example_authorization", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3246,9 +3214,7 @@ func TestTestHelpersIssuingCardsShippingShipPost(t *testing.T) {
 func TestTestHelpersIssuingPersonalizationDesignsActivatePost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingPersonalizationDesignActivateParams{}
 	result, err := testhelpers_issuing_personalizationdesign.Activate(
-		"pd_xyz",
-		params,
-	)
+		"pd_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3256,9 +3222,7 @@ func TestTestHelpersIssuingPersonalizationDesignsActivatePost(t *testing.T) {
 func TestTestHelpersIssuingPersonalizationDesignsDeactivatePost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingPersonalizationDesignDeactivateParams{}
 	result, err := testhelpers_issuing_personalizationdesign.Deactivate(
-		"pd_xyz",
-		params,
-	)
+		"pd_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3272,9 +3236,7 @@ func TestTestHelpersIssuingPersonalizationDesignsRejectPost(t *testing.T) {
 		},
 	}
 	result, err := testhelpers_issuing_personalizationdesign.Reject(
-		"pd_xyz",
-		params,
-	)
+		"pd_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3400,9 +3362,7 @@ func TestTestHelpersIssuingTransactionsRefundPost(t *testing.T) {
 		RefundAmount: stripe.Int64(50),
 	}
 	result, err := testhelpers_issuing_transaction.Refund(
-		"example_transaction",
-		params,
-	)
+		"example_transaction", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3508,9 +3468,7 @@ func TestTestHelpersTreasuryInboundTransfersFailPost(t *testing.T) {
 func TestTestHelpersTreasuryInboundTransfersReturnPost(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams{}
 	result, err := testhelpers_treasury_inboundtransfer.ReturnInboundTransfer(
-		"ibt_123",
-		params,
-	)
+		"ibt_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3518,9 +3476,7 @@ func TestTestHelpersTreasuryInboundTransfersReturnPost(t *testing.T) {
 func TestTestHelpersTreasuryInboundTransfersSucceedPost(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryInboundTransferSucceedParams{}
 	result, err := testhelpers_treasury_inboundtransfer.Succeed(
-		"ibt_123",
-		params,
-	)
+		"ibt_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3546,9 +3502,7 @@ func TestTestHelpersTreasuryOutboundTransfersReturnPost(t *testing.T) {
 		},
 	}
 	result, err := testhelpers_treasury_outboundtransfer.ReturnOutboundTransfer(
-		"obt_123",
-		params,
-	)
+		"obt_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -3831,9 +3785,7 @@ func TestTreasuryDebitReversalsPost(t *testing.T) {
 func TestTreasuryFinancialAccountsFeaturesGet(t *testing.T) {
 	params := &stripe.TreasuryFinancialAccountRetrieveFeaturesParams{}
 	result, err := treasury_financialaccount.RetrieveFeatures(
-		"fa_xxxxxxxxxxxxx",
-		params,
-	)
+		"fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }

@@ -31,12 +31,7 @@ func New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error
 func (c Client) New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	location := &stripe.TerminalLocation{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/terminal/locations",
-		c.Key,
-		params,
-		location,
-	)
+		http.MethodPost, "/v1/terminal/locations", c.Key, params, location)
 	return location, err
 }
 

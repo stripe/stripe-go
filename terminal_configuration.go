@@ -139,7 +139,7 @@ type TerminalConfigurationTippingHKDParams struct {
 }
 
 // Tipping configuration for JPY
-type TerminalConfigurationTippingJpyParams struct {
+type TerminalConfigurationTippingJPYParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -237,7 +237,7 @@ type TerminalConfigurationTippingParams struct {
 	// Tipping configuration for HKD
 	HKD *TerminalConfigurationTippingHKDParams `form:"hkd"`
 	// Tipping configuration for JPY
-	Jpy *TerminalConfigurationTippingJpyParams `form:"jpy"`
+	JPY *TerminalConfigurationTippingJPYParams `form:"jpy"`
 	// Tipping configuration for MYR
 	MYR *TerminalConfigurationTippingMYRParams `form:"myr"`
 	// Tipping configuration for NOK
@@ -356,7 +356,7 @@ type TerminalConfigurationTippingHKD struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingJpy struct {
+type TerminalConfigurationTippingJPY struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -429,7 +429,7 @@ type TerminalConfigurationTipping struct {
 	EUR *TerminalConfigurationTippingEUR `json:"eur"`
 	GBP *TerminalConfigurationTippingGBP `json:"gbp"`
 	HKD *TerminalConfigurationTippingHKD `json:"hkd"`
-	Jpy *TerminalConfigurationTippingJpy `json:"jpy"`
+	JPY *TerminalConfigurationTippingJPY `json:"jpy"`
 	MYR *TerminalConfigurationTippingMYR `json:"myr"`
 	NOK *TerminalConfigurationTippingNOK `json:"nok"`
 	NZD *TerminalConfigurationTippingNZD `json:"nzd"`

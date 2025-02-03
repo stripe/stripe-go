@@ -28,12 +28,7 @@ func New(params *stripe.TestHelpersTreasuryReceivedDebitParams) (*stripe.Treasur
 func (c Client) New(params *stripe.TestHelpersTreasuryReceivedDebitParams) (*stripe.TreasuryReceivedDebit, error) {
 	receiveddebit := &stripe.TreasuryReceivedDebit{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/treasury/received_debits",
-		c.Key,
-		params,
-		receiveddebit,
-	)
+		http.MethodPost, "/v1/test_helpers/treasury/received_debits", c.Key, params, receiveddebit)
 	return receiveddebit, err
 }
 

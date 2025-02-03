@@ -199,9 +199,8 @@ func (p *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
 		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
 	} else {
 		body.Add(
-			form.FormatKey(append(keyParts, "up_to")),
-			strconv.FormatInt(Int64Value(p.UpTo), 10),
-		)
+			form.FormatKey(append(keyParts, "up_to")), strconv.FormatInt(
+				Int64Value(p.UpTo), 10))
 	}
 }
 

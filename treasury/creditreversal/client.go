@@ -29,12 +29,7 @@ func New(params *stripe.TreasuryCreditReversalParams) (*stripe.TreasuryCreditRev
 func (c Client) New(params *stripe.TreasuryCreditReversalParams) (*stripe.TreasuryCreditReversal, error) {
 	creditreversal := &stripe.TreasuryCreditReversal{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/treasury/credit_reversals",
-		c.Key,
-		params,
-		creditreversal,
-	)
+		http.MethodPost, "/v1/treasury/credit_reversals", c.Key, params, creditreversal)
 	return creditreversal, err
 }
 

@@ -29,12 +29,7 @@ func New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfigurat
 func (c Client) New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	configuration := &stripe.TerminalConfiguration{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/terminal/configurations",
-		c.Key,
-		params,
-		configuration,
-	)
+		http.MethodPost, "/v1/terminal/configurations", c.Key, params, configuration)
 	return configuration, err
 }
 
