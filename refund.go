@@ -111,14 +111,6 @@ type RefundParams struct {
 	ReverseTransfer *bool `form:"reverse_transfer"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *RefundParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *RefundParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -140,14 +132,6 @@ type RefundCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *RefundCancelParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

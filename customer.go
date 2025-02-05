@@ -93,14 +93,6 @@ type CustomerParams struct {
 	Validate  *bool   `form:"validate"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *CustomerParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *CustomerParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -180,14 +172,6 @@ type CustomerDeleteDiscountParams struct {
 	Params `form:"*"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *CustomerDeleteDiscountParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
 type CustomerListParams struct {
 	ListParams `form:"*"`
@@ -239,14 +223,6 @@ type CustomerRetrievePaymentMethodParams struct {
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *CustomerRetrievePaymentMethodParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -302,14 +278,6 @@ type CustomerCreateFundingInstructionsParams struct {
 	Expand []*string `form:"expand"`
 	// The `funding_type` to get the instructions for.
 	FundingType *string `form:"funding_type"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *CustomerCreateFundingInstructionsParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

@@ -338,14 +338,6 @@ type QuoteParams struct {
 	TransferData *QuoteTransferDataParams `form:"transfer_data"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *QuoteParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *QuoteParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -393,14 +385,6 @@ type QuoteAcceptParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *QuoteAcceptParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *QuoteAcceptParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -411,14 +395,6 @@ type QuoteCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *QuoteCancelParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -435,14 +411,6 @@ type QuoteFinalizeQuoteParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *QuoteFinalizeQuoteParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *QuoteFinalizeQuoteParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -453,14 +421,6 @@ type QuotePDFParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *QuotePDFParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

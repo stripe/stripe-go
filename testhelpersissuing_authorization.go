@@ -177,14 +177,6 @@ type TestHelpersIssuingAuthorizationParams struct {
 	Wallet *string `form:"wallet"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingAuthorizationParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingAuthorizationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -335,14 +327,6 @@ type TestHelpersIssuingAuthorizationCaptureParams struct {
 	PurchaseDetails *TestHelpersIssuingAuthorizationCapturePurchaseDetailsParams `form:"purchase_details"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingAuthorizationCaptureParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingAuthorizationCaptureParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -353,14 +337,6 @@ type TestHelpersIssuingAuthorizationExpireParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingAuthorizationExpireParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -451,14 +427,6 @@ type TestHelpersIssuingAuthorizationFinalizeAmountParams struct {
 	Fuel *TestHelpersIssuingAuthorizationFinalizeAmountFuelParams `form:"fuel"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingAuthorizationFinalizeAmountParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingAuthorizationFinalizeAmountParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -471,14 +439,6 @@ type TestHelpersIssuingAuthorizationRespondParams struct {
 	Confirmed *bool `form:"confirmed"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingAuthorizationRespondParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -497,14 +457,6 @@ type TestHelpersIssuingAuthorizationIncrementParams struct {
 	IsAmountControllable *bool `form:"is_amount_controllable"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingAuthorizationIncrementParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingAuthorizationIncrementParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -517,14 +469,6 @@ type TestHelpersIssuingAuthorizationReverseParams struct {
 	Expand []*string `form:"expand"`
 	// The amount to reverse from the authorization. If not provided, the full amount of the authorization will be reversed. This amount is in the authorization currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	ReverseAmount *int64 `form:"reverse_amount"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingAuthorizationReverseParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

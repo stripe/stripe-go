@@ -60,14 +60,6 @@ type AppsSecretParams struct {
 	Scope *AppsSecretScopeParams `form:"scope"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *AppsSecretParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *AppsSecretParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -92,14 +84,6 @@ type AppsSecretFindParams struct {
 	Scope *AppsSecretFindScopeParams `form:"scope"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *AppsSecretFindParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *AppsSecretFindParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -122,14 +106,6 @@ type AppsSecretDeleteWhereParams struct {
 	Name *string `form:"name"`
 	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
 	Scope *AppsSecretDeleteWhereScopeParams `form:"scope"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *AppsSecretDeleteWhereParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

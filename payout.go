@@ -139,14 +139,6 @@ type PayoutParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PayoutParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *PayoutParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -170,14 +162,6 @@ type PayoutReverseParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PayoutReverseParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

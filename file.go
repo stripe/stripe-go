@@ -96,14 +96,6 @@ type FileParams struct {
 	Purpose *string `form:"purpose"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *FileParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *FileParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

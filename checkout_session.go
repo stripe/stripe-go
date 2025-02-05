@@ -2482,14 +2482,6 @@ type CheckoutSessionParams struct {
 	UIMode *string `form:"ui_mode"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *CheckoutSessionParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *CheckoutSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2524,14 +2516,6 @@ type CheckoutSessionExpireParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *CheckoutSessionExpireParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

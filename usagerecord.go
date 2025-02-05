@@ -35,14 +35,6 @@ type UsageRecordParams struct {
 	TimestampNow *bool  `form:"-"` // See custom AppendTo
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *UsageRecordParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *UsageRecordParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

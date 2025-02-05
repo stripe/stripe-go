@@ -17,14 +17,6 @@ type RadarValueListItemParams struct {
 	ValueList *string `form:"value_list"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *RadarValueListItemParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *RadarValueListItemParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

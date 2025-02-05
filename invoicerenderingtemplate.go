@@ -36,14 +36,6 @@ type InvoiceRenderingTemplateParams struct {
 	Version *int64    `form:"version"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *InvoiceRenderingTemplateParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *InvoiceRenderingTemplateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -56,14 +48,6 @@ type InvoiceRenderingTemplateArchiveParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *InvoiceRenderingTemplateArchiveParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *InvoiceRenderingTemplateArchiveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -74,14 +58,6 @@ type InvoiceRenderingTemplateUnarchiveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *InvoiceRenderingTemplateUnarchiveParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

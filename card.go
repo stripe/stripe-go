@@ -253,14 +253,6 @@ func (p *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 	}
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *CardParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *CardParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

@@ -96,14 +96,6 @@ type BillingMeterParams struct {
 	ValueSettings *BillingMeterValueSettingsParams `form:"value_settings"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *BillingMeterParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *BillingMeterParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -116,14 +108,6 @@ type BillingMeterDeactivateParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *BillingMeterDeactivateParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *BillingMeterDeactivateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -134,14 +118,6 @@ type BillingMeterReactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *BillingMeterReactivateParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

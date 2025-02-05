@@ -278,14 +278,6 @@ type AccountParams struct {
 	Type *string `form:"type"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *AccountParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *AccountParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -1215,14 +1207,6 @@ type AccountRejectParams struct {
 	Expand []*string `form:"expand"`
 	// The reason for rejecting the account. Can be `fraud`, `terms_of_service`, or `other`.
 	Reason *string `form:"reason"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *AccountRejectParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

@@ -13,14 +13,6 @@ type TestHelpersIssuingPersonalizationDesignActivateParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingPersonalizationDesignActivateParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingPersonalizationDesignActivateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -31,14 +23,6 @@ type TestHelpersIssuingPersonalizationDesignDeactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingPersonalizationDesignDeactivateParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -61,14 +45,6 @@ type TestHelpersIssuingPersonalizationDesignRejectParams struct {
 	Expand []*string `form:"expand"`
 	// The reason(s) the personalization design was rejected.
 	RejectionReasons *TestHelpersIssuingPersonalizationDesignRejectRejectionReasonsParams `form:"rejection_reasons"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingPersonalizationDesignRejectParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

@@ -25,14 +25,6 @@ type CashBalanceParams struct {
 	Customer *string                    `form:"-"` // Included in URL
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *CashBalanceParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *CashBalanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

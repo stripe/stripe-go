@@ -257,14 +257,6 @@ type TreasuryFinancialAccountParams struct {
 	SupportedCurrencies []*string `form:"supported_currencies"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TreasuryFinancialAccountParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TreasuryFinancialAccountParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -294,14 +286,6 @@ type TreasuryFinancialAccountRetrieveFeaturesParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TreasuryFinancialAccountRetrieveFeaturesParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -412,14 +396,6 @@ type TreasuryFinancialAccountUpdateFeaturesParams struct {
 	OutboundTransfers *TreasuryFinancialAccountUpdateFeaturesOutboundTransfersParams `form:"outbound_transfers"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TreasuryFinancialAccountUpdateFeaturesParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TreasuryFinancialAccountUpdateFeaturesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -442,14 +418,6 @@ type TreasuryFinancialAccountCloseParams struct {
 	Expand []*string `form:"expand"`
 	// A different bank account where funds can be deposited/debited in order to get the closing FA's balance to $0
 	ForwardingSettings *TreasuryFinancialAccountCloseForwardingSettingsParams `form:"forwarding_settings"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TreasuryFinancialAccountCloseParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
