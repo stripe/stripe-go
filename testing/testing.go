@@ -30,6 +30,9 @@ const (
 	// TestMerchantID is a token that can be used to represent a merchant ID in
 	// simple tests.
 	TestMerchantID = "acct_123"
+
+	// TestApiKey is a test API token that can be used in tests against stripe-mock.
+	TestApiKey = "sk_test_myTestKey"
 )
 
 func init() {
@@ -82,7 +85,7 @@ func init() {
 		os.Exit(1)
 	}
 
-	stripe.Key = "sk_test_myTestKey"
+	stripe.Key = TestApiKey
 
 	// Configure a backend for stripe-mock and set it for both the API and
 	// Uploads (unlike the real Stripe API, stripe-mock supports both these

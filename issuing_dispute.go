@@ -284,6 +284,14 @@ type IssuingDisputeParams struct {
 	Treasury *IssuingDisputeTreasuryParams `form:"treasury"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *IssuingDisputeParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *IssuingDisputeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -305,6 +313,14 @@ type IssuingDisputeSubmitParams struct {
 	Expand []*string `form:"expand"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *IssuingDisputeSubmitParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

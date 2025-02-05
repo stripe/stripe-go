@@ -118,6 +118,14 @@ type SourceDetachParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *SourceDetachParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *SourceDetachParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -159,6 +167,14 @@ type SourceParams struct {
 	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://stripe.com/docs/sources/connect#cloning-card-sources) guide)
 	Type  *string `form:"type"`
 	Usage *string `form:"usage"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *SourceParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

@@ -29,6 +29,14 @@ type TestHelpersTestClockParams struct {
 	Name *string `form:"name"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTestClockParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *TestHelpersTestClockParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -53,6 +61,14 @@ type TestHelpersTestClockAdvanceParams struct {
 	Expand []*string `form:"expand"`
 	// The time to advance the test clock. Must be after the test clock's current frozen time. Cannot be more than two intervals in the future from the shortest subscription in this test clock. If there are no subscriptions in this test clock, it cannot be more than two years in the future.
 	FrozenTime *int64 `form:"frozen_time"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTestClockAdvanceParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

@@ -153,6 +153,14 @@ type DisputeParams struct {
 	Submit *bool `form:"submit"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *DisputeParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *DisputeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

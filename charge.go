@@ -500,6 +500,14 @@ func (p *ChargeParams) SetSource(sp interface{}) error {
 	return err
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *ChargeParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *ChargeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -571,6 +579,14 @@ type ChargeCaptureParams struct {
 	TransferData *ChargeCaptureTransferDataParams `form:"transfer_data"`
 	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *ChargeCaptureParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

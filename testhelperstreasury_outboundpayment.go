@@ -41,6 +41,14 @@ type TestHelpersTreasuryOutboundPaymentParams struct {
 	TrackingDetails *TestHelpersTreasuryOutboundPaymentTrackingDetailsParams `form:"tracking_details"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTreasuryOutboundPaymentParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *TestHelpersTreasuryOutboundPaymentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -53,6 +61,14 @@ type TestHelpersTreasuryOutboundPaymentFailParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTreasuryOutboundPaymentFailParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *TestHelpersTreasuryOutboundPaymentFailParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -63,6 +79,14 @@ type TestHelpersTreasuryOutboundPaymentPostParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTreasuryOutboundPaymentPostParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -83,6 +107,14 @@ type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams struct {
 	Expand []*string `form:"expand"`
 	// Optional hash to set the return code.
 	ReturnedDetails *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentReturnedDetailsParams `form:"returned_details"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

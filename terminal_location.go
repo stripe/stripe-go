@@ -23,6 +23,14 @@ type TerminalLocationParams struct {
 	Metadata map[string]string `form:"metadata"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TerminalLocationParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *TerminalLocationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

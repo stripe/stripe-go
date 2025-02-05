@@ -15,6 +15,14 @@ type TestHelpersIssuingTransactionRefundParams struct {
 	RefundAmount *int64 `form:"refund_amount"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersIssuingTransactionRefundParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingTransactionRefundParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -191,6 +199,14 @@ type TestHelpersIssuingTransactionCreateForceCaptureParams struct {
 	PurchaseDetails *TestHelpersIssuingTransactionCreateForceCapturePurchaseDetailsParams `form:"purchase_details"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersIssuingTransactionCreateForceCaptureParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingTransactionCreateForceCaptureParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -365,6 +381,14 @@ type TestHelpersIssuingTransactionCreateUnlinkedRefundParams struct {
 	MerchantData *TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams `form:"merchant_data"`
 	// Additional purchase information that is optionally provided by the merchant.
 	PurchaseDetails *TestHelpersIssuingTransactionCreateUnlinkedRefundPurchaseDetailsParams `form:"purchase_details"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersIssuingTransactionCreateUnlinkedRefundParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
