@@ -43,6 +43,14 @@ type TestHelpersTreasuryReceivedDebitParams struct {
 	Network *string `form:"network"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTreasuryReceivedDebitParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *TestHelpersTreasuryReceivedDebitParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

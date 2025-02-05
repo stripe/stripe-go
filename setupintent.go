@@ -923,6 +923,14 @@ type SetupIntentParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *SetupIntentParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *SetupIntentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -946,6 +954,14 @@ type SetupIntentCancelParams struct {
 	CancellationReason *string `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *SetupIntentCancelParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -1320,6 +1336,14 @@ type SetupIntentConfirmParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *SetupIntentConfirmParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *SetupIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -1334,6 +1358,14 @@ type SetupIntentVerifyMicrodepositsParams struct {
 	DescriptorCode *string `form:"descriptor_code"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *SetupIntentVerifyMicrodepositsParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

@@ -25,6 +25,14 @@ type BalanceParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *BalanceParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *BalanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

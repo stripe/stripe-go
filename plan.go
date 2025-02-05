@@ -115,6 +115,14 @@ type PlanParams struct {
 	UsageType *string `form:"usage_type"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *PlanParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *PlanParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

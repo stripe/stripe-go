@@ -344,6 +344,14 @@ type InvoiceParams struct {
 	TransferData *InvoiceTransferDataParams `form:"transfer_data"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -1238,6 +1246,14 @@ type InvoiceUpcomingParams struct {
 	SubscriptionTrialFromPlan *bool `form:"subscription_trial_from_plan"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceUpcomingParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceUpcomingParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2068,6 +2084,14 @@ type InvoiceAddLinesParams struct {
 	Lines []*InvoiceAddLinesLineParams `form:"lines"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceAddLinesParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceAddLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2082,6 +2106,14 @@ type InvoiceFinalizeInvoiceParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceFinalizeInvoiceParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceFinalizeInvoiceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2092,6 +2124,14 @@ type InvoiceMarkUncollectibleParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceMarkUncollectibleParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -2120,6 +2160,14 @@ type InvoicePayParams struct {
 	Source *string `form:"source"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoicePayParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoicePayParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2144,6 +2192,14 @@ type InvoiceRemoveLinesParams struct {
 	Lines []*InvoiceRemoveLinesLineParams `form:"lines"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceRemoveLinesParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceRemoveLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2156,6 +2212,14 @@ type InvoiceSendInvoiceParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceSendInvoiceParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -2302,6 +2366,14 @@ type InvoiceUpdateLinesParams struct {
 	Lines []*InvoiceUpdateLinesLineParams `form:"lines"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceUpdateLinesParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceUpdateLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2314,6 +2386,14 @@ type InvoiceVoidInvoiceParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceVoidInvoiceParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -2878,6 +2958,14 @@ type InvoiceCreatePreviewParams struct {
 	Subscription *string `form:"subscription"`
 	// The subscription creation or modification params to apply as a preview. Cannot be used with `schedule` or `schedule_details` fields.
 	SubscriptionDetails *InvoiceCreatePreviewSubscriptionDetailsParams `form:"subscription_details"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceCreatePreviewParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

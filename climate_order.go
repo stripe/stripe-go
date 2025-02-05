@@ -67,6 +67,14 @@ type ClimateOrderParams struct {
 	Product *string `form:"product"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *ClimateOrderParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *ClimateOrderParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -89,6 +97,14 @@ type ClimateOrderCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *ClimateOrderCancelParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

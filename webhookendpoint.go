@@ -29,6 +29,14 @@ type WebhookEndpointParams struct {
 	APIVersion *string `form:"api_version"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *WebhookEndpointParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *WebhookEndpointParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

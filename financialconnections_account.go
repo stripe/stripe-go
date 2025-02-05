@@ -160,6 +160,14 @@ type FinancialConnectionsAccountParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *FinancialConnectionsAccountParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *FinancialConnectionsAccountParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -187,6 +195,14 @@ type FinancialConnectionsAccountDisconnectParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *FinancialConnectionsAccountDisconnectParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *FinancialConnectionsAccountDisconnectParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -199,6 +215,14 @@ type FinancialConnectionsAccountRefreshParams struct {
 	Expand []*string `form:"expand"`
 	// The list of account features that you would like to refresh.
 	Features []*string `form:"features"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *FinancialConnectionsAccountRefreshParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -215,6 +239,14 @@ type FinancialConnectionsAccountSubscribeParams struct {
 	Features []*string `form:"features"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *FinancialConnectionsAccountSubscribeParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *FinancialConnectionsAccountSubscribeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -227,6 +259,14 @@ type FinancialConnectionsAccountUnsubscribeParams struct {
 	Expand []*string `form:"expand"`
 	// The list of account features from which you would like to unsubscribe.
 	Features []*string `form:"features"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *FinancialConnectionsAccountUnsubscribeParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

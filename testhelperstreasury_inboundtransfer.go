@@ -21,6 +21,14 @@ type TestHelpersTreasuryInboundTransferFailParams struct {
 	FailureDetails *TestHelpersTreasuryInboundTransferFailFailureDetailsParams `form:"failure_details"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTreasuryInboundTransferFailParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *TestHelpersTreasuryInboundTransferFailParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -33,6 +41,14 @@ type TestHelpersTreasuryInboundTransferReturnInboundTransferParams struct {
 	Expand []*string `form:"expand"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTreasuryInboundTransferReturnInboundTransferParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *TestHelpersTreasuryInboundTransferReturnInboundTransferParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -43,6 +59,14 @@ type TestHelpersTreasuryInboundTransferSucceedParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *TestHelpersTreasuryInboundTransferSucceedParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

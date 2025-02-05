@@ -361,6 +361,14 @@ type SubscriptionScheduleParams struct {
 	StartDateNow *bool  `form:"-"` // See custom AppendTo
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *SubscriptionScheduleParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *SubscriptionScheduleParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -393,6 +401,14 @@ type SubscriptionScheduleCancelParams struct {
 	Prorate *bool `form:"prorate"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *SubscriptionScheduleCancelParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *SubscriptionScheduleCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -405,6 +421,14 @@ type SubscriptionScheduleReleaseParams struct {
 	Expand []*string `form:"expand"`
 	// Keep any cancellation on the subscription that the schedule has set
 	PreserveCancelDate *bool `form:"preserve_cancel_date"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *SubscriptionScheduleReleaseParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

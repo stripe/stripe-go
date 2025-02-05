@@ -158,6 +158,14 @@ type IdentityVerificationSessionParams struct {
 	VerificationFlow *string `form:"verification_flow"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *IdentityVerificationSessionParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *IdentityVerificationSessionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -179,6 +187,14 @@ type IdentityVerificationSessionCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *IdentityVerificationSessionCancelParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -209,6 +225,14 @@ type IdentityVerificationSessionRedactParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *IdentityVerificationSessionRedactParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

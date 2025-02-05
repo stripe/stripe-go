@@ -192,6 +192,14 @@ type CreditNoteParams struct {
 	ShippingCost *CreditNoteShippingCostParams `form:"shipping_cost"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *CreditNoteParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *CreditNoteParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -275,6 +283,14 @@ type CreditNotePreviewParams struct {
 	RefundAmount *int64 `form:"refund_amount"`
 	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
 	ShippingCost *CreditNotePreviewShippingCostParams `form:"shipping_cost"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *CreditNotePreviewParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -381,6 +397,14 @@ type CreditNoteVoidCreditNoteParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+}
+
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *CreditNoteVoidCreditNoteParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

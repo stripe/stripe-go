@@ -51,6 +51,14 @@ type InvoiceItemParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *InvoiceItemParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *InvoiceItemParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

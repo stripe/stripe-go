@@ -62,6 +62,14 @@ type ProductParams struct {
 	URL *string `form:"url"`
 }
 
+// GetParams is a nil-safe implementation of the ParamsContainer interface.
+func (p *ProductParams) GetParams() *Params {
+	if p == nil {
+		return nil
+	}
+	return &p.Params
+}
+
 // AddExpand appends a new field to expand.
 func (p *ProductParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
