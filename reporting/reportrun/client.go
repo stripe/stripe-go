@@ -29,12 +29,7 @@ func New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, e
 func (c Client) New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, error) {
 	reportrun := &stripe.ReportingReportRun{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/reporting/report_runs",
-		c.Key,
-		params,
-		reportrun,
-	)
+		http.MethodPost, "/v1/reporting/report_runs", c.Key, params, reportrun)
 	return reportrun, err
 }
 

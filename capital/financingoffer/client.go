@@ -43,9 +43,7 @@ func MarkDelivered(id string, params *stripe.CapitalFinancingOfferMarkDeliveredP
 // the intended merchant recipient.
 func (c Client) MarkDelivered(id string, params *stripe.CapitalFinancingOfferMarkDeliveredParams) (*stripe.CapitalFinancingOffer, error) {
 	path := stripe.FormatURLPath(
-		"/v1/capital/financing_offers/%s/mark_delivered",
-		id,
-	)
+		"/v1/capital/financing_offers/%s/mark_delivered", id)
 	financingoffer := &stripe.CapitalFinancingOffer{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, financingoffer)
 	return financingoffer, err

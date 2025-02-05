@@ -29,12 +29,7 @@ func New(params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) 
 func (c Client) New(params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) {
 	registration := &stripe.TaxRegistration{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/registrations",
-		c.Key,
-		params,
-		registration,
-	)
+		http.MethodPost, "/v1/tax/registrations", c.Key, params, registration)
 	return registration, err
 }
 

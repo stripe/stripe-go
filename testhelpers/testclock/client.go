@@ -29,12 +29,7 @@ func New(params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestCloc
 func (c Client) New(params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestClock, error) {
 	testclock := &stripe.TestHelpersTestClock{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/test_clocks",
-		c.Key,
-		params,
-		testclock,
-	)
+		http.MethodPost, "/v1/test_helpers/test_clocks", c.Key, params, testclock)
 	return testclock, err
 }
 

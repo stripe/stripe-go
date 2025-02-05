@@ -27,17 +27,10 @@ func FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanc
 // Create an incoming testmode bank transfer
 func (c Client) FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanceParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/customers/%s/fund_cash_balance",
-		id,
-	)
+		"/v1/test_helpers/customers/%s/fund_cash_balance", id)
 	customercashbalancetransaction := &stripe.CustomerCashBalanceTransaction{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		customercashbalancetransaction,
-	)
+		http.MethodPost, path, c.Key, params, customercashbalancetransaction)
 	return customercashbalancetransaction, err
 }
 

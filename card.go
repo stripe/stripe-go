@@ -177,9 +177,9 @@ func (p *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 
 	if p.DefaultForCurrency != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, "default_for_currency")),
-			strconv.FormatBool(BoolValue(p.DefaultForCurrency)),
-		)
+			form.FormatKey(
+				append(keyParts, "default_for_currency")), strconv.FormatBool(
+				BoolValue(p.DefaultForCurrency)))
 	}
 
 	if p.Token != nil {
@@ -196,69 +196,60 @@ func (p *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 	}
 	if p.CVC != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "cvc")),
-			StringValue(p.CVC),
-		)
+			form.FormatKey(append(keyParts, cardSource, "cvc")), StringValue(p.CVC))
 	}
 	if p.Currency != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "currency")),
-			StringValue(p.Currency),
-		)
+			form.FormatKey(append(keyParts, cardSource, "currency")), StringValue(
+				p.Currency))
 	}
 	if p.ExpMonth != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "exp_month")),
-			StringValue(p.ExpMonth),
-		)
+			form.FormatKey(append(keyParts, cardSource, "exp_month")), StringValue(
+				p.ExpMonth))
 	}
 	if p.ExpYear != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "exp_year")),
-			StringValue(p.ExpYear),
-		)
+			form.FormatKey(append(keyParts, cardSource, "exp_year")), StringValue(
+				p.ExpYear))
 	}
 	if p.Name != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "name")),
-			StringValue(p.Name),
-		)
+			form.FormatKey(append(keyParts, cardSource, "name")), StringValue(p.Name))
 	}
 	if p.AddressCity != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_city")),
-			StringValue(p.AddressCity),
-		)
+			form.FormatKey(append(keyParts, cardSource, "address_city")), StringValue(
+				p.AddressCity))
 	}
 	if p.AddressCountry != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_country")),
-			StringValue(p.AddressCountry),
-		)
+			form.FormatKey(
+				append(keyParts, cardSource, "address_country")), StringValue(
+				p.AddressCountry))
 	}
 	if p.AddressLine1 != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_line1")),
-			StringValue(p.AddressLine1),
-		)
+			form.FormatKey(
+				append(keyParts, cardSource, "address_line1")), StringValue(
+				p.AddressLine1))
 	}
 	if p.AddressLine2 != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_line2")),
-			StringValue(p.AddressLine2),
-		)
+			form.FormatKey(
+				append(keyParts, cardSource, "address_line2")), StringValue(
+				p.AddressLine2))
 	}
 	if p.AddressState != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_state")),
-			StringValue(p.AddressState),
-		)
+			form.FormatKey(
+				append(keyParts, cardSource, "address_state")), StringValue(
+				p.AddressState))
 	}
 	if p.AddressZip != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_zip")),
-			StringValue(p.AddressZip),
-		)
+			form.FormatKey(append(keyParts, cardSource, "address_zip")), StringValue(
+				p.AddressZip))
 	}
 }
 

@@ -33,12 +33,7 @@ func New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 func (c Client) New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 	paymentmethod := &stripe.PaymentMethod{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_methods",
-		c.Key,
-		params,
-		paymentmethod,
-	)
+		http.MethodPost, "/v1/payment_methods", c.Key, params, paymentmethod)
 	return paymentmethod, err
 }
 

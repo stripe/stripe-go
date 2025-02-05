@@ -29,12 +29,7 @@ func New(params *stripe.TreasuryInboundTransferParams) (*stripe.TreasuryInboundT
 func (c Client) New(params *stripe.TreasuryInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/treasury/inbound_transfers",
-		c.Key,
-		params,
-		inboundtransfer,
-	)
+		http.MethodPost, "/v1/treasury/inbound_transfers", c.Key, params, inboundtransfer)
 	return inboundtransfer, err
 }
 

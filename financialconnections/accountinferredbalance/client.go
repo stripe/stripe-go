@@ -28,9 +28,8 @@ func List(params *stripe.FinancialConnectionsAccountInferredBalanceListParams) *
 // Lists the recorded inferred balances for a Financial Connections Account.
 func (c Client) List(listParams *stripe.FinancialConnectionsAccountInferredBalanceListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/financial_connections/accounts/%s/inferred_balances",
-		stripe.StringValue(listParams.Account),
-	)
+		"/v1/financial_connections/accounts/%s/inferred_balances", stripe.StringValue(
+			listParams.Account))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FinancialConnectionsAccountInferredBalanceList{}

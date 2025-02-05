@@ -29,12 +29,7 @@ func New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethod
 func (c Client) New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_method_configurations",
-		c.Key,
-		params,
-		paymentmethodconfiguration,
-	)
+		http.MethodPost, "/v1/payment_method_configurations", c.Key, params, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
 }
 
@@ -48,12 +43,7 @@ func (c Client) Get(id string, params *stripe.PaymentMethodConfigurationParams) 
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	err := c.B.Call(
-		http.MethodGet,
-		path,
-		c.Key,
-		params,
-		paymentmethodconfiguration,
-	)
+		http.MethodGet, path, c.Key, params, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
 }
 
@@ -67,12 +57,7 @@ func (c Client) Update(id string, params *stripe.PaymentMethodConfigurationParam
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		paymentmethodconfiguration,
-	)
+		http.MethodPost, path, c.Key, params, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
 }
 

@@ -29,12 +29,7 @@ func New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	calculation := &stripe.TaxCalculation{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/calculations",
-		c.Key,
-		params,
-		calculation,
-	)
+		http.MethodPost, "/v1/tax/calculations", c.Key, params, calculation)
 	return calculation, err
 }
 
@@ -59,9 +54,8 @@ func ListLineItems(params *stripe.TaxCalculationListLineItemsParams) *LineItemIt
 // Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 func (c Client) ListLineItems(listParams *stripe.TaxCalculationListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/tax/calculations/%s/line_items",
-		stripe.StringValue(listParams.Calculation),
-	)
+		"/v1/tax/calculations/%s/line_items", stripe.StringValue(
+			listParams.Calculation))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxCalculationLineItemList{}

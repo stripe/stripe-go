@@ -28,10 +28,7 @@ func Get(id string, params *stripe.InvoicePaymentParams) (*stripe.InvoicePayment
 // Retrieves the invoice payment with the given ID.
 func (c Client) Get(id string, params *stripe.InvoicePaymentParams) (*stripe.InvoicePayment, error) {
 	path := stripe.FormatURLPath(
-		"/v1/invoices/%s/payments/%s",
-		stripe.StringValue(params.Invoice),
-		id,
-	)
+		"/v1/invoices/%s/payments/%s", stripe.StringValue(params.Invoice), id)
 	invoicepayment := &stripe.InvoicePayment{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, invoicepayment)
 	return invoicepayment, err
@@ -45,9 +42,7 @@ func List(params *stripe.InvoicePaymentListParams) *Iter {
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
 func (c Client) List(listParams *stripe.InvoicePaymentListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/invoices/%s/payments",
-		stripe.StringValue(listParams.Invoice),
-	)
+		"/v1/invoices/%s/payments", stripe.StringValue(listParams.Invoice))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoicePaymentList{}

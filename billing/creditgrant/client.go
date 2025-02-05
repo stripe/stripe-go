@@ -29,12 +29,7 @@ func New(params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, e
 func (c Client) New(params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	creditgrant := &stripe.BillingCreditGrant{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/billing/credit_grants",
-		c.Key,
-		params,
-		creditgrant,
-	)
+		http.MethodPost, "/v1/billing/credit_grants", c.Key, params, creditgrant)
 	return creditgrant, err
 }
 

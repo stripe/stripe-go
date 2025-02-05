@@ -29,12 +29,7 @@ func New(params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature,
 func (c Client) New(params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	feature := &stripe.EntitlementsFeature{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/entitlements/features",
-		c.Key,
-		params,
-		feature,
-	)
+		http.MethodPost, "/v1/entitlements/features", c.Key, params, feature)
 	return feature, err
 }
 

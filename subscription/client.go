@@ -41,12 +41,7 @@ func New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 func (c Client) New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	subscription := &stripe.Subscription{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/subscriptions",
-		c.Key,
-		params,
-		subscription,
-	)
+		http.MethodPost, "/v1/subscriptions", c.Key, params, subscription)
 	return subscription, err
 }
 

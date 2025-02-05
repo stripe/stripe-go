@@ -2885,7 +2885,7 @@ type PaymentIntentPaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// Provide filters for the linked accounts that the customer can select for the payment method
+// Provide filters for the linked accounts that the customer can select for the payment method.
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []*string `form:"account_subcategories"`
@@ -2901,7 +2901,7 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEnt
 
 // Additional fields for Financial Connections Session creation
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
-	// Provide filters for the linked accounts that the customer can select for the payment method
+	// Provide filters for the linked accounts that the customer can select for the payment method.
 	Filters *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters"`
 	// Customize manual entry behavior
 	ManualEntry *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsManualEntryParams `form:"manual_entry"`

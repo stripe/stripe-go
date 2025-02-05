@@ -28,9 +28,7 @@ func New(params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 // Creates a product_feature, which represents a feature attachment to a product
 func (c Client) New(params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	path := stripe.FormatURLPath(
-		"/v1/products/%s/features",
-		stripe.StringValue(params.Product),
-	)
+		"/v1/products/%s/features", stripe.StringValue(params.Product))
 	productfeature := &stripe.ProductFeature{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, productfeature)
 	return productfeature, err
@@ -44,10 +42,7 @@ func Get(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature
 // Retrieves a product_feature, which represents a feature attachment to a product
 func (c Client) Get(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	path := stripe.FormatURLPath(
-		"/v1/products/%s/features/%s",
-		stripe.StringValue(params.Product),
-		id,
-	)
+		"/v1/products/%s/features/%s", stripe.StringValue(params.Product), id)
 	productfeature := &stripe.ProductFeature{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, productfeature)
 	return productfeature, err
@@ -61,10 +56,7 @@ func Del(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature
 // Deletes the feature attachment to a product
 func (c Client) Del(id string, params *stripe.ProductFeatureParams) (*stripe.ProductFeature, error) {
 	path := stripe.FormatURLPath(
-		"/v1/products/%s/features/%s",
-		stripe.StringValue(params.Product),
-		id,
-	)
+		"/v1/products/%s/features/%s", stripe.StringValue(params.Product), id)
 	productfeature := &stripe.ProductFeature{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, productfeature)
 	return productfeature, err
@@ -78,9 +70,7 @@ func List(params *stripe.ProductFeatureListParams) *Iter {
 // Retrieve a list of features for a product
 func (c Client) List(listParams *stripe.ProductFeatureListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/products/%s/features",
-		stripe.StringValue(listParams.Product),
-	)
+		"/v1/products/%s/features", stripe.StringValue(listParams.Product))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ProductFeatureList{}

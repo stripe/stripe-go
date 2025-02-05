@@ -29,12 +29,7 @@ func New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 func (c Client) New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	promotioncode := &stripe.PromotionCode{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/promotion_codes",
-		c.Key,
-		params,
-		promotioncode,
-	)
+		http.MethodPost, "/v1/promotion_codes", c.Key, params, promotioncode)
 	return promotioncode, err
 }
 

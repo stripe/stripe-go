@@ -28,12 +28,7 @@ func Get(params *stripe.CapitalFinancingSummaryParams) (*stripe.CapitalFinancing
 func (c Client) Get(params *stripe.CapitalFinancingSummaryParams) (*stripe.CapitalFinancingSummary, error) {
 	financingsummary := &stripe.CapitalFinancingSummary{}
 	err := c.B.Call(
-		http.MethodGet,
-		"/v1/capital/financing_summary",
-		c.Key,
-		params,
-		financingsummary,
-	)
+		http.MethodGet, "/v1/capital/financing_summary", c.Key, params, financingsummary)
 	return financingsummary, err
 }
 

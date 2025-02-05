@@ -30,12 +30,7 @@ func New(params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, e
 func (c Client) New(params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
 	valuelistitem := &stripe.RadarValueListItem{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/radar/value_list_items",
-		c.Key,
-		params,
-		valuelistitem,
-	)
+		http.MethodPost, "/v1/radar/value_list_items", c.Key, params, valuelistitem)
 	return valuelistitem, err
 }
 

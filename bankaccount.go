@@ -333,9 +333,8 @@ func (p *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 
 		if p.DefaultForCurrency != nil {
 			body.Add(
-				"default_for_currency",
-				strconv.FormatBool(BoolValue(p.DefaultForCurrency)),
-			)
+				"default_for_currency", strconv.FormatBool(
+					BoolValue(p.DefaultForCurrency)))
 		}
 	} else {
 		body.Add(sourceType+"[object]", "bank_account")

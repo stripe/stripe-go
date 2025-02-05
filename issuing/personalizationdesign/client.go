@@ -29,12 +29,7 @@ func New(params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPers
 func (c Client) New(params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/personalization_designs",
-		c.Key,
-		params,
-		personalizationdesign,
-	)
+		http.MethodPost, "/v1/issuing/personalization_designs", c.Key, params, personalizationdesign)
 	return personalizationdesign, err
 }
 

@@ -67,12 +67,7 @@ func Validate(params *stripe.GiftCardsCardValidateParams) (*stripe.GiftCardsCard
 func (c Client) Validate(params *stripe.GiftCardsCardValidateParams) (*stripe.GiftCardsCard, error) {
 	card := &stripe.GiftCardsCard{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/gift_cards/cards/validate",
-		c.Key,
-		params,
-		card,
-	)
+		http.MethodPost, "/v1/gift_cards/cards/validate", c.Key, params, card)
 	return card, err
 }
 

@@ -30,21 +30,14 @@ func New(params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalan
 func (c Client) New(params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Customer must be set",
-		)
+			"params cannot be nil, and params.Customer must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/balance_transactions",
-		stripe.StringValue(params.Customer),
-	)
+		"/v1/customers/%s/balance_transactions", stripe.StringValue(
+			params.Customer))
 	customerbalancetransaction := &stripe.CustomerBalanceTransaction{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		customerbalancetransaction,
-	)
+		http.MethodPost, path, c.Key, params, customerbalancetransaction)
 	return customerbalancetransaction, err
 }
 
@@ -57,22 +50,14 @@ func Get(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe.Cu
 func (c Client) Get(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Customer must be set",
-		)
+			"params cannot be nil, and params.Customer must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/balance_transactions/%s",
-		stripe.StringValue(params.Customer),
-		id,
-	)
+		"/v1/customers/%s/balance_transactions/%s", stripe.StringValue(
+			params.Customer), id)
 	customerbalancetransaction := &stripe.CustomerBalanceTransaction{}
 	err := c.B.Call(
-		http.MethodGet,
-		path,
-		c.Key,
-		params,
-		customerbalancetransaction,
-	)
+		http.MethodGet, path, c.Key, params, customerbalancetransaction)
 	return customerbalancetransaction, err
 }
 
@@ -84,18 +69,11 @@ func Update(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe
 // Most credit balance transaction fields are immutable, but you may update its description and metadata.
 func (c Client) Update(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/balance_transactions/%s",
-		stripe.StringValue(params.Customer),
-		id,
-	)
+		"/v1/customers/%s/balance_transactions/%s", stripe.StringValue(
+			params.Customer), id)
 	customerbalancetransaction := &stripe.CustomerBalanceTransaction{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		customerbalancetransaction,
-	)
+		http.MethodPost, path, c.Key, params, customerbalancetransaction)
 	return customerbalancetransaction, err
 }
 
@@ -107,9 +85,8 @@ func List(params *stripe.CustomerBalanceTransactionListParams) *Iter {
 // Returns a list of transactions that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 func (c Client) List(listParams *stripe.CustomerBalanceTransactionListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/balance_transactions",
-		stripe.StringValue(listParams.Customer),
-	)
+		"/v1/customers/%s/balance_transactions", stripe.StringValue(
+			listParams.Customer))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CustomerBalanceTransactionList{}

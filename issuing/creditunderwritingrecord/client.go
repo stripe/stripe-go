@@ -41,17 +41,10 @@ func Correct(id string, params *stripe.IssuingCreditUnderwritingRecordCorrectPar
 // Update a CreditUnderwritingRecord object to correct mistakes.
 func (c Client) Correct(id string, params *stripe.IssuingCreditUnderwritingRecordCorrectParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	path := stripe.FormatURLPath(
-		"/v1/issuing/credit_underwriting_records/%s/correct",
-		id,
-	)
+		"/v1/issuing/credit_underwriting_records/%s/correct", id)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		creditunderwritingrecord,
-	)
+		http.MethodPost, path, c.Key, params, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 
@@ -64,12 +57,7 @@ func CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateF
 func (c Client) CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateFromApplicationParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/credit_underwriting_records/create_from_application",
-		c.Key,
-		params,
-		creditunderwritingrecord,
-	)
+		http.MethodPost, "/v1/issuing/credit_underwriting_records/create_from_application", c.Key, params, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 
@@ -82,12 +70,7 @@ func CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCre
 func (c Client) CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/credit_underwriting_records/create_from_proactive_review",
-		c.Key,
-		params,
-		creditunderwritingrecord,
-	)
+		http.MethodPost, "/v1/issuing/credit_underwriting_records/create_from_proactive_review", c.Key, params, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 
@@ -99,17 +82,10 @@ func ReportDecision(id string, params *stripe.IssuingCreditUnderwritingRecordRep
 // Update a CreditUnderwritingRecord object from a decision made on a credit application.
 func (c Client) ReportDecision(id string, params *stripe.IssuingCreditUnderwritingRecordReportDecisionParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	path := stripe.FormatURLPath(
-		"/v1/issuing/credit_underwriting_records/%s/report_decision",
-		id,
-	)
+		"/v1/issuing/credit_underwriting_records/%s/report_decision", id)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		creditunderwritingrecord,
-	)
+		http.MethodPost, path, c.Key, params, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 

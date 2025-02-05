@@ -29,12 +29,7 @@ func New(params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain,
 func (c Client) New(params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_method_domains",
-		c.Key,
-		params,
-		paymentmethoddomain,
-	)
+		http.MethodPost, "/v1/payment_method_domains", c.Key, params, paymentmethoddomain)
 	return paymentmethoddomain, err
 }
 

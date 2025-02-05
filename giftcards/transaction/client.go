@@ -29,12 +29,7 @@ func New(params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransactio
 func (c Client) New(params *stripe.GiftCardsTransactionParams) (*stripe.GiftCardsTransaction, error) {
 	transaction := &stripe.GiftCardsTransaction{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/gift_cards/transactions",
-		c.Key,
-		params,
-		transaction,
-	)
+		http.MethodPost, "/v1/gift_cards/transactions", c.Key, params, transaction)
 	return transaction, err
 }
 

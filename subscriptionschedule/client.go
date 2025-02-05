@@ -29,12 +29,7 @@ func New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedul
 func (c Client) New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/subscription_schedules",
-		c.Key,
-		params,
-		subscriptionschedule,
-	)
+		http.MethodPost, "/v1/subscription_schedules", c.Key, params, subscriptionschedule)
 	return subscriptionschedule, err
 }
 

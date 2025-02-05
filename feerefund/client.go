@@ -51,9 +51,7 @@ func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 		return nil, fmt.Errorf("params.ID must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/application_fees/%s/refunds",
-		stripe.StringValue(params.ID),
-	)
+		"/v1/application_fees/%s/refunds", stripe.StringValue(params.ID))
 	feerefund := &stripe.FeeRefund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, feerefund)
 	return feerefund, err
@@ -73,10 +71,7 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 		return nil, fmt.Errorf("params.Fee must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/application_fees/%s/refunds/%s",
-		stripe.StringValue(params.Fee),
-		id,
-	)
+		"/v1/application_fees/%s/refunds/%s", stripe.StringValue(params.Fee), id)
 	feerefund := &stripe.FeeRefund{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, feerefund)
 	return feerefund, err
@@ -100,10 +95,7 @@ func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRe
 		return nil, fmt.Errorf("params.Fee must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/application_fees/%s/refunds/%s",
-		stripe.StringValue(params.Fee),
-		id,
-	)
+		"/v1/application_fees/%s/refunds/%s", stripe.StringValue(params.Fee), id)
 	feerefund := &stripe.FeeRefund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, feerefund)
 	return feerefund, err
@@ -117,9 +109,7 @@ func List(params *stripe.FeeRefundListParams) *Iter {
 // You can see a list of the refunds belonging to a specific application fee. Note that the 10 most recent refunds are always available by default on the application fee object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional refunds.
 func (c Client) List(listParams *stripe.FeeRefundListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/application_fees/%s/refunds",
-		stripe.StringValue(listParams.ID),
-	)
+		"/v1/application_fees/%s/refunds", stripe.StringValue(listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FeeRefundList{}

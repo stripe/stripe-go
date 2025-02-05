@@ -41,12 +41,7 @@ func DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret
 func (c Client) DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/apps/secrets/delete",
-		c.Key,
-		params,
-		secret,
-	)
+		http.MethodPost, "/v1/apps/secrets/delete", c.Key, params, secret)
 	return secret, err
 }
 
@@ -59,12 +54,7 @@ func Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 func (c Client) Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	err := c.B.Call(
-		http.MethodGet,
-		"/v1/apps/secrets/find",
-		c.Key,
-		params,
-		secret,
-	)
+		http.MethodGet, "/v1/apps/secrets/find", c.Key, params, secret)
 	return secret, err
 }
 

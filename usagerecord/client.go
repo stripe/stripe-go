@@ -39,9 +39,8 @@ func New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
 // The default pricing model for metered billing is [per-unit pricing. For finer granularity, you can configure metered billing to have a <a href="https://stripe.com/docs/billing/subscriptions/tiers">tiered pricing](https://stripe.com/docs/api/plans/object#plan_object-billing_scheme) model.
 func (c Client) New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
 	path := stripe.FormatURLPath(
-		"/v1/subscription_items/%s/usage_records",
-		stripe.StringValue(params.SubscriptionItem),
-	)
+		"/v1/subscription_items/%s/usage_records", stripe.StringValue(
+			params.SubscriptionItem))
 	usagerecord := &stripe.UsageRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, usagerecord)
 	return usagerecord, err

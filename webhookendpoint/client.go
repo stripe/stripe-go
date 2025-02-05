@@ -29,12 +29,7 @@ func New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) 
 func (c Client) New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	webhookendpoint := &stripe.WebhookEndpoint{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/webhook_endpoints",
-		c.Key,
-		params,
-		webhookendpoint,
-	)
+		http.MethodPost, "/v1/webhook_endpoints", c.Key, params, webhookendpoint)
 	return webhookendpoint, err
 }
 

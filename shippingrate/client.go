@@ -29,12 +29,7 @@ func New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 func (c Client) New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	shippingrate := &stripe.ShippingRate{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/shipping_rates",
-		c.Key,
-		params,
-		shippingrate,
-	)
+		http.MethodPost, "/v1/shipping_rates", c.Key, params, shippingrate)
 	return shippingrate, err
 }
 

@@ -37,9 +37,7 @@ func New(params *stripe.TransferReversalParams) (*stripe.TransferReversal, error
 // Once entirely reversed, a transfer can't be reversed again. This method will return an error when called on an already-reversed transfer, or when trying to reverse more money than is left on a transfer.
 func (c Client) New(params *stripe.TransferReversalParams) (*stripe.TransferReversal, error) {
 	path := stripe.FormatURLPath(
-		"/v1/transfers/%s/reversals",
-		stripe.StringValue(params.ID),
-	)
+		"/v1/transfers/%s/reversals", stripe.StringValue(params.ID))
 	transferreversal := &stripe.TransferReversal{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, transferreversal)
 	return transferreversal, err
@@ -54,14 +52,10 @@ func Get(id string, params *stripe.TransferReversalParams) (*stripe.TransferReve
 func (c Client) Get(id string, params *stripe.TransferReversalParams) (*stripe.TransferReversal, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
-			"params cannnot be nil, and params.Transfer must be set",
-		)
+			"params cannnot be nil, and params.Transfer must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/transfers/%s/reversals/%s",
-		stripe.StringValue(params.ID),
-		id,
-	)
+		"/v1/transfers/%s/reversals/%s", stripe.StringValue(params.ID), id)
 	transferreversal := &stripe.TransferReversal{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, transferreversal)
 	return transferreversal, err
@@ -79,10 +73,7 @@ func Update(id string, params *stripe.TransferReversalParams) (*stripe.TransferR
 // This request only accepts metadata and description as arguments.
 func (c Client) Update(id string, params *stripe.TransferReversalParams) (*stripe.TransferReversal, error) {
 	path := stripe.FormatURLPath(
-		"/v1/transfers/%s/reversals/%s",
-		stripe.StringValue(params.ID),
-		id,
-	)
+		"/v1/transfers/%s/reversals/%s", stripe.StringValue(params.ID), id)
 	transferreversal := &stripe.TransferReversal{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, transferreversal)
 	return transferreversal, err
@@ -96,9 +87,7 @@ func List(params *stripe.TransferReversalListParams) *Iter {
 // You can see a list of the reversals belonging to a specific transfer. Note that the 10 most recent reversals are always available by default on the transfer object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional reversals.
 func (c Client) List(listParams *stripe.TransferReversalListParams) *Iter {
 	path := stripe.FormatURLPath(
-		"/v1/transfers/%s/reversals",
-		stripe.StringValue(listParams.ID),
-	)
+		"/v1/transfers/%s/reversals", stripe.StringValue(listParams.ID))
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TransferReversalList{}

@@ -28,12 +28,7 @@ func Find(params *stripe.TaxAssociationFindParams) (*stripe.TaxAssociation, erro
 func (c Client) Find(params *stripe.TaxAssociationFindParams) (*stripe.TaxAssociation, error) {
 	association := &stripe.TaxAssociation{}
 	err := c.B.Call(
-		http.MethodGet,
-		"/v1/tax/associations/find",
-		c.Key,
-		params,
-		association,
-	)
+		http.MethodGet, "/v1/tax/associations/find", c.Key, params, association)
 	return association, err
 }
 
