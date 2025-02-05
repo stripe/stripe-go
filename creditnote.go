@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Type of the pretax credit amount referenced.
 type CreditNotePretaxCreditAmountType string
@@ -178,7 +175,7 @@ type CreditNoteParams struct {
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
-	EffectiveAt *time.Time `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at"`
 	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
 	EmailType *string `form:"email_type"`
 	// Specifies which fields in the response should be expanded.
@@ -273,7 +270,7 @@ type CreditNotePreviewParams struct {
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
-	EffectiveAt *time.Time `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at"`
 	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
 	EmailType *string `form:"email_type"`
 	// Specifies which fields in the response should be expanded.
@@ -368,7 +365,7 @@ type CreditNotePreviewLinesParams struct {
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
-	EffectiveAt *time.Time `form:"effective_at"`
+	EffectiveAt *int64 `form:"effective_at"`
 	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
 	EmailType *string `form:"email_type"`
 	// Specifies which fields in the response should be expanded.
@@ -514,7 +511,7 @@ type CreditNote struct {
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// ID of the customer.
@@ -526,7 +523,7 @@ type CreditNote struct {
 	// The aggregate amounts calculated per discount for all line items.
 	DiscountAmounts []*CreditNoteDiscountAmount `json:"discount_amounts"`
 	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
-	EffectiveAt time.Time `json:"effective_at"`
+	EffectiveAt int64 `json:"effective_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// ID of the invoice.
@@ -574,7 +571,7 @@ type CreditNote struct {
 	// Type of this credit note, one of `pre_payment` or `post_payment`. A `pre_payment` credit note means it was issued when the invoice was open. A `post_payment` credit note means it was issued when the invoice was paid.
 	Type CreditNoteType `json:"type"`
 	// The time that the credit note was voided.
-	VoidedAt time.Time `json:"voided_at"`
+	VoidedAt int64 `json:"voided_at"`
 }
 
 // CreditNoteList is a list of CreditNotes as retrieved from a list endpoint.
@@ -594,42 +591,11 @@ func (c *CreditNote) UnmarshalJSON(data []byte) error {
 	}
 
 	type creditNote CreditNote
-	v := struct {
-		Created     int64 `json:"created"`
-		EffectiveAt int64 `json:"effective_at"`
-		VoidedAt    int64 `json:"voided_at"`
-		*creditNote
-	}{
-		creditNote: (*creditNote)(c),
-	}
+	var v creditNote
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	c.Created = time.Unix(v.Created, 0)
-	c.EffectiveAt = time.Unix(v.EffectiveAt, 0)
-	c.VoidedAt = time.Unix(v.VoidedAt, 0)
+	*c = CreditNote(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a CreditNote.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c CreditNote) MarshalJSON() ([]byte, error) {
-	type creditNote CreditNote
-	v := struct {
-		Created     int64 `json:"created"`
-		EffectiveAt int64 `json:"effective_at"`
-		VoidedAt    int64 `json:"voided_at"`
-		creditNote
-	}{
-		creditNote:  (creditNote)(c),
-		Created:     c.Created.Unix(),
-		EffectiveAt: c.EffectiveAt.Unix(),
-		VoidedAt:    c.VoidedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

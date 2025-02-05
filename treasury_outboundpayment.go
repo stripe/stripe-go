@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The rails used to send funds.
 type TreasuryOutboundPaymentDestinationPaymentMethodDetailsFinancialAccountNetwork string
 
@@ -297,13 +292,13 @@ type TreasuryOutboundPaymentReturnedDetails struct {
 }
 type TreasuryOutboundPaymentStatusTransitions struct {
 	// Timestamp describing when an OutboundPayment changed status to `canceled`.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt int64 `json:"canceled_at"`
 	// Timestamp describing when an OutboundPayment changed status to `failed`.
-	FailedAt time.Time `json:"failed_at"`
+	FailedAt int64 `json:"failed_at"`
 	// Timestamp describing when an OutboundPayment changed status to `posted`.
-	PostedAt time.Time `json:"posted_at"`
+	PostedAt int64 `json:"posted_at"`
 	// Timestamp describing when an OutboundPayment changed status to `returned`.
-	ReturnedAt time.Time `json:"returned_at"`
+	ReturnedAt int64 `json:"returned_at"`
 }
 type TreasuryOutboundPaymentTrackingDetailsACH struct {
 	// ACH trace ID of the OutboundPayment for payments sent over the `ach` network.
@@ -338,7 +333,7 @@ type TreasuryOutboundPayment struct {
 	// Returns `true` if the object can be canceled, and `false` otherwise.
 	Cancelable bool `json:"cancelable"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// ID of the [customer](https://stripe.com/docs/api/customers) to whom an OutboundPayment is sent.
@@ -352,7 +347,7 @@ type TreasuryOutboundPayment struct {
 	// Details about the end user.
 	EndUserDetails *TreasuryOutboundPaymentEndUserDetails `json:"end_user_details"`
 	// The date when funds are expected to arrive in the destination account.
-	ExpectedArrivalDate time.Time `json:"expected_arrival_date"`
+	ExpectedArrivalDate int64 `json:"expected_arrival_date"`
 	// The FinancialAccount that funds were pulled from.
 	FinancialAccount string `json:"financial_account"`
 	// A [hosted transaction receipt](https://stripe.com/docs/treasury/moving-money/regulatory-receipts) URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
@@ -383,92 +378,4 @@ type TreasuryOutboundPaymentList struct {
 	APIResource
 	ListMeta
 	Data []*TreasuryOutboundPayment `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a TreasuryOutboundPaymentStatusTransitions.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (t *TreasuryOutboundPaymentStatusTransitions) UnmarshalJSON(data []byte) error {
-	type treasuryOutboundPaymentStatusTransitions TreasuryOutboundPaymentStatusTransitions
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		FailedAt   int64 `json:"failed_at"`
-		PostedAt   int64 `json:"posted_at"`
-		ReturnedAt int64 `json:"returned_at"`
-		*treasuryOutboundPaymentStatusTransitions
-	}{
-		treasuryOutboundPaymentStatusTransitions: (*treasuryOutboundPaymentStatusTransitions)(t),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	t.CanceledAt = time.Unix(v.CanceledAt, 0)
-	t.FailedAt = time.Unix(v.FailedAt, 0)
-	t.PostedAt = time.Unix(v.PostedAt, 0)
-	t.ReturnedAt = time.Unix(v.ReturnedAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a TreasuryOutboundPayment.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (t *TreasuryOutboundPayment) UnmarshalJSON(data []byte) error {
-	type treasuryOutboundPayment TreasuryOutboundPayment
-	v := struct {
-		Created             int64 `json:"created"`
-		ExpectedArrivalDate int64 `json:"expected_arrival_date"`
-		*treasuryOutboundPayment
-	}{
-		treasuryOutboundPayment: (*treasuryOutboundPayment)(t),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	t.Created = time.Unix(v.Created, 0)
-	t.ExpectedArrivalDate = time.Unix(v.ExpectedArrivalDate, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a TreasuryOutboundPaymentStatusTransitions.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TreasuryOutboundPaymentStatusTransitions) MarshalJSON() ([]byte, error) {
-	type treasuryOutboundPaymentStatusTransitions TreasuryOutboundPaymentStatusTransitions
-	v := struct {
-		CanceledAt int64 `json:"canceled_at"`
-		FailedAt   int64 `json:"failed_at"`
-		PostedAt   int64 `json:"posted_at"`
-		ReturnedAt int64 `json:"returned_at"`
-		treasuryOutboundPaymentStatusTransitions
-	}{
-		treasuryOutboundPaymentStatusTransitions: (treasuryOutboundPaymentStatusTransitions)(t),
-		CanceledAt:                               t.CanceledAt.Unix(),
-		FailedAt:                                 t.FailedAt.Unix(),
-		PostedAt:                                 t.PostedAt.Unix(),
-		ReturnedAt:                               t.ReturnedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a TreasuryOutboundPayment.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TreasuryOutboundPayment) MarshalJSON() ([]byte, error) {
-	type treasuryOutboundPayment TreasuryOutboundPayment
-	v := struct {
-		Created             int64 `json:"created"`
-		ExpectedArrivalDate int64 `json:"expected_arrival_date"`
-		treasuryOutboundPayment
-	}{
-		treasuryOutboundPayment: (treasuryOutboundPayment)(t),
-		Created:                 t.Created.Unix(),
-		ExpectedArrivalDate:     t.ExpectedArrivalDate.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

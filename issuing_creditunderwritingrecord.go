@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The channel through which the applicant has submitted their application.
 type IssuingCreditUnderwritingRecordApplicationApplicationMethod string
 
@@ -325,7 +320,7 @@ type IssuingCreditUnderwritingRecordCorrectApplicationParams struct {
 	// Scope of demand made by the applicant.
 	Purpose *string `form:"purpose"`
 	// Date when the applicant submitted their application.
-	SubmittedAt *time.Time `form:"submitted_at"`
+	SubmittedAt *int64 `form:"submitted_at"`
 }
 
 // Information about the company or person applying or holding the account.
@@ -402,7 +397,7 @@ type IssuingCreditUnderwritingRecordCorrectParams struct {
 	// Information about the company or person applying or holding the account.
 	CreditUser *IssuingCreditUnderwritingRecordCorrectCreditUserParams `form:"credit_user"`
 	// Date when a decision was made.
-	DecidedAt *time.Time `form:"decided_at"`
+	DecidedAt *int64 `form:"decided_at"`
 	// Details about the decision.
 	Decision *IssuingCreditUnderwritingRecordCorrectDecisionParams `form:"decision"`
 	// Specifies which fields in the response should be expanded.
@@ -467,7 +462,7 @@ type IssuingCreditUnderwritingRecordReportDecisionUnderwritingExceptionParams st
 type IssuingCreditUnderwritingRecordReportDecisionParams struct {
 	Params `form:"*"`
 	// Date when a decision was made.
-	DecidedAt *time.Time `form:"decided_at"`
+	DecidedAt *int64 `form:"decided_at"`
 	// Details about the decision.
 	Decision *IssuingCreditUnderwritingRecordReportDecisionDecisionParams `form:"decision"`
 	// Specifies which fields in the response should be expanded.
@@ -501,7 +496,7 @@ type IssuingCreditUnderwritingRecordCreateFromApplicationApplicationParams struc
 	// Scope of demand made by the applicant.
 	Purpose *string `form:"purpose"`
 	// Date when the applicant submitted their application.
-	SubmittedAt *time.Time `form:"submitted_at"`
+	SubmittedAt *int64 `form:"submitted_at"`
 }
 
 // Information about the company or person applying or holding the account.
@@ -601,7 +596,7 @@ type IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams struct {
 	// Information about the company or person applying or holding the account.
 	CreditUser *IssuingCreditUnderwritingRecordCreateFromProactiveReviewCreditUserParams `form:"credit_user"`
 	// Date when a decision was made.
-	DecidedAt *time.Time `form:"decided_at"`
+	DecidedAt *int64 `form:"decided_at"`
 	// Details about the decision.
 	Decision *IssuingCreditUnderwritingRecordCreateFromProactiveReviewDecisionParams `form:"decision"`
 	// Specifies which fields in the response should be expanded.
@@ -635,7 +630,7 @@ type IssuingCreditUnderwritingRecordApplication struct {
 	// Scope of demand made by the applicant.
 	Purpose IssuingCreditUnderwritingRecordApplicationPurpose `json:"purpose"`
 	// Date when the applicant submitted their application.
-	SubmittedAt time.Time `json:"submitted_at"`
+	SubmittedAt int64 `json:"submitted_at"`
 }
 type IssuingCreditUnderwritingRecordCreditUser struct {
 	// Email of the applicant or accountholder.
@@ -710,16 +705,16 @@ type IssuingCreditUnderwritingRecord struct {
 	// For decisions triggered by an application, details about the submission.
 	Application *IssuingCreditUnderwritingRecordApplication `json:"application"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The event that triggered the underwriting.
 	CreatedFrom IssuingCreditUnderwritingRecordCreatedFrom `json:"created_from"`
 	CreditUser  *IssuingCreditUnderwritingRecordCreditUser `json:"credit_user"`
 	// Date when a decision was made.
-	DecidedAt time.Time `json:"decided_at"`
+	DecidedAt int64 `json:"decided_at"`
 	// Details about the decision.
 	Decision *IssuingCreditUnderwritingRecordDecision `json:"decision"`
 	// For underwriting initiated by an application, a decision must be taken 30 days after the submission.
-	DecisionDeadline time.Time `json:"decision_deadline"`
+	DecisionDeadline int64 `json:"decision_deadline"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -739,84 +734,4 @@ type IssuingCreditUnderwritingRecordList struct {
 	APIResource
 	ListMeta
 	Data []*IssuingCreditUnderwritingRecord `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of an IssuingCreditUnderwritingRecordApplication.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingCreditUnderwritingRecordApplication) UnmarshalJSON(data []byte) error {
-	type issuingCreditUnderwritingRecordApplication IssuingCreditUnderwritingRecordApplication
-	v := struct {
-		SubmittedAt int64 `json:"submitted_at"`
-		*issuingCreditUnderwritingRecordApplication
-	}{
-		issuingCreditUnderwritingRecordApplication: (*issuingCreditUnderwritingRecordApplication)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.SubmittedAt = time.Unix(v.SubmittedAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an IssuingCreditUnderwritingRecord.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (i *IssuingCreditUnderwritingRecord) UnmarshalJSON(data []byte) error {
-	type issuingCreditUnderwritingRecord IssuingCreditUnderwritingRecord
-	v := struct {
-		Created          int64 `json:"created"`
-		DecidedAt        int64 `json:"decided_at"`
-		DecisionDeadline int64 `json:"decision_deadline"`
-		*issuingCreditUnderwritingRecord
-	}{
-		issuingCreditUnderwritingRecord: (*issuingCreditUnderwritingRecord)(i),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	i.Created = time.Unix(v.Created, 0)
-	i.DecidedAt = time.Unix(v.DecidedAt, 0)
-	i.DecisionDeadline = time.Unix(v.DecisionDeadline, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an IssuingCreditUnderwritingRecordApplication.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingCreditUnderwritingRecordApplication) MarshalJSON() ([]byte, error) {
-	type issuingCreditUnderwritingRecordApplication IssuingCreditUnderwritingRecordApplication
-	v := struct {
-		SubmittedAt int64 `json:"submitted_at"`
-		issuingCreditUnderwritingRecordApplication
-	}{
-		issuingCreditUnderwritingRecordApplication: (issuingCreditUnderwritingRecordApplication)(i),
-		SubmittedAt: i.SubmittedAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an IssuingCreditUnderwritingRecord.
-// This custom marshaling is needed to handle the time fields correctly.
-func (i IssuingCreditUnderwritingRecord) MarshalJSON() ([]byte, error) {
-	type issuingCreditUnderwritingRecord IssuingCreditUnderwritingRecord
-	v := struct {
-		Created          int64 `json:"created"`
-		DecidedAt        int64 `json:"decided_at"`
-		DecisionDeadline int64 `json:"decision_deadline"`
-		issuingCreditUnderwritingRecord
-	}{
-		issuingCreditUnderwritingRecord: (issuingCreditUnderwritingRecord)(i),
-		Created:                         i.Created.Unix(),
-		DecidedAt:                       i.DecidedAt.Unix(),
-		DecisionDeadline:                i.DecisionDeadline.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Type of object that created the application fee, either `charge` or `payout`.
 type ApplicationFeeFeeSourceType string
@@ -74,7 +71,7 @@ type ApplicationFee struct {
 	// ID of the charge that the application fee was taken from.
 	Charge *Charge `json:"charge"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// Polymorphic source of the application fee. Includes the ID of the object the application fee was created from.
@@ -110,34 +107,11 @@ func (a *ApplicationFee) UnmarshalJSON(data []byte) error {
 	}
 
 	type applicationFee ApplicationFee
-	v := struct {
-		Created int64 `json:"created"`
-		*applicationFee
-	}{
-		applicationFee: (*applicationFee)(a),
-	}
+	var v applicationFee
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	a.Created = time.Unix(v.Created, 0)
+	*a = ApplicationFee(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of an ApplicationFee.
-// This custom marshaling is needed to handle the time fields correctly.
-func (a ApplicationFee) MarshalJSON() ([]byte, error) {
-	type applicationFee ApplicationFee
-	v := struct {
-		Created int64 `json:"created"`
-		applicationFee
-	}{
-		applicationFee: (applicationFee)(a),
-		Created:        a.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

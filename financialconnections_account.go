@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // Type of account holder that this account belongs to.
 type FinancialConnectionsAccountAccountHolderType string
 
@@ -280,7 +275,7 @@ type FinancialConnectionsAccountBalanceCredit struct {
 // The most recent information about the account's balance.
 type FinancialConnectionsAccountBalance struct {
 	// The time that the external institution calculated this balance. Measured in seconds since the Unix epoch.
-	AsOf   time.Time                                 `json:"as_of"`
+	AsOf   int64                                     `json:"as_of"`
 	Cash   *FinancialConnectionsAccountBalanceCash   `json:"cash"`
 	Credit *FinancialConnectionsAccountBalanceCredit `json:"credit"`
 	// The balances owed to (or by) the account holder, before subtracting any outbound pending transactions or adding any inbound pending transactions.
@@ -296,9 +291,9 @@ type FinancialConnectionsAccountBalance struct {
 // The state of the most recent attempt to refresh the account balance.
 type FinancialConnectionsAccountBalanceRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
-	LastAttemptedAt time.Time `json:"last_attempted_at"`
+	LastAttemptedAt int64 `json:"last_attempted_at"`
 	// Time at which the next balance refresh can be initiated. This value will be `null` when `status` is `pending`. Measured in seconds since the Unix epoch.
-	NextRefreshAvailableAt time.Time `json:"next_refresh_available_at"`
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountBalanceRefreshStatus `json:"status"`
 }
@@ -306,9 +301,9 @@ type FinancialConnectionsAccountBalanceRefresh struct {
 // The state of the most recent attempt to refresh the account's inferred balance history.
 type FinancialConnectionsAccountInferredBalancesRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
-	LastAttemptedAt time.Time `json:"last_attempted_at"`
+	LastAttemptedAt int64 `json:"last_attempted_at"`
 	// Time at which the next inferred balance refresh can be initiated. This value will be `null` when `status` is `pending`. Measured in seconds since the Unix epoch.
-	NextRefreshAvailableAt time.Time `json:"next_refresh_available_at"`
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountInferredBalancesRefreshStatus `json:"status"`
 }
@@ -316,9 +311,9 @@ type FinancialConnectionsAccountInferredBalancesRefresh struct {
 // The state of the most recent attempt to refresh the account owners.
 type FinancialConnectionsAccountOwnershipRefresh struct {
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
-	LastAttemptedAt time.Time `json:"last_attempted_at"`
+	LastAttemptedAt int64 `json:"last_attempted_at"`
 	// Time at which the next ownership refresh can be initiated. This value will be `null` when `status` is `pending`. Measured in seconds since the Unix epoch.
-	NextRefreshAvailableAt time.Time `json:"next_refresh_available_at"`
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountOwnershipRefreshStatus `json:"status"`
 }
@@ -328,9 +323,9 @@ type FinancialConnectionsAccountTransactionRefresh struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The time at which the last refresh attempt was initiated. Measured in seconds since the Unix epoch.
-	LastAttemptedAt time.Time `json:"last_attempted_at"`
+	LastAttemptedAt int64 `json:"last_attempted_at"`
 	// Time at which the next transaction refresh can be initiated. This value will be `null` when `status` is `pending`. Measured in seconds since the Unix epoch.
-	NextRefreshAvailableAt time.Time `json:"next_refresh_available_at"`
+	NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
 	// The status of the last refresh attempt.
 	Status FinancialConnectionsAccountTransactionRefreshStatus `json:"status"`
 }
@@ -347,7 +342,7 @@ type FinancialConnectionsAccount struct {
 	// The type of the account. Account category is further divided in `subcategory`.
 	Category FinancialConnectionsAccountCategory `json:"category"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// A human-readable name that has been assigned to this account, either by the account holder or by the institution.
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
@@ -398,236 +393,4 @@ type FinancialConnectionsAccountList struct {
 	APIResource
 	ListMeta
 	Data []*FinancialConnectionsAccount `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a FinancialConnectionsAccountBalance.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (f *FinancialConnectionsAccountBalance) UnmarshalJSON(data []byte) error {
-	type financialConnectionsAccountBalance FinancialConnectionsAccountBalance
-	v := struct {
-		AsOf int64 `json:"as_of"`
-		*financialConnectionsAccountBalance
-	}{
-		financialConnectionsAccountBalance: (*financialConnectionsAccountBalance)(f),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	f.AsOf = time.Unix(v.AsOf, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a FinancialConnectionsAccountBalanceRefresh.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (f *FinancialConnectionsAccountBalanceRefresh) UnmarshalJSON(data []byte) error {
-	type financialConnectionsAccountBalanceRefresh FinancialConnectionsAccountBalanceRefresh
-	v := struct {
-		LastAttemptedAt        int64 `json:"last_attempted_at"`
-		NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
-		*financialConnectionsAccountBalanceRefresh
-	}{
-		financialConnectionsAccountBalanceRefresh: (*financialConnectionsAccountBalanceRefresh)(f),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	f.LastAttemptedAt = time.Unix(v.LastAttemptedAt, 0)
-	f.NextRefreshAvailableAt = time.Unix(v.NextRefreshAvailableAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a FinancialConnectionsAccountInferredBalancesRefresh.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (f *FinancialConnectionsAccountInferredBalancesRefresh) UnmarshalJSON(data []byte) error {
-	type financialConnectionsAccountInferredBalancesRefresh FinancialConnectionsAccountInferredBalancesRefresh
-	v := struct {
-		LastAttemptedAt        int64 `json:"last_attempted_at"`
-		NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
-		*financialConnectionsAccountInferredBalancesRefresh
-	}{
-		financialConnectionsAccountInferredBalancesRefresh: (*financialConnectionsAccountInferredBalancesRefresh)(f),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	f.LastAttemptedAt = time.Unix(v.LastAttemptedAt, 0)
-	f.NextRefreshAvailableAt = time.Unix(v.NextRefreshAvailableAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a FinancialConnectionsAccountOwnershipRefresh.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (f *FinancialConnectionsAccountOwnershipRefresh) UnmarshalJSON(data []byte) error {
-	type financialConnectionsAccountOwnershipRefresh FinancialConnectionsAccountOwnershipRefresh
-	v := struct {
-		LastAttemptedAt        int64 `json:"last_attempted_at"`
-		NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
-		*financialConnectionsAccountOwnershipRefresh
-	}{
-		financialConnectionsAccountOwnershipRefresh: (*financialConnectionsAccountOwnershipRefresh)(f),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	f.LastAttemptedAt = time.Unix(v.LastAttemptedAt, 0)
-	f.NextRefreshAvailableAt = time.Unix(v.NextRefreshAvailableAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a FinancialConnectionsAccountTransactionRefresh.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (f *FinancialConnectionsAccountTransactionRefresh) UnmarshalJSON(data []byte) error {
-	type financialConnectionsAccountTransactionRefresh FinancialConnectionsAccountTransactionRefresh
-	v := struct {
-		LastAttemptedAt        int64 `json:"last_attempted_at"`
-		NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
-		*financialConnectionsAccountTransactionRefresh
-	}{
-		financialConnectionsAccountTransactionRefresh: (*financialConnectionsAccountTransactionRefresh)(f),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	f.LastAttemptedAt = time.Unix(v.LastAttemptedAt, 0)
-	f.NextRefreshAvailableAt = time.Unix(v.NextRefreshAvailableAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a FinancialConnectionsAccount.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (f *FinancialConnectionsAccount) UnmarshalJSON(data []byte) error {
-	type financialConnectionsAccount FinancialConnectionsAccount
-	v := struct {
-		Created int64 `json:"created"`
-		*financialConnectionsAccount
-	}{
-		financialConnectionsAccount: (*financialConnectionsAccount)(f),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	f.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a FinancialConnectionsAccountBalance.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FinancialConnectionsAccountBalance) MarshalJSON() ([]byte, error) {
-	type financialConnectionsAccountBalance FinancialConnectionsAccountBalance
-	v := struct {
-		AsOf int64 `json:"as_of"`
-		financialConnectionsAccountBalance
-	}{
-		financialConnectionsAccountBalance: (financialConnectionsAccountBalance)(f),
-		AsOf:                               f.AsOf.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a FinancialConnectionsAccountBalanceRefresh.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FinancialConnectionsAccountBalanceRefresh) MarshalJSON() ([]byte, error) {
-	type financialConnectionsAccountBalanceRefresh FinancialConnectionsAccountBalanceRefresh
-	v := struct {
-		LastAttemptedAt        int64 `json:"last_attempted_at"`
-		NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
-		financialConnectionsAccountBalanceRefresh
-	}{
-		financialConnectionsAccountBalanceRefresh: (financialConnectionsAccountBalanceRefresh)(f),
-		LastAttemptedAt:        f.LastAttemptedAt.Unix(),
-		NextRefreshAvailableAt: f.NextRefreshAvailableAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a FinancialConnectionsAccountInferredBalancesRefresh.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FinancialConnectionsAccountInferredBalancesRefresh) MarshalJSON() ([]byte, error) {
-	type financialConnectionsAccountInferredBalancesRefresh FinancialConnectionsAccountInferredBalancesRefresh
-	v := struct {
-		LastAttemptedAt        int64 `json:"last_attempted_at"`
-		NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
-		financialConnectionsAccountInferredBalancesRefresh
-	}{
-		financialConnectionsAccountInferredBalancesRefresh: (financialConnectionsAccountInferredBalancesRefresh)(f),
-		LastAttemptedAt:        f.LastAttemptedAt.Unix(),
-		NextRefreshAvailableAt: f.NextRefreshAvailableAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a FinancialConnectionsAccountOwnershipRefresh.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FinancialConnectionsAccountOwnershipRefresh) MarshalJSON() ([]byte, error) {
-	type financialConnectionsAccountOwnershipRefresh FinancialConnectionsAccountOwnershipRefresh
-	v := struct {
-		LastAttemptedAt        int64 `json:"last_attempted_at"`
-		NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
-		financialConnectionsAccountOwnershipRefresh
-	}{
-		financialConnectionsAccountOwnershipRefresh: (financialConnectionsAccountOwnershipRefresh)(f),
-		LastAttemptedAt:        f.LastAttemptedAt.Unix(),
-		NextRefreshAvailableAt: f.NextRefreshAvailableAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a FinancialConnectionsAccountTransactionRefresh.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FinancialConnectionsAccountTransactionRefresh) MarshalJSON() ([]byte, error) {
-	type financialConnectionsAccountTransactionRefresh FinancialConnectionsAccountTransactionRefresh
-	v := struct {
-		LastAttemptedAt        int64 `json:"last_attempted_at"`
-		NextRefreshAvailableAt int64 `json:"next_refresh_available_at"`
-		financialConnectionsAccountTransactionRefresh
-	}{
-		financialConnectionsAccountTransactionRefresh: (financialConnectionsAccountTransactionRefresh)(f),
-		LastAttemptedAt:        f.LastAttemptedAt.Unix(),
-		NextRefreshAvailableAt: f.NextRefreshAvailableAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a FinancialConnectionsAccount.
-// This custom marshaling is needed to handle the time fields correctly.
-func (f FinancialConnectionsAccount) MarshalJSON() ([]byte, error) {
-	type financialConnectionsAccount FinancialConnectionsAccount
-	v := struct {
-		Created int64 `json:"created"`
-		financialConnectionsAccount
-	}{
-		financialConnectionsAccount: (financialConnectionsAccount)(f),
-		Created:                     f.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

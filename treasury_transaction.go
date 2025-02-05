@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Type of the flow that created the Transaction. Set to the same value as `flow_type`.
 type TreasuryTransactionFlowDetailsType string
@@ -144,9 +141,9 @@ type TreasuryTransactionFlowDetails struct {
 }
 type TreasuryTransactionStatusTransitions struct {
 	// Timestamp describing when the Transaction changed status to `posted`.
-	PostedAt time.Time `json:"posted_at"`
+	PostedAt int64 `json:"posted_at"`
 	// Timestamp describing when the Transaction changed status to `void`.
-	VoidAt time.Time `json:"void_at"`
+	VoidAt int64 `json:"void_at"`
 }
 
 // Transactions represent changes to a [FinancialAccount's](https://stripe.com/docs/api#financial_accounts) balance.
@@ -157,7 +154,7 @@ type TreasuryTransaction struct {
 	// Change to a FinancialAccount's balance
 	BalanceImpact *TreasuryTransactionBalanceImpact `json:"balance_impact"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -200,74 +197,11 @@ func (t *TreasuryTransaction) UnmarshalJSON(data []byte) error {
 	}
 
 	type treasuryTransaction TreasuryTransaction
-	v := struct {
-		Created int64 `json:"created"`
-		*treasuryTransaction
-	}{
-		treasuryTransaction: (*treasuryTransaction)(t),
-	}
+	var v treasuryTransaction
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	t.Created = time.Unix(v.Created, 0)
+	*t = TreasuryTransaction(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of a TreasuryTransactionStatusTransitions.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (t *TreasuryTransactionStatusTransitions) UnmarshalJSON(data []byte) error {
-	type treasuryTransactionStatusTransitions TreasuryTransactionStatusTransitions
-	v := struct {
-		PostedAt int64 `json:"posted_at"`
-		VoidAt   int64 `json:"void_at"`
-		*treasuryTransactionStatusTransitions
-	}{
-		treasuryTransactionStatusTransitions: (*treasuryTransactionStatusTransitions)(t),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	t.PostedAt = time.Unix(v.PostedAt, 0)
-	t.VoidAt = time.Unix(v.VoidAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a TreasuryTransactionStatusTransitions.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TreasuryTransactionStatusTransitions) MarshalJSON() ([]byte, error) {
-	type treasuryTransactionStatusTransitions TreasuryTransactionStatusTransitions
-	v := struct {
-		PostedAt int64 `json:"posted_at"`
-		VoidAt   int64 `json:"void_at"`
-		treasuryTransactionStatusTransitions
-	}{
-		treasuryTransactionStatusTransitions: (treasuryTransactionStatusTransitions)(t),
-		PostedAt:                             t.PostedAt.Unix(),
-		VoidAt:                               t.VoidAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a TreasuryTransaction.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TreasuryTransaction) MarshalJSON() ([]byte, error) {
-	type treasuryTransaction TreasuryTransaction
-	v := struct {
-		Created int64 `json:"created"`
-		treasuryTransaction
-	}{
-		treasuryTransaction: (treasuryTransaction)(t),
-		Created:             t.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

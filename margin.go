@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Retrieve a list of your margins.
 type MarginListParams struct {
@@ -61,7 +58,7 @@ type Margin struct {
 	// Whether the margin can be applied to invoices, invoice items, or invoice line items. Defaults to `true`.
 	Active bool `json:"active"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -75,7 +72,7 @@ type Margin struct {
 	// Percent that will be taken off the subtotal before tax (after all other discounts and promotions) of any invoice to which the margin is applied.
 	PercentOff float64 `json:"percent_off"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
-	Updated time.Time `json:"updated"`
+	Updated int64 `json:"updated"`
 }
 
 // MarginList is a list of Margins as retrieved from a list endpoint.
@@ -95,38 +92,11 @@ func (m *Margin) UnmarshalJSON(data []byte) error {
 	}
 
 	type margin Margin
-	v := struct {
-		Created int64 `json:"created"`
-		Updated int64 `json:"updated"`
-		*margin
-	}{
-		margin: (*margin)(m),
-	}
+	var v margin
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	m.Created = time.Unix(v.Created, 0)
-	m.Updated = time.Unix(v.Updated, 0)
+	*m = Margin(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a Margin.
-// This custom marshaling is needed to handle the time fields correctly.
-func (m Margin) MarshalJSON() ([]byte, error) {
-	type margin Margin
-	v := struct {
-		Created int64 `json:"created"`
-		Updated int64 `json:"updated"`
-		margin
-	}{
-		margin:  (margin)(m),
-		Created: m.Created.Unix(),
-		Updated: m.Updated.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

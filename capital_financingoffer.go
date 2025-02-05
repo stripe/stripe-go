@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The type of financing being offered.
 type CapitalFinancingOfferFinancingType string
 
@@ -161,9 +156,9 @@ type CapitalFinancingOffer struct {
 	// The ID of the merchant associated with this financing object.
 	Account string `json:"account"`
 	// The time at which this financing offer was charged off, if applicable. Given in seconds since unix epoch.
-	ChargedOffAt time.Time `json:"charged_off_at"`
+	ChargedOffAt int64 `json:"charged_off_at"`
 	// Time at which the offer was created. Given in seconds since unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Time at which the offer expires. Given in seconds since unix epoch.
 	ExpiresAfter float64 `json:"expires_after"`
 	// The type of financing being offered.
@@ -197,44 +192,4 @@ type CapitalFinancingOfferList struct {
 	APIResource
 	ListMeta
 	Data []*CapitalFinancingOffer `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a CapitalFinancingOffer.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (c *CapitalFinancingOffer) UnmarshalJSON(data []byte) error {
-	type capitalFinancingOffer CapitalFinancingOffer
-	v := struct {
-		ChargedOffAt int64 `json:"charged_off_at"`
-		Created      int64 `json:"created"`
-		*capitalFinancingOffer
-	}{
-		capitalFinancingOffer: (*capitalFinancingOffer)(c),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	c.ChargedOffAt = time.Unix(v.ChargedOffAt, 0)
-	c.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a CapitalFinancingOffer.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c CapitalFinancingOffer) MarshalJSON() ([]byte, error) {
-	type capitalFinancingOffer CapitalFinancingOffer
-	v := struct {
-		ChargedOffAt int64 `json:"charged_off_at"`
-		Created      int64 `json:"created"`
-		capitalFinancingOffer
-	}{
-		capitalFinancingOffer: (capitalFinancingOffer)(c),
-		ChargedOffAt:          c.ChargedOffAt.Unix(),
-		Created:               c.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

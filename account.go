@@ -9,7 +9,6 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/stripe/stripe-go/v81/form"
-	"time"
 )
 
 // The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
@@ -936,7 +935,7 @@ type AccountCompanyAddressKanjiParams struct {
 // This hash is used to attest that the directors information provided to Stripe is both current and correct.
 type AccountCompanyDirectorshipDeclarationParams struct {
 	// The Unix timestamp marking when the directorship declaration attestation was made.
-	Date *time.Time `form:"date"`
+	Date *int64 `form:"date"`
 	// The IP address from which the directorship declaration attestation was made.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the directorship declaration attestation was made.
@@ -946,7 +945,7 @@ type AccountCompanyDirectorshipDeclarationParams struct {
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 type AccountCompanyOwnershipDeclarationParams struct {
 	// The Unix timestamp marking when the beneficial owner attestation was made.
-	Date *time.Time `form:"date"`
+	Date *int64 `form:"date"`
 	// The IP address from which the beneficial owner attestation was made.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the beneficial owner attestation was made.
@@ -1181,7 +1180,7 @@ type AccountSettingsCapitalParams struct {
 // Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
 type AccountSettingsCardIssuingTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
-	Date *time.Time `form:"date"`
+	Date *int64 `form:"date"`
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
@@ -1269,7 +1268,7 @@ type AccountSettingsTaxFormsParams struct {
 // Details on the account's acceptance of the Stripe Treasury Services Agreement.
 type AccountSettingsTreasuryTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
-	Date *time.Time `form:"date"`
+	Date *int64 `form:"date"`
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
@@ -1311,7 +1310,7 @@ type AccountSettingsParams struct {
 // Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 type AccountTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted their service agreement.
-	Date *time.Time `form:"date"`
+	Date *int64 `form:"date"`
 	// The IP address from which the account representative accepted their service agreement.
 	IP *string `form:"ip"`
 	// The user's service agreement type.
@@ -1618,7 +1617,7 @@ type AccountCompanyAddressKanji struct {
 // This hash is used to attest that the director information provided to Stripe is both current and correct.
 type AccountCompanyDirectorshipDeclaration struct {
 	// The Unix timestamp marking when the directorship declaration attestation was made.
-	Date time.Time `json:"date"`
+	Date int64 `json:"date"`
 	// The IP address from which the directorship declaration attestation was made.
 	IP string `json:"ip"`
 	// The user-agent string from the browser where the directorship declaration attestation was made.
@@ -1628,7 +1627,7 @@ type AccountCompanyDirectorshipDeclaration struct {
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 type AccountCompanyOwnershipDeclaration struct {
 	// The Unix timestamp marking when the beneficial owner attestation was made.
-	Date time.Time `json:"date"`
+	Date int64 `json:"date"`
 	// The IP address from which the beneficial owner attestation was made.
 	IP string `json:"ip"`
 	// The user-agent string from the browser where the beneficial owner attestation was made.
@@ -1748,7 +1747,7 @@ type AccountFutureRequirements struct {
 	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 	Alternatives []*AccountFutureRequirementsAlternative `json:"alternatives"`
 	// Date on which `future_requirements` becomes the main `requirements` hash and `future_requirements` becomes empty. After the transition, `currently_due` requirements may immediately become `past_due`, but the account may also be given a grace period depending on its enablement state prior to transitioning.
-	CurrentDeadline time.Time `json:"current_deadline"`
+	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be collected to keep the account enabled. If not collected by `future_requirements[current_deadline]`, these fields will transition to the main `requirements` hash.
 	CurrentlyDue []string `json:"currently_due"`
 	// This is typed as an enum for consistency with `requirements.disabled_reason`.
@@ -1790,7 +1789,7 @@ type AccountRequirements struct {
 	// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 	Alternatives []*AccountRequirementsAlternative `json:"alternatives"`
 	// Date by which the fields in `currently_due` must be collected to keep the account enabled. These fields may disable the account sooner if the next threshold is reached before they are collected.
-	CurrentDeadline time.Time `json:"current_deadline"`
+	CurrentDeadline int64 `json:"current_deadline"`
 	// Fields that need to be collected to keep the account enabled. If not collected by `current_deadline`, these fields appear in `past_due` as well, and the account is disabled.
 	CurrentlyDue []string `json:"currently_due"`
 	// If the account is disabled, this enum describes why. [Learn more about handling verification issues](https://stripe.com/docs/connect/handling-api-verification).
@@ -1846,7 +1845,7 @@ type AccountSettingsCapital struct {
 }
 type AccountSettingsCardIssuingTOSAcceptance struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
-	Date time.Time `json:"date"`
+	Date int64 `json:"date"`
 	// The IP address from which the account representative accepted the service agreement.
 	IP string `json:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
@@ -1919,7 +1918,7 @@ type AccountSettingsTaxForms struct {
 }
 type AccountSettingsTreasuryTOSAcceptance struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
-	Date time.Time `json:"date"`
+	Date int64 `json:"date"`
 	// The IP address from which the account representative accepted the service agreement.
 	IP string `json:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
@@ -1947,7 +1946,7 @@ type AccountSettings struct {
 }
 type AccountTOSAcceptance struct {
 	// The Unix timestamp marking when the account representative accepted their service agreement
-	Date time.Time `json:"date"`
+	Date int64 `json:"date"`
 	// The IP address from which the account representative accepted their service agreement
 	IP string `json:"ip"`
 	// The user's service agreement type
@@ -1982,7 +1981,7 @@ type Account struct {
 	// The account's country.
 	Country string `json:"country"`
 	// Time at which the account was connected. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter ISO currency code representing the default currency for the account. This must be a currency that [Stripe supports in the account's country](https://stripe.com/docs/payouts).
 	DefaultCurrency Currency `json:"default_currency"`
 	Deleted         bool     `json:"deleted"`
@@ -2053,17 +2052,12 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 	}
 
 	type account Account
-	v := struct {
-		Created int64 `json:"created"`
-		*account
-	}{
-		account: (*account)(a),
-	}
+	var v account
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	a.Created = time.Unix(v.Created, 0)
+	*a = Account(v)
 	return nil
 }
 
@@ -2092,274 +2086,4 @@ func (a *AccountExternalAccount) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &a.Card)
 	}
 	return err
-}
-
-// UnmarshalJSON handles deserialization of an AccountCompanyDirectorshipDeclaration.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (a *AccountCompanyDirectorshipDeclaration) UnmarshalJSON(data []byte) error {
-	type accountCompanyDirectorshipDeclaration AccountCompanyDirectorshipDeclaration
-	v := struct {
-		Date int64 `json:"date"`
-		*accountCompanyDirectorshipDeclaration
-	}{
-		accountCompanyDirectorshipDeclaration: (*accountCompanyDirectorshipDeclaration)(a),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	a.Date = time.Unix(v.Date, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an AccountCompanyOwnershipDeclaration.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (a *AccountCompanyOwnershipDeclaration) UnmarshalJSON(data []byte) error {
-	type accountCompanyOwnershipDeclaration AccountCompanyOwnershipDeclaration
-	v := struct {
-		Date int64 `json:"date"`
-		*accountCompanyOwnershipDeclaration
-	}{
-		accountCompanyOwnershipDeclaration: (*accountCompanyOwnershipDeclaration)(a),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	a.Date = time.Unix(v.Date, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an AccountFutureRequirements.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (a *AccountFutureRequirements) UnmarshalJSON(data []byte) error {
-	type accountFutureRequirements AccountFutureRequirements
-	v := struct {
-		CurrentDeadline int64 `json:"current_deadline"`
-		*accountFutureRequirements
-	}{
-		accountFutureRequirements: (*accountFutureRequirements)(a),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	a.CurrentDeadline = time.Unix(v.CurrentDeadline, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an AccountRequirements.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (a *AccountRequirements) UnmarshalJSON(data []byte) error {
-	type accountRequirements AccountRequirements
-	v := struct {
-		CurrentDeadline int64 `json:"current_deadline"`
-		*accountRequirements
-	}{
-		accountRequirements: (*accountRequirements)(a),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	a.CurrentDeadline = time.Unix(v.CurrentDeadline, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an AccountSettingsCardIssuingTOSAcceptance.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (a *AccountSettingsCardIssuingTOSAcceptance) UnmarshalJSON(data []byte) error {
-	type accountSettingsCardIssuingTOSAcceptance AccountSettingsCardIssuingTOSAcceptance
-	v := struct {
-		Date int64 `json:"date"`
-		*accountSettingsCardIssuingTOSAcceptance
-	}{
-		accountSettingsCardIssuingTOSAcceptance: (*accountSettingsCardIssuingTOSAcceptance)(a),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	a.Date = time.Unix(v.Date, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an AccountSettingsTreasuryTOSAcceptance.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (a *AccountSettingsTreasuryTOSAcceptance) UnmarshalJSON(data []byte) error {
-	type accountSettingsTreasuryTOSAcceptance AccountSettingsTreasuryTOSAcceptance
-	v := struct {
-		Date int64 `json:"date"`
-		*accountSettingsTreasuryTOSAcceptance
-	}{
-		accountSettingsTreasuryTOSAcceptance: (*accountSettingsTreasuryTOSAcceptance)(a),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	a.Date = time.Unix(v.Date, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of an AccountTOSAcceptance.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (a *AccountTOSAcceptance) UnmarshalJSON(data []byte) error {
-	type accountTOSAcceptance AccountTOSAcceptance
-	v := struct {
-		Date int64 `json:"date"`
-		*accountTOSAcceptance
-	}{
-		accountTOSAcceptance: (*accountTOSAcceptance)(a),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	a.Date = time.Unix(v.Date, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of an AccountCompanyDirectorshipDeclaration.
-// This custom marshaling is needed to handle the time fields correctly.
-func (a AccountCompanyDirectorshipDeclaration) MarshalJSON() ([]byte, error) {
-	type accountCompanyDirectorshipDeclaration AccountCompanyDirectorshipDeclaration
-	v := struct {
-		Date int64 `json:"date"`
-		accountCompanyDirectorshipDeclaration
-	}{
-		accountCompanyDirectorshipDeclaration: (accountCompanyDirectorshipDeclaration)(a),
-		Date:                                  a.Date.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an AccountCompanyOwnershipDeclaration.
-// This custom marshaling is needed to handle the time fields correctly.
-func (a AccountCompanyOwnershipDeclaration) MarshalJSON() ([]byte, error) {
-	type accountCompanyOwnershipDeclaration AccountCompanyOwnershipDeclaration
-	v := struct {
-		Date int64 `json:"date"`
-		accountCompanyOwnershipDeclaration
-	}{
-		accountCompanyOwnershipDeclaration: (accountCompanyOwnershipDeclaration)(a),
-		Date:                               a.Date.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an AccountFutureRequirements.
-// This custom marshaling is needed to handle the time fields correctly.
-func (a AccountFutureRequirements) MarshalJSON() ([]byte, error) {
-	type accountFutureRequirements AccountFutureRequirements
-	v := struct {
-		CurrentDeadline int64 `json:"current_deadline"`
-		accountFutureRequirements
-	}{
-		accountFutureRequirements: (accountFutureRequirements)(a),
-		CurrentDeadline:           a.CurrentDeadline.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an AccountRequirements.
-// This custom marshaling is needed to handle the time fields correctly.
-func (a AccountRequirements) MarshalJSON() ([]byte, error) {
-	type accountRequirements AccountRequirements
-	v := struct {
-		CurrentDeadline int64 `json:"current_deadline"`
-		accountRequirements
-	}{
-		accountRequirements: (accountRequirements)(a),
-		CurrentDeadline:     a.CurrentDeadline.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an AccountSettingsCardIssuingTOSAcceptance.
-// This custom marshaling is needed to handle the time fields correctly.
-func (a AccountSettingsCardIssuingTOSAcceptance) MarshalJSON() ([]byte, error) {
-	type accountSettingsCardIssuingTOSAcceptance AccountSettingsCardIssuingTOSAcceptance
-	v := struct {
-		Date int64 `json:"date"`
-		accountSettingsCardIssuingTOSAcceptance
-	}{
-		accountSettingsCardIssuingTOSAcceptance: (accountSettingsCardIssuingTOSAcceptance)(a),
-		Date:                                    a.Date.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an AccountSettingsTreasuryTOSAcceptance.
-// This custom marshaling is needed to handle the time fields correctly.
-func (a AccountSettingsTreasuryTOSAcceptance) MarshalJSON() ([]byte, error) {
-	type accountSettingsTreasuryTOSAcceptance AccountSettingsTreasuryTOSAcceptance
-	v := struct {
-		Date int64 `json:"date"`
-		accountSettingsTreasuryTOSAcceptance
-	}{
-		accountSettingsTreasuryTOSAcceptance: (accountSettingsTreasuryTOSAcceptance)(a),
-		Date:                                 a.Date.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an AccountTOSAcceptance.
-// This custom marshaling is needed to handle the time fields correctly.
-func (a AccountTOSAcceptance) MarshalJSON() ([]byte, error) {
-	type accountTOSAcceptance AccountTOSAcceptance
-	v := struct {
-		Date int64 `json:"date"`
-		accountTOSAcceptance
-	}{
-		accountTOSAcceptance: (accountTOSAcceptance)(a),
-		Date:                 a.Date.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of an Account.
-// This custom marshaling is needed to handle the time fields correctly.
-func (a Account) MarshalJSON() ([]byte, error) {
-	type account Account
-	v := struct {
-		Created int64 `json:"created"`
-		account
-	}{
-		account: (account)(a),
-		Created: a.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

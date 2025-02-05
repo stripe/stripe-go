@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The type of customer address provided.
 type TaxTransactionCustomerDetailsAddressSource string
 
@@ -255,7 +250,7 @@ type TaxTransactionCreateFromCalculationParams struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The Unix timestamp representing when the tax liability is assumed or reduced, which determines the liability posting period and handling in tax liability reports. The timestamp must fall within the `tax_date` and the current time, unless the `tax_date` is scheduled in advance. Defaults to the current time.
-	PostedAt *time.Time `form:"posted_at"`
+	PostedAt *int64 `form:"posted_at"`
 	// A custom order or sale identifier, such as 'myOrder_123'. Must be unique across all transactions, including reversals.
 	Reference *string `form:"reference"`
 }
@@ -430,7 +425,7 @@ type TaxTransactionShippingCost struct {
 type TaxTransaction struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The ID of an existing [Customer](https://stripe.com/docs/api/customers/object) used for the resource.
@@ -447,7 +442,7 @@ type TaxTransaction struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The Unix timestamp representing when the tax liability is assumed or reduced.
-	PostedAt time.Time `json:"posted_at"`
+	PostedAt int64 `json:"posted_at"`
 	// A custom unique identifier, such as 'myOrder_123'.
 	Reference string `json:"reference"`
 	// If `type=reversal`, contains information about what was reversed.
@@ -457,51 +452,7 @@ type TaxTransaction struct {
 	// The shipping cost details for the transaction.
 	ShippingCost *TaxTransactionShippingCost `json:"shipping_cost"`
 	// Timestamp of date at which the tax rules and rates in effect applies for the calculation.
-	TaxDate time.Time `json:"tax_date"`
+	TaxDate int64 `json:"tax_date"`
 	// If `reversal`, this transaction reverses an earlier transaction.
 	Type TaxTransactionType `json:"type"`
-}
-
-// UnmarshalJSON handles deserialization of a TaxTransaction.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (t *TaxTransaction) UnmarshalJSON(data []byte) error {
-	type taxTransaction TaxTransaction
-	v := struct {
-		Created  int64 `json:"created"`
-		PostedAt int64 `json:"posted_at"`
-		TaxDate  int64 `json:"tax_date"`
-		*taxTransaction
-	}{
-		taxTransaction: (*taxTransaction)(t),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	t.Created = time.Unix(v.Created, 0)
-	t.PostedAt = time.Unix(v.PostedAt, 0)
-	t.TaxDate = time.Unix(v.TaxDate, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a TaxTransaction.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t TaxTransaction) MarshalJSON() ([]byte, error) {
-	type taxTransaction TaxTransaction
-	v := struct {
-		Created  int64 `json:"created"`
-		PostedAt int64 `json:"posted_at"`
-		TaxDate  int64 `json:"tax_date"`
-		taxTransaction
-	}{
-		taxTransaction: (taxTransaction)(t),
-		Created:        t.Created.Unix(),
-		PostedAt:       t.PostedAt.Unix(),
-		TaxDate:        t.TaxDate.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

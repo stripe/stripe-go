@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The type of fraud labelled by the issuer. One of `card_never_received`, `fraudulent_card_application`, `made_with_counterfeit_card`, `made_with_lost_card`, `made_with_stolen_card`, `misc`, `unauthorized_use_of_card`.
 type RadarEarlyFraudWarningFraudType string
 
@@ -70,7 +65,7 @@ type RadarEarlyFraudWarning struct {
 	// ID of the charge this early fraud warning is for, optionally expanded.
 	Charge *Charge `json:"charge"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The type of fraud labelled by the issuer. One of `card_never_received`, `fraudulent_card_application`, `made_with_counterfeit_card`, `made_with_lost_card`, `made_with_stolen_card`, `misc`, `unauthorized_use_of_card`.
 	FraudType RadarEarlyFraudWarningFraudType `json:"fraud_type"`
 	// Unique identifier for the object.
@@ -88,40 +83,4 @@ type RadarEarlyFraudWarningList struct {
 	APIResource
 	ListMeta
 	Data []*RadarEarlyFraudWarning `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a RadarEarlyFraudWarning.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (r *RadarEarlyFraudWarning) UnmarshalJSON(data []byte) error {
-	type radarEarlyFraudWarning RadarEarlyFraudWarning
-	v := struct {
-		Created int64 `json:"created"`
-		*radarEarlyFraudWarning
-	}{
-		radarEarlyFraudWarning: (*radarEarlyFraudWarning)(r),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	r.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a RadarEarlyFraudWarning.
-// This custom marshaling is needed to handle the time fields correctly.
-func (r RadarEarlyFraudWarning) MarshalJSON() ([]byte, error) {
-	type radarEarlyFraudWarning RadarEarlyFraudWarning
-	v := struct {
-		Created int64 `json:"created"`
-		radarEarlyFraudWarning
-	}{
-		radarEarlyFraudWarning: (radarEarlyFraudWarning)(r),
-		Created:                r.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

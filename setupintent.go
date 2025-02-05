@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // Controls whether this SetupIntent will accept redirect-based payment methods.
 //
@@ -342,7 +339,7 @@ type SetupIntentMandateDataCustomerAcceptanceOnlineParams struct {
 // This hash contains details about the customer acceptance of the Mandate.
 type SetupIntentMandateDataCustomerAcceptanceParams struct {
 	// The time at which the customer accepted the Mandate.
-	AcceptedAt *time.Time `form:"accepted_at"`
+	AcceptedAt *int64 `form:"accepted_at"`
 	// If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
 	Offline *SetupIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
 	// If this is a Mandate accepted online, this hash contains details about the online acceptance.
@@ -796,7 +793,7 @@ type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description *string `form:"description"`
 	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
-	EndDate *time.Time `form:"end_date"`
+	EndDate *int64 `form:"end_date"`
 	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
 	Interval *string `form:"interval"`
 	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
@@ -804,7 +801,7 @@ type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
 	// Unique identifier for the mandate or subscription.
 	Reference *string `form:"reference"`
 	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
-	StartDate *time.Time `form:"start_date"`
+	StartDate *int64 `form:"start_date"`
 	// Specifies the type of mandates supported. Possible values are `india`.
 	SupportedTypes []*string `form:"supported_types"`
 }
@@ -1562,7 +1559,7 @@ type SetupIntentAutomaticPaymentMethods struct {
 }
 type SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode struct {
 	// The date (unix timestamp) when the QR code expires.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// The image_url_png string used to render QR code
 	ImageURLPNG string `json:"image_url_png"`
 	// The image_url_svg string used to render QR code
@@ -1586,7 +1583,7 @@ type SetupIntentNextActionRedirectToURL struct {
 type SetupIntentNextActionUseStripeSDK struct{}
 type SetupIntentNextActionVerifyWithMicrodeposits struct {
 	// The timestamp when the microdeposits are expected to land.
-	ArrivalDate time.Time `json:"arrival_date"`
+	ArrivalDate int64 `json:"arrival_date"`
 	// The URL for the hosted verification page, which allows customers to verify their bank account.
 	HostedVerificationURL string `json:"hosted_verification_url"`
 	// The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
@@ -1650,7 +1647,7 @@ type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
 	// A description of the mandate or subscription that is meant to be displayed to the customer.
 	Description string `json:"description"`
 	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
-	EndDate time.Time `json:"end_date"`
+	EndDate int64 `json:"end_date"`
 	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
 	Interval SetupIntentPaymentMethodOptionsCardMandateOptionsInterval `json:"interval"`
 	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
@@ -1658,7 +1655,7 @@ type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
 	// Unique identifier for the mandate or subscription.
 	Reference string `json:"reference"`
 	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
-	StartDate time.Time `json:"start_date"`
+	StartDate int64 `json:"start_date"`
 	// Specifies the type of mandates supported. Possible values are `india`.
 	SupportedTypes []SetupIntentPaymentMethodOptionsCardMandateOptionsSupportedType `json:"supported_types"`
 }
@@ -1793,7 +1790,7 @@ type SetupIntent struct {
 	// The client secret can be used to complete payment setup from your frontend. It should not be stored, logged, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.
 	ClientSecret string `json:"client_secret"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// ID of the Customer this SetupIntent belongs to, if one exists.
 	//
 	// If present, the SetupIntent's payment method will be attached to the Customer on successful setup. Payment methods attached to other Customers cannot be used with this SetupIntent.
@@ -1857,146 +1854,11 @@ func (s *SetupIntent) UnmarshalJSON(data []byte) error {
 	}
 
 	type setupIntent SetupIntent
-	v := struct {
-		Created int64 `json:"created"`
-		*setupIntent
-	}{
-		setupIntent: (*setupIntent)(s),
-	}
+	var v setupIntent
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	s.Created = time.Unix(v.Created, 0)
+	*s = SetupIntent(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode) UnmarshalJSON(data []byte) error {
-	type setupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		*setupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode
-	}{
-		setupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode: (*setupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SetupIntentNextActionVerifyWithMicrodeposits.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SetupIntentNextActionVerifyWithMicrodeposits) UnmarshalJSON(data []byte) error {
-	type setupIntentNextActionVerifyWithMicrodeposits SetupIntentNextActionVerifyWithMicrodeposits
-	v := struct {
-		ArrivalDate int64 `json:"arrival_date"`
-		*setupIntentNextActionVerifyWithMicrodeposits
-	}{
-		setupIntentNextActionVerifyWithMicrodeposits: (*setupIntentNextActionVerifyWithMicrodeposits)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.ArrivalDate = time.Unix(v.ArrivalDate, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SetupIntentPaymentMethodOptionsCardMandateOptions.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SetupIntentPaymentMethodOptionsCardMandateOptions) UnmarshalJSON(data []byte) error {
-	type setupIntentPaymentMethodOptionsCardMandateOptions SetupIntentPaymentMethodOptionsCardMandateOptions
-	v := struct {
-		EndDate   int64 `json:"end_date"`
-		StartDate int64 `json:"start_date"`
-		*setupIntentPaymentMethodOptionsCardMandateOptions
-	}{
-		setupIntentPaymentMethodOptionsCardMandateOptions: (*setupIntentPaymentMethodOptionsCardMandateOptions)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.EndDate = time.Unix(v.EndDate, 0)
-	s.StartDate = time.Unix(v.StartDate, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode) MarshalJSON() ([]byte, error) {
-	type setupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode
-	v := struct {
-		ExpiresAt int64 `json:"expires_at"`
-		setupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode
-	}{
-		setupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode: (setupIntentNextActionCashAppHandleRedirectOrDisplayQRCodeQRCode)(s),
-		ExpiresAt: s.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SetupIntentNextActionVerifyWithMicrodeposits.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SetupIntentNextActionVerifyWithMicrodeposits) MarshalJSON() ([]byte, error) {
-	type setupIntentNextActionVerifyWithMicrodeposits SetupIntentNextActionVerifyWithMicrodeposits
-	v := struct {
-		ArrivalDate int64 `json:"arrival_date"`
-		setupIntentNextActionVerifyWithMicrodeposits
-	}{
-		setupIntentNextActionVerifyWithMicrodeposits: (setupIntentNextActionVerifyWithMicrodeposits)(s),
-		ArrivalDate: s.ArrivalDate.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SetupIntentPaymentMethodOptionsCardMandateOptions.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SetupIntentPaymentMethodOptionsCardMandateOptions) MarshalJSON() ([]byte, error) {
-	type setupIntentPaymentMethodOptionsCardMandateOptions SetupIntentPaymentMethodOptionsCardMandateOptions
-	v := struct {
-		EndDate   int64 `json:"end_date"`
-		StartDate int64 `json:"start_date"`
-		setupIntentPaymentMethodOptionsCardMandateOptions
-	}{
-		setupIntentPaymentMethodOptionsCardMandateOptions: (setupIntentPaymentMethodOptionsCardMandateOptions)(s),
-		EndDate:   s.EndDate.Unix(),
-		StartDate: s.StartDate.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SetupIntent.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SetupIntent) MarshalJSON() ([]byte, error) {
-	type setupIntent SetupIntent
-	v := struct {
-		Created int64 `json:"created"`
-		setupIntent
-	}{
-		setupIntent: (setupIntent)(s),
-		Created:     s.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

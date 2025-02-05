@@ -9,7 +9,6 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/stripe/stripe-go/v81/form"
-	"time"
 )
 
 // If Stripe disabled automatic tax, this enum describes why.
@@ -345,7 +344,7 @@ type SubscriptionParams struct {
 	// Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
 	// For new subscriptions, a past timestamp to backdate the subscription's start date to. If set, the first invoice will contain a proration for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
-	BackdateStartDate *time.Time `form:"backdate_start_date"`
+	BackdateStartDate *int64 `form:"backdate_start_date"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
 	// Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
@@ -355,7 +354,7 @@ type SubscriptionParams struct {
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt *time.Time `form:"cancel_at"`
+	CancelAt *int64 `form:"cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Details about why this subscription was cancelled
@@ -417,12 +416,12 @@ type SubscriptionParams struct {
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#upcoming_invoice) endpoint. It can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
-	ProrationDate *time.Time `form:"proration_date"`
+	ProrationDate *int64 `form:"proration_date"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
-	TrialEnd    *time.Time `form:"trial_end"`
-	TrialEndNow *bool      `form:"-"` // See custom AppendTo
+	TrialEnd    *int64 `form:"trial_end"`
+	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
 	TrialFromPlan *bool `form:"trial_from_plan"`
 	// Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
@@ -471,7 +470,7 @@ type SubscriptionAddInvoiceItemDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *SubscriptionAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -547,7 +546,7 @@ type SubscriptionDiscountDiscountEndParams struct {
 	// Time span for the redeemed discount.
 	Duration *SubscriptionDiscountDiscountEndDurationParams `form:"duration"`
 	// A precise Unix timestamp for the discount to end. Must be in the future.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 	// The type of calculation made to determine when the discount ends.
 	Type *string `form:"type"`
 }
@@ -623,7 +622,7 @@ type SubscriptionPauseCollectionParams struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior *string `form:"behavior"`
 	// The time after which the subscription will resume collecting payments.
-	ResumesAt *time.Time `form:"resumes_at"`
+	ResumesAt *int64 `form:"resumes_at"`
 }
 
 // Additional fields for Mandate creation
@@ -879,7 +878,7 @@ type SubscriptionResumeParams struct {
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
-	ProrationDate *time.Time `form:"proration_date"`
+	ProrationDate *int64 `form:"proration_date"`
 }
 
 // AddExpand appends a new field to expand.
@@ -957,7 +956,7 @@ type SubscriptionLastPriceMigrationErrorFailedTransition struct {
 // Details of the most recent price migration that failed for the subscription.
 type SubscriptionLastPriceMigrationError struct {
 	// The time at which the price migration encountered an error.
-	ErroredAt time.Time `json:"errored_at"`
+	ErroredAt int64 `json:"errored_at"`
 	// The involved price pairs in each failed transition.
 	FailedTransitions []*SubscriptionLastPriceMigrationErrorFailedTransition `json:"failed_transitions"`
 	// The type of error encountered by the price migration.
@@ -969,7 +968,7 @@ type SubscriptionPauseCollection struct {
 	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 	Behavior SubscriptionPauseCollectionBehavior `json:"behavior"`
 	// The time after which the subscription will resume collecting payments.
-	ResumesAt time.Time `json:"resumes_at"`
+	ResumesAt int64 `json:"resumes_at"`
 }
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -1092,15 +1091,15 @@ type SubscriptionPendingInvoiceItemInterval struct {
 // If specified, [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid.
 type SubscriptionPendingUpdate struct {
 	// If the update is applied, determines the date of the first full invoice, and, for plans with `month` or `year` intervals, the day of the month for subsequent invoices. The timestamp is in UTC format.
-	BillingCycleAnchor time.Time `json:"billing_cycle_anchor"`
+	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The point after which the changes reflected by this update will be discarded and no longer applied.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// The number of iterations of prebilling to apply.
 	PrebillingIterations int64 `json:"prebilling_iterations"`
 	// List of subscription items, each with an attached plan, that will be set if the update is applied.
 	SubscriptionItems []*SubscriptionItem `json:"subscription_items"`
 	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time, if the update is applied.
-	TrialEnd time.Time `json:"trial_end"`
+	TrialEnd int64 `json:"trial_end"`
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
 	TrialFromPlan bool `json:"trial_from_plan"`
 }
@@ -1110,9 +1109,9 @@ type SubscriptionPrebilling struct {
 	// ID of the prebilling invoice.
 	Invoice *Invoice `json:"invoice"`
 	// The end of the last period for which the invoice pre-bills.
-	PeriodEnd time.Time `json:"period_end"`
+	PeriodEnd int64 `json:"period_end"`
 	// The start of the first period for which the invoice pre-bills.
-	PeriodStart time.Time `json:"period_start"`
+	PeriodStart int64 `json:"period_start"`
 	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period.
 	UpdateBehavior SubscriptionPrebillingUpdateBehavior `json:"update_behavior"`
 }
@@ -1148,29 +1147,29 @@ type Subscription struct {
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
 	// The reference point that aligns future [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle) dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals. The timestamp is in UTC format.
-	BillingCycleAnchor time.Time `json:"billing_cycle_anchor"`
+	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The fixed values used to calculate the `billing_cycle_anchor`.
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled
-	CancelAt time.Time `json:"cancel_at"`
+	CancelAt int64 `json:"cancel_at"`
 	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period.
 	CancelAtPeriodEnd bool `json:"cancel_at_period_end"`
 	// If the subscription has been canceled, the date of that cancellation. If the subscription was canceled with `cancel_at_period_end`, `canceled_at` will reflect the time of the most recent update request, not the end of the subscription period when the subscription is automatically moved to a canceled state.
-	CanceledAt time.Time `json:"canceled_at"`
+	CanceledAt int64 `json:"canceled_at"`
 	// Details about why this subscription was cancelled
 	CancellationDetails *SubscriptionCancellationDetails `json:"cancellation_details"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 	CollectionMethod SubscriptionCollectionMethod `json:"collection_method"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// End of the current period that the subscription has been invoiced for. At the end of this period, a new invoice will be created.
-	CurrentPeriodEnd time.Time `json:"current_period_end"`
+	CurrentPeriodEnd int64 `json:"current_period_end"`
 	// Start of the current period that the subscription has been invoiced for.
-	CurrentPeriodStart time.Time `json:"current_period_start"`
+	CurrentPeriodStart int64 `json:"current_period_start"`
 	// ID of the customer who owns the subscription.
 	Customer *Customer `json:"customer"`
 	// Number of days a customer has to pay invoices generated by this subscription. This value will be `null` for subscriptions where `collection_method=charge_automatically`.
@@ -1188,7 +1187,7 @@ type Subscription struct {
 	// The discounts applied to the subscription. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// If the subscription has ended, the date the subscription ended.
-	EndedAt time.Time `json:"ended_at"`
+	EndedAt int64 `json:"ended_at"`
 	// Unique identifier for the object.
 	ID              string                       `json:"id"`
 	InvoiceSettings *SubscriptionInvoiceSettings `json:"invoice_settings"`
@@ -1203,7 +1202,7 @@ type Subscription struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at `pending_invoice_item_interval`.
-	NextPendingInvoiceItemInvoice time.Time `json:"next_pending_invoice_item_invoice"`
+	NextPendingInvoiceItemInvoice int64 `json:"next_pending_invoice_item_invoice"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The account (if any) the charge was made on behalf of for charges associated with this subscription. See the Connect documentation for details.
@@ -1223,7 +1222,7 @@ type Subscription struct {
 	// The schedule attached to the subscription
 	Schedule *SubscriptionSchedule `json:"schedule"`
 	// Date when the subscription was first created. The date might differ from the `created` date due to backdating.
-	StartDate time.Time `json:"start_date"`
+	StartDate int64 `json:"start_date"`
 	// Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, `unpaid`, or `paused`.
 	//
 	// For `collection_method=charge_automatically` a subscription moves into `incomplete` if the initial payment attempt fails. A subscription in this status can only have metadata and default_source updated. Once the first invoice is paid, the subscription moves into an `active` status. If the first invoice is not paid within 23 hours, the subscription transitions to `incomplete_expired`. This is a terminal status, the open invoice will be voided and no further invoices will be generated.
@@ -1241,11 +1240,11 @@ type Subscription struct {
 	// The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 	// If the subscription has a trial, the end of that trial.
-	TrialEnd time.Time `json:"trial_end"`
+	TrialEnd int64 `json:"trial_end"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionTrialSettings `json:"trial_settings"`
 	// If the subscription has a trial, the beginning of that trial.
-	TrialStart time.Time `json:"trial_start"`
+	TrialStart int64 `json:"trial_start"`
 }
 
 // SubscriptionList is a list of Subscriptions as retrieved from a list endpoint.
@@ -1272,230 +1271,11 @@ func (s *Subscription) UnmarshalJSON(data []byte) error {
 	}
 
 	type subscription Subscription
-	v := struct {
-		BillingCycleAnchor            int64 `json:"billing_cycle_anchor"`
-		CancelAt                      int64 `json:"cancel_at"`
-		CanceledAt                    int64 `json:"canceled_at"`
-		Created                       int64 `json:"created"`
-		CurrentPeriodEnd              int64 `json:"current_period_end"`
-		CurrentPeriodStart            int64 `json:"current_period_start"`
-		EndedAt                       int64 `json:"ended_at"`
-		NextPendingInvoiceItemInvoice int64 `json:"next_pending_invoice_item_invoice"`
-		StartDate                     int64 `json:"start_date"`
-		TrialEnd                      int64 `json:"trial_end"`
-		TrialStart                    int64 `json:"trial_start"`
-		*subscription
-	}{
-		subscription: (*subscription)(s),
-	}
+	var v subscription
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	s.BillingCycleAnchor = time.Unix(v.BillingCycleAnchor, 0)
-	s.CancelAt = time.Unix(v.CancelAt, 0)
-	s.CanceledAt = time.Unix(v.CanceledAt, 0)
-	s.Created = time.Unix(v.Created, 0)
-	s.CurrentPeriodEnd = time.Unix(v.CurrentPeriodEnd, 0)
-	s.CurrentPeriodStart = time.Unix(v.CurrentPeriodStart, 0)
-	s.EndedAt = time.Unix(v.EndedAt, 0)
-	s.NextPendingInvoiceItemInvoice = time.Unix(v.NextPendingInvoiceItemInvoice, 0)
-	s.StartDate = time.Unix(v.StartDate, 0)
-	s.TrialEnd = time.Unix(v.TrialEnd, 0)
-	s.TrialStart = time.Unix(v.TrialStart, 0)
+	*s = Subscription(v)
 	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionLastPriceMigrationError.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionLastPriceMigrationError) UnmarshalJSON(data []byte) error {
-	type subscriptionLastPriceMigrationError SubscriptionLastPriceMigrationError
-	v := struct {
-		ErroredAt int64 `json:"errored_at"`
-		*subscriptionLastPriceMigrationError
-	}{
-		subscriptionLastPriceMigrationError: (*subscriptionLastPriceMigrationError)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.ErroredAt = time.Unix(v.ErroredAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionPauseCollection.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionPauseCollection) UnmarshalJSON(data []byte) error {
-	type subscriptionPauseCollection SubscriptionPauseCollection
-	v := struct {
-		ResumesAt int64 `json:"resumes_at"`
-		*subscriptionPauseCollection
-	}{
-		subscriptionPauseCollection: (*subscriptionPauseCollection)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.ResumesAt = time.Unix(v.ResumesAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionPendingUpdate.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionPendingUpdate) UnmarshalJSON(data []byte) error {
-	type subscriptionPendingUpdate SubscriptionPendingUpdate
-	v := struct {
-		BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
-		ExpiresAt          int64 `json:"expires_at"`
-		TrialEnd           int64 `json:"trial_end"`
-		*subscriptionPendingUpdate
-	}{
-		subscriptionPendingUpdate: (*subscriptionPendingUpdate)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.BillingCycleAnchor = time.Unix(v.BillingCycleAnchor, 0)
-	s.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	s.TrialEnd = time.Unix(v.TrialEnd, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a SubscriptionPrebilling.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (s *SubscriptionPrebilling) UnmarshalJSON(data []byte) error {
-	type subscriptionPrebilling SubscriptionPrebilling
-	v := struct {
-		PeriodEnd   int64 `json:"period_end"`
-		PeriodStart int64 `json:"period_start"`
-		*subscriptionPrebilling
-	}{
-		subscriptionPrebilling: (*subscriptionPrebilling)(s),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	s.PeriodEnd = time.Unix(v.PeriodEnd, 0)
-	s.PeriodStart = time.Unix(v.PeriodStart, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a SubscriptionLastPriceMigrationError.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionLastPriceMigrationError) MarshalJSON() ([]byte, error) {
-	type subscriptionLastPriceMigrationError SubscriptionLastPriceMigrationError
-	v := struct {
-		ErroredAt int64 `json:"errored_at"`
-		subscriptionLastPriceMigrationError
-	}{
-		subscriptionLastPriceMigrationError: (subscriptionLastPriceMigrationError)(s),
-		ErroredAt:                           s.ErroredAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionPauseCollection.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionPauseCollection) MarshalJSON() ([]byte, error) {
-	type subscriptionPauseCollection SubscriptionPauseCollection
-	v := struct {
-		ResumesAt int64 `json:"resumes_at"`
-		subscriptionPauseCollection
-	}{
-		subscriptionPauseCollection: (subscriptionPauseCollection)(s),
-		ResumesAt:                   s.ResumesAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionPendingUpdate.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionPendingUpdate) MarshalJSON() ([]byte, error) {
-	type subscriptionPendingUpdate SubscriptionPendingUpdate
-	v := struct {
-		BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
-		ExpiresAt          int64 `json:"expires_at"`
-		TrialEnd           int64 `json:"trial_end"`
-		subscriptionPendingUpdate
-	}{
-		subscriptionPendingUpdate: (subscriptionPendingUpdate)(s),
-		BillingCycleAnchor:        s.BillingCycleAnchor.Unix(),
-		ExpiresAt:                 s.ExpiresAt.Unix(),
-		TrialEnd:                  s.TrialEnd.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a SubscriptionPrebilling.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s SubscriptionPrebilling) MarshalJSON() ([]byte, error) {
-	type subscriptionPrebilling SubscriptionPrebilling
-	v := struct {
-		PeriodEnd   int64 `json:"period_end"`
-		PeriodStart int64 `json:"period_start"`
-		subscriptionPrebilling
-	}{
-		subscriptionPrebilling: (subscriptionPrebilling)(s),
-		PeriodEnd:              s.PeriodEnd.Unix(),
-		PeriodStart:            s.PeriodStart.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a Subscription.
-// This custom marshaling is needed to handle the time fields correctly.
-func (s Subscription) MarshalJSON() ([]byte, error) {
-	type subscription Subscription
-	v := struct {
-		BillingCycleAnchor            int64 `json:"billing_cycle_anchor"`
-		CancelAt                      int64 `json:"cancel_at"`
-		CanceledAt                    int64 `json:"canceled_at"`
-		Created                       int64 `json:"created"`
-		CurrentPeriodEnd              int64 `json:"current_period_end"`
-		CurrentPeriodStart            int64 `json:"current_period_start"`
-		EndedAt                       int64 `json:"ended_at"`
-		NextPendingInvoiceItemInvoice int64 `json:"next_pending_invoice_item_invoice"`
-		StartDate                     int64 `json:"start_date"`
-		TrialEnd                      int64 `json:"trial_end"`
-		TrialStart                    int64 `json:"trial_start"`
-		subscription
-	}{
-		subscription:                  (subscription)(s),
-		BillingCycleAnchor:            s.BillingCycleAnchor.Unix(),
-		CancelAt:                      s.CancelAt.Unix(),
-		CanceledAt:                    s.CanceledAt.Unix(),
-		Created:                       s.Created.Unix(),
-		CurrentPeriodEnd:              s.CurrentPeriodEnd.Unix(),
-		CurrentPeriodStart:            s.CurrentPeriodStart.Unix(),
-		EndedAt:                       s.EndedAt.Unix(),
-		NextPendingInvoiceItemInvoice: s.NextPendingInvoiceItemInvoice.Unix(),
-		StartDate:                     s.StartDate.Unix(),
-		TrialEnd:                      s.TrialEnd.Unix(),
-		TrialStart:                    s.TrialStart.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

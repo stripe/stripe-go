@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // You can also delete webhook endpoints via the [webhook endpoint management](https://dashboard.stripe.com/account/webhooks) page of the Stripe dashboard.
 type WebhookEndpointParams struct {
 	Params `form:"*"`
@@ -74,8 +69,8 @@ type WebhookEndpoint struct {
 	// The ID of the associated Connect application.
 	Application string `json:"application"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
-	Deleted bool      `json:"deleted"`
+	Created int64 `json:"created"`
+	Deleted bool  `json:"deleted"`
 	// An optional description of what the webhook is used for.
 	Description string `json:"description"`
 	// The list of events to enable for this endpoint. `['*']` indicates that all events are enabled, except those that require explicit selection.
@@ -101,40 +96,4 @@ type WebhookEndpointList struct {
 	APIResource
 	ListMeta
 	Data []*WebhookEndpoint `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a WebhookEndpoint.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (w *WebhookEndpoint) UnmarshalJSON(data []byte) error {
-	type webhookEndpoint WebhookEndpoint
-	v := struct {
-		Created int64 `json:"created"`
-		*webhookEndpoint
-	}{
-		webhookEndpoint: (*webhookEndpoint)(w),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	w.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a WebhookEndpoint.
-// This custom marshaling is needed to handle the time fields correctly.
-func (w WebhookEndpoint) MarshalJSON() ([]byte, error) {
-	type webhookEndpoint WebhookEndpoint
-	v := struct {
-		Created int64 `json:"created"`
-		webhookEndpoint
-	}{
-		webhookEndpoint: (webhookEndpoint)(w),
-		Created:         w.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

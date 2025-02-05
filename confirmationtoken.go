@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 type ConfirmationTokenPaymentMethodPreviewAllowRedisplay string
 
@@ -569,7 +564,7 @@ type ConfirmationTokenPaymentMethodPreviewCardChecks struct {
 // Details about payments collected offline.
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline struct {
 	// Time at which the payment was collected while offline
-	StoredAt time.Time `json:"stored_at"`
+	StoredAt int64 `json:"stored_at"`
 	// The method used to process this payment method offline. Only deferred is allowed.
 	Type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOfflineType `json:"type"`
 }
@@ -607,7 +602,7 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
 	// When using manual capture, a future timestamp after which the charge will be automatically refunded if uncaptured.
-	CaptureBefore time.Time `json:"capture_before"`
+	CaptureBefore int64 `json:"capture_before"`
 	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
 	CardholderName string `json:"cardholder_name"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
@@ -773,7 +768,7 @@ type ConfirmationTokenPaymentMethodPreviewCardPresentNetworks struct {
 // Details about payment methods collected offline.
 type ConfirmationTokenPaymentMethodPreviewCardPresentOffline struct {
 	// Time at which the payment was collected while offline
-	StoredAt time.Time `json:"stored_at"`
+	StoredAt int64 `json:"stored_at"`
 	// The method used to process this payment method offline. Only deferred is allowed.
 	Type ConfirmationTokenPaymentMethodPreviewCardPresentOfflineType `json:"type"`
 }
@@ -1128,9 +1123,9 @@ type ConfirmationTokenShipping struct {
 type ConfirmationToken struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Time at which this ConfirmationToken expires and can no longer be used to confirm a PaymentIntent or SetupIntent.
-	ExpiresAt time.Time `json:"expires_at"`
+	ExpiresAt int64 `json:"expires_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -1157,152 +1152,4 @@ type ConfirmationToken struct {
 	Shipping *ConfirmationTokenShipping `json:"shipping"`
 	// Indicates whether the Stripe SDK is used to handle confirmation flow. Defaults to `true` on ConfirmationToken.
 	UseStripeSDK bool `json:"use_stripe_sdk"`
-}
-
-// UnmarshalJSON handles deserialization of a ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (c *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline) UnmarshalJSON(data []byte) error {
-	type confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		*confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline
-	}{
-		confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline: (*confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline)(c),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	c.StoredAt = time.Unix(v.StoredAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (c *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent) UnmarshalJSON(data []byte) error {
-	type confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent
-	v := struct {
-		CaptureBefore int64 `json:"capture_before"`
-		*confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent
-	}{
-		confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent: (*confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent)(c),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	c.CaptureBefore = time.Unix(v.CaptureBefore, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a ConfirmationTokenPaymentMethodPreviewCardPresentOffline.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (c *ConfirmationTokenPaymentMethodPreviewCardPresentOffline) UnmarshalJSON(data []byte) error {
-	type confirmationTokenPaymentMethodPreviewCardPresentOffline ConfirmationTokenPaymentMethodPreviewCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		*confirmationTokenPaymentMethodPreviewCardPresentOffline
-	}{
-		confirmationTokenPaymentMethodPreviewCardPresentOffline: (*confirmationTokenPaymentMethodPreviewCardPresentOffline)(c),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	c.StoredAt = time.Unix(v.StoredAt, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a ConfirmationToken.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (c *ConfirmationToken) UnmarshalJSON(data []byte) error {
-	type confirmationToken ConfirmationToken
-	v := struct {
-		Created   int64 `json:"created"`
-		ExpiresAt int64 `json:"expires_at"`
-		*confirmationToken
-	}{
-		confirmationToken: (*confirmationToken)(c),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	c.Created = time.Unix(v.Created, 0)
-	c.ExpiresAt = time.Unix(v.ExpiresAt, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline) MarshalJSON() ([]byte, error) {
-	type confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline
-	}{
-		confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline: (confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline)(c),
-		StoredAt: c.StoredAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent) MarshalJSON() ([]byte, error) {
-	type confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent
-	v := struct {
-		CaptureBefore int64 `json:"capture_before"`
-		confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent
-	}{
-		confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent: (confirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent)(c),
-		CaptureBefore: c.CaptureBefore.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a ConfirmationTokenPaymentMethodPreviewCardPresentOffline.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c ConfirmationTokenPaymentMethodPreviewCardPresentOffline) MarshalJSON() ([]byte, error) {
-	type confirmationTokenPaymentMethodPreviewCardPresentOffline ConfirmationTokenPaymentMethodPreviewCardPresentOffline
-	v := struct {
-		StoredAt int64 `json:"stored_at"`
-		confirmationTokenPaymentMethodPreviewCardPresentOffline
-	}{
-		confirmationTokenPaymentMethodPreviewCardPresentOffline: (confirmationTokenPaymentMethodPreviewCardPresentOffline)(c),
-		StoredAt: c.StoredAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a ConfirmationToken.
-// This custom marshaling is needed to handle the time fields correctly.
-func (c ConfirmationToken) MarshalJSON() ([]byte, error) {
-	type confirmationToken ConfirmationToken
-	v := struct {
-		Created   int64 `json:"created"`
-		ExpiresAt int64 `json:"expires_at"`
-		confirmationToken
-	}{
-		confirmationToken: (confirmationToken)(c),
-		Created:           c.Created.Unix(),
-		ExpiresAt:         c.ExpiresAt.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

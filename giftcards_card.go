@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // The type of event that created this object.
 type GiftCardsCardCreatedByType string
 
@@ -133,7 +128,7 @@ type GiftCardsCard struct {
 	// Code used to redeem this gift card.
 	Code string `json:"code"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The related Stripe objects that created this gift card.
 	CreatedBy *GiftCardsCardCreatedBy `json:"created_by"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -153,40 +148,4 @@ type GiftCardsCardList struct {
 	APIResource
 	ListMeta
 	Data []*GiftCardsCard `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a GiftCardsCard.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (g *GiftCardsCard) UnmarshalJSON(data []byte) error {
-	type giftCardsCard GiftCardsCard
-	v := struct {
-		Created int64 `json:"created"`
-		*giftCardsCard
-	}{
-		giftCardsCard: (*giftCardsCard)(g),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	g.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a GiftCardsCard.
-// This custom marshaling is needed to handle the time fields correctly.
-func (g GiftCardsCard) MarshalJSON() ([]byte, error) {
-	type giftCardsCard GiftCardsCard
-	v := struct {
-		Created int64 `json:"created"`
-		giftCardsCard
-	}{
-		giftCardsCard: (giftCardsCard)(g),
-		Created:       g.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

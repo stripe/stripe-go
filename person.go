@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
 type PersonPoliticalExposure string
 
@@ -152,7 +147,7 @@ func (p *PersonParams) AddMetadata(key string, value string) {
 // Details on the legal guardian's acceptance of the main Stripe service agreement.
 type PersonAdditionalTOSAcceptancesAccountParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
-	Date *time.Time `form:"date"`
+	Date *int64 `form:"date"`
 	// The IP address from which the account representative accepted the service agreement.
 	IP *string `form:"ip"`
 	// The user agent of the browser from which the account representative accepted the service agreement.
@@ -309,7 +304,7 @@ func (p *PersonListParams) AddExpand(f string) {
 // Details on the legal guardian's acceptance of the main Stripe service agreement.
 type PersonAdditionalTOSAcceptancesAccount struct {
 	// The Unix timestamp marking when the legal guardian accepted the service agreement.
-	Date time.Time `json:"date"`
+	Date int64 `json:"date"`
 	// The IP address from which the legal guardian accepted the service agreement.
 	IP string `json:"ip"`
 	// The user agent of the browser from which the legal guardian accepted the service agreement.
@@ -479,7 +474,7 @@ type Person struct {
 	// The Kanji variation of the person's address (Japan only).
 	AddressKanji *PersonAddressKanji `json:"address_kanji"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time  `json:"created"`
+	Created int64      `json:"created"`
 	Deleted bool       `json:"deleted"`
 	DOB     *PersonDOB `json:"dob"`
 	// The person's email address.
@@ -534,76 +529,4 @@ type PersonList struct {
 	APIResource
 	ListMeta
 	Data []*Person `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a PersonAdditionalTOSAcceptancesAccount.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *PersonAdditionalTOSAcceptancesAccount) UnmarshalJSON(data []byte) error {
-	type personAdditionalTOSAcceptancesAccount PersonAdditionalTOSAcceptancesAccount
-	v := struct {
-		Date int64 `json:"date"`
-		*personAdditionalTOSAcceptancesAccount
-	}{
-		personAdditionalTOSAcceptancesAccount: (*personAdditionalTOSAcceptancesAccount)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.Date = time.Unix(v.Date, 0)
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a Person.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (p *Person) UnmarshalJSON(data []byte) error {
-	type person Person
-	v := struct {
-		Created int64 `json:"created"`
-		*person
-	}{
-		person: (*person)(p),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	p.Created = time.Unix(v.Created, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a PersonAdditionalTOSAcceptancesAccount.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p PersonAdditionalTOSAcceptancesAccount) MarshalJSON() ([]byte, error) {
-	type personAdditionalTOSAcceptancesAccount PersonAdditionalTOSAcceptancesAccount
-	v := struct {
-		Date int64 `json:"date"`
-		personAdditionalTOSAcceptancesAccount
-	}{
-		personAdditionalTOSAcceptancesAccount: (personAdditionalTOSAcceptancesAccount)(p),
-		Date:                                  p.Date.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
-}
-
-// MarshalJSON handles serialization of a Person.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p Person) MarshalJSON() ([]byte, error) {
-	type person Person
-	v := struct {
-		Created int64 `json:"created"`
-		person
-	}{
-		person:  (person)(p),
-		Created: p.Created.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

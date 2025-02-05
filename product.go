@@ -9,7 +9,6 @@ package stripe
 import (
 	"encoding/json"
 	"github.com/stripe/stripe-go/v81/form"
-	"time"
 )
 
 // The specific type of gift_card provisioning, only `fixed_amount` currently supported.
@@ -308,7 +307,7 @@ type Product struct {
 	// Whether the product is currently available for purchase.
 	Active bool `json:"active"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The ID of the [Price](https://stripe.com/docs/api/prices) object that is the default price for this product.
 	DefaultPrice *Price `json:"default_price"`
 	Deleted      bool   `json:"deleted"`
@@ -343,7 +342,7 @@ type Product struct {
 	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
 	UnitLabel string `json:"unit_label"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
-	Updated time.Time `json:"updated"`
+	Updated int64 `json:"updated"`
 	// A URL of a publicly-accessible webpage for this product.
 	URL string `json:"url"`
 }
@@ -372,38 +371,11 @@ func (p *Product) UnmarshalJSON(data []byte) error {
 	}
 
 	type product Product
-	v := struct {
-		Created int64 `json:"created"`
-		Updated int64 `json:"updated"`
-		*product
-	}{
-		product: (*product)(p),
-	}
+	var v product
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	p.Created = time.Unix(v.Created, 0)
-	p.Updated = time.Unix(v.Updated, 0)
+	*p = Product(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a Product.
-// This custom marshaling is needed to handle the time fields correctly.
-func (p Product) MarshalJSON() ([]byte, error) {
-	type product Product
-	v := struct {
-		Created int64 `json:"created"`
-		Updated int64 `json:"updated"`
-		product
-	}{
-		product: (product)(p),
-		Created: p.Created.Unix(),
-		Updated: p.Updated.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }

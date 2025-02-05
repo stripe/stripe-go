@@ -6,11 +6,6 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
-
 // Creates a billing meter event.
 type BillingMeterEventParams struct {
 	Params `form:"*"`
@@ -23,7 +18,7 @@ type BillingMeterEventParams struct {
 	// The payload of the event. This must contain the fields corresponding to a meter's `customer_mapping.event_payload_key` (default is `stripe_customer_id`) and `value_settings.event_payload_key` (default is `value`). Read more about the [payload](https://docs.stripe.com/billing/subscriptions/usage-based/recording-usage#payload-key-overrides).
 	Payload map[string]string `form:"payload"`
 	// The time of the event. Measured in seconds since the Unix epoch. Must be within the past 35 calendar days or up to 5 minutes in the future. Defaults to current timestamp if not specified.
-	Timestamp *time.Time `form:"timestamp"`
+	Timestamp *int64 `form:"timestamp"`
 }
 
 // AddExpand appends a new field to expand.
@@ -35,7 +30,7 @@ func (p *BillingMeterEventParams) AddExpand(f string) {
 type BillingMeterEvent struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// The name of the meter event. Corresponds with the `event_name` field on a meter.
 	EventName string `json:"event_name"`
 	// A unique identifier for the event.
@@ -47,45 +42,5 @@ type BillingMeterEvent struct {
 	// The payload of the event. This contains the fields corresponding to a meter's `customer_mapping.event_payload_key` (default is `stripe_customer_id`) and `value_settings.event_payload_key` (default is `value`). Read more about the [payload](https://stripe.com/docs/billing/subscriptions/usage-based/recording-usage#payload-key-overrides).
 	Payload map[string]string `json:"payload"`
 	// The timestamp passed in when creating the event. Measured in seconds since the Unix epoch.
-	Timestamp time.Time `json:"timestamp"`
-}
-
-// UnmarshalJSON handles deserialization of a BillingMeterEvent.
-// This custom unmarshaling is needed to handle the time fields correctly.
-func (b *BillingMeterEvent) UnmarshalJSON(data []byte) error {
-	type billingMeterEvent BillingMeterEvent
-	v := struct {
-		Created   int64 `json:"created"`
-		Timestamp int64 `json:"timestamp"`
-		*billingMeterEvent
-	}{
-		billingMeterEvent: (*billingMeterEvent)(b),
-	}
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	b.Created = time.Unix(v.Created, 0)
-	b.Timestamp = time.Unix(v.Timestamp, 0)
-	return nil
-}
-
-// MarshalJSON handles serialization of a BillingMeterEvent.
-// This custom marshaling is needed to handle the time fields correctly.
-func (b BillingMeterEvent) MarshalJSON() ([]byte, error) {
-	type billingMeterEvent BillingMeterEvent
-	v := struct {
-		Created   int64 `json:"created"`
-		Timestamp int64 `json:"timestamp"`
-		billingMeterEvent
-	}{
-		billingMeterEvent: (billingMeterEvent)(b),
-		Created:           b.Created.Unix(),
-		Timestamp:         b.Timestamp.Unix(),
-	}
-	bb, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return bb, err
+	Timestamp int64 `json:"timestamp"`
 }

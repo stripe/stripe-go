@@ -6,10 +6,7 @@
 
 package stripe
 
-import (
-	"encoding/json"
-	"time"
-)
+import "encoding/json"
 
 // The status of the top-up is either `canceled`, `failed`, `pending`, `reversed`, or `succeeded`.
 type TopupStatus string
@@ -92,13 +89,13 @@ type Topup struct {
 	// ID of the balance transaction that describes the impact of this top-up on your account balance. May not be specified depending on status of top-up.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created time.Time `json:"created"`
+	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
 	// Date the funds are expected to arrive in your Stripe account for payouts. This factors in delays like weekends or bank holidays. May not be specified depending on status of top-up.
-	ExpectedAvailabilityDate time.Time `json:"expected_availability_date"`
+	ExpectedAvailabilityDate int64 `json:"expected_availability_date"`
 	// Error code explaining reason for top-up failure if available (see [the errors section](https://stripe.com/docs/api#errors) for a list of codes).
 	FailureCode string `json:"failure_code"`
 	// Message to user further explaining reason for top-up failure if available.
@@ -141,38 +138,11 @@ func (t *Topup) UnmarshalJSON(data []byte) error {
 	}
 
 	type topup Topup
-	v := struct {
-		Created                  int64 `json:"created"`
-		ExpectedAvailabilityDate int64 `json:"expected_availability_date"`
-		*topup
-	}{
-		topup: (*topup)(t),
-	}
+	var v topup
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	t.Created = time.Unix(v.Created, 0)
-	t.ExpectedAvailabilityDate = time.Unix(v.ExpectedAvailabilityDate, 0)
+	*t = Topup(v)
 	return nil
-}
-
-// MarshalJSON handles serialization of a Topup.
-// This custom marshaling is needed to handle the time fields correctly.
-func (t Topup) MarshalJSON() ([]byte, error) {
-	type topup Topup
-	v := struct {
-		Created                  int64 `json:"created"`
-		ExpectedAvailabilityDate int64 `json:"expected_availability_date"`
-		topup
-	}{
-		topup:                    (topup)(t),
-		Created:                  t.Created.Unix(),
-		ExpectedAvailabilityDate: t.ExpectedAvailabilityDate.Unix(),
-	}
-	b, err := json.Marshal(v)
-	if err != nil {
-		return nil, err
-	}
-	return b, err
 }
