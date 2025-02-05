@@ -1,33 +1,38 @@
-package account
+package account_test
 
 import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go/v81"
-	_ "github.com/stripe/stripe-go/v81/testing"
+	"github.com/stripe/stripe-go/v81/client"
+	. "github.com/stripe/stripe-go/v81/testing"
 )
 
 func TestAccountDel(t *testing.T) {
-	account, err := Del("acct_123", nil)
+	sc := client.New(TestApiKey, nil)
+	account, err := sc.Accounts.Del("acct_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
 }
 
 func TestAccountGet(t *testing.T) {
-	account, err := Get()
+	sc := client.New(TestApiKey, nil)
+	account, err := sc.Accounts.Get()
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
 }
 
 func TestAccountGetByID(t *testing.T) {
-	account, err := GetByID("acct_123", nil)
+	sc := client.New(TestApiKey, nil)
+	account, err := sc.Accounts.GetByID("acct_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
 }
 
 func TestAccountList(t *testing.T) {
-	i := List(&stripe.AccountListParams{})
+	sc := client.New(TestApiKey, nil)
+	i := sc.Accounts.List(&stripe.AccountListParams{})
 
 	// Verify that we can get at least one account
 	assert.True(t, i.Next())
@@ -37,7 +42,8 @@ func TestAccountList(t *testing.T) {
 }
 
 func TestAccountNew(t *testing.T) {
-	account, err := New(&stripe.AccountParams{
+	sc := client.New(TestApiKey, nil)
+	account, err := sc.Accounts.New(&stripe.AccountParams{
 		BusinessProfile: &stripe.AccountBusinessProfileParams{
 			Name:         stripe.String("name"),
 			SupportEmail: stripe.String("foo@bar.com"),
@@ -103,7 +109,8 @@ func TestAccountNew(t *testing.T) {
 }
 
 func TestAccountReject(t *testing.T) {
-	account, err := Reject("acct_123", &stripe.AccountRejectParams{
+	sc := client.New(TestApiKey, nil)
+	account, err := sc.Accounts.Reject("acct_123", &stripe.AccountRejectParams{
 		Reason: stripe.String("fraud"),
 	})
 	assert.Nil(t, err)
@@ -111,7 +118,8 @@ func TestAccountReject(t *testing.T) {
 }
 
 func TestAccountUpdate(t *testing.T) {
-	account, err := Update("acct_123", &stripe.AccountParams{
+	sc := client.New(TestApiKey, nil)
+	account, err := sc.Accounts.Update("acct_123", &stripe.AccountParams{
 		Company: &stripe.AccountCompanyParams{
 			Address: &stripe.AddressParams{
 				Country:    stripe.String("CA"),

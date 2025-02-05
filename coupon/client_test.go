@@ -1,27 +1,31 @@
-package coupon
+package coupon_test
 
 import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go/v81"
-	_ "github.com/stripe/stripe-go/v81/testing"
+	"github.com/stripe/stripe-go/v81/client"
+	. "github.com/stripe/stripe-go/v81/testing"
 )
 
 func TestCouponDel(t *testing.T) {
-	coupon, err := Del("25OFF", nil)
+	sc := client.New(TestApiKey, nil)
+	coupon, err := sc.Coupons.Del("25OFF", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)
 }
 
 func TestCouponGet(t *testing.T) {
-	coupon, err := Get("25OFF", nil)
+	sc := client.New(TestApiKey, nil)
+	coupon, err := sc.Coupons.Get("25OFF", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)
 }
 
 func TestCouponList(t *testing.T) {
-	i := List(&stripe.CouponListParams{})
+	sc := client.New(TestApiKey, nil)
+	i := sc.Coupons.List(&stripe.CouponListParams{})
 
 	// Verify that we can get at least one coupon
 	assert.True(t, i.Next())
@@ -31,7 +35,8 @@ func TestCouponList(t *testing.T) {
 }
 
 func TestCouponNew(t *testing.T) {
-	coupon, err := New(&stripe.CouponParams{
+	sc := client.New(TestApiKey, nil)
+	coupon, err := sc.Coupons.New(&stripe.CouponParams{
 		AppliesTo: &stripe.CouponAppliesToParams{
 			Products: stripe.StringSlice([]string{
 				"prod_123",
@@ -49,7 +54,8 @@ func TestCouponNew(t *testing.T) {
 }
 
 func TestCouponUpdate(t *testing.T) {
-	coupon, err := Update("25OFF", &stripe.CouponParams{
+	sc := client.New(TestApiKey, nil)
+	coupon, err := sc.Coupons.Update("25OFF", &stripe.CouponParams{
 		Params: stripe.Params{
 			Metadata: map[string]string{
 				"foo": "bar",
