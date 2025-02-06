@@ -84,14 +84,6 @@ type TerminalReaderParams struct {
 	RegistrationCode *string `form:"registration_code"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TerminalReaderParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TerminalReaderParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -133,14 +125,6 @@ type TerminalReaderCancelActionParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TerminalReaderCancelActionParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TerminalReaderCancelActionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -175,14 +159,6 @@ type TerminalReaderProcessPaymentIntentParams struct {
 	ProcessConfig *TerminalReaderProcessPaymentIntentProcessConfigParams `form:"process_config"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TerminalReaderProcessPaymentIntentParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TerminalReaderProcessPaymentIntentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -205,14 +181,6 @@ type TerminalReaderProcessSetupIntentParams struct {
 	ProcessConfig *TerminalReaderProcessSetupIntentProcessConfigParams `form:"process_config"`
 	// SetupIntent ID
 	SetupIntent *string `form:"setup_intent"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TerminalReaderProcessSetupIntentParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -245,14 +213,6 @@ type TerminalReaderRefundPaymentParams struct {
 	RefundPaymentConfig *TerminalReaderRefundPaymentRefundPaymentConfigParams `form:"refund_payment_config"`
 	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). A transfer can be reversed only by the application that created the charge.
 	ReverseTransfer *bool `form:"reverse_transfer"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TerminalReaderRefundPaymentParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -300,14 +260,6 @@ type TerminalReaderSetReaderDisplayParams struct {
 	Expand []*string `form:"expand"`
 	// Type
 	Type *string `form:"type"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TerminalReaderSetReaderDisplayParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

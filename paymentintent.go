@@ -2455,14 +2455,6 @@ type PaymentIntentParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PaymentIntentParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2509,14 +2501,6 @@ type PaymentIntentApplyCustomerBalanceParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PaymentIntentApplyCustomerBalanceParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentApplyCustomerBalanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2533,14 +2517,6 @@ type PaymentIntentCancelParams struct {
 	CancellationReason *string `form:"cancellation_reason"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PaymentIntentCancelParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -2574,14 +2550,6 @@ type PaymentIntentCaptureParams struct {
 	// The parameters that you can use to automatically create a transfer after the payment
 	// is captured. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PaymentIntentCaptureParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -2680,14 +2648,6 @@ type PaymentIntentConfirmParams struct {
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PaymentIntentConfirmParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2743,14 +2703,6 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	TransferData *PaymentIntentIncrementAuthorizationTransferDataParams `form:"transfer_data"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PaymentIntentIncrementAuthorizationParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentIncrementAuthorizationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -2774,14 +2726,6 @@ type PaymentIntentVerifyMicrodepositsParams struct {
 	DescriptorCode *string `form:"descriptor_code"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PaymentIntentVerifyMicrodepositsParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

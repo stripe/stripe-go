@@ -115,14 +115,6 @@ type PaymentSourceParams struct {
 	Validate *bool                      `form:"validate"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PaymentSourceParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *PaymentSourceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -157,14 +149,6 @@ type PaymentSourceVerifyParams struct {
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	Values []*string `form:"values"` // Values is used when verifying sources
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PaymentSourceVerifyParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

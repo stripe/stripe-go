@@ -88,14 +88,6 @@ type BillingAlertParams struct {
 	UsageThreshold *BillingAlertUsageThresholdParams `form:"usage_threshold"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *BillingAlertParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *BillingAlertParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -106,14 +98,6 @@ type BillingAlertActivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *BillingAlertActivateParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -128,14 +112,6 @@ type BillingAlertArchiveParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *BillingAlertArchiveParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *BillingAlertArchiveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -146,14 +122,6 @@ type BillingAlertDeactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *BillingAlertDeactivateParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

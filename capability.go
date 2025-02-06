@@ -77,14 +77,6 @@ type CapabilityParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *CapabilityParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *CapabilityParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

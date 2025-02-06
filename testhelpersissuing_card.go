@@ -13,14 +13,6 @@ type TestHelpersIssuingCardDeliverCardParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingCardDeliverCardParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingCardDeliverCardParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -31,14 +23,6 @@ type TestHelpersIssuingCardFailCardParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingCardFailCardParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.
@@ -53,14 +37,6 @@ type TestHelpersIssuingCardReturnCardParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingCardReturnCardParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingCardReturnCardParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -73,14 +49,6 @@ type TestHelpersIssuingCardShipCardParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingCardShipCardParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TestHelpersIssuingCardShipCardParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -91,14 +59,6 @@ type TestHelpersIssuingCardSubmitCardParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersIssuingCardSubmitCardParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

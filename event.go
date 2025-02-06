@@ -287,14 +287,6 @@ type EventParams struct {
 	Expand []*string `form:"expand"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *EventParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *EventParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

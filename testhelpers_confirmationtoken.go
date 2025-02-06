@@ -363,14 +363,6 @@ type TestHelpersConfirmationTokenParams struct {
 	Shipping *TestHelpersConfirmationTokenShippingParams `form:"shipping"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TestHelpersConfirmationTokenParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TestHelpersConfirmationTokenParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

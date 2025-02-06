@@ -149,14 +149,6 @@ type TreasuryOutboundTransferParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TreasuryOutboundTransferParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TreasuryOutboundTransferParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -176,14 +168,6 @@ type TreasuryOutboundTransferCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-}
-
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TreasuryOutboundTransferCancelParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
 }
 
 // AddExpand appends a new field to expand.

@@ -27,14 +27,6 @@ type TerminalConfigurationParams struct {
 	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *TerminalConfigurationParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *TerminalConfigurationParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

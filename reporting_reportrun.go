@@ -66,14 +66,6 @@ type ReportingReportRunParams struct {
 	ReportType *string `form:"report_type"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *ReportingReportRunParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *ReportingReportRunParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)

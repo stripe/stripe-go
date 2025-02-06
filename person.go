@@ -130,14 +130,6 @@ type PersonParams struct {
 	Verification *PersonVerificationParams `form:"verification"`
 }
 
-// GetParams is a nil-safe implementation of the ParamsContainer interface.
-func (p *PersonParams) GetParams() *Params {
-	if p == nil {
-		return nil
-	}
-	return &p.Params
-}
-
 // AddExpand appends a new field to expand.
 func (p *PersonParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
