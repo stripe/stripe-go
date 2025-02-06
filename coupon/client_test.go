@@ -10,21 +10,21 @@ import (
 )
 
 func TestCouponDel(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	coupon, err := sc.Coupons.Del("25OFF", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)
 }
 
 func TestCouponGet(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	coupon, err := sc.Coupons.Get("25OFF", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)
 }
 
 func TestCouponList(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	i := sc.Coupons.List(&stripe.CouponListParams{})
 
 	// Verify that we can get at least one coupon
@@ -35,7 +35,7 @@ func TestCouponList(t *testing.T) {
 }
 
 func TestCouponNew(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	coupon, err := sc.Coupons.New(&stripe.CouponParams{
 		AppliesTo: &stripe.CouponAppliesToParams{
 			Products: stripe.StringSlice([]string{
@@ -54,7 +54,7 @@ func TestCouponNew(t *testing.T) {
 }
 
 func TestCouponUpdate(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	coupon, err := sc.Coupons.Update("25OFF", &stripe.CouponParams{
 		Params: stripe.Params{
 			Metadata: map[string]string{

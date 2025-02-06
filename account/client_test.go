@@ -10,28 +10,28 @@ import (
 )
 
 func TestAccountDel(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	account, err := sc.Accounts.Del("acct_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
 }
 
 func TestAccountGet(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	account, err := sc.Accounts.Get()
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
 }
 
 func TestAccountGetByID(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	account, err := sc.Accounts.GetByID("acct_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
 }
 
 func TestAccountList(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	i := sc.Accounts.List(&stripe.AccountListParams{})
 
 	// Verify that we can get at least one account
@@ -42,7 +42,7 @@ func TestAccountList(t *testing.T) {
 }
 
 func TestAccountNew(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	account, err := sc.Accounts.New(&stripe.AccountParams{
 		BusinessProfile: &stripe.AccountBusinessProfileParams{
 			Name:         stripe.String("name"),
@@ -109,7 +109,7 @@ func TestAccountNew(t *testing.T) {
 }
 
 func TestAccountReject(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	account, err := sc.Accounts.Reject("acct_123", &stripe.AccountRejectParams{
 		Reason: stripe.String("fraud"),
 	})
@@ -118,7 +118,7 @@ func TestAccountReject(t *testing.T) {
 }
 
 func TestAccountUpdate(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	account, err := sc.Accounts.Update("acct_123", &stripe.AccountParams{
 		Company: &stripe.AccountCompanyParams{
 			Address: &stripe.AddressParams{

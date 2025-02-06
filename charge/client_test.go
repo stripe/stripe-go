@@ -10,7 +10,7 @@ import (
 )
 
 func TestChargeCapture(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	charge, err := sc.Charges.Capture("ch_123", &stripe.ChargeCaptureParams{
 		Amount: stripe.Int64(123),
 	})
@@ -19,14 +19,14 @@ func TestChargeCapture(t *testing.T) {
 }
 
 func TestChargeGet(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	charge, err := sc.Charges.Get("ch_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, charge)
 }
 
 func TestChargeList(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	i := sc.Charges.List(&stripe.ChargeListParams{})
 
 	// Verify that we can get at least one charge
@@ -37,7 +37,7 @@ func TestChargeList(t *testing.T) {
 }
 
 func TestChargeSearch(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	i := sc.Charges.Search(&stripe.ChargeSearchParams{SearchParams: stripe.SearchParams{
 		Query: "currency:\"USD\"",
 	}})
@@ -51,7 +51,7 @@ func TestChargeSearch(t *testing.T) {
 }
 
 func TestChargeNew(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	charge, err := sc.Charges.New(&stripe.ChargeParams{
 		Amount:   stripe.Int64(11700),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
@@ -70,7 +70,7 @@ func TestChargeNew(t *testing.T) {
 }
 
 func TestChargeUpdate(t *testing.T) {
-	sc := client.New(TestApiKey, nil)
+	sc := client.New(TestAPIKey, nil)
 	charge, err := sc.Charges.Update("ch_123", &stripe.ChargeParams{
 		Description: stripe.String("Updated description"),
 	})

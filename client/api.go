@@ -8,6 +8,9 @@
 package client
 
 import (
+	"bytes"
+	"reflect"
+
 	stripe "github.com/stripe/stripe-go/v81"
 	"github.com/stripe/stripe-go/v81/account"
 	"github.com/stripe/stripe-go/v81/accountlink"
@@ -55,6 +58,7 @@ import (
 	financialconnectionsaccount "github.com/stripe/stripe-go/v81/financialconnections/account"
 	financialconnectionssession "github.com/stripe/stripe-go/v81/financialconnections/session"
 	financialconnectionstransaction "github.com/stripe/stripe-go/v81/financialconnections/transaction"
+	"github.com/stripe/stripe-go/v81/form"
 	forwardingrequest "github.com/stripe/stripe-go/v81/forwarding/request"
 	identityverificationreport "github.com/stripe/stripe-go/v81/identity/verificationreport"
 	identityverificationsession "github.com/stripe/stripe-go/v81/identity/verificationsession"
@@ -425,11 +429,12 @@ type API struct {
 
 func (a *API) Init(key string, backends *stripe.Backends) {
 
+	usage := []string{"stripe_go_client"}
 	if backends == nil {
 		backends = &stripe.Backends{
-			API:     stripe.GetBackend(stripe.APIBackend),
-			Connect: stripe.GetBackend(stripe.ConnectBackend),
-			Uploads: stripe.GetBackend(stripe.UploadsBackend),
+			API:     &usageBackend{b: stripe.GetBackend(stripe.APIBackend), usage: usage},
+			Connect: &usageBackend{b: stripe.GetBackend(stripe.ConnectBackend), usage: usage},
+			Uploads: &usageBackend{b: stripe.GetBackend(stripe.UploadsBackend), usage: usage},
 		}
 	}
 
@@ -577,4 +582,38 @@ func New(key string, backends *stripe.Backends) *API {
 	api := API{}
 	api.Init(key, backends)
 	return &api
+}
+
+// usageBackend is a wrapper for stripe.Backend that sets the usage parameter
+type usageBackend struct {
+	b     stripe.Backend
+	usage []string
+}
+
+func (u *usageBackend) Call(method, path, key string, params stripe.ParamsContainer, v stripe.LastResponseSetter) error {
+	if r := reflect.ValueOf(params); r.Kind() == reflect.Ptr && !r.IsNil() {
+		params.GetParams().InternalSetUsage(u.usage)
+	}
+	return u.b.Call(method, path, key, params, v)
+}
+
+func (u *usageBackend) CallRaw(method, path, key string, body *form.Values, params *stripe.Params, v stripe.LastResponseSetter) error {
+	params.GetParams().InternalSetUsage(u.usage)
+	return u.b.CallRaw(method, path, key, body, params, v)
+}
+
+func (u *usageBackend) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *stripe.Params, v stripe.LastResponseSetter) error {
+	params.GetParams().InternalSetUsage(u.usage)
+	return u.b.CallMultipart(method, path, key, boundary, body, params, v)
+}
+
+func (u *usageBackend) CallStreaming(method, path, key string, params stripe.ParamsContainer, v stripe.StreamingLastResponseSetter) error {
+	if r := reflect.ValueOf(params); r.Kind() == reflect.Ptr && !r.IsNil() {
+		params.GetParams().InternalSetUsage(u.usage)
+	}
+	return u.b.CallStreaming(method, path, key, params, v)
+}
+
+func (u *usageBackend) SetMaxNetworkRetries(maxNetworkRetries int64) {
+	u.b.SetMaxNetworkRetries(maxNetworkRetries)
 }
