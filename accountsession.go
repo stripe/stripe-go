@@ -318,6 +318,17 @@ type AccountSessionComponentsPayoutsListParams struct {
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsPayoutsListFeaturesParams `form:"features"`
 }
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsProductTaxCodeSelectorFeaturesParams struct{}
+
+// Configuration for the product tax code selector embedded component.
+type AccountSessionComponentsProductTaxCodeSelectorParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsProductTaxCodeSelectorFeaturesParams `form:"features"`
+}
 type AccountSessionComponentsRecipientsFeaturesParams struct {
 	// Whether to allow sending money.
 	SendMoney *bool `form:"send_money"`
@@ -416,6 +427,8 @@ type AccountSessionComponentsParams struct {
 	Payouts *AccountSessionComponentsPayoutsParams `form:"payouts"`
 	// Configuration for the payouts list embedded component.
 	PayoutsList *AccountSessionComponentsPayoutsListParams `form:"payouts_list"`
+	// Configuration for the product tax code selector embedded component.
+	ProductTaxCodeSelector *AccountSessionComponentsProductTaxCodeSelectorParams `form:"product_tax_code_selector"`
 	// Configuration for the recipients component.
 	Recipients *AccountSessionComponentsRecipientsParams `form:"recipients"`
 	// Configuration for the reporting chart embedded component.

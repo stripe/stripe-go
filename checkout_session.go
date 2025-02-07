@@ -590,6 +590,17 @@ const (
 	CheckoutSessionPaymentMethodOptionsCardRequestThreeDSecureChallenge CheckoutSessionPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 )
 
+// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+type CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedAmericanExpress       CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "american_express"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedDiscoverGlobalNetwork CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "discover_global_network"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedMastercard            CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "mastercard"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedVisa                  CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "visa"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1864,6 +1875,12 @@ type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
+	// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+	BrandsBlocked []*string `form:"brands_blocked"`
+}
+
 // contains details about the Card payment method options.
 type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	// Installment options for card payments
@@ -1880,6 +1897,8 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	RequestOvercapture *string `form:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+	Restrictions *CheckoutSessionPaymentMethodOptionsCardRestrictionsParams `form:"restrictions"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3236,6 +3255,10 @@ type CheckoutSessionPaymentMethodOptionsCardInstallments struct {
 	// Indicates if installments are enabled
 	Enabled bool `json:"enabled"`
 }
+type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
+	// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+	BrandsBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked `json:"brands_blocked"`
+}
 type CheckoutSessionPaymentMethodOptionsCard struct {
 	Installments *CheckoutSessionPaymentMethodOptionsCardInstallments `json:"installments"`
 	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -3250,6 +3273,7 @@ type CheckoutSessionPaymentMethodOptionsCard struct {
 	RequestOvercapture CheckoutSessionPaymentMethodOptionsCardRequestOvercapture `json:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure CheckoutSessionPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+	Restrictions        *CheckoutSessionPaymentMethodOptionsCardRestrictions       `json:"restrictions"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3682,9 +3706,9 @@ type CheckoutSessionShippingAddressCollection struct {
 type CheckoutSessionShippingCostTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
-	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+	// Tax rates can be applied to [invoices](https://stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
 	//
-	// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
+	// Related guide: [Tax rates](https://stripe.com/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CheckoutSessionShippingCostTaxTaxabilityReason `json:"taxability_reason"`
@@ -3735,9 +3759,9 @@ type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 type CheckoutSessionTotalDetailsBreakdownTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
-	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+	// Tax rates can be applied to [invoices](https://stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
 	//
-	// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
+	// Related guide: [Tax rates](https://stripe.com/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
