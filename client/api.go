@@ -425,11 +425,12 @@ type API struct {
 
 func (a *API) Init(key string, backends *stripe.Backends) {
 
+	usage := []string{"stripe_client"}
 	if backends == nil {
 		backends = &stripe.Backends{
-			API:     stripe.GetBackend(stripe.APIBackend),
-			Connect: stripe.GetBackend(stripe.ConnectBackend),
-			Uploads: stripe.GetBackend(stripe.UploadsBackend),
+			API:     &stripe.UsageBackend{B: stripe.GetBackend(stripe.APIBackend), Usage: usage},
+			Connect: &stripe.UsageBackend{B: stripe.GetBackend(stripe.ConnectBackend), Usage: usage},
+			Uploads: &stripe.UsageBackend{B: stripe.GetBackend(stripe.UploadsBackend), Usage: usage},
 		}
 	}
 
