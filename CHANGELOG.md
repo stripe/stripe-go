@@ -1,5 +1,15 @@
 # Changelog
 
+## 81.4.0-beta.1 - 2025-02-07
+* [#1973](https://github.com/stripe/stripe-go/pull/1973) Update generated code for beta
+  * Add support for `RejectedReason` on `AccountRiskControls`
+  * Add support for `ProductTaxCodeSelector` on `AccountSessionComponentsParams`
+  * Add support for `Prices` on `BillingCreditBalanceSummaryFilterApplicabilityScopeParams`, `BillingCreditGrantApplicabilityConfigScopeParams`, and `BillingCreditGrantApplicabilityConfigScope`
+  * Add support for `BrandProduct` on `ChargePaymentMethodDetailsAmazonPayFundingCard` and `ChargePaymentMethodDetailsRevolutPayFundingCard`
+  * Add support for `Restrictions` on `CheckoutSessionPaymentMethodOptionsCardParams` and `CheckoutSessionPaymentMethodOptionsCard`
+* [#1981](https://github.com/stripe/stripe-go/pull/1981) Revert "Support time.Time instead of int64 for date fields"
+* [#1972](https://github.com/stripe/stripe-go/pull/1972) Support time.Time instead of int64 for date fields
+
 ## 81.3.1 - 2025-02-03
 * [#1980](https://github.com/stripe/stripe-go/pull/1980) Update generated code
   * ⚠️  Fix acronym `JPY` in TerminalConfiguration that were not correctly capitalized
