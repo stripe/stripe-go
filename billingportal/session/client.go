@@ -28,12 +28,7 @@ func New(params *stripe.BillingPortalSessionParams) (*stripe.BillingPortalSessio
 func (c Client) New(params *stripe.BillingPortalSessionParams) (*stripe.BillingPortalSession, error) {
 	session := &stripe.BillingPortalSession{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/billing_portal/sessions",
-		c.Key,
-		params,
-		session,
-	)
+		http.MethodPost, "/v1/billing_portal/sessions", c.Key, params, session)
 	return session, err
 }
 

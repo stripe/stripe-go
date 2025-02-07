@@ -202,6 +202,21 @@ const (
 	AccountRequirementsDisabledReasonUnderReview                         AccountRequirementsDisabledReason = "under_review"
 )
 
+// Represents the rejected reason of the account. Empty if account is not rejected, or rejected by Stripe. Please see [this page for more details](https://stripe.com/docs/connect/)
+type AccountRiskControlsRejectedReason string
+
+// List of values that AccountRiskControlsRejectedReason can take
+const (
+	AccountRiskControlsRejectedReasonCredit                   AccountRiskControlsRejectedReason = "credit"
+	AccountRiskControlsRejectedReasonFraud                    AccountRiskControlsRejectedReason = "fraud"
+	AccountRiskControlsRejectedReasonFraudNoIntentToFulfill   AccountRiskControlsRejectedReason = "fraud_no_intent_to_fulfill"
+	AccountRiskControlsRejectedReasonFraudOther               AccountRiskControlsRejectedReason = "fraud_other"
+	AccountRiskControlsRejectedReasonFraudPaymentMethodCasher AccountRiskControlsRejectedReason = "fraud_payment_method_casher"
+	AccountRiskControlsRejectedReasonFraudPaymentMethodTester AccountRiskControlsRejectedReason = "fraud_payment_method_tester"
+	AccountRiskControlsRejectedReasonOther                    AccountRiskControlsRejectedReason = "other"
+	AccountRiskControlsRejectedReasonTermsOfService           AccountRiskControlsRejectedReason = "terms_of_service"
+)
+
 // How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
 type AccountSettingsPayoutsScheduleInterval string
 
@@ -1814,6 +1829,8 @@ type AccountRiskControlsPayouts struct {
 type AccountRiskControls struct {
 	Charges *AccountRiskControlsCharges `json:"charges"`
 	Payouts *AccountRiskControlsPayouts `json:"payouts"`
+	// Represents the rejected reason of the account. Empty if account is not rejected, or rejected by Stripe. Please see [this page for more details](https://stripe.com/docs/connect/)
+	RejectedReason AccountRiskControlsRejectedReason `json:"rejected_reason"`
 }
 type AccountSettingsBACSDebitPayments struct {
 	// The Bacs Direct Debit display name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. The fee appears 5 business days after requesting Bacs. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.

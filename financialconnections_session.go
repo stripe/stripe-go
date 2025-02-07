@@ -80,7 +80,7 @@ type FinancialConnectionsSessionParams struct {
 	Filters *FinancialConnectionsSessionFiltersParams `form:"filters"`
 	// Settings for configuring Session-specific limits.
 	Limits *FinancialConnectionsSessionLimitsParams `form:"limits"`
-	// Settings for configuring manual entry of account details for this Session.
+	// Customize manual entry behavior
 	ManualEntry *FinancialConnectionsSessionManualEntryParams `form:"manual_entry"`
 	// List of data features that you would like to request access to.
 	//
@@ -123,7 +123,7 @@ type FinancialConnectionsSessionLimitsParams struct {
 	Accounts *int64 `form:"accounts"`
 }
 
-// Settings for configuring manual entry of account details for this Session.
+// Customize manual entry behavior
 type FinancialConnectionsSessionManualEntryParams struct {
 	// Whether manual entry will be handled by Stripe during the Session.
 	Mode *string `form:"mode"`

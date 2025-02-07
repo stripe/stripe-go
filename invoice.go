@@ -3224,7 +3224,7 @@ type InvoiceAttachPaymentParams struct {
 	Expand []*string `form:"expand"`
 	// The ID of the PaymentIntent to attach to the invoice.
 	PaymentIntent *string `form:"payment_intent"`
-	// The ID of the PaymentRecord to detach from the invoice.
+	// The ID of the PaymentRecord to attach to the invoice.
 	PaymentRecord *string `form:"payment_record"`
 	// The PaymentRecord data for attaching an out of band payment to the invoice.
 	PaymentRecordData *InvoiceAttachPaymentPaymentRecordDataParams `form:"payment_record_data"`
@@ -4807,9 +4807,9 @@ type InvoiceRendering struct {
 type InvoiceShippingCostTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
-	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+	// Tax rates can be applied to [invoices](https://stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
 	//
-	// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
+	// Related guide: [Tax rates](https://stripe.com/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason InvoiceShippingCostTaxTaxabilityReason `json:"taxability_reason"`

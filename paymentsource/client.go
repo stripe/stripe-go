@@ -43,9 +43,7 @@ func (c Client) New(params *stripe.PaymentSourceParams) (*stripe.PaymentSource, 
 		return nil, fmt.Errorf("Invalid source params: customer needs to be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/sources",
-		stripe.StringValue(params.Customer),
-	)
+		"/v1/customers/%s/sources", stripe.StringValue(params.Customer))
 	paymentsource := &stripe.PaymentSource{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentsource)
 	return paymentsource, err
@@ -65,10 +63,7 @@ func (c Client) Get(id string, params *stripe.PaymentSourceParams) (*stripe.Paym
 		return nil, fmt.Errorf("Invalid source params: customer needs to be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/sources/%s",
-		stripe.StringValue(params.Customer),
-		id,
-	)
+		"/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	paymentsource := &stripe.PaymentSource{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentsource)
 	return paymentsource, err
@@ -88,10 +83,7 @@ func (c Client) Update(id string, params *stripe.PaymentSourceParams) (*stripe.P
 		return nil, fmt.Errorf("Invalid source params: customer needs to be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/sources/%s",
-		stripe.StringValue(params.Customer),
-		id,
-	)
+		"/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	paymentsource := &stripe.PaymentSource{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentsource)
 	return paymentsource, err
@@ -111,10 +103,7 @@ func (c Client) Del(id string, params *stripe.PaymentSourceParams) (*stripe.Paym
 		return nil, fmt.Errorf("Invalid source params: customer needs to be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/sources/%s",
-		stripe.StringValue(params.Customer),
-		id,
-	)
+		"/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	paymentsource := &stripe.PaymentSource{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, paymentsource)
 	return paymentsource, err

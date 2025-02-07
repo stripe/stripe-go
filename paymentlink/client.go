@@ -29,12 +29,7 @@ func New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 func (c Client) New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	paymentlink := &stripe.PaymentLink{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_links",
-		c.Key,
-		params,
-		paymentlink,
-	)
+		http.MethodPost, "/v1/payment_links", c.Key, params, paymentlink)
 	return paymentlink, err
 }
 
@@ -111,9 +106,8 @@ func ListLineItems(params *stripe.PaymentLinkListLineItemsParams) *LineItemIter 
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLineItems(listParams *stripe.PaymentLinkListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/payment_links/%s/line_items",
-		stripe.StringValue(listParams.PaymentLink),
-	)
+		"/v1/payment_links/%s/line_items", stripe.StringValue(
+			listParams.PaymentLink))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}

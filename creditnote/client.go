@@ -51,12 +51,7 @@ func New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 func (c Client) New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/credit_notes",
-		c.Key,
-		params,
-		creditnote,
-	)
+		http.MethodPost, "/v1/credit_notes", c.Key, params, creditnote)
 	return creditnote, err
 }
 
@@ -95,12 +90,7 @@ func Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error)
 func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
 	err := c.B.Call(
-		http.MethodGet,
-		"/v1/credit_notes/preview",
-		c.Key,
-		params,
-		creditnote,
-	)
+		http.MethodGet, "/v1/credit_notes/preview", c.Key, params, creditnote)
 	return creditnote, err
 }
 
@@ -164,9 +154,7 @@ func ListLines(params *stripe.CreditNoteListLinesParams) *LineItemIter {
 // When retrieving a credit note, you'll get a lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/credit_notes/%s/lines",
-		stripe.StringValue(listParams.CreditNote),
-	)
+		"/v1/credit_notes/%s/lines", stripe.StringValue(listParams.CreditNote))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}

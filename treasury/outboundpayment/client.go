@@ -29,12 +29,7 @@ func New(params *stripe.TreasuryOutboundPaymentParams) (*stripe.TreasuryOutbound
 func (c Client) New(params *stripe.TreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/treasury/outbound_payments",
-		c.Key,
-		params,
-		outboundpayment,
-	)
+		http.MethodPost, "/v1/treasury/outbound_payments", c.Key, params, outboundpayment)
 	return outboundpayment, err
 }
 
