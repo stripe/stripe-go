@@ -104,6 +104,8 @@ type BillingCreditGrantParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// A descriptive name shown in the Dashboard.
 	Name *string `form:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority *int64 `form:"priority"`
 }
 
 // AddExpand appends a new field to expand.
@@ -200,6 +202,8 @@ type BillingCreditGrant struct {
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The priority for applying this credit grant. The highest priority is 0 and the lowest is 100.
+	Priority int64 `json:"priority"`
 	// ID of the test clock this credit grant belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
