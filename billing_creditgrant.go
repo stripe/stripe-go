@@ -77,7 +77,7 @@ type BillingCreditGrantApplicabilityConfigScopeParams struct {
 	PriceType *string `form:"price_type"`
 }
 
-// Configuration specifying what this credit grant applies to.
+// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 type BillingCreditGrantApplicabilityConfigParams struct {
 	// Specify the scope of this applicability config.
 	Scope *BillingCreditGrantApplicabilityConfigScopeParams `form:"scope"`
@@ -88,7 +88,7 @@ type BillingCreditGrantParams struct {
 	Params `form:"*"`
 	// Amount of this credit grant.
 	Amount *BillingCreditGrantAmountParams `form:"amount"`
-	// Configuration specifying what this credit grant applies to.
+	// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config"`
 	// The category of this credit grant.
 	Category *string `form:"category"`
