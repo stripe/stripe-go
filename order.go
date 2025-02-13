@@ -828,6 +828,8 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -1099,6 +1101,8 @@ type OrderPaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
@@ -1466,6 +1470,8 @@ type OrderPaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 	// Bank account verification method.
 	VerificationMethod OrderPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
@@ -1665,6 +1671,8 @@ type OrderPaymentSettingsPaymentMethodOptionsSEPADebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage OrderPaymentSettingsPaymentMethodOptionsSEPADebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type OrderPaymentSettingsPaymentMethodOptionsSofort struct {
 	// Preferred language of the SOFORT authorization page that the customer is redirected to.
