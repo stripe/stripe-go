@@ -196,6 +196,8 @@ type ProductDefaultPriceDataParams struct {
 	CurrencyOptions map[string]*ProductDefaultPriceDataCurrencyOptionsParams `form:"currency_options"`
 	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
 	CustomUnitAmount *ProductDefaultPriceDataCustomUnitAmountParams `form:"custom_unit_amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *ProductDefaultPriceDataRecurringParams `form:"recurring"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
@@ -204,6 +206,15 @@ type ProductDefaultPriceDataParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ProductDefaultPriceDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Search for products you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).

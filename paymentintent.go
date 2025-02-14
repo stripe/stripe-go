@@ -1319,6 +1319,8 @@ type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -1422,6 +1424,8 @@ type PaymentIntentPaymentMethodOptionsAUBECSDebitParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // Additional fields for Mandate creation
@@ -1444,6 +1448,8 @@ type PaymentIntentPaymentMethodOptionsBACSDebitParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
@@ -2100,6 +2106,8 @@ type PaymentIntentPaymentMethodOptionsSEPADebitParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // If this is a `sofort` PaymentMethod, this sub-hash contains details about the SOFORT payment method options.
@@ -2148,7 +2156,7 @@ type PaymentIntentPaymentMethodOptionsTWINTParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// Provide filters for the linked accounts that the customer can select for the payment method
+// Provide filters for the linked accounts that the customer can select for the payment method.
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []*string `form:"account_subcategories"`
@@ -2156,7 +2164,7 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersPa
 
 // Additional fields for Financial Connections Session creation
 type PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
-	// Provide filters for the linked accounts that the customer can select for the payment method
+	// Provide filters for the linked accounts that the customer can select for the payment method.
 	Filters *PaymentIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
@@ -2198,6 +2206,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccountParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 	// Bank account verification method.
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -3133,6 +3143,8 @@ type PaymentIntentPaymentMethodOptionsACSSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 	// Bank account verification method.
 	VerificationMethod PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
@@ -3200,6 +3212,8 @@ type PaymentIntentPaymentMethodOptionsAUBECSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsAUBECSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type PaymentIntentPaymentMethodOptionsBACSDebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
@@ -3215,6 +3229,8 @@ type PaymentIntentPaymentMethodOptionsBACSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsBACSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type PaymentIntentPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
@@ -3635,6 +3651,8 @@ type PaymentIntentPaymentMethodOptionsSEPADebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsSEPADebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type PaymentIntentPaymentMethodOptionsSofort struct {
 	// Preferred language of the SOFORT authorization page that the customer is redirected to.
@@ -3700,6 +3718,8 @@ type PaymentIntentPaymentMethodOptionsUSBankAccount struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsUSBankAccountSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 	// Bank account verification method.
 	VerificationMethod PaymentIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
@@ -3796,11 +3816,11 @@ type PaymentIntentProcessing struct {
 
 // The data that automatically creates a Transfer after the payment finalizes. Learn more about the [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type PaymentIntentTransferData struct {
-	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	// The amount transferred to the destination account. This transfer will occur automatically after the payment succeeds. If no amount is specified, by default the entire payment amount is transferred to the destination account.
+	//  The amount must be less than or equal to the [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount), and must be a positive integer
+	//  representing how much to transfer in the smallest currency unit (e.g., 100 cents to charge $1.00).
 	Amount int64 `json:"amount"`
-	// The account (if any) that the payment is attributed to for tax
-	// reporting, and where funds from the payment are transferred to after
-	// payment success.
+	// The account (if any) that the payment is attributed to for tax reporting, and where funds from the payment are transferred to after payment success.
 	Destination *Account `json:"destination"`
 }
 

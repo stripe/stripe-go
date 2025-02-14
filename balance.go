@@ -41,11 +41,11 @@ type Amount struct {
 	SourceTypes  map[BalanceSourceType]int64            `json:"source_types"`
 }
 type BalanceInstantAvailableNetAvailableSourceTypes struct {
-	// Amount for bank account.
+	// Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
 	BankAccount int64 `json:"bank_account"`
-	// Amount for card.
+	// Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
 	Card int64 `json:"card"`
-	// Amount for FPX.
+	// Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
 	FPX int64 `json:"fpx"`
 }
 

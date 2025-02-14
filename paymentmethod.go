@@ -108,7 +108,7 @@ const (
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
-// All available networks for the card.
+// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 type PaymentMethodCardNetworksAvailable string
 
 // List of values that PaymentMethodCardNetworksAvailable can take
@@ -920,7 +920,7 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	Last4 string `json:"last4"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
-	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. The first three digits of the Trace ID is the Financial Network Code, the next 6 digits is the Banknet Reference Number, and the last 4 digits represent the date (MM/DD). This field will be available for successful Visa, Mastercard, or American Express transactions and always null for other card brands.
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
 	// Details about payments collected offline.
 	Offline *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline `json:"offline"`
@@ -954,7 +954,7 @@ type PaymentMethodCardGeneratedFrom struct {
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodCardNetworks struct {
-	// All available networks for the card.
+	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []PaymentMethodCardNetworksAvailable `json:"available"`
 	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
 	Preferred PaymentMethodCardNetworksPreferred `json:"preferred"`
@@ -1048,7 +1048,7 @@ type PaymentMethodCard struct {
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodCardPresentNetworks struct {
-	// All available networks for the card.
+	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`
@@ -1130,7 +1130,7 @@ type PaymentMethodIDEAL struct {
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodInteracPresentNetworks struct {
-	// All available networks for the card.
+	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`

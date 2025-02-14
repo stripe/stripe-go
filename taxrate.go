@@ -92,7 +92,7 @@ type TaxRateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// This represents the tax rate percent out of 100.
 	Percentage *float64 `form:"percentage"`
-	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2:US), without country prefix. For example, "NY" for New York, United States.
+	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States.
 	State *string `form:"state"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
 	TaxType *string `form:"tax_type"`
@@ -120,9 +120,9 @@ type TaxRateFlatAmount struct {
 	Currency Currency `json:"currency"`
 }
 
-// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+// Tax rates can be applied to [invoices](https://stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
 //
-// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
+// Related guide: [Tax rates](https://stripe.com/billing/taxes/tax-rates)
 type TaxRate struct {
 	APIResource
 	// Defaults to `true`. When set to `false`, this tax rate cannot be used with new applications or Checkout Sessions, but will still work for subscriptions and invoices that already have it set.
@@ -159,7 +159,7 @@ type TaxRate struct {
 	Percentage float64 `json:"percentage"`
 	// Indicates the type of tax rate applied to the taxable amount. This value can be `null` when no tax applies to the location.
 	RateType TaxRateRateType `json:"rate_type"`
-	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2:US), without country prefix. For example, "NY" for New York, United States.
+	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States.
 	State string `json:"state"`
 	// The high-level tax type, such as `vat` or `sales_tax`.
 	TaxType TaxRateTaxType `json:"tax_type"`

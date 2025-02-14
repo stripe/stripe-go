@@ -385,7 +385,7 @@ type TaxCalculationShippingCostTaxBreakdownJurisdiction struct {
 	DisplayName string `json:"display_name"`
 	// Indicates the level of the jurisdiction imposing the tax.
 	Level TaxCalculationShippingCostTaxBreakdownJurisdictionLevel `json:"level"`
-	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2:US), without country prefix. For example, "NY" for New York, United States.
+	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States.
 	State string `json:"state"`
 }
 

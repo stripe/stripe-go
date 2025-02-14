@@ -63,13 +63,21 @@ type BillingCreditGrantAmountParams struct {
 	Type *string `form:"type"`
 }
 
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices.
+type BillingCreditGrantApplicabilityConfigScopePriceParams struct {
+	// The price ID this credit grant should apply to.
+	ID *string `form:"id"`
+}
+
 // Specify the scope of this applicability config.
 type BillingCreditGrantApplicabilityConfigScopeParams struct {
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices.
+	Prices []*BillingCreditGrantApplicabilityConfigScopePriceParams `form:"prices"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type.
 	PriceType *string `form:"price_type"`
 }
 
-// Configuration specifying what this credit grant applies to.
+// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 type BillingCreditGrantApplicabilityConfigParams struct {
 	// Specify the scope of this applicability config.
 	Scope *BillingCreditGrantApplicabilityConfigScopeParams `form:"scope"`
@@ -80,7 +88,7 @@ type BillingCreditGrantParams struct {
 	Params `form:"*"`
 	// Amount of this credit grant.
 	Amount *BillingCreditGrantAmountParams `form:"amount"`
-	// Configuration specifying what this credit grant applies to.
+	// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config"`
 	// The category of this credit grant.
 	Category *string `form:"category"`
@@ -96,6 +104,8 @@ type BillingCreditGrantParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// A descriptive name shown in the Dashboard.
 	Name *string `form:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority *int64 `form:"priority"`
 }
 
 // AddExpand appends a new field to expand.
@@ -149,7 +159,15 @@ type BillingCreditGrantAmount struct {
 	// The type of this amount. We currently only support `monetary` billing credits.
 	Type BillingCreditGrantAmountType `json:"type"`
 }
+
+// The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+type BillingCreditGrantApplicabilityConfigScopePrice struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+}
 type BillingCreditGrantApplicabilityConfigScope struct {
+	// The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+	Prices []*BillingCreditGrantApplicabilityConfigScopePrice `json:"prices"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 	PriceType BillingCreditGrantApplicabilityConfigScopePriceType `json:"price_type"`
 }
@@ -184,6 +202,8 @@ type BillingCreditGrant struct {
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The priority for applying this credit grant. The highest priority is 0 and the lowest is 100.
+	Priority int64 `json:"priority"`
 	// ID of the test clock this credit grant belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.

@@ -473,6 +473,17 @@ const (
 	CheckoutSessionPaymentMethodOptionsCardRequestThreeDSecureChallenge CheckoutSessionPaymentMethodOptionsCardRequestThreeDSecure = "challenge"
 )
 
+// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+type CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked string
+
+// List of values that CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked can take
+const (
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedAmericanExpress       CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "american_express"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedDiscoverGlobalNetwork CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "discover_global_network"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedMastercard            CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "mastercard"
+	CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlockedVisa                  CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked = "visa"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1523,6 +1534,8 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 	// Verification method for the intent
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -1585,6 +1598,8 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebitParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // Additional fields for Mandate creation
@@ -1605,6 +1620,8 @@ type CheckoutSessionPaymentMethodOptionsBACSDebitParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // contains details about the Bancontact payment method options.
@@ -1640,6 +1657,12 @@ type CheckoutSessionPaymentMethodOptionsCardInstallmentsParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+type CheckoutSessionPaymentMethodOptionsCardRestrictionsParams struct {
+	// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+	BrandsBlocked []*string `form:"brands_blocked"`
+}
+
 // contains details about the Card payment method options.
 type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	// Installment options for card payments
@@ -1654,6 +1677,8 @@ type CheckoutSessionPaymentMethodOptionsCardParams struct {
 	RequestOvercapture *string `form:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
+	// Restrictions to apply to the card payment method. For example, you can block specific card brands.
+	Restrictions *CheckoutSessionPaymentMethodOptionsCardRestrictionsParams `form:"restrictions"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1991,6 +2016,8 @@ type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // contains details about the Sofort payment method options.
@@ -2031,6 +2058,8 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccountParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 	// Verification method for the intent
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -2360,6 +2389,8 @@ type CheckoutSessionParams struct {
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// session with your internal systems.
 	ClientReferenceID *string `form:"client_reference_id"`
+	// Information about the customer collected within the Checkout Session.
+	CollectedInformation *CheckoutSessionCollectedInformationParams `form:"collected_information"`
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollectionParams `form:"consent_collection"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required in `setup` mode when `payment_method_types` is not set.
@@ -2496,6 +2527,20 @@ func (p *CheckoutSessionParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// The shipping details to apply to this Session.
+type CheckoutSessionCollectedInformationShippingDetailsParams struct {
+	// The address of the customer
+	Address *AddressParams `form:"address"`
+	// The name of customer
+	Name *string `form:"name"`
+}
+
+// Information about the customer collected within the Checkout Session.
+type CheckoutSessionCollectedInformationParams struct {
+	// The shipping details to apply to this Session.
+	ShippingDetails *CheckoutSessionCollectedInformationShippingDetailsParams `form:"shipping_details"`
+}
+
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CheckoutSessionListLineItemsParams struct {
 	ListParams `form:"*"`
@@ -2563,6 +2608,12 @@ type CheckoutSessionAutomaticTax struct {
 	Liability *CheckoutSessionAutomaticTaxLiability `json:"liability"`
 	// The status of the most recent automated tax calculation for this session.
 	Status CheckoutSessionAutomaticTaxStatus `json:"status"`
+}
+
+// Information about the customer collected within the Checkout Session.
+type CheckoutSessionCollectedInformation struct {
+	// Shipping information for this Checkout Session.
+	ShippingDetails *ShippingDetails `json:"shipping_details"`
 }
 
 // Results of `consent_collection` for this session.
@@ -2804,6 +2855,8 @@ type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 	// Bank account verification method.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
@@ -2856,6 +2909,8 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsAUBECSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
@@ -2871,6 +2926,8 @@ type CheckoutSessionPaymentMethodOptionsBACSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsBACSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type CheckoutSessionPaymentMethodOptionsBancontact struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2898,6 +2955,10 @@ type CheckoutSessionPaymentMethodOptionsCardInstallments struct {
 	// Indicates if installments are enabled
 	Enabled bool `json:"enabled"`
 }
+type CheckoutSessionPaymentMethodOptionsCardRestrictions struct {
+	// Specify the card brands to block in the Checkout Session. If a customer enters or selects a card belonging to a blocked brand, they can't complete the Session.
+	BrandsBlocked []CheckoutSessionPaymentMethodOptionsCardRestrictionsBrandsBlocked `json:"brands_blocked"`
+}
 type CheckoutSessionPaymentMethodOptionsCard struct {
 	Installments *CheckoutSessionPaymentMethodOptionsCardInstallments `json:"installments"`
 	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
@@ -2910,6 +2971,7 @@ type CheckoutSessionPaymentMethodOptionsCard struct {
 	RequestOvercapture CheckoutSessionPaymentMethodOptionsCardRequestOvercapture `json:"request_overcapture"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. If not provided, this value defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure/authentication-flow#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure CheckoutSessionPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+	Restrictions        *CheckoutSessionPaymentMethodOptionsCardRestrictions       `json:"restrictions"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3173,6 +3235,8 @@ type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3211,6 +3275,8 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccount struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsUSBankAccountSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 	// Bank account verification method.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
@@ -3281,9 +3347,9 @@ type CheckoutSessionShippingAddressCollection struct {
 type CheckoutSessionShippingCostTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
-	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+	// Tax rates can be applied to [invoices](https://stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
 	//
-	// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
+	// Related guide: [Tax rates](https://stripe.com/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CheckoutSessionShippingCostTaxTaxabilityReason `json:"taxability_reason"`
@@ -3334,9 +3400,9 @@ type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 type CheckoutSessionTotalDetailsBreakdownTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
-	// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+	// Tax rates can be applied to [invoices](https://stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
 	//
-	// Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
+	// Related guide: [Tax rates](https://stripe.com/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CheckoutSessionTotalDetailsBreakdownTaxTaxabilityReason `json:"taxability_reason"`
@@ -3398,6 +3464,8 @@ type CheckoutSession struct {
 	ClientReferenceID string `json:"client_reference_id"`
 	// Client secret to be used when initializing Stripe.js embedded checkout.
 	ClientSecret string `json:"client_secret"`
+	// Information about the customer collected within the Checkout Session.
+	CollectedInformation *CheckoutSessionCollectedInformation `json:"collected_information"`
 	// Results of `consent_collection` for this session.
 	Consent *CheckoutSessionConsent `json:"consent"`
 	// When set, provides configuration for the Checkout Session to gather active consent from customers.
