@@ -205,7 +205,7 @@ func (a *AppInfo) formatUserAgent() string {
 type Backend interface {
 	Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error
 	CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error
-	CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error
+	CallRaw(method, path, key string, body []byte, params *Params, v LastResponseSetter) error
 	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error
 	SetMaxNetworkRetries(maxNetworkRetries int64)
 }
@@ -359,10 +359,24 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
-	body, commonParams, err := extractParams(params)
+	bodyParams, commonParams, err := extractParams(params)
 	if err != nil {
 		return err
 	}
+	ver, err := extractVersion(path)
+	if err != nil {
+		return err
+	}
+	var body []byte
+	if ver == V1APIMode || method == http.MethodGet {
+		body = []byte(bodyParams.Encode())
+	} else if params != nil && !(reflect.ValueOf(params).Kind() == reflect.Ptr && reflect.ValueOf(params).IsNil()) {
+		body, err = json.Marshal(params)
+		if err != nil {
+			return err
+		}
+	}
+
 	return s.CallRaw(method, path, key, body, commonParams, v)
 }
 
@@ -370,6 +384,11 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 // without buffering the response into memory.
 func (s *BackendImplementation) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
 	formValues, commonParams, err := extractParams(params)
+	if err != nil {
+		return err
+	}
+
+	ver, err := extractVersion(path)
 	if err != nil {
 		return err
 	}
@@ -386,7 +405,7 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 	}
 	bodyBuffer := bytes.NewBufferString(body)
 
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", commonParams)
+	req, err := s.NewRequest(method, path, key, ver.contentType(), commonParams)
 	if err != nil {
 		return err
 	}
@@ -425,6 +444,20 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	return nil
 }
 
+// extractVersion ensures the path starts with /v1 or /v2 and returns
+// the corresponding APIMode.
+func extractVersion(path string) (APIMode, error) {
+	if strings.HasPrefix(path, "/v1") {
+		return V1APIMode, nil
+	} else if strings.HasPrefix(path, "/v2") {
+		return V2APIMode, nil
+	} else if strings.Contains(path, "/oauth") {
+		return V1APIMode, nil
+	} else {
+		return APIMode(""), fmt.Errorf("unknown path prefix %s", path)
+	}
+}
+
 // the stripe API only accepts GET / POST / DELETE
 func validateMethod(method string) error {
 	if method != http.MethodPost && method != http.MethodGet && method != http.MethodDelete {
@@ -435,58 +468,36 @@ func validateMethod(method string) error {
 
 // RawRequest is the Backend.RawRequest implementation for invoking Stripe APIs.
 func (s *BackendImplementation) RawRequest(method, path, key, content string, params *RawParams) (*APIResponse, error) {
-	var bodyBuffer = bytes.NewBuffer(nil)
-	var commonParams *Params
-	var err error
-	var contentType string
-
-	err = validateMethod(method)
+	err := validateMethod(method)
 	if err != nil {
 		return nil, err
 	}
 
-	paramsIsNil := params == nil || reflect.ValueOf(params).IsNil()
-	var apiMode APIMode
-	if strings.HasPrefix(path, "/v1") {
-		apiMode = V1APIMode
-	} else if strings.HasPrefix(path, "/v2") {
-		apiMode = V2APIMode
-	} else {
-		return nil, fmt.Errorf("Unknown path prefix %s", path)
-	}
-
-	_, commonParams, err = extractParams(params)
+	ver, err := extractVersion(path)
 	if err != nil {
 		return nil, err
 	}
 
-	if apiMode == V1APIMode {
-		contentType = "application/x-www-form-urlencoded"
-	} else if apiMode == V2APIMode {
-		contentType = "application/json"
-	} else {
-		return nil, fmt.Errorf("Unknown API mode %s", apiMode)
-	}
-
-	bodyBuffer.WriteString(content)
-
-	req, err := s.NewRequest(method, path, key, contentType, commonParams)
-
+	_, commonParams, err := extractParams(params)
 	if err != nil {
 		return nil, err
 	}
 
-	if !paramsIsNil {
-		if params.StripeContext != "" {
-			req.Header.Set("Stripe-Context", params.StripeContext)
-		}
+	req, err := s.NewRequest(method, path, key, ver.contentType(), commonParams)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil && params.StripeContext != "" {
+		req.Header.Set("Stripe-Context", params.StripeContext)
 	}
 
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 		return s.handleResponseBufferingErrors(res, err)
 	}
 
-	resp, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, bodyBuffer, handleResponse)
+	buf := bytes.NewBufferString(content)
+	resp, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, buf, handleResponse)
 	if err != nil {
 		return nil, err
 	}
@@ -500,39 +511,36 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 }
 
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
-func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Values, params *Params, v LastResponseSetter) error {
-	var body string
-	if form != nil && !form.Empty() {
-		body = form.Encode()
-
-		err := validateMethod(method)
-		if err != nil {
-			return err
-		}
-
-		// On `GET` / `DELETE`, move the payload into the URL
-		if method != http.MethodPost {
-			path += "?" + body
-			body = ""
-		}
-	}
-	bodyBuffer := bytes.NewBufferString(body)
-
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", params)
+func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, params *Params, v LastResponseSetter) error {
+	err := validateMethod(method)
 	if err != nil {
 		return err
 	}
 
+	ver, err := extractVersion(path)
+	if err != nil {
+		return err
+	}
+
+	// On `GET` / `DELETE`, move the payload into the URL
+	if method != http.MethodPost {
+		path += "?" + string(body)
+		body = nil
+	}
+
+	req, err := s.NewRequest(method, path, key, ver.contentType(), params)
+	if err != nil {
+		return err
+	}
+	buf := bytes.NewBuffer(body)
 	responseSetter := metricsResponseSetter{
 		LastResponseSetter: v,
 		backend:            s,
 		params:             params,
 	}
-
-	if err := s.Do(req, bodyBuffer, &responseSetter); err != nil {
+	if err := s.Do(req, buf, &responseSetter); err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -625,7 +633,7 @@ func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(requestID string, r
 		metrics.RequestDurationMS = &requestDurationMS
 	}
 	if len(usage) > 0 {
-		metrics.Usage = usage
+		metrics.Usage = append(metrics.Usage, usage...)
 	}
 	select {
 	case s.requestMetricsBuffer <- metrics:
@@ -1061,8 +1069,8 @@ func (s *BackendImplementation) sleepTime(numRetries int) time.Duration {
 
 // Backends are the currently supported endpoints.
 type Backends struct {
-	API, Connect, Uploads Backend
-	mu                    sync.RWMutex
+	API, Connect, Uploads, MeterEvents Backend
+	mu                                 sync.RWMutex
 }
 
 // LastResponseSetter defines a type that contains an HTTP response from a Stripe
@@ -1167,6 +1175,8 @@ func GetBackend(backendType SupportedBackend) Backend {
 		backend = backends.Connect
 	case UploadsBackend:
 		backend = backends.Uploads
+	case MeterEventsBackend:
+		backend = backends.MeterEvents
 	}
 	backends.mu.RUnlock()
 	if backend != nil {
@@ -1281,10 +1291,12 @@ func NewBackends(httpClient *http.Client) *Backends {
 	apiConfig := &BackendConfig{HTTPClient: httpClient}
 	connectConfig := &BackendConfig{HTTPClient: httpClient}
 	uploadConfig := &BackendConfig{HTTPClient: httpClient}
+	meterConfig := &BackendConfig{HTTPClient: httpClient}
 	return &Backends{
-		API:     GetBackendWithConfig(APIBackend, apiConfig),
-		Connect: GetBackendWithConfig(ConnectBackend, connectConfig),
-		Uploads: GetBackendWithConfig(UploadsBackend, uploadConfig),
+		API:         GetBackendWithConfig(APIBackend, apiConfig),
+		Connect:     GetBackendWithConfig(ConnectBackend, connectConfig),
+		Uploads:     GetBackendWithConfig(UploadsBackend, uploadConfig),
+		MeterEvents: GetBackendWithConfig(MeterEventsBackend, meterConfig),
 	}
 }
 
@@ -1292,9 +1304,10 @@ func NewBackends(httpClient *http.Client) *Backends {
 // Useful for setting up client with a custom logger and http client.
 func NewBackendsWithConfig(config *BackendConfig) *Backends {
 	return &Backends{
-		API:     GetBackendWithConfig(APIBackend, config),
-		Connect: GetBackendWithConfig(ConnectBackend, config),
-		Uploads: GetBackendWithConfig(UploadsBackend, config),
+		API:         GetBackendWithConfig(APIBackend, config),
+		Connect:     GetBackendWithConfig(ConnectBackend, config),
+		Uploads:     GetBackendWithConfig(UploadsBackend, config),
+		MeterEvents: GetBackendWithConfig(MeterEventsBackend, config),
 	}
 }
 
@@ -1348,6 +1361,8 @@ func SetBackend(backend SupportedBackend, b Backend) {
 		backends.Connect = b
 	case UploadsBackend:
 		backends.Uploads = b
+	case MeterEventsBackend:
+		backends.MeterEvents = b
 	}
 }
 
@@ -1622,7 +1637,7 @@ func (u *UsageBackend) Call(method, path, key string, params ParamsContainer, v 
 	return u.B.Call(method, path, key, params, v)
 }
 
-func (u *UsageBackend) CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error {
+func (u *UsageBackend) CallRaw(method, path, key string, body []byte, params *Params, v LastResponseSetter) error {
 	params.GetParams().InternalSetUsage(u.Usage)
 	return u.B.CallRaw(method, path, key, body, params, v)
 }

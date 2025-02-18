@@ -177,6 +177,19 @@ type APIMode string
 var V1APIMode APIMode = "v1"
 var V2APIMode APIMode = "v2"
 
+func (m APIMode) contentType() string {
+	switch m {
+	case V1APIMode:
+		return "application/x-www-form-urlencoded"
+	case V2APIMode:
+		return "application/json"
+	default:
+		// The only way we can get here is if someone has mutated the APIMode
+		// variables, which would lead to unexpected behavior.
+		panic("unknown API mode")
+	}
+}
+
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {

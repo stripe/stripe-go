@@ -550,6 +550,9 @@ func (f *Values) Add(key, val string) {
 // Encode encodes the keys and values into “URL encoded” form
 // ("bar=baz&foo=quux").
 func (f *Values) Encode() string {
+	if f == nil {
+		return ""
+	}
 	var buf bytes.Buffer
 	for _, v := range f.values {
 		if buf.Len() > 0 {

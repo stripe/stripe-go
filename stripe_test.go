@@ -464,7 +464,7 @@ func TestCall_TelemetryDisabled(t *testing.T) {
 	// metrics aren't being sent, we need to fire off two requests in sequence.
 	for i := 0; i < 2; i++ {
 		var response testServerResponse
-		err := backend.Call("get", "/hello", "sk_test_xyz", nil, &response)
+		err := backend.Call(http.MethodGet, "/v1/hello", "sk_test_xyz", nil, &response)
 
 		assert.NoError(t, err)
 		assert.Equal(t, message, response.Message)
@@ -549,7 +549,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 	params.InternalSetUsage([]string{"llama", "bufo"})
 	for i := 0; i < 2; i++ {
 		var response testServerResponse
-		err := backend.Call("GET", "/hello", "sk_test_xyz", params, &response)
+		err := backend.Call(http.MethodGet, "/v1/hello", "sk_test_xyz", params, &response)
 
 		assert.NoError(t, err)
 		assert.Equal(t, message, response.Message)
@@ -602,7 +602,7 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	for i := 0; i < times; i++ {
 		go func() {
 			var response testServerResponse
-			err := backend.Call("get", "/hello", "sk_test_xyz", nil, &response)
+			err := backend.Call(http.MethodGet, "/v1/hello", "sk_test_xyz", nil, &response)
 
 			assert.NoError(t, err)
 			assert.Equal(t, message, response.Message)
@@ -650,7 +650,7 @@ func TestDo_Redaction(t *testing.T) {
 
 	request, err := backend.NewRequest(
 		http.MethodGet,
-		"/hello",
+		"/v1/hello",
 		"sk_test_123",
 		"application/x-www-form-urlencoded",
 		nil,
@@ -696,7 +696,7 @@ func TestDoStreaming(t *testing.T) {
 	response := streamingResource{}
 	err := backend.CallStreaming(
 		http.MethodGet,
-		"/pdf",
+		"/v1/pdf",
 		"sk_test_123",
 		nil,
 		&response,
@@ -745,7 +745,7 @@ func TestDoStreaming_ParsableError(t *testing.T) {
 	response := streamingResource{}
 	err := backend.CallStreaming(
 		http.MethodGet,
-		"/pdf",
+		"/v1/pdf",
 		"sk_test_123",
 		nil,
 		&response,
@@ -788,7 +788,7 @@ func TestDoStreaming_UnparsableError(t *testing.T) {
 	response := streamingResource{}
 	err := backend.CallStreaming(
 		http.MethodGet,
-		"/pdf",
+		"/v1/pdf",
 		"sk_test_123",
 		nil,
 		&response,
