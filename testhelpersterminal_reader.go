@@ -37,3 +37,17 @@ type TestHelpersTerminalReaderPresentPaymentMethodParams struct {
 func (p *TestHelpersTerminalReaderPresentPaymentMethodParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
+
+// Succeeds an input collection on a simulated reader. Can be used to simulate collecting inputs.
+type TestHelpersTerminalReaderSucceedInputCollectionParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Skip behavior for input collection.
+	SkipNonRequiredInputs *string `form:"skip_non_required_inputs"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTerminalReaderSucceedInputCollectionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
