@@ -51,3 +51,15 @@ type TestHelpersTerminalReaderSucceedInputCollectionParams struct {
 func (p *TestHelpersTerminalReaderSucceedInputCollectionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
+
+// Completes an input collection with a timeout error on a simulated reader.
+type TestHelpersTerminalReaderTimeoutInputCollectionParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTerminalReaderTimeoutInputCollectionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
