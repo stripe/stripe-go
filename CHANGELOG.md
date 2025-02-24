@@ -1,5 +1,21 @@
 # Changelog
 
+## 81.4.0 - 2025-02-24
+* [#1986](https://github.com/stripe/stripe-go/pull/1986) Update generated code
+  * Add support for `Prices` on `BillingCreditBalanceSummaryFilterApplicabilityScopeParams`, `BillingCreditGrantApplicabilityConfigScopeParams`, and `BillingCreditGrantApplicabilityConfigScope`
+  * Add support for `Priority` on `BillingCreditGrantParams` and `BillingCreditGrant`
+  * Add support for `TargetDate` on `CheckoutSessionPaymentMethodOptionsAcssDebitParams`, `CheckoutSessionPaymentMethodOptionsAcssDebit`, `CheckoutSessionPaymentMethodOptionsAuBecsDebitParams`, `CheckoutSessionPaymentMethodOptionsAuBecsDebit`, `CheckoutSessionPaymentMethodOptionsBacsDebitParams`, `CheckoutSessionPaymentMethodOptionsBacsDebit`, `CheckoutSessionPaymentMethodOptionsSepaDebitParams`, `CheckoutSessionPaymentMethodOptionsSepaDebit`, `CheckoutSessionPaymentMethodOptionsUsBankAccountParams`, `CheckoutSessionPaymentMethodOptionsUsBankAccount`, `PaymentIntentConfirmPaymentMethodOptionsAcssDebitParams`, `PaymentIntentConfirmPaymentMethodOptionsAuBecsDebitParams`, `PaymentIntentConfirmPaymentMethodOptionsBacsDebitParams`, `PaymentIntentConfirmPaymentMethodOptionsSepaDebitParams`, `PaymentIntentConfirmPaymentMethodOptionsUsBankAccountParams`, `PaymentIntentPaymentMethodOptionsAcssDebitParams`, `PaymentIntentPaymentMethodOptionsAcssDebit`, `PaymentIntentPaymentMethodOptionsAuBecsDebitParams`, `PaymentIntentPaymentMethodOptionsAuBecsDebit`, `PaymentIntentPaymentMethodOptionsBacsDebitParams`, `PaymentIntentPaymentMethodOptionsBacsDebit`, `PaymentIntentPaymentMethodOptionsSepaDebitParams`, `PaymentIntentPaymentMethodOptionsSepaDebit`, `PaymentIntentPaymentMethodOptionsUsBankAccountParams`, and `PaymentIntentPaymentMethodOptionsUsBankAccount`
+  * Add support for `Restrictions` on `CheckoutSessionPaymentMethodOptionsCardParams` and `CheckoutSessionPaymentMethodOptionsCard`
+  * Add support for `CollectedInformation` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Metadata` on `ProductDefaultPriceDataParams`
+* [#1988](https://github.com/stripe/stripe-go/pull/1988) add codeowners file
+* [#1985](https://github.com/stripe/stripe-go/pull/1985) Add Stripe Client to example tests
+* [#1982](https://github.com/stripe/stripe-go/pull/1982) Add usage data for stripe client usage
+  * Add telemetry for usage of the Stripe Client
+* [#1984](https://github.com/stripe/stripe-go/pull/1984) Revert "Add GetParams methods to root params objects"
+* [#1983](https://github.com/stripe/stripe-go/pull/1983) Add GetParams methods to root params objects
+  * Adds `nil`-safe `GetParams` methods to all top-level Params structs
+
 ## 81.3.1 - 2025-02-03
 * [#1980](https://github.com/stripe/stripe-go/pull/1980) Update generated code
   * ⚠️  Fix acronym `JPY` in TerminalConfiguration that were not correctly capitalized
