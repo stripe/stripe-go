@@ -792,7 +792,7 @@ type SetupIntentPaymentMethodOptionsSEPADebitParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
 }
 
-// Provide filters for the linked accounts that the customer can select for the payment method
+// Provide filters for the linked accounts that the customer can select for the payment method.
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []*string `form:"account_subcategories"`
@@ -800,7 +800,7 @@ type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersPara
 
 // Additional fields for Financial Connections Session creation
 type SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsParams struct {
-	// Provide filters for the linked accounts that the customer can select for the payment method
+	// Provide filters for the linked accounts that the customer can select for the payment method.
 	Filters *SetupIntentPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams `form:"filters"`
 	// The list of permissions to request. If this parameter is passed, the `payment_method` permission must be included. Valid permissions include: `balances`, `ownership`, `payment_method`, and `transactions`.
 	Permissions []*string `form:"permissions"`
