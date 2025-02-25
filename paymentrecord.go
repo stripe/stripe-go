@@ -17,11 +17,133 @@ const (
 	PaymentRecordCustomerPresenceOnSession  PaymentRecordCustomerPresence = "on_session"
 )
 
+// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+type PaymentRecordPaymentMethodDetailsCardBrand string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardBrand can take
+const (
+	PaymentRecordPaymentMethodDetailsCardBrandAmex            PaymentRecordPaymentMethodDetailsCardBrand = "amex"
+	PaymentRecordPaymentMethodDetailsCardBrandCartesBancaires PaymentRecordPaymentMethodDetailsCardBrand = "cartes_bancaires"
+	PaymentRecordPaymentMethodDetailsCardBrandDiners          PaymentRecordPaymentMethodDetailsCardBrand = "diners"
+	PaymentRecordPaymentMethodDetailsCardBrandDiscover        PaymentRecordPaymentMethodDetailsCardBrand = "discover"
+	PaymentRecordPaymentMethodDetailsCardBrandEFTPOSAU        PaymentRecordPaymentMethodDetailsCardBrand = "eftpos_au"
+	PaymentRecordPaymentMethodDetailsCardBrandInterac         PaymentRecordPaymentMethodDetailsCardBrand = "interac"
+	PaymentRecordPaymentMethodDetailsCardBrandJCB             PaymentRecordPaymentMethodDetailsCardBrand = "jcb"
+	PaymentRecordPaymentMethodDetailsCardBrandLink            PaymentRecordPaymentMethodDetailsCardBrand = "link"
+	PaymentRecordPaymentMethodDetailsCardBrandMastercard      PaymentRecordPaymentMethodDetailsCardBrand = "mastercard"
+	PaymentRecordPaymentMethodDetailsCardBrandUnionpay        PaymentRecordPaymentMethodDetailsCardBrand = "unionpay"
+	PaymentRecordPaymentMethodDetailsCardBrandUnknown         PaymentRecordPaymentMethodDetailsCardBrand = "unknown"
+	PaymentRecordPaymentMethodDetailsCardBrandVisa            PaymentRecordPaymentMethodDetailsCardBrand = "visa"
+)
+
+type PaymentRecordPaymentMethodDetailsCardChecksAddressLine1Check string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardChecksAddressLine1Check can take
+const (
+	PaymentRecordPaymentMethodDetailsCardChecksAddressLine1CheckFail        PaymentRecordPaymentMethodDetailsCardChecksAddressLine1Check = "fail"
+	PaymentRecordPaymentMethodDetailsCardChecksAddressLine1CheckPass        PaymentRecordPaymentMethodDetailsCardChecksAddressLine1Check = "pass"
+	PaymentRecordPaymentMethodDetailsCardChecksAddressLine1CheckUnavailable PaymentRecordPaymentMethodDetailsCardChecksAddressLine1Check = "unavailable"
+	PaymentRecordPaymentMethodDetailsCardChecksAddressLine1CheckUnchecked   PaymentRecordPaymentMethodDetailsCardChecksAddressLine1Check = "unchecked"
+)
+
+type PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck can take
+const (
+	PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheckFail        PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck = "fail"
+	PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheckPass        PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck = "pass"
+	PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheckUnavailable PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck = "unavailable"
+	PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheckUnchecked   PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck = "unchecked"
+)
+
+type PaymentRecordPaymentMethodDetailsCardChecksCVCCheck string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardChecksCVCCheck can take
+const (
+	PaymentRecordPaymentMethodDetailsCardChecksCVCCheckFail        PaymentRecordPaymentMethodDetailsCardChecksCVCCheck = "fail"
+	PaymentRecordPaymentMethodDetailsCardChecksCVCCheckPass        PaymentRecordPaymentMethodDetailsCardChecksCVCCheck = "pass"
+	PaymentRecordPaymentMethodDetailsCardChecksCVCCheckUnavailable PaymentRecordPaymentMethodDetailsCardChecksCVCCheck = "unavailable"
+	PaymentRecordPaymentMethodDetailsCardChecksCVCCheckUnchecked   PaymentRecordPaymentMethodDetailsCardChecksCVCCheck = "unchecked"
+)
+
+// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+type PaymentRecordPaymentMethodDetailsCardFunding string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardFunding can take
+const (
+	PaymentRecordPaymentMethodDetailsCardFundingCredit  PaymentRecordPaymentMethodDetailsCardFunding = "credit"
+	PaymentRecordPaymentMethodDetailsCardFundingDebit   PaymentRecordPaymentMethodDetailsCardFunding = "debit"
+	PaymentRecordPaymentMethodDetailsCardFundingPrepaid PaymentRecordPaymentMethodDetailsCardFunding = "prepaid"
+	PaymentRecordPaymentMethodDetailsCardFundingUnknown PaymentRecordPaymentMethodDetailsCardFunding = "unknown"
+)
+
+// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+type PaymentRecordPaymentMethodDetailsCardNetwork string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardNetwork can take
+const (
+	PaymentRecordPaymentMethodDetailsCardNetworkAmex            PaymentRecordPaymentMethodDetailsCardNetwork = "amex"
+	PaymentRecordPaymentMethodDetailsCardNetworkCartesBancaires PaymentRecordPaymentMethodDetailsCardNetwork = "cartes_bancaires"
+	PaymentRecordPaymentMethodDetailsCardNetworkDiners          PaymentRecordPaymentMethodDetailsCardNetwork = "diners"
+	PaymentRecordPaymentMethodDetailsCardNetworkDiscover        PaymentRecordPaymentMethodDetailsCardNetwork = "discover"
+	PaymentRecordPaymentMethodDetailsCardNetworkEFTPOSAU        PaymentRecordPaymentMethodDetailsCardNetwork = "eftpos_au"
+	PaymentRecordPaymentMethodDetailsCardNetworkInterac         PaymentRecordPaymentMethodDetailsCardNetwork = "interac"
+	PaymentRecordPaymentMethodDetailsCardNetworkJCB             PaymentRecordPaymentMethodDetailsCardNetwork = "jcb"
+	PaymentRecordPaymentMethodDetailsCardNetworkLink            PaymentRecordPaymentMethodDetailsCardNetwork = "link"
+	PaymentRecordPaymentMethodDetailsCardNetworkMastercard      PaymentRecordPaymentMethodDetailsCardNetwork = "mastercard"
+	PaymentRecordPaymentMethodDetailsCardNetworkUnionpay        PaymentRecordPaymentMethodDetailsCardNetwork = "unionpay"
+	PaymentRecordPaymentMethodDetailsCardNetworkUnknown         PaymentRecordPaymentMethodDetailsCardNetwork = "unknown"
+	PaymentRecordPaymentMethodDetailsCardNetworkVisa            PaymentRecordPaymentMethodDetailsCardNetwork = "visa"
+)
+
+type PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow can take
+const (
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlowChallenge    PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "challenge"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlowFrictionless PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "frictionless"
+)
+
+type PaymentRecordPaymentMethodDetailsCardThreeDSecureResult string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardThreeDSecureResult can take
+const (
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultAuthenticated       PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultExempted            PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "exempted"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultFailed              PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "failed"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultNotSupported        PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "not_supported"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultProcessingError     PaymentRecordPaymentMethodDetailsCardThreeDSecureResult = "processing_error"
+)
+
+type PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason can take
+const (
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReasonAbandoned           PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason = "abandoned"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReasonBypassed            PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason = "bypassed"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReasonCanceled            PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason = "canceled"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReasonCardNotEnrolled     PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason = "card_not_enrolled"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReasonNetworkNotSupported PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason = "network_not_supported"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReasonProtocolError       PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason = "protocol_error"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReasonRejected            PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
+)
+
+type PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion string
+
+// List of values that PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion can take
+const (
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion102 PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion = "1.0.2"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion210 PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.1.0"
+	PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion220 PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.2.0"
+)
+
 // The type of Payment Method used for this payment attempt.
 type PaymentRecordPaymentMethodDetailsType string
 
 // List of values that PaymentRecordPaymentMethodDetailsType can take
 const (
+	PaymentRecordPaymentMethodDetailsTypeCard   PaymentRecordPaymentMethodDetailsType = "card"
 	PaymentRecordPaymentMethodDetailsTypeCustom PaymentRecordPaymentMethodDetailsType = "custom"
 )
 
@@ -370,7 +492,63 @@ type PaymentRecordPaymentMethodDetailsBillingDetails struct {
 	Phone string `json:"phone"`
 }
 
-// Information about the custom (user-defined) payment method used to make this payment.
+// Check results by Card networks on Card address and CVC at time of payment.
+type PaymentRecordPaymentMethodDetailsCardChecks struct {
+	AddressLine1Check      PaymentRecordPaymentMethodDetailsCardChecksAddressLine1Check      `json:"address_line1_check"`
+	AddressPostalCodeCheck PaymentRecordPaymentMethodDetailsCardChecksAddressPostalCodeCheck `json:"address_postal_code_check"`
+	CVCCheck               PaymentRecordPaymentMethodDetailsCardChecksCVCCheck               `json:"cvc_check"`
+}
+
+// If this card has network token credentials, this contains the details of the network token credentials.
+type PaymentRecordPaymentMethodDetailsCardNetworkToken struct {
+	Used bool `json:"used"`
+}
+
+// Populated if this transaction used 3D Secure authentication.
+type PaymentRecordPaymentMethodDetailsCardThreeDSecure struct {
+	AuthenticationFlow PaymentRecordPaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
+	Result             PaymentRecordPaymentMethodDetailsCardThreeDSecureResult             `json:"result"`
+	ResultReason       PaymentRecordPaymentMethodDetailsCardThreeDSecureResultReason       `json:"result_reason"`
+	Version            PaymentRecordPaymentMethodDetailsCardThreeDSecureVersion            `json:"version"`
+}
+
+// Details of the card used for this payment attempt.
+type PaymentRecordPaymentMethodDetailsCard struct {
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand PaymentRecordPaymentMethodDetailsCardBrand `json:"brand"`
+	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
+	CaptureBefore int64 `json:"capture_before"`
+	// Check results by Card networks on Card address and CVC at time of payment.
+	Checks *PaymentRecordPaymentMethodDetailsCardChecks `json:"checks"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding PaymentRecordPaymentMethodDetailsCardFunding `json:"funding"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// True if this payment was marked as MOTO and out of scope for SCA.
+	MOTO bool `json:"moto"`
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Network PaymentRecordPaymentMethodDetailsCardNetwork `json:"network"`
+	// If this card has network token credentials, this contains the details of the network token credentials.
+	NetworkToken *PaymentRecordPaymentMethodDetailsCardNetworkToken `json:"network_token"`
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
+	NetworkTransactionID string `json:"network_transaction_id"`
+	// Populated if this transaction used 3D Secure authentication.
+	ThreeDSecure *PaymentRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
+}
+
+// Custom Payment Methods represent Payment Method types not modeled directly in
+// the Stripe API. This resource consists of details about the custom payment method
+// used for this payment attempt.
 type PaymentRecordPaymentMethodDetailsCustom struct {
 	// Display name for the custom (user-defined) payment method type used to make this payment.
 	DisplayName string `json:"display_name"`
@@ -382,7 +560,11 @@ type PaymentRecordPaymentMethodDetailsCustom struct {
 type PaymentRecordPaymentMethodDetails struct {
 	// The billing details associated with the method of payment.
 	BillingDetails *PaymentRecordPaymentMethodDetailsBillingDetails `json:"billing_details"`
-	// Information about the custom (user-defined) payment method used to make this payment.
+	// Details of the card used for this payment attempt.
+	Card *PaymentRecordPaymentMethodDetailsCard `json:"card"`
+	// Custom Payment Methods represent Payment Method types not modeled directly in
+	// the Stripe API. This resource consists of details about the custom payment method
+	// used for this payment attempt.
 	Custom *PaymentRecordPaymentMethodDetailsCustom `json:"custom"`
 	// ID of the Stripe PaymentMethod used to make this payment.
 	PaymentMethod string `json:"payment_method"`

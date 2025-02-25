@@ -1758,6 +1758,8 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 	// Verification method for the intent
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -1820,6 +1822,8 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebitParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // Additional fields for Mandate creation
@@ -1840,6 +1844,8 @@ type CheckoutSessionPaymentMethodOptionsBACSDebitParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // contains details about the Bancontact payment method options.
@@ -2272,6 +2278,8 @@ type CheckoutSessionPaymentMethodOptionsSEPADebitParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 }
 
 // contains details about the Sofort payment method options.
@@ -2312,6 +2320,8 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccountParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
 	// Verification method for the intent
 	VerificationMethod *string `form:"verification_method"`
 }
@@ -2723,7 +2733,7 @@ type CheckoutSessionParams struct {
 	//
 	// To update an existing line item, specify its `id` along with the new values of the fields to update.
 	//
-	// To add a new line item, specify a `price` and `quantity`. We don't currently support recurring prices.
+	// To add a new line item, specify a `price` and `quantity`.
 	//
 	// To remove an existing line item, omit the line item's ID from the retransmitted array.
 	//
@@ -2900,6 +2910,13 @@ type CheckoutSessionAutomaticTax struct {
 	Status CheckoutSessionAutomaticTaxStatus `json:"status"`
 }
 
+// Shipping information for this Checkout Session.
+type CheckoutSessionCollectedInformationShippingDetails struct {
+	Address *Address `json:"address"`
+	// Customer name.
+	Name string `json:"name"`
+}
+
 // Customer's tax ids for this Checkout Session.
 type CheckoutSessionCollectedInformationTaxID struct {
 	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or `unknown`
@@ -2917,7 +2934,7 @@ type CheckoutSessionCollectedInformation struct {
 	// Customer's phone number for this Checkout Session
 	Phone string `json:"phone"`
 	// Shipping information for this Checkout Session.
-	ShippingDetails *ShippingDetails `json:"shipping_details"`
+	ShippingDetails *CheckoutSessionCollectedInformationShippingDetails `json:"shipping_details"`
 	// Customer's tax ids for this Checkout Session.
 	TaxIDs []*CheckoutSessionCollectedInformationTaxID `json:"tax_ids"`
 }
@@ -3161,6 +3178,8 @@ type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsACSSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 	// Bank account verification method.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
@@ -3213,6 +3232,8 @@ type CheckoutSessionPaymentMethodOptionsAUBECSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsAUBECSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type CheckoutSessionPaymentMethodOptionsBACSDebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'DDIC' or 'STRIPE'.
@@ -3228,6 +3249,8 @@ type CheckoutSessionPaymentMethodOptionsBACSDebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsBACSDebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type CheckoutSessionPaymentMethodOptionsBancontact struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3566,6 +3589,8 @@ type CheckoutSessionPaymentMethodOptionsSEPADebit struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsSEPADebitSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 }
 type CheckoutSessionPaymentMethodOptionsSofort struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3611,6 +3636,8 @@ type CheckoutSessionPaymentMethodOptionsUSBankAccount struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsUSBankAccountSetupFutureUsage `json:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate string `json:"target_date"`
 	// Bank account verification method.
 	VerificationMethod CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
 }
