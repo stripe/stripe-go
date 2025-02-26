@@ -136,15 +136,6 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion220 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.2.0"
 )
 
-// The type of Payment Method used for this payment attempt.
-type PaymentAttemptRecordPaymentMethodDetailsType string
-
-// List of values that PaymentAttemptRecordPaymentMethodDetailsType can take
-const (
-	PaymentAttemptRecordPaymentMethodDetailsTypeCard   PaymentAttemptRecordPaymentMethodDetailsType = "card"
-	PaymentAttemptRecordPaymentMethodDetailsTypeCustom PaymentAttemptRecordPaymentMethodDetailsType = "custom"
-)
-
 // List all the Payment Attempt Records attached to the specified Payment Record.
 type PaymentAttemptRecordListParams struct {
 	ListParams `form:"*"`
@@ -304,7 +295,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	// ID of the Stripe PaymentMethod used to make this payment.
 	PaymentMethod string `json:"payment_method"`
 	// The type of Payment Method used for this payment attempt.
-	Type PaymentAttemptRecordPaymentMethodDetailsType `json:"type"`
+	Type string `json:"type"`
 }
 
 // Shipping information for this payment.
