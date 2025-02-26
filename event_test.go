@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -52,4 +53,45 @@ func TestGetObjectValue(t *testing.T) {
 	assert.PanicsWithValue(t, "Cannot descend into non-map non-slice object with key: bad_key", func() {
 		event.GetObjectValue("top_level_key", "bad_key")
 	})
+}
+
+func TestEmptyOptionalFields(t *testing.T) {
+
+	// Marshals from a JSON object - without optional attributes
+	{
+		v := Event{}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		expected := `{"api_version":"","created":0,"data":null,"id":"","livemode":false,"object":"","pending_webhooks":0,"request":null,"type":""}`
+		assert.Equal(t, expected, string(data))
+	}
+
+	// Marshals from a JSON object - with empty optional attributes
+	{
+		v := Event{Account: "", Data: &EventData{PreviousAttributes: map[string]interface{}{}}}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		expected := `{"api_version":"","created":0,"data":{"object":null},"id":"","livemode":false,"object":"","pending_webhooks":0,"request":null,"type":""}`
+		assert.Equal(t, expected, string(data))
+	}
+
+	// Marshals from a JSON object - with filled account attribute
+	{
+		v := Event{
+			Account: "",
+			Data: &EventData{
+				PreviousAttributes: map[string]interface{}{
+					"amount_paid": 0,
+				},
+			},
+		}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		expected := `{"api_version":"","created":0,"data":{"previous_attributes":{"amount_paid":0},"object":null},"id":"","livemode":false,"object":"","pending_webhooks":0,"request":null,"type":""}`
+		assert.Equal(t, expected, string(data))
+	}
+
 }
