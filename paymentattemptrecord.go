@@ -15,6 +15,35 @@ const (
 	PaymentAttemptRecordCustomerPresenceOnSession  PaymentAttemptRecordCustomerPresence = "on_session"
 )
 
+// Type of entity that holds the account. This can be either `individual` or `company`.
+type PaymentAttemptRecordPaymentMethodDetailsACHDebitAccountHolderType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsACHDebitAccountHolderType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsACHDebitAccountHolderTypeCompany    PaymentAttemptRecordPaymentMethodDetailsACHDebitAccountHolderType = "company"
+	PaymentAttemptRecordPaymentMethodDetailsACHDebitAccountHolderTypeIndividual PaymentAttemptRecordPaymentMethodDetailsACHDebitAccountHolderType = "individual"
+)
+
+// funding type of the underlying payment method.
+type PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingTypeCard PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingType = "card"
+)
+
+// Preferred language of the Bancontact authorization page that the customer is redirected to.
+// Can be one of `en`, `de`, `fr`, or `nl`
+type PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguageDE PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage = "de"
+	PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguageEN PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage = "en"
+	PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguageFR PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage = "fr"
+	PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguageNL PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage = "nl"
+)
+
 // Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type PaymentAttemptRecordPaymentMethodDetailsCardBrand string
 
@@ -136,6 +165,335 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion220 PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecureVersion = "2.2.0"
 )
 
+// The method used to process this payment method offline. Only deferred is allowed.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentOfflineType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardPresentOfflineType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentOfflineTypeDeferred PaymentAttemptRecordPaymentMethodDetailsCardPresentOfflineType = "deferred"
+)
+
+// How card details were read in this transaction.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethod string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethod can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethodContactEmv               PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethod = "contact_emv"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethodContactlessEmv           PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethod = "contactless_emv"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethodContactlessMagstripeMode PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethod = "contactless_magstripe_mode"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethodMagneticStripeFallback   PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethod = "magnetic_stripe_fallback"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethodMagneticStripeTrack2     PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethod = "magnetic_stripe_track2"
+)
+
+// The type of account being debited or credited
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountTypeChecking PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType = "checking"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountTypeCredit   PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType = "credit"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountTypePrepaid  PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType = "prepaid"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
+)
+
+// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletTypeApplePay   PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType = "apple_pay"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletTypeGooglePay  PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType = "google_pay"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletTypeSamsungPay PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType = "samsung_pay"
+	PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType = "unknown"
+)
+
+// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
+type PaymentAttemptRecordPaymentMethodDetailsEPSBank string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsEPSBank can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankArzteUndApothekerBank                PaymentAttemptRecordPaymentMethodDetailsEPSBank = "arzte_und_apotheker_bank"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankAustrianAnadiBankAg                  PaymentAttemptRecordPaymentMethodDetailsEPSBank = "austrian_anadi_bank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankBankAustria                          PaymentAttemptRecordPaymentMethodDetailsEPSBank = "bank_austria"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankBankhausCarlSpangler                 PaymentAttemptRecordPaymentMethodDetailsEPSBank = "bankhaus_carl_spangler"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankBankhausSchelhammerUndSchatteraAg    PaymentAttemptRecordPaymentMethodDetailsEPSBank = "bankhaus_schelhammer_und_schattera_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankBawagPskAg                           PaymentAttemptRecordPaymentMethodDetailsEPSBank = "bawag_psk_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankBksBankAg                            PaymentAttemptRecordPaymentMethodDetailsEPSBank = "bks_bank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankBrullKallmusBankAg                   PaymentAttemptRecordPaymentMethodDetailsEPSBank = "brull_kallmus_bank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankBtvVierLanderBank                    PaymentAttemptRecordPaymentMethodDetailsEPSBank = "btv_vier_lander_bank"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankCapitalBankGraweGruppeAg             PaymentAttemptRecordPaymentMethodDetailsEPSBank = "capital_bank_grawe_gruppe_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankDeutscheBankAg                       PaymentAttemptRecordPaymentMethodDetailsEPSBank = "deutsche_bank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankDolomitenbank                        PaymentAttemptRecordPaymentMethodDetailsEPSBank = "dolomitenbank"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankEasybankAg                           PaymentAttemptRecordPaymentMethodDetailsEPSBank = "easybank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankErsteBankUndSparkassen               PaymentAttemptRecordPaymentMethodDetailsEPSBank = "erste_bank_und_sparkassen"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankHypoAlpeadriabankInternationalAg     PaymentAttemptRecordPaymentMethodDetailsEPSBank = "hypo_alpeadriabank_international_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankHypoBankBurgenlandAktiengesellschaft PaymentAttemptRecordPaymentMethodDetailsEPSBank = "hypo_bank_burgenland_aktiengesellschaft"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankHypoNoeLbFurNiederosterreichUWien    PaymentAttemptRecordPaymentMethodDetailsEPSBank = "hypo_noe_lb_fur_niederosterreich_u_wien"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankHypoOberosterreichSalzburgSteiermark PaymentAttemptRecordPaymentMethodDetailsEPSBank = "hypo_oberosterreich_salzburg_steiermark"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankHypoTirolBankAg                      PaymentAttemptRecordPaymentMethodDetailsEPSBank = "hypo_tirol_bank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankHypoVorarlbergBankAg                 PaymentAttemptRecordPaymentMethodDetailsEPSBank = "hypo_vorarlberg_bank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankMarchfelderBank                      PaymentAttemptRecordPaymentMethodDetailsEPSBank = "marchfelder_bank"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankOberbankAg                           PaymentAttemptRecordPaymentMethodDetailsEPSBank = "oberbank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankRaiffeisenBankengruppeOsterreich     PaymentAttemptRecordPaymentMethodDetailsEPSBank = "raiffeisen_bankengruppe_osterreich"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankSchoellerbankAg                      PaymentAttemptRecordPaymentMethodDetailsEPSBank = "schoellerbank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankSpardaBankWien                       PaymentAttemptRecordPaymentMethodDetailsEPSBank = "sparda_bank_wien"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankVolksbankGruppe                      PaymentAttemptRecordPaymentMethodDetailsEPSBank = "volksbank_gruppe"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankVolkskreditbankAg                    PaymentAttemptRecordPaymentMethodDetailsEPSBank = "volkskreditbank_ag"
+	PaymentAttemptRecordPaymentMethodDetailsEPSBankVrBankBraunau                        PaymentAttemptRecordPaymentMethodDetailsEPSBank = "vr_bank_braunau"
+)
+
+// Account holder type, if provided. Can be one of `individual` or `company`.
+type PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderTypeCompany    PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderType = "company"
+	PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderTypeIndividual PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderType = "individual"
+)
+
+// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+type PaymentAttemptRecordPaymentMethodDetailsFPXBank string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsFPXBank can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankAffinBank         PaymentAttemptRecordPaymentMethodDetailsFPXBank = "affin_bank"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankAgrobank          PaymentAttemptRecordPaymentMethodDetailsFPXBank = "agrobank"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankAllianceBank      PaymentAttemptRecordPaymentMethodDetailsFPXBank = "alliance_bank"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankAmbank            PaymentAttemptRecordPaymentMethodDetailsFPXBank = "ambank"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankBankIslam         PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bank_islam"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankBankMuamalat      PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bank_muamalat"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankBankOfChina       PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bank_of_china"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankBankRakyat        PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bank_rakyat"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankBsn               PaymentAttemptRecordPaymentMethodDetailsFPXBank = "bsn"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankCimb              PaymentAttemptRecordPaymentMethodDetailsFPXBank = "cimb"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankDeutscheBank      PaymentAttemptRecordPaymentMethodDetailsFPXBank = "deutsche_bank"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankHongLeongBank     PaymentAttemptRecordPaymentMethodDetailsFPXBank = "hong_leong_bank"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankHsbc              PaymentAttemptRecordPaymentMethodDetailsFPXBank = "hsbc"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankKfh               PaymentAttemptRecordPaymentMethodDetailsFPXBank = "kfh"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankMaybank2e         PaymentAttemptRecordPaymentMethodDetailsFPXBank = "maybank2e"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankMaybank2u         PaymentAttemptRecordPaymentMethodDetailsFPXBank = "maybank2u"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankOcbc              PaymentAttemptRecordPaymentMethodDetailsFPXBank = "ocbc"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankPbEnterprise      PaymentAttemptRecordPaymentMethodDetailsFPXBank = "pb_enterprise"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankPublicBank        PaymentAttemptRecordPaymentMethodDetailsFPXBank = "public_bank"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankRhb               PaymentAttemptRecordPaymentMethodDetailsFPXBank = "rhb"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankStandardChartered PaymentAttemptRecordPaymentMethodDetailsFPXBank = "standard_chartered"
+	PaymentAttemptRecordPaymentMethodDetailsFPXBankUob               PaymentAttemptRecordPaymentMethodDetailsFPXBank = "uob"
+)
+
+// Bank where the account is located.
+type PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankBca     PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "bca"
+	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankBni     PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "bni"
+	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankBri     PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "bri"
+	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankCimb    PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "cimb"
+	PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBankPermata PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank = "permata"
+)
+
+// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+type PaymentAttemptRecordPaymentMethodDetailsIDEALBank string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsIDEALBank can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankAbnAmro       PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "abn_amro"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankAsnBank       PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "asn_bank"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankBunq          PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "bunq"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankHandelsbanken PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "handelsbanken"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankIng           PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "ing"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankKnab          PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "knab"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankMoneyou       PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "moneyou"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankN26           PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "n26"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankNn            PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "nn"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankRabobank      PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "rabobank"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankRegiobank     PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "regiobank"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankRevolut       PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "revolut"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankSnsBank       PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "sns_bank"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankTriodosBank   PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "triodos_bank"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankVanLanschot   PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "van_lanschot"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBankYoursafe      PaymentAttemptRecordPaymentMethodDetailsIDEALBank = "yoursafe"
+)
+
+// The Bank Identifier Code of the customer's bank.
+type PaymentAttemptRecordPaymentMethodDetailsIDEALBIC string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsIDEALBIC can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICABNANL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "ABNANL2A"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICASNBNL21 PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "ASNBNL21"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICBITSNL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "BITSNL2A"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICBUNQNL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "BUNQNL2A"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICFVLBNL22 PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "FVLBNL22"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICHANDNL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "HANDNL2A"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICINGBNL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "INGBNL2A"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICKNABNL2H PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "KNABNL2H"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICMOYONL21 PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "MOYONL21"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICNNBANL2G PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "NNBANL2G"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICNTSBDEB1 PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "NTSBDEB1"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICRABONL2U PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "RABONL2U"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICRBRBNL21 PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "RBRBNL21"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICREVOIE23 PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "REVOIE23"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICREVOLT21 PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "REVOLT21"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICSNSBNL2A PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "SNSBNL2A"
+	PaymentAttemptRecordPaymentMethodDetailsIDEALBICTRIONL2U PaymentAttemptRecordPaymentMethodDetailsIDEALBIC = "TRIONL2U"
+)
+
+// How card details were read in this transaction.
+type PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethod string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethod can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethodContactEmv               PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethod = "contact_emv"
+	PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethodContactlessEmv           PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethod = "contactless_emv"
+	PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethodContactlessMagstripeMode PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethod = "contactless_magstripe_mode"
+	PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethodMagneticStripeFallback   PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethod = "magnetic_stripe_fallback"
+	PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethodMagneticStripeTrack2     PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethod = "magnetic_stripe_track2"
+)
+
+// The type of account being debited or credited
+type PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceiptAccountType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceiptAccountType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceiptAccountTypeChecking PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceiptAccountType = "checking"
+	PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceiptAccountTypeSavings  PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceiptAccountType = "savings"
+	PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceiptAccountTypeUnknown  PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceiptAccountType = "unknown"
+)
+
+// The name of the convenience store chain where the payment was completed.
+type PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChain string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChain can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChainFamilyMart PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChain = "familymart"
+	PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChainLawson     PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChain = "lawson"
+	PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChainMinistop   PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChain = "ministop"
+	PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChainSeicomart  PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChain = "seicomart"
+)
+
+// The local credit or debit card brand.
+type PaymentAttemptRecordPaymentMethodDetailsKrCardBrand string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsKrCardBrand can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandBc          PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "bc"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandCiti        PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "citi"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandHana        PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "hana"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandHyundai     PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "hyundai"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandJeju        PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "jeju"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandJeonbuk     PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "jeonbuk"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandKakaobank   PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "kakaobank"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandKbank       PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "kbank"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandKdbbank     PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "kdbbank"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandKookmin     PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "kookmin"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandKwangju     PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "kwangju"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandLotte       PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "lotte"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandMg          PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "mg"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandNh          PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "nh"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandPost        PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "post"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandSamsung     PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "samsung"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandSavingsbank PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "savingsbank"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandShinhan     PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "shinhan"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandShinhyup    PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "shinhyup"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandSuhyup      PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "suhyup"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandTossbank    PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "tossbank"
+	PaymentAttemptRecordPaymentMethodDetailsKrCardBrandWoori       PaymentAttemptRecordPaymentMethodDetailsKrCardBrand = "woori"
+)
+
+// The customer's bank. Can be one of `ing`, `citi_handlowy`, `tmobile_usbugi_bankowe`, `plus_bank`, `etransfer_pocztowy24`, `banki_spbdzielcze`, `bank_nowy_bfg_sa`, `getin_bank`, `velobank`, `blik`, `noble_pay`, `ideabank`, `envelobank`, `santander_przelew24`, `nest_przelew`, `mbank_mtransfer`, `inteligo`, `pbac_z_ipko`, `bnp_paribas`, `credit_agricole`, `toyota_bank`, `bank_pekao_sa`, `volkswagen_bank`, `bank_millennium`, `alior_bank`, or `boz`.
+type PaymentAttemptRecordPaymentMethodDetailsP24Bank string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsP24Bank can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsP24BankAliorBank            PaymentAttemptRecordPaymentMethodDetailsP24Bank = "alior_bank"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankBankMillennium       PaymentAttemptRecordPaymentMethodDetailsP24Bank = "bank_millennium"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankBankNowyBfgSa        PaymentAttemptRecordPaymentMethodDetailsP24Bank = "bank_nowy_bfg_sa"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankBankPekaoSa          PaymentAttemptRecordPaymentMethodDetailsP24Bank = "bank_pekao_sa"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankBankiSpbdzielcze     PaymentAttemptRecordPaymentMethodDetailsP24Bank = "banki_spbdzielcze"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankBLIK                 PaymentAttemptRecordPaymentMethodDetailsP24Bank = "blik"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankBnpParibas           PaymentAttemptRecordPaymentMethodDetailsP24Bank = "bnp_paribas"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankBoz                  PaymentAttemptRecordPaymentMethodDetailsP24Bank = "boz"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankCitiHandlowy         PaymentAttemptRecordPaymentMethodDetailsP24Bank = "citi_handlowy"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankCreditAgricole       PaymentAttemptRecordPaymentMethodDetailsP24Bank = "credit_agricole"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankEnvelobank           PaymentAttemptRecordPaymentMethodDetailsP24Bank = "envelobank"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankEtransferPocztowy24  PaymentAttemptRecordPaymentMethodDetailsP24Bank = "etransfer_pocztowy24"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankGetinBank            PaymentAttemptRecordPaymentMethodDetailsP24Bank = "getin_bank"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankIdeabank             PaymentAttemptRecordPaymentMethodDetailsP24Bank = "ideabank"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankIng                  PaymentAttemptRecordPaymentMethodDetailsP24Bank = "ing"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankInteligo             PaymentAttemptRecordPaymentMethodDetailsP24Bank = "inteligo"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankMbankMtransfer       PaymentAttemptRecordPaymentMethodDetailsP24Bank = "mbank_mtransfer"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankNestPrzelew          PaymentAttemptRecordPaymentMethodDetailsP24Bank = "nest_przelew"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankNoblePay             PaymentAttemptRecordPaymentMethodDetailsP24Bank = "noble_pay"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankPbacZIpko            PaymentAttemptRecordPaymentMethodDetailsP24Bank = "pbac_z_ipko"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankPlusBank             PaymentAttemptRecordPaymentMethodDetailsP24Bank = "plus_bank"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankSantanderPrzelew24   PaymentAttemptRecordPaymentMethodDetailsP24Bank = "santander_przelew24"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankTmobileUsbugiBankowe PaymentAttemptRecordPaymentMethodDetailsP24Bank = "tmobile_usbugi_bankowe"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankToyotaBank           PaymentAttemptRecordPaymentMethodDetailsP24Bank = "toyota_bank"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankVelobank             PaymentAttemptRecordPaymentMethodDetailsP24Bank = "velobank"
+	PaymentAttemptRecordPaymentMethodDetailsP24BankVolkswagenBank       PaymentAttemptRecordPaymentMethodDetailsP24Bank = "volkswagen_bank"
+)
+
+// An array of conditions that are covered for the transaction, if applicable.
+type PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionDisputeCategory string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionDisputeCategory can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionDisputeCategoryFraudulent         PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionDisputeCategory = "fraudulent"
+	PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionDisputeCategoryProductNotReceived PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionDisputeCategory = "product_not_received"
+)
+
+// Indicates whether the transaction is eligible for PayPal's seller protection.
+type PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatus string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatus can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatusEligible          PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatus = "eligible"
+	PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatusNotEligible       PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatus = "not_eligible"
+	PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatusPartiallyEligible PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatus = "partially_eligible"
+)
+
+// funding type of the underlying payment method.
+type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingTypeCard PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingType = "card"
+)
+
+// Preferred language of the SOFORT authorization page that the customer is redirected to.
+// Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
+type PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguageDE PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage = "de"
+	PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguageEN PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage = "en"
+	PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguageES PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage = "es"
+	PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguageFR PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage = "fr"
+	PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguageIT PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage = "it"
+	PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguageNL PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage = "nl"
+	PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguagePL PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage = "pl"
+)
+
+// Account holder type: individual or company.
+type PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderTypeCompany    PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderType = "company"
+	PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderTypeIndividual PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderType = "individual"
+)
+
+// Account type: checkings or savings. Defaults to checking if omitted.
+type PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType string
+
+// List of values that PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType can take
+const (
+	PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountTypeChecking PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType = "checking"
+	PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountTypeSavings  PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType = "savings"
+)
+
 // List all the Payment Attempt Records attached to the specified Payment Record.
 type PaymentAttemptRecordListParams struct {
 	ListParams `form:"*"`
@@ -205,6 +563,127 @@ type PaymentAttemptRecordCustomerDetails struct {
 	// The customer's phone number.
 	Phone string `json:"phone"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsACHCreditTransfer struct {
+	// Account number to transfer funds to.
+	AccountNumber string `json:"account_number"`
+	// Name of the bank associated with the routing number.
+	BankName string `json:"bank_name"`
+	// Routing transit number for the bank account to transfer funds to.
+	RoutingNumber string `json:"routing_number"`
+	// SWIFT code of the bank associated with the routing number.
+	SwiftCode string `json:"swift_code"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsACHDebit struct {
+	// Type of entity that holds the account. This can be either `individual` or `company`.
+	AccountHolderType PaymentAttemptRecordPaymentMethodDetailsACHDebitAccountHolderType `json:"account_holder_type"`
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Two-letter ISO code representing the country the bank account is located in.
+	Country string `json:"country"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// Routing transit number of the bank account.
+	RoutingNumber string `json:"routing_number"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsACSSDebit struct {
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Institution number of the bank account
+	InstitutionNumber string `json:"institution_number"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// ID of the mandate used to make this payment.
+	Mandate string `json:"mandate"`
+	// Transit number of the bank account.
+	TransitNumber string `json:"transit_number"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsAffirm struct {
+	// The Affirm transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsAfterpayClearpay struct {
+	// The Afterpay order ID associated with this payment intent.
+	OrderID string `json:"order_id"`
+	// Order identifier shown to the merchant in Afterpay's online portal.
+	Reference string `json:"reference"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsAlipay struct {
+	// Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
+	BuyerID string `json:"buyer_id"`
+	// Uniquely identifies this particular Alipay account. You can use this attribute to check whether two Alipay accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Transaction ID of this particular Alipay transaction.
+	TransactionID string `json:"transaction_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsAlma struct{}
+type PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingCard struct {
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
+	BrandProduct string `json:"brand_product"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsAmazonPayFunding struct {
+	Card *PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingCard `json:"card"`
+	// funding type of the underlying payment method.
+	Type PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingType `json:"type"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsAmazonPay struct {
+	Funding *PaymentAttemptRecordPaymentMethodDetailsAmazonPayFunding `json:"funding"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsAUBECSDebit struct {
+	// Bank-State-Branch number of the bank account.
+	BSBNumber string `json:"bsb_number"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// ID of the mandate used to make this payment.
+	Mandate string `json:"mandate"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsBACSDebit struct {
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// ID of the mandate used to make this payment.
+	Mandate string `json:"mandate"`
+	// Sort code of the bank account. (e.g., `10-20-30`)
+	SortCode string `json:"sort_code"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsBancontact struct {
+	// Bank code of bank associated with the bank account.
+	BankCode string `json:"bank_code"`
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Bank Identifier Code of the bank associated with the bank account.
+	BIC string `json:"bic"`
+	// The ID of the SEPA Direct Debit PaymentMethod which was generated by this Charge.
+	GeneratedSEPADebit *PaymentMethod `json:"generated_sepa_debit"`
+	// The mandate for the SEPA Direct Debit PaymentMethod which was generated by this Charge.
+	GeneratedSEPADebitMandate *Mandate `json:"generated_sepa_debit_mandate"`
+	// Last four characters of the IBAN.
+	IBANLast4 string `json:"iban_last4"`
+	// Preferred language of the Bancontact authorization page that the customer is redirected to.
+	// Can be one of `en`, `de`, `fr`, or `nl`
+	PreferredLanguage PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage `json:"preferred_language"`
+	// Owner's verified full name. Values are verified or provided by Bancontact directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	VerifiedName string `json:"verified_name"`
+}
 
 // The billing details associated with the method of payment.
 type PaymentAttemptRecordPaymentMethodDetailsBillingDetails struct {
@@ -216,6 +695,14 @@ type PaymentAttemptRecordPaymentMethodDetailsBillingDetails struct {
 	Name string `json:"name"`
 	// The billing phone number associated with the method of payment.
 	Phone string `json:"phone"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsBLIK struct {
+	// A unique and immutable identifier assigned by BLIK to every buyer.
+	BuyerID string `json:"buyer_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsBoleto struct {
+	// The tax ID of the customer (CPF for individuals consumers or CNPJ for businesses consumers)
+	TaxID string `json:"tax_id"`
 }
 
 // Check results by Card networks on Card address and CVC at time of payment.
@@ -272,6 +759,99 @@ type PaymentAttemptRecordPaymentMethodDetailsCard struct {
 	ThreeDSecure *PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 }
 
+// Details about payments collected offline.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentOffline struct {
+	// Time at which the payment was collected while offline
+	StoredAt int64 `json:"stored_at"`
+	// The method used to process this payment method offline. Only deferred is allowed.
+	Type PaymentAttemptRecordPaymentMethodDetailsCardPresentOfflineType `json:"type"`
+}
+
+// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentReceipt struct {
+	// The type of account being debited or credited
+	AccountType PaymentAttemptRecordPaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type"`
+	// EMV tag 9F26, cryptogram generated by the integrated circuit chip.
+	ApplicationCryptogram string `json:"application_cryptogram"`
+	// Mnenomic of the Application Identifier.
+	ApplicationPreferredName string `json:"application_preferred_name"`
+	// Identifier for this transaction.
+	AuthorizationCode string `json:"authorization_code"`
+	// EMV tag 8A. A code returned by the card issuer.
+	AuthorizationResponseCode string `json:"authorization_response_code"`
+	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
+	CardholderVerificationMethod string `json:"cardholder_verification_method"`
+	// EMV tag 84. Similar to the application identifier stored on the integrated circuit chip.
+	DedicatedFileName string `json:"dedicated_file_name"`
+	// The outcome of a series of EMV functions performed by the card reader.
+	TerminalVerificationResults string `json:"terminal_verification_results"`
+	// An indication of various EMV functions performed during the transaction.
+	TransactionStatusInformation string `json:"transaction_status_information"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsCardPresentWallet struct {
+	// The type of mobile wallet, one of `apple_pay`, `google_pay`, `samsung_pay`, or `unknown`.
+	Type PaymentAttemptRecordPaymentMethodDetailsCardPresentWalletType `json:"type"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsCardPresent struct {
+	// The authorized amount
+	AmountAuthorized int64 `json:"amount_authorized"`
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
+	BrandProduct string `json:"brand_product"`
+	// When using manual capture, a future timestamp after which the charge will be automatically refunded if uncaptured.
+	CaptureBefore int64 `json:"capture_before"`
+	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
+	CardholderName string `json:"cardholder_name"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
+	Description string `json:"description"`
+	// Authorization response cryptogram.
+	EmvAuthData string `json:"emv_auth_data"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
+	GeneratedCard string `json:"generated_card"`
+	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
+	IIN string `json:"iin"`
+	// Whether this [PaymentIntent](https://stripe.com/docs/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support).
+	IncrementalAuthorizationSupported bool `json:"incremental_authorization_supported"`
+	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
+	Issuer string `json:"issuer"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Network string `json:"network"`
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
+	NetworkTransactionID string `json:"network_transaction_id"`
+	// Details about payments collected offline.
+	Offline *PaymentAttemptRecordPaymentMethodDetailsCardPresentOffline `json:"offline"`
+	// Defines whether the authorized amount can be over-captured or not
+	OvercaptureSupported bool `json:"overcapture_supported"`
+	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	PreferredLocales []string `json:"preferred_locales"`
+	// How card details were read in this transaction.
+	ReadMethod PaymentAttemptRecordPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
+	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
+	Receipt *PaymentAttemptRecordPaymentMethodDetailsCardPresentReceipt `json:"receipt"`
+	Wallet  *PaymentAttemptRecordPaymentMethodDetailsCardPresentWallet  `json:"wallet"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsCashApp struct {
+	// A unique and immutable identifier assigned by Cash App to every buyer.
+	BuyerID string `json:"buyer_id"`
+	// A public identifier for buyers using Cash App.
+	Cashtag string `json:"cashtag"`
+}
+
 // Custom Payment Methods represent Payment Method types not modeled directly in
 // the Stripe API. This resource consists of details about the custom payment method
 // used for this payment attempt.
@@ -281,21 +861,471 @@ type PaymentAttemptRecordPaymentMethodDetailsCustom struct {
 	// The custom payment method type associated with this payment.
 	Type string `json:"type"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsCustomerBalance struct{}
+type PaymentAttemptRecordPaymentMethodDetailsEPS struct {
+	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
+	Bank PaymentAttemptRecordPaymentMethodDetailsEPSBank `json:"bank"`
+	// Owner's verified full name. Values are verified or provided by EPS directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	// EPS rarely provides this information so the attribute is usually empty.
+	VerifiedName string `json:"verified_name"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsFPX struct {
+	// Account holder type, if provided. Can be one of `individual` or `company`.
+	AccountHolderType PaymentAttemptRecordPaymentMethodDetailsFPXAccountHolderType `json:"account_holder_type"`
+	// The customer's bank. Can be one of `affin_bank`, `agrobank`, `alliance_bank`, `ambank`, `bank_islam`, `bank_muamalat`, `bank_rakyat`, `bsn`, `cimb`, `hong_leong_bank`, `hsbc`, `kfh`, `maybank2u`, `ocbc`, `public_bank`, `rhb`, `standard_chartered`, `uob`, `deutsche_bank`, `maybank2e`, `pb_enterprise`, or `bank_of_china`.
+	Bank PaymentAttemptRecordPaymentMethodDetailsFPXBank `json:"bank"`
+	// Unique transaction id generated by FPX for every request from the merchant
+	TransactionID string `json:"transaction_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsGiropay struct {
+	// Bank code of bank associated with the bank account.
+	BankCode string `json:"bank_code"`
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Bank Identifier Code of the bank associated with the bank account.
+	BIC string `json:"bic"`
+	// Owner's verified full name. Values are verified or provided by Giropay directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	// Giropay rarely provides this information so the attribute is usually empty.
+	VerifiedName string `json:"verified_name"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsGopay struct{}
+type PaymentAttemptRecordPaymentMethodDetailsGrabpay struct {
+	// Unique transaction id generated by GrabPay
+	TransactionID string `json:"transaction_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsIDBankTransfer struct {
+	// Account number of the bank account to transfer funds to.
+	AccountNumber string `json:"account_number"`
+	// Bank where the account is located.
+	Bank PaymentAttemptRecordPaymentMethodDetailsIDBankTransferBank `json:"bank"`
+	// Local bank code of the bank.
+	BankCode string `json:"bank_code"`
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Merchant name and billing details name, for the customer to check for the correct merchant when performing the bank transfer.
+	DisplayName string `json:"display_name"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsIDEAL struct {
+	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	Bank PaymentAttemptRecordPaymentMethodDetailsIDEALBank `json:"bank"`
+	// The Bank Identifier Code of the customer's bank.
+	BIC PaymentAttemptRecordPaymentMethodDetailsIDEALBIC `json:"bic"`
+	// The ID of the SEPA Direct Debit PaymentMethod which was generated by this Charge.
+	GeneratedSEPADebit *PaymentMethod `json:"generated_sepa_debit"`
+	// The mandate for the SEPA Direct Debit PaymentMethod which was generated by this Charge.
+	GeneratedSEPADebitMandate *Mandate `json:"generated_sepa_debit_mandate"`
+	// Last four characters of the IBAN.
+	IBANLast4 string `json:"iban_last4"`
+	// Owner's verified full name. Values are verified or provided by iDEAL directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	VerifiedName string `json:"verified_name"`
+}
+
+// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
+type PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceipt struct {
+	// The type of account being debited or credited
+	AccountType PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceiptAccountType `json:"account_type"`
+	// EMV tag 9F26, cryptogram generated by the integrated circuit chip.
+	ApplicationCryptogram string `json:"application_cryptogram"`
+	// Mnenomic of the Application Identifier.
+	ApplicationPreferredName string `json:"application_preferred_name"`
+	// Identifier for this transaction.
+	AuthorizationCode string `json:"authorization_code"`
+	// EMV tag 8A. A code returned by the card issuer.
+	AuthorizationResponseCode string `json:"authorization_response_code"`
+	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
+	CardholderVerificationMethod string `json:"cardholder_verification_method"`
+	// EMV tag 84. Similar to the application identifier stored on the integrated circuit chip.
+	DedicatedFileName string `json:"dedicated_file_name"`
+	// The outcome of a series of EMV functions performed by the card reader.
+	TerminalVerificationResults string `json:"terminal_verification_results"`
+	// An indication of various EMV functions performed during the transaction.
+	TransactionStatusInformation string `json:"transaction_status_information"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsInteracPresent struct {
+	// Card brand. Can be `interac`, `mastercard` or `visa`.
+	Brand string `json:"brand"`
+	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
+	CardholderName string `json:"cardholder_name"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
+	Description string `json:"description"`
+	// Authorization response cryptogram.
+	EmvAuthData string `json:"emv_auth_data"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *As of May 1, 2021, card fingerprint in India for Connect changed to allow two fingerprints for the same card---one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
+	GeneratedCard string `json:"generated_card"`
+	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
+	IIN string `json:"iin"`
+	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
+	Issuer string `json:"issuer"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Network string `json:"network"`
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
+	NetworkTransactionID string `json:"network_transaction_id"`
+	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	PreferredLocales []string `json:"preferred_locales"`
+	// How card details were read in this transaction.
+	ReadMethod PaymentAttemptRecordPaymentMethodDetailsInteracPresentReadMethod `json:"read_method"`
+	// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
+	Receipt *PaymentAttemptRecordPaymentMethodDetailsInteracPresentReceipt `json:"receipt"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsKakaoPay struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
+}
+
+// The payer's address
+type PaymentAttemptRecordPaymentMethodDetailsKlarnaPayerDetailsAddress struct {
+	// The payer address country
+	Country string `json:"country"`
+}
+
+// The payer details for this transaction.
+type PaymentAttemptRecordPaymentMethodDetailsKlarnaPayerDetails struct {
+	// The payer's address
+	Address *PaymentAttemptRecordPaymentMethodDetailsKlarnaPayerDetailsAddress `json:"address"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsKlarna struct {
+	// The payer details for this transaction.
+	PayerDetails *PaymentAttemptRecordPaymentMethodDetailsKlarnaPayerDetails `json:"payer_details"`
+	// The Klarna payment method used for this transaction.
+	// Can be one of `pay_later`, `pay_now`, `pay_with_financing`, or `pay_in_installments`
+	PaymentMethodCategory string `json:"payment_method_category"`
+	// Preferred language of the Klarna authorization page that the customer is redirected to.
+	// Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, `en-FR`, `cs-CZ`, `en-CZ`, `ro-RO`, `en-RO`, `el-GR`, `en-GR`, `en-AU`, `en-NZ`, `en-CA`, `fr-CA`, `pl-PL`, `en-PL`, `pt-PT`, `en-PT`, `de-CH`, `fr-CH`, `it-CH`, or `en-CH`
+	PreferredLocale string `json:"preferred_locale"`
+}
+
+// If the payment succeeded, this contains the details of the convenience store where the payment was completed.
+type PaymentAttemptRecordPaymentMethodDetailsKonbiniStore struct {
+	// The name of the convenience store chain where the payment was completed.
+	Chain PaymentAttemptRecordPaymentMethodDetailsKonbiniStoreChain `json:"chain"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsKonbini struct {
+	// If the payment succeeded, this contains the details of the convenience store where the payment was completed.
+	Store *PaymentAttemptRecordPaymentMethodDetailsKonbiniStore `json:"store"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsKrCard struct {
+	// The local credit or debit card brand.
+	Brand PaymentAttemptRecordPaymentMethodDetailsKrCardBrand `json:"brand"`
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
+	// The last four digits of the card. This may not be present for American Express cards.
+	Last4 string `json:"last4"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsLink struct {
+	// Two-letter ISO code representing the funding source country beneath the Link payment.
+	// You could use this attribute to get a sense of international fees.
+	Country string `json:"country"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsMbWay struct{}
+
+// Internal card details
+type PaymentAttemptRecordPaymentMethodDetailsMobilepayCard struct {
+	// Brand of the card used in the transaction
+	Brand string `json:"brand"`
+	// Two-letter ISO code representing the country of the card
+	Country string `json:"country"`
+	// Two digit number representing the card's expiration month
+	ExpMonth int64 `json:"exp_month"`
+	// Two digit number representing the card's expiration year
+	ExpYear int64 `json:"exp_year"`
+	// The last 4 digits of the card
+	Last4 string `json:"last4"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsMobilepay struct {
+	// Internal card details
+	Card *PaymentAttemptRecordPaymentMethodDetailsMobilepayCard `json:"card"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsMultibanco struct {
+	// Entity number associated with this Multibanco payment.
+	Entity string `json:"entity"`
+	// Reference number associated with this Multibanco payment.
+	Reference string `json:"reference"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsNaverPay struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsOXXO struct {
+	// OXXO reference number
+	Number string `json:"number"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsP24 struct {
+	// The customer's bank. Can be one of `ing`, `citi_handlowy`, `tmobile_usbugi_bankowe`, `plus_bank`, `etransfer_pocztowy24`, `banki_spbdzielcze`, `bank_nowy_bfg_sa`, `getin_bank`, `velobank`, `blik`, `noble_pay`, `ideabank`, `envelobank`, `santander_przelew24`, `nest_przelew`, `mbank_mtransfer`, `inteligo`, `pbac_z_ipko`, `bnp_paribas`, `credit_agricole`, `toyota_bank`, `bank_pekao_sa`, `volkswagen_bank`, `bank_millennium`, `alior_bank`, or `boz`.
+	Bank PaymentAttemptRecordPaymentMethodDetailsP24Bank `json:"bank"`
+	// Unique reference for this Przelewy24 payment.
+	Reference string `json:"reference"`
+	// Owner's verified full name. Values are verified or provided by Przelewy24 directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	// Przelewy24 rarely provides this information so the attribute is usually empty.
+	VerifiedName string `json:"verified_name"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsPayByBank struct{}
+type PaymentAttemptRecordPaymentMethodDetailsPayco struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsPayNow struct {
+	// Reference number associated with this PayNow payment
+	Reference string `json:"reference"`
+}
+
+// The level of protection offered as defined by PayPal Seller Protection for Merchants, for this transaction.
+type PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtection struct {
+	// An array of conditions that are covered for the transaction, if applicable.
+	DisputeCategories []PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionDisputeCategory `json:"dispute_categories"`
+	// Indicates whether the transaction is eligible for PayPal's seller protection.
+	Status PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtectionStatus `json:"status"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsPaypal struct {
+	// Two-letter ISO code representing the buyer's country. Values are provided by PayPal directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	Country string `json:"country"`
+	// Owner's email. Values are provided by PayPal directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	PayerEmail string `json:"payer_email"`
+	// PayPal account PayerID. This identifier uniquely identifies the PayPal customer.
+	PayerID string `json:"payer_id"`
+	// Owner's full name. Values provided by PayPal directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	PayerName string `json:"payer_name"`
+	// The level of protection offered as defined by PayPal Seller Protection for Merchants, for this transaction.
+	SellerProtection *PaymentAttemptRecordPaymentMethodDetailsPaypalSellerProtection `json:"seller_protection"`
+	// The shipping address for the customer, as supplied by the merchant at the point of payment
+	// execution. This shipping address will not be updated if the merchant updates the shipping
+	// address on the PaymentIntent after the PaymentIntent was successfully confirmed.
+	Shipping *Address `json:"shipping"`
+	// A unique ID generated by PayPal for this transaction.
+	TransactionID string `json:"transaction_id"`
+	// The shipping address for the customer, as supplied by the merchant at the point of payment
+	// execution. This shipping address will not be updated if the merchant updates the shipping
+	// address on the PaymentIntent after the PaymentIntent was successfully confirmed.
+	VerifiedAddress *Address `json:"verified_address"`
+	// Owner's verified email. Values are verified or provided by PayPal directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	VerifiedEmail string `json:"verified_email"`
+	// Owner's verified full name. Values are verified or provided by PayPal directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	VerifiedName string `json:"verified_name"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsPayto struct {
+	// Bank-State-Branch number of the bank account.
+	BSBNumber string `json:"bsb_number"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// ID of the mandate used to make this payment.
+	Mandate string `json:"mandate"`
+	// The PayID alias for the bank account.
+	PayID string `json:"pay_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsPix struct {
+	// Unique transaction id generated by BCB
+	BankTransactionID string `json:"bank_transaction_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsPromptPay struct {
+	// Bill reference generated by PromptPay
+	Reference string `json:"reference"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsQris struct{}
+type PaymentAttemptRecordPaymentMethodDetailsRechnung struct{}
+type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingCard struct {
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	Brand string `json:"brand"`
+	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
+	BrandProduct string `json:"brand_product"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth int64 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear int64 `json:"exp_year"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding string `json:"funding"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFunding struct {
+	Card *PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingCard `json:"card"`
+	// funding type of the underlying payment method.
+	Type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingType `json:"type"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsRevolutPay struct {
+	Funding *PaymentAttemptRecordPaymentMethodDetailsRevolutPayFunding `json:"funding"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsSamsungPay struct {
+	// A unique identifier for the buyer as determined by the local payment processor.
+	BuyerID string `json:"buyer_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer struct {
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Bank Identifier Code of the bank associated with the bank account.
+	BIC string `json:"bic"`
+	// IBAN of the bank account to transfer funds to.
+	IBAN string `json:"iban"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsSEPADebit struct {
+	// Bank code of bank associated with the bank account.
+	BankCode string `json:"bank_code"`
+	// Branch code of bank associated with the bank account.
+	BranchCode string `json:"branch_code"`
+	// Two-letter ISO code representing the country the bank account is located in.
+	Country string `json:"country"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Last four characters of the IBAN.
+	Last4 string `json:"last4"`
+	// Find the ID of the mandate used for this payment under the [payment_method_details.sepa_debit.mandate](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-sepa_debit-mandate) property on the Charge. Use this mandate ID to [retrieve the Mandate](https://stripe.com/docs/api/mandates/retrieve).
+	Mandate string `json:"mandate"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsShopeepay struct{}
+type PaymentAttemptRecordPaymentMethodDetailsSofort struct {
+	// Bank code of bank associated with the bank account.
+	BankCode string `json:"bank_code"`
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Bank Identifier Code of the bank associated with the bank account.
+	BIC string `json:"bic"`
+	// Two-letter ISO code representing the country the bank account is located in.
+	Country string `json:"country"`
+	// The ID of the SEPA Direct Debit PaymentMethod which was generated by this Charge.
+	GeneratedSEPADebit *PaymentMethod `json:"generated_sepa_debit"`
+	// The mandate for the SEPA Direct Debit PaymentMethod which was generated by this Charge.
+	GeneratedSEPADebitMandate *Mandate `json:"generated_sepa_debit_mandate"`
+	// Last four characters of the IBAN.
+	IBANLast4 string `json:"iban_last4"`
+	// Preferred language of the SOFORT authorization page that the customer is redirected to.
+	// Can be one of `de`, `en`, `es`, `fr`, `it`, `nl`, or `pl`
+	PreferredLanguage PaymentAttemptRecordPaymentMethodDetailsSofortPreferredLanguage `json:"preferred_language"`
+	// Owner's verified full name. Values are verified or provided by SOFORT directly
+	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	VerifiedName string `json:"verified_name"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsStripeAccount struct{}
+type PaymentAttemptRecordPaymentMethodDetailsSwish struct {
+	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
+	Fingerprint string `json:"fingerprint"`
+	// Payer bank reference number for the payment
+	PaymentReference string `json:"payment_reference"`
+	// The last four digits of the Swish account phone number
+	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsTWINT struct{}
+type PaymentAttemptRecordPaymentMethodDetailsUSBankAccount struct {
+	// Account holder type: individual or company.
+	AccountHolderType PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
+	// Account type: checkings or savings. Defaults to checking if omitted.
+	AccountType PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType `json:"account_type"`
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// ID of the mandate used to make this payment.
+	Mandate *Mandate `json:"mandate"`
+	// Reference number to locate ACH payments with customer's bank.
+	PaymentReference string `json:"payment_reference"`
+	// Routing number of the bank account.
+	RoutingNumber string `json:"routing_number"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsWeChat struct{}
+type PaymentAttemptRecordPaymentMethodDetailsWeChatPay struct {
+	// Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Transaction ID of this particular WeChat Pay transaction.
+	TransactionID string `json:"transaction_id"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsZip struct{}
 
 // Information about the Payment Method debited for this payment.
 type PaymentAttemptRecordPaymentMethodDetails struct {
+	ACHCreditTransfer *PaymentAttemptRecordPaymentMethodDetailsACHCreditTransfer `json:"ach_credit_transfer"`
+	ACHDebit          *PaymentAttemptRecordPaymentMethodDetailsACHDebit          `json:"ach_debit"`
+	ACSSDebit         *PaymentAttemptRecordPaymentMethodDetailsACSSDebit         `json:"acss_debit"`
+	Affirm            *PaymentAttemptRecordPaymentMethodDetailsAffirm            `json:"affirm"`
+	AfterpayClearpay  *PaymentAttemptRecordPaymentMethodDetailsAfterpayClearpay  `json:"afterpay_clearpay"`
+	Alipay            *PaymentAttemptRecordPaymentMethodDetailsAlipay            `json:"alipay"`
+	Alma              *PaymentAttemptRecordPaymentMethodDetailsAlma              `json:"alma"`
+	AmazonPay         *PaymentAttemptRecordPaymentMethodDetailsAmazonPay         `json:"amazon_pay"`
+	AUBECSDebit       *PaymentAttemptRecordPaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
+	BACSDebit         *PaymentAttemptRecordPaymentMethodDetailsBACSDebit         `json:"bacs_debit"`
+	Bancontact        *PaymentAttemptRecordPaymentMethodDetailsBancontact        `json:"bancontact"`
 	// The billing details associated with the method of payment.
 	BillingDetails *PaymentAttemptRecordPaymentMethodDetailsBillingDetails `json:"billing_details"`
+	BLIK           *PaymentAttemptRecordPaymentMethodDetailsBLIK           `json:"blik"`
+	Boleto         *PaymentAttemptRecordPaymentMethodDetailsBoleto         `json:"boleto"`
 	// Details of the card used for this payment attempt.
-	Card *PaymentAttemptRecordPaymentMethodDetailsCard `json:"card"`
+	Card        *PaymentAttemptRecordPaymentMethodDetailsCard        `json:"card"`
+	CardPresent *PaymentAttemptRecordPaymentMethodDetailsCardPresent `json:"card_present"`
+	CashApp     *PaymentAttemptRecordPaymentMethodDetailsCashApp     `json:"cashapp"`
 	// Custom Payment Methods represent Payment Method types not modeled directly in
 	// the Stripe API. This resource consists of details about the custom payment method
 	// used for this payment attempt.
-	Custom *PaymentAttemptRecordPaymentMethodDetailsCustom `json:"custom"`
+	Custom          *PaymentAttemptRecordPaymentMethodDetailsCustom          `json:"custom"`
+	CustomerBalance *PaymentAttemptRecordPaymentMethodDetailsCustomerBalance `json:"customer_balance"`
+	EPS             *PaymentAttemptRecordPaymentMethodDetailsEPS             `json:"eps"`
+	FPX             *PaymentAttemptRecordPaymentMethodDetailsFPX             `json:"fpx"`
+	Giropay         *PaymentAttemptRecordPaymentMethodDetailsGiropay         `json:"giropay"`
+	Gopay           *PaymentAttemptRecordPaymentMethodDetailsGopay           `json:"gopay"`
+	Grabpay         *PaymentAttemptRecordPaymentMethodDetailsGrabpay         `json:"grabpay"`
+	IDBankTransfer  *PaymentAttemptRecordPaymentMethodDetailsIDBankTransfer  `json:"id_bank_transfer"`
+	IDEAL           *PaymentAttemptRecordPaymentMethodDetailsIDEAL           `json:"ideal"`
+	InteracPresent  *PaymentAttemptRecordPaymentMethodDetailsInteracPresent  `json:"interac_present"`
+	KakaoPay        *PaymentAttemptRecordPaymentMethodDetailsKakaoPay        `json:"kakao_pay"`
+	Klarna          *PaymentAttemptRecordPaymentMethodDetailsKlarna          `json:"klarna"`
+	Konbini         *PaymentAttemptRecordPaymentMethodDetailsKonbini         `json:"konbini"`
+	KrCard          *PaymentAttemptRecordPaymentMethodDetailsKrCard          `json:"kr_card"`
+	Link            *PaymentAttemptRecordPaymentMethodDetailsLink            `json:"link"`
+	MbWay           *PaymentAttemptRecordPaymentMethodDetailsMbWay           `json:"mb_way"`
+	Mobilepay       *PaymentAttemptRecordPaymentMethodDetailsMobilepay       `json:"mobilepay"`
+	Multibanco      *PaymentAttemptRecordPaymentMethodDetailsMultibanco      `json:"multibanco"`
+	NaverPay        *PaymentAttemptRecordPaymentMethodDetailsNaverPay        `json:"naver_pay"`
+	OXXO            *PaymentAttemptRecordPaymentMethodDetailsOXXO            `json:"oxxo"`
+	P24             *PaymentAttemptRecordPaymentMethodDetailsP24             `json:"p24"`
+	PayByBank       *PaymentAttemptRecordPaymentMethodDetailsPayByBank       `json:"pay_by_bank"`
+	Payco           *PaymentAttemptRecordPaymentMethodDetailsPayco           `json:"payco"`
 	// ID of the Stripe PaymentMethod used to make this payment.
-	PaymentMethod string `json:"payment_method"`
-	// The type of Payment Method used for this payment attempt.
-	Type string `json:"type"`
+	PaymentMethod      string                                                      `json:"payment_method"`
+	PayNow             *PaymentAttemptRecordPaymentMethodDetailsPayNow             `json:"paynow"`
+	Paypal             *PaymentAttemptRecordPaymentMethodDetailsPaypal             `json:"paypal"`
+	Payto              *PaymentAttemptRecordPaymentMethodDetailsPayto              `json:"payto"`
+	Pix                *PaymentAttemptRecordPaymentMethodDetailsPix                `json:"pix"`
+	PromptPay          *PaymentAttemptRecordPaymentMethodDetailsPromptPay          `json:"promptpay"`
+	Qris               *PaymentAttemptRecordPaymentMethodDetailsQris               `json:"qris"`
+	Rechnung           *PaymentAttemptRecordPaymentMethodDetailsRechnung           `json:"rechnung"`
+	RevolutPay         *PaymentAttemptRecordPaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
+	SamsungPay         *PaymentAttemptRecordPaymentMethodDetailsSamsungPay         `json:"samsung_pay"`
+	SEPACreditTransfer *PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer"`
+	SEPADebit          *PaymentAttemptRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
+	Shopeepay          *PaymentAttemptRecordPaymentMethodDetailsShopeepay          `json:"shopeepay"`
+	Sofort             *PaymentAttemptRecordPaymentMethodDetailsSofort             `json:"sofort"`
+	StripeAccount      *PaymentAttemptRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account"`
+	Swish              *PaymentAttemptRecordPaymentMethodDetailsSwish              `json:"swish"`
+	TWINT              *PaymentAttemptRecordPaymentMethodDetailsTWINT              `json:"twint"`
+	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
+	// An additional hash is included on `payment_method_details` with a name matching this value.
+	// It contains information specific to the payment method.
+	Type          string                                                 `json:"type"`
+	USBankAccount *PaymentAttemptRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
+	WeChat        *PaymentAttemptRecordPaymentMethodDetailsWeChat        `json:"wechat"`
+	WeChatPay     *PaymentAttemptRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
+	Zip           *PaymentAttemptRecordPaymentMethodDetailsZip           `json:"zip"`
 }
 
 // Shipping information for this payment.
