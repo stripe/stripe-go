@@ -2795,9 +2795,10 @@ type CheckoutSessionParams struct {
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
 	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionShippingOptionParams `form:"shipping_options"`
-	// Describes the type of transaction being performed by Checkout in order to customize
-	// relevant text on the page, such as the submit button. `submit_type` can only be
-	// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
+	// Describes the type of transaction being performed by Checkout in order
+	// to customize relevant text on the page, such as the submit button.
+	//  `submit_type` can only be specified on Checkout Sessions in
+	// `payment` or `subscription` mode. If blank or `auto`, `pay` is used.
 	SubmitType *string `form:"submit_type"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data"`
