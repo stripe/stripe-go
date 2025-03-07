@@ -2658,7 +2658,7 @@ type CheckoutSessionTaxIDCollectionParams struct {
 	Required *string `form:"required"`
 }
 
-// Creates a Session object.
+// Creates a Checkout Session object.
 type CheckoutSessionParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
@@ -2855,9 +2855,9 @@ func (p *CheckoutSessionListLineItemsParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A Session can be expired when it is in one of these statuses: open
+// A Checkout Session can be expired when it is in one of these statuses: open
 //
-// After it expires, a customer can't complete a Session and customers loading the Session see a message saying the Session is expired.
+// After it expires, a customer can't complete a Checkout Session and customers loading the Checkout Session see a message saying the Checkout Session is expired.
 type CheckoutSessionExpireParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
