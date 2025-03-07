@@ -948,7 +948,8 @@ type QuotePreviewInvoice struct {
 	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
 	Status            QuotePreviewInvoiceStatus             `json:"status"`
 	StatusTransitions *QuotePreviewInvoiceStatusTransitions `json:"status_transitions"`
-	Subscription      *Subscription                         `json:"subscription"`
+	// The subscription that this invoice was prepared for, if any.
+	Subscription *Subscription `json:"subscription"`
 	// Details about the subscription that created this invoice.
 	SubscriptionDetails *QuotePreviewInvoiceSubscriptionDetails `json:"subscription_details"`
 	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
