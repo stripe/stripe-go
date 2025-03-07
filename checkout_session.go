@@ -3939,8 +3939,6 @@ type CheckoutSession struct {
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
 	// The details of the customer cost of shipping, including the customer chosen ShippingRate.
 	ShippingCost *CheckoutSessionShippingCost `json:"shipping_cost"`
-	// Shipping information for this Checkout Session.
-	ShippingDetails *ShippingDetails `json:"shipping_details"`
 	// The shipping rate options applied to this Session.
 	ShippingOptions []*CheckoutSessionShippingOption `json:"shipping_options"`
 	// The status of the Checkout Session, one of `open`, `complete`, or `expired`.
