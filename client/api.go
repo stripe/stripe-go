@@ -487,7 +487,6 @@ type API struct {
 }
 
 func (a *API) Init(key string, backends *stripe.Backends) {
-
 	usage := []string{"stripe_client"}
 	if backends == nil {
 		backends = &stripe.Backends{

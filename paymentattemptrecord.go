@@ -494,6 +494,15 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountTypeSavings  PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType = "savings"
 )
 
+// Indicates who reported the payment.
+type PaymentAttemptRecordReportedBy string
+
+// List of values that PaymentAttemptRecordReportedBy can take
+const (
+	PaymentAttemptRecordReportedBySelf   PaymentAttemptRecordReportedBy = "self"
+	PaymentAttemptRecordReportedByStripe PaymentAttemptRecordReportedBy = "stripe"
+)
+
 // List all the Payment Attempt Records attached to the specified Payment Record.
 type PaymentAttemptRecordListParams struct {
 	ListParams `form:"*"`
@@ -1374,6 +1383,8 @@ type PaymentAttemptRecord struct {
 	PaymentRecord string `json:"payment_record"`
 	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
 	PaymentReference string `json:"payment_reference"`
+	// Indicates who reported the payment.
+	ReportedBy PaymentAttemptRecordReportedBy `json:"reported_by"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentAttemptRecordShippingDetails `json:"shipping_details"`
 }

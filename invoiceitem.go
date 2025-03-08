@@ -182,10 +182,6 @@ type InvoiceItem struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string  `json:"object"`
 	Period *Period `json:"period"`
-	// If the invoice item is a proration, the plan of the subscription that the proration was computed for.
-	Plan *Plan `json:"plan"`
-	// The price of the invoice item.
-	Price *Price `json:"price"`
 	// Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
 	Proration bool `json:"proration"`
 	// Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
