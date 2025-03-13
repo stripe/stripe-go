@@ -46,7 +46,7 @@ func (p *TerminalConfigurationParams) AddExpand(f string) {
 
 // An object containing device type specific settings for BBPOS WisePOS E readers
 type TerminalConfigurationBBPOSWisePOSEParams struct {
-	// A File ID representing an image you would like displayed on the reader.
+	// A File ID representing an image to display on the reader
 	Splashscreen *string `form:"splashscreen"`
 }
 
@@ -333,7 +333,7 @@ func (p *TerminalConfigurationListParams) AddExpand(f string) {
 }
 
 type TerminalConfigurationBBPOSWisePOSE struct {
-	// A File ID representing an image you would like displayed on the reader.
+	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
 }
 type TerminalConfigurationOffline struct {
@@ -347,7 +347,7 @@ type TerminalConfigurationRebootWindow struct {
 	StartHour int64 `json:"start_hour"`
 }
 type TerminalConfigurationStripeS700 struct {
-	// A File ID representing an image you would like displayed on the reader.
+	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
 }
 type TerminalConfigurationTippingAUD struct {
@@ -497,7 +497,7 @@ type TerminalConfigurationTipping struct {
 	USD *TerminalConfigurationTippingUSD `json:"usd"`
 }
 type TerminalConfigurationVerifoneP400 struct {
-	// A File ID representing an image you would like displayed on the reader.
+	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
 }
 type TerminalConfigurationWifiEnterpriseEapPeap struct {
