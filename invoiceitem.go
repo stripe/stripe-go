@@ -33,9 +33,9 @@ type InvoiceItemParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceItemPeriodParams `form:"period"`
-	// The ID of the price object. One of `price` or `price_data` is required.
+	// The ID of the price object.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	// Non-negative integer. The quantity of units for the invoice item.
 	Quantity *int64 `form:"quantity"`
@@ -49,7 +49,7 @@ type InvoiceItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 	// The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
 	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
@@ -105,7 +105,7 @@ type InvoiceItemPeriodParams struct {
 	Start *int64 `form:"start"`
 }
 
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type InvoiceItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -182,10 +182,6 @@ type InvoiceItem struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string  `json:"object"`
 	Period *Period `json:"period"`
-	// If the invoice item is a proration, the plan of the subscription that the proration was computed for.
-	Plan *Plan `json:"plan"`
-	// The price of the invoice item.
-	Price *Price `json:"price"`
 	// Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
 	Proration bool `json:"proration"`
 	// Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
@@ -198,10 +194,6 @@ type InvoiceItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// ID of the test clock this invoice item belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
-	// Unit amount (in the `currency` specified) of the invoice item.
-	UnitAmount int64 `json:"unit_amount"`
-	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
-	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 
 // InvoiceItemList is a list of InvoiceItems as retrieved from a list endpoint.

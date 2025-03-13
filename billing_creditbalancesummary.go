@@ -22,7 +22,7 @@ const (
 	BillingCreditBalanceSummaryBalanceLedgerBalanceTypeMonetary BillingCreditBalanceSummaryBalanceLedgerBalanceType = "monetary"
 )
 
-// A list of prices that the credit grant can apply to. We currently only support the `metered` prices.
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams struct {
 	// The price ID this credit grant should apply to.
 	ID *string `form:"id"`
@@ -30,9 +30,9 @@ type BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams struct {
 
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryFilterApplicabilityScopeParams struct {
-	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices.
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 	Prices []*BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams `form:"prices"`
-	// The price type that credit grants can apply to. We currently only support the `metered` price type.
+	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type"`
 }
 

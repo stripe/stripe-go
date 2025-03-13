@@ -176,6 +176,7 @@ const (
 	ErrorCodeSetupIntentAuthenticationFailure                            ErrorCode = "setup_intent_authentication_failure"
 	ErrorCodeSetupIntentInvalidParameter                                 ErrorCode = "setup_intent_invalid_parameter"
 	ErrorCodeSetupIntentMandateInvalid                                   ErrorCode = "setup_intent_mandate_invalid"
+	ErrorCodeSetupIntentMobileWalletUnsupported                          ErrorCode = "setup_intent_mobile_wallet_unsupported"
 	ErrorCodeSetupIntentSetupAttemptExpired                              ErrorCode = "setup_intent_setup_attempt_expired"
 	ErrorCodeSetupIntentUnexpectedState                                  ErrorCode = "setup_intent_unexpected_state"
 	ErrorCodeShippingAddressInvalid                                      ErrorCode = "shipping_address_invalid"

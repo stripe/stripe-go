@@ -148,7 +148,7 @@ type IdentityVerificationSessionParams struct {
 	Options *IdentityVerificationSessionOptionsParams `form:"options"`
 	// Details provided about the user being verified. These details may be shown to the user.
 	ProvidedDetails *IdentityVerificationSessionProvidedDetailsParams `form:"provided_details"`
-	// Token referencing a Customer resource.
+	// Customer ID
 	RelatedCustomer *string `form:"related_customer"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
@@ -332,7 +332,7 @@ type IdentityVerificationSession struct {
 	ProvidedDetails *IdentityVerificationSessionProvidedDetails `json:"provided_details"`
 	// Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
 	Redaction *IdentityVerificationSessionRedaction `json:"redaction"`
-	// Token referencing a Customer resource.
+	// Customer ID
 	RelatedCustomer string `json:"related_customer"`
 	// Status of this VerificationSession. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 	Status IdentityVerificationSessionStatus `json:"status"`
