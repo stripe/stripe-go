@@ -33,34 +33,6 @@ func (c Client) PresentPaymentMethod(id string, params *stripe.TestHelpersTermin
 	return reader, err
 }
 
-// Use this endpoint to trigger a successful input collection on a simulated reader.
-func SucceedInputCollection(id string, params *stripe.TestHelpersTerminalReaderSucceedInputCollectionParams) (*stripe.TerminalReader, error) {
-	return getC().SucceedInputCollection(id, params)
-}
-
-// Use this endpoint to trigger a successful input collection on a simulated reader.
-func (c Client) SucceedInputCollection(id string, params *stripe.TestHelpersTerminalReaderSucceedInputCollectionParams) (*stripe.TerminalReader, error) {
-	path := stripe.FormatURLPath(
-		"/v1/test_helpers/terminal/readers/%s/succeed_input_collection", id)
-	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
-	return reader, err
-}
-
-// Use this endpoint to complete an input collection with a timeout error on a simulated reader.
-func TimeoutInputCollection(id string, params *stripe.TestHelpersTerminalReaderTimeoutInputCollectionParams) (*stripe.TerminalReader, error) {
-	return getC().TimeoutInputCollection(id, params)
-}
-
-// Use this endpoint to complete an input collection with a timeout error on a simulated reader.
-func (c Client) TimeoutInputCollection(id string, params *stripe.TestHelpersTerminalReaderTimeoutInputCollectionParams) (*stripe.TerminalReader, error) {
-	path := stripe.FormatURLPath(
-		"/v1/test_helpers/terminal/readers/%s/timeout_input_collection", id)
-	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
-	return reader, err
-}
-
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
