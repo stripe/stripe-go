@@ -815,7 +815,7 @@ type QuotePreviewInvoice struct {
 	AccountTaxIDs []*TaxID `json:"account_tax_ids"`
 	// Final amount due at this time for this invoice. If the invoice's total is smaller than the minimum charge amount, for example, or if there is account credit that can be applied to the invoice, the `amount_due` may be 0. If there is a positive `starting_balance` for the invoice (the customer owes money), the `amount_due` will also take that into account. The charge that gets generated for the invoice will be for the amount specified in `amount_due`.
 	AmountDue int64 `json:"amount_due"`
-	// Amount that was overpaid on the invoice. The amount overpaid is credited to the customer's credit balance.
+	// Amount that was overpaid on the invoice. Overpayments are debited to the customer's credit balance.
 	AmountOverpaid int64 `json:"amount_overpaid"`
 	// The amount, in cents (or local equivalent), that was paid.
 	AmountPaid int64 `json:"amount_paid"`

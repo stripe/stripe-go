@@ -460,7 +460,7 @@ type BankAccountRequirements struct {
 // Related guide: [Bank debits and transfers](https://stripe.com/payments/bank-debits-transfers)
 type BankAccount struct {
 	APIResource
-	// The account this bank account belongs to. Only applicable on Accounts (not customers or recipients) This property is only available when returned as an [External Account](https://stripe.com/api/external_account_bank_accounts/object) where [controller.is_controller](https://stripe.com/api/accounts/object#account_object-controller-is_controller) is `true`.
+	// The ID of the account that the bank account is associated with.
 	Account *Account `json:"account"`
 	// The name of the person or business that owns the bank account.
 	AccountHolderName string `json:"account_holder_name"`
