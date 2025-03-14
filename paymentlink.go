@@ -299,6 +299,8 @@ type PaymentLinkCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type PaymentLinkCustomFieldDropdownParams struct {
+	// The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array.
+	DefaultValue *string `form:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCustomFieldDropdownOptionParams `form:"options"`
 }
@@ -313,6 +315,8 @@ type PaymentLinkCustomFieldLabelParams struct {
 
 // Configuration for `type=numeric` fields.
 type PaymentLinkCustomFieldNumericParams struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
@@ -321,6 +325,8 @@ type PaymentLinkCustomFieldNumericParams struct {
 
 // Configuration for `type=text` fields.
 type PaymentLinkCustomFieldTextParams struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
@@ -751,6 +757,8 @@ type PaymentLinkCustomFieldDropdownOption struct {
 	Value string `json:"value"`
 }
 type PaymentLinkCustomFieldDropdown struct {
+	// The value that will pre-fill on the payment page.
+	DefaultValue string `json:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCustomFieldDropdownOption `json:"options"`
 }
@@ -761,12 +769,16 @@ type PaymentLinkCustomFieldLabel struct {
 	Type PaymentLinkCustomFieldLabelType `json:"type"`
 }
 type PaymentLinkCustomFieldNumeric struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
 	MinimumLength int64 `json:"minimum_length"`
 }
 type PaymentLinkCustomFieldText struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
