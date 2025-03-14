@@ -3139,7 +3139,7 @@ type PaymentIntentParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Automations to be run during the PaymentIntent lifecycle
 	AsyncWorkflows *PaymentIntentAsyncWorkflowsParams `form:"async_workflows"`
@@ -3636,9 +3636,9 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 // Learn more about [separate authorization and capture](https://stripe.com/docs/payments/capture-later).
 type PaymentIntentCaptureParams struct {
 	Params `form:"*"`
-	// The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Any additional amount is automatically refunded. Defaults to the full `amount_capturable` if it's not provided.
+	// The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Defaults to the full `amount_capturable` if it's not provided.
 	AmountToCapture *int64 `form:"amount_to_capture"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Automations to be run during the PaymentIntent lifecycle
 	AsyncWorkflows *PaymentIntentCaptureAsyncWorkflowsParams `form:"async_workflows"`
@@ -4036,7 +4036,7 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // transition the PaymentIntent to the canceled state.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Automations to be run during the PaymentIntent lifecycle
 	AsyncWorkflows *PaymentIntentConfirmAsyncWorkflowsParams `form:"async_workflows"`
@@ -4141,7 +4141,7 @@ type PaymentIntentDecrementAuthorizationParams struct {
 	Params `form:"*"`
 	// The updated total amount that you intend to collect from the cardholder. This amount must be smaller than the currently authorized amount and greater than the already captured amount.
 	Amount *int64 `form:"amount"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Automations to be run during the PaymentIntent lifecycle
 	AsyncWorkflows *PaymentIntentDecrementAuthorizationAsyncWorkflowsParams `form:"async_workflows"`
@@ -4235,7 +4235,7 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Params `form:"*"`
 	// The updated total amount that you intend to collect from the cardholder. This amount must be greater than the currently authorized amount.
 	Amount *int64 `form:"amount"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Automations to be run during the PaymentIntent lifecycle
 	AsyncWorkflows *PaymentIntentIncrementAuthorizationAsyncWorkflowsParams `form:"async_workflows"`
@@ -5676,7 +5676,7 @@ type PaymentIntent struct {
 	AmountReceived int64 `json:"amount_received"`
 	// ID of the Connect application that created the PaymentIntent.
 	Application *Application `json:"application"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount int64                        `json:"application_fee_amount"`
 	AsyncWorkflows       *PaymentIntentAsyncWorkflows `json:"async_workflows"`
 	// Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
