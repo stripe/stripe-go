@@ -217,6 +217,16 @@ const (
 	AccountRiskControlsRejectedReasonTermsOfService           AccountRiskControlsRejectedReason = "terms_of_service"
 )
 
+// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+type AccountSettingsInvoicesHostedPaymentMethodSave string
+
+// List of values that AccountSettingsInvoicesHostedPaymentMethodSave can take
+const (
+	AccountSettingsInvoicesHostedPaymentMethodSaveAlways AccountSettingsInvoicesHostedPaymentMethodSave = "always"
+	AccountSettingsInvoicesHostedPaymentMethodSaveNever  AccountSettingsInvoicesHostedPaymentMethodSave = "never"
+	AccountSettingsInvoicesHostedPaymentMethodSaveOffer  AccountSettingsInvoicesHostedPaymentMethodSave = "offer"
+)
+
 // How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
 type AccountSettingsPayoutsScheduleInterval string
 
@@ -1232,6 +1242,8 @@ type AccountSettingsCardPaymentsParams struct {
 type AccountSettingsInvoicesParams struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
+	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
 }
 
 // Settings that apply across payment methods for charging on the account.
@@ -1895,6 +1907,8 @@ type AccountSettingsDashboard struct {
 type AccountSettingsInvoices struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*TaxID `json:"default_account_tax_ids"`
+	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	HostedPaymentMethodSave AccountSettingsInvoicesHostedPaymentMethodSave `json:"hosted_payment_method_save"`
 }
 type AccountSettingsPayments struct {
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge.

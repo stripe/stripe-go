@@ -63,7 +63,7 @@ type InvoiceLineItemPeriodParams struct {
 	Start *int64 `form:"start"`
 }
 
-// Data used to generate a new product object inline. One of `product` or `product_data` is required.
+// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type InvoiceLineItemPriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
 	Description *string `form:"description"`
@@ -86,13 +86,13 @@ func (p *InvoiceLineItemPriceDataProductDataParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type InvoiceLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to. One of `product` or `product_data` is required.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
-	// Data used to generate a new product object inline. One of `product` or `product_data` is required.
+	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 	ProductData *InvoiceLineItemPriceDataProductDataParams `form:"product_data"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
@@ -159,9 +159,9 @@ type InvoiceLineItemParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceLineItemPeriodParams `form:"period"`
-	// The ID of the price object. One of `price` or `price_data` is required.
+	// The ID of the price object.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 	PriceData *InvoiceLineItemPriceDataParams `form:"price_data"`
 	// Non-negative integer. The quantity of units for the line item.
 	Quantity *int64 `form:"quantity"`
@@ -236,8 +236,6 @@ type InvoiceLineItem struct {
 	APIResource
 	// The amount, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
-	// The integer amount in cents (or local equivalent) representing the amount for this line item, excluding all tax and discounts.
-	AmountExcludingTax int64 `json:"amount_excluding_tax"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -265,12 +263,8 @@ type InvoiceLineItem struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string  `json:"object"`
 	Period *Period `json:"period"`
-	// The plan of the subscription, if the line item is a subscription or a proration.
-	Plan *Plan `json:"plan"`
 	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this line item.
 	PretaxCreditAmounts []*InvoiceLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
-	// The price of the line item.
-	Price *Price `json:"price"`
 	// Whether this is a proration.
 	Proration bool `json:"proration"`
 	// Additional details for proration line items
@@ -281,14 +275,8 @@ type InvoiceLineItem struct {
 	Subscription *Subscription `json:"subscription"`
 	// The subscription item that generated this line item. Left empty if the line item is not an explicit result of a subscription.
 	SubscriptionItem *SubscriptionItem `json:"subscription_item"`
-	// The amount of tax calculated per tax rate for this line item
-	TaxAmounts []*InvoiceTotalTaxAmount `json:"tax_amounts"`
-	// The tax rates which apply to the line item.
-	TaxRates []*TaxRate `json:"tax_rates"`
 	// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
 	Type InvoiceLineItemType `json:"type"`
-	// The amount in cents (or local equivalent) representing the unit amount for this line item, excluding all tax and discounts.
-	UnitAmountExcludingTax float64 `json:"unit_amount_excluding_tax,string"`
 }
 
 // Period is a structure representing a start and end dates.

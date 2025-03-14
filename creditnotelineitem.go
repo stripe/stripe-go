@@ -50,8 +50,6 @@ type CreditNoteLineItemPretaxCreditAmount struct {
 type CreditNoteLineItem struct {
 	// The integer amount in cents (or local equivalent) representing the gross amount being credited for this line item, excluding (exclusive) tax and discounts.
 	Amount int64 `json:"amount"`
-	// The integer amount in cents (or local equivalent) representing the amount being credited for this line item, excluding all tax and discounts.
-	AmountExcludingTax int64 `json:"amount_excluding_tax"`
 	// Description of the item being credited.
 	Description string `json:"description"`
 	// The integer amount in cents (or local equivalent) representing the discount being credited for this line item.
@@ -70,8 +68,6 @@ type CreditNoteLineItem struct {
 	PretaxCreditAmounts []*CreditNoteLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
 	// The number of units of product being credited.
 	Quantity int64 `json:"quantity"`
-	// The amount of tax calculated per tax rate for this line item
-	TaxAmounts []*CreditNoteTaxAmount `json:"tax_amounts"`
 	// The tax rates which apply to the line item.
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// The type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. When the type is `invoice_line_item` there is an additional `invoice_line_item` property on the resource the value of which is the id of the credited line item on the invoice.
@@ -80,8 +76,6 @@ type CreditNoteLineItem struct {
 	UnitAmount int64 `json:"unit_amount"`
 	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
 	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
-	// The amount in cents (or local equivalent) representing the unit amount being credited for this line item, excluding all tax and discounts.
-	UnitAmountExcludingTax float64 `json:"unit_amount_excluding_tax,string"`
 }
 
 // CreditNoteLineItemList is a list of CreditNoteLineItems as retrieved from a list endpoint.
