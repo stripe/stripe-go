@@ -226,11 +226,7 @@ import (
 )
 
 // Setup
-sc := client.New("sk_key")
-
-// To set backends, e.g. for testing:
-// sc := &client.API{}
-// sc.Init("sk_key", backends)
+sc := client.New("sk_key", nil) // second argument is for passing in backends
 
 // Create
 c, err := sc.Customers.New(&stripe.CustomerParams{})
