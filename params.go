@@ -220,7 +220,7 @@ func (p *Params) AddExpand(f string) {
 // InternalSetUsage sets the usage field on the Params struct.
 // Unstable: for internal stripe-go usage only.
 func (p *Params) InternalSetUsage(usage []string) {
-	p.usage = usage
+	p.usage = append(p.usage, usage...)
 }
 
 // AddExtra adds a new arbitrary key-value pair to the request data
