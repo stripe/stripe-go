@@ -1210,9 +1210,8 @@ func TestCouponsGet2Service(t *testing.T) {
 
 func TestCouponsPost(t *testing.T) {
 	params := &stripe.CouponParams{
-		PercentOff:       stripe.Float64(25.5),
-		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
-		DurationInMonths: stripe.Int64(3),
+		PercentOff: stripe.Float64(25.5),
+		Duration:   stripe.String(string(stripe.CouponDurationOnce)),
 	}
 	result, err := coupon.New(params)
 	assert.NotNil(t, result)
@@ -1221,9 +1220,8 @@ func TestCouponsPost(t *testing.T) {
 
 func TestCouponsPostService(t *testing.T) {
 	params := &stripe.CouponParams{
-		PercentOff:       stripe.Float64(25.5),
-		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
-		DurationInMonths: stripe.Int64(3),
+		PercentOff: stripe.Float64(25.5),
+		Duration:   stripe.String(string(stripe.CouponDurationOnce)),
 	}
 	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Coupons.New(params)
