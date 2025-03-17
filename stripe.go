@@ -1619,3 +1619,37 @@ func RawRequest(method, path string, content string, params *RawParams) (*APIRes
 	}
 	return nil, fmt.Errorf("Error: cannot call RawRequest if backends.API is initialized with a backend that doesn't implement RawRequestBackend")
 }
+
+// UsageBackend is a wrapper for stripe.Backend that sets the usage parameter
+type UsageBackend struct {
+	B     Backend
+	Usage []string
+}
+
+func (u *UsageBackend) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
+	if r := reflect.ValueOf(params); r.Kind() == reflect.Ptr && !r.IsNil() {
+		params.GetParams().InternalSetUsage(u.Usage)
+	}
+	return u.B.Call(method, path, key, params, v)
+}
+
+func (u *UsageBackend) CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error {
+	params.GetParams().InternalSetUsage(u.Usage)
+	return u.B.CallRaw(method, path, key, body, params, v)
+}
+
+func (u *UsageBackend) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error {
+	params.GetParams().InternalSetUsage(u.Usage)
+	return u.B.CallMultipart(method, path, key, boundary, body, params, v)
+}
+
+func (u *UsageBackend) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
+	if r := reflect.ValueOf(params); r.Kind() == reflect.Ptr && !r.IsNil() {
+		params.GetParams().InternalSetUsage(u.Usage)
+	}
+	return u.B.CallStreaming(method, path, key, params, v)
+}
+
+func (u *UsageBackend) SetMaxNetworkRetries(maxNetworkRetries int64) {
+	u.B.SetMaxNetworkRetries(maxNetworkRetries)
+}

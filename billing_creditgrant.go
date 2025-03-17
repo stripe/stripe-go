@@ -77,7 +77,7 @@ type BillingCreditGrantApplicabilityConfigScopeParams struct {
 	PriceType *string `form:"price_type"`
 }
 
-// Configuration specifying what this credit grant applies to.
+// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 type BillingCreditGrantApplicabilityConfigParams struct {
 	// Specify the scope of this applicability config.
 	Scope *BillingCreditGrantApplicabilityConfigScopeParams `form:"scope"`
@@ -88,7 +88,7 @@ type BillingCreditGrantParams struct {
 	Params `form:"*"`
 	// Amount of this credit grant.
 	Amount *BillingCreditGrantAmountParams `form:"amount"`
-	// Configuration specifying what this credit grant applies to.
+	// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
 	ApplicabilityConfig *BillingCreditGrantApplicabilityConfigParams `form:"applicability_config"`
 	// The category of this credit grant.
 	Category *string `form:"category"`
@@ -104,6 +104,8 @@ type BillingCreditGrantParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// A descriptive name shown in the Dashboard.
 	Name *string `form:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority *int64 `form:"priority"`
 }
 
 // AddExpand appends a new field to expand.
@@ -200,6 +202,8 @@ type BillingCreditGrant struct {
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The priority for applying this credit grant. The highest priority is 0 and the lowest is 100.
+	Priority int64 `json:"priority"`
 	// ID of the test clock this credit grant belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
 	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
