@@ -30,12 +30,7 @@ func New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, err
 func (c Client) New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	cardholder := &stripe.IssuingCardholder{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/cardholders",
-		c.Key,
-		params,
-		cardholder,
-	)
+		http.MethodPost, "/v1/issuing/cardholders", c.Key, params, cardholder)
 	return cardholder, err
 }
 

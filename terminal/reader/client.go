@@ -29,12 +29,7 @@ func New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 func (c Client) New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/terminal/readers",
-		c.Key,
-		params,
-		reader,
-	)
+		http.MethodPost, "/v1/terminal/readers", c.Key, params, reader)
 	return reader, err
 }
 
@@ -98,9 +93,7 @@ func ProcessPaymentIntent(id string, params *stripe.TerminalReaderProcessPayment
 // Initiates a payment flow on a Reader.
 func (c Client) ProcessPaymentIntent(id string, params *stripe.TerminalReaderProcessPaymentIntentParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath(
-		"/v1/terminal/readers/%s/process_payment_intent",
-		id,
-	)
+		"/v1/terminal/readers/%s/process_payment_intent", id)
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
 	return reader, err
@@ -114,9 +107,7 @@ func ProcessSetupIntent(id string, params *stripe.TerminalReaderProcessSetupInte
 // Initiates a setup intent flow on a Reader.
 func (c Client) ProcessSetupIntent(id string, params *stripe.TerminalReaderProcessSetupIntentParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath(
-		"/v1/terminal/readers/%s/process_setup_intent",
-		id,
-	)
+		"/v1/terminal/readers/%s/process_setup_intent", id)
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
 	return reader, err

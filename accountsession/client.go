@@ -28,12 +28,7 @@ func New(params *stripe.AccountSessionParams) (*stripe.AccountSession, error) {
 func (c Client) New(params *stripe.AccountSessionParams) (*stripe.AccountSession, error) {
 	accountsession := &stripe.AccountSession{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/account_sessions",
-		c.Key,
-		params,
-		accountsession,
-	)
+		http.MethodPost, "/v1/account_sessions", c.Key, params, accountsession)
 	return accountsession, err
 }
 
