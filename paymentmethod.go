@@ -1283,6 +1283,8 @@ type PaymentMethodMbWay struct{}
 type PaymentMethodMobilepay struct{}
 type PaymentMethodMultibanco struct{}
 type PaymentMethodNaverPay struct {
+	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
+	BuyerID string `json:"buyer_id"`
 	// Whether to fund this transaction with Naver Pay points or a card.
 	Funding PaymentMethodNaverPayFunding `json:"funding"`
 }

@@ -815,7 +815,7 @@ type QuotePreviewInvoice struct {
 	AccountTaxIDs []*TaxID `json:"account_tax_ids"`
 	// Final amount due at this time for this invoice. If the invoice's total is smaller than the minimum charge amount, for example, or if there is account credit that can be applied to the invoice, the `amount_due` may be 0. If there is a positive `starting_balance` for the invoice (the customer owes money), the `amount_due` will also take that into account. The charge that gets generated for the invoice will be for the amount specified in `amount_due`.
 	AmountDue int64 `json:"amount_due"`
-	// Amount that was overpaid on the invoice. Overpayments are debited to the customer's credit balance.
+	// Amount that was overpaid on the invoice. The amount overpaid is credited to the customer's credit balance.
 	AmountOverpaid int64 `json:"amount_overpaid"`
 	// The amount, in cents (or local equivalent), that was paid.
 	AmountPaid int64 `json:"amount_paid"`
@@ -879,8 +879,6 @@ type QuotePreviewInvoice struct {
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
 	// An arbitrary string attached to the object. Often useful for displaying to users. Referenced as 'memo' in the Dashboard.
 	Description string `json:"description"`
-	// Describes the current discount applied to this invoice, if there is one. Not populated if there are multiple discounts.
-	Discount *Discount `json:"discount"`
 	// The discounts applied to the invoice. Line item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// The date on which payment for this invoice is due. This value will be `null` for invoices where `collection_method=charge_automatically`.
@@ -948,7 +946,8 @@ type QuotePreviewInvoice struct {
 	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
 	Status            QuotePreviewInvoiceStatus             `json:"status"`
 	StatusTransitions *QuotePreviewInvoiceStatusTransitions `json:"status_transitions"`
-	Subscription      *Subscription                         `json:"subscription"`
+	// The subscription that this invoice was prepared for, if any.
+	Subscription *Subscription `json:"subscription"`
 	// Details about the subscription that created this invoice.
 	SubscriptionDetails *QuotePreviewInvoiceSubscriptionDetails `json:"subscription_details"`
 	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.

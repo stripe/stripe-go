@@ -1204,7 +1204,7 @@ type ChargeCaptureTransferDataParams struct {
 // Don't use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://stripe.com/docs/api/payment_intents/capture).
 type ChargeCaptureParams struct {
 	Params `form:"*"`
-	// The amount to capture, which must be less than or equal to the original amount. Any additional amount will be automatically refunded.
+	// The amount to capture, which must be less than or equal to the original amount.
 	Amount *int64 `form:"amount"`
 	// An application fee to add on to this charge.
 	ApplicationFee *int64 `form:"application_fee"`

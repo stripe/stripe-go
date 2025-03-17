@@ -240,7 +240,7 @@ type TreasuryFinancialAccountPlatformRestrictionsParams struct {
 	OutboundFlows *string `form:"outbound_flows"`
 }
 
-// Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
+// Creates a new FinancialAccount. Each connected account can have up to three FinancialAccounts by default.
 type TreasuryFinancialAccountParams struct {
 	Params `form:"*"`
 	// The display name for the FinancialAccount. Use this field to customize the names of the FinancialAccounts for your connected accounts. Unlike the `nickname` field, `display_name` is not internal metadata and will be exposed to connected accounts.

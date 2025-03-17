@@ -355,14 +355,10 @@ type SubscriptionParams struct {
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
-	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Details about why this subscription was cancelled
 	CancellationDetails *SubscriptionCancellationDetailsParams `form:"cancellation_details"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
 	CollectionMethod *string `form:"collection_method"`
-	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
-	Coupon *string `form:"coupon"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 	// The identifier of the customer to subscribe.
@@ -411,8 +407,6 @@ type SubscriptionParams struct {
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed now.
 	Prebilling *SubscriptionPrebillingParams `form:"prebilling"`
-	// The promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
-	PromotionCode *string `form:"promotion_code"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#upcoming_invoice) endpoint. It can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
@@ -1154,8 +1148,6 @@ type Subscription struct {
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled
 	CancelAt int64 `json:"cancel_at"`
-	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period.
-	CancelAtPeriodEnd bool `json:"cancel_at_period_end"`
 	// If the subscription has been canceled, the date of that cancellation. If the subscription was canceled with `cancel_at_period_end`, `canceled_at` will reflect the time of the most recent update request, not the end of the subscription period when the subscription is automatically moved to a canceled state.
 	CanceledAt int64 `json:"canceled_at"`
 	// Details about why this subscription was cancelled
@@ -1166,9 +1158,9 @@ type Subscription struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// End of the current period that the subscription has been invoiced for. At the end of this period, a new invoice will be created.
+	// End of the current period that the subscription has been invoiced for. At the end of this period, a new invoice will be created. This field is deprecated starting on the `2025-03-31.basil` version, please use `current_period_end` on the items[] field instead
 	CurrentPeriodEnd int64 `json:"current_period_end"`
-	// Start of the current period that the subscription has been invoiced for.
+	// Start of the current period that the subscription has been invoiced for. This field is deprecated starting on the `2025-03-31.basil` version, please use `current_period_start` on the items[] field instead
 	CurrentPeriodStart int64 `json:"current_period_start"`
 	// ID of the customer who owns the subscription.
 	Customer *Customer `json:"customer"`
@@ -1182,8 +1174,6 @@ type Subscription struct {
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
-	// Describes the current discount applied to this subscription, if there is one. When billing, a discount applied to a subscription overrides a discount applied on a customer-wide basis. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
-	Discount *Discount `json:"discount"`
 	// The discounts applied to the subscription. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// If the subscription has ended, the date the subscription ended.
@@ -1205,7 +1195,7 @@ type Subscription struct {
 	NextPendingInvoiceItemInvoice int64 `json:"next_pending_invoice_item_invoice"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The account (if any) the charge was made on behalf of for charges associated with this subscription. See the Connect documentation for details.
+	// The account (if any) the charge was made on behalf of for charges associated with this subscription. See the [Connect documentation](https://stripe.com/docs/connect/subscriptions#on-behalf-of) for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionPauseCollection `json:"pause_collection"`

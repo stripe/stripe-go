@@ -77,6 +77,7 @@ import (
 	subscriptionitem "github.com/stripe/stripe-go/v81/subscriptionitem"
 	subscriptionschedule "github.com/stripe/stripe-go/v81/subscriptionschedule"
 	tax_calculation "github.com/stripe/stripe-go/v81/tax/calculation"
+	tax_form "github.com/stripe/stripe-go/v81/tax/form"
 	tax_settings "github.com/stripe/stripe-go/v81/tax/settings"
 	tax_transaction "github.com/stripe/stripe-go/v81/tax/transaction"
 	taxcode "github.com/stripe/stripe-go/v81/taxcode"
@@ -1210,9 +1211,8 @@ func TestCouponsGet2Service(t *testing.T) {
 
 func TestCouponsPost(t *testing.T) {
 	params := &stripe.CouponParams{
-		PercentOff:       stripe.Float64(25.5),
-		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
-		DurationInMonths: stripe.Int64(3),
+		PercentOff: stripe.Float64(25.5),
+		Duration:   stripe.String(string(stripe.CouponDurationOnce)),
 	}
 	result, err := coupon.New(params)
 	assert.NotNil(t, result)
@@ -1221,9 +1221,8 @@ func TestCouponsPost(t *testing.T) {
 
 func TestCouponsPostService(t *testing.T) {
 	params := &stripe.CouponParams{
-		PercentOff:       stripe.Float64(25.5),
-		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
-		DurationInMonths: stripe.Int64(3),
+		PercentOff: stripe.Float64(25.5),
+		Duration:   stripe.String(string(stripe.CouponDurationOnce)),
 	}
 	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Coupons.New(params)
@@ -4443,6 +4442,27 @@ func TestQuotesPost2Service(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestQuotesPreviewInvoicesLinesGet(t *testing.T) {
+	params := &stripe.QuoteListPreviewInvoiceLinesParams{
+		Quote:          stripe.String("qt_xyz"),
+		PreviewInvoice: stripe.String("in_xyz"),
+	}
+	result := quote.ListPreviewInvoiceLines(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
+func TestQuotesPreviewInvoicesLinesGetService(t *testing.T) {
+	params := &stripe.QuoteListPreviewInvoiceLinesParams{
+		Quote:          stripe.String("qt_xyz"),
+		PreviewInvoice: stripe.String("in_xyz"),
+	}
+	sc := client.New(TestAPIKey, nil)
+	result := sc.Quotes.ListPreviewInvoiceLines(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, result.Err())
+}
+
 func TestRadarEarlyFraudWarningsGet(t *testing.T) {
 	params := &stripe.RadarEarlyFraudWarningListParams{}
 	params.Limit = stripe.Int64(3)
@@ -5704,6 +5724,21 @@ func TestTaxCodesGet2Service(t *testing.T) {
 	params := &stripe.TaxCodeParams{}
 	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TaxCodes.Get("txcd_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxFormsPdfGet(t *testing.T) {
+	params := &stripe.TaxFormPDFParams{}
+	result, err := tax_form.PDF("form_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxFormsPdfGetService(t *testing.T) {
+	params := &stripe.TaxFormPDFParams{}
+	sc := client.New(TestAPIKey, nil)
+	result, err := sc.TaxForms.PDF("form_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
