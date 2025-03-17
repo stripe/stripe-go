@@ -180,7 +180,7 @@ client.
 ```go
 import (
 	"github.com/stripe/stripe-go/v81"
-	"github.com/stripe/stripe-go/v81/$resource$"
+	"github.com/stripe/stripe-go/v81/customer"
 )
 
 // Setup
@@ -190,21 +190,22 @@ stripe.Key = "sk_key"
 // stripe.SetBackend("api", backend)
 
 // Create
-resource, err := $resource$.New(&stripe.$Resource$Params{})
+c, err := customer.New(&stripe.CustomerParams{})
 
 // Get
-resource, err = $resource$.Get(id, &stripe.$Resource$Params{})
+c, err := customer.Get(id, &stripe.CustomerParams{})
 
 // Update
-resource, err = $resource$.Update(id, &stripe.$Resource$Params{})
+c, err := customer.Update(id, &stripe.CustomerParams{})
 
 // Delete
-resourceDeleted, err := $resource$.Del(id, &stripe.$Resource$Params{})
+c, err := customer.Del(id, &stripe.CustomerParams{})
 
 // List
-i := $resource$.List(&stripe.$Resource$ListParams{})
+i := customer.List(&stripe.CustomerListParams{})
 for i.Next() {
-	resource := i.$Resource$()
+	c := i.Customer()
+	// do something
 }
 
 if err := i.Err(); err != nil {
@@ -225,25 +226,27 @@ import (
 )
 
 // Setup
-sc := &client.API{}
-sc.Init("sk_key", nil) // the second parameter overrides the backends used if needed for mocking
+sc := client.New("sk_key", nil)
+// To set backends, e.g. for testing, use this instead:
+// sc := client.New("sk_key", backends)
 
 // Create
-$resource$, err := sc.$Resource$s.New(&stripe.$Resource$Params{})
+c, err := sc.Customers.New(&stripe.CustomerParams{})
 
 // Get
-$resource$, err = sc.$Resource$s.Get(id, &stripe.$Resource$Params{})
+c, err := sc.Customers.Get(&stripe.CustomerParams{})
 
 // Update
-$resource$, err = sc.$Resource$s.Update(id, &stripe.$Resource$Params{})
+c, err := sc.Customers.Update(&stripe.CustomerParams{})
 
 // Delete
-$resource$Deleted, err := sc.$Resource$s.Del(id, &stripe.$Resource$Params{})
+c, err := sc.Customers.Del(&stripe.CustomerParams{})
 
 // List
-i := sc.$Resource$s.List(&stripe.$Resource$ListParams{})
+i := sc.Customers.List(&stripe.CustomerListParams{})
 for i.Next() {
-	$resource$ := i.$Resource$()
+	c := i.Customer()
+	// do something
 }
 
 if err := i.Err(); err != nil {
