@@ -6,7 +6,6 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -735,7 +734,7 @@ func TestCall_V2PathPostNilParams(t *testing.T) {
 		assert.Equal(t, r.URL.Path, "/v2/hello")
 		assert.Equal(t, r.Header.Get("Content-Type"), "application/json")
 
-		body, err := io.ReadAll(r.Body)
+		body, err := ioutil.ReadAll(r.Body)
 		assert.NoError(t, err)
 		assert.Equal(t, body, []byte{})
 
