@@ -1204,7 +1204,7 @@ type ChargeCaptureTransferDataParams struct {
 // Don't use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://stripe.com/docs/api/payment_intents/capture).
 type ChargeCaptureParams struct {
 	Params `form:"*"`
-	// The amount to capture, which must be less than or equal to the original amount. Any additional amount will be automatically refunded.
+	// The amount to capture, which must be less than or equal to the original amount.
 	Amount *int64 `form:"amount"`
 	// An application fee to add on to this charge.
 	ApplicationFee *int64 `form:"application_fee"`
@@ -1441,6 +1441,7 @@ type ChargePaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsBillie struct{}
 type ChargePaymentMethodDetailsBLIK struct {
 	// A unique and immutable identifier assigned by BLIK to every buyer.
 	BuyerID string `json:"buyer_id"`
@@ -2033,6 +2034,7 @@ type ChargePaymentMethodDetailsSamsungPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
 }
+type ChargePaymentMethodDetailsSatispay struct{}
 type ChargePaymentMethodDetailsSEPACreditTransfer struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
@@ -2128,6 +2130,7 @@ type ChargePaymentMethodDetails struct {
 	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
 	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
 	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
+	Billie             *ChargePaymentMethodDetailsBillie             `json:"billie"`
 	BLIK               *ChargePaymentMethodDetailsBLIK               `json:"blik"`
 	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto"`
 	Card               *ChargePaymentMethodDetailsCard               `json:"card"`
@@ -2164,6 +2167,7 @@ type ChargePaymentMethodDetails struct {
 	Rechnung           *ChargePaymentMethodDetailsRechnung           `json:"rechnung"`
 	RevolutPay         *ChargePaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
 	SamsungPay         *ChargePaymentMethodDetailsSamsungPay         `json:"samsung_pay"`
+	Satispay           *ChargePaymentMethodDetailsSatispay           `json:"satispay"`
 	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer"`
 	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
 	Shopeepay          *ChargePaymentMethodDetailsShopeepay          `json:"shopeepay"`
@@ -2179,6 +2183,12 @@ type ChargePaymentMethodDetails struct {
 	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat"`
 	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
 	Zip           *ChargePaymentMethodDetailsZip           `json:"zip"`
+}
+type ChargePresentmentDetails struct {
+	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	PresentmentAmount int64 `json:"presentment_amount"`
+	// Currency presented to the customer during payment.
+	PresentmentCurrency Currency `json:"presentment_currency"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -2263,6 +2273,7 @@ type Charge struct {
 	PaymentMethod string `json:"payment_method"`
 	// Details about the payment method at the time of the transaction.
 	PaymentMethodDetails *ChargePaymentMethodDetails `json:"payment_method_details"`
+	PresentmentDetails   *ChargePresentmentDetails   `json:"presentment_details"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *ChargeRadarOptions `json:"radar_options"`
 	// This is the email address that the receipt for this charge was sent to.

@@ -53,6 +53,12 @@ func (p *IssuingDisputeSettlementDetailParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Details about the transaction, such as processing dates, set by the card network.
+type IssuingDisputeSettlementDetailNetworkData struct {
+	// The date the transaction was processed by the card network. This can be different from the date the seller recorded the transaction depending on when the acquirer submits the transaction to the network.
+	ProcessingDate string `json:"processing_date"`
+}
+
 // Represents a record from the card network of a money movement or change in state for an Issuing dispute. These records are included in the settlement reports that we receive from networks and expose to users as Settlement objects.
 type IssuingDisputeSettlementDetail struct {
 	APIResource
@@ -74,6 +80,8 @@ type IssuingDisputeSettlementDetail struct {
 	Livemode bool `json:"livemode"`
 	// The card network for this dispute settlement detail. One of ["visa", "mastercard", "maestro"]
 	Network IssuingDisputeSettlementDetailNetwork `json:"network"`
+	// Details about the transaction, such as processing dates, set by the card network.
+	NetworkData *IssuingDisputeSettlementDetailNetworkData `json:"network_data"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The ID of the linked card network settlement.

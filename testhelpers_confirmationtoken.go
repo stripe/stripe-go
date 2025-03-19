@@ -50,6 +50,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataBancontactParams struct{}
 
+// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataBillieParams struct{}
+
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams struct {
 	// Billing address.
@@ -226,6 +229,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams struct{}
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams struct{}
 
+// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataSatispayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -289,6 +295,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	BACSDebit *TestHelpersConfirmationTokenPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *TestHelpersConfirmationTokenPaymentMethodDataBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	Billie *TestHelpersConfirmationTokenPaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams `form:"billing_details"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -363,6 +371,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	RevolutPay *TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
+	// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+	Satispay *TestHelpersConfirmationTokenPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.

@@ -294,6 +294,10 @@ type SetupAttemptPaymentMethodDetailsKakaoPay struct{}
 type SetupAttemptPaymentMethodDetailsKlarna struct{}
 type SetupAttemptPaymentMethodDetailsKrCard struct{}
 type SetupAttemptPaymentMethodDetailsLink struct{}
+type SetupAttemptPaymentMethodDetailsNaverPay struct {
+	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
+	BuyerID string `json:"buyer_id"`
+}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsPayto struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
@@ -335,6 +339,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	Klarna         *SetupAttemptPaymentMethodDetailsKlarna         `json:"klarna"`
 	KrCard         *SetupAttemptPaymentMethodDetailsKrCard         `json:"kr_card"`
 	Link           *SetupAttemptPaymentMethodDetailsLink           `json:"link"`
+	NaverPay       *SetupAttemptPaymentMethodDetailsNaverPay       `json:"naver_pay"`
 	Paypal         *SetupAttemptPaymentMethodDetailsPaypal         `json:"paypal"`
 	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto"`
 	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay"`

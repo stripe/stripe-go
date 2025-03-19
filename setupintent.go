@@ -398,6 +398,9 @@ type SetupIntentPaymentMethodDataBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type SetupIntentPaymentMethodDataBancontactParams struct{}
 
+// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+type SetupIntentPaymentMethodDataBillieParams struct{}
+
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type SetupIntentPaymentMethodDataBillingDetailsParams struct {
 	// Billing address.
@@ -574,6 +577,9 @@ type SetupIntentPaymentMethodDataRevolutPayParams struct{}
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type SetupIntentPaymentMethodDataSamsungPayParams struct{}
 
+// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+type SetupIntentPaymentMethodDataSatispayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -638,6 +644,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	BACSDebit *SetupIntentPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *SetupIntentPaymentMethodDataBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	Billie *SetupIntentPaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentPaymentMethodDataBillingDetailsParams `form:"billing_details"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -712,6 +720,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	RevolutPay *SetupIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *SetupIntentPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
+	// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+	Satispay *SetupIntentPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -1006,6 +1016,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 }
 
 // If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
+//
+// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
 type SetupIntentSingleUseParams struct {
 	// Amount the customer is granting permission to collect later. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
@@ -1065,6 +1077,8 @@ type SetupIntentParams struct {
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url"`
 	// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
+	//
+	// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
 	SingleUse *SetupIntentSingleUseParams `form:"single_use"`
 	// Indicates how the payment method is intended to be used in the future. If not provided, this value defaults to `off_session`.
 	Usage *string `form:"usage"`
@@ -1145,6 +1159,9 @@ type SetupIntentConfirmPaymentMethodDataBACSDebitParams struct {
 
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type SetupIntentConfirmPaymentMethodDataBancontactParams struct{}
+
+// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+type SetupIntentConfirmPaymentMethodDataBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type SetupIntentConfirmPaymentMethodDataBillingDetailsParams struct {
@@ -1322,6 +1339,9 @@ type SetupIntentConfirmPaymentMethodDataRevolutPayParams struct{}
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type SetupIntentConfirmPaymentMethodDataSamsungPayParams struct{}
 
+// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+type SetupIntentConfirmPaymentMethodDataSatispayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -1386,6 +1406,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	BACSDebit *SetupIntentConfirmPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *SetupIntentConfirmPaymentMethodDataBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	Billie *SetupIntentConfirmPaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentConfirmPaymentMethodDataBillingDetailsParams `form:"billing_details"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -1460,6 +1482,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	RevolutPay *SetupIntentConfirmPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *SetupIntentConfirmPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
+	// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+	Satispay *SetupIntentConfirmPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.

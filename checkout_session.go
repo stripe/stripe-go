@@ -1567,7 +1567,7 @@ type CheckoutSessionLineItemAdjustableQuantityParams struct {
 	Minimum *int64 `form:"minimum"`
 }
 
-// Data used to generate a new product object inline. One of `product` or `product_data` is required.
+// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 type CheckoutSessionLineItemPriceDataProductDataParams struct {
 	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
 	Description *string `form:"description"`
@@ -1602,9 +1602,9 @@ type CheckoutSessionLineItemPriceDataRecurringParams struct {
 type CheckoutSessionLineItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to. One of `product` or `product_data` is required.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
 	Product *string `form:"product"`
-	// Data used to generate a new product object inline. One of `product` or `product_data` is required.
+	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
 	ProductData *CheckoutSessionLineItemPriceDataProductDataParams `form:"product_data"`
 	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *CheckoutSessionLineItemPriceDataRecurringParams `form:"recurring"`
@@ -1663,7 +1663,7 @@ type CheckoutSessionPaymentIntentDataTransferDataParams struct {
 
 // A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 type CheckoutSessionPaymentIntentDataParams struct {
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
@@ -2448,6 +2448,12 @@ type CheckoutSessionPermissionsUpdateParams struct {
 type CheckoutSessionPermissionsParams struct {
 	// Permissions for updating the Checkout Session.
 	Update *CheckoutSessionPermissionsUpdateParams `form:"update"`
+	// Determines which entity is allowed to update the shipping details.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
+	//
+	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	UpdateShippingDetails *string `form:"update_shipping_details"`
 }
 
 // Controls phone number collection settings for the session.
@@ -2658,7 +2664,7 @@ type CheckoutSessionTaxIDCollectionParams struct {
 	Required *string `form:"required"`
 }
 
-// Creates a Session object.
+// Creates a Checkout Session object.
 type CheckoutSessionParams struct {
 	Params `form:"*"`
 	// Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
@@ -2671,7 +2677,7 @@ type CheckoutSessionParams struct {
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
-	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
+	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if `ui_mode` is `embedded` or `custom`.
 	CancelURL *string `form:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
@@ -2733,7 +2739,7 @@ type CheckoutSessionParams struct {
 	//
 	// To update an existing line item, specify its `id` along with the new values of the fields to update.
 	//
-	// To add a new line item, specify a `price` and `quantity`. We don't currently support recurring prices.
+	// To add a new line item, specify a `price` and `quantity`.
 	//
 	// To remove an existing line item, omit the line item's ID from the retransmitted array.
 	//
@@ -2785,7 +2791,7 @@ type CheckoutSessionParams struct {
 	RedirectOnCompletion *string `form:"redirect_on_completion"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
 	// payment method's app or site. This parameter is required if `ui_mode` is `embedded` or `custom`
-	// and redirect-based payment methods are enabled on the session.
+	// and redirect-based payment methods are enabled on the Checkout Session.
 	ReturnURL *string `form:"return_url"`
 	// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
 	SavedPaymentMethodOptions *CheckoutSessionSavedPaymentMethodOptionsParams `form:"saved_payment_method_options"`
@@ -2795,15 +2801,16 @@ type CheckoutSessionParams struct {
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
 	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionShippingOptionParams `form:"shipping_options"`
-	// Describes the type of transaction being performed by Checkout in order to customize
-	// relevant text on the page, such as the submit button. `submit_type` can only be
-	// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
+	// Describes the type of transaction being performed by Checkout in order
+	// to customize relevant text on the page, such as the submit button.
+	//  `submit_type` can only be specified on Checkout Sessions in
+	// `payment` or `subscription` mode. If blank or `auto`, `pay` is used.
 	SubmitType *string `form:"submit_type"`
 	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data"`
 	// The URL to which Stripe should send customers when payment or setup
 	// is complete.
-	// This parameter is not allowed if ui_mode is `embedded` or `custom`. If you'd like to use
+	// This parameter is not allowed if `ui_mode` is `embedded` or `custom`. If you'd like to use
 	// information from the successful Checkout Session on your page, read the
 	// guide on [customizing your success page](https://stripe.com/docs/payments/checkout/custom-success-page).
 	SuccessURL *string `form:"success_url"`
@@ -2854,9 +2861,9 @@ func (p *CheckoutSessionListLineItemsParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// A Session can be expired when it is in one of these statuses: open
+// A Checkout Session can be expired when it is in one of these statuses: open
 //
-// After it expires, a customer can't complete a Session and customers loading the Session see a message saying the Session is expired.
+// After it expires, a customer can't complete a Checkout Session and customers loading the Checkout Session see a message saying the Checkout Session is expired.
 type CheckoutSessionExpireParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -2910,6 +2917,13 @@ type CheckoutSessionAutomaticTax struct {
 	Status CheckoutSessionAutomaticTaxStatus `json:"status"`
 }
 
+// Shipping information for this Checkout Session.
+type CheckoutSessionCollectedInformationShippingDetails struct {
+	Address *Address `json:"address"`
+	// Customer name.
+	Name string `json:"name"`
+}
+
 // Customer's tax ids for this Checkout Session.
 type CheckoutSessionCollectedInformationTaxID struct {
 	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or `unknown`
@@ -2927,7 +2941,7 @@ type CheckoutSessionCollectedInformation struct {
 	// Customer's phone number for this Checkout Session
 	Phone string `json:"phone"`
 	// Shipping information for this Checkout Session.
-	ShippingDetails *ShippingDetails `json:"shipping_details"`
+	ShippingDetails *CheckoutSessionCollectedInformationShippingDetails `json:"shipping_details"`
 	// Customer's tax ids for this Checkout Session.
 	TaxIDs []*CheckoutSessionCollectedInformationTaxID `json:"tax_ids"`
 }
@@ -3699,10 +3713,22 @@ type CheckoutSessionPermissionsUpdate struct {
 type CheckoutSessionPermissions struct {
 	// Permissions for updating the Checkout Session.
 	Update *CheckoutSessionPermissionsUpdate `json:"update"`
+	// Determines which entity is allowed to update the shipping details.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
+	//
+	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	UpdateShippingDetails CheckoutSessionPermissionsUpdateShippingDetails `json:"update_shipping_details"`
 }
 type CheckoutSessionPhoneNumberCollection struct {
 	// Indicates whether phone number collection is enabled for the session
 	Enabled bool `json:"enabled"`
+}
+type CheckoutSessionPresentmentDetails struct {
+	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	PresentmentAmount int64 `json:"presentment_amount"`
+	// Currency presented to the customer during payment.
+	PresentmentCurrency Currency `json:"presentment_currency"`
 }
 
 // Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
@@ -3841,7 +3867,8 @@ type CheckoutSession struct {
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// Session with your internal systems.
 	ClientReferenceID string `json:"client_reference_id"`
-	// The client secret of the Session. Use this with [initCheckout](https://stripe.com/docs/js/custom_checkout/init) on your front end.
+	// The client secret of your Checkout Session. Applies to Checkout Sessions with `ui_mode: embedded` or `ui_mode: custom`. For `ui_mode: embedded`, the client secret is to be used when initializing Stripe.js embedded checkout.
+	//  For `ui_mode: custom`, use the client secret with [initCheckout](https://stripe.com/docs/js/custom_checkout/init) on your front end.
 	ClientSecret string `json:"client_secret"`
 	// Information about the customer collected within the Checkout Session.
 	CollectedInformation *CheckoutSessionCollectedInformation `json:"collected_information"`
@@ -3917,6 +3944,7 @@ type CheckoutSession struct {
 	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
 	Permissions           *CheckoutSessionPermissions           `json:"permissions"`
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollection `json:"phone_number_collection"`
+	PresentmentDetails    *CheckoutSessionPresentmentDetails    `json:"presentment_details"`
 	// The ID of the original expired Checkout Session that triggered the recovery flow.
 	RecoveredFrom string `json:"recovered_from"`
 	// This parameter applies to `ui_mode: embedded`. Learn more about the [redirect behavior](https://stripe.com/docs/payments/checkout/custom-success-page?payment-ui=embedded-form) of embedded sessions. Defaults to `always`.
@@ -3931,8 +3959,6 @@ type CheckoutSession struct {
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
 	// The details of the customer cost of shipping, including the customer chosen ShippingRate.
 	ShippingCost *CheckoutSessionShippingCost `json:"shipping_cost"`
-	// Shipping information for this Checkout Session.
-	ShippingDetails *ShippingDetails `json:"shipping_details"`
 	// The shipping rate options applied to this Session.
 	ShippingOptions []*CheckoutSessionShippingOption `json:"shipping_options"`
 	// The status of the Checkout Session, one of `open`, `complete`, or `expired`.
@@ -3951,7 +3977,7 @@ type CheckoutSession struct {
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
 	// The UI mode of the Session. Defaults to `hosted`.
 	UIMode CheckoutSessionUIMode `json:"ui_mode"`
-	// The URL to the Checkout Session. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://stripe.com/docs/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
+	// The URL to the Checkout Session. Applies to Checkout Sessions with `ui_mode: hosted`. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://stripe.com/docs/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
 	// This value is only present when the session is active.
 	URL string `json:"url"`
 }

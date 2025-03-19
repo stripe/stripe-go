@@ -82,7 +82,7 @@ func (c Client) List(listParams *stripe.SubscriptionItemListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SubscriptionItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/subscription_items", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/subscription_items", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -109,52 +109,6 @@ func (i *Iter) SubscriptionItem() *stripe.SubscriptionItem {
 // continue pagination.
 func (i *Iter) SubscriptionItemList() *stripe.SubscriptionItemList {
 	return i.List().(*stripe.SubscriptionItemList)
-}
-
-// For the specified subscription item, returns a list of summary objects. Each object in the list provides usage information that's been summarized from multiple usage records and over a subscription billing period (e.g., 15 usage records in the month of September).
-//
-// The list is sorted in reverse-chronological order (newest first). The first list item represents the most current usage period that hasn't ended yet. Since new usage records can still be added, the returned summary information for the subscription item's ID should be seen as unstable until the subscription billing period ends.
-func UsageRecordSummaries(params *stripe.SubscriptionItemUsageRecordSummariesParams) *UsageRecordSummaryIter {
-	return getC().UsageRecordSummaries(params)
-}
-
-// For the specified subscription item, returns a list of summary objects. Each object in the list provides usage information that's been summarized from multiple usage records and over a subscription billing period (e.g., 15 usage records in the month of September).
-//
-// The list is sorted in reverse-chronological order (newest first). The first list item represents the most current usage period that hasn't ended yet. Since new usage records can still be added, the returned summary information for the subscription item's ID should be seen as unstable until the subscription billing period ends.
-func (c Client) UsageRecordSummaries(listParams *stripe.SubscriptionItemUsageRecordSummariesParams) *UsageRecordSummaryIter {
-	path := stripe.FormatURLPath(
-		"/v1/subscription_items/%s/usage_record_summaries", stripe.StringValue(
-			listParams.SubscriptionItem))
-	return &UsageRecordSummaryIter{
-		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-			list := &stripe.UsageRecordSummaryList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
-
-			ret := make([]interface{}, len(list.Data))
-			for i, v := range list.Data {
-				ret[i] = v
-			}
-
-			return ret, list, err
-		}),
-	}
-}
-
-// UsageRecordSummaryIter is an iterator for usage record summaries.
-type UsageRecordSummaryIter struct {
-	*stripe.Iter
-}
-
-// UsageRecordSummary returns the usage record summary which the iterator is currently pointing to.
-func (i *UsageRecordSummaryIter) UsageRecordSummary() *stripe.UsageRecordSummary {
-	return i.Current().(*stripe.UsageRecordSummary)
-}
-
-// UsageRecordSummaryList returns the current list object which the iterator is
-// currently using. List objects will change as new API calls are made to
-// continue pagination.
-func (i *UsageRecordSummaryIter) UsageRecordSummaryList() *stripe.UsageRecordSummaryList {
-	return i.List().(*stripe.UsageRecordSummaryList)
 }
 
 func getC() Client {

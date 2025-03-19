@@ -340,6 +340,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeIDEAL              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "ideal"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeJPCreditTransfer   QuotePreviewInvoicePaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKakaoPay           QuotePreviewInvoicePaymentSettingsPaymentMethodType = "kakao_pay"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKlarna             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "klarna"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKonbini            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "konbini"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeKrCard             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "kr_card"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeLink               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "link"
@@ -403,16 +404,6 @@ const (
 	QuotePreviewInvoiceStatusVoid          QuotePreviewInvoiceStatus = "void"
 )
 
-// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
-type QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehavior string
-
-// List of values that QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehavior can take
-const (
-	QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehaviorKeepAsDraft       QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehavior = "keep_as_draft"
-	QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehaviorMarkUncollectible QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehavior = "mark_uncollectible"
-	QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehaviorVoid              QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehavior = "void"
-)
-
 // Type of the pretax credit amount referenced.
 type QuotePreviewInvoiceTotalPretaxCreditAmountType string
 
@@ -423,26 +414,44 @@ const (
 	QuotePreviewInvoiceTotalPretaxCreditAmountTypeMargin                   QuotePreviewInvoiceTotalPretaxCreditAmountType = "margin"
 )
 
-// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
-type QuotePreviewInvoiceTotalTaxAmountTaxabilityReason string
+// Whether this tax is inclusive or exclusive.
+type QuotePreviewInvoiceTotalTaxTaxBehavior string
 
-// List of values that QuotePreviewInvoiceTotalTaxAmountTaxabilityReason can take
+// List of values that QuotePreviewInvoiceTotalTaxTaxBehavior can take
 const (
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonCustomerExempt       QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "customer_exempt"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonNotCollecting        QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "not_collecting"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonNotSubjectToTax      QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "not_subject_to_tax"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonNotSupported         QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "not_supported"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonPortionProductExempt QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "portion_product_exempt"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonPortionReducedRated  QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "portion_reduced_rated"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonPortionStandardRated QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "portion_standard_rated"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonProductExempt        QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "product_exempt"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonProductExemptHoliday QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "product_exempt_holiday"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonProportionallyRated  QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "proportionally_rated"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonReducedRated         QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "reduced_rated"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonReverseCharge        QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "reverse_charge"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonStandardRated        QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "standard_rated"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonTaxableBasisReduced  QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "taxable_basis_reduced"
-	QuotePreviewInvoiceTotalTaxAmountTaxabilityReasonZeroRated            QuotePreviewInvoiceTotalTaxAmountTaxabilityReason = "zero_rated"
+	QuotePreviewInvoiceTotalTaxTaxBehaviorExclusive QuotePreviewInvoiceTotalTaxTaxBehavior = "exclusive"
+	QuotePreviewInvoiceTotalTaxTaxBehaviorInclusive QuotePreviewInvoiceTotalTaxTaxBehavior = "inclusive"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type QuotePreviewInvoiceTotalTaxTaxabilityReason string
+
+// List of values that QuotePreviewInvoiceTotalTaxTaxabilityReason can take
+const (
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonCustomerExempt       QuotePreviewInvoiceTotalTaxTaxabilityReason = "customer_exempt"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonNotAvailable         QuotePreviewInvoiceTotalTaxTaxabilityReason = "not_available"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonNotCollecting        QuotePreviewInvoiceTotalTaxTaxabilityReason = "not_collecting"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonNotSubjectToTax      QuotePreviewInvoiceTotalTaxTaxabilityReason = "not_subject_to_tax"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonNotSupported         QuotePreviewInvoiceTotalTaxTaxabilityReason = "not_supported"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonPortionProductExempt QuotePreviewInvoiceTotalTaxTaxabilityReason = "portion_product_exempt"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonPortionReducedRated  QuotePreviewInvoiceTotalTaxTaxabilityReason = "portion_reduced_rated"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonPortionStandardRated QuotePreviewInvoiceTotalTaxTaxabilityReason = "portion_standard_rated"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonProductExempt        QuotePreviewInvoiceTotalTaxTaxabilityReason = "product_exempt"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonProductExemptHoliday QuotePreviewInvoiceTotalTaxTaxabilityReason = "product_exempt_holiday"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonProportionallyRated  QuotePreviewInvoiceTotalTaxTaxabilityReason = "proportionally_rated"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonReducedRated         QuotePreviewInvoiceTotalTaxTaxabilityReason = "reduced_rated"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonReverseCharge        QuotePreviewInvoiceTotalTaxTaxabilityReason = "reverse_charge"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonStandardRated        QuotePreviewInvoiceTotalTaxTaxabilityReason = "standard_rated"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonTaxableBasisReduced  QuotePreviewInvoiceTotalTaxTaxabilityReason = "taxable_basis_reduced"
+	QuotePreviewInvoiceTotalTaxTaxabilityReasonZeroRated            QuotePreviewInvoiceTotalTaxTaxabilityReason = "zero_rated"
+)
+
+// The type of tax information.
+type QuotePreviewInvoiceTotalTaxType string
+
+// List of values that QuotePreviewInvoiceTotalTaxType can take
+const (
+	QuotePreviewInvoiceTotalTaxTypeTaxRateDetails QuotePreviewInvoiceTotalTaxType = "tax_rate_details"
 )
 
 // Preview the invoices that would be generated by accepting the quote.
@@ -691,23 +700,6 @@ type QuotePreviewInvoiceStatusTransitions struct {
 	VoidedAt int64 `json:"voided_at"`
 }
 
-// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
-type QuotePreviewInvoiceSubscriptionDetailsPauseCollection struct {
-	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
-	Behavior QuotePreviewInvoiceSubscriptionDetailsPauseCollectionBehavior `json:"behavior"`
-	// The time after which the subscription will resume collecting payments.
-	ResumesAt int64 `json:"resumes_at"`
-}
-
-// Details about the subscription that created this invoice.
-type QuotePreviewInvoiceSubscriptionDetails struct {
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) defined as subscription metadata when an invoice is created. Becomes an immutable snapshot of the subscription metadata at the time of invoice finalization.
-	//  *Note: This attribute is populated only for invoices created on or after June 29, 2023.*
-	Metadata map[string]string `json:"metadata"`
-	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
-	PauseCollection *QuotePreviewInvoiceSubscriptionDetailsPauseCollection `json:"pause_collection"`
-}
-
 // Indicates which line items triggered a threshold invoice.
 type QuotePreviewInvoiceThresholdReasonItemReason struct {
 	// The IDs of the line items that triggered the threshold invoice.
@@ -752,26 +744,25 @@ type QuotePreviewInvoiceTotalPretaxCreditAmount struct {
 	Type QuotePreviewInvoiceTotalPretaxCreditAmountType `json:"type"`
 }
 
-// The aggregate amounts calculated per tax rate for all line items.
-type QuotePreviewInvoiceTotalTaxAmount struct {
-	// The amount, in cents (or local equivalent), of the tax.
-	Amount int64 `json:"amount"`
-	// Whether this tax amount is inclusive or exclusive.
-	Inclusive bool `json:"inclusive"`
-	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
-	TaxabilityReason QuotePreviewInvoiceTotalTaxAmountTaxabilityReason `json:"taxability_reason"`
-	// The amount on which tax is calculated, in cents (or local equivalent).
-	TaxableAmount int64 `json:"taxable_amount"`
-	// The tax rate that was applied to get this tax amount.
-	TaxRate *TaxRate `json:"tax_rate"`
+// Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
+type QuotePreviewInvoiceTotalTaxTaxRateDetails struct {
+	TaxRate string `json:"tax_rate"`
 }
 
-// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.
-type QuotePreviewInvoiceTransferData struct {
-	// The amount in cents (or local equivalent) that will be transferred to the destination account when the invoice is paid. By default, the entire amount is transferred to the destination.
+// The aggregate tax information of all line items.
+type QuotePreviewInvoiceTotalTax struct {
+	// The amount of the tax, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
-	// The account where funds from the payment will be transferred to upon payment success.
-	Destination *Account `json:"destination"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason QuotePreviewInvoiceTotalTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in cents (or local equivalent).
+	TaxableAmount int64 `json:"taxable_amount"`
+	// Whether this tax is inclusive or exclusive.
+	TaxBehavior QuotePreviewInvoiceTotalTaxTaxBehavior `json:"tax_behavior"`
+	// Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
+	TaxRateDetails *QuotePreviewInvoiceTotalTaxTaxRateDetails `json:"tax_rate_details"`
+	// The type of tax information.
+	Type QuotePreviewInvoiceTotalTaxType `json:"type"`
 }
 
 // Invoices are statements of amounts owed by a customer, and are either
@@ -815,7 +806,7 @@ type QuotePreviewInvoice struct {
 	AccountTaxIDs []*TaxID `json:"account_tax_ids"`
 	// Final amount due at this time for this invoice. If the invoice's total is smaller than the minimum charge amount, for example, or if there is account credit that can be applied to the invoice, the `amount_due` may be 0. If there is a positive `starting_balance` for the invoice (the customer owes money), the `amount_due` will also take that into account. The charge that gets generated for the invoice will be for the amount specified in `amount_due`.
 	AmountDue int64 `json:"amount_due"`
-	// Amount that was overpaid on the invoice. Overpayments are debited to the customer's credit balance.
+	// Amount that was overpaid on the invoice. The amount overpaid is credited to the customer's credit balance.
 	AmountOverpaid int64 `json:"amount_overpaid"`
 	// The amount, in cents (or local equivalent), that was paid.
 	AmountPaid int64 `json:"amount_paid"`
@@ -879,8 +870,6 @@ type QuotePreviewInvoice struct {
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
 	// An arbitrary string attached to the object. Often useful for displaying to users. Referenced as 'memo' in the Dashboard.
 	Description string `json:"description"`
-	// Describes the current discount applied to this invoice, if there is one. Not populated if there are multiple discounts.
-	Discount *Discount `json:"discount"`
 	// The discounts applied to the invoice. Line item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// The date on which payment for this invoice is due. This value will be `null` for invoices where `collection_method=charge_automatically`.
@@ -918,8 +907,6 @@ type QuotePreviewInvoice struct {
 	Paid bool `json:"paid"`
 	// Returns true if the invoice was manually marked paid, returns false if the invoice hasn't been paid yet or was paid on Stripe.
 	PaidOutOfBand bool `json:"paid_out_of_band"`
-	// The PaymentIntent associated with this invoice. The PaymentIntent is generated when the invoice is finalized, and can then be used to pay the invoice. Note that voiding an invoice will cancel the PaymentIntent.
-	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// Payments for this invoice
 	Payments        *InvoicePaymentList                 `json:"payments"`
 	PaymentSettings *QuotePreviewInvoicePaymentSettings `json:"payment_settings"`
@@ -931,8 +918,6 @@ type QuotePreviewInvoice struct {
 	PostPaymentCreditNotesAmount int64 `json:"post_payment_credit_notes_amount"`
 	// Total amount of all pre-payment credit notes issued for this invoice.
 	PrePaymentCreditNotesAmount int64 `json:"pre_payment_credit_notes_amount"`
-	// The quote this invoice was generated from.
-	Quote *Quote `json:"quote"`
 	// This is the transaction number that appears on email receipts sent for this invoice.
 	ReceiptNumber string `json:"receipt_number"`
 	// The rendering-related settings that control how the invoice is displayed on customer-facing surfaces such as PDF and Hosted Invoice Page.
@@ -949,16 +934,10 @@ type QuotePreviewInvoice struct {
 	Status            QuotePreviewInvoiceStatus             `json:"status"`
 	StatusTransitions *QuotePreviewInvoiceStatusTransitions `json:"status_transitions"`
 	Subscription      *Subscription                         `json:"subscription"`
-	// Details about the subscription that created this invoice.
-	SubscriptionDetails *QuotePreviewInvoiceSubscriptionDetails `json:"subscription_details"`
-	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
-	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`
 	// The integer amount in cents (or local equivalent) representing the subtotal of the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
 	SubtotalExcludingTax int64 `json:"subtotal_excluding_tax"`
-	// The amount of tax on this invoice. This is the sum of all the tax amounts on this invoice.
-	Tax int64 `json:"tax"`
 	// ID of the test clock this invoice belongs to.
 	TestClock       *TestHelpersTestClock               `json:"test_clock"`
 	ThresholdReason *QuotePreviewInvoiceThresholdReason `json:"threshold_reason"`
@@ -972,10 +951,8 @@ type QuotePreviewInvoice struct {
 	TotalMarginAmounts []*QuotePreviewInvoiceTotalMarginAmount `json:"total_margin_amounts"`
 	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this invoice. This is a combined list of total_pretax_credit_amounts across all invoice line items.
 	TotalPretaxCreditAmounts []*QuotePreviewInvoiceTotalPretaxCreditAmount `json:"total_pretax_credit_amounts"`
-	// The aggregate amounts calculated per tax rate for all line items.
-	TotalTaxAmounts []*QuotePreviewInvoiceTotalTaxAmount `json:"total_tax_amounts"`
-	// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.
-	TransferData *QuotePreviewInvoiceTransferData `json:"transfer_data"`
+	// The aggregate tax information of all line items.
+	TotalTaxes []*QuotePreviewInvoiceTotalTax `json:"total_taxes"`
 	// Invoices are automatically paid or sent 1 hour after webhooks are delivered, or until all webhook delivery attempts have [been exhausted](https://stripe.com/docs/billing/webhooks#understand). This field tracks the time when webhooks for this invoice were successfully delivered. If the invoice had no webhooks to deliver, this will be set while the invoice is being created.
 	WebhooksDeliveredAt int64 `json:"webhooks_delivered_at"`
 }

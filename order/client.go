@@ -107,7 +107,7 @@ func (c Client) List(listParams *stripe.OrderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.OrderList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/orders", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/orders", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -148,7 +148,7 @@ func (c Client) ListLineItems(listParams *stripe.OrderListLineItemsParams) *Line
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

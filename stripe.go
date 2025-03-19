@@ -4,7 +4,6 @@ package stripe
 import (
 	"bytes"
 	"context"
-	"crypto/tls"
 	"crypto/x509"
 	"encoding/json"
 	"errors"
@@ -205,7 +204,7 @@ func (a *AppInfo) formatUserAgent() string {
 type Backend interface {
 	Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error
 	CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error
-	CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error
+	CallRaw(method, path, key string, body []byte, params *Params, v LastResponseSetter) error
 	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error
 	SetMaxNetworkRetries(maxNetworkRetries int64)
 }
@@ -359,10 +358,27 @@ func extractParams(params ParamsContainer) (*form.Values, *Params, error) {
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
-	body, commonParams, err := extractParams(params)
+	bodyParams, commonParams, err := extractParams(params)
 	if err != nil {
 		return err
 	}
+	ver, err := extractVersion(path)
+	if err != nil {
+		return err
+	}
+
+	// For V1, all parameters are URL-encoded. For V2, for GET/DELETE requests,
+	// parameters are URL-encoded, and for POST requests, parameters are JSON-encoded.
+	var body []byte
+	if ver == V1APIMode || method != http.MethodPost {
+		body = []byte(bodyParams.Encode())
+	} else if params != nil && !(reflect.ValueOf(params).Kind() == reflect.Ptr && reflect.ValueOf(params).IsNil()) {
+		body, err = json.Marshal(params)
+		if err != nil {
+			return err
+		}
+	}
+
 	return s.CallRaw(method, path, key, body, commonParams, v)
 }
 
@@ -370,6 +386,11 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 // without buffering the response into memory.
 func (s *BackendImplementation) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
 	formValues, commonParams, err := extractParams(params)
+	if err != nil {
+		return err
+	}
+
+	ver, err := extractVersion(path)
 	if err != nil {
 		return err
 	}
@@ -386,7 +407,7 @@ func (s *BackendImplementation) CallStreaming(method, path, key string, params P
 	}
 	bodyBuffer := bytes.NewBufferString(body)
 
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", commonParams)
+	req, err := s.NewRequest(method, path, key, ver.contentType(), commonParams)
 	if err != nil {
 		return err
 	}
@@ -423,6 +444,20 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 	}
 
 	return nil
+}
+
+// extractVersion ensures the path starts with /v1, /v2, or contains /oauth
+// and returns the corresponding APIMode.
+func extractVersion(path string) (APIMode, error) {
+	if strings.HasPrefix(path, "/v1") {
+		return V1APIMode, nil
+	} else if strings.HasPrefix(path, "/v2") {
+		return V2APIMode, nil
+	} else if strings.Contains(path, "/oauth") {
+		return V1APIMode, nil
+	} else {
+		return APIMode(""), fmt.Errorf("unknown path prefix %s", path)
+	}
 }
 
 // the stripe API only accepts GET / POST / DELETE
@@ -500,39 +535,36 @@ func (s *BackendImplementation) RawRequest(method, path, key, content string, pa
 }
 
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
-func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Values, params *Params, v LastResponseSetter) error {
-	var body string
-	if form != nil && !form.Empty() {
-		body = form.Encode()
-
-		err := validateMethod(method)
-		if err != nil {
-			return err
-		}
-
-		// On `GET` / `DELETE`, move the payload into the URL
-		if method != http.MethodPost {
-			path += "?" + body
-			body = ""
-		}
-	}
-	bodyBuffer := bytes.NewBufferString(body)
-
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", params)
+func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, params *Params, v LastResponseSetter) error {
+	err := validateMethod(method)
 	if err != nil {
 		return err
 	}
 
+	ver, err := extractVersion(path)
+	if err != nil {
+		return err
+	}
+
+	// On `GET` / `DELETE`, move the payload into the URL
+	if method != http.MethodPost {
+		path += "?" + string(body)
+		body = nil
+	}
+
+	req, err := s.NewRequest(method, path, key, ver.contentType(), params)
+	if err != nil {
+		return err
+	}
+	buf := bytes.NewBuffer(body)
 	responseSetter := metricsResponseSetter{
 		LastResponseSetter: v,
 		backend:            s,
 		params:             params,
 	}
-
-	if err := s.Do(req, bodyBuffer, &responseSetter); err != nil {
+	if err := s.Do(req, buf, &responseSetter); err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -1467,44 +1499,8 @@ var apiVersionWithBetaHeaders string = apiVersion
 //
 // Can be overridden with the function `SetHTTPClient` or by setting the
 // `HTTPClient` value when using `BackendConfig`.
-//
-// When adding something new here, see also `stripe_go115.go` where you'll want
-// to add it as well.
 var httpClient = &http.Client{
 	Timeout: defaultHTTPTimeout,
-
-	// There is a bug in Go's HTTP/2 implementation that occasionally causes it
-	// to send an empty body when it receives a `GOAWAY` message from a server:
-	//
-	//     https://github.com/golang/go/issues/32441
-	//
-	// This is particularly problematic for this library because the empty body
-	// results in no parameters being sent, which usually results in a 400,
-	// which is a status code expressly not covered by retry logic.
-	//
-	// The bug seems to be somewhat tricky to fix and hasn't seen any traction
-	// lately, so for now we're mitigating by disabling HTTP/2 in stripe-go by
-	// default. Users who like to live dangerously can still re-enable it by
-	// specifying a custom HTTP client. When the bug above is fixed, we can
-	// turn it back on.
-	//
-	// The particular methodology here for disabling HTTP/2 is a little
-	// confusing at first glance, but is recommended by the `net/http`
-	// documentation ("Programs that must disable HTTP/2 can do so by setting
-	// Transport.TLSNextProto (for clients) ... to a non-nil, empty map.")
-	//
-	// Note that the test suite still uses HTTP/2 to run as it specifies its
-	// own HTTP client with it enabled. See `testing/testing.go`.
-	//
-	// (Written 2019/07/24.)
-	//
-	// UPDATE: With the release of Go 1.15, this bug has been fixed.
-	// As such, `stripe_go115.go` contains conditionally-compiled code that sets
-	// a different HTTP client as the default, since Go 1.15+ does not contain
-	// the aforementioned HTTP/2 bug.
-	Transport: &http.Transport{
-		TLSNextProto: make(map[string]func(string, *tls.Conn) http.RoundTripper),
-	},
 }
 
 //
@@ -1633,7 +1629,7 @@ func (u *UsageBackend) Call(method, path, key string, params ParamsContainer, v 
 	return u.B.Call(method, path, key, params, v)
 }
 
-func (u *UsageBackend) CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error {
+func (u *UsageBackend) CallRaw(method, path, key string, body []byte, params *Params, v LastResponseSetter) error {
 	params.GetParams().InternalSetUsage(u.Usage)
 	return u.B.CallRaw(method, path, key, body, params, v)
 }

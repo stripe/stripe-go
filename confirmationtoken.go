@@ -340,6 +340,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeAUBECSDebit      ConfirmationTokenPaymentMethodPreviewType = "au_becs_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeBACSDebit        ConfirmationTokenPaymentMethodPreviewType = "bacs_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeBancontact       ConfirmationTokenPaymentMethodPreviewType = "bancontact"
+	ConfirmationTokenPaymentMethodPreviewTypeBillie           ConfirmationTokenPaymentMethodPreviewType = "billie"
 	ConfirmationTokenPaymentMethodPreviewTypeBLIK             ConfirmationTokenPaymentMethodPreviewType = "blik"
 	ConfirmationTokenPaymentMethodPreviewTypeBoleto           ConfirmationTokenPaymentMethodPreviewType = "boleto"
 	ConfirmationTokenPaymentMethodPreviewTypeCard             ConfirmationTokenPaymentMethodPreviewType = "card"
@@ -376,6 +377,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeRechnung         ConfirmationTokenPaymentMethodPreviewType = "rechnung"
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeSamsungPay       ConfirmationTokenPaymentMethodPreviewType = "samsung_pay"
+	ConfirmationTokenPaymentMethodPreviewTypeSatispay         ConfirmationTokenPaymentMethodPreviewType = "satispay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeShopeepay        ConfirmationTokenPaymentMethodPreviewType = "shopeepay"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
@@ -535,6 +537,7 @@ type ConfirmationTokenPaymentMethodPreviewBACSDebit struct {
 	SortCode string `json:"sort_code"`
 }
 type ConfirmationTokenPaymentMethodPreviewBancontact struct{}
+type ConfirmationTokenPaymentMethodPreviewBillie struct{}
 type ConfirmationTokenPaymentMethodPreviewBillingDetails struct {
 	// Billing address.
 	Address *Address `json:"address"`
@@ -918,6 +921,8 @@ type ConfirmationTokenPaymentMethodPreviewMbWay struct{}
 type ConfirmationTokenPaymentMethodPreviewMobilepay struct{}
 type ConfirmationTokenPaymentMethodPreviewMultibanco struct{}
 type ConfirmationTokenPaymentMethodPreviewNaverPay struct {
+	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
+	BuyerID string `json:"buyer_id"`
 	// Whether to fund this transaction with Naver Pay points or a card.
 	Funding ConfirmationTokenPaymentMethodPreviewNaverPayFunding `json:"funding"`
 }
@@ -967,6 +972,7 @@ type ConfirmationTokenPaymentMethodPreviewRechnung struct {
 }
 type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
 type ConfirmationTokenPaymentMethodPreviewSamsungPay struct{}
+type ConfirmationTokenPaymentMethodPreviewSatispay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type ConfirmationTokenPaymentMethodPreviewSEPADebitGeneratedFrom struct {
@@ -1053,6 +1059,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	AUBECSDebit    *ConfirmationTokenPaymentMethodPreviewAUBECSDebit    `json:"au_becs_debit"`
 	BACSDebit      *ConfirmationTokenPaymentMethodPreviewBACSDebit      `json:"bacs_debit"`
 	Bancontact     *ConfirmationTokenPaymentMethodPreviewBancontact     `json:"bancontact"`
+	Billie         *ConfirmationTokenPaymentMethodPreviewBillie         `json:"billie"`
 	BillingDetails *ConfirmationTokenPaymentMethodPreviewBillingDetails `json:"billing_details"`
 	BLIK           *ConfirmationTokenPaymentMethodPreviewBLIK           `json:"blik"`
 	Boleto         *ConfirmationTokenPaymentMethodPreviewBoleto         `json:"boleto"`
@@ -1092,6 +1099,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Rechnung        *ConfirmationTokenPaymentMethodPreviewRechnung        `json:"rechnung"`
 	RevolutPay      *ConfirmationTokenPaymentMethodPreviewRevolutPay      `json:"revolut_pay"`
 	SamsungPay      *ConfirmationTokenPaymentMethodPreviewSamsungPay      `json:"samsung_pay"`
+	Satispay        *ConfirmationTokenPaymentMethodPreviewSatispay        `json:"satispay"`
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit"`
 	Shopeepay       *ConfirmationTokenPaymentMethodPreviewShopeepay       `json:"shopeepay"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort"`

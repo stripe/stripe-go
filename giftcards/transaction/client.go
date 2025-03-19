@@ -95,7 +95,7 @@ func (c Client) List(listParams *stripe.GiftCardsTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.GiftCardsTransactionList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/gift_cards/transactions", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/gift_cards/transactions", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -517,7 +517,7 @@ func TestCall_TelemetryDisabled(t *testing.T) {
 	// metrics aren't being sent, we need to fire off two requests in sequence.
 	for i := 0; i < 2; i++ {
 		var response testServerResponse
-		err := backend.Call("get", "/hello", "sk_test_xyz", nil, &response)
+		err := backend.Call(http.MethodGet, "/v1/hello", "sk_test_xyz", nil, &response)
 
 		assert.NoError(t, err)
 		assert.Equal(t, message, response.Message)
@@ -602,7 +602,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 	params.InternalSetUsage([]string{"llama", "bufo"})
 	for i := 0; i < 2; i++ {
 		var response testServerResponse
-		err := backend.Call("GET", "/hello", "sk_test_xyz", params, &response)
+		err := backend.Call(http.MethodGet, "/v1/hello", "sk_test_xyz", params, &response)
 
 		assert.NoError(t, err)
 		assert.Equal(t, message, response.Message)
@@ -616,7 +616,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 // that our logic for buffering requestMetrics when EnableTelemetry = true does
 // not trigger any data races. This test should pass when the -race flag is
 // passed to `go test`.
-func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
+func TestCall_TelemetryEnabledNoDataRace(t *testing.T) {
 	type testServerResponse struct {
 		APIResource
 		Message string `json:"message"`
@@ -655,7 +655,7 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	for i := 0; i < times; i++ {
 		go func() {
 			var response testServerResponse
-			err := backend.Call("get", "/hello", "sk_test_xyz", nil, &response)
+			err := backend.Call(http.MethodGet, "/v1/hello", "sk_test_xyz", nil, &response)
 
 			assert.NoError(t, err)
 			assert.Equal(t, message, response.Message)
@@ -669,6 +669,151 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	}
 
 	assert.Equal(t, int32(times), requestNum)
+}
+
+// Test that a GET to a v2 endpoint works and is sent with
+// the correct query parameters
+func TestCall_V2PathGet(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, r.Method, http.MethodGet)
+		assert.Equal(t, r.URL.Path, "/v2/hello")
+		assert.Equal(t, r.URL.Query().Get("foo"), "bar")
+
+		data, err := json.Marshal(testServerResponse{Message: message})
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type myCreateParams struct {
+		Params `form:"*"`
+		Foo    string `form:"foo" json:"foo"`
+	}
+	params := &myCreateParams{
+		Foo: "bar",
+	}
+
+	var response testServerResponse
+	err := backend.Call(http.MethodGet, "/v2/hello", "sk_test_xyz", params, &response)
+
+	assert.NoError(t, err)
+	assert.Equal(t, message, response.Message)
+}
+
+// Test that a POST to a v2 endpoint works and is sent with
+// the correct JSON contentType
+func TestCall_V2PathPost(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, r.Method, http.MethodPost)
+		assert.Equal(t, r.URL.Path, "/v2/hello")
+		assert.Equal(t, r.Header.Get("Content-Type"), "application/json")
+
+		var p map[string]string
+		err := json.NewDecoder(r.Body).Decode(&p)
+		assert.NoError(t, err)
+		assert.Equal(t, p["foo"], "bar")
+
+		data, err := json.Marshal(testServerResponse{Message: message})
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	type myCreateParams struct {
+		Params `form:"*"`
+		Foo    string `form:"foo" json:"foo"`
+	}
+	params := &myCreateParams{
+		Foo: "bar",
+	}
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v2/hello", "sk_test_xyz", params, &response)
+
+	assert.NoError(t, err)
+	assert.Equal(t, message, response.Message)
+}
+
+// Test that a POST to a v2 endpoint works and is sent with an empty body
+// when params are nil
+func TestCall_V2PathPostNilParams(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, r.Method, http.MethodPost)
+		assert.Equal(t, r.URL.Path, "/v2/hello")
+		assert.Equal(t, r.Header.Get("Content-Type"), "application/json")
+
+		body, err := ioutil.ReadAll(r.Body)
+		assert.NoError(t, err)
+		assert.Equal(t, body, []byte{})
+
+		data, err := json.Marshal(testServerResponse{Message: message})
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+
+	var response testServerResponse
+	err := backend.Call(http.MethodPost, "/v2/hello", "sk_test_xyz", nil, &response)
+
+	assert.NoError(t, err)
+	assert.Equal(t, message, response.Message)
 }
 
 func TestDo_Redaction(t *testing.T) {
@@ -703,7 +848,7 @@ func TestDo_Redaction(t *testing.T) {
 
 	request, err := backend.NewRequest(
 		http.MethodGet,
-		"/hello",
+		"/v1/hello",
 		"sk_test_123",
 		"application/x-www-form-urlencoded",
 		nil,
@@ -749,7 +894,7 @@ func TestDoStreaming(t *testing.T) {
 	response := streamingResource{}
 	err := backend.CallStreaming(
 		http.MethodGet,
-		"/pdf",
+		"/v1/pdf",
 		"sk_test_123",
 		nil,
 		&response,
@@ -798,7 +943,7 @@ func TestDoStreaming_ParsableError(t *testing.T) {
 	response := streamingResource{}
 	err := backend.CallStreaming(
 		http.MethodGet,
-		"/pdf",
+		"/v1/pdf",
 		"sk_test_123",
 		nil,
 		&response,
@@ -841,7 +986,7 @@ func TestDoStreaming_UnparsableError(t *testing.T) {
 	response := streamingResource{}
 	err := backend.CallStreaming(
 		http.MethodGet,
-		"/pdf",
+		"/v1/pdf",
 		"sk_test_123",
 		nil,
 		&response,

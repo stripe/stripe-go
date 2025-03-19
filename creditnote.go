@@ -59,26 +59,44 @@ const (
 	CreditNoteStatusVoid   CreditNoteStatus = "void"
 )
 
-// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
-type CreditNoteTaxAmountTaxabilityReason string
+// Whether this tax is inclusive or exclusive.
+type CreditNoteTotalTaxTaxBehavior string
 
-// List of values that CreditNoteTaxAmountTaxabilityReason can take
+// List of values that CreditNoteTotalTaxTaxBehavior can take
 const (
-	CreditNoteTaxAmountTaxabilityReasonCustomerExempt       CreditNoteTaxAmountTaxabilityReason = "customer_exempt"
-	CreditNoteTaxAmountTaxabilityReasonNotCollecting        CreditNoteTaxAmountTaxabilityReason = "not_collecting"
-	CreditNoteTaxAmountTaxabilityReasonNotSubjectToTax      CreditNoteTaxAmountTaxabilityReason = "not_subject_to_tax"
-	CreditNoteTaxAmountTaxabilityReasonNotSupported         CreditNoteTaxAmountTaxabilityReason = "not_supported"
-	CreditNoteTaxAmountTaxabilityReasonPortionProductExempt CreditNoteTaxAmountTaxabilityReason = "portion_product_exempt"
-	CreditNoteTaxAmountTaxabilityReasonPortionReducedRated  CreditNoteTaxAmountTaxabilityReason = "portion_reduced_rated"
-	CreditNoteTaxAmountTaxabilityReasonPortionStandardRated CreditNoteTaxAmountTaxabilityReason = "portion_standard_rated"
-	CreditNoteTaxAmountTaxabilityReasonProductExempt        CreditNoteTaxAmountTaxabilityReason = "product_exempt"
-	CreditNoteTaxAmountTaxabilityReasonProductExemptHoliday CreditNoteTaxAmountTaxabilityReason = "product_exempt_holiday"
-	CreditNoteTaxAmountTaxabilityReasonProportionallyRated  CreditNoteTaxAmountTaxabilityReason = "proportionally_rated"
-	CreditNoteTaxAmountTaxabilityReasonReducedRated         CreditNoteTaxAmountTaxabilityReason = "reduced_rated"
-	CreditNoteTaxAmountTaxabilityReasonReverseCharge        CreditNoteTaxAmountTaxabilityReason = "reverse_charge"
-	CreditNoteTaxAmountTaxabilityReasonStandardRated        CreditNoteTaxAmountTaxabilityReason = "standard_rated"
-	CreditNoteTaxAmountTaxabilityReasonTaxableBasisReduced  CreditNoteTaxAmountTaxabilityReason = "taxable_basis_reduced"
-	CreditNoteTaxAmountTaxabilityReasonZeroRated            CreditNoteTaxAmountTaxabilityReason = "zero_rated"
+	CreditNoteTotalTaxTaxBehaviorExclusive CreditNoteTotalTaxTaxBehavior = "exclusive"
+	CreditNoteTotalTaxTaxBehaviorInclusive CreditNoteTotalTaxTaxBehavior = "inclusive"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type CreditNoteTotalTaxTaxabilityReason string
+
+// List of values that CreditNoteTotalTaxTaxabilityReason can take
+const (
+	CreditNoteTotalTaxTaxabilityReasonCustomerExempt       CreditNoteTotalTaxTaxabilityReason = "customer_exempt"
+	CreditNoteTotalTaxTaxabilityReasonNotAvailable         CreditNoteTotalTaxTaxabilityReason = "not_available"
+	CreditNoteTotalTaxTaxabilityReasonNotCollecting        CreditNoteTotalTaxTaxabilityReason = "not_collecting"
+	CreditNoteTotalTaxTaxabilityReasonNotSubjectToTax      CreditNoteTotalTaxTaxabilityReason = "not_subject_to_tax"
+	CreditNoteTotalTaxTaxabilityReasonNotSupported         CreditNoteTotalTaxTaxabilityReason = "not_supported"
+	CreditNoteTotalTaxTaxabilityReasonPortionProductExempt CreditNoteTotalTaxTaxabilityReason = "portion_product_exempt"
+	CreditNoteTotalTaxTaxabilityReasonPortionReducedRated  CreditNoteTotalTaxTaxabilityReason = "portion_reduced_rated"
+	CreditNoteTotalTaxTaxabilityReasonPortionStandardRated CreditNoteTotalTaxTaxabilityReason = "portion_standard_rated"
+	CreditNoteTotalTaxTaxabilityReasonProductExempt        CreditNoteTotalTaxTaxabilityReason = "product_exempt"
+	CreditNoteTotalTaxTaxabilityReasonProductExemptHoliday CreditNoteTotalTaxTaxabilityReason = "product_exempt_holiday"
+	CreditNoteTotalTaxTaxabilityReasonProportionallyRated  CreditNoteTotalTaxTaxabilityReason = "proportionally_rated"
+	CreditNoteTotalTaxTaxabilityReasonReducedRated         CreditNoteTotalTaxTaxabilityReason = "reduced_rated"
+	CreditNoteTotalTaxTaxabilityReasonReverseCharge        CreditNoteTotalTaxTaxabilityReason = "reverse_charge"
+	CreditNoteTotalTaxTaxabilityReasonStandardRated        CreditNoteTotalTaxTaxabilityReason = "standard_rated"
+	CreditNoteTotalTaxTaxabilityReasonTaxableBasisReduced  CreditNoteTotalTaxTaxabilityReason = "taxable_basis_reduced"
+	CreditNoteTotalTaxTaxabilityReasonZeroRated            CreditNoteTotalTaxTaxabilityReason = "zero_rated"
+)
+
+// The type of tax information.
+type CreditNoteTotalTaxType string
+
+// List of values that CreditNoteTotalTaxType can take
+const (
+	CreditNoteTotalTaxTypeTaxRateDetails CreditNoteTotalTaxType = "tax_rate_details"
 )
 
 // Type of this credit note, one of `pre_payment` or `post_payment`. A `pre_payment` credit note means it was issued when the invoice was open. A `post_payment` credit note means it was issued when the invoice was paid.
@@ -451,7 +469,7 @@ type CreditNotePretaxCreditAmount struct {
 	Type CreditNotePretaxCreditAmountType `json:"type"`
 }
 
-// Refund related to this credit note.
+// Refunds related to this credit note.
 type CreditNoteRefund struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent).
 	AmountRefunded int64 `json:"amount_refunded"`
@@ -487,18 +505,25 @@ type CreditNoteShippingCost struct {
 	Taxes []*CreditNoteShippingCostTax `json:"taxes"`
 }
 
-// The aggregate amounts calculated per tax rate for all line items.
-type CreditNoteTaxAmount struct {
-	// The amount, in cents (or local equivalent), of the tax.
+// Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
+type CreditNoteTotalTaxTaxRateDetails struct {
+	TaxRate string `json:"tax_rate"`
+}
+
+// The aggregate tax information for all line items.
+type CreditNoteTotalTax struct {
+	// The amount of the tax, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
-	// Whether this tax amount is inclusive or exclusive.
-	Inclusive bool `json:"inclusive"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
-	TaxabilityReason CreditNoteTaxAmountTaxabilityReason `json:"taxability_reason"`
+	TaxabilityReason CreditNoteTotalTaxTaxabilityReason `json:"taxability_reason"`
 	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount int64 `json:"taxable_amount"`
-	// The tax rate that was applied to get this tax amount.
-	TaxRate *TaxRate `json:"tax_rate"`
+	// Whether this tax is inclusive or exclusive.
+	TaxBehavior CreditNoteTotalTaxTaxBehavior `json:"tax_behavior"`
+	// Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
+	TaxRateDetails *CreditNoteTotalTaxTaxRateDetails `json:"tax_rate_details"`
+	// The type of tax information.
+	Type CreditNoteTotalTaxType `json:"type"`
 }
 
 // Issue a credit note to adjust an invoice's amount after the invoice is finalized.
@@ -550,8 +575,6 @@ type CreditNote struct {
 	PretaxCreditAmounts []*CreditNotePretaxCreditAmount `json:"pretax_credit_amounts"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason CreditNoteReason `json:"reason"`
-	// Refund related to this credit note.
-	Refund *Refund `json:"refund"`
 	// Refunds related to this credit note.
 	Refunds []*CreditNoteRefund `json:"refunds"`
 	// The details of the cost of shipping, including the ShippingRate applied to the invoice.
@@ -562,12 +585,12 @@ type CreditNote struct {
 	Subtotal int64 `json:"subtotal"`
 	// The integer amount in cents (or local equivalent) representing the amount of the credit note, excluding all tax and invoice level discounts.
 	SubtotalExcludingTax int64 `json:"subtotal_excluding_tax"`
-	// The aggregate amounts calculated per tax rate for all line items.
-	TaxAmounts []*CreditNoteTaxAmount `json:"tax_amounts"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note, including tax and all discount.
 	Total int64 `json:"total"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note, excluding tax, but including discounts.
 	TotalExcludingTax int64 `json:"total_excluding_tax"`
+	// The aggregate tax information for all line items.
+	TotalTaxes []*CreditNoteTotalTax `json:"total_taxes"`
 	// Type of this credit note, one of `pre_payment` or `post_payment`. A `pre_payment` credit note means it was issued when the invoice was open. A `post_payment` credit note means it was issued when the invoice was paid.
 	Type CreditNoteType `json:"type"`
 	// The time that the credit note was voided.

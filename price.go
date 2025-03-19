@@ -279,7 +279,7 @@ type PriceTransformQuantityParams struct {
 	Round *string `form:"round"`
 }
 
-// Creates a new price for an existing product. The price can be recurring or one-time.
+// Creates a new [Price for an existing <a href="https://docs.stripe.com/api/products">Product](https://docs.stripe.com/api/prices). The Price can be recurring or one-time.
 type PriceParams struct {
 	Params `form:"*"`
 	// Whether the price can be used for new purchases. Defaults to `true`.
@@ -302,7 +302,7 @@ type PriceParams struct {
 	MigrateTo *PriceMigrateToParams `form:"migrate_to"`
 	// A brief description of the price, hidden from customers.
 	Nickname *string `form:"nickname"`
-	// The ID of the product that this price will belong to.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// These fields can be used to create a new product that this price will belong to.
 	ProductData *PriceProductDataParams `form:"product_data"`

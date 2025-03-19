@@ -355,7 +355,7 @@ func (c Client) List(listParams *stripe.PaymentIntentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentIntentList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -400,7 +400,7 @@ func (c Client) Search(params *stripe.PaymentIntentSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.PaymentIntentSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents/search", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents/search", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
+// Creates a new FinancialAccount. Each connected account can have up to three FinancialAccounts by default.
 func New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	return getC().New(params)
 }
 
-// Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
+// Creates a new FinancialAccount. Each connected account can have up to three FinancialAccounts by default.
 func (c Client) New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	financialaccount := &stripe.TreasuryFinancialAccount{}
 	err := c.B.Call(
@@ -111,7 +111,7 @@ func (c Client) List(listParams *stripe.TreasuryFinancialAccountListParams) *Ite
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryFinancialAccountList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/financial_accounts", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/financial_accounts", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

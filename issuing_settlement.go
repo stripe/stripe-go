@@ -39,29 +39,33 @@ type IssuingSettlement struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The total interchange received as reimbursement for the transactions.
-	InterchangeFees int64 `json:"interchange_fees"`
+	InterchangeFeesAmount int64 `json:"interchange_fees_amount"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The total net amount required to settle with the network.
-	NetTotal int64 `json:"net_total"`
+	NetTotalAmount int64 `json:"net_total_amount"`
 	// The card network for this settlement report. One of ["visa", "maestro"]
 	Network IssuingSettlementNetwork `json:"network"`
 	// The total amount of fees owed to the network.
-	NetworkFees int64 `json:"network_fees"`
+	NetworkFeesAmount int64 `json:"network_fees_amount"`
 	// The Settlement Identification Number assigned by the network.
 	NetworkSettlementIdentifier string `json:"network_settlement_identifier"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// The total amount of any additional fees assessed by the card network.
+	OtherFeesAmount int64 `json:"other_fees_amount"`
+	// The total number of additional fees assessed by the card network.
+	OtherFeesCount int64 `json:"other_fees_count"`
 	// One of `international` or `uk_national_net`.
 	SettlementService string `json:"settlement_service"`
 	// The current processing status of this settlement.
 	Status IssuingSettlementStatus `json:"status"`
+	// The total transaction amount reflected in this settlement.
+	TransactionAmount int64 `json:"transaction_amount"`
 	// The total number of transactions reflected in this settlement.
 	TransactionCount int64 `json:"transaction_count"`
-	// The total transaction amount reflected in this settlement.
-	TransactionVolume int64 `json:"transaction_volume"`
 }
 
 // UnmarshalJSON handles deserialization of an IssuingSettlement.

@@ -163,8 +163,6 @@ import (
 	treasuryreceiveddebit "github.com/stripe/stripe-go/v81/treasury/receiveddebit"
 	treasurytransaction "github.com/stripe/stripe-go/v81/treasury/transaction"
 	treasurytransactionentry "github.com/stripe/stripe-go/v81/treasury/transactionentry"
-	"github.com/stripe/stripe-go/v81/usagerecord"
-	"github.com/stripe/stripe-go/v81/usagerecordsummary"
 	"github.com/stripe/stripe-go/v81/webhookendpoint"
 )
 
@@ -478,16 +476,11 @@ type API struct {
 	TreasuryTransactionEntries *treasurytransactionentry.Client
 	// TreasuryTransactions is the client used to invoke /treasury/transactions APIs.
 	TreasuryTransactions *treasurytransaction.Client
-	// UsageRecords is the client used to invoke /subscription_items/{subscription_item}/usage_records APIs.
-	UsageRecords *usagerecord.Client
-	// UsageRecordSummaries is the client used to invoke /subscription_items/{subscription_item}/usage_record_summaries APIs.
-	UsageRecordSummaries *usagerecordsummary.Client
 	// WebhookEndpoints is the client used to invoke /webhook_endpoints APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
 
 func (a *API) Init(key string, backends *stripe.Backends) {
-
 	usage := []string{"stripe_client"}
 	if backends == nil {
 		backends = &stripe.Backends{
@@ -651,8 +644,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TreasuryReceivedDebits = &treasuryreceiveddebit.Client{B: backends.API, Key: key}
 	a.TreasuryTransactionEntries = &treasurytransactionentry.Client{B: backends.API, Key: key}
 	a.TreasuryTransactions = &treasurytransaction.Client{B: backends.API, Key: key}
-	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
-	a.UsageRecordSummaries = &usagerecordsummary.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 
