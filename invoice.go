@@ -2259,7 +2259,8 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt *int64 `form:"cancel_at"`
+	CancelAt             *int64 `form:"cancel_at"`
+	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// This simulates the subscription being canceled or expired immediately.
 	CancelNow *bool `form:"cancel_now"`
 	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set.
@@ -2288,6 +2289,9 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Valu
 	}
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.CancelAtMinPeriodEnd) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "min_period_end")
 	}
 	if BoolValue(p.TrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
