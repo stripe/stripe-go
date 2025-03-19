@@ -10,27 +10,27 @@ import (
 
 func TestInvoiceParams_AppendTo(t *testing.T) {
 	{
-		params := &InvoiceUpcomingParams{SubscriptionBillingCycleAnchorNow: Bool(true)}
+		params := &InvoiceCreatePreviewSubscriptionDetailsParams{BillingCycleAnchorNow: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
-		assert.Equal(t, []string{"now"}, body.Get("subscription_billing_cycle_anchor"))
+		assert.Equal(t, []string{"now"}, body.Get("billing_cycle_anchor"))
 	}
 
 	{
-		params := &InvoiceUpcomingParams{SubscriptionBillingCycleAnchorUnchanged: Bool(true)}
+		params := &InvoiceCreatePreviewSubscriptionDetailsParams{BillingCycleAnchorUnchanged: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
-		assert.Equal(t, []string{"unchanged"}, body.Get("subscription_billing_cycle_anchor"))
+		assert.Equal(t, []string{"unchanged"}, body.Get("billing_cycle_anchor"))
 	}
 
 	{
-		params := &InvoiceUpcomingParams{SubscriptionTrialEndNow: Bool(true)}
+		params := &InvoiceCreatePreviewSubscriptionDetailsParams{TrialEndNow: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
-		assert.Equal(t, []string{"now"}, body.Get("subscription_trial_end"))
+		assert.Equal(t, []string{"now"}, body.Get("trial_end"))
 	}
 }
 
