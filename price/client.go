@@ -68,7 +68,7 @@ func (c Client) List(listParams *stripe.PriceListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PriceList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/prices", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/prices", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -113,7 +113,7 @@ func (c Client) Search(params *stripe.PriceSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.PriceSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/prices/search", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/prices/search", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

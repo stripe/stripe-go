@@ -108,7 +108,7 @@ func (c Client) List(listParams *stripe.SubscriptionScheduleListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SubscriptionScheduleList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/subscription_schedules", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/subscription_schedules", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
