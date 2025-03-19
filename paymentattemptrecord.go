@@ -693,6 +693,7 @@ type PaymentAttemptRecordPaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsBillie struct{}
 
 // The billing details associated with the method of payment.
 type PaymentAttemptRecordPaymentMethodDetailsBillingDetails struct {
@@ -1180,6 +1181,7 @@ type PaymentAttemptRecordPaymentMethodDetailsSamsungPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsSatispay struct{}
 type PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
@@ -1275,6 +1277,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	AUBECSDebit       *PaymentAttemptRecordPaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
 	BACSDebit         *PaymentAttemptRecordPaymentMethodDetailsBACSDebit         `json:"bacs_debit"`
 	Bancontact        *PaymentAttemptRecordPaymentMethodDetailsBancontact        `json:"bancontact"`
+	Billie            *PaymentAttemptRecordPaymentMethodDetailsBillie            `json:"billie"`
 	// The billing details associated with the method of payment.
 	BillingDetails *PaymentAttemptRecordPaymentMethodDetailsBillingDetails `json:"billing_details"`
 	BLIK           *PaymentAttemptRecordPaymentMethodDetailsBLIK           `json:"blik"`
@@ -1320,6 +1323,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Rechnung           *PaymentAttemptRecordPaymentMethodDetailsRechnung           `json:"rechnung"`
 	RevolutPay         *PaymentAttemptRecordPaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
 	SamsungPay         *PaymentAttemptRecordPaymentMethodDetailsSamsungPay         `json:"samsung_pay"`
+	Satispay           *PaymentAttemptRecordPaymentMethodDetailsSatispay           `json:"satispay"`
 	SEPACreditTransfer *PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer"`
 	SEPADebit          *PaymentAttemptRecordPaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
 	Shopeepay          *PaymentAttemptRecordPaymentMethodDetailsShopeepay          `json:"shopeepay"`

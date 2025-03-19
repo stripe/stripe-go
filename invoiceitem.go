@@ -6,8 +6,6 @@
 
 package stripe
 
-import "encoding/json"
-
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
 type InvoiceItemParams struct {
 	Params `form:"*"`
@@ -33,10 +31,10 @@ type InvoiceItemParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceItemPeriodParams `form:"period"`
-	// The ID of the price object.
-	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
+	// The pricing information for the invoice item.
+	Pricing *InvoiceItemPricingParams `form:"pricing"`
 	// Non-negative integer. The quantity of units for the invoice item.
 	Quantity *int64 `form:"quantity"`
 	// The ID of a subscription to add this invoice item to. When left blank, the invoice item is added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription.
@@ -47,8 +45,6 @@ type InvoiceItemParams struct {
 	TaxCode *string `form:"tax_code"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
-	// The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
-	UnitAmount *int64 `form:"unit_amount"`
 	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
@@ -119,6 +115,12 @@ type InvoiceItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The pricing information for the invoice item.
+type InvoiceItemPricingParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+}
+
 // Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
 type InvoiceItemListParams struct {
 	ListParams `form:"*"`
@@ -186,10 +188,6 @@ type InvoiceItem struct {
 	Proration bool `json:"proration"`
 	// Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
 	Quantity int64 `json:"quantity"`
-	// The subscription that this invoice item has been created for, if any.
-	Subscription *Subscription `json:"subscription"`
-	// The subscription item that this invoice item has been created for, if any.
-	SubscriptionItem string `json:"subscription_item"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// ID of the test clock this invoice item belongs to.
@@ -201,23 +199,4 @@ type InvoiceItemList struct {
 	APIResource
 	ListMeta
 	Data []*InvoiceItem `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of an InvoiceItem.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		i.ID = id
-		return nil
-	}
-
-	type invoiceItem InvoiceItem
-	var v invoiceItem
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*i = InvoiceItem(v)
-	return nil
 }

@@ -280,6 +280,7 @@ const (
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
+	PaymentMethodTypeBillie           PaymentMethodType = "billie"
 	PaymentMethodTypeBLIK             PaymentMethodType = "blik"
 	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
@@ -316,6 +317,7 @@ const (
 	PaymentMethodTypeRechnung         PaymentMethodType = "rechnung"
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
 	PaymentMethodTypeSamsungPay       PaymentMethodType = "samsung_pay"
+	PaymentMethodTypeSatispay         PaymentMethodType = "satispay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeShopeepay        PaymentMethodType = "shopeepay"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
@@ -444,6 +446,9 @@ type PaymentMethodBACSDebitParams struct {
 
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type PaymentMethodBancontactParams struct{}
+
+// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+type PaymentMethodBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type PaymentMethodBillingDetailsParams struct {
@@ -643,6 +648,9 @@ type PaymentMethodRevolutPayParams struct{}
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type PaymentMethodSamsungPayParams struct{}
 
+// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+type PaymentMethodSatispayParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type PaymentMethodSEPADebitParams struct {
 	// IBAN of the bank account.
@@ -709,6 +717,8 @@ type PaymentMethodParams struct {
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	Billie *PaymentMethodBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentMethodBillingDetailsParams `form:"billing_details"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -787,6 +797,8 @@ type PaymentMethodParams struct {
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
+	// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+	Satispay *PaymentMethodSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
@@ -898,6 +910,7 @@ type PaymentMethodBACSDebit struct {
 	SortCode string `json:"sort_code"`
 }
 type PaymentMethodBancontact struct{}
+type PaymentMethodBillie struct{}
 type PaymentMethodBillingDetails struct {
 	// Billing address.
 	Address *Address `json:"address"`
@@ -1340,6 +1353,7 @@ type PaymentMethodRechnung struct {
 }
 type PaymentMethodRevolutPay struct{}
 type PaymentMethodSamsungPay struct{}
+type PaymentMethodSatispay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type PaymentMethodSEPADebitGeneratedFrom struct {
@@ -1431,6 +1445,7 @@ type PaymentMethod struct {
 	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
 	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit"`
 	Bancontact     *PaymentMethodBancontact     `json:"bancontact"`
+	Billie         *PaymentMethodBillie         `json:"billie"`
 	BillingDetails *PaymentMethodBillingDetails `json:"billing_details"`
 	BLIK           *PaymentMethodBLIK           `json:"blik"`
 	Boleto         *PaymentMethodBoleto         `json:"boleto"`
@@ -1482,6 +1497,7 @@ type PaymentMethod struct {
 	Rechnung     *PaymentMethodRechnung     `json:"rechnung"`
 	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay"`
 	SamsungPay   *PaymentMethodSamsungPay   `json:"samsung_pay"`
+	Satispay     *PaymentMethodSatispay     `json:"satispay"`
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
 	Shopeepay    *PaymentMethodShopeepay    `json:"shopeepay"`
 	Sofort       *PaymentMethodSofort       `json:"sofort"`

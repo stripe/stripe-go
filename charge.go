@@ -1441,6 +1441,7 @@ type ChargePaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsBillie struct{}
 type ChargePaymentMethodDetailsBLIK struct {
 	// A unique and immutable identifier assigned by BLIK to every buyer.
 	BuyerID string `json:"buyer_id"`
@@ -2033,6 +2034,7 @@ type ChargePaymentMethodDetailsSamsungPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
 }
+type ChargePaymentMethodDetailsSatispay struct{}
 type ChargePaymentMethodDetailsSEPACreditTransfer struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
@@ -2128,6 +2130,7 @@ type ChargePaymentMethodDetails struct {
 	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
 	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
 	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
+	Billie             *ChargePaymentMethodDetailsBillie             `json:"billie"`
 	BLIK               *ChargePaymentMethodDetailsBLIK               `json:"blik"`
 	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto"`
 	Card               *ChargePaymentMethodDetailsCard               `json:"card"`
@@ -2164,6 +2167,7 @@ type ChargePaymentMethodDetails struct {
 	Rechnung           *ChargePaymentMethodDetailsRechnung           `json:"rechnung"`
 	RevolutPay         *ChargePaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
 	SamsungPay         *ChargePaymentMethodDetailsSamsungPay         `json:"samsung_pay"`
+	Satispay           *ChargePaymentMethodDetailsSatispay           `json:"satispay"`
 	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer"`
 	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
 	Shopeepay          *ChargePaymentMethodDetailsShopeepay          `json:"shopeepay"`

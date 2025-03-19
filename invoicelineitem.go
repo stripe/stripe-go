@@ -16,15 +16,6 @@ const (
 	InvoiceLineItemPretaxCreditAmountTypeMargin                   InvoiceLineItemPretaxCreditAmountType = "margin"
 )
 
-// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
-type InvoiceLineItemType string
-
-// List of values that InvoiceLineItemType can take
-const (
-	InvoiceLineItemTypeInvoiceItem  InvoiceLineItemType = "invoiceitem"
-	InvoiceLineItemTypeSubscription InvoiceLineItemType = "subscription"
-)
-
 // Time span for the redeemed discount.
 type InvoiceLineItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -102,6 +93,12 @@ type InvoiceLineItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// The pricing information for the invoice item.
+type InvoiceLineItemPricingParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
+}
+
 // Data to find or create a TaxRate object.
 //
 // Stripe automatically creates or reuses a TaxRate object for each tax amount. If the `tax_rate_data` exactly matches a previous value, Stripe will reuse the TaxRate object. TaxRate objects created automatically by Stripe are immediately archived, do not appear in the line item's `tax_rates`, and cannot be directly added to invoices, payments, or line items.
@@ -116,6 +113,8 @@ type InvoiceLineItemTaxAmountTaxRateDataParams struct {
 	Inclusive *bool `form:"inclusive"`
 	// The jurisdiction for the tax rate. You can use this label field for tax reporting purposes. It also appears on your customer's invoice.
 	Jurisdiction *string `form:"jurisdiction"`
+	// The level of the jurisdiction that imposes this tax rate.
+	JurisdictionLevel *string `form:"jurisdiction_level"`
 	// The statutory tax rate percent. This field accepts decimal values between 0 and 100 inclusive with at most 4 decimal places. To accommodate fixed-amount taxes, set the percentage to zero. Stripe will not display zero percentages on the invoice unless the `amount` of the tax is also zero.
 	Percentage *float64 `form:"percentage"`
 	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2:US), without country prefix. For example, "NY" for New York, United States.
@@ -128,6 +127,8 @@ type InvoiceLineItemTaxAmountTaxRateDataParams struct {
 type InvoiceLineItemTaxAmountParams struct {
 	// The amount, in cents (or local equivalent), of the tax.
 	Amount *int64 `form:"amount"`
+	// The reasoning behind this tax, for example, if the product is tax exempt.
+	TaxabilityReason *string `form:"taxability_reason"`
 	// The amount on which tax is calculated, in cents (or local equivalent).
 	TaxableAmount *int64 `form:"taxable_amount"`
 	// Data to find or create a TaxRate object.
@@ -159,10 +160,10 @@ type InvoiceLineItemParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceLineItemPeriodParams `form:"period"`
-	// The ID of the price object.
-	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 	PriceData *InvoiceLineItemPriceDataParams `form:"price_data"`
+	// The pricing information for the invoice item.
+	Pricing *InvoiceLineItemPricingParams `form:"pricing"`
 	// Non-negative integer. The quantity of units for the line item.
 	Quantity *int64 `form:"quantity"`
 	// A list of up to 10 tax amounts for this line item. This can be useful if you calculate taxes on your own or use a third-party to calculate them. You cannot set tax amounts if any line item has [tax_rates](https://stripe.com/docs/api/invoices/line_item#invoice_line_item_object-tax_rates) or if the invoice has [default_tax_rates](https://stripe.com/docs/api/invoices/object#invoice_object-default_tax_rates) or uses [automatic tax](https://stripe.com/docs/tax/invoicing). Pass an empty string to remove previously defined tax amounts.
@@ -215,20 +216,6 @@ type InvoiceLineItemPretaxCreditAmount struct {
 	Type InvoiceLineItemPretaxCreditAmountType `json:"type"`
 }
 
-// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
-type InvoiceLineItemProrationDetailsCreditedItems struct {
-	// Invoice containing the credited invoice line items
-	Invoice string `json:"invoice"`
-	// Credited invoice line items
-	InvoiceLineItems []string `json:"invoice_line_items"`
-}
-
-// Additional details for proration line items
-type InvoiceLineItemProrationDetails struct {
-	// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
-	CreditedItems *InvoiceLineItemProrationDetailsCreditedItems `json:"credited_items"`
-}
-
 // Invoice Line Items represent the individual lines within an [invoice](https://stripe.com/docs/api/invoices) and only exist within the context of an invoice.
 //
 // Each line item is backed by either an [invoice item](https://stripe.com/docs/api/invoiceitems) or a [subscription item](https://stripe.com/docs/api/subscription_items).
@@ -250,8 +237,6 @@ type InvoiceLineItem struct {
 	ID string `json:"id"`
 	// The ID of the invoice that contains this line item.
 	Invoice string `json:"invoice"`
-	// The ID of the [invoice item](https://stripe.com/docs/api/invoiceitems) associated with this line item if any.
-	InvoiceItem *InvoiceItem `json:"invoice_item"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// The amount of margin calculated per margin for this line item.
@@ -265,18 +250,9 @@ type InvoiceLineItem struct {
 	Period *Period `json:"period"`
 	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this line item.
 	PretaxCreditAmounts []*InvoiceLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
-	// Whether this is a proration.
-	Proration bool `json:"proration"`
-	// Additional details for proration line items
-	ProrationDetails *InvoiceLineItemProrationDetails `json:"proration_details"`
 	// The quantity of the subscription, if the line item is a subscription or a proration.
-	Quantity int64 `json:"quantity"`
-	// The subscription that the invoice item pertains to, if any.
+	Quantity     int64         `json:"quantity"`
 	Subscription *Subscription `json:"subscription"`
-	// The subscription item that generated this line item. Left empty if the line item is not an explicit result of a subscription.
-	SubscriptionItem *SubscriptionItem `json:"subscription_item"`
-	// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
-	Type InvoiceLineItemType `json:"type"`
 }
 
 // Period is a structure representing a start and end dates.

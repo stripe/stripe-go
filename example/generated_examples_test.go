@@ -2463,7 +2463,6 @@ func TestInvoiceitemsDeleteService(t *testing.T) {
 func TestInvoiceitemsPost(t *testing.T) {
 	params := &stripe.InvoiceItemParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-		Price:    stripe.String("price_xxxxxxxxxxxxx"),
 	}
 	result, err := invoiceitem.New(params)
 	assert.NotNil(t, result)
@@ -2473,7 +2472,6 @@ func TestInvoiceitemsPost(t *testing.T) {
 func TestInvoiceitemsPostService(t *testing.T) {
 	params := &stripe.InvoiceItemParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-		Price:    stripe.String("price_xxxxxxxxxxxxx"),
 	}
 	sc := client.New(TestAPIKey, nil)
 	result, err := sc.InvoiceItems.New(params)
