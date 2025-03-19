@@ -31,7 +31,7 @@ func (c Client) List(listParams *stripe.SetupAttemptListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SetupAttemptList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/setup_attempts", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/setup_attempts", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

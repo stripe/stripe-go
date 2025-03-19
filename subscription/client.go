@@ -164,7 +164,7 @@ func (c Client) List(listParams *stripe.SubscriptionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SubscriptionList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -209,7 +209,7 @@ func (c Client) Search(params *stripe.SubscriptionSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.SubscriptionSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions/search", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/subscriptions/search", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
