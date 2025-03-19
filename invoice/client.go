@@ -253,7 +253,7 @@ func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -294,7 +294,7 @@ func (c Client) ListLines(listParams *stripe.InvoiceListLinesParams) *LineItemIt
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -316,7 +316,7 @@ func (c Client) UpcomingLines(listParams *stripe.InvoiceUpcomingLinesParams) *Li
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/invoices/upcoming/lines", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/invoices/upcoming/lines", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -361,7 +361,7 @@ func (c Client) Search(params *stripe.InvoiceSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.InvoiceSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/invoices/search", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/invoices/search", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

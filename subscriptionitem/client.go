@@ -82,7 +82,7 @@ func (c Client) List(listParams *stripe.SubscriptionItemListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SubscriptionItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/subscription_items", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/subscription_items", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -128,7 +128,7 @@ func (c Client) UsageRecordSummaries(listParams *stripe.SubscriptionItemUsageRec
 	return &UsageRecordSummaryIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.UsageRecordSummaryList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

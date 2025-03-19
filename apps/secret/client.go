@@ -68,7 +68,7 @@ func (c Client) List(listParams *stripe.AppsSecretListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.AppsSecretList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/apps/secrets", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/apps/secrets", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

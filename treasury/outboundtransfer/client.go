@@ -69,7 +69,7 @@ func (c Client) List(listParams *stripe.TreasuryOutboundTransferListParams) *Ite
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryOutboundTransferList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/outbound_transfers", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/outbound_transfers", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

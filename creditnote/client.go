@@ -117,7 +117,7 @@ func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -158,7 +158,7 @@ func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineIte
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -180,7 +180,7 @@ func (c Client) PreviewLines(listParams *stripe.CreditNotePreviewLinesParams) *L
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
