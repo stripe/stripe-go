@@ -308,13 +308,13 @@ type CustomerInvoiceSettings struct {
 	RenderingOptions *CustomerInvoiceSettingsRenderingOptions `json:"rendering_options"`
 }
 
-// The customer's location as identified by Stripe Tax.
+// The identified tax location of the customer.
 type CustomerTaxLocation struct {
-	// The customer's country as identified by Stripe Tax.
+	// The identified tax country of the customer.
 	Country string `json:"country"`
 	// The data source used to infer the customer's location.
 	Source CustomerTaxLocationSource `json:"source"`
-	// The customer's state, county, province, or region as identified by Stripe Tax.
+	// The identified tax state, county, province, or region of the customer.
 	State string `json:"state"`
 }
 type CustomerTax struct {
@@ -322,7 +322,7 @@ type CustomerTax struct {
 	AutomaticTax CustomerTaxAutomaticTax `json:"automatic_tax"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress string `json:"ip_address"`
-	// The customer's location as identified by Stripe Tax.
+	// The identified tax location of the customer.
 	Location *CustomerTaxLocation `json:"location"`
 }
 

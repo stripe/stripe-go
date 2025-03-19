@@ -2448,6 +2448,12 @@ type CheckoutSessionPermissionsUpdateParams struct {
 type CheckoutSessionPermissionsParams struct {
 	// Permissions for updating the Checkout Session.
 	Update *CheckoutSessionPermissionsUpdateParams `form:"update"`
+	// Determines which entity is allowed to update the shipping details.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
+	//
+	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	UpdateShippingDetails *string `form:"update_shipping_details"`
 }
 
 // Controls phone number collection settings for the session.
@@ -3707,6 +3713,12 @@ type CheckoutSessionPermissionsUpdate struct {
 type CheckoutSessionPermissions struct {
 	// Permissions for updating the Checkout Session.
 	Update *CheckoutSessionPermissionsUpdate `json:"update"`
+	// Determines which entity is allowed to update the shipping details.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
+	//
+	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	UpdateShippingDetails CheckoutSessionPermissionsUpdateShippingDetails `json:"update_shipping_details"`
 }
 type CheckoutSessionPhoneNumberCollection struct {
 	// Indicates whether phone number collection is enabled for the session
