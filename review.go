@@ -35,6 +35,7 @@ type ReviewReason string
 // List of values that ReviewReason can take
 const (
 	ReviewReasonApproved        ReviewReason = "approved"
+	ReviewReasonCanceled        ReviewReason = "canceled"
 	ReviewReasonDisputed        ReviewReason = "disputed"
 	ReviewReasonManual          ReviewReason = "manual"
 	ReviewReasonRefunded        ReviewReason = "refunded"

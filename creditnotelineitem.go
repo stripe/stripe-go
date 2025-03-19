@@ -15,6 +15,28 @@ const (
 	CreditNoteLineItemPretaxCreditAmountTypeDiscount                 CreditNoteLineItemPretaxCreditAmountType = "discount"
 )
 
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type CreditNoteLineItemTaxAmountTaxabilityReason string
+
+// List of values that CreditNoteLineItemTaxAmountTaxabilityReason can take
+const (
+	CreditNoteLineItemTaxAmountTaxabilityReasonCustomerExempt       CreditNoteLineItemTaxAmountTaxabilityReason = "customer_exempt"
+	CreditNoteLineItemTaxAmountTaxabilityReasonNotCollecting        CreditNoteLineItemTaxAmountTaxabilityReason = "not_collecting"
+	CreditNoteLineItemTaxAmountTaxabilityReasonNotSubjectToTax      CreditNoteLineItemTaxAmountTaxabilityReason = "not_subject_to_tax"
+	CreditNoteLineItemTaxAmountTaxabilityReasonNotSupported         CreditNoteLineItemTaxAmountTaxabilityReason = "not_supported"
+	CreditNoteLineItemTaxAmountTaxabilityReasonPortionProductExempt CreditNoteLineItemTaxAmountTaxabilityReason = "portion_product_exempt"
+	CreditNoteLineItemTaxAmountTaxabilityReasonPortionReducedRated  CreditNoteLineItemTaxAmountTaxabilityReason = "portion_reduced_rated"
+	CreditNoteLineItemTaxAmountTaxabilityReasonPortionStandardRated CreditNoteLineItemTaxAmountTaxabilityReason = "portion_standard_rated"
+	CreditNoteLineItemTaxAmountTaxabilityReasonProductExempt        CreditNoteLineItemTaxAmountTaxabilityReason = "product_exempt"
+	CreditNoteLineItemTaxAmountTaxabilityReasonProductExemptHoliday CreditNoteLineItemTaxAmountTaxabilityReason = "product_exempt_holiday"
+	CreditNoteLineItemTaxAmountTaxabilityReasonProportionallyRated  CreditNoteLineItemTaxAmountTaxabilityReason = "proportionally_rated"
+	CreditNoteLineItemTaxAmountTaxabilityReasonReducedRated         CreditNoteLineItemTaxAmountTaxabilityReason = "reduced_rated"
+	CreditNoteLineItemTaxAmountTaxabilityReasonReverseCharge        CreditNoteLineItemTaxAmountTaxabilityReason = "reverse_charge"
+	CreditNoteLineItemTaxAmountTaxabilityReasonStandardRated        CreditNoteLineItemTaxAmountTaxabilityReason = "standard_rated"
+	CreditNoteLineItemTaxAmountTaxabilityReasonTaxableBasisReduced  CreditNoteLineItemTaxAmountTaxabilityReason = "taxable_basis_reduced"
+	CreditNoteLineItemTaxAmountTaxabilityReasonZeroRated            CreditNoteLineItemTaxAmountTaxabilityReason = "zero_rated"
+)
+
 // The type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. When the type is `invoice_line_item` there is an additional `invoice_line_item` property on the resource the value of which is the id of the credited line item on the invoice.
 type CreditNoteLineItemType string
 
@@ -44,6 +66,20 @@ type CreditNoteLineItemPretaxCreditAmount struct {
 	Type CreditNoteLineItemPretaxCreditAmountType `json:"type"`
 }
 
+// The amount of tax calculated per tax rate for this line item
+type CreditNoteLineItemTaxAmount struct {
+	// The amount, in cents (or local equivalent), of the tax.
+	Amount int64 `json:"amount"`
+	// Whether this tax amount is inclusive or exclusive.
+	Inclusive bool `json:"inclusive"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason CreditNoteLineItemTaxAmountTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in cents (or local equivalent).
+	TaxableAmount int64 `json:"taxable_amount"`
+	// The tax rate that was applied to get this tax amount.
+	TaxRate *TaxRate `json:"tax_rate"`
+}
+
 // CreditNoteLineItem is the resource representing a Stripe credit note line item.
 // For more details see https://stripe.com/docs/api/credit_notes/line_item
 // The credit note line item object
@@ -71,7 +107,7 @@ type CreditNoteLineItem struct {
 	// The number of units of product being credited.
 	Quantity int64 `json:"quantity"`
 	// The amount of tax calculated per tax rate for this line item
-	TaxAmounts []*CreditNoteTaxAmount `json:"tax_amounts"`
+	TaxAmounts []*CreditNoteLineItemTaxAmount `json:"tax_amounts"`
 	// The tax rates which apply to the line item.
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// The type of the credit note line item, one of `invoice_line_item` or `custom_line_item`. When the type is `invoice_line_item` there is an additional `invoice_line_item` property on the resource the value of which is the id of the credited line item on the invoice.
