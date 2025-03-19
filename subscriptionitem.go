@@ -121,7 +121,7 @@ type SubscriptionItemPriceDataRecurringParams struct {
 type SubscriptionItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *SubscriptionItemPriceDataRecurringParams `form:"recurring"`
@@ -153,21 +153,6 @@ type SubscriptionItemTrialParams struct {
 	ConvertsTo []*string `form:"converts_to"`
 	// Determines the type of trial for this item.
 	Type *string `form:"type"`
-}
-
-// For the specified subscription item, returns a list of summary objects. Each object in the list provides usage information that's been summarized from multiple usage records and over a subscription billing period (e.g., 15 usage records in the month of September).
-//
-// The list is sorted in reverse-chronological order (newest first). The first list item represents the most current usage period that hasn't ended yet. Since new usage records can still be added, the returned summary information for the subscription item's ID should be seen as unstable until the subscription billing period ends.
-type SubscriptionItemUsageRecordSummariesParams struct {
-	ListParams       `form:"*"`
-	SubscriptionItem *string `form:"-"` // Included in URL
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *SubscriptionItemUsageRecordSummariesParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period

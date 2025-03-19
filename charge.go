@@ -2184,6 +2184,12 @@ type ChargePaymentMethodDetails struct {
 	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
 	Zip           *ChargePaymentMethodDetailsZip           `json:"zip"`
 }
+type ChargePresentmentDetails struct {
+	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	PresentmentAmount int64 `json:"presentment_amount"`
+	// Currency presented to the customer during payment.
+	PresentmentCurrency Currency `json:"presentment_currency"`
+}
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type ChargeRadarOptions struct {
@@ -2267,6 +2273,7 @@ type Charge struct {
 	PaymentMethod string `json:"payment_method"`
 	// Details about the payment method at the time of the transaction.
 	PaymentMethodDetails *ChargePaymentMethodDetails `json:"payment_method_details"`
+	PresentmentDetails   *ChargePresentmentDetails   `json:"presentment_details"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *ChargeRadarOptions `json:"radar_options"`
 	// This is the email address that the receipt for this charge was sent to.

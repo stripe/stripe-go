@@ -194,6 +194,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeIDEAL              InvoicePaymentSettingsPaymentMethodType = "ideal"
 	InvoicePaymentSettingsPaymentMethodTypeJPCreditTransfer   InvoicePaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeKakaoPay           InvoicePaymentSettingsPaymentMethodType = "kakao_pay"
+	InvoicePaymentSettingsPaymentMethodTypeKlarna             InvoicePaymentSettingsPaymentMethodType = "klarna"
 	InvoicePaymentSettingsPaymentMethodTypeKonbini            InvoicePaymentSettingsPaymentMethodType = "konbini"
 	InvoicePaymentSettingsPaymentMethodTypeKrCard             InvoicePaymentSettingsPaymentMethodType = "kr_card"
 	InvoicePaymentSettingsPaymentMethodTypeLink               InvoicePaymentSettingsPaymentMethodType = "link"
@@ -265,6 +266,46 @@ const (
 	InvoiceTotalPretaxCreditAmountTypeCreditBalanceTransaction InvoiceTotalPretaxCreditAmountType = "credit_balance_transaction"
 	InvoiceTotalPretaxCreditAmountTypeDiscount                 InvoiceTotalPretaxCreditAmountType = "discount"
 	InvoiceTotalPretaxCreditAmountTypeMargin                   InvoiceTotalPretaxCreditAmountType = "margin"
+)
+
+// Whether this tax is inclusive or exclusive.
+type InvoiceTotalTaxTaxBehavior string
+
+// List of values that InvoiceTotalTaxTaxBehavior can take
+const (
+	InvoiceTotalTaxTaxBehaviorExclusive InvoiceTotalTaxTaxBehavior = "exclusive"
+	InvoiceTotalTaxTaxBehaviorInclusive InvoiceTotalTaxTaxBehavior = "inclusive"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type InvoiceTotalTaxTaxabilityReason string
+
+// List of values that InvoiceTotalTaxTaxabilityReason can take
+const (
+	InvoiceTotalTaxTaxabilityReasonCustomerExempt       InvoiceTotalTaxTaxabilityReason = "customer_exempt"
+	InvoiceTotalTaxTaxabilityReasonNotAvailable         InvoiceTotalTaxTaxabilityReason = "not_available"
+	InvoiceTotalTaxTaxabilityReasonNotCollecting        InvoiceTotalTaxTaxabilityReason = "not_collecting"
+	InvoiceTotalTaxTaxabilityReasonNotSubjectToTax      InvoiceTotalTaxTaxabilityReason = "not_subject_to_tax"
+	InvoiceTotalTaxTaxabilityReasonNotSupported         InvoiceTotalTaxTaxabilityReason = "not_supported"
+	InvoiceTotalTaxTaxabilityReasonPortionProductExempt InvoiceTotalTaxTaxabilityReason = "portion_product_exempt"
+	InvoiceTotalTaxTaxabilityReasonPortionReducedRated  InvoiceTotalTaxTaxabilityReason = "portion_reduced_rated"
+	InvoiceTotalTaxTaxabilityReasonPortionStandardRated InvoiceTotalTaxTaxabilityReason = "portion_standard_rated"
+	InvoiceTotalTaxTaxabilityReasonProductExempt        InvoiceTotalTaxTaxabilityReason = "product_exempt"
+	InvoiceTotalTaxTaxabilityReasonProductExemptHoliday InvoiceTotalTaxTaxabilityReason = "product_exempt_holiday"
+	InvoiceTotalTaxTaxabilityReasonProportionallyRated  InvoiceTotalTaxTaxabilityReason = "proportionally_rated"
+	InvoiceTotalTaxTaxabilityReasonReducedRated         InvoiceTotalTaxTaxabilityReason = "reduced_rated"
+	InvoiceTotalTaxTaxabilityReasonReverseCharge        InvoiceTotalTaxTaxabilityReason = "reverse_charge"
+	InvoiceTotalTaxTaxabilityReasonStandardRated        InvoiceTotalTaxTaxabilityReason = "standard_rated"
+	InvoiceTotalTaxTaxabilityReasonTaxableBasisReduced  InvoiceTotalTaxTaxabilityReason = "taxable_basis_reduced"
+	InvoiceTotalTaxTaxabilityReasonZeroRated            InvoiceTotalTaxTaxabilityReason = "zero_rated"
+)
+
+// The type of tax information.
+type InvoiceTotalTaxType string
+
+// List of values that InvoiceTotalTaxType can take
+const (
+	InvoiceTotalTaxTypeTaxRateDetails InvoiceTotalTaxType = "tax_rate_details"
 )
 
 // Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://stripe.com/docs/api#void_invoice).
@@ -1396,7 +1437,7 @@ type InvoiceCreatePreviewInvoiceItemPeriodParams struct {
 type InvoiceCreatePreviewInvoiceItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
@@ -1801,7 +1842,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountParams struct
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
@@ -1945,7 +1986,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataRecurringParams struct
 type InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *InvoiceCreatePreviewScheduleDetailsPhaseItemPriceDataRecurringParams `form:"recurring"`
@@ -2199,7 +2240,7 @@ type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataRecurringParams struct 
 type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *InvoiceCreatePreviewSubscriptionDetailsItemPriceDataRecurringParams `form:"recurring"`
@@ -2624,12 +2665,25 @@ type InvoiceTotalPretaxCreditAmount struct {
 	Type InvoiceTotalPretaxCreditAmountType `json:"type"`
 }
 
-// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.
-type InvoiceTransferData struct {
-	// The amount in cents (or local equivalent) that will be transferred to the destination account when the invoice is paid. By default, the entire amount is transferred to the destination.
+// Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
+type InvoiceTotalTaxTaxRateDetails struct {
+	TaxRate string `json:"tax_rate"`
+}
+
+// The aggregate tax information of all line items.
+type InvoiceTotalTax struct {
+	// The amount of the tax, in cents (or local equivalent).
 	Amount int64 `json:"amount"`
-	// The account where funds from the payment will be transferred to upon payment success.
-	Destination *Account `json:"destination"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason InvoiceTotalTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in cents (or local equivalent).
+	TaxableAmount int64 `json:"taxable_amount"`
+	// Whether this tax is inclusive or exclusive.
+	TaxBehavior InvoiceTotalTaxTaxBehavior `json:"tax_behavior"`
+	// Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
+	TaxRateDetails *InvoiceTotalTaxTaxRateDetails `json:"tax_rate_details"`
+	// The type of tax information.
+	Type InvoiceTotalTaxType `json:"type"`
 }
 
 // Invoices are statements of amounts owed by a customer, and are either
@@ -2827,8 +2881,8 @@ type Invoice struct {
 	TotalMarginAmounts []*InvoiceTotalMarginAmount `json:"total_margin_amounts"`
 	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this invoice. This is a combined list of total_pretax_credit_amounts across all invoice line items.
 	TotalPretaxCreditAmounts []*InvoiceTotalPretaxCreditAmount `json:"total_pretax_credit_amounts"`
-	// The account (if any) the payment will be attributed to for tax reporting, and where funds from the payment will be transferred to for the invoice.
-	TransferData *InvoiceTransferData `json:"transfer_data"`
+	// The aggregate tax information of all line items.
+	TotalTaxes []*InvoiceTotalTax `json:"total_taxes"`
 	// Invoices are automatically paid or sent 1 hour after webhooks are delivered, or until all webhook delivery attempts have [been exhausted](https://stripe.com/docs/billing/webhooks#understand). This field tracks the time when webhooks for this invoice were successfully delivered. If the invoice had no webhooks to deliver, this will be set while the invoice is being created.
 	WebhooksDeliveredAt int64 `json:"webhooks_delivered_at"`
 }

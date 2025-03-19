@@ -16,6 +16,46 @@ const (
 	InvoiceLineItemPretaxCreditAmountTypeMargin                   InvoiceLineItemPretaxCreditAmountType = "margin"
 )
 
+// Whether this tax is inclusive or exclusive.
+type InvoiceLineItemTaxTaxBehavior string
+
+// List of values that InvoiceLineItemTaxTaxBehavior can take
+const (
+	InvoiceLineItemTaxTaxBehaviorExclusive InvoiceLineItemTaxTaxBehavior = "exclusive"
+	InvoiceLineItemTaxTaxBehaviorInclusive InvoiceLineItemTaxTaxBehavior = "inclusive"
+)
+
+// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+type InvoiceLineItemTaxTaxabilityReason string
+
+// List of values that InvoiceLineItemTaxTaxabilityReason can take
+const (
+	InvoiceLineItemTaxTaxabilityReasonCustomerExempt       InvoiceLineItemTaxTaxabilityReason = "customer_exempt"
+	InvoiceLineItemTaxTaxabilityReasonNotAvailable         InvoiceLineItemTaxTaxabilityReason = "not_available"
+	InvoiceLineItemTaxTaxabilityReasonNotCollecting        InvoiceLineItemTaxTaxabilityReason = "not_collecting"
+	InvoiceLineItemTaxTaxabilityReasonNotSubjectToTax      InvoiceLineItemTaxTaxabilityReason = "not_subject_to_tax"
+	InvoiceLineItemTaxTaxabilityReasonNotSupported         InvoiceLineItemTaxTaxabilityReason = "not_supported"
+	InvoiceLineItemTaxTaxabilityReasonPortionProductExempt InvoiceLineItemTaxTaxabilityReason = "portion_product_exempt"
+	InvoiceLineItemTaxTaxabilityReasonPortionReducedRated  InvoiceLineItemTaxTaxabilityReason = "portion_reduced_rated"
+	InvoiceLineItemTaxTaxabilityReasonPortionStandardRated InvoiceLineItemTaxTaxabilityReason = "portion_standard_rated"
+	InvoiceLineItemTaxTaxabilityReasonProductExempt        InvoiceLineItemTaxTaxabilityReason = "product_exempt"
+	InvoiceLineItemTaxTaxabilityReasonProductExemptHoliday InvoiceLineItemTaxTaxabilityReason = "product_exempt_holiday"
+	InvoiceLineItemTaxTaxabilityReasonProportionallyRated  InvoiceLineItemTaxTaxabilityReason = "proportionally_rated"
+	InvoiceLineItemTaxTaxabilityReasonReducedRated         InvoiceLineItemTaxTaxabilityReason = "reduced_rated"
+	InvoiceLineItemTaxTaxabilityReasonReverseCharge        InvoiceLineItemTaxTaxabilityReason = "reverse_charge"
+	InvoiceLineItemTaxTaxabilityReasonStandardRated        InvoiceLineItemTaxTaxabilityReason = "standard_rated"
+	InvoiceLineItemTaxTaxabilityReasonTaxableBasisReduced  InvoiceLineItemTaxTaxabilityReason = "taxable_basis_reduced"
+	InvoiceLineItemTaxTaxabilityReasonZeroRated            InvoiceLineItemTaxTaxabilityReason = "zero_rated"
+)
+
+// The type of tax information.
+type InvoiceLineItemTaxType string
+
+// List of values that InvoiceLineItemTaxType can take
+const (
+	InvoiceLineItemTaxTypeTaxRateDetails InvoiceLineItemTaxType = "tax_rate_details"
+)
+
 // Time span for the redeemed discount.
 type InvoiceLineItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -216,6 +256,27 @@ type InvoiceLineItemPretaxCreditAmount struct {
 	Type InvoiceLineItemPretaxCreditAmountType `json:"type"`
 }
 
+// Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
+type InvoiceLineItemTaxTaxRateDetails struct {
+	TaxRate string `json:"tax_rate"`
+}
+
+// The tax information of the line item.
+type InvoiceLineItemTax struct {
+	// The amount of the tax, in cents (or local equivalent).
+	Amount int64 `json:"amount"`
+	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
+	TaxabilityReason InvoiceLineItemTaxTaxabilityReason `json:"taxability_reason"`
+	// The amount on which tax is calculated, in cents (or local equivalent).
+	TaxableAmount int64 `json:"taxable_amount"`
+	// Whether this tax is inclusive or exclusive.
+	TaxBehavior InvoiceLineItemTaxTaxBehavior `json:"tax_behavior"`
+	// Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
+	TaxRateDetails *InvoiceLineItemTaxTaxRateDetails `json:"tax_rate_details"`
+	// The type of tax information.
+	Type InvoiceLineItemTaxType `json:"type"`
+}
+
 // Invoice Line Items represent the individual lines within an [invoice](https://stripe.com/docs/api/invoices) and only exist within the context of an invoice.
 //
 // Each line item is backed by either an [invoice item](https://stripe.com/docs/api/invoiceitems) or a [subscription item](https://stripe.com/docs/api/subscription_items).
@@ -253,6 +314,8 @@ type InvoiceLineItem struct {
 	// The quantity of the subscription, if the line item is a subscription or a proration.
 	Quantity     int64         `json:"quantity"`
 	Subscription *Subscription `json:"subscription"`
+	// The tax information of the line item.
+	Taxes []*InvoiceLineItemTax `json:"taxes"`
 }
 
 // Period is a structure representing a start and end dates.

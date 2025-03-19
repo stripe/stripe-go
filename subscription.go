@@ -221,6 +221,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeIDEAL              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
 	SubscriptionPaymentSettingsPaymentMethodTypeJPCreditTransfer   SubscriptionPaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeKakaoPay           SubscriptionPaymentSettingsPaymentMethodType = "kakao_pay"
+	SubscriptionPaymentSettingsPaymentMethodTypeKlarna             SubscriptionPaymentSettingsPaymentMethodType = "klarna"
 	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodTypeKrCard             SubscriptionPaymentSettingsPaymentMethodType = "kr_card"
 	SubscriptionPaymentSettingsPaymentMethodTypeLink               SubscriptionPaymentSettingsPaymentMethodType = "link"

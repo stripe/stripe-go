@@ -6,6 +6,14 @@
 
 package stripe
 
+type InvoiceItemParentType string
+
+// List of values that InvoiceItemParentType can take
+const (
+	InvoiceItemParentTypeRateCardSubscriptionDetails InvoiceItemParentType = "rate_card_subscription_details"
+	InvoiceItemParentTypeSubscriptionDetails         InvoiceItemParentType = "subscription_details"
+)
+
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
 type InvoiceItemParams struct {
 	Params `form:"*"`
@@ -105,7 +113,7 @@ type InvoiceItemPeriodParams struct {
 type InvoiceItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
@@ -141,6 +149,19 @@ type InvoiceItemListParams struct {
 // AddExpand appends a new field to expand.
 func (p *InvoiceItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+type InvoiceItemParentRateCardSubscriptionDetails struct {
+	RateCardSubscription string `json:"rate_card_subscription"`
+}
+type InvoiceItemParentSubscriptionDetails struct {
+	Subscription     string `json:"subscription"`
+	SubscriptionItem string `json:"subscription_item"`
+}
+type InvoiceItemParent struct {
+	RateCardSubscriptionDetails *InvoiceItemParentRateCardSubscriptionDetails `json:"rate_card_subscription_details"`
+	SubscriptionDetails         *InvoiceItemParentSubscriptionDetails         `json:"subscription_details"`
+	Type                        InvoiceItemParentType                         `json:"type"`
 }
 
 // Invoice Items represent the component lines of an [invoice](https://stripe.com/docs/api/invoices). An invoice item is added to an
@@ -182,8 +203,9 @@ type InvoiceItem struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string  `json:"object"`
-	Period *Period `json:"period"`
+	Object string             `json:"object"`
+	Parent *InvoiceItemParent `json:"parent"`
+	Period *Period            `json:"period"`
 	// Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
 	Proration bool `json:"proration"`
 	// Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.

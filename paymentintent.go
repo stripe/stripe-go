@@ -5663,6 +5663,12 @@ type PaymentIntentPaymentMethodOptions struct {
 	WeChatPay        *PaymentIntentPaymentMethodOptionsWeChatPay        `json:"wechat_pay"`
 	Zip              *PaymentIntentPaymentMethodOptionsZip              `json:"zip"`
 }
+type PaymentIntentPresentmentDetails struct {
+	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	PresentmentAmount int64 `json:"presentment_amount"`
+	// Currency presented to the customer during payment.
+	PresentmentCurrency Currency `json:"presentment_currency"`
+}
 type PaymentIntentProcessingCardCustomerNotification struct {
 	// Whether customer approval has been requested for this payment. For payments greater than INR 15000 or mandate amount, the customer must provide explicit approval of the payment with their bank.
 	ApprovalRequested bool `json:"approval_requested"`
@@ -5769,7 +5775,8 @@ type PaymentIntent struct {
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. A comprehensive list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
-	PaymentMethodTypes []string `json:"payment_method_types"`
+	PaymentMethodTypes []string                         `json:"payment_method_types"`
+	PresentmentDetails *PaymentIntentPresentmentDetails `json:"presentment_details"`
 	// If present, this property tells you about the processing state of the payment.
 	Processing *PaymentIntentProcessing `json:"processing"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
