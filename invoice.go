@@ -91,6 +91,14 @@ const (
 	InvoiceIssuerTypeSelf    InvoiceIssuerType = "self"
 )
 
+type InvoiceParentType string
+
+// List of values that InvoiceParentType can take
+const (
+	InvoiceParentTypeQuoteDetails        InvoiceParentType = "quote_details"
+	InvoiceParentTypeSubscriptionDetails InvoiceParentType = "subscription_details"
+)
+
 // Transaction type of the mandate.
 type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
 
@@ -1882,14 +1890,6 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxParams struct {
 	Liability *InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxLiabilityParams `form:"liability"`
 }
 
-// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
-type InvoiceCreatePreviewScheduleDetailsPhaseBillingThresholdsParams struct {
-	// Monetary threshold that triggers the subscription to advance to a new billing period
-	AmountGTE *int64 `form:"amount_gte"`
-	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
-	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
-}
-
 // Time span for the redeemed discount.
 type InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -1936,12 +1936,6 @@ type InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsIssuerParams `form:"issuer"`
-}
-
-// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-type InvoiceCreatePreviewScheduleDetailsPhaseItemBillingThresholdsParams struct {
-	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
-	UsageGTE *int64 `form:"usage_gte"`
 }
 
 // Time span for the redeemed discount.
@@ -2008,8 +2002,6 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemTrialParams struct {
 
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 type InvoiceCreatePreviewScheduleDetailsPhaseItemParams struct {
-	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *InvoiceCreatePreviewScheduleDetailsPhaseItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
@@ -2073,8 +2065,6 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	AutomaticTax *InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
-	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *InvoiceCreatePreviewScheduleDetailsPhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -2192,12 +2182,6 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
-// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-type InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams struct {
-	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
-	UsageGTE *int64 `form:"usage_gte"`
-}
-
 // Time span for the redeemed discount.
 type InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -2254,8 +2238,6 @@ type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams struct {
 
 // A list of up to 20 subscription items, each with an attached price.
 type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
-	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
@@ -2462,6 +2444,24 @@ type InvoiceIssuer struct {
 	Account *Account `json:"account"`
 	// Type of the account referenced.
 	Type InvoiceIssuerType `json:"type"`
+}
+type InvoiceParentQuoteDetails struct {
+	Quote string `json:"quote"`
+}
+type InvoiceParentSubscriptionDetailsPauseCollection struct {
+	Behavior  string `json:"behavior"`
+	ResumesAt int64  `json:"resumes_at"`
+}
+type InvoiceParentSubscriptionDetails struct {
+	Metadata                  map[string]string                                `json:"metadata"`
+	PauseCollection           *InvoiceParentSubscriptionDetailsPauseCollection `json:"pause_collection"`
+	Subscription              string                                           `json:"subscription"`
+	SubscriptionProrationDate int64                                            `json:"subscription_proration_date"`
+}
+type InvoiceParent struct {
+	QuoteDetails        *InvoiceParentQuoteDetails        `json:"quote_details"`
+	SubscriptionDetails *InvoiceParentSubscriptionDetails `json:"subscription_details"`
+	Type                InvoiceParentType                 `json:"type"`
 }
 type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -2836,7 +2836,8 @@ type Invoice struct {
 	// Whether payment was successfully collected for this invoice. An invoice can be paid (most commonly) with a charge or with credit from the customer's account balance.
 	Paid bool `json:"paid"`
 	// Returns true if the invoice was manually marked paid, returns false if the invoice hasn't been paid yet or was paid on Stripe.
-	PaidOutOfBand bool `json:"paid_out_of_band"`
+	PaidOutOfBand bool           `json:"paid_out_of_band"`
+	Parent        *InvoiceParent `json:"parent"`
 	// Payments for this invoice
 	Payments        *InvoicePaymentList     `json:"payments"`
 	PaymentSettings *InvoicePaymentSettings `json:"payment_settings"`

@@ -213,6 +213,14 @@ const (
 	QuotePreviewInvoiceIssuerTypeSelf    QuotePreviewInvoiceIssuerType = "self"
 )
 
+type QuotePreviewInvoiceParentType string
+
+// List of values that QuotePreviewInvoiceParentType can take
+const (
+	QuotePreviewInvoiceParentTypeQuoteDetails        QuotePreviewInvoiceParentType = "quote_details"
+	QuotePreviewInvoiceParentTypeSubscriptionDetails QuotePreviewInvoiceParentType = "subscription_details"
+)
+
 // Transaction type of the mandate.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
 
@@ -541,6 +549,24 @@ type QuotePreviewInvoiceIssuer struct {
 	Account *Account `json:"account"`
 	// Type of the account referenced.
 	Type QuotePreviewInvoiceIssuerType `json:"type"`
+}
+type QuotePreviewInvoiceParentQuoteDetails struct {
+	Quote string `json:"quote"`
+}
+type QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection struct {
+	Behavior  string `json:"behavior"`
+	ResumesAt int64  `json:"resumes_at"`
+}
+type QuotePreviewInvoiceParentSubscriptionDetails struct {
+	Metadata                  map[string]string                                            `json:"metadata"`
+	PauseCollection           *QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection `json:"pause_collection"`
+	Subscription              string                                                       `json:"subscription"`
+	SubscriptionProrationDate int64                                                        `json:"subscription_proration_date"`
+}
+type QuotePreviewInvoiceParent struct {
+	QuoteDetails        *QuotePreviewInvoiceParentQuoteDetails        `json:"quote_details"`
+	SubscriptionDetails *QuotePreviewInvoiceParentSubscriptionDetails `json:"subscription_details"`
+	Type                QuotePreviewInvoiceParentType                 `json:"type"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -906,7 +932,8 @@ type QuotePreviewInvoice struct {
 	// Whether payment was successfully collected for this invoice. An invoice can be paid (most commonly) with a charge or with credit from the customer's account balance.
 	Paid bool `json:"paid"`
 	// Returns true if the invoice was manually marked paid, returns false if the invoice hasn't been paid yet or was paid on Stripe.
-	PaidOutOfBand bool `json:"paid_out_of_band"`
+	PaidOutOfBand bool                       `json:"paid_out_of_band"`
+	Parent        *QuotePreviewInvoiceParent `json:"parent"`
 	// Payments for this invoice
 	Payments        *InvoicePaymentList                 `json:"payments"`
 	PaymentSettings *QuotePreviewInvoicePaymentSettings `json:"payment_settings"`
