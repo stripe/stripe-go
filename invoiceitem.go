@@ -10,8 +10,7 @@ type InvoiceItemParentType string
 
 // List of values that InvoiceItemParentType can take
 const (
-	InvoiceItemParentTypeRateCardSubscriptionDetails InvoiceItemParentType = "rate_card_subscription_details"
-	InvoiceItemParentTypeSubscriptionDetails         InvoiceItemParentType = "subscription_details"
+	InvoiceItemParentTypeSubscriptionDetails InvoiceItemParentType = "subscription_details"
 )
 
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
@@ -151,17 +150,13 @@ func (p *InvoiceItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-type InvoiceItemParentRateCardSubscriptionDetails struct {
-	RateCardSubscription string `json:"rate_card_subscription"`
-}
 type InvoiceItemParentSubscriptionDetails struct {
 	Subscription     string `json:"subscription"`
 	SubscriptionItem string `json:"subscription_item"`
 }
 type InvoiceItemParent struct {
-	RateCardSubscriptionDetails *InvoiceItemParentRateCardSubscriptionDetails `json:"rate_card_subscription_details"`
-	SubscriptionDetails         *InvoiceItemParentSubscriptionDetails         `json:"subscription_details"`
-	Type                        InvoiceItemParentType                         `json:"type"`
+	SubscriptionDetails *InvoiceItemParentSubscriptionDetails `json:"subscription_details"`
+	Type                InvoiceItemParentType                 `json:"type"`
 }
 
 // Invoice Items represent the component lines of an [invoice](https://stripe.com/docs/api/invoices). An invoice item is added to an
