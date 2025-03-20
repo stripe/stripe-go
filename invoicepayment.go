@@ -11,10 +11,8 @@ type InvoicePaymentPaymentType string
 
 // List of values that InvoicePaymentPaymentType can take
 const (
-	InvoicePaymentPaymentTypeCharge           InvoicePaymentPaymentType = "charge"
-	InvoicePaymentPaymentTypeOutOfBandPayment InvoicePaymentPaymentType = "out_of_band_payment"
-	InvoicePaymentPaymentTypePaymentIntent    InvoicePaymentPaymentType = "payment_intent"
-	InvoicePaymentPaymentTypePaymentRecord    InvoicePaymentPaymentType = "payment_record"
+	InvoicePaymentPaymentTypeCharge        InvoicePaymentPaymentType = "charge"
+	InvoicePaymentPaymentTypePaymentIntent InvoicePaymentPaymentType = "payment_intent"
 )
 
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
