@@ -160,7 +160,7 @@ type CreditNoteLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// ID of an existing refund to link this credit note to.
+// Refunds to link to this credit note.
 type CreditNoteRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
@@ -210,8 +210,6 @@ type CreditNoteParams struct {
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason *string `form:"reason"`
-	// ID of an existing refund to link this credit note to.
-	Refund *string `form:"refund"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
@@ -266,7 +264,7 @@ type CreditNotePreviewLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// ID of an existing refund to link this credit note to.
+// Refunds to link to this credit note.
 type CreditNotePreviewRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
@@ -305,8 +303,6 @@ type CreditNotePreviewParams struct {
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason *string `form:"reason"`
-	// ID of an existing refund to link this credit note to.
-	Refund *string `form:"refund"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
@@ -361,7 +357,7 @@ type CreditNotePreviewLinesLineParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// ID of an existing refund to link this credit note to.
+// Refunds to link to this credit note.
 type CreditNotePreviewLinesRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
@@ -400,8 +396,6 @@ type CreditNotePreviewLinesParams struct {
 	OutOfBandAmount *int64 `form:"out_of_band_amount"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 	Reason *string `form:"reason"`
-	// ID of an existing refund to link this credit note to.
-	Refund *string `form:"refund"`
 	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
