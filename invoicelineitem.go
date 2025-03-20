@@ -6,6 +6,14 @@
 
 package stripe
 
+type InvoiceLineItemParentType string
+
+// List of values that InvoiceLineItemParentType can take
+const (
+	InvoiceLineItemParentTypeInvoiceItemDetails      InvoiceLineItemParentType = "invoice_item_details"
+	InvoiceLineItemParentTypeSubscriptionItemDetails InvoiceLineItemParentType = "subscription_item_details"
+)
+
 // Type of the pretax credit amount referenced.
 type InvoiceLineItemPretaxCreditAmountType string
 
@@ -241,6 +249,37 @@ type InvoiceLineItemMarginAmount struct {
 	// The margin that was applied to get this margin amount.
 	Margin *Margin `json:"margin"`
 }
+type InvoiceLineItemParentInvoiceItemDetails struct {
+	InvoiceItem string `json:"invoice_item"`
+}
+
+// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
+type InvoiceLineItemParentSubscriptionItemDetailsProrationDetailsCreditedItems struct {
+	// Invoice containing the credited invoice line items
+	Invoice string `json:"invoice"`
+	// Credited invoice line items
+	InvoiceLineItems []string `json:"invoice_line_items"`
+}
+
+// Additional details for proration line items
+type InvoiceLineItemParentSubscriptionItemDetailsProrationDetails struct {
+	// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
+	CreditedItems *InvoiceLineItemParentSubscriptionItemDetailsProrationDetailsCreditedItems `json:"credited_items"`
+}
+type InvoiceLineItemParentSubscriptionItemDetails struct {
+	InvoiceItem string `json:"invoice_item"`
+	// Whether this is a proration.
+	Proration bool `json:"proration"`
+	// Additional details for proration line items
+	ProrationDetails *InvoiceLineItemParentSubscriptionItemDetailsProrationDetails `json:"proration_details"`
+	Subscription     string                                                        `json:"subscription"`
+	SubscriptionItem string                                                        `json:"subscription_item"`
+}
+type InvoiceLineItemParent struct {
+	InvoiceItemDetails      *InvoiceLineItemParentInvoiceItemDetails      `json:"invoice_item_details"`
+	SubscriptionItemDetails *InvoiceLineItemParentSubscriptionItemDetails `json:"subscription_item_details"`
+	Type                    InvoiceLineItemParentType                     `json:"type"`
+}
 
 // Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this line item.
 type InvoiceLineItemPretaxCreditAmount struct {
@@ -307,8 +346,9 @@ type InvoiceLineItem struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with `type=subscription`, `metadata` reflects the current metadata from the subscription associated with the line item, unless the invoice line was directly updated with different metadata after creation.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string  `json:"object"`
-	Period *Period `json:"period"`
+	Object string                 `json:"object"`
+	Parent *InvoiceLineItemParent `json:"parent"`
+	Period *Period                `json:"period"`
 	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this line item.
 	PretaxCreditAmounts []*InvoiceLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
 	// The quantity of the subscription, if the line item is a subscription or a proration.
