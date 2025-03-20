@@ -5751,8 +5751,6 @@ type PaymentIntent struct {
 	Description string `json:"description"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// ID of the invoice that created this PaymentIntent, if it exists.
-	Invoice *Invoice `json:"invoice"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.
 	LastPaymentError *Error `json:"last_payment_error"`
 	// ID of the latest [Charge object](https://stripe.com/docs/api/charges) created by this PaymentIntent. This property is `null` until PaymentIntent confirmation is attempted.
