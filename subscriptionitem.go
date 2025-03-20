@@ -161,7 +161,11 @@ type SubscriptionItem struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	Deleted bool  `json:"deleted"`
+	// The end time of this subscription item's current billing period.
+	CurrentPeriodEnd int64 `json:"current_period_end"`
+	// The start time of this subscription item's current billing period.
+	CurrentPeriodStart int64 `json:"current_period_start"`
+	Deleted            bool  `json:"deleted"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// Unique identifier for the object.
