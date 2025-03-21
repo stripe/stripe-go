@@ -11,10 +11,8 @@ type InvoicePaymentPaymentType string
 
 // List of values that InvoicePaymentPaymentType can take
 const (
-	InvoicePaymentPaymentTypeCharge           InvoicePaymentPaymentType = "charge"
-	InvoicePaymentPaymentTypeOutOfBandPayment InvoicePaymentPaymentType = "out_of_band_payment"
-	InvoicePaymentPaymentTypePaymentIntent    InvoicePaymentPaymentType = "payment_intent"
-	InvoicePaymentPaymentTypePaymentRecord    InvoicePaymentPaymentType = "payment_record"
+	InvoicePaymentPaymentTypeCharge        InvoicePaymentPaymentType = "charge"
+	InvoicePaymentPaymentTypePaymentIntent InvoicePaymentPaymentType = "payment_intent"
 )
 
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
@@ -63,8 +61,6 @@ type InvoicePaymentStatusTransitions struct {
 // The invoice payment object
 type InvoicePayment struct {
 	APIResource
-	// Excess payment that was received for this invoice and credited to the customer's `invoice_credit_balance`. This field is null until the payment is `paid`. Overpayment can happen when you attach more than one PaymentIntent to the invoice, and each of them succeeds. To avoid overpayment, cancel any PaymentIntents that you do not need before attaching more.
-	AmountOverpaid int64 `json:"amount_overpaid"`
 	// Amount that was actually paid for this invoice, in cents (or local equivalent). This field is null until the payment is `paid`. This amount can be less than the `amount_requested` if the PaymentIntent's `amount_received` is not sufficient to pay all of the invoices that it is attached to.
 	AmountPaid int64 `json:"amount_paid"`
 	// Amount intended to be paid toward this invoice, in cents (or local equivalent)

@@ -364,6 +364,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeMobilepay        ConfirmationTokenPaymentMethodPreviewType = "mobilepay"
 	ConfirmationTokenPaymentMethodPreviewTypeMultibanco       ConfirmationTokenPaymentMethodPreviewType = "multibanco"
 	ConfirmationTokenPaymentMethodPreviewTypeNaverPay         ConfirmationTokenPaymentMethodPreviewType = "naver_pay"
+	ConfirmationTokenPaymentMethodPreviewTypeNzBankAccount    ConfirmationTokenPaymentMethodPreviewType = "nz_bank_account"
 	ConfirmationTokenPaymentMethodPreviewTypeOXXO             ConfirmationTokenPaymentMethodPreviewType = "oxxo"
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
 	ConfirmationTokenPaymentMethodPreviewTypePayByBank        ConfirmationTokenPaymentMethodPreviewType = "pay_by_bank"
@@ -926,6 +927,20 @@ type ConfirmationTokenPaymentMethodPreviewNaverPay struct {
 	// Whether to fund this transaction with Naver Pay points or a card.
 	Funding ConfirmationTokenPaymentMethodPreviewNaverPayFunding `json:"funding"`
 }
+type ConfirmationTokenPaymentMethodPreviewNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type ConfirmationTokenPaymentMethodPreviewOXXO struct{}
 type ConfirmationTokenPaymentMethodPreviewP24 struct {
 	// The customer's bank, if provided.
@@ -1086,6 +1101,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Mobilepay       *ConfirmationTokenPaymentMethodPreviewMobilepay       `json:"mobilepay"`
 	Multibanco      *ConfirmationTokenPaymentMethodPreviewMultibanco      `json:"multibanco"`
 	NaverPay        *ConfirmationTokenPaymentMethodPreviewNaverPay        `json:"naver_pay"`
+	NzBankAccount   *ConfirmationTokenPaymentMethodPreviewNzBankAccount   `json:"nz_bank_account"`
 	OXXO            *ConfirmationTokenPaymentMethodPreviewOXXO            `json:"oxxo"`
 	P24             *ConfirmationTokenPaymentMethodPreviewP24             `json:"p24"`
 	PayByBank       *ConfirmationTokenPaymentMethodPreviewPayByBank       `json:"pay_by_bank"`

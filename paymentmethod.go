@@ -304,6 +304,7 @@ const (
 	PaymentMethodTypeMobilepay        PaymentMethodType = "mobilepay"
 	PaymentMethodTypeMultibanco       PaymentMethodType = "multibanco"
 	PaymentMethodTypeNaverPay         PaymentMethodType = "naver_pay"
+	PaymentMethodTypeNzBankAccount    PaymentMethodType = "nz_bank_account"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypePayByBank        PaymentMethodType = "pay_by_bank"
@@ -580,6 +581,21 @@ type PaymentMethodNaverPayParams struct {
 	Funding *string `form:"funding"`
 }
 
+// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+type PaymentMethodNzBankAccountParams struct {
+	// The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// The numeric code for the bank account's bank.
+	BankCode *string `form:"bank_code"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode *string `form:"branch_code"`
+	Reference  *string `form:"reference"`
+	// The suffix of the bank account number.
+	Suffix *string `form:"suffix"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type PaymentMethodOXXOParams struct{}
 
@@ -769,6 +785,8 @@ type PaymentMethodParams struct {
 	Multibanco *PaymentMethodMultibancoParams `form:"multibanco"`
 	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
 	NaverPay *PaymentMethodNaverPayParams `form:"naver_pay"`
+	// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+	NzBankAccount *PaymentMethodNzBankAccountParams `form:"nz_bank_account"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -1301,6 +1319,20 @@ type PaymentMethodNaverPay struct {
 	// Whether to fund this transaction with Naver Pay points or a card.
 	Funding PaymentMethodNaverPayFunding `json:"funding"`
 }
+type PaymentMethodNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type PaymentMethodOXXO struct{}
 type PaymentMethodP24 struct {
 	// The customer's bank, if provided.
@@ -1476,10 +1508,11 @@ type PaymentMethod struct {
 	Livemode bool                `json:"livemode"`
 	MbWay    *PaymentMethodMbWay `json:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata   map[string]string        `json:"metadata"`
-	Mobilepay  *PaymentMethodMobilepay  `json:"mobilepay"`
-	Multibanco *PaymentMethodMultibanco `json:"multibanco"`
-	NaverPay   *PaymentMethodNaverPay   `json:"naver_pay"`
+	Metadata      map[string]string           `json:"metadata"`
+	Mobilepay     *PaymentMethodMobilepay     `json:"mobilepay"`
+	Multibanco    *PaymentMethodMultibanco    `json:"multibanco"`
+	NaverPay      *PaymentMethodNaverPay      `json:"naver_pay"`
+	NzBankAccount *PaymentMethodNzBankAccount `json:"nz_bank_account"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object    string                  `json:"object"`
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`

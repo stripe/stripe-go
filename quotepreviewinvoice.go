@@ -213,6 +213,14 @@ const (
 	QuotePreviewInvoiceIssuerTypeSelf    QuotePreviewInvoiceIssuerType = "self"
 )
 
+type QuotePreviewInvoiceParentType string
+
+// List of values that QuotePreviewInvoiceParentType can take
+const (
+	QuotePreviewInvoiceParentTypeQuoteDetails        QuotePreviewInvoiceParentType = "quote_details"
+	QuotePreviewInvoiceParentTypeSubscriptionDetails QuotePreviewInvoiceParentType = "subscription_details"
+)
+
 // Transaction type of the mandate.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
 
@@ -346,6 +354,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeLink               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "link"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMultibanco         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "multibanco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeNaverPay           QuotePreviewInvoicePaymentSettingsPaymentMethodType = "naver_pay"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeNzBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "nz_bank_account"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeP24                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "p24"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayco              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "payco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayNow             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paynow"
@@ -541,6 +550,24 @@ type QuotePreviewInvoiceIssuer struct {
 	Account *Account `json:"account"`
 	// Type of the account referenced.
 	Type QuotePreviewInvoiceIssuerType `json:"type"`
+}
+type QuotePreviewInvoiceParentQuoteDetails struct {
+	Quote string `json:"quote"`
+}
+type QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection struct {
+	Behavior  string `json:"behavior"`
+	ResumesAt int64  `json:"resumes_at"`
+}
+type QuotePreviewInvoiceParentSubscriptionDetails struct {
+	Metadata                  map[string]string                                            `json:"metadata"`
+	PauseCollection           *QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection `json:"pause_collection"`
+	Subscription              string                                                       `json:"subscription"`
+	SubscriptionProrationDate int64                                                        `json:"subscription_proration_date"`
+}
+type QuotePreviewInvoiceParent struct {
+	QuoteDetails        *QuotePreviewInvoiceParentQuoteDetails        `json:"quote_details"`
+	SubscriptionDetails *QuotePreviewInvoiceParentSubscriptionDetails `json:"subscription_details"`
+	Type                QuotePreviewInvoiceParentType                 `json:"type"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -817,10 +844,8 @@ type QuotePreviewInvoice struct {
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// ID of the Connect Application that created the invoice.
-	Application *Application `json:"application"`
-	// The fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account when the invoice is paid.
-	ApplicationFeeAmount int64                         `json:"application_fee_amount"`
-	AppliesTo            *QuotePreviewInvoiceAppliesTo `json:"applies_to"`
+	Application *Application                  `json:"application"`
+	AppliesTo   *QuotePreviewInvoiceAppliesTo `json:"applies_to"`
 	// Number of payment attempts made for this invoice, from the perspective of the payment retry schedule. Any payment attempt counts as the first attempt, and subsequently only automatic retries increment the attempt count. In other words, manual payment attempts after the first attempt do not affect the retry schedule. If a failure is returned with a non-retryable return code, the invoice can no longer be retried unless a new payment method is obtained. Retries will continue to be scheduled, and attempt_count will continue to increment, but retries will only be executed if a new payment method is obtained.
 	AttemptCount int64 `json:"attempt_count"`
 	// Whether an attempt has been made to pay the invoice. An invoice is not attempted until 1 hour after the `invoice.created` webhook, for example, so you might not want to display that invoice as unpaid to your users.
@@ -902,11 +927,8 @@ type QuotePreviewInvoice struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
-	OnBehalfOf *Account `json:"on_behalf_of"`
-	// Whether payment was successfully collected for this invoice. An invoice can be paid (most commonly) with a charge or with credit from the customer's account balance.
-	Paid bool `json:"paid"`
-	// Returns true if the invoice was manually marked paid, returns false if the invoice hasn't been paid yet or was paid on Stripe.
-	PaidOutOfBand bool `json:"paid_out_of_band"`
+	OnBehalfOf *Account                   `json:"on_behalf_of"`
+	Parent     *QuotePreviewInvoiceParent `json:"parent"`
 	// Payments for this invoice
 	Payments        *InvoicePaymentList                 `json:"payments"`
 	PaymentSettings *QuotePreviewInvoicePaymentSettings `json:"payment_settings"`

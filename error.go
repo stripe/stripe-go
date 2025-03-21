@@ -75,6 +75,7 @@ const (
 	ErrorCodeFinancialConnectionsNoSuccessfulTransactionRefresh          ErrorCode = "financial_connections_no_successful_transaction_refresh"
 	ErrorCodeForwardingAPIInactive                                       ErrorCode = "forwarding_api_inactive"
 	ErrorCodeForwardingAPIInvalidParameter                               ErrorCode = "forwarding_api_invalid_parameter"
+	ErrorCodeForwardingAPIRetryableUpstreamError                         ErrorCode = "forwarding_api_retryable_upstream_error"
 	ErrorCodeForwardingAPIUpstreamConnectionError                        ErrorCode = "forwarding_api_upstream_connection_error"
 	ErrorCodeForwardingAPIUpstreamConnectionTimeout                      ErrorCode = "forwarding_api_upstream_connection_timeout"
 	ErrorCodeGiftCardBalanceInsufficient                                 ErrorCode = "gift_card_balance_insufficient"

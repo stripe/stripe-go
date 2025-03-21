@@ -22,6 +22,7 @@ type BillingMeterDefaultAggregationFormula string
 // List of values that BillingMeterDefaultAggregationFormula can take
 const (
 	BillingMeterDefaultAggregationFormulaCount BillingMeterDefaultAggregationFormula = "count"
+	BillingMeterDefaultAggregationFormulaLast  BillingMeterDefaultAggregationFormula = "last"
 	BillingMeterDefaultAggregationFormulaSum   BillingMeterDefaultAggregationFormula = "sum"
 )
 
@@ -67,7 +68,7 @@ type BillingMeterCustomerMappingParams struct {
 
 // The default settings to aggregate a meter's events with.
 type BillingMeterDefaultAggregationParams struct {
-	// Specifies how events are aggregated. Allowed values are `count` to count the number of events and `sum` to sum each event's value.
+	// Specifies how events are aggregated. Allowed values are `count` to count the number of events, `sum` to sum each event's value and `last` to take the last event's value in the window.
 	Formula *string `form:"formula"`
 }
 
