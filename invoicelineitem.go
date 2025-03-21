@@ -249,9 +249,27 @@ type InvoiceLineItemMarginAmount struct {
 	// The margin that was applied to get this margin amount.
 	Margin *Margin `json:"margin"`
 }
+
+// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
+type InvoiceLineItemParentInvoiceItemDetailsProrationDetailsCreditedItems struct {
+	// Invoice containing the credited invoice line items
+	Invoice string `json:"invoice"`
+	// Credited invoice line items
+	InvoiceLineItems []string `json:"invoice_line_items"`
+}
+
+// Additional details for proration line items
+type InvoiceLineItemParentInvoiceItemDetailsProrationDetails struct {
+	// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
+	CreditedItems *InvoiceLineItemParentInvoiceItemDetailsProrationDetailsCreditedItems `json:"credited_items"`
+}
 type InvoiceLineItemParentInvoiceItemDetails struct {
-	InvoiceItem  string `json:"invoice_item"`
-	Subscription string `json:"subscription"`
+	InvoiceItem string `json:"invoice_item"`
+	// Whether this is a proration.
+	Proration bool `json:"proration"`
+	// Additional details for proration line items
+	ProrationDetails *InvoiceLineItemParentInvoiceItemDetailsProrationDetails `json:"proration_details"`
+	Subscription     string                                                   `json:"subscription"`
 }
 
 // For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
