@@ -211,6 +211,7 @@ type RefundDestinationDetailsMXBankTransfer struct {
 	// Status of the reference on the refund. This can be `pending`, `available` or `unavailable`.
 	ReferenceStatus string `json:"reference_status"`
 }
+type RefundDestinationDetailsNzBankTransfer struct{}
 type RefundDestinationDetailsP24 struct {
 	// The reference assigned to the refund.
 	Reference string `json:"reference"`
@@ -266,6 +267,7 @@ type RefundDestinationDetails struct {
 	Klarna              *RefundDestinationDetailsKlarna              `json:"klarna"`
 	Multibanco          *RefundDestinationDetailsMultibanco          `json:"multibanco"`
 	MXBankTransfer      *RefundDestinationDetailsMXBankTransfer      `json:"mx_bank_transfer"`
+	NzBankTransfer      *RefundDestinationDetailsNzBankTransfer      `json:"nz_bank_transfer"`
 	P24                 *RefundDestinationDetailsP24                 `json:"p24"`
 	PayNow              *RefundDestinationDetailsPayNow              `json:"paynow"`
 	Paypal              *RefundDestinationDetailsPaypal              `json:"paypal"`

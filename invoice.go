@@ -208,6 +208,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeLink               InvoicePaymentSettingsPaymentMethodType = "link"
 	InvoicePaymentSettingsPaymentMethodTypeMultibanco         InvoicePaymentSettingsPaymentMethodType = "multibanco"
 	InvoicePaymentSettingsPaymentMethodTypeNaverPay           InvoicePaymentSettingsPaymentMethodType = "naver_pay"
+	InvoicePaymentSettingsPaymentMethodTypeNzBankAccount      InvoicePaymentSettingsPaymentMethodType = "nz_bank_account"
 	InvoicePaymentSettingsPaymentMethodTypeP24                InvoicePaymentSettingsPaymentMethodType = "p24"
 	InvoicePaymentSettingsPaymentMethodTypePayco              InvoicePaymentSettingsPaymentMethodType = "payco"
 	InvoicePaymentSettingsPaymentMethodTypePayNow             InvoicePaymentSettingsPaymentMethodType = "paynow"

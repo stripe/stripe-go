@@ -354,6 +354,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeLink               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "link"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMultibanco         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "multibanco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeNaverPay           QuotePreviewInvoicePaymentSettingsPaymentMethodType = "naver_pay"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeNzBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "nz_bank_account"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeP24                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "p24"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayco              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "payco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayNow             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paynow"

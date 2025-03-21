@@ -1072,6 +1072,20 @@ type PaymentAttemptRecordPaymentMethodDetailsNaverPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
 }
+type PaymentAttemptRecordPaymentMethodDetailsNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsOXXO struct {
 	// OXXO reference number
 	Number string `json:"number"`
@@ -1308,6 +1322,7 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Mobilepay       *PaymentAttemptRecordPaymentMethodDetailsMobilepay       `json:"mobilepay"`
 	Multibanco      *PaymentAttemptRecordPaymentMethodDetailsMultibanco      `json:"multibanco"`
 	NaverPay        *PaymentAttemptRecordPaymentMethodDetailsNaverPay        `json:"naver_pay"`
+	NzBankAccount   *PaymentAttemptRecordPaymentMethodDetailsNzBankAccount   `json:"nz_bank_account"`
 	OXXO            *PaymentAttemptRecordPaymentMethodDetailsOXXO            `json:"oxxo"`
 	P24             *PaymentAttemptRecordPaymentMethodDetailsP24             `json:"p24"`
 	PayByBank       *PaymentAttemptRecordPaymentMethodDetailsPayByBank       `json:"pay_by_bank"`
