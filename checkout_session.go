@@ -2703,7 +2703,7 @@ type CheckoutSessionParams struct {
 	AutomaticTax *CheckoutSessionAutomaticTaxParams `form:"automatic_tax"`
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
-	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if `ui_mode` is `embedded` or `custom`.
+	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
 	CancelURL *string `form:"cancel_url"`
 	// A unique string to reference the Checkout Session. This can be a
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
@@ -2825,7 +2825,7 @@ type CheckoutSessionParams struct {
 	RedirectOnCompletion *string `form:"redirect_on_completion"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the
 	// payment method's app or site. This parameter is required if `ui_mode` is `embedded` or `custom`
-	// and redirect-based payment methods are enabled on the Checkout Session.
+	// and redirect-based payment methods are enabled on the session.
 	ReturnURL *string `form:"return_url"`
 	// Controls saved payment method settings for the session. Only available in `payment` and `subscription` mode.
 	SavedPaymentMethodOptions *CheckoutSessionSavedPaymentMethodOptionsParams `form:"saved_payment_method_options"`
@@ -2844,7 +2844,7 @@ type CheckoutSessionParams struct {
 	SubscriptionData *CheckoutSessionSubscriptionDataParams `form:"subscription_data"`
 	// The URL to which Stripe should send customers when payment or setup
 	// is complete.
-	// This parameter is not allowed if `ui_mode` is `embedded` or `custom`. If you'd like to use
+	// This parameter is not allowed if ui_mode is `embedded` or `custom`. If you'd like to use
 	// information from the successful Checkout Session on your page, read the
 	// guide on [customizing your success page](https://stripe.com/docs/payments/checkout/custom-success-page).
 	SuccessURL *string `form:"success_url"`
