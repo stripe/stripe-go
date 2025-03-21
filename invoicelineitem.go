@@ -250,7 +250,8 @@ type InvoiceLineItemMarginAmount struct {
 	Margin *Margin `json:"margin"`
 }
 type InvoiceLineItemParentInvoiceItemDetails struct {
-	InvoiceItem string `json:"invoice_item"`
+	InvoiceItem  string `json:"invoice_item"`
+	Subscription string `json:"subscription"`
 }
 
 // For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
