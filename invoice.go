@@ -2830,10 +2830,8 @@ type Invoice struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
-	OnBehalfOf *Account `json:"on_behalf_of"`
-	// Returns true if the invoice was manually marked paid, returns false if the invoice hasn't been paid yet or was paid on Stripe.
-	PaidOutOfBand bool           `json:"paid_out_of_band"`
-	Parent        *InvoiceParent `json:"parent"`
+	OnBehalfOf *Account       `json:"on_behalf_of"`
+	Parent     *InvoiceParent `json:"parent"`
 	// Payments for this invoice
 	Payments        *InvoicePaymentList     `json:"payments"`
 	PaymentSettings *InvoicePaymentSettings `json:"payment_settings"`
