@@ -2266,10 +2266,8 @@ type Charge struct {
 	// Information on fraud assessments for the charge.
 	FraudDetails *ChargeFraudDetails `json:"fraud_details"`
 	// Unique identifier for the object.
-	ID string `json:"id"`
-	// ID of the invoice this charge is for if one exists.
-	Invoice *Invoice      `json:"invoice"`
-	Level3  *ChargeLevel3 `json:"level3"`
+	ID     string        `json:"id"`
+	Level3 *ChargeLevel3 `json:"level3"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

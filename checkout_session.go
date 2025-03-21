@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // Type of the account referenced.
 type CheckoutSessionAutomaticTaxLiabilityType string
 
@@ -4038,4 +4040,23 @@ type CheckoutSessionList struct {
 	APIResource
 	ListMeta
 	Data []*CheckoutSession `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a CheckoutSession.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (c *CheckoutSession) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
+	}
+
+	type checkoutSession CheckoutSession
+	var v checkoutSession
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = CheckoutSession(v)
+	return nil
 }
