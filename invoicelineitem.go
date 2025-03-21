@@ -24,6 +24,14 @@ const (
 	InvoiceLineItemPretaxCreditAmountTypeMargin                   InvoiceLineItemPretaxCreditAmountType = "margin"
 )
 
+// The type of the pricing details.
+type InvoiceLineItemPricingType string
+
+// List of values that InvoiceLineItemPricingType can take
+const (
+	InvoiceLineItemPricingTypePriceDetails InvoiceLineItemPricingType = "price_details"
+)
+
 // Whether this tax is inclusive or exclusive.
 type InvoiceLineItemTaxTaxBehavior string
 
@@ -313,6 +321,21 @@ type InvoiceLineItemPretaxCreditAmount struct {
 	// Type of the pretax credit amount referenced.
 	Type InvoiceLineItemPretaxCreditAmountType `json:"type"`
 }
+type InvoiceLineItemPricingPriceDetails struct {
+	// The ID of the price this item is associated with.
+	Price string `json:"price"`
+	// The ID of the product this item is associated with.
+	Product string `json:"product"`
+}
+
+// The pricing information of the line item.
+type InvoiceLineItemPricing struct {
+	PriceDetails *InvoiceLineItemPricingPriceDetails `json:"price_details"`
+	// The type of the pricing details.
+	Type InvoiceLineItemPricingType `json:"type"`
+	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+}
 
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type InvoiceLineItemTaxTaxRateDetails struct {
@@ -370,6 +393,8 @@ type InvoiceLineItem struct {
 	Period *Period                `json:"period"`
 	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this line item.
 	PretaxCreditAmounts []*InvoiceLineItemPretaxCreditAmount `json:"pretax_credit_amounts"`
+	// The pricing information of the line item.
+	Pricing *InvoiceLineItemPricing `json:"pricing"`
 	// The quantity of the subscription, if the line item is a subscription or a proration.
 	Quantity     int64         `json:"quantity"`
 	Subscription *Subscription `json:"subscription"`

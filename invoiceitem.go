@@ -13,6 +13,14 @@ const (
 	InvoiceItemParentTypeSubscriptionDetails InvoiceItemParentType = "subscription_details"
 )
 
+// The type of the pricing details.
+type InvoiceItemPricingType string
+
+// List of values that InvoiceItemPricingType can take
+const (
+	InvoiceItemPricingTypePriceDetails InvoiceItemPricingType = "price_details"
+)
+
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
 type InvoiceItemParams struct {
 	Params `form:"*"`
@@ -158,6 +166,21 @@ type InvoiceItemParent struct {
 	SubscriptionDetails *InvoiceItemParentSubscriptionDetails `json:"subscription_details"`
 	Type                InvoiceItemParentType                 `json:"type"`
 }
+type InvoiceItemPricingPriceDetails struct {
+	// The ID of the price this item is associated with.
+	Price string `json:"price"`
+	// The ID of the product this item is associated with.
+	Product string `json:"product"`
+}
+
+// The pricing information of the invoice item.
+type InvoiceItemPricing struct {
+	PriceDetails *InvoiceItemPricingPriceDetails `json:"price_details"`
+	// The type of the pricing details.
+	Type InvoiceItemPricingType `json:"type"`
+	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+}
 
 // Invoice Items represent the component lines of an [invoice](https://stripe.com/docs/api/invoices). An invoice item is added to an
 // invoice by creating or updating it with an `invoice` field, at which point it will be included as
@@ -201,6 +224,8 @@ type InvoiceItem struct {
 	Object string             `json:"object"`
 	Parent *InvoiceItemParent `json:"parent"`
 	Period *Period            `json:"period"`
+	// The pricing information of the invoice item.
+	Pricing *InvoiceItemPricing `json:"pricing"`
 	// Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
 	Proration bool `json:"proration"`
 	// Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
