@@ -2419,6 +2419,14 @@ type InvoiceAutomaticTax struct {
 	Status InvoiceAutomaticTaxStatus `json:"status"`
 }
 
+// The confirmation secret associated with this invoice. Currently, this contains the client_secret of the PaymentIntent that Stripe creates during invoice finalization.
+type InvoiceConfirmationSecret struct {
+	// The client_secret of the payment that Stripe creates for the invoice after finalization.
+	ClientSecret string `json:"client_secret"`
+	// The type of client_secret. Currently this is always payment_intent, referencing the default payment_intent that Stripe creates during invoice finalization
+	Type string `json:"type"`
+}
+
 // Custom fields displayed on the invoice.
 type InvoiceCustomField struct {
 	// The name of the custom field.
@@ -2764,6 +2772,8 @@ type Invoice struct {
 	BillingReason InvoiceBillingReason `json:"billing_reason"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.
 	CollectionMethod InvoiceCollectionMethod `json:"collection_method"`
+	// The confirmation secret associated with this invoice. Currently, this contains the client_secret of the PaymentIntent that Stripe creates during invoice finalization.
+	ConfirmationSecret *InvoiceConfirmationSecret `json:"confirmation_secret"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
