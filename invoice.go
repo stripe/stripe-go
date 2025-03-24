@@ -2285,6 +2285,8 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt             *int64 `form:"cancel_at"`
 	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
+	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
 	CancelNow *bool `form:"cancel_now"`
 	// If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have `tax_rates` set.
