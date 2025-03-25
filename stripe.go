@@ -17,6 +17,7 @@ import (
 	"reflect"
 	"regexp"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -1413,11 +1414,41 @@ func StringSlice(v []string) []*string {
 	return out
 }
 
+// AddBetaVersion adds or updates a beta version for a given beta feature in the API version string.
+// It ensures the beta version starts with 'v' followed by a number (e.g. "v2") and updates the API version string
+// with the highest version number for the given beta feature if there's a conflict.
 func AddBetaVersion(betaName string, betaVersion string) error {
-	if strings.Contains(apiVersionWithBetaHeaders, "; "+betaName+"=") {
-		return fmt.Errorf("Stripe version header %s already contains entry for beta %s", apiVersionWithBetaHeaders, betaName)
+	if !strings.HasPrefix(betaVersion, "v") {
+		return errors.New("beta version should start with 'v'")
 	}
-	apiVersionWithBetaHeaders = fmt.Sprintf("%s; %s=%s", apiVersionWithBetaHeaders, betaName, betaVersion)
+	if _, err := strconv.Atoi(betaVersion[1:]); err != nil {
+		return errors.New("beta version should start with 'v' followed by a number")
+	}
+
+	parts := strings.Split(apiVersionWithBetaHeaders, "; ")
+	updated := false
+
+	for i, part := range parts {
+		part = strings.TrimSpace(part)
+		if strings.HasPrefix(part, betaName+"=") {
+			// Extract the existing version
+			existingVersion := strings.TrimPrefix(part, betaName+"=")
+			if betaVersion > existingVersion {
+				// Overwrite with the bigger version number
+				parts[i] = fmt.Sprintf("%s=%s", betaName, betaVersion)
+			}
+			updated = true
+			break
+		}
+	}
+
+	if !updated {
+		// Append the new betaName and betaVersion if not found
+		parts = append(parts, fmt.Sprintf("%s=%s", betaName, betaVersion))
+	}
+
+	// Join the parts back together
+	apiVersionWithBetaHeaders = strings.Join(parts, "; ")
 	return nil
 }
 
