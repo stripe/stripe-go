@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// Type of object that created the application fee, either `charge` or `payout`.
+// Type of object that created the application fee.
 type ApplicationFeeFeeSourceType string
 
 // List of values that ApplicationFeeFeeSourceType can take
@@ -53,7 +53,7 @@ type ApplicationFeeFeeSource struct {
 	Charge string `json:"charge"`
 	// Payout ID that created this application fee.
 	Payout string `json:"payout"`
-	// Type of object that created the application fee, either `charge` or `payout`.
+	// Type of object that created the application fee.
 	Type ApplicationFeeFeeSourceType `json:"type"`
 }
 type ApplicationFee struct {

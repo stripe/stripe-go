@@ -106,6 +106,7 @@ const (
 	EventTypeInvoiceFinalized                                   EventType = "invoice.finalized"
 	EventTypeInvoiceMarkedUncollectible                         EventType = "invoice.marked_uncollectible"
 	EventTypeInvoiceOverdue                                     EventType = "invoice.overdue"
+	EventTypeInvoiceOverpaid                                    EventType = "invoice.overpaid"
 	EventTypeInvoicePaid                                        EventType = "invoice.paid"
 	EventTypeInvoicePaymentActionRequired                       EventType = "invoice.payment_action_required"
 	EventTypeInvoicePaymentFailed                               EventType = "invoice.payment_failed"

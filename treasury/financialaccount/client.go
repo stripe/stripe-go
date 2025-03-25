@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
+// Creates a new FinancialAccount. Each connected account can have up to three FinancialAccounts by default.
 func New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	return getC().New(params)
 }
 
-// Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
+// Creates a new FinancialAccount. Each connected account can have up to three FinancialAccounts by default.
 func (c Client) New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	financialaccount := &stripe.TreasuryFinancialAccount{}
 	err := c.B.Call(

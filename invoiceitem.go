@@ -6,7 +6,20 @@
 
 package stripe
 
-import "encoding/json"
+type InvoiceItemParentType string
+
+// List of values that InvoiceItemParentType can take
+const (
+	InvoiceItemParentTypeSubscriptionDetails InvoiceItemParentType = "subscription_details"
+)
+
+// The type of the pricing details.
+type InvoiceItemPricingType string
+
+// List of values that InvoiceItemPricingType can take
+const (
+	InvoiceItemPricingTypePriceDetails InvoiceItemPricingType = "price_details"
+)
 
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
 type InvoiceItemParams struct {
@@ -31,10 +44,10 @@ type InvoiceItemParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
 	Period *InvoiceItemPeriodParams `form:"period"`
-	// The ID of the price object. One of `price` or `price_data` is required.
-	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
+	// The pricing information for the invoice item.
+	Pricing *InvoiceItemPricingParams `form:"pricing"`
 	// Non-negative integer. The quantity of units for the invoice item.
 	Quantity *int64 `form:"quantity"`
 	// The ID of a subscription to add this invoice item to. When left blank, the invoice item is added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription.
@@ -45,9 +58,7 @@ type InvoiceItemParams struct {
 	TaxCode *string `form:"tax_code"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
-	// The integer unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer's account, pass a negative unit_amount.
-	UnitAmount *int64 `form:"unit_amount"`
-	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	// The decimal unit amount in cents (or local equivalent) of the charge to be applied to the upcoming invoice. This `unit_amount_decimal` will be multiplied by the quantity to get the full amount. Passing in a negative `unit_amount_decimal` will reduce the `amount_due` on the invoice. Accepts at most 12 decimal places.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
@@ -83,11 +94,11 @@ type InvoiceItemPeriodParams struct {
 	Start *int64 `form:"start"`
 }
 
-// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type InvoiceItemPriceDataParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// The ID of the product that this price will belong to.
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
 	Product *string `form:"product"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
@@ -95,6 +106,12 @@ type InvoiceItemPriceDataParams struct {
 	UnitAmount *int64 `form:"unit_amount"`
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// The pricing information for the invoice item.
+type InvoiceItemPricingParams struct {
+	// The ID of the price object.
+	Price *string `form:"price"`
 }
 
 // Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
@@ -117,6 +134,30 @@ type InvoiceItemListParams struct {
 // AddExpand appends a new field to expand.
 func (p *InvoiceItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+type InvoiceItemParentSubscriptionDetails struct {
+	Subscription     string `json:"subscription"`
+	SubscriptionItem string `json:"subscription_item"`
+}
+type InvoiceItemParent struct {
+	SubscriptionDetails *InvoiceItemParentSubscriptionDetails `json:"subscription_details"`
+	Type                InvoiceItemParentType                 `json:"type"`
+}
+type InvoiceItemPricingPriceDetails struct {
+	// The ID of the price this item is associated with.
+	Price string `json:"price"`
+	// The ID of the product this item is associated with.
+	Product string `json:"product"`
+}
+
+// The pricing information of the invoice item.
+type InvoiceItemPricing struct {
+	PriceDetails *InvoiceItemPricingPriceDetails `json:"price_details"`
+	// The type of the pricing details.
+	Type InvoiceItemPricingType `json:"type"`
+	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 
 // Invoice Items represent the component lines of an [invoice](https://stripe.com/docs/api/invoices). An invoice item is added to an
@@ -156,28 +197,19 @@ type InvoiceItem struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string  `json:"object"`
-	Period *Period `json:"period"`
-	// If the invoice item is a proration, the plan of the subscription that the proration was computed for.
-	Plan *Plan `json:"plan"`
-	// The price of the invoice item.
-	Price *Price `json:"price"`
+	Object string             `json:"object"`
+	Parent *InvoiceItemParent `json:"parent"`
+	Period *Period            `json:"period"`
+	// The pricing information of the invoice item.
+	Pricing *InvoiceItemPricing `json:"pricing"`
 	// Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
 	Proration bool `json:"proration"`
 	// Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.
 	Quantity int64 `json:"quantity"`
-	// The subscription that this invoice item has been created for, if any.
-	Subscription *Subscription `json:"subscription"`
-	// The subscription item that this invoice item has been created for, if any.
-	SubscriptionItem string `json:"subscription_item"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.
 	TaxRates []*TaxRate `json:"tax_rates"`
 	// ID of the test clock this invoice item belongs to.
 	TestClock *TestHelpersTestClock `json:"test_clock"`
-	// Unit amount (in the `currency` specified) of the invoice item.
-	UnitAmount int64 `json:"unit_amount"`
-	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.
-	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 
 // InvoiceItemList is a list of InvoiceItems as retrieved from a list endpoint.
@@ -185,23 +217,4 @@ type InvoiceItemList struct {
 	APIResource
 	ListMeta
 	Data []*InvoiceItem `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of an InvoiceItem.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		i.ID = id
-		return nil
-	}
-
-	type invoiceItem InvoiceItem
-	var v invoiceItem
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*i = InvoiceItem(v)
-	return nil
 }

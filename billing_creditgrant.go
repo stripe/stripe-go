@@ -16,7 +16,7 @@ const (
 	BillingCreditGrantAmountTypeMonetary BillingCreditGrantAmountType = "monetary"
 )
 
-// The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+// The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`.
 type BillingCreditGrantApplicabilityConfigScopePriceType string
 
 // List of values that BillingCreditGrantApplicabilityConfigScopePriceType can take
@@ -63,7 +63,7 @@ type BillingCreditGrantAmountParams struct {
 	Type *string `form:"type"`
 }
 
-// A list of prices that the credit grant can apply to. We currently only support the `metered` prices.
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingCreditGrantApplicabilityConfigScopePriceParams struct {
 	// The price ID this credit grant should apply to.
 	ID *string `form:"id"`
@@ -71,9 +71,9 @@ type BillingCreditGrantApplicabilityConfigScopePriceParams struct {
 
 // Specify the scope of this applicability config.
 type BillingCreditGrantApplicabilityConfigScopeParams struct {
-	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices.
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 	Prices []*BillingCreditGrantApplicabilityConfigScopePriceParams `form:"prices"`
-	// The price type that credit grants can apply to. We currently only support the `metered` price type.
+	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
 	PriceType *string `form:"price_type"`
 }
 
@@ -160,15 +160,15 @@ type BillingCreditGrantAmount struct {
 	Type BillingCreditGrantAmountType `json:"type"`
 }
 
-// The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+// The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `price_type`.
 type BillingCreditGrantApplicabilityConfigScopePrice struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 }
 type BillingCreditGrantApplicabilityConfigScope struct {
-	// The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+	// The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `price_type`.
 	Prices []*BillingCreditGrantApplicabilityConfigScopePrice `json:"prices"`
-	// The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+	// The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`.
 	PriceType BillingCreditGrantApplicabilityConfigScopePriceType `json:"price_type"`
 }
 type BillingCreditGrantApplicabilityConfig struct {

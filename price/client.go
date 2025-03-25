@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Creates a new price for an existing product. The price can be recurring or one-time.
+// Creates a new [Price for an existing <a href="https://docs.stripe.com/api/products">Product](https://docs.stripe.com/api/prices). The Price can be recurring or one-time.
 func New(params *stripe.PriceParams) (*stripe.Price, error) {
 	return getC().New(params)
 }
 
-// Creates a new price for an existing product. The price can be recurring or one-time.
+// Creates a new [Price for an existing <a href="https://docs.stripe.com/api/products">Product](https://docs.stripe.com/api/prices). The Price can be recurring or one-time.
 func (c Client) New(params *stripe.PriceParams) (*stripe.Price, error) {
 	price := &stripe.Price{}
 	err := c.B.Call(http.MethodPost, "/v1/prices", c.Key, params, price)
