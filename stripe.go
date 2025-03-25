@@ -1425,7 +1425,7 @@ func AddBetaVersion(betaName string, betaVersion string) error {
 		return errors.New("beta version should start with 'v' followed by a number")
 	}
 
-	parts := strings.Split(apiVersionWithBetaHeaders, ";")
+	parts := strings.Split(apiVersionWithBetaHeaders, "; ")
 	updated := false
 
 	for i, part := range parts {
@@ -1448,7 +1448,7 @@ func AddBetaVersion(betaName string, betaVersion string) error {
 	}
 
 	// Join the parts back together
-	apiVersionWithBetaHeaders = strings.Join(parts, ";")
+	apiVersionWithBetaHeaders = strings.Join(parts, "; ")
 	return nil
 }
 

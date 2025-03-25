@@ -67,7 +67,7 @@ func TestCanSetBetaHeaders(t *testing.T) {
 	req, err := c.NewRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
-	assert.Equal(t, APIVersion+";feature_in_beta=v3", req.Header.Get("Stripe-Version"))
+	assert.Equal(t, APIVersion+"; feature_in_beta=v3", req.Header.Get("Stripe-Version"))
 }
 
 func TestSetBetaVersionTwiceAsc(t *testing.T) {
@@ -83,7 +83,7 @@ func TestSetBetaVersionTwiceAsc(t *testing.T) {
 	req, err := c.NewRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
-	assert.Equal(t, APIVersion+";feature_in_beta=v5", req.Header.Get("Stripe-Version"))
+	assert.Equal(t, APIVersion+"; feature_in_beta=v5", req.Header.Get("Stripe-Version"))
 
 	// clean up
 	apiVersionWithBetaHeaders = APIVersion
@@ -102,7 +102,7 @@ func TestSetBetaVersionTwiceDesc(t *testing.T) {
 	req, err := c.NewRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
-	assert.Equal(t, APIVersion+";feature_in_beta=v5", req.Header.Get("Stripe-Version"))
+	assert.Equal(t, APIVersion+"; feature_in_beta=v5", req.Header.Get("Stripe-Version"))
 
 	// clean up
 	apiVersionWithBetaHeaders = APIVersion
@@ -131,7 +131,7 @@ func TestCanSetSecondBetaHeaders(t *testing.T) {
 	req, err := c.NewRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
-	assert.Equal(t, APIVersion+";feature_in_beta=v3;second_feature_in_beta=v2", req.Header.Get("Stripe-Version"))
+	assert.Equal(t, APIVersion+"; feature_in_beta=v3; second_feature_in_beta=v2", req.Header.Get("Stripe-Version"))
 
 	// clean up
 	apiVersionWithBetaHeaders = APIVersion
@@ -1763,7 +1763,7 @@ func TestRawRequestTelemetry(t *testing.T) {
 func TestAddBetaVersion(t *testing.T) {
 	defer cleanupBetaHeaders()
 	AddBetaVersion("feature_beta", "v3")
-	expectedAPIVersion := APIVersion + ";feature_beta=v3"
+	expectedAPIVersion := APIVersion + "; feature_beta=v3"
 	assert.Equal(t, expectedAPIVersion, apiVersionWithBetaHeaders)
 	err := AddBetaVersion("feature_beta", "v3")
 	assert.Nil(t, err)
