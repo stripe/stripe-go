@@ -431,6 +431,7 @@ type Event struct {
 	Account string `json:"account"`
 	// The Stripe API version used to render `data`. This property is populated only for events on or after October 31, 2014.
 	APIVersion string `json:"api_version"`
+	Context    string `json:"context"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64      `json:"created"`
 	Data    *EventData `json:"data"`
