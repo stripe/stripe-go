@@ -337,6 +337,14 @@ type InvoiceLineItemPricing struct {
 	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 
+// The tax calculation identifiers of the line item.
+type InvoiceLineItemTaxCalculationReference struct {
+	// The calculation identifier for tax calculation response.
+	CalculationID string `json:"calculation_id"`
+	// The calculation identifier for tax calculation response line item.
+	CalculationItemID string `json:"calculation_item_id"`
+}
+
 // Additional details about the tax rate. Only present when `type` is `tax_rate_details`.
 type InvoiceLineItemTaxTaxRateDetails struct {
 	TaxRate string `json:"tax_rate"`
@@ -398,6 +406,8 @@ type InvoiceLineItem struct {
 	// The quantity of the subscription, if the line item is a subscription or a proration.
 	Quantity     int64         `json:"quantity"`
 	Subscription *Subscription `json:"subscription"`
+	// The tax calculation identifiers of the line item.
+	TaxCalculationReference *InvoiceLineItemTaxCalculationReference `json:"tax_calculation_reference"`
 	// The tax information of the line item.
 	Taxes []*InvoiceLineItemTax `json:"taxes"`
 }
