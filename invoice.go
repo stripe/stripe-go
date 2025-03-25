@@ -1747,15 +1747,10 @@ type InvoiceIssuer struct {
 type InvoiceParentQuoteDetails struct {
 	Quote string `json:"quote"`
 }
-type InvoiceParentSubscriptionDetailsPauseCollection struct {
-	Behavior  string `json:"behavior"`
-	ResumesAt int64  `json:"resumes_at"`
-}
 type InvoiceParentSubscriptionDetails struct {
-	Metadata                  map[string]string                                `json:"metadata"`
-	PauseCollection           *InvoiceParentSubscriptionDetailsPauseCollection `json:"pause_collection"`
-	Subscription              string                                           `json:"subscription"`
-	SubscriptionProrationDate int64                                            `json:"subscription_proration_date"`
+	Metadata                  map[string]string `json:"metadata"`
+	Subscription              string            `json:"subscription"`
+	SubscriptionProrationDate int64             `json:"subscription_proration_date"`
 }
 type InvoiceParent struct {
 	QuoteDetails        *InvoiceParentQuoteDetails        `json:"quote_details"`
