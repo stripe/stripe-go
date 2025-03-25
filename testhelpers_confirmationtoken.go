@@ -244,7 +244,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams struct{}
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams struct{}
 
-// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -388,7 +388,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	RevolutPay *TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
-	// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 	Satispay *TestHelpersConfirmationTokenPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit"`

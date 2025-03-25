@@ -592,7 +592,7 @@ type SetupIntentPaymentMethodDataRevolutPayParams struct{}
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type SetupIntentPaymentMethodDataSamsungPayParams struct{}
 
-// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 type SetupIntentPaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -737,7 +737,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	RevolutPay *SetupIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *SetupIntentPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
-	// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 	Satispay *SetupIntentPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
@@ -1371,7 +1371,7 @@ type SetupIntentConfirmPaymentMethodDataRevolutPayParams struct{}
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type SetupIntentConfirmPaymentMethodDataSamsungPayParams struct{}
 
-// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 type SetupIntentConfirmPaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -1516,7 +1516,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	RevolutPay *SetupIntentConfirmPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *SetupIntentConfirmPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
-	// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 	Satispay *SetupIntentConfirmPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
