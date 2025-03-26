@@ -13,9 +13,9 @@ func TestPrice_Unmarshal(t *testing.T) {
 		"id":     "price_123",
 		"object": "price",
 		"recurring": map[string]interface{}{
-			"interval":        "month",
-			"interval_count":  6,
-			"usage_type":      "metered",
+			"interval":       "month",
+			"interval_count": 6,
+			"usage_type":     "metered",
 		},
 		"tiers": []map[string]interface{}{
 			{
