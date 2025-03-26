@@ -44,7 +44,7 @@ func TestCouponNew(t *testing.T) {
 			}),
 		},
 		Currency:         stripe.String(string(stripe.CurrencyUSD)),
-		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
+		Duration:         stripe.String(string(stripe.CouponDurationOnce)),
 		DurationInMonths: stripe.Int64(3),
 		ID:               stripe.String("25OFF"),
 		PercentOff:       stripe.Float64(12.5),
