@@ -112,7 +112,6 @@ import (
 	treasury_receiveddebit "github.com/stripe/stripe-go/v81/treasury/receiveddebit"
 	treasury_transaction "github.com/stripe/stripe-go/v81/treasury/transaction"
 	treasury_transactionentry "github.com/stripe/stripe-go/v81/treasury/transactionentry"
-	usagerecord "github.com/stripe/stripe-go/v81/usagerecord"
 	webhookendpoint "github.com/stripe/stripe-go/v81/webhookendpoint"
 )
 
@@ -1210,9 +1209,8 @@ func TestCouponsGet2Service(t *testing.T) {
 
 func TestCouponsPost(t *testing.T) {
 	params := &stripe.CouponParams{
-		PercentOff:       stripe.Float64(25.5),
-		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
-		DurationInMonths: stripe.Int64(3),
+		PercentOff: stripe.Float64(25.5),
+		Duration:   stripe.String(string(stripe.CouponDurationOnce)),
 	}
 	result, err := coupon.New(params)
 	assert.NotNil(t, result)
@@ -1221,9 +1219,8 @@ func TestCouponsPost(t *testing.T) {
 
 func TestCouponsPostService(t *testing.T) {
 	params := &stripe.CouponParams{
-		PercentOff:       stripe.Float64(25.5),
-		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
-		DurationInMonths: stripe.Int64(3),
+		PercentOff: stripe.Float64(25.5),
+		Duration:   stripe.String(string(stripe.CouponDurationOnce)),
 	}
 	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Coupons.New(params)
@@ -2464,7 +2461,6 @@ func TestInvoiceitemsDeleteService(t *testing.T) {
 func TestInvoiceitemsPost(t *testing.T) {
 	params := &stripe.InvoiceItemParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-		Price:    stripe.String("price_xxxxxxxxxxxxx"),
 	}
 	result, err := invoiceitem.New(params)
 	assert.NotNil(t, result)
@@ -2474,7 +2470,6 @@ func TestInvoiceitemsPost(t *testing.T) {
 func TestInvoiceitemsPostService(t *testing.T) {
 	params := &stripe.InvoiceItemParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-		Price:    stripe.String("price_xxxxxxxxxxxxx"),
 	}
 	sc := client.New(TestAPIKey, nil)
 	result, err := sc.InvoiceItems.New(params)
@@ -5296,50 +5291,6 @@ func TestSubscriptionItemsPost2Service(t *testing.T) {
 	params.AddMetadata("order_id", "6735")
 	sc := client.New(TestAPIKey, nil)
 	result, err := sc.SubscriptionItems.Update("si_xxxxxxxxxxxxx", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestSubscriptionItemsUsageRecordSummariesGet(t *testing.T) {
-	params := &stripe.SubscriptionItemUsageRecordSummariesParams{
-		SubscriptionItem: stripe.String("si_xxxxxxxxxxxxx"),
-	}
-	params.Limit = stripe.Int64(3)
-	result := subscriptionitem.UsageRecordSummaries(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestSubscriptionItemsUsageRecordSummariesGetService(t *testing.T) {
-	params := &stripe.SubscriptionItemUsageRecordSummariesParams{
-		SubscriptionItem: stripe.String("si_xxxxxxxxxxxxx"),
-	}
-	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
-	result := sc.SubscriptionItems.UsageRecordSummaries(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, result.Err())
-}
-
-func TestSubscriptionItemsUsageRecordsPost(t *testing.T) {
-	params := &stripe.UsageRecordParams{
-		Quantity:         stripe.Int64(100),
-		Timestamp:        stripe.Int64(1571252444),
-		SubscriptionItem: stripe.String("si_xxxxxxxxxxxxx"),
-	}
-	result, err := usagerecord.New(params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestSubscriptionItemsUsageRecordsPostService(t *testing.T) {
-	params := &stripe.UsageRecordParams{
-		Quantity:         stripe.Int64(100),
-		Timestamp:        stripe.Int64(1571252444),
-		SubscriptionItem: stripe.String("si_xxxxxxxxxxxxx"),
-	}
-	sc := client.New(TestAPIKey, nil)
-	result, err := sc.UsageRecords.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
