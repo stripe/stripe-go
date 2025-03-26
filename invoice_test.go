@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v81/form"
 )
 
 func TestInvoice_Unmarshal(t *testing.T) {
