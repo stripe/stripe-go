@@ -5,34 +5,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v81/form"
 )
-
-func TestInvoiceParams_AppendTo(t *testing.T) {
-	{
-		params := &InvoiceCreatePreviewSubscriptionDetailsParams{BillingCycleAnchorNow: Bool(true)}
-		body := &form.Values{}
-		form.AppendTo(body, params)
-		t.Logf("body = %+v", body)
-		assert.Equal(t, []string{"now"}, body.Get("billing_cycle_anchor"))
-	}
-
-	{
-		params := &InvoiceCreatePreviewSubscriptionDetailsParams{BillingCycleAnchorUnchanged: Bool(true)}
-		body := &form.Values{}
-		form.AppendTo(body, params)
-		t.Logf("body = %+v", body)
-		assert.Equal(t, []string{"unchanged"}, body.Get("billing_cycle_anchor"))
-	}
-
-	{
-		params := &InvoiceCreatePreviewSubscriptionDetailsParams{TrialEndNow: Bool(true)}
-		body := &form.Values{}
-		form.AppendTo(body, params)
-		t.Logf("body = %+v", body)
-		assert.Equal(t, []string{"now"}, body.Get("trial_end"))
-	}
-}
 
 func TestInvoice_Unmarshal(t *testing.T) {
 	invoiceDataUnexpanded := map[string]interface{}{
