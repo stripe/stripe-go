@@ -81,6 +81,7 @@ const (
 	InvoiceIssuerTypeSelf    InvoiceIssuerType = "self"
 )
 
+// The type of parent that generated this invoice
 type InvoiceParentType string
 
 // List of values that InvoiceParentType can take
@@ -1593,8 +1594,7 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt             *int64 `form:"cancel_at"`
-	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAt *int64 `form:"cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
@@ -1623,9 +1623,6 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Valu
 	}
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
-	}
-	if BoolValue(p.CancelAtMinPeriodEnd) {
-		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "min_period_end")
 	}
 	if BoolValue(p.TrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
@@ -1744,18 +1741,32 @@ type InvoiceIssuer struct {
 	// Type of the account referenced.
 	Type InvoiceIssuerType `json:"type"`
 }
+
+// Details about the quote that generated this invoice
 type InvoiceParentQuoteDetails struct {
+	// The quote that generated this invoice
 	Quote string `json:"quote"`
 }
+
+// Details about the subscription that generated this invoice
 type InvoiceParentSubscriptionDetails struct {
-	Metadata                  map[string]string `json:"metadata"`
-	Subscription              string            `json:"subscription"`
-	SubscriptionProrationDate int64             `json:"subscription_proration_date"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) defined as subscription metadata when an invoice is created. Becomes an immutable snapshot of the subscription metadata at the time of invoice finalization.
+	//  *Note: This attribute is populated only for invoices created on or after June 29, 2023.*
+	Metadata map[string]string `json:"metadata"`
+	// The subscription that generated this invoice
+	Subscription *Subscription `json:"subscription"`
+	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
+	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
 }
+
+// The parent that generated this invoice
 type InvoiceParent struct {
-	QuoteDetails        *InvoiceParentQuoteDetails        `json:"quote_details"`
+	// Details about the quote that generated this invoice
+	QuoteDetails *InvoiceParentQuoteDetails `json:"quote_details"`
+	// Details about the subscription that generated this invoice
 	SubscriptionDetails *InvoiceParentSubscriptionDetails `json:"subscription_details"`
-	Type                InvoiceParentType                 `json:"type"`
+	// The type of parent that generated this invoice
+	Type InvoiceParentType `json:"type"`
 }
 type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -2105,8 +2116,9 @@ type Invoice struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
-	OnBehalfOf *Account       `json:"on_behalf_of"`
-	Parent     *InvoiceParent `json:"parent"`
+	OnBehalfOf *Account `json:"on_behalf_of"`
+	// The parent that generated this invoice
+	Parent *InvoiceParent `json:"parent"`
 	// Payments for this invoice
 	Payments        *InvoicePaymentList     `json:"payments"`
 	PaymentSettings *InvoicePaymentSettings `json:"payment_settings"`

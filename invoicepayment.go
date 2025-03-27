@@ -15,19 +15,25 @@ const (
 	InvoicePaymentPaymentTypePaymentIntent InvoicePaymentPaymentType = "payment_intent"
 )
 
+// The payment details of the invoice payments to return.
 type InvoicePaymentListPaymentParams struct {
+	// Only return invoice payments associated by this payment intent ID.
 	PaymentIntent *string `form:"payment_intent"`
-	Type          *string `form:"type"`
+	// Only return invoice payments associated by this payment type.
+	Type *string `form:"type"`
 }
 
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
 type InvoicePaymentListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand  []*string                        `form:"expand"`
-	Invoice *string                          `form:"invoice"`
+	Expand []*string `form:"expand"`
+	// The identifier of the invoice whose payments to return.
+	Invoice *string `form:"invoice"`
+	// The payment details of the invoice payments to return.
 	Payment *InvoicePaymentListPaymentParams `form:"payment"`
-	Status  *string                          `form:"status"`
+	// The status of the invoice payments to return.
+	Status *string `form:"status"`
 }
 
 // AddExpand appends a new field to expand.

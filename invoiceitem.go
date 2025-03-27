@@ -6,6 +6,7 @@
 
 package stripe
 
+// The type of parent that generated this invoice item
 type InvoiceItemParentType string
 
 // List of values that InvoiceItemParentType can take
@@ -136,13 +137,20 @@ func (p *InvoiceItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Details about the subscription that generated this invoice item
 type InvoiceItemParentSubscriptionDetails struct {
-	Subscription     string `json:"subscription"`
+	// The subscription that generated this invoice item
+	Subscription string `json:"subscription"`
+	// The subscription item that generated this invoice item
 	SubscriptionItem string `json:"subscription_item"`
 }
+
+// The parent that generated this invoice
 type InvoiceItemParent struct {
+	// Details about the subscription that generated this invoice item
 	SubscriptionDetails *InvoiceItemParentSubscriptionDetails `json:"subscription_details"`
-	Type                InvoiceItemParentType                 `json:"type"`
+	// The type of parent that generated this invoice item
+	Type InvoiceItemParentType `json:"type"`
 }
 type InvoiceItemPricingPriceDetails struct {
 	// The ID of the price this item is associated with.
@@ -197,7 +205,8 @@ type InvoiceItem struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string             `json:"object"`
+	Object string `json:"object"`
+	// The parent that generated this invoice
 	Parent *InvoiceItemParent `json:"parent"`
 	Period *Period            `json:"period"`
 	// The pricing information of the invoice item.
