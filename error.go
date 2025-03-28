@@ -1,27 +1,64 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"net/http"
+)
+
+// errorEnums: The beginning of the section generated from our OpenAPI spec
+// Open Enum: Request param that is invalid.
+type InvalidPaymentMethodInvalidParam string
+
+// List of values that InvalidPaymentMethodInvalidParam can take
+const (
+	InvalidPaymentMethodInvalidParamCountry    InvalidPaymentMethodInvalidParam = "country"
+	InvalidPaymentMethodInvalidParamCVC        InvalidPaymentMethodInvalidParam = "cvc"
+	InvalidPaymentMethodInvalidParamExpDate    InvalidPaymentMethodInvalidParam = "exp_date"
+	InvalidPaymentMethodInvalidParamExpMonth   InvalidPaymentMethodInvalidParam = "exp_month"
+	InvalidPaymentMethodInvalidParamExpYear    InvalidPaymentMethodInvalidParam = "exp_year"
+	InvalidPaymentMethodInvalidParamNumber     InvalidPaymentMethodInvalidParam = "number"
+	InvalidPaymentMethodInvalidParamPostalCode InvalidPaymentMethodInvalidParam = "postal_code"
+	InvalidPaymentMethodInvalidParamState      InvalidPaymentMethodInvalidParam = "state"
+)
+
+// errorEnums: The end of the section generated from our OpenAPI spec
 
 // ErrorType is the list of allowed values for the error's type.
 type ErrorType string
 
 // List of values that ErrorType can take.
+// errorTypes: The beginning of the section generated from our OpenAPI spec
 const (
 	ErrorTypeAPI            ErrorType = "api_error"
 	ErrorTypeCard           ErrorType = "card_error"
 	ErrorTypeIdempotency    ErrorType = "idempotency_error"
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
+
+	// V2 error types
+	ErrorTypeAlreadyCanceled         ErrorType = "already_canceled"
+	ErrorTypeBlockedByStripe         ErrorType = "blocked_by_stripe"
+	ErrorTypeControlledByDashboard   ErrorType = "controlled_by_dashboard"
+	ErrorTypeFeatureNotEnabled       ErrorType = "feature_not_enabled"
+	ErrorTypeFinancialAccountNotOpen ErrorType = "financial_account_not_open"
+	ErrorTypeInsufficientFunds       ErrorType = "insufficient_funds"
+	ErrorTypeInvalidPaymentMethod    ErrorType = "invalid_payment_method"
+	ErrorTypeNotCancelable           ErrorType = "not_cancelable"
+	ErrorTypeQuotaExceeded           ErrorType = "quota_exceeded"
+	ErrorTypeRecipientNotNotifiable  ErrorType = "recipient_not_notifiable"
+	ErrorTypeTemporarySessionExpired ErrorType = "temporary_session_expired"
 )
 
-// ErrorCode is the list of allowed values for the error's code.
-type ErrorCode string
+// errorTypes: The end of the section generated from our OpenAPI spec
 
 // DeclineCode is the list of reasons provided by card issuers for decline of payment.
 type DeclineCode string
 
+// ErrorCode is the list of allowed values for the error's code.
+type ErrorCode string
+
 // List of values that ErrorCode can take.
 // For descriptions see https://stripe.com/docs/error-codes
-// The beginning of the section generated from our OpenAPI spec
+// v1ErrorCodes: The beginning of the section generated from our OpenAPI spec
 const (
 	ErrorCodeACSSDebitSessionIncomplete                                  ErrorCode = "acss_debit_session_incomplete"
 	ErrorCodeAPIKeyExpired                                               ErrorCode = "api_key_expired"
@@ -71,15 +108,11 @@ const (
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
 	ErrorCodeFinancialConnectionsAccountInactive                         ErrorCode = "financial_connections_account_inactive"
-	ErrorCodeFinancialConnectionsInstitutionUnavailable                  ErrorCode = "financial_connections_institution_unavailable"
 	ErrorCodeFinancialConnectionsNoSuccessfulTransactionRefresh          ErrorCode = "financial_connections_no_successful_transaction_refresh"
 	ErrorCodeForwardingAPIInactive                                       ErrorCode = "forwarding_api_inactive"
 	ErrorCodeForwardingAPIInvalidParameter                               ErrorCode = "forwarding_api_invalid_parameter"
 	ErrorCodeForwardingAPIUpstreamConnectionError                        ErrorCode = "forwarding_api_upstream_connection_error"
 	ErrorCodeForwardingAPIUpstreamConnectionTimeout                      ErrorCode = "forwarding_api_upstream_connection_timeout"
-	ErrorCodeGiftCardBalanceInsufficient                                 ErrorCode = "gift_card_balance_insufficient"
-	ErrorCodeGiftCardCodeExists                                          ErrorCode = "gift_card_code_exists"
-	ErrorCodeGiftCardInactive                                            ErrorCode = "gift_card_inactive"
 	ErrorCodeIdempotencyKeyInUse                                         ErrorCode = "idempotency_key_in_use"
 	ErrorCodeIncorrectAddress                                            ErrorCode = "incorrect_address"
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
@@ -171,12 +204,10 @@ const (
 	ErrorCodeSEPAUnsupportedAccount                                      ErrorCode = "sepa_unsupported_account"
 	ErrorCodeSKUInactive                                                 ErrorCode = "sku_inactive"
 	ErrorCodeSecretKeyRequired                                           ErrorCode = "secret_key_required"
-	ErrorCodeSensitiveDataAccessExpired                                  ErrorCode = "sensitive_data_access_expired"
 	ErrorCodeSetupAttemptFailed                                          ErrorCode = "setup_attempt_failed"
 	ErrorCodeSetupIntentAuthenticationFailure                            ErrorCode = "setup_intent_authentication_failure"
 	ErrorCodeSetupIntentInvalidParameter                                 ErrorCode = "setup_intent_invalid_parameter"
 	ErrorCodeSetupIntentMandateInvalid                                   ErrorCode = "setup_intent_mandate_invalid"
-	ErrorCodeSetupIntentMobileWalletUnsupported                          ErrorCode = "setup_intent_mobile_wallet_unsupported"
 	ErrorCodeSetupIntentSetupAttemptExpired                              ErrorCode = "setup_intent_setup_attempt_expired"
 	ErrorCodeSetupIntentUnexpectedState                                  ErrorCode = "setup_intent_unexpected_state"
 	ErrorCodeShippingAddressInvalid                                      ErrorCode = "shipping_address_invalid"
@@ -189,7 +220,6 @@ const (
 	ErrorCodeTaxesCalculationFailed                                      ErrorCode = "taxes_calculation_failed"
 	ErrorCodeTerminalLocationCountryUnsupported                          ErrorCode = "terminal_location_country_unsupported"
 	ErrorCodeTerminalReaderBusy                                          ErrorCode = "terminal_reader_busy"
-	ErrorCodeTerminalReaderCollectedDataInvalid                          ErrorCode = "terminal_reader_collected_data_invalid"
 	ErrorCodeTerminalReaderHardwareFault                                 ErrorCode = "terminal_reader_hardware_fault"
 	ErrorCodeTerminalReaderInvalidLocationForActivation                  ErrorCode = "terminal_reader_invalid_location_for_activation"
 	ErrorCodeTerminalReaderInvalidLocationForPayment                     ErrorCode = "terminal_reader_invalid_location_for_payment"
@@ -204,7 +234,40 @@ const (
 	ErrorCodeURLInvalid                                                  ErrorCode = "url_invalid"
 )
 
-// The end of the section generated from our OpenAPI spec
+// v1ErrorCodes: The end of the section generated from our OpenAPI spec
+
+// V2ErrorCode is the list of allowed values for the V2 error's code.
+type V2ErrorCode string
+
+// v2ErrorCodes: The beginning of the section generated from our OpenAPI spec
+const (
+	ErrorCodeArchivedCard                                V2ErrorCode = "archived_card"
+	ErrorCodeBillingMeterEventSessionExpired             V2ErrorCode = "billing_meter_event_session_expired"
+	ErrorCodeBlockedUSBankAccount                        V2ErrorCode = "blocked_us_bank_account"
+	ErrorCodeCardAddressInvalidCountry                   V2ErrorCode = "card_address_invalid_country"
+	ErrorCodeCardAddressInvalidPostalCode                V2ErrorCode = "card_address_invalid_postal_code"
+	ErrorCodeCardAddressInvalidState                     V2ErrorCode = "card_address_invalid_state"
+	ErrorCodeCardOutboundSupportabilityInvalid           V2ErrorCode = "card_outbound_supportability_invalid"
+	ErrorCodeFinancialAccountNotInOpenStatus             V2ErrorCode = "financial_account_not_in_open_status"
+	ErrorCodeInboundTransferNotAllowed                   V2ErrorCode = "inbound_transfer_not_allowed"
+	ErrorCodeInvalidCard                                 V2ErrorCode = "invalid_card"
+	ErrorCodeInvalidUSBankAccount                        V2ErrorCode = "invalid_us_bank_account"
+	ErrorCodeLimitCard                                   V2ErrorCode = "limit_card"
+	ErrorCodeLimitUSBankAccount                          V2ErrorCode = "limit_us_bank_account"
+	ErrorCodeOutboundPaymentAlreadyCanceled              V2ErrorCode = "outbound_payment_already_canceled"
+	ErrorCodeOutboundPaymentInsufficientFunds            V2ErrorCode = "outbound_payment_insufficient_funds"
+	ErrorCodeOutboundPaymentNotCancelable                V2ErrorCode = "outbound_payment_not_cancelable"
+	ErrorCodeOutboundPaymentRecipientAmountLimitExceeded V2ErrorCode = "outbound_payment_recipient_amount_limit_exceeded"
+	ErrorCodeOutboundPaymentRecipientCountLimitExceeded  V2ErrorCode = "outbound_payment_recipient_count_limit_exceeded"
+	ErrorCodeOutboundPaymentRecipientEmailDoesNotExist   V2ErrorCode = "outbound_payment_recipient_email_does_not_exist"
+	ErrorCodeOutboundPaymentRecipientFeatureNotActive    V2ErrorCode = "outbound_payment_recipient_feature_not_active"
+	ErrorCodeOutboundTransferAlreadyCanceled             V2ErrorCode = "outbound_transfer_already_canceled"
+	ErrorCodeOutboundTransferInsufficientFunds           V2ErrorCode = "outbound_transfer_insufficient_funds"
+	ErrorCodeOutboundTransferNotCancelable               V2ErrorCode = "outbound_transfer_not_cancelable"
+	ErrorCodeUSBankAccountCannotBeArchived               V2ErrorCode = "us_bank_account_cannot_be_archived"
+)
+
+// v2ErrorCodes: The end of the section generated from our OpenAPI spec
 
 // List of DeclineCode values.
 // For descriptions see https://stripe.com/docs/declines/codes
@@ -258,6 +321,14 @@ const (
 	DeclineCodeWithdrawalCountLimitExceeded   DeclineCode = "withdrawal_count_limit_exceeded"
 )
 
+type retrier interface {
+	canRetry() bool
+}
+
+type redacter interface {
+	redact() error
+}
+
 // Error is the response returned when a call is unsuccessful.
 // For more details see https://stripe.com/docs/api#errors.
 type Error struct {
@@ -276,7 +347,6 @@ type Error struct {
 
 	HTTPStatusCode    int               `json:"status,omitempty"`
 	Msg               string            `json:"message"`
-	DeveloperMsg      string            `json:"developer_message,omitempty"`
 	Param             string            `json:"param,omitempty"`
 	PaymentIntent     *PaymentIntent    `json:"payment_intent,omitempty"`
 	PaymentMethod     *PaymentMethod    `json:"payment_method,omitempty"`
@@ -301,6 +371,48 @@ func (e *Error) Error() string {
 // Unwrap returns the wrapped typed error.
 func (e *Error) Unwrap() error {
 	return e.Err
+}
+
+// canRetry implements the retrier interface.
+func (e *Error) canRetry() bool {
+	if e == nil {
+		return false
+	}
+
+	// 429 Too Many Requests
+	//
+	// There are a few different problems that can lead to a 429. The most
+	// common is rate limiting, on which we *don't* want to retry because
+	// that'd likely contribute to more contention problems. However, some 429s
+	// are lock timeouts, which is when a request conflicted with another
+	// request or an internal process on some particular object. These 429s are
+	// safe to retry.
+	if e.HTTPStatusCode == http.StatusTooManyRequests && e.Code == ErrorCodeLockTimeout {
+		return true
+	}
+
+	return false
+}
+
+// redact returns a copy of the error object with sensitive fields replaced with
+// a placeholder value. This implements the redacter interface.
+func (e *Error) redact() error {
+	// Fast path, since this applies to most cases
+	if e.PaymentIntent == nil && e.SetupIntent == nil {
+		return e
+	}
+	errCopy := *e
+	if e.PaymentIntent != nil {
+		pi := *e.PaymentIntent
+		errCopy.PaymentIntent = &pi
+		errCopy.PaymentIntent.ClientSecret = "REDACTED"
+	}
+	if e.SetupIntent != nil {
+		si := *e.SetupIntent
+		errCopy.SetupIntent = &si
+		errCopy.SetupIntent.ClientSecret = "REDACTED"
+	}
+	return &errCopy
 }
 
 // APIError is a catch all for any errors not covered by other types (and
@@ -351,26 +463,307 @@ func (e *IdempotencyError) Error() string {
 	return e.stripeErr.Error()
 }
 
-// redact returns a copy of the error object with sensitive fields replaced with
-// a placeholder value.
-func (e *Error) redact() *Error {
-	// Fast path, since this applies to most cases
-	if e.PaymentIntent == nil && e.SetupIntent == nil {
-		return e
-	}
-	errCopy := *e
-	if e.PaymentIntent != nil {
-		pi := *e.PaymentIntent
-		errCopy.PaymentIntent = &pi
-		errCopy.PaymentIntent.ClientSecret = "REDACTED"
-	}
-	if e.SetupIntent != nil {
-		si := *e.SetupIntent
-		errCopy.SetupIntent = &si
-		errCopy.SetupIntent.ClientSecret = "REDACTED"
-	}
-	return &errCopy
+// errorStructs: The beginning of the section generated from our OpenAPI spec
+
+// TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired."
+// The temporary session token has expired.
+type TemporarySessionExpiredError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
 }
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *TemporarySessionExpiredError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *TemporarySessionExpiredError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *TemporarySessionExpiredError) canRetry() bool {
+	return false
+}
+
+// FinancialAccountNotOpenError is the Go struct corresponding to the error type "financial_account_not_open."
+type FinancialAccountNotOpenError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *FinancialAccountNotOpenError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *FinancialAccountNotOpenError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *FinancialAccountNotOpenError) canRetry() bool {
+	return false
+}
+
+// BlockedByStripeError is the Go struct corresponding to the error type "blocked_by_stripe."
+// Returned if an InboundTransfer is not allowed for risk, legal, regulatory or other unforeseen reasons.
+type BlockedByStripeError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *BlockedByStripeError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *BlockedByStripeError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *BlockedByStripeError) canRetry() bool {
+	return false
+}
+
+// AlreadyCanceledError is the Go struct corresponding to the error type "already_canceled."
+// Error returned when user tries to cancel an OutboundPayment that was already canceled.
+type AlreadyCanceledError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *AlreadyCanceledError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *AlreadyCanceledError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *AlreadyCanceledError) canRetry() bool {
+	return false
+}
+
+// NotCancelableError is the Go struct corresponding to the error type "not_cancelable."
+// Error returned when user tries to cancel an OutboundPayment that is not cancelable.
+type NotCancelableError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *NotCancelableError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *NotCancelableError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *NotCancelableError) canRetry() bool {
+	return false
+}
+
+// InsufficientFundsError is the Go struct corresponding to the error type "insufficient_funds."
+// Error returned when the balance of provided financial account and balance type in the OutboundPayment request does not have enough funds.
+type InsufficientFundsError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InsufficientFundsError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InsufficientFundsError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InsufficientFundsError) canRetry() bool {
+	return false
+}
+
+// QuotaExceededError is the Go struct corresponding to the error type "quota_exceeded."
+// Error returned when the recipient's recent total amount in outbound payments has exceeded its limit.
+type QuotaExceededError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *QuotaExceededError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *QuotaExceededError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *QuotaExceededError) canRetry() bool {
+	return false
+}
+
+// RecipientNotNotifiableError is the Go struct corresponding to the error type "recipient_not_notifiable."
+// Error returned when the user enables notifications in the OutboundPayment request, but an email is not set up on the recipient account.
+type RecipientNotNotifiableError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *RecipientNotNotifiableError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *RecipientNotNotifiableError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *RecipientNotNotifiableError) canRetry() bool {
+	return false
+}
+
+// FeatureNotEnabledError is the Go struct corresponding to the error type "feature_not_enabled."
+// Error returned when recipient does not have the active features required to receive funds from this OutboundPayment request.
+type FeatureNotEnabledError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *FeatureNotEnabledError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *FeatureNotEnabledError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *FeatureNotEnabledError) canRetry() bool {
+	return false
+}
+
+// InvalidPaymentMethodError is the Go struct corresponding to the error type "invalid_payment_method."
+// Card billing address's country field is invalid.
+type InvalidPaymentMethodError struct {
+	APIResource
+	Code   V2ErrorCode `json:"code"`
+	DocURL *string     `json:"doc_url,omitempty"`
+	// Open Enum: Request param that is invalid.
+	InvalidParam InvalidPaymentMethodInvalidParam `json:"invalid_param"`
+	Message      string                           `json:"message"`
+	Type         ErrorType                        `json:"type"`
+	UserMessage  *string                          `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InvalidPaymentMethodError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InvalidPaymentMethodError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InvalidPaymentMethodError) canRetry() bool {
+	return false
+}
+
+// ControlledByDashboardError is the Go struct corresponding to the error type "controlled_by_dashboard."
+// Returned when the US Bank Account in question is controlled by the Stripe Dashboard, and cannot be archived.
+type ControlledByDashboardError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *ControlledByDashboardError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *ControlledByDashboardError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *ControlledByDashboardError) canRetry() bool {
+	return false
+}
+
+// errorStructs: The end of the section generated from our OpenAPI spec
 
 // rawError deserializes the outer JSON object returned in an error response
 // from the API.
