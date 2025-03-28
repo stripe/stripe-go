@@ -49,7 +49,6 @@ type CustomerParams struct {
 	Balance *int64 `form:"balance"`
 	// Balance information and default balance settings for this customer.
 	CashBalance *CustomerCashBalanceParams `form:"cash_balance"`
-	Coupon      *string                    `form:"coupon"`
 	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method) parameter.
 	//
 	// Provide the ID of a payment source already attached to this customer to make it this customer's default payment source.
@@ -77,8 +76,6 @@ type CustomerParams struct {
 	Phone *string `form:"phone"`
 	// Customer's preferred languages, ordered by preference.
 	PreferredLocales []*string `form:"preferred_locales"`
-	// The ID of a promotion code to apply to the customer. The customer will have a discount applied on all recurring payments. Charges you create through the API will not have the discount.
-	PromotionCode *string `form:"promotion_code"`
 	// The customer's shipping information. Appears on invoices emailed to this customer.
 	Shipping *CustomerShippingParams `form:"shipping"`
 	Source   *string                 `form:"source"`
@@ -311,13 +308,13 @@ type CustomerInvoiceSettings struct {
 	RenderingOptions *CustomerInvoiceSettingsRenderingOptions `json:"rendering_options"`
 }
 
-// The customer's location as identified by Stripe Tax.
+// The identified tax location of the customer.
 type CustomerTaxLocation struct {
-	// The customer's country as identified by Stripe Tax.
+	// The identified tax country of the customer.
 	Country string `json:"country"`
 	// The data source used to infer the customer's location.
 	Source CustomerTaxLocationSource `json:"source"`
-	// The customer's state, county, province, or region as identified by Stripe Tax.
+	// The identified tax state, county, province, or region of the customer.
 	State string `json:"state"`
 }
 type CustomerTax struct {
@@ -325,7 +322,7 @@ type CustomerTax struct {
 	AutomaticTax CustomerTaxAutomaticTax `json:"automatic_tax"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress string `json:"ip_address"`
-	// The customer's location as identified by Stripe Tax.
+	// The identified tax location of the customer.
 	Location *CustomerTaxLocation `json:"location"`
 }
 

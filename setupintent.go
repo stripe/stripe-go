@@ -346,6 +346,9 @@ type SetupIntentPaymentMethodDataBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type SetupIntentPaymentMethodDataBancontactParams struct{}
 
+// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+type SetupIntentPaymentMethodDataBillieParams struct{}
+
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type SetupIntentPaymentMethodDataBillingDetailsParams struct {
 	// Billing address.
@@ -442,6 +445,21 @@ type SetupIntentPaymentMethodDataNaverPayParams struct {
 	Funding *string `form:"funding"`
 }
 
+// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+type SetupIntentPaymentMethodDataNzBankAccountParams struct {
+	// The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// The numeric code for the bank account's bank.
+	BankCode *string `form:"bank_code"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode *string `form:"branch_code"`
+	Reference  *string `form:"reference"`
+	// The suffix of the bank account number.
+	Suffix *string `form:"suffix"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentPaymentMethodDataOXXOParams struct{}
 
@@ -480,6 +498,9 @@ type SetupIntentPaymentMethodDataRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type SetupIntentPaymentMethodDataSamsungPayParams struct{}
+
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+type SetupIntentPaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentPaymentMethodDataSEPADebitParams struct {
@@ -542,6 +563,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	BACSDebit *SetupIntentPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *SetupIntentPaymentMethodDataBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	Billie *SetupIntentPaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentPaymentMethodDataBillingDetailsParams `form:"billing_details"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -582,6 +605,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Multibanco *SetupIntentPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
 	NaverPay *SetupIntentPaymentMethodDataNaverPayParams `form:"naver_pay"`
+	// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+	NzBankAccount *SetupIntentPaymentMethodDataNzBankAccountParams `form:"nz_bank_account"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -604,6 +629,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	RevolutPay *SetupIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *SetupIntentPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	Satispay *SetupIntentPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -857,6 +884,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 }
 
 // If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
+//
+// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
 type SetupIntentSingleUseParams struct {
 	// Amount the customer is granting permission to collect later. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
@@ -916,6 +945,8 @@ type SetupIntentParams struct {
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url"`
 	// If you populate this hash, this SetupIntent generates a `single_use` mandate after successful completion.
+	//
+	// Single-use mandates are only valid for the following payment methods: `acss_debit`, `alipay`, `au_becs_debit`, `bacs_debit`, `bancontact`, `boleto`, `ideal`, `link`, `sepa_debit`, and `us_bank_account`.
 	SingleUse *SetupIntentSingleUseParams `form:"single_use"`
 	// Indicates how the payment method is intended to be used in the future. If not provided, this value defaults to `off_session`.
 	Usage *string `form:"usage"`
@@ -996,6 +1027,9 @@ type SetupIntentConfirmPaymentMethodDataBACSDebitParams struct {
 
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type SetupIntentConfirmPaymentMethodDataBancontactParams struct{}
+
+// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+type SetupIntentConfirmPaymentMethodDataBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type SetupIntentConfirmPaymentMethodDataBillingDetailsParams struct {
@@ -1093,6 +1127,21 @@ type SetupIntentConfirmPaymentMethodDataNaverPayParams struct {
 	Funding *string `form:"funding"`
 }
 
+// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+type SetupIntentConfirmPaymentMethodDataNzBankAccountParams struct {
+	// The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// The numeric code for the bank account's bank.
+	BankCode *string `form:"bank_code"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode *string `form:"branch_code"`
+	Reference  *string `form:"reference"`
+	// The suffix of the bank account number.
+	Suffix *string `form:"suffix"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type SetupIntentConfirmPaymentMethodDataOXXOParams struct{}
 
@@ -1131,6 +1180,9 @@ type SetupIntentConfirmPaymentMethodDataRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type SetupIntentConfirmPaymentMethodDataSamsungPayParams struct{}
+
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+type SetupIntentConfirmPaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type SetupIntentConfirmPaymentMethodDataSEPADebitParams struct {
@@ -1193,6 +1245,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	BACSDebit *SetupIntentConfirmPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *SetupIntentConfirmPaymentMethodDataBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	Billie *SetupIntentConfirmPaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentConfirmPaymentMethodDataBillingDetailsParams `form:"billing_details"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -1233,6 +1287,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Multibanco *SetupIntentConfirmPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
 	NaverPay *SetupIntentConfirmPaymentMethodDataNaverPayParams `form:"naver_pay"`
+	// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+	NzBankAccount *SetupIntentConfirmPaymentMethodDataNzBankAccountParams `form:"nz_bank_account"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *SetupIntentConfirmPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -1255,6 +1311,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	RevolutPay *SetupIntentConfirmPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *SetupIntentConfirmPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	Satispay *SetupIntentConfirmPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.

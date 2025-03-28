@@ -197,6 +197,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationBillieDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationBillieDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationBillieDisplayPreferencePreferenceNone PaymentMethodConfigurationBillieDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationBillieDisplayPreferencePreferenceOff  PaymentMethodConfigurationBillieDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationBillieDisplayPreferencePreferenceOn   PaymentMethodConfigurationBillieDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationBillieDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationBillieDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationBillieDisplayPreferenceValueOff PaymentMethodConfigurationBillieDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationBillieDisplayPreferenceValueOn  PaymentMethodConfigurationBillieDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationBLIKDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationBLIKDisplayPreferencePreference can take
@@ -539,6 +558,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationNzBankAccountDisplayPreferencePreferenceNone PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationNzBankAccountDisplayPreferencePreferenceOff  PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationNzBankAccountDisplayPreferencePreferenceOn   PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationNzBankAccountDisplayPreferenceValueOff PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationNzBankAccountDisplayPreferenceValueOn  PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationOXXODisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationOXXODisplayPreferencePreference can take
@@ -669,6 +707,25 @@ type PaymentMethodConfigurationRevolutPayDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationRevolutPayDisplayPreferenceValueOff PaymentMethodConfigurationRevolutPayDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationRevolutPayDisplayPreferenceValueOn  PaymentMethodConfigurationRevolutPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationSatispayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationSatispayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationSatispayDisplayPreferencePreferenceNone PaymentMethodConfigurationSatispayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationSatispayDisplayPreferencePreferenceOff  PaymentMethodConfigurationSatispayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationSatispayDisplayPreferencePreferenceOn   PaymentMethodConfigurationSatispayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationSatispayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationSatispayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationSatispayDisplayPreferenceValueOff PaymentMethodConfigurationSatispayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationSatispayDisplayPreferenceValueOn  PaymentMethodConfigurationSatispayDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -951,6 +1008,18 @@ type PaymentMethodConfigurationBancontactParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationBillieDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationBillieParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationBillieDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationBLIKDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1167,6 +1236,18 @@ type PaymentMethodConfigurationMultibancoParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationNzBankAccountDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://stripe.com/docs/payments/nz-bank-account) for more details.
+type PaymentMethodConfigurationNzBankAccountParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationNzBankAccountDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationOXXODisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1248,6 +1329,18 @@ type PaymentMethodConfigurationRevolutPayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationRevolutPayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationRevolutPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationSatispayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+type PaymentMethodConfigurationSatispayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationSatispayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1361,6 +1454,8 @@ type PaymentMethodConfigurationParams struct {
 	BACSDebit *PaymentMethodConfigurationBACSDebitParams `form:"bacs_debit"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://stripe.com/docs/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://stripe.com/docs/payments/bancontact) for more details.
 	Bancontact *PaymentMethodConfigurationBancontactParams `form:"bancontact"`
+	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Billie *PaymentMethodConfigurationBillieParams `form:"billie"`
 	// BLIK is a [single use](https://stripe.com/docs/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://stripe.com/docs/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationBLIKParams `form:"blik"`
 	// Boleto is an official (regulated by the Central Bank of Brazil) payment method in Brazil. Check this [page](https://stripe.com/docs/payments/boleto) for more details.
@@ -1401,6 +1496,8 @@ type PaymentMethodConfigurationParams struct {
 	Multibanco *PaymentMethodConfigurationMultibancoParams `form:"multibanco"`
 	// Configuration name.
 	Name *string `form:"name"`
+	// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://stripe.com/docs/payments/nz-bank-account) for more details.
+	NzBankAccount *PaymentMethodConfigurationNzBankAccountParams `form:"nz_bank_account"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://stripe.com/docs/payments/oxxo) for more details.
 	OXXO *PaymentMethodConfigurationOXXOParams `form:"oxxo"`
 	// Przelewy24 is a Poland-based payment method aggregator that allows customers to complete transactions online using bank transfers and other methods. Bank transfers account for 30% of online payments in Poland and Przelewy24 provides a way for customers to pay with over 165 banks. Check this [page](https://stripe.com/docs/payments/p24) for more details.
@@ -1417,6 +1514,8 @@ type PaymentMethodConfigurationParams struct {
 	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationRevolutPayParams `form:"revolut_pay"`
+	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	Satispay *PaymentMethodConfigurationSatispayParams `form:"satispay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://stripe.com/docs/payments/sofort) for more details.
@@ -1567,6 +1666,19 @@ type PaymentMethodConfigurationBancontact struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                   `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationBancontactDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationBillieDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationBillieDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationBillieDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationBillie struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationBillieDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationBLIKDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -1802,6 +1914,19 @@ type PaymentMethodConfigurationMultibanco struct {
 	Available         bool                                                   `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationNzBankAccountDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationNzBankAccount struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                      `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationNzBankAccountDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationOXXODisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -1892,6 +2017,19 @@ type PaymentMethodConfigurationRevolutPay struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                   `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationRevolutPayDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationSatispayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationSatispayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationSatispayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationSatispay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                 `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationSatispayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationSEPADebitDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -2015,6 +2153,7 @@ type PaymentMethodConfiguration struct {
 	AUBECSDebit     *PaymentMethodConfigurationAUBECSDebit     `json:"au_becs_debit"`
 	BACSDebit       *PaymentMethodConfigurationBACSDebit       `json:"bacs_debit"`
 	Bancontact      *PaymentMethodConfigurationBancontact      `json:"bancontact"`
+	Billie          *PaymentMethodConfigurationBillie          `json:"billie"`
 	BLIK            *PaymentMethodConfigurationBLIK            `json:"blik"`
 	Boleto          *PaymentMethodConfigurationBoleto          `json:"boleto"`
 	Card            *PaymentMethodConfigurationCard            `json:"card"`
@@ -2040,7 +2179,8 @@ type PaymentMethodConfiguration struct {
 	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay"`
 	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco"`
 	// The configuration's name.
-	Name string `json:"name"`
+	Name          string                                   `json:"name"`
+	NzBankAccount *PaymentMethodConfigurationNzBankAccount `json:"nz_bank_account"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string                          `json:"object"`
 	OXXO   *PaymentMethodConfigurationOXXO `json:"oxxo"`
@@ -2052,6 +2192,7 @@ type PaymentMethodConfiguration struct {
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
+	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`
 	Sofort        *PaymentMethodConfigurationSofort        `json:"sofort"`
 	Swish         *PaymentMethodConfigurationSwish         `json:"swish"`

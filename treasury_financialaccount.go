@@ -238,7 +238,7 @@ type TreasuryFinancialAccountPlatformRestrictionsParams struct {
 	OutboundFlows *string `form:"outbound_flows"`
 }
 
-// Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
+// Creates a new FinancialAccount. Each connected account can have up to three FinancialAccounts by default.
 type TreasuryFinancialAccountParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

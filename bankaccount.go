@@ -35,6 +35,7 @@ type BankAccountFutureRequirementsErrorCode string
 
 // List of values that BankAccountFutureRequirementsErrorCode can take
 const (
+	BankAccountFutureRequirementsErrorCodeInformationMissing                                     BankAccountFutureRequirementsErrorCode = "information_missing"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountFutureRequirementsErrorCode = "invalid_address_city_state_postal_code"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountFutureRequirementsErrorCode = "invalid_address_highway_contract_box"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressPrivateMailbox                           BankAccountFutureRequirementsErrorCode = "invalid_address_private_mailbox"
@@ -47,6 +48,7 @@ const (
 	BankAccountFutureRequirementsErrorCodeInvalidProductDescriptionLength                        BankAccountFutureRequirementsErrorCode = "invalid_product_description_length"
 	BankAccountFutureRequirementsErrorCodeInvalidProductDescriptionURLMatch                      BankAccountFutureRequirementsErrorCode = "invalid_product_description_url_match"
 	BankAccountFutureRequirementsErrorCodeInvalidRepresentativeCountry                           BankAccountFutureRequirementsErrorCode = "invalid_representative_country"
+	BankAccountFutureRequirementsErrorCodeInvalidSignator                                        BankAccountFutureRequirementsErrorCode = "invalid_signator"
 	BankAccountFutureRequirementsErrorCodeInvalidStatementDescriptorBusinessMismatch             BankAccountFutureRequirementsErrorCode = "invalid_statement_descriptor_business_mismatch"
 	BankAccountFutureRequirementsErrorCodeInvalidStatementDescriptorDenylisted                   BankAccountFutureRequirementsErrorCode = "invalid_statement_descriptor_denylisted"
 	BankAccountFutureRequirementsErrorCodeInvalidStatementDescriptorLength                       BankAccountFutureRequirementsErrorCode = "invalid_statement_descriptor_length"
@@ -108,6 +110,7 @@ const (
 	BankAccountFutureRequirementsErrorCodeVerificationDocumentTypeNotSupported                   BankAccountFutureRequirementsErrorCode = "verification_document_type_not_supported"
 	BankAccountFutureRequirementsErrorCodeVerificationExtraneousDirectors                        BankAccountFutureRequirementsErrorCode = "verification_extraneous_directors"
 	BankAccountFutureRequirementsErrorCodeVerificationFailedAddressMatch                         BankAccountFutureRequirementsErrorCode = "verification_failed_address_match"
+	BankAccountFutureRequirementsErrorCodeVerificationFailedAuthorizerAuthority                  BankAccountFutureRequirementsErrorCode = "verification_failed_authorizer_authority"
 	BankAccountFutureRequirementsErrorCodeVerificationFailedBusinessIecNumber                    BankAccountFutureRequirementsErrorCode = "verification_failed_business_iec_number"
 	BankAccountFutureRequirementsErrorCodeVerificationFailedDocumentMatch                        BankAccountFutureRequirementsErrorCode = "verification_failed_document_match"
 	BankAccountFutureRequirementsErrorCodeVerificationFailedIDNumberMatch                        BankAccountFutureRequirementsErrorCode = "verification_failed_id_number_match"
@@ -122,6 +125,7 @@ const (
 	BankAccountFutureRequirementsErrorCodeVerificationMissingDirectors                           BankAccountFutureRequirementsErrorCode = "verification_missing_directors"
 	BankAccountFutureRequirementsErrorCodeVerificationMissingExecutives                          BankAccountFutureRequirementsErrorCode = "verification_missing_executives"
 	BankAccountFutureRequirementsErrorCodeVerificationMissingOwners                              BankAccountFutureRequirementsErrorCode = "verification_missing_owners"
+	BankAccountFutureRequirementsErrorCodeVerificationRejectedOwnershipExemptionReason           BankAccountFutureRequirementsErrorCode = "verification_rejected_ownership_exemption_reason"
 	BankAccountFutureRequirementsErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations BankAccountFutureRequirementsErrorCode = "verification_requires_additional_memorandum_of_associations"
 	BankAccountFutureRequirementsErrorCodeVerificationRequiresAdditionalProofOfRegistration      BankAccountFutureRequirementsErrorCode = "verification_requires_additional_proof_of_registration"
 	BankAccountFutureRequirementsErrorCodeVerificationSupportability                             BankAccountFutureRequirementsErrorCode = "verification_supportability"
@@ -132,6 +136,7 @@ type BankAccountRequirementsErrorCode string
 
 // List of values that BankAccountRequirementsErrorCode can take
 const (
+	BankAccountRequirementsErrorCodeInformationMissing                                     BankAccountRequirementsErrorCode = "information_missing"
 	BankAccountRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountRequirementsErrorCode = "invalid_address_city_state_postal_code"
 	BankAccountRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountRequirementsErrorCode = "invalid_address_highway_contract_box"
 	BankAccountRequirementsErrorCodeInvalidAddressPrivateMailbox                           BankAccountRequirementsErrorCode = "invalid_address_private_mailbox"
@@ -144,6 +149,7 @@ const (
 	BankAccountRequirementsErrorCodeInvalidProductDescriptionLength                        BankAccountRequirementsErrorCode = "invalid_product_description_length"
 	BankAccountRequirementsErrorCodeInvalidProductDescriptionURLMatch                      BankAccountRequirementsErrorCode = "invalid_product_description_url_match"
 	BankAccountRequirementsErrorCodeInvalidRepresentativeCountry                           BankAccountRequirementsErrorCode = "invalid_representative_country"
+	BankAccountRequirementsErrorCodeInvalidSignator                                        BankAccountRequirementsErrorCode = "invalid_signator"
 	BankAccountRequirementsErrorCodeInvalidStatementDescriptorBusinessMismatch             BankAccountRequirementsErrorCode = "invalid_statement_descriptor_business_mismatch"
 	BankAccountRequirementsErrorCodeInvalidStatementDescriptorDenylisted                   BankAccountRequirementsErrorCode = "invalid_statement_descriptor_denylisted"
 	BankAccountRequirementsErrorCodeInvalidStatementDescriptorLength                       BankAccountRequirementsErrorCode = "invalid_statement_descriptor_length"
@@ -205,6 +211,7 @@ const (
 	BankAccountRequirementsErrorCodeVerificationDocumentTypeNotSupported                   BankAccountRequirementsErrorCode = "verification_document_type_not_supported"
 	BankAccountRequirementsErrorCodeVerificationExtraneousDirectors                        BankAccountRequirementsErrorCode = "verification_extraneous_directors"
 	BankAccountRequirementsErrorCodeVerificationFailedAddressMatch                         BankAccountRequirementsErrorCode = "verification_failed_address_match"
+	BankAccountRequirementsErrorCodeVerificationFailedAuthorizerAuthority                  BankAccountRequirementsErrorCode = "verification_failed_authorizer_authority"
 	BankAccountRequirementsErrorCodeVerificationFailedBusinessIecNumber                    BankAccountRequirementsErrorCode = "verification_failed_business_iec_number"
 	BankAccountRequirementsErrorCodeVerificationFailedDocumentMatch                        BankAccountRequirementsErrorCode = "verification_failed_document_match"
 	BankAccountRequirementsErrorCodeVerificationFailedIDNumberMatch                        BankAccountRequirementsErrorCode = "verification_failed_id_number_match"
@@ -219,6 +226,7 @@ const (
 	BankAccountRequirementsErrorCodeVerificationMissingDirectors                           BankAccountRequirementsErrorCode = "verification_missing_directors"
 	BankAccountRequirementsErrorCodeVerificationMissingExecutives                          BankAccountRequirementsErrorCode = "verification_missing_executives"
 	BankAccountRequirementsErrorCodeVerificationMissingOwners                              BankAccountRequirementsErrorCode = "verification_missing_owners"
+	BankAccountRequirementsErrorCodeVerificationRejectedOwnershipExemptionReason           BankAccountRequirementsErrorCode = "verification_rejected_ownership_exemption_reason"
 	BankAccountRequirementsErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations BankAccountRequirementsErrorCode = "verification_requires_additional_memorandum_of_associations"
 	BankAccountRequirementsErrorCodeVerificationRequiresAdditionalProofOfRegistration      BankAccountRequirementsErrorCode = "verification_requires_additional_proof_of_registration"
 	BankAccountRequirementsErrorCodeVerificationSupportability                             BankAccountRequirementsErrorCode = "verification_supportability"
@@ -460,7 +468,7 @@ type BankAccountRequirements struct {
 // Related guide: [Bank debits and transfers](https://stripe.com/payments/bank-debits-transfers)
 type BankAccount struct {
 	APIResource
-	// The ID of the account that the bank account is associated with.
+	// The account this bank account belongs to. Only applicable on Accounts (not customers or recipients) This property is only available when returned as an [External Account](https://stripe.com/api/external_account_bank_accounts/object) where [controller.is_controller](https://stripe.com/api/accounts/object#account_object-controller-is_controller) is `true`.
 	Account *Account `json:"account"`
 	// The name of the person or business that owns the bank account.
 	AccountHolderName string `json:"account_holder_name"`

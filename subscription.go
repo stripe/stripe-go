@@ -210,11 +210,13 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeIDEAL              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
 	SubscriptionPaymentSettingsPaymentMethodTypeJPCreditTransfer   SubscriptionPaymentSettingsPaymentMethodType = "jp_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeKakaoPay           SubscriptionPaymentSettingsPaymentMethodType = "kakao_pay"
+	SubscriptionPaymentSettingsPaymentMethodTypeKlarna             SubscriptionPaymentSettingsPaymentMethodType = "klarna"
 	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodTypeKrCard             SubscriptionPaymentSettingsPaymentMethodType = "kr_card"
 	SubscriptionPaymentSettingsPaymentMethodTypeLink               SubscriptionPaymentSettingsPaymentMethodType = "link"
 	SubscriptionPaymentSettingsPaymentMethodTypeMultibanco         SubscriptionPaymentSettingsPaymentMethodType = "multibanco"
 	SubscriptionPaymentSettingsPaymentMethodTypeNaverPay           SubscriptionPaymentSettingsPaymentMethodType = "naver_pay"
+	SubscriptionPaymentSettingsPaymentMethodTypeNzBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "nz_bank_account"
 	SubscriptionPaymentSettingsPaymentMethodTypeP24                SubscriptionPaymentSettingsPaymentMethodType = "p24"
 	SubscriptionPaymentSettingsPaymentMethodTypePayco              SubscriptionPaymentSettingsPaymentMethodType = "payco"
 	SubscriptionPaymentSettingsPaymentMethodTypePayNow             SubscriptionPaymentSettingsPaymentMethodType = "paynow"
@@ -331,8 +333,6 @@ type SubscriptionParams struct {
 	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
-	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
@@ -341,8 +341,6 @@ type SubscriptionParams struct {
 	CancellationDetails *SubscriptionCancellationDetailsParams `form:"cancellation_details"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
 	CollectionMethod *string `form:"collection_method"`
-	// The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
-	Coupon *string `form:"coupon"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 	// The identifier of the customer to subscribe.
@@ -389,8 +387,6 @@ type SubscriptionParams struct {
 	PaymentSettings *SubscriptionPaymentSettingsParams `form:"payment_settings"`
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://stripe.com/docs/api#create_invoice) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
-	// The promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
-	PromotionCode *string `form:"promotion_code"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#upcoming_invoice) endpoint. It can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
@@ -475,14 +471,6 @@ type SubscriptionAutomaticTaxParams struct {
 	Liability *SubscriptionAutomaticTaxLiabilityParams `form:"liability"`
 }
 
-// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
-type SubscriptionBillingThresholdsParams struct {
-	// Monetary threshold that triggers the subscription to advance to a new billing period
-	AmountGTE *int64 `form:"amount_gte"`
-	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
-	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
-}
-
 // Details about why this subscription was cancelled
 type SubscriptionCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
@@ -520,8 +508,6 @@ type SubscriptionInvoiceSettingsParams struct {
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionItemsParams struct {
 	Params `form:"*"`
-	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
-	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
@@ -837,14 +823,6 @@ type SubscriptionBillingCycleAnchorConfig struct {
 	Second int64 `json:"second"`
 }
 
-// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
-type SubscriptionBillingThresholds struct {
-	// Monetary threshold that triggers the subscription to create an invoice
-	AmountGTE int64 `json:"amount_gte"`
-	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`.
-	ResetBillingCycleAnchor bool `json:"reset_billing_cycle_anchor"`
-}
-
 // Details about why this subscription was cancelled
 type SubscriptionCancellationDetails struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
@@ -1032,8 +1010,6 @@ type Subscription struct {
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The fixed values used to calculate the `billing_cycle_anchor`.
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
-	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
-	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled
 	CancelAt int64 `json:"cancel_at"`
 	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period.
@@ -1048,10 +1024,6 @@ type Subscription struct {
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// End of the current period that the subscription has been invoiced for. At the end of this period, a new invoice will be created.
-	CurrentPeriodEnd int64 `json:"current_period_end"`
-	// Start of the current period that the subscription has been invoiced for.
-	CurrentPeriodStart int64 `json:"current_period_start"`
 	// ID of the customer who owns the subscription.
 	Customer *Customer `json:"customer"`
 	// Number of days a customer has to pay invoices generated by this subscription. This value will be `null` for subscriptions where `collection_method=charge_automatically`.
@@ -1064,8 +1036,6 @@ type Subscription struct {
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
-	// Describes the current discount applied to this subscription, if there is one. When billing, a discount applied to a subscription overrides a discount applied on a customer-wide basis. This field has been deprecated and will be removed in a future API version. Use `discounts` instead.
-	Discount *Discount `json:"discount"`
 	// The discounts applied to the subscription. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*Discount `json:"discounts"`
 	// If the subscription has ended, the date the subscription ended.
@@ -1085,7 +1055,7 @@ type Subscription struct {
 	NextPendingInvoiceItemInvoice int64 `json:"next_pending_invoice_item_invoice"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The account (if any) the charge was made on behalf of for charges associated with this subscription. See the Connect documentation for details.
+	// The account (if any) the charge was made on behalf of for charges associated with this subscription. See the [Connect documentation](https://stripe.com/docs/connect/subscriptions#on-behalf-of) for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionPauseCollection `json:"pause_collection"`

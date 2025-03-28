@@ -269,6 +269,7 @@ const (
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
+	PaymentMethodTypeBillie           PaymentMethodType = "billie"
 	PaymentMethodTypeBLIK             PaymentMethodType = "blik"
 	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
@@ -289,6 +290,7 @@ const (
 	PaymentMethodTypeMobilepay        PaymentMethodType = "mobilepay"
 	PaymentMethodTypeMultibanco       PaymentMethodType = "multibanco"
 	PaymentMethodTypeNaverPay         PaymentMethodType = "naver_pay"
+	PaymentMethodTypeNzBankAccount    PaymentMethodType = "nz_bank_account"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypePayByBank        PaymentMethodType = "pay_by_bank"
@@ -299,6 +301,7 @@ const (
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
 	PaymentMethodTypeSamsungPay       PaymentMethodType = "samsung_pay"
+	PaymentMethodTypeSatispay         PaymentMethodType = "satispay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
@@ -427,6 +430,9 @@ type PaymentMethodBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type PaymentMethodBancontactParams struct{}
 
+// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+type PaymentMethodBillieParams struct{}
+
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type PaymentMethodBillingDetailsParams struct {
 	// Billing address.
@@ -545,6 +551,21 @@ type PaymentMethodNaverPayParams struct {
 	Funding *string `form:"funding"`
 }
 
+// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+type PaymentMethodNzBankAccountParams struct {
+	// The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// The numeric code for the bank account's bank.
+	BankCode *string `form:"bank_code"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode *string `form:"branch_code"`
+	Reference  *string `form:"reference"`
+	// The suffix of the bank account number.
+	Suffix *string `form:"suffix"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type PaymentMethodOXXOParams struct{}
 
@@ -583,6 +604,9 @@ type PaymentMethodRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type PaymentMethodSamsungPayParams struct{}
+
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+type PaymentMethodSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type PaymentMethodSEPADebitParams struct {
@@ -647,6 +671,8 @@ type PaymentMethodParams struct {
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	Billie *PaymentMethodBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentMethodBillingDetailsParams `form:"billing_details"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -691,6 +717,8 @@ type PaymentMethodParams struct {
 	Multibanco *PaymentMethodMultibancoParams `form:"multibanco"`
 	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
 	NaverPay *PaymentMethodNaverPayParams `form:"naver_pay"`
+	// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+	NzBankAccount *PaymentMethodNzBankAccountParams `form:"nz_bank_account"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -713,6 +741,8 @@ type PaymentMethodParams struct {
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	Satispay *PaymentMethodSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -822,6 +852,7 @@ type PaymentMethodBACSDebit struct {
 	SortCode string `json:"sort_code"`
 }
 type PaymentMethodBancontact struct{}
+type PaymentMethodBillie struct{}
 type PaymentMethodBillingDetails struct {
 	// Billing address.
 	Address *Address `json:"address"`
@@ -1199,8 +1230,24 @@ type PaymentMethodLink struct {
 type PaymentMethodMobilepay struct{}
 type PaymentMethodMultibanco struct{}
 type PaymentMethodNaverPay struct {
+	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
+	BuyerID string `json:"buyer_id"`
 	// Whether to fund this transaction with Naver Pay points or a card.
 	Funding PaymentMethodNaverPayFunding `json:"funding"`
+}
+type PaymentMethodNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
 }
 type PaymentMethodOXXO struct{}
 type PaymentMethodP24 struct {
@@ -1229,6 +1276,7 @@ type PaymentMethodRadarOptions struct {
 }
 type PaymentMethodRevolutPay struct{}
 type PaymentMethodSamsungPay struct{}
+type PaymentMethodSatispay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type PaymentMethodSEPADebitGeneratedFrom struct {
@@ -1317,6 +1365,7 @@ type PaymentMethod struct {
 	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
 	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit"`
 	Bancontact     *PaymentMethodBancontact     `json:"bancontact"`
+	Billie         *PaymentMethodBillie         `json:"billie"`
 	BillingDetails *PaymentMethodBillingDetails `json:"billing_details"`
 	BLIK           *PaymentMethodBLIK           `json:"blik"`
 	Boleto         *PaymentMethodBoleto         `json:"boleto"`
@@ -1344,10 +1393,11 @@ type PaymentMethod struct {
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata   map[string]string        `json:"metadata"`
-	Mobilepay  *PaymentMethodMobilepay  `json:"mobilepay"`
-	Multibanco *PaymentMethodMultibanco `json:"multibanco"`
-	NaverPay   *PaymentMethodNaverPay   `json:"naver_pay"`
+	Metadata      map[string]string           `json:"metadata"`
+	Mobilepay     *PaymentMethodMobilepay     `json:"mobilepay"`
+	Multibanco    *PaymentMethodMultibanco    `json:"multibanco"`
+	NaverPay      *PaymentMethodNaverPay      `json:"naver_pay"`
+	NzBankAccount *PaymentMethodNzBankAccount `json:"nz_bank_account"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object    string                  `json:"object"`
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
@@ -1362,6 +1412,7 @@ type PaymentMethod struct {
 	RadarOptions *PaymentMethodRadarOptions `json:"radar_options"`
 	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay"`
 	SamsungPay   *PaymentMethodSamsungPay   `json:"samsung_pay"`
+	Satispay     *PaymentMethodSatispay     `json:"satispay"`
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
 	Sofort       *PaymentMethodSofort       `json:"sofort"`
 	Swish        *PaymentMethodSwish        `json:"swish"`
