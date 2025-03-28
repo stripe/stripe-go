@@ -315,6 +315,7 @@ const (
 	EventTypeBillingMeterDeactivated                              EventType = "billing.meter.deactivated"
 	EventTypeBillingMeterReactivated                              EventType = "billing.meter.reactivated"
 	EventTypeBillingMeterUpdated                                  EventType = "billing.meter.updated"
+	EventTypeBalanceSettingsUpdated                               EventType = "balance_settings.updated"
 )
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
