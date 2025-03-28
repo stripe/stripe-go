@@ -557,6 +557,12 @@ type AccountCapabilitiesNaverPayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The nz_bank_account_becs_debit_payments capability.
+type AccountCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The oxxo_payments capability.
 type AccountCapabilitiesOXXOPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -762,6 +768,8 @@ type AccountCapabilitiesParams struct {
 	MXBankTransferPayments *AccountCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments"`
 	// The naver_pay_payments capability.
 	NaverPayPayments *AccountCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments"`
+	// The nz_bank_account_becs_debit_payments capability.
+	NzBankAccountBECSDebitPayments *AccountCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments"`
 	// The oxxo_payments capability.
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
@@ -1355,6 +1363,8 @@ type AccountCapabilities struct {
 	MXBankTransferPayments AccountCapabilityStatus `json:"mx_bank_transfer_payments"`
 	// The status of the NaverPay capability of the account, or whether the account can directly process NaverPay payments.
 	NaverPayPayments AccountCapabilityStatus `json:"naver_pay_payments"`
+	// The status of the New Zealand BECS Direct Debit payments capability of the account, or whether the account can directly process New Zealand BECS Direct Debit charges.
+	NzBankAccountBECSDebitPayments AccountCapabilityStatus `json:"nz_bank_account_becs_debit_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
