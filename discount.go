@@ -21,7 +21,9 @@ type Discount struct {
 	Coupon *Coupon `json:"coupon"`
 	// The ID of the customer associated with this discount.
 	Customer *Customer `json:"customer"`
-	Deleted  bool      `json:"deleted"`
+	// The ID of the account associated with this discount.
+	CustomerAccount string `json:"customer_account"`
+	Deleted         bool   `json:"deleted"`
 	// If the coupon has a duration of `repeating`, the date that this discount will end. If the coupon has a duration of `once` or `forever`, this attribute will be null.
 	End int64 `json:"end"`
 	// The ID of the discount object. Discounts cannot be fetched by ID. Use `expand[]=discounts` in API calls to expand discount IDs in an array.

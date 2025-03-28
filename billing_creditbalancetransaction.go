@@ -59,6 +59,8 @@ type BillingCreditBalanceTransactionListParams struct {
 	CreditGrant *string `form:"credit_grant"`
 	// The customer for which to fetch credit balance transactions.
 	Customer *string `form:"customer"`
+	// The account for which to fetch credit balance transactions.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }

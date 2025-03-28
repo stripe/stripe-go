@@ -151,7 +151,8 @@ type CustomerCashBalanceTransaction struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The customer whose available cash balance changed as a result of this transaction.
-	Customer *Customer `json:"customer"`
+	Customer        *Customer `json:"customer"`
+	CustomerAccount string    `json:"customer_account"`
 	// The total available cash balance for the specified currency after this transaction was applied. Represented in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	EndingBalance int64                                 `json:"ending_balance"`
 	Funded        *CustomerCashBalanceTransactionFunded `json:"funded"`

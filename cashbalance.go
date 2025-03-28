@@ -49,6 +49,8 @@ type CashBalance struct {
 	Available map[string]int64 `json:"available"`
 	// The ID of the customer whose cash balance this object represents.
 	Customer string `json:"customer"`
+	// The ID of the account whose cash balance this object represents.
+	CustomerAccount string `json:"customer_account"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.

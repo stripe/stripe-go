@@ -38,17 +38,6 @@ const (
 	PriceMigrateToBehaviorAtCycleEnd PriceMigrateToBehavior = "at_cycle_end"
 )
 
-// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Defaults to `sum`.
-type PriceRecurringAggregateUsage string
-
-// List of values that PriceRecurringAggregateUsage can take
-const (
-	PriceRecurringAggregateUsageLastDuringPeriod PriceRecurringAggregateUsage = "last_during_period"
-	PriceRecurringAggregateUsageLastEver         PriceRecurringAggregateUsage = "last_ever"
-	PriceRecurringAggregateUsageMax              PriceRecurringAggregateUsage = "max"
-	PriceRecurringAggregateUsageSum              PriceRecurringAggregateUsage = "sum"
-)
-
 // The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.
 type PriceRecurringInterval string
 
@@ -235,8 +224,6 @@ func (p *PriceProductDataParams) AddMetadata(key string, value string) {
 
 // The recurring components of a price such as `interval` and `usage_type`.
 type PriceRecurringParams struct {
-	// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Defaults to `sum`.
-	AggregateUsage *string `form:"aggregate_usage"`
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
 	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
@@ -425,8 +412,6 @@ type PriceMigrateTo struct {
 
 // The recurring components of a price such as `interval` and `usage_type`.
 type PriceRecurring struct {
-	// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Defaults to `sum`.
-	AggregateUsage PriceRecurringAggregateUsage `json:"aggregate_usage"`
 	// The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.
 	Interval PriceRecurringInterval `json:"interval"`
 	// The number of intervals (specified in the `interval` attribute) between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months.
