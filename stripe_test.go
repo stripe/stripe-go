@@ -48,6 +48,96 @@ func TestBearerAuth(t *testing.T) {
 	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
 }
 
+func TestApiVersion(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, APIVersion, req.Header.Get("Stripe-Version"))
+}
+
+func TestCanSetBetaHeaders(t *testing.T) {
+	defer cleanupBetaHeaders()
+	AddBetaVersion("feature_in_beta", "v3")
+
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, APIVersion+"; feature_in_beta=v3", req.Header.Get("Stripe-Version"))
+}
+
+func TestSetBetaVersionTwiceAsc(t *testing.T) {
+	defer cleanupBetaHeaders()
+	err := AddBetaVersion("feature_in_beta", "v3")
+	assert.Nil(t, err)
+	err = AddBetaVersion("feature_in_beta", "v5")
+	assert.Nil(t, err)
+
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, APIVersion+"; feature_in_beta=v5", req.Header.Get("Stripe-Version"))
+
+	// clean up
+	apiVersionWithBetaHeaders = APIVersion
+}
+
+func TestSetBetaVersionTwiceDesc(t *testing.T) {
+	defer cleanupBetaHeaders()
+	err := AddBetaVersion("feature_in_beta", "v5")
+	assert.Nil(t, err)
+	err = AddBetaVersion("feature_in_beta", "v3")
+	assert.Nil(t, err)
+
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, APIVersion+"; feature_in_beta=v5", req.Header.Get("Stripe-Version"))
+
+	// clean up
+	apiVersionWithBetaHeaders = APIVersion
+}
+
+func TestCannotSetSameBetaHeaderWithInvalidString(t *testing.T) {
+	defer cleanupBetaHeaders()
+	err := AddBetaVersion("feature_in_beta", "f3")
+	assert.Equal(t, err.Error(), "beta version should start with 'v'")
+
+	err = AddBetaVersion("feature_in_beta", "v3a")
+	assert.Equal(t, err.Error(), "beta version should start with 'v' followed by a number")
+
+	// clean up
+	apiVersionWithBetaHeaders = APIVersion
+}
+
+func TestCanSetSecondBetaHeaders(t *testing.T) {
+	defer cleanupBetaHeaders()
+	AddBetaVersion("feature_in_beta", "v3")
+	AddBetaVersion("second_feature_in_beta", "v2")
+
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, APIVersion+"; feature_in_beta=v3; second_feature_in_beta=v2", req.Header.Get("Stripe-Version"))
+
+	// clean up
+	apiVersionWithBetaHeaders = APIVersion
+}
+
 func TestContext(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{Context: context.Background()}
@@ -1633,6 +1723,52 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 	defer testServer.Close()
 }
 
+func TestRawRequestTelemetry(t *testing.T) {
+	var telemetry []byte
+	i := 0
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		r.Body.Close()
+		telemetry = []byte(r.Header.Get("X-Stripe-Client-Telemetry"))
+		i += 1
+		w.Header().Add("Request-Id", fmt.Sprintf("req_%d", i))
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+	}))
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+			EnableTelemetry:   Bool(true),
+		},
+	).(*BackendImplementation)
+
+	params := &RawParams{Params: Params{}}
+	_, err := backend.RawRequest(http.MethodPost, "/v2/abcs", "sk_test_xyz", `{}`, params)
+	assert.Empty(t, telemetry)
+	assert.NoError(t, err)
+	// Again, for the telemetry.
+	_, err = backend.RawRequest(http.MethodPost, "/v2/abcs", "sk_test_xyz", `{}`, params)
+	assert.NoError(t, err)
+	metrics := struct {
+		LastRequestMetrics requestMetrics `json:"last_request_metrics"`
+	}{}
+	json.Unmarshal(telemetry, &metrics)
+	assert.Equal(t, []string{"raw_request"}, metrics.LastRequestMetrics.Usage)
+	defer testServer.Close()
+}
+
+func TestAddBetaVersion(t *testing.T) {
+	defer cleanupBetaHeaders()
+	AddBetaVersion("feature_beta", "v3")
+	expectedAPIVersion := APIVersion + "; feature_beta=v3"
+	assert.Equal(t, expectedAPIVersion, apiVersionWithBetaHeaders)
+	err := AddBetaVersion("feature_beta", "v3")
+	assert.Nil(t, err)
+}
+
 //
 // ---
 //
@@ -1641,6 +1777,10 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 // which comes wrapper in a JSON object with a single field of "error".
 func wrapError(serialized []byte) []byte {
 	return []byte(`{"error":` + string(serialized) + `}`)
+}
+
+func cleanupBetaHeaders() {
+	apiVersionWithBetaHeaders = APIVersion
 }
 
 func TestStripeContextWhenUnset(t *testing.T) {
