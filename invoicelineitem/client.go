@@ -4,7 +4,7 @@
 //
 //
 
-// Package invoicelineitem provides the /invoices/{invoice}/lines APIs
+// Package invoicelineitem provides the /v1/invoices/{invoice}/lines APIs
 package invoicelineitem
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /invoices/{invoice}/lines APIs.
+// Client is used to invoke /v1/invoices/{invoice}/lines APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

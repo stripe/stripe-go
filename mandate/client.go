@@ -4,7 +4,7 @@
 //
 //
 
-// Package mandate provides the /mandates APIs
+// Package mandate provides the /v1/mandates APIs
 package mandate
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /mandates APIs.
+// Client is used to invoke /v1/mandates APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

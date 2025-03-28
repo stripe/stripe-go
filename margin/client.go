@@ -4,7 +4,7 @@
 //
 //
 
-// Package margin provides the /billing/margins APIs
+// Package margin provides the /v1/billing/margins APIs
 package margin
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /billing/margins APIs.
+// Client is used to invoke /v1/billing/margins APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

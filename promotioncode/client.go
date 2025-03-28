@@ -4,7 +4,7 @@
 //
 //
 
-// Package promotioncode provides the /promotion_codes APIs
+// Package promotioncode provides the /v1/promotion_codes APIs
 package promotioncode
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /promotion_codes APIs.
+// Client is used to invoke /v1/promotion_codes APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package institution provides the /financial_connections/institutions APIs
+// Package institution provides the /v1/financial_connections/institutions APIs
 package institution
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /financial_connections/institutions APIs.
+// Client is used to invoke /v1/financial_connections/institutions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package review provides the /reviews APIs
+// Package review provides the /v1/reviews APIs
 package review
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /reviews APIs.
+// Client is used to invoke /v1/reviews APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

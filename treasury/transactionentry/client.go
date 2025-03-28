@@ -4,7 +4,7 @@
 //
 //
 
-// Package transactionentry provides the /treasury/transaction_entries APIs
+// Package transactionentry provides the /v1/treasury/transaction_entries APIs
 package transactionentry
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /treasury/transaction_entries APIs.
+// Client is used to invoke /v1/treasury/transaction_entries APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package taxrate provides the /tax_rates APIs
+// Package taxrate provides the /v1/tax_rates APIs
 package taxrate
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /tax_rates APIs.
+// Client is used to invoke /v1/tax_rates APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

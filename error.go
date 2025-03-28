@@ -6,19 +6,13 @@ import (
 )
 
 // errorEnums: The beginning of the section generated from our OpenAPI spec
-// Open Enum: Request param that is invalid.
 type InvalidPaymentMethodInvalidParam string
 
 // List of values that InvalidPaymentMethodInvalidParam can take
 const (
-	InvalidPaymentMethodInvalidParamCountry    InvalidPaymentMethodInvalidParam = "country"
-	InvalidPaymentMethodInvalidParamCVC        InvalidPaymentMethodInvalidParam = "cvc"
-	InvalidPaymentMethodInvalidParamExpDate    InvalidPaymentMethodInvalidParam = "exp_date"
-	InvalidPaymentMethodInvalidParamExpMonth   InvalidPaymentMethodInvalidParam = "exp_month"
-	InvalidPaymentMethodInvalidParamExpYear    InvalidPaymentMethodInvalidParam = "exp_year"
-	InvalidPaymentMethodInvalidParamNumber     InvalidPaymentMethodInvalidParam = "number"
-	InvalidPaymentMethodInvalidParamPostalCode InvalidPaymentMethodInvalidParam = "postal_code"
-	InvalidPaymentMethodInvalidParamState      InvalidPaymentMethodInvalidParam = "state"
+	InvalidPaymentMethodInvalidParamAccountNumber        InvalidPaymentMethodInvalidParam = "account_number"
+	InvalidPaymentMethodInvalidParamFedwireRoutingNumber InvalidPaymentMethodInvalidParam = "fedwire_routing_number"
+	InvalidPaymentMethodInvalidParamRoutingNumber        InvalidPaymentMethodInvalidParam = "routing_number"
 )
 
 // errorEnums: The end of the section generated from our OpenAPI spec
@@ -42,6 +36,7 @@ const (
 	ErrorTypeFinancialAccountNotOpen ErrorType = "financial_account_not_open"
 	ErrorTypeInsufficientFunds       ErrorType = "insufficient_funds"
 	ErrorTypeInvalidPaymentMethod    ErrorType = "invalid_payment_method"
+	ErrorTypeInvalidPayoutMethod     ErrorType = "invalid_payout_method"
 	ErrorTypeNotCancelable           ErrorType = "not_cancelable"
 	ErrorTypeQuotaExceeded           ErrorType = "quota_exceeded"
 	ErrorTypeRecipientNotNotifiable  ErrorType = "recipient_not_notifiable"
@@ -108,11 +103,15 @@ const (
 	ErrorCodeEmailInvalid                                                ErrorCode = "email_invalid"
 	ErrorCodeExpiredCard                                                 ErrorCode = "expired_card"
 	ErrorCodeFinancialConnectionsAccountInactive                         ErrorCode = "financial_connections_account_inactive"
+	ErrorCodeFinancialConnectionsInstitutionUnavailable                  ErrorCode = "financial_connections_institution_unavailable"
 	ErrorCodeFinancialConnectionsNoSuccessfulTransactionRefresh          ErrorCode = "financial_connections_no_successful_transaction_refresh"
 	ErrorCodeForwardingAPIInactive                                       ErrorCode = "forwarding_api_inactive"
 	ErrorCodeForwardingAPIInvalidParameter                               ErrorCode = "forwarding_api_invalid_parameter"
 	ErrorCodeForwardingAPIUpstreamConnectionError                        ErrorCode = "forwarding_api_upstream_connection_error"
 	ErrorCodeForwardingAPIUpstreamConnectionTimeout                      ErrorCode = "forwarding_api_upstream_connection_timeout"
+	ErrorCodeGiftCardBalanceInsufficient                                 ErrorCode = "gift_card_balance_insufficient"
+	ErrorCodeGiftCardCodeExists                                          ErrorCode = "gift_card_code_exists"
+	ErrorCodeGiftCardInactive                                            ErrorCode = "gift_card_inactive"
 	ErrorCodeIdempotencyKeyInUse                                         ErrorCode = "idempotency_key_in_use"
 	ErrorCodeIncorrectAddress                                            ErrorCode = "incorrect_address"
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
@@ -204,10 +203,12 @@ const (
 	ErrorCodeSEPAUnsupportedAccount                                      ErrorCode = "sepa_unsupported_account"
 	ErrorCodeSKUInactive                                                 ErrorCode = "sku_inactive"
 	ErrorCodeSecretKeyRequired                                           ErrorCode = "secret_key_required"
+	ErrorCodeSensitiveDataAccessExpired                                  ErrorCode = "sensitive_data_access_expired"
 	ErrorCodeSetupAttemptFailed                                          ErrorCode = "setup_attempt_failed"
 	ErrorCodeSetupIntentAuthenticationFailure                            ErrorCode = "setup_intent_authentication_failure"
 	ErrorCodeSetupIntentInvalidParameter                                 ErrorCode = "setup_intent_invalid_parameter"
 	ErrorCodeSetupIntentMandateInvalid                                   ErrorCode = "setup_intent_mandate_invalid"
+	ErrorCodeSetupIntentMobileWalletUnsupported                          ErrorCode = "setup_intent_mobile_wallet_unsupported"
 	ErrorCodeSetupIntentSetupAttemptExpired                              ErrorCode = "setup_intent_setup_attempt_expired"
 	ErrorCodeSetupIntentUnexpectedState                                  ErrorCode = "setup_intent_unexpected_state"
 	ErrorCodeShippingAddressInvalid                                      ErrorCode = "shipping_address_invalid"
@@ -220,6 +221,7 @@ const (
 	ErrorCodeTaxesCalculationFailed                                      ErrorCode = "taxes_calculation_failed"
 	ErrorCodeTerminalLocationCountryUnsupported                          ErrorCode = "terminal_location_country_unsupported"
 	ErrorCodeTerminalReaderBusy                                          ErrorCode = "terminal_reader_busy"
+	ErrorCodeTerminalReaderCollectedDataInvalid                          ErrorCode = "terminal_reader_collected_data_invalid"
 	ErrorCodeTerminalReaderHardwareFault                                 ErrorCode = "terminal_reader_hardware_fault"
 	ErrorCodeTerminalReaderInvalidLocationForActivation                  ErrorCode = "terminal_reader_invalid_location_for_activation"
 	ErrorCodeTerminalReaderInvalidLocationForPayment                     ErrorCode = "terminal_reader_invalid_location_for_payment"
@@ -241,18 +243,21 @@ type V2ErrorCode string
 
 // v2ErrorCodes: The beginning of the section generated from our OpenAPI spec
 const (
-	ErrorCodeArchivedCard                                V2ErrorCode = "archived_card"
+	ErrorCodeArchivedPayoutMethodCard                    V2ErrorCode = "archived_payout_method_card"
+	ErrorCodeBankAccountCannotBeArchived                 V2ErrorCode = "bank_account_cannot_be_archived"
+	ErrorCodeBankAccountCannotBeUnarchived               V2ErrorCode = "bank_account_cannot_be_unarchived"
 	ErrorCodeBillingMeterEventSessionExpired             V2ErrorCode = "billing_meter_event_session_expired"
+	ErrorCodeBlockedPayoutMethodBankAccount              V2ErrorCode = "blocked_payout_method_bank_account"
+	ErrorCodeBlockedPayoutMethodCard                     V2ErrorCode = "blocked_payout_method_card"
 	ErrorCodeBlockedUSBankAccount                        V2ErrorCode = "blocked_us_bank_account"
-	ErrorCodeCardAddressInvalidCountry                   V2ErrorCode = "card_address_invalid_country"
-	ErrorCodeCardAddressInvalidPostalCode                V2ErrorCode = "card_address_invalid_postal_code"
-	ErrorCodeCardAddressInvalidState                     V2ErrorCode = "card_address_invalid_state"
-	ErrorCodeCardOutboundSupportabilityInvalid           V2ErrorCode = "card_outbound_supportability_invalid"
 	ErrorCodeFinancialAccountNotInOpenStatus             V2ErrorCode = "financial_account_not_in_open_status"
 	ErrorCodeInboundTransferNotAllowed                   V2ErrorCode = "inbound_transfer_not_allowed"
-	ErrorCodeInvalidCard                                 V2ErrorCode = "invalid_card"
+	ErrorCodeInvalidPayoutMethod                         V2ErrorCode = "invalid_payout_method"
+	ErrorCodeInvalidPayoutMethodBankAccount              V2ErrorCode = "invalid_payout_method_bank_account"
+	ErrorCodeInvalidPayoutMethodCard                     V2ErrorCode = "invalid_payout_method_card"
 	ErrorCodeInvalidUSBankAccount                        V2ErrorCode = "invalid_us_bank_account"
-	ErrorCodeLimitCard                                   V2ErrorCode = "limit_card"
+	ErrorCodeLimitPayoutMethodBankAccount                V2ErrorCode = "limit_payout_method_bank_account"
+	ErrorCodeLimitPayoutMethodCard                       V2ErrorCode = "limit_payout_method_card"
 	ErrorCodeLimitUSBankAccount                          V2ErrorCode = "limit_us_bank_account"
 	ErrorCodeOutboundPaymentAlreadyCanceled              V2ErrorCode = "outbound_payment_already_canceled"
 	ErrorCodeOutboundPaymentInsufficientFunds            V2ErrorCode = "outbound_payment_insufficient_funds"
@@ -265,6 +270,7 @@ const (
 	ErrorCodeOutboundTransferInsufficientFunds           V2ErrorCode = "outbound_transfer_insufficient_funds"
 	ErrorCodeOutboundTransferNotCancelable               V2ErrorCode = "outbound_transfer_not_cancelable"
 	ErrorCodeUSBankAccountCannotBeArchived               V2ErrorCode = "us_bank_account_cannot_be_archived"
+	ErrorCodeUnsupportedPayoutMethodBankAccount          V2ErrorCode = "unsupported_payout_method_bank_account"
 )
 
 // v2ErrorCodes: The end of the section generated from our OpenAPI spec
@@ -707,37 +713,35 @@ func (e *FeatureNotEnabledError) canRetry() bool {
 	return false
 }
 
-// InvalidPaymentMethodError is the Go struct corresponding to the error type "invalid_payment_method."
-// Card billing address's country field is invalid.
-type InvalidPaymentMethodError struct {
+// InvalidPayoutMethodError is the Go struct corresponding to the error type "invalid_payout_method."
+// Returned in cases where the ID provided doesn't correspond to a valid payout method.
+type InvalidPayoutMethodError struct {
 	APIResource
-	Code   V2ErrorCode `json:"code"`
-	DocURL *string     `json:"doc_url,omitempty"`
-	// Open Enum: Request param that is invalid.
-	InvalidParam InvalidPaymentMethodInvalidParam `json:"invalid_param"`
-	Message      string                           `json:"message"`
-	Type         ErrorType                        `json:"type"`
-	UserMessage  *string                          `json:"user_message,omitempty"`
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *InvalidPaymentMethodError) Error() string {
+func (e *InvalidPayoutMethodError) Error() string {
 	ret, _ := json.Marshal(e)
 	return string(ret)
 }
 
 // redact implements the redacter interface.
-func (e *InvalidPaymentMethodError) redact() error {
+func (e *InvalidPayoutMethodError) redact() error {
 	return e
 }
 
 // canRetry implements the retrier interface.
-func (e *InvalidPaymentMethodError) canRetry() bool {
+func (e *InvalidPayoutMethodError) canRetry() bool {
 	return false
 }
 
 // ControlledByDashboardError is the Go struct corresponding to the error type "controlled_by_dashboard."
-// Returned when the US Bank Account in question is controlled by the Stripe Dashboard, and cannot be archived.
+// Returned when the PayoutMethodBankAccount object is controlled by the Stripe Dashboard, and cannot be archived.
 type ControlledByDashboardError struct {
 	APIResource
 	Code        V2ErrorCode `json:"code"`
@@ -760,6 +764,35 @@ func (e *ControlledByDashboardError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *ControlledByDashboardError) canRetry() bool {
+	return false
+}
+
+// InvalidPaymentMethodError is the Go struct corresponding to the error type "invalid_payment_method."
+// Returned in cases where the bank account provided is not valid (wrong format of account number
+// or a routing number that does not correspond to a banking institution).
+type InvalidPaymentMethodError struct {
+	APIResource
+	Code         V2ErrorCode                      `json:"code"`
+	DocURL       *string                          `json:"doc_url,omitempty"`
+	InvalidParam InvalidPaymentMethodInvalidParam `json:"invalid_param"`
+	Message      string                           `json:"message"`
+	Type         ErrorType                        `json:"type"`
+	UserMessage  *string                          `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *InvalidPaymentMethodError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *InvalidPaymentMethodError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *InvalidPaymentMethodError) canRetry() bool {
 	return false
 }
 

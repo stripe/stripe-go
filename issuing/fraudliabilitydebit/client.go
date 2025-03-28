@@ -4,7 +4,7 @@
 //
 //
 
-// Package fraudliabilitydebit provides the /issuing/fraud_liability_debits APIs
+// Package fraudliabilitydebit provides the /v1/issuing/fraud_liability_debits APIs
 package fraudliabilitydebit
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /issuing/fraud_liability_debits APIs.
+// Client is used to invoke /v1/issuing/fraud_liability_debits APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

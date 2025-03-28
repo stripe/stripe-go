@@ -4,7 +4,7 @@
 //
 //
 
-// Package physicalbundle provides the /issuing/physical_bundles APIs
+// Package physicalbundle provides the /v1/issuing/physical_bundles APIs
 package physicalbundle
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /issuing/physical_bundles APIs.
+// Client is used to invoke /v1/issuing/physical_bundles APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

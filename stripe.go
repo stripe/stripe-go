@@ -1038,11 +1038,11 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
-	case "invalid_payment_method":
+	case "invalid_payout_method":
 		tmp := struct {
-			Error *InvalidPaymentMethodError `json:"error"`
+			Error *InvalidPayoutMethodError `json:"error"`
 		}{
-			Error: &InvalidPaymentMethodError{},
+			Error: &InvalidPayoutMethodError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err
@@ -1054,6 +1054,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 			Error *ControlledByDashboardError `json:"error"`
 		}{
 			Error: &ControlledByDashboardError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "invalid_payment_method":
+		tmp := struct {
+			Error *InvalidPaymentMethodError `json:"error"`
+		}{
+			Error: &InvalidPaymentMethodError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err

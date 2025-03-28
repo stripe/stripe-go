@@ -4,7 +4,7 @@
 //
 //
 
-// Package form provides the /tax/forms APIs
+// Package form provides the /v1/tax/forms APIs
 package form
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /tax/forms APIs.
+// Client is used to invoke /v1/tax/forms APIs.
 type Client struct {
 	B        stripe.Backend
 	BUploads stripe.Backend

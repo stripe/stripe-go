@@ -4,7 +4,7 @@
 //
 //
 
-// Package creditbalancesummary provides the /billing/credit_balance_summary APIs
+// Package creditbalancesummary provides the /v1/billing/credit_balance_summary APIs
 package creditbalancesummary
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /billing/credit_balance_summary APIs.
+// Client is used to invoke /v1/billing/credit_balance_summary APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
