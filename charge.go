@@ -356,6 +356,16 @@ const (
 	ChargePaymentMethodDetailsRevolutPayFundingTypeCard ChargePaymentMethodDetailsRevolutPayFundingType = "card"
 )
 
+// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+type ChargePaymentMethodDetailsStripeBalanceSourceType string
+
+// List of values that ChargePaymentMethodDetailsStripeBalanceSourceType can take
+const (
+	ChargePaymentMethodDetailsStripeBalanceSourceTypeBankAccount ChargePaymentMethodDetailsStripeBalanceSourceType = "bank_account"
+	ChargePaymentMethodDetailsStripeBalanceSourceTypeCard        ChargePaymentMethodDetailsStripeBalanceSourceType = "card"
+	ChargePaymentMethodDetailsStripeBalanceSourceTypeFPX         ChargePaymentMethodDetailsStripeBalanceSourceType = "fpx"
+)
+
 // The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 // An additional hash is included on `payment_method_details` with a name matching this value.
 // It contains information specific to the payment method.
@@ -1925,6 +1935,20 @@ type ChargePaymentMethodDetailsNaverPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
 }
+type ChargePaymentMethodDetailsNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type ChargePaymentMethodDetailsOXXO struct {
 	// OXXO reference number
 	Number string `json:"number"`
@@ -2081,6 +2105,12 @@ type ChargePaymentMethodDetailsSofort struct {
 	VerifiedName string `json:"verified_name"`
 }
 type ChargePaymentMethodDetailsStripeAccount struct{}
+type ChargePaymentMethodDetailsStripeBalance struct {
+	// The connected account ID whose Stripe balance to use as the source of payment
+	Account string `json:"account"`
+	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+	SourceType ChargePaymentMethodDetailsStripeBalanceSourceType `json:"source_type"`
+}
 type ChargePaymentMethodDetailsSwish struct {
 	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
 	Fingerprint string `json:"fingerprint"`
@@ -2154,6 +2184,7 @@ type ChargePaymentMethodDetails struct {
 	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay"`
 	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
 	NaverPay           *ChargePaymentMethodDetailsNaverPay           `json:"naver_pay"`
+	NzBankAccount      *ChargePaymentMethodDetailsNzBankAccount      `json:"nz_bank_account"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
 	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
 	PayByBank          *ChargePaymentMethodDetailsPayByBank          `json:"pay_by_bank"`
@@ -2173,6 +2204,7 @@ type ChargePaymentMethodDetails struct {
 	Shopeepay          *ChargePaymentMethodDetailsShopeepay          `json:"shopeepay"`
 	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort"`
 	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account"`
+	StripeBalance      *ChargePaymentMethodDetailsStripeBalance      `json:"stripe_balance"`
 	Swish              *ChargePaymentMethodDetailsSwish              `json:"swish"`
 	TWINT              *ChargePaymentMethodDetailsTWINT              `json:"twint"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
@@ -2251,10 +2283,8 @@ type Charge struct {
 	// Information on fraud assessments for the charge.
 	FraudDetails *ChargeFraudDetails `json:"fraud_details"`
 	// Unique identifier for the object.
-	ID string `json:"id"`
-	// ID of the invoice this charge is for if one exists.
-	Invoice *Invoice      `json:"invoice"`
-	Level3  *ChargeLevel3 `json:"level3"`
+	ID     string        `json:"id"`
+	Level3 *ChargeLevel3 `json:"level3"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

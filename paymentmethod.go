@@ -266,6 +266,16 @@ const (
 	PaymentMethodNaverPayFundingPoints PaymentMethodNaverPayFunding = "points"
 )
 
+// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+type PaymentMethodStripeBalanceSourceType string
+
+// List of values that PaymentMethodStripeBalanceSourceType can take
+const (
+	PaymentMethodStripeBalanceSourceTypeBankAccount PaymentMethodStripeBalanceSourceType = "bank_account"
+	PaymentMethodStripeBalanceSourceTypeCard        PaymentMethodStripeBalanceSourceType = "card"
+	PaymentMethodStripeBalanceSourceTypeFPX         PaymentMethodStripeBalanceSourceType = "fpx"
+)
+
 // The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 type PaymentMethodType string
 
@@ -304,6 +314,7 @@ const (
 	PaymentMethodTypeMobilepay        PaymentMethodType = "mobilepay"
 	PaymentMethodTypeMultibanco       PaymentMethodType = "multibanco"
 	PaymentMethodTypeNaverPay         PaymentMethodType = "naver_pay"
+	PaymentMethodTypeNzBankAccount    PaymentMethodType = "nz_bank_account"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypePayByBank        PaymentMethodType = "pay_by_bank"
@@ -321,6 +332,7 @@ const (
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeShopeepay        PaymentMethodType = "shopeepay"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
+	PaymentMethodTypeStripeBalance    PaymentMethodType = "stripe_balance"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
 	PaymentMethodTypeTWINT            PaymentMethodType = "twint"
 	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
@@ -580,6 +592,21 @@ type PaymentMethodNaverPayParams struct {
 	Funding *string `form:"funding"`
 }
 
+// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+type PaymentMethodNzBankAccountParams struct {
+	// The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// The numeric code for the bank account's bank.
+	BankCode *string `form:"bank_code"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode *string `form:"branch_code"`
+	Reference  *string `form:"reference"`
+	// The suffix of the bank account number.
+	Suffix *string `form:"suffix"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type PaymentMethodOXXOParams struct{}
 
@@ -648,7 +675,7 @@ type PaymentMethodRevolutPayParams struct{}
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type PaymentMethodSamsungPayParams struct{}
 
-// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 type PaymentMethodSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -664,6 +691,14 @@ type PaymentMethodShopeepayParams struct{}
 type PaymentMethodSofortParams struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country *string `form:"country"`
+}
+
+// This hash contains details about the Stripe balance payment method.
+type PaymentMethodStripeBalanceParams struct {
+	// The connected account ID whose Stripe balance to use as the source of payment
+	Account *string `form:"account"`
+	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+	SourceType *string `form:"source_type"`
 }
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -769,6 +804,8 @@ type PaymentMethodParams struct {
 	Multibanco *PaymentMethodMultibancoParams `form:"multibanco"`
 	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
 	NaverPay *PaymentMethodNaverPayParams `form:"naver_pay"`
+	// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+	NzBankAccount *PaymentMethodNzBankAccountParams `form:"nz_bank_account"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -797,7 +834,7 @@ type PaymentMethodParams struct {
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
-	// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 	Satispay *PaymentMethodSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
@@ -805,6 +842,8 @@ type PaymentMethodParams struct {
 	Shopeepay *PaymentMethodShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
+	// This hash contains details about the Stripe balance payment method.
+	StripeBalance *PaymentMethodStripeBalanceParams `form:"stripe_balance"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodSwishParams `form:"swish"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -855,6 +894,8 @@ type PaymentMethodAttachParams struct {
 	Params `form:"*"`
 	// The ID of the customer to which to attach the PaymentMethod.
 	Customer *string `form:"customer"`
+	// The ID of the account to which to attach the PaymentMethod.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -1301,6 +1342,20 @@ type PaymentMethodNaverPay struct {
 	// Whether to fund this transaction with Naver Pay points or a card.
 	Funding PaymentMethodNaverPayFunding `json:"funding"`
 }
+type PaymentMethodNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type PaymentMethodOXXO struct{}
 type PaymentMethodP24 struct {
 	// The customer's bank, if provided.
@@ -1381,6 +1436,12 @@ type PaymentMethodSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 }
+type PaymentMethodStripeBalance struct {
+	// The connected account ID whose Stripe balance to use as the source of payment
+	Account string `json:"account"`
+	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+	SourceType PaymentMethodStripeBalanceSourceType `json:"source_type"`
+}
 type PaymentMethodSwish struct{}
 type PaymentMethodTWINT struct{}
 
@@ -1456,6 +1517,7 @@ type PaymentMethod struct {
 	Created int64 `json:"created"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
 	Customer        *Customer                     `json:"customer"`
+	CustomerAccount string                        `json:"customer_account"`
 	CustomerBalance *PaymentMethodCustomerBalance `json:"customer_balance"`
 	EPS             *PaymentMethodEPS             `json:"eps"`
 	FPX             *PaymentMethodFPX             `json:"fpx"`
@@ -1476,10 +1538,11 @@ type PaymentMethod struct {
 	Livemode bool                `json:"livemode"`
 	MbWay    *PaymentMethodMbWay `json:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata   map[string]string        `json:"metadata"`
-	Mobilepay  *PaymentMethodMobilepay  `json:"mobilepay"`
-	Multibanco *PaymentMethodMultibanco `json:"multibanco"`
-	NaverPay   *PaymentMethodNaverPay   `json:"naver_pay"`
+	Metadata      map[string]string           `json:"metadata"`
+	Mobilepay     *PaymentMethodMobilepay     `json:"mobilepay"`
+	Multibanco    *PaymentMethodMultibanco    `json:"multibanco"`
+	NaverPay      *PaymentMethodNaverPay      `json:"naver_pay"`
+	NzBankAccount *PaymentMethodNzBankAccount `json:"nz_bank_account"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object    string                  `json:"object"`
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
@@ -1493,16 +1556,17 @@ type PaymentMethod struct {
 	PromptPay *PaymentMethodPromptPay `json:"promptpay"`
 	Qris      *PaymentMethodQris      `json:"qris"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
-	RadarOptions *PaymentMethodRadarOptions `json:"radar_options"`
-	Rechnung     *PaymentMethodRechnung     `json:"rechnung"`
-	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay"`
-	SamsungPay   *PaymentMethodSamsungPay   `json:"samsung_pay"`
-	Satispay     *PaymentMethodSatispay     `json:"satispay"`
-	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
-	Shopeepay    *PaymentMethodShopeepay    `json:"shopeepay"`
-	Sofort       *PaymentMethodSofort       `json:"sofort"`
-	Swish        *PaymentMethodSwish        `json:"swish"`
-	TWINT        *PaymentMethodTWINT        `json:"twint"`
+	RadarOptions  *PaymentMethodRadarOptions  `json:"radar_options"`
+	Rechnung      *PaymentMethodRechnung      `json:"rechnung"`
+	RevolutPay    *PaymentMethodRevolutPay    `json:"revolut_pay"`
+	SamsungPay    *PaymentMethodSamsungPay    `json:"samsung_pay"`
+	Satispay      *PaymentMethodSatispay      `json:"satispay"`
+	SEPADebit     *PaymentMethodSEPADebit     `json:"sepa_debit"`
+	Shopeepay     *PaymentMethodShopeepay     `json:"shopeepay"`
+	Sofort        *PaymentMethodSofort        `json:"sofort"`
+	StripeBalance *PaymentMethodStripeBalance `json:"stripe_balance"`
+	Swish         *PaymentMethodSwish         `json:"swish"`
+	TWINT         *PaymentMethodTWINT         `json:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type          PaymentMethodType           `json:"type"`
 	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`

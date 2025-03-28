@@ -80,6 +80,8 @@ type CustomerBalanceTransaction struct {
 	APIResource
 	// The amount of the transaction. A negative value is a credit for the customer's balance, and a positive value is a debit to the customer's `balance`.
 	Amount int64 `json:"amount"`
+	// The ID of the checkout session (if any) that created the transaction.
+	CheckoutSession *CheckoutSession `json:"checkout_session"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The ID of the credit note (if any) related to the transaction.
@@ -87,7 +89,8 @@ type CustomerBalanceTransaction struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The ID of the customer the transaction belongs to.
-	Customer *Customer `json:"customer"`
+	Customer        *Customer `json:"customer"`
+	CustomerAccount string    `json:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
 	// The customer's `balance` after the transaction was applied. A negative value decreases the amount due on the customer's next invoice. A positive value increases the amount due on the customer's next invoice.

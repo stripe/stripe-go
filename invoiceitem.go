@@ -6,12 +6,20 @@
 
 package stripe
 
+// The type of parent that generated this invoice item
 type InvoiceItemParentType string
 
 // List of values that InvoiceItemParentType can take
 const (
-	InvoiceItemParentTypeRateCardSubscriptionDetails InvoiceItemParentType = "rate_card_subscription_details"
-	InvoiceItemParentTypeSubscriptionDetails         InvoiceItemParentType = "subscription_details"
+	InvoiceItemParentTypeSubscriptionDetails InvoiceItemParentType = "subscription_details"
+)
+
+// The type of the pricing details.
+type InvoiceItemPricingType string
+
+// List of values that InvoiceItemPricingType can take
+const (
+	InvoiceItemPricingTypePriceDetails InvoiceItemPricingType = "price_details"
 )
 
 // Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
@@ -23,6 +31,8 @@ type InvoiceItemParams struct {
 	Currency *string `form:"currency"`
 	// The ID of the customer who will be billed when this invoice item is billed.
 	Customer *string `form:"customer"`
+	// The ID of the account who will be billed when this invoice item is billed.
+	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string which you can attach to the invoice item. The description is displayed in the invoice for easy tracking.
 	Description *string `form:"description"`
 	// Controls whether discounts apply to this invoice item. Defaults to false for prorations or negative invoice items, and true for all other invoice items. Cannot be set to true for prorations.
@@ -138,6 +148,8 @@ type InvoiceItemListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// The identifier of the customer whose invoice items to return. If none is provided, all invoice items will be returned.
 	Customer *string `form:"customer"`
+	// The identifier of the account whose invoice items to return. If none is provided, all invoice items will be returned.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Only return invoice items belonging to this invoice. If none is provided, all invoice items will be returned. If specifying an invoice, no customer identifier is needed.
@@ -151,17 +163,35 @@ func (p *InvoiceItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-type InvoiceItemParentRateCardSubscriptionDetails struct {
-	RateCardSubscription string `json:"rate_card_subscription"`
-}
+// Details about the subscription that generated this invoice item
 type InvoiceItemParentSubscriptionDetails struct {
-	Subscription     string `json:"subscription"`
+	// The subscription that generated this invoice item
+	Subscription string `json:"subscription"`
+	// The subscription item that generated this invoice item
 	SubscriptionItem string `json:"subscription_item"`
 }
+
+// The parent that generated this invoice
 type InvoiceItemParent struct {
-	RateCardSubscriptionDetails *InvoiceItemParentRateCardSubscriptionDetails `json:"rate_card_subscription_details"`
-	SubscriptionDetails         *InvoiceItemParentSubscriptionDetails         `json:"subscription_details"`
-	Type                        InvoiceItemParentType                         `json:"type"`
+	// Details about the subscription that generated this invoice item
+	SubscriptionDetails *InvoiceItemParentSubscriptionDetails `json:"subscription_details"`
+	// The type of parent that generated this invoice item
+	Type InvoiceItemParentType `json:"type"`
+}
+type InvoiceItemPricingPriceDetails struct {
+	// The ID of the price this item is associated with.
+	Price string `json:"price"`
+	// The ID of the product this item is associated with.
+	Product string `json:"product"`
+}
+
+// The pricing information of the invoice item.
+type InvoiceItemPricing struct {
+	PriceDetails *InvoiceItemPricingPriceDetails `json:"price_details"`
+	// The type of the pricing details.
+	Type InvoiceItemPricingType `json:"type"`
+	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
 }
 
 // Invoice Items represent the component lines of an [invoice](https://stripe.com/docs/api/invoices). An invoice item is added to an
@@ -183,6 +213,8 @@ type InvoiceItem struct {
 	Currency Currency `json:"currency"`
 	// The ID of the customer who will be billed when this invoice item is billed.
 	Customer *Customer `json:"customer"`
+	// The ID of the account who will be billed when this invoice item is billed.
+	CustomerAccount string `json:"customer_account"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Date    int64 `json:"date"`
 	Deleted bool  `json:"deleted"`
@@ -203,9 +235,12 @@ type InvoiceItem struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string             `json:"object"`
+	Object string `json:"object"`
+	// The parent that generated this invoice
 	Parent *InvoiceItemParent `json:"parent"`
 	Period *Period            `json:"period"`
+	// The pricing information of the invoice item.
+	Pricing *InvoiceItemPricing `json:"pricing"`
 	// Whether the invoice item was created automatically as a proration adjustment when the customer switched plans.
 	Proration bool `json:"proration"`
 	// Quantity of units for the invoice item. If the invoice item is a proration, the quantity of the subscription that the proration was computed for.

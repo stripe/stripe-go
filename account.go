@@ -11,7 +11,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+// The business type.
 type AccountBusinessType string
 
 // List of values that AccountBusinessType can take
@@ -41,7 +41,7 @@ const (
 	AccountCompanyOwnershipExemptionReasonQualifiesAsFinancialInstitution          AccountCompanyOwnershipExemptionReason = "qualifies_as_financial_institution"
 )
 
-// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
 // List of values that AccountCompanyStructure can take
@@ -717,6 +717,12 @@ type AccountCapabilitiesSofortPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The stripe_balance_payments capability.
+type AccountCapabilitiesStripeBalancePaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The swish_payments capability.
 type AccountCapabilitiesSwishPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -912,6 +918,8 @@ type AccountCapabilitiesParams struct {
 	ShopeepayPayments *AccountCapabilitiesShopeepayPaymentsParams `form:"shopeepay_payments"`
 	// The sofort_payments capability.
 	SofortPayments *AccountCapabilitiesSofortPaymentsParams `form:"sofort_payments"`
+	// The stripe_balance_payments capability.
+	StripeBalancePayments *AccountCapabilitiesStripeBalancePaymentsParams `form:"stripe_balance_payments"`
 	// The swish_payments capability.
 	SwishPayments *AccountCapabilitiesSwishPaymentsParams `form:"swish_payments"`
 	// The tax_reporting_us_1099_k capability.
@@ -1601,6 +1609,8 @@ type AccountCapabilities struct {
 	ShopeepayPayments AccountCapabilityStatus `json:"shopeepay_payments"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.
 	SofortPayments AccountCapabilityStatus `json:"sofort_payments"`
+	// The status of the stripe_balance payments capability of the account, or whether the account can directly process stripe_balance charges.
+	StripeBalancePayments AccountCapabilityStatus `json:"stripe_balance_payments"`
 	// The status of the Swish capability of the account, or whether the account can directly process Swish payments.
 	SwishPayments AccountCapabilityStatus `json:"swish_payments"`
 	// The status of the tax reporting 1099-K (US) capability of the account.
@@ -1713,11 +1723,11 @@ type AccountCompany struct {
 	ExportLicenseID string `json:"export_license_id"`
 	// The purpose code to use for export transactions (India only).
 	ExportPurposeCode string `json:"export_purpose_code"`
-	// The company's legal name.
+	// The company's legal name. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	Name string `json:"name"`
-	// The Kana variation of the company's legal name (Japan only).
+	// The Kana variation of the company's legal name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	NameKana string `json:"name_kana"`
-	// The Kanji variation of the company's legal name (Japan only).
+	// The Kanji variation of the company's legal name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	NameKanji string `json:"name_kanji"`
 	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 	OwnershipDeclaration *AccountCompanyOwnershipDeclaration `json:"ownership_declaration"`
@@ -1727,7 +1737,7 @@ type AccountCompany struct {
 	OwnersProvided bool `json:"owners_provided"`
 	// The company's phone number (used for verification).
 	Phone string `json:"phone"`
-	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 	Structure AccountCompanyStructure `json:"structure"`
 	// Whether the company's business ID number was provided.
 	TaxIDProvided bool `json:"tax_id_provided"`
@@ -2025,7 +2035,7 @@ type Account struct {
 	APIResource
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfile `json:"business_profile"`
-	// The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// The business type.
 	BusinessType AccountBusinessType  `json:"business_type"`
 	Capabilities *AccountCapabilities `json:"capabilities"`
 	// Whether the account can process charges.
@@ -2052,7 +2062,7 @@ type Account struct {
 	ID string `json:"id"`
 	// This is an object representing a person associated with a Stripe account.
 	//
-	// A platform cannot access a person for an account where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
+	// A platform can only access a subset of data in a person for an account where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
 	//
 	// See the [Standard onboarding](https://stripe.com/connect/standard-accounts) or [Express onboarding](https://stripe.com/connect/express-accounts) documentation for information about prefilling information and account onboarding steps. Learn more about [handling identity verification with the API](https://stripe.com/connect/handling-api-verification#person-information).
 	Individual *Person `json:"individual"`

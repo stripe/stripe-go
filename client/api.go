@@ -17,6 +17,7 @@ import (
 	"github.com/stripe/stripe-go/v81/applicationfee"
 	appssecret "github.com/stripe/stripe-go/v81/apps/secret"
 	"github.com/stripe/stripe-go/v81/balance"
+	"github.com/stripe/stripe-go/v81/balancesettings"
 	"github.com/stripe/stripe-go/v81/balancetransaction"
 	"github.com/stripe/stripe-go/v81/bankaccount"
 	billingalert "github.com/stripe/stripe-go/v81/billing/alert"
@@ -53,6 +54,7 @@ import (
 	entitlementsfeature "github.com/stripe/stripe-go/v81/entitlements/feature"
 	"github.com/stripe/stripe-go/v81/ephemeralkey"
 	"github.com/stripe/stripe-go/v81/event"
+	"github.com/stripe/stripe-go/v81/externalaccount"
 	"github.com/stripe/stripe-go/v81/feerefund"
 	"github.com/stripe/stripe-go/v81/file"
 	"github.com/stripe/stripe-go/v81/filelink"
@@ -184,6 +186,8 @@ type API struct {
 	AppsSecrets *appssecret.Client
 	// Balance is the client used to invoke /balance APIs.
 	Balance *balance.Client
+	// BalanceSettings is the client used to invoke /balance_settings APIs.
+	BalanceSettings *balancesettings.Client
 	// BalanceTransactions is the client used to invoke /balance_transactions APIs.
 	BalanceTransactions *balancetransaction.Client
 	// BankAccounts is the client used to invoke bankaccount related APIs.
@@ -256,6 +260,8 @@ type API struct {
 	EphemeralKeys *ephemeralkey.Client
 	// Events is the client used to invoke /events APIs.
 	Events *event.Client
+	// ExternalAccounts is the client used to invoke /external_accounts APIs.
+	ExternalAccounts *externalaccount.Client
 	// FeeRefunds is the client used to invoke /application_fees/{id}/refunds APIs.
 	FeeRefunds *feerefund.Client
 	// FileLinks is the client used to invoke /file_links APIs.
@@ -498,6 +504,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ApplicationFees = &applicationfee.Client{B: backends.API, Key: key}
 	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
+	a.BalanceSettings = &balancesettings.Client{B: backends.API, Key: key}
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingAlerts = &billingalert.Client{B: backends.API, Key: key}
@@ -534,6 +541,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.EntitlementsFeatures = &entitlementsfeature.Client{B: backends.API, Key: key}
 	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
 	a.Events = &event.Client{B: backends.API, Key: key}
+	a.ExternalAccounts = &externalaccount.Client{B: backends.API, Key: key}
 	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
 	a.FileLinks = &filelink.Client{B: backends.API, Key: key}
 	a.Files = &file.Client{B: backends.API, BUploads: backends.Uploads, Key: key}

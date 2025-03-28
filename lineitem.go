@@ -50,6 +50,14 @@ type LineItemDisplay struct {
 	Name        string   `json:"name"`
 }
 
+// The tax calculation identifiers of the line item.
+type LineItemTaxCalculationReference struct {
+	// The calculation identifier for tax calculation response.
+	CalculationID string `json:"calculation_id"`
+	// The calculation identifier for tax calculation response line item.
+	CalculationItemID string `json:"calculation_item_id"`
+}
+
 // The taxes applied to the line item.
 type LineItemTax struct {
 	// Amount of tax applied for this rate.
@@ -96,6 +104,8 @@ type LineItem struct {
 	Product *Product `json:"product"`
 	// The quantity of products being purchased.
 	Quantity int64 `json:"quantity"`
+	// The tax calculation identifiers of the line item.
+	TaxCalculationReference *LineItemTaxCalculationReference `json:"tax_calculation_reference"`
 	// The taxes applied to the line item.
 	Taxes []*LineItemTax `json:"taxes"`
 }
