@@ -4,7 +4,7 @@
 //
 //
 
-// Package activeentitlement provides the /entitlements/active_entitlements APIs
+// Package activeentitlement provides the /v1/entitlements/active_entitlements APIs
 package activeentitlement
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /entitlements/active_entitlements APIs.
+// Client is used to invoke /v1/entitlements/active_entitlements APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

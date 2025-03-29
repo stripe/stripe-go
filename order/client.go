@@ -4,7 +4,7 @@
 //
 //
 
-// Package order provides the /orders APIs
+// Package order provides the /v1/orders APIs
 package order
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /orders APIs.
+// Client is used to invoke /v1/orders APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

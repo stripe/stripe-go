@@ -4,7 +4,7 @@
 //
 //
 
-// Package product provides the /products APIs
+// Package product provides the /v1/products APIs
 package product
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /products APIs.
+// Client is used to invoke /v1/products APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

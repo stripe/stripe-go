@@ -4,7 +4,7 @@
 //
 //
 
-// Package scheduledqueryrun provides the /sigma/scheduled_query_runs APIs
+// Package scheduledqueryrun provides the /v1/sigma/scheduled_query_runs APIs
 // For more details, see: https://stripe.com/docs/api#scheduled_queries
 package scheduledqueryrun
 
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /sigma/scheduled_query_runs APIs.
+// Client is used to invoke /v1/sigma/scheduled_query_runs APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

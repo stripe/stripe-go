@@ -4,7 +4,7 @@
 //
 //
 
-// Package transaction provides the /issuing/transactions APIs
+// Package transaction provides the /v1/issuing/transactions APIs
 package transaction
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /issuing/transactions APIs.
+// Client is used to invoke /v1/issuing/transactions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

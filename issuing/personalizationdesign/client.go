@@ -4,7 +4,7 @@
 //
 //
 
-// Package personalizationdesign provides the /issuing/personalization_designs APIs
+// Package personalizationdesign provides the /v1/issuing/personalization_designs APIs
 package personalizationdesign
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /issuing/personalization_designs APIs.
+// Client is used to invoke /v1/issuing/personalization_designs APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

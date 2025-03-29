@@ -163,320 +163,398 @@ import (
 	treasuryreceiveddebit "github.com/stripe/stripe-go/v81/treasury/receiveddebit"
 	treasurytransaction "github.com/stripe/stripe-go/v81/treasury/transaction"
 	treasurytransactionentry "github.com/stripe/stripe-go/v81/treasury/transactionentry"
+	v2billingmeterevent "github.com/stripe/stripe-go/v81/v2/billing/meterevent"
+	v2billingmetereventadjustment "github.com/stripe/stripe-go/v81/v2/billing/metereventadjustment"
+	v2billingmetereventsession "github.com/stripe/stripe-go/v81/v2/billing/metereventsession"
+	v2billingmetereventstream "github.com/stripe/stripe-go/v81/v2/billing/metereventstream"
+	v2coreaccount "github.com/stripe/stripe-go/v81/v2/core/account"
+	v2coreaccountlink "github.com/stripe/stripe-go/v81/v2/core/accountlink"
+	v2coreaccountsperson "github.com/stripe/stripe-go/v81/v2/core/accounts/person"
+	v2coreevent "github.com/stripe/stripe-go/v81/v2/core/event"
+	v2coreeventdestination "github.com/stripe/stripe-go/v81/v2/core/eventdestination"
+	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v81/v2/core/vault/gbbankaccount"
+	v2corevaultusbankaccount "github.com/stripe/stripe-go/v81/v2/core/vault/usbankaccount"
+	v2moneymanagementadjustment "github.com/stripe/stripe-go/v81/v2/moneymanagement/adjustment"
+	v2moneymanagementfinancialaccount "github.com/stripe/stripe-go/v81/v2/moneymanagement/financialaccount"
+	v2moneymanagementfinancialaddress "github.com/stripe/stripe-go/v81/v2/moneymanagement/financialaddress"
+	v2moneymanagementinboundtransfer "github.com/stripe/stripe-go/v81/v2/moneymanagement/inboundtransfer"
+	v2moneymanagementoutboundpayment "github.com/stripe/stripe-go/v81/v2/moneymanagement/outboundpayment"
+	v2moneymanagementoutboundpaymentsquote "github.com/stripe/stripe-go/v81/v2/moneymanagement/outboundpayments/quote"
+	v2moneymanagementoutboundsetupintent "github.com/stripe/stripe-go/v81/v2/moneymanagement/outboundsetupintent"
+	v2moneymanagementoutboundtransfer "github.com/stripe/stripe-go/v81/v2/moneymanagement/outboundtransfer"
+	v2moneymanagementpayoutmethod "github.com/stripe/stripe-go/v81/v2/moneymanagement/payoutmethod"
+	v2moneymanagementpayoutmethodsbankaccountspec "github.com/stripe/stripe-go/v81/v2/moneymanagement/payoutmethodsbankaccountspec"
+	v2moneymanagementreceivedcredit "github.com/stripe/stripe-go/v81/v2/moneymanagement/receivedcredit"
+	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v81/v2/moneymanagement/receiveddebit"
+	v2moneymanagementtransaction "github.com/stripe/stripe-go/v81/v2/moneymanagement/transaction"
+	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v81/v2/moneymanagement/transactionentry"
+	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v81/v2/testhelpers/financialaddress"
 	"github.com/stripe/stripe-go/v81/webhookendpoint"
 )
 
 // API is the Stripe client. It contains all the different resources available.
 type API struct {
-	// AccountLinks is the client used to invoke /account_links APIs.
+	// AccountLinks is the client used to invoke /v1/account_links APIs.
 	AccountLinks *accountlink.Client
-	// AccountNotices is the client used to invoke /account_notices APIs.
+	// AccountNotices is the client used to invoke /v1/account_notices APIs.
 	AccountNotices *accountnotice.Client
-	// Accounts is the client used to invoke /accounts APIs.
+	// Accounts is the client used to invoke /v1/accounts APIs.
 	Accounts *account.Client
-	// AccountSessions is the client used to invoke /account_sessions APIs.
+	// AccountSessions is the client used to invoke /v1/account_sessions APIs.
 	AccountSessions *accountsession.Client
-	// ApplePayDomains is the client used to invoke /apple_pay/domains APIs.
+	// ApplePayDomains is the client used to invoke /v1/apple_pay/domains APIs.
 	ApplePayDomains *applepaydomain.Client
-	// ApplicationFees is the client used to invoke /application_fees APIs.
+	// ApplicationFees is the client used to invoke /v1/application_fees APIs.
 	ApplicationFees *applicationfee.Client
-	// AppsSecrets is the client used to invoke /apps/secrets APIs.
+	// AppsSecrets is the client used to invoke /v1/apps/secrets APIs.
 	AppsSecrets *appssecret.Client
-	// Balance is the client used to invoke /balance APIs.
+	// Balance is the client used to invoke /v1/balance APIs.
 	Balance *balance.Client
-	// BalanceTransactions is the client used to invoke /balance_transactions APIs.
+	// BalanceTransactions is the client used to invoke /v1/balance_transactions APIs.
 	BalanceTransactions *balancetransaction.Client
-	// BankAccounts is the client used to invoke bankaccount related APIs.
+	// BankAccounts is the client used to invoke /v1/accounts/{account}/external_accounts APIs.
 	BankAccounts *bankaccount.Client
-	// BillingAlerts is the client used to invoke /billing/alerts APIs.
+	// BillingAlerts is the client used to invoke /v1/billing/alerts APIs.
 	BillingAlerts *billingalert.Client
-	// BillingCreditBalanceSummary is the client used to invoke /billing/credit_balance_summary APIs.
+	// BillingCreditBalanceSummary is the client used to invoke /v1/billing/credit_balance_summary APIs.
 	BillingCreditBalanceSummary *billingcreditbalancesummary.Client
-	// BillingCreditBalanceTransactions is the client used to invoke /billing/credit_balance_transactions APIs.
+	// BillingCreditBalanceTransactions is the client used to invoke /v1/billing/credit_balance_transactions APIs.
 	BillingCreditBalanceTransactions *billingcreditbalancetransaction.Client
-	// BillingCreditGrants is the client used to invoke /billing/credit_grants APIs.
+	// BillingCreditGrants is the client used to invoke /v1/billing/credit_grants APIs.
 	BillingCreditGrants *billingcreditgrant.Client
-	// BillingMeterEventAdjustments is the client used to invoke /billing/meter_event_adjustments APIs.
+	// BillingMeterEventAdjustments is the client used to invoke /v1/billing/meter_event_adjustments APIs.
 	BillingMeterEventAdjustments *billingmetereventadjustment.Client
-	// BillingMeterEvents is the client used to invoke /billing/meter_events APIs.
+	// BillingMeterEvents is the client used to invoke /v1/billing/meter_events APIs.
 	BillingMeterEvents *billingmeterevent.Client
-	// BillingMeterEventSummaries is the client used to invoke /billing/meters/{id}/event_summaries APIs.
+	// BillingMeterEventSummaries is the client used to invoke /v1/billing/meters/{id}/event_summaries APIs.
 	BillingMeterEventSummaries *billingmetereventsummary.Client
-	// BillingMeters is the client used to invoke /billing/meters APIs.
+	// BillingMeters is the client used to invoke /v1/billing/meters APIs.
 	BillingMeters *billingmeter.Client
-	// BillingPortalConfigurations is the client used to invoke /billing_portal/configurations APIs.
+	// BillingPortalConfigurations is the client used to invoke /v1/billing_portal/configurations APIs.
 	BillingPortalConfigurations *billingportalconfiguration.Client
-	// BillingPortalSessions is the client used to invoke /billing_portal/sessions APIs.
+	// BillingPortalSessions is the client used to invoke /v1/billing_portal/sessions APIs.
 	BillingPortalSessions *billingportalsession.Client
-	// Capabilities is the client used to invoke /accounts/{account}/capabilities APIs.
+	// Capabilities is the client used to invoke /v1/accounts/{account}/capabilities APIs.
 	Capabilities *capability.Client
-	// CapitalFinancingOffers is the client used to invoke /capital/financing_offers APIs.
+	// CapitalFinancingOffers is the client used to invoke /v1/capital/financing_offers APIs.
 	CapitalFinancingOffers *capitalfinancingoffer.Client
-	// CapitalFinancingSummary is the client used to invoke /capital/financing_summary APIs.
+	// CapitalFinancingSummary is the client used to invoke /v1/capital/financing_summary APIs.
 	CapitalFinancingSummary *capitalfinancingsummary.Client
-	// CapitalFinancingTransactions is the client used to invoke /capital/financing_transactions APIs.
+	// CapitalFinancingTransactions is the client used to invoke /v1/capital/financing_transactions APIs.
 	CapitalFinancingTransactions *capitalfinancingtransaction.Client
-	// Cards is the client used to invoke card related APIs.
+	// Cards is the client used to invoke /v1/accounts/{account}/external_accounts APIs.
 	Cards *card.Client
-	// CashBalances is the client used to invoke /customers/{customer}/cash_balance APIs.
+	// CashBalances is the client used to invoke /v1/customers/{customer}/cash_balance APIs.
 	CashBalances *cashbalance.Client
-	// Charges is the client used to invoke /charges APIs.
+	// Charges is the client used to invoke /v1/charges APIs.
 	Charges *charge.Client
-	// CheckoutSessions is the client used to invoke /checkout/sessions APIs.
+	// CheckoutSessions is the client used to invoke /v1/checkout/sessions APIs.
 	CheckoutSessions *checkoutsession.Client
-	// ClimateOrders is the client used to invoke /climate/orders APIs.
+	// ClimateOrders is the client used to invoke /v1/climate/orders APIs.
 	ClimateOrders *climateorder.Client
-	// ClimateProducts is the client used to invoke /climate/products APIs.
+	// ClimateProducts is the client used to invoke /v1/climate/products APIs.
 	ClimateProducts *climateproduct.Client
-	// ClimateSuppliers is the client used to invoke /climate/suppliers APIs.
+	// ClimateSuppliers is the client used to invoke /v1/climate/suppliers APIs.
 	ClimateSuppliers *climatesupplier.Client
-	// ConfirmationTokens is the client used to invoke /confirmation_tokens APIs.
+	// ConfirmationTokens is the client used to invoke /v1/confirmation_tokens APIs.
 	ConfirmationTokens *confirmationtoken.Client
-	// CountrySpecs is the client used to invoke /country_specs APIs.
+	// CountrySpecs is the client used to invoke /v1/country_specs APIs.
 	CountrySpecs *countryspec.Client
-	// Coupons is the client used to invoke /coupons APIs.
+	// Coupons is the client used to invoke /v1/coupons APIs.
 	Coupons *coupon.Client
-	// CreditNotes is the client used to invoke /credit_notes APIs.
+	// CreditNotes is the client used to invoke /v1/credit_notes APIs.
 	CreditNotes *creditnote.Client
-	// CustomerBalanceTransactions is the client used to invoke /customers/{customer}/balance_transactions APIs.
+	// CustomerBalanceTransactions is the client used to invoke /v1/customers/{customer}/balance_transactions APIs.
 	CustomerBalanceTransactions *customerbalancetransaction.Client
-	// CustomerCashBalanceTransactions is the client used to invoke /customers/{customer}/cash_balance_transactions APIs.
+	// CustomerCashBalanceTransactions is the client used to invoke /v1/customers/{customer}/cash_balance_transactions APIs.
 	CustomerCashBalanceTransactions *customercashbalancetransaction.Client
-	// Customers is the client used to invoke /customers APIs.
+	// Customers is the client used to invoke /v1/customers APIs.
 	Customers *customer.Client
-	// CustomerSessions is the client used to invoke /customer_sessions APIs.
+	// CustomerSessions is the client used to invoke /v1/customer_sessions APIs.
 	CustomerSessions *customersession.Client
-	// Disputes is the client used to invoke /disputes APIs.
+	// Disputes is the client used to invoke /v1/disputes APIs.
 	Disputes *dispute.Client
-	// EntitlementsActiveEntitlements is the client used to invoke /entitlements/active_entitlements APIs.
+	// EntitlementsActiveEntitlements is the client used to invoke /v1/entitlements/active_entitlements APIs.
 	EntitlementsActiveEntitlements *entitlementsactiveentitlement.Client
-	// EntitlementsFeatures is the client used to invoke /entitlements/features APIs.
+	// EntitlementsFeatures is the client used to invoke /v1/entitlements/features APIs.
 	EntitlementsFeatures *entitlementsfeature.Client
-	// EphemeralKeys is the client used to invoke /ephemeral_keys APIs.
+	// EphemeralKeys is the client used to invoke /v1/ephemeral_keys APIs.
 	EphemeralKeys *ephemeralkey.Client
-	// Events is the client used to invoke /events APIs.
+	// Events is the client used to invoke /v1/events APIs.
 	Events *event.Client
-	// FeeRefunds is the client used to invoke /application_fees/{id}/refunds APIs.
+	// FeeRefunds is the client used to invoke /v1/application_fees/{id}/refunds APIs.
 	FeeRefunds *feerefund.Client
-	// FileLinks is the client used to invoke /file_links APIs.
+	// FileLinks is the client used to invoke /v1/file_links APIs.
 	FileLinks *filelink.Client
-	// Files is the client used to invoke /files APIs.
+	// Files is the client used to invoke /v1/files APIs.
 	Files *file.Client
-	// FinancialConnectionsAccountInferredBalances is the client used to invoke /financial_connections/accounts/{account}/inferred_balances APIs.
+	// FinancialConnectionsAccountInferredBalances is the client used to invoke /v1/financial_connections/accounts/{account}/inferred_balances APIs.
 	FinancialConnectionsAccountInferredBalances *financialconnectionsaccountinferredbalance.Client
-	// FinancialConnectionsAccounts is the client used to invoke /financial_connections/accounts APIs.
+	// FinancialConnectionsAccounts is the client used to invoke /v1/financial_connections/accounts APIs.
 	FinancialConnectionsAccounts *financialconnectionsaccount.Client
-	// FinancialConnectionsInstitutions is the client used to invoke /financial_connections/institutions APIs.
+	// FinancialConnectionsInstitutions is the client used to invoke /v1/financial_connections/institutions APIs.
 	FinancialConnectionsInstitutions *financialconnectionsinstitution.Client
-	// FinancialConnectionsSessions is the client used to invoke /financial_connections/sessions APIs.
+	// FinancialConnectionsSessions is the client used to invoke /v1/financial_connections/sessions APIs.
 	FinancialConnectionsSessions *financialconnectionssession.Client
-	// FinancialConnectionsTransactions is the client used to invoke /financial_connections/transactions APIs.
+	// FinancialConnectionsTransactions is the client used to invoke /v1/financial_connections/transactions APIs.
 	FinancialConnectionsTransactions *financialconnectionstransaction.Client
-	// ForwardingRequests is the client used to invoke /forwarding/requests APIs.
+	// ForwardingRequests is the client used to invoke /v1/forwarding/requests APIs.
 	ForwardingRequests *forwardingrequest.Client
-	// GiftCardsCards is the client used to invoke /gift_cards/cards APIs.
+	// GiftCardsCards is the client used to invoke /v1/gift_cards/cards APIs.
 	GiftCardsCards *giftcardscard.Client
-	// GiftCardsTransactions is the client used to invoke /gift_cards/transactions APIs.
+	// GiftCardsTransactions is the client used to invoke /v1/gift_cards/transactions APIs.
 	GiftCardsTransactions *giftcardstransaction.Client
-	// IdentityVerificationReports is the client used to invoke /identity/verification_reports APIs.
+	// IdentityVerificationReports is the client used to invoke /v1/identity/verification_reports APIs.
 	IdentityVerificationReports *identityverificationreport.Client
-	// IdentityVerificationSessions is the client used to invoke /identity/verification_sessions APIs.
+	// IdentityVerificationSessions is the client used to invoke /v1/identity/verification_sessions APIs.
 	IdentityVerificationSessions *identityverificationsession.Client
-	// InvoiceItems is the client used to invoke /invoiceitems APIs.
+	// InvoiceItems is the client used to invoke /v1/invoiceitems APIs.
 	InvoiceItems *invoiceitem.Client
-	// InvoiceLineItems is the client used to invoke /invoices/{invoice}/lines APIs.
+	// InvoiceLineItems is the client used to invoke /v1/invoices/{invoice}/lines APIs.
 	InvoiceLineItems *invoicelineitem.Client
-	// InvoicePayments is the client used to invoke /invoices/{invoice}/payments APIs.
+	// InvoicePayments is the client used to invoke /v1/invoices/{invoice}/payments APIs.
 	InvoicePayments *invoicepayment.Client
-	// InvoiceRenderingTemplates is the client used to invoke /invoice_rendering_templates APIs.
+	// InvoiceRenderingTemplates is the client used to invoke /v1/invoice_rendering_templates APIs.
 	InvoiceRenderingTemplates *invoicerenderingtemplate.Client
-	// Invoices is the client used to invoke /invoices APIs.
+	// Invoices is the client used to invoke /v1/invoices APIs.
 	Invoices *invoice.Client
-	// IssuingAuthorizations is the client used to invoke /issuing/authorizations APIs.
+	// IssuingAuthorizations is the client used to invoke /v1/issuing/authorizations APIs.
 	IssuingAuthorizations *issuingauthorization.Client
-	// IssuingCardholders is the client used to invoke /issuing/cardholders APIs.
+	// IssuingCardholders is the client used to invoke /v1/issuing/cardholders APIs.
 	IssuingCardholders *issuingcardholder.Client
-	// IssuingCards is the client used to invoke /issuing/cards APIs.
+	// IssuingCards is the client used to invoke /v1/issuing/cards APIs.
 	IssuingCards *issuingcard.Client
-	// IssuingCreditUnderwritingRecords is the client used to invoke /issuing/credit_underwriting_records APIs.
+	// IssuingCreditUnderwritingRecords is the client used to invoke /v1/issuing/credit_underwriting_records APIs.
 	IssuingCreditUnderwritingRecords *issuingcreditunderwritingrecord.Client
-	// IssuingDisputes is the client used to invoke /issuing/disputes APIs.
+	// IssuingDisputes is the client used to invoke /v1/issuing/disputes APIs.
 	IssuingDisputes *issuingdispute.Client
-	// IssuingDisputeSettlementDetails is the client used to invoke /issuing/dispute_settlement_details APIs.
+	// IssuingDisputeSettlementDetails is the client used to invoke /v1/issuing/dispute_settlement_details APIs.
 	IssuingDisputeSettlementDetails *issuingdisputesettlementdetail.Client
-	// IssuingFraudLiabilityDebits is the client used to invoke /issuing/fraud_liability_debits APIs.
+	// IssuingFraudLiabilityDebits is the client used to invoke /v1/issuing/fraud_liability_debits APIs.
 	IssuingFraudLiabilityDebits *issuingfraudliabilitydebit.Client
-	// IssuingPersonalizationDesigns is the client used to invoke /issuing/personalization_designs APIs.
+	// IssuingPersonalizationDesigns is the client used to invoke /v1/issuing/personalization_designs APIs.
 	IssuingPersonalizationDesigns *issuingpersonalizationdesign.Client
-	// IssuingPhysicalBundles is the client used to invoke /issuing/physical_bundles APIs.
+	// IssuingPhysicalBundles is the client used to invoke /v1/issuing/physical_bundles APIs.
 	IssuingPhysicalBundles *issuingphysicalbundle.Client
-	// IssuingTokens is the client used to invoke /issuing/tokens APIs.
+	// IssuingTokens is the client used to invoke /v1/issuing/tokens APIs.
 	IssuingTokens *issuingtoken.Client
-	// IssuingTransactions is the client used to invoke /issuing/transactions APIs.
+	// IssuingTransactions is the client used to invoke /v1/issuing/transactions APIs.
 	IssuingTransactions *issuingtransaction.Client
-	// LoginLinks is the client used to invoke /accounts/{account}/login_links APIs.
+	// LoginLinks is the client used to invoke /v1/accounts/{account}/login_links APIs.
 	LoginLinks *loginlink.Client
-	// Mandates is the client used to invoke /mandates APIs.
+	// Mandates is the client used to invoke /v1/mandates APIs.
 	Mandates *mandate.Client
-	// Margins is the client used to invoke /billing/margins APIs.
+	// Margins is the client used to invoke /v1/billing/margins APIs.
 	Margins *margin.Client
 	// OAuth is the client used to invoke /oauth APIs
 	OAuth *oauth.Client
-	// Orders is the client used to invoke /orders APIs.
+	// Orders is the client used to invoke /v1/orders APIs.
 	Orders *order.Client
-	// PaymentAttemptRecords is the client used to invoke /payment_attempt_records APIs.
+	// PaymentAttemptRecords is the client used to invoke /v1/payment_attempt_records APIs.
 	PaymentAttemptRecords *paymentattemptrecord.Client
-	// PaymentIntents is the client used to invoke /payment_intents APIs.
+	// PaymentIntents is the client used to invoke /v1/payment_intents APIs.
 	PaymentIntents *paymentintent.Client
-	// PaymentLinks is the client used to invoke /payment_links APIs.
+	// PaymentLinks is the client used to invoke /v1/payment_links APIs.
 	PaymentLinks *paymentlink.Client
-	// PaymentMethodConfigurations is the client used to invoke /payment_method_configurations APIs.
+	// PaymentMethodConfigurations is the client used to invoke /v1/payment_method_configurations APIs.
 	PaymentMethodConfigurations *paymentmethodconfiguration.Client
-	// PaymentMethodDomains is the client used to invoke /payment_method_domains APIs.
+	// PaymentMethodDomains is the client used to invoke /v1/payment_method_domains APIs.
 	PaymentMethodDomains *paymentmethoddomain.Client
-	// PaymentMethods is the client used to invoke /payment_methods APIs.
+	// PaymentMethods is the client used to invoke /v1/payment_methods APIs.
 	PaymentMethods *paymentmethod.Client
-	// PaymentRecords is the client used to invoke /payment_records APIs.
+	// PaymentRecords is the client used to invoke /v1/payment_records APIs.
 	PaymentRecords *paymentrecord.Client
-	// PaymentSources is the client used to invoke /customers/{customer}/sources APIs.
+	// PaymentSources is the client used to invoke /v1/customers/{customer}/sources APIs.
 	PaymentSources *paymentsource.Client
-	// Payouts is the client used to invoke /payouts APIs.
+	// Payouts is the client used to invoke /v1/payouts APIs.
 	Payouts *payout.Client
-	// Persons is the client used to invoke /accounts/{account}/persons APIs.
+	// Persons is the client used to invoke /v1/accounts/{account}/persons APIs.
 	Persons *person.Client
-	// Plans is the client used to invoke /plans APIs.
+	// Plans is the client used to invoke /v1/plans APIs.
 	Plans *plan.Client
-	// Prices is the client used to invoke /prices APIs.
+	// Prices is the client used to invoke /v1/prices APIs.
 	Prices *price.Client
-	// ProductFeatures is the client used to invoke /products/{product}/features APIs.
+	// ProductFeatures is the client used to invoke /v1/products/{product}/features APIs.
 	ProductFeatures *productfeature.Client
-	// Products is the client used to invoke /products APIs.
+	// Products is the client used to invoke /v1/products APIs.
 	Products *product.Client
-	// PromotionCodes is the client used to invoke /promotion_codes APIs.
+	// PromotionCodes is the client used to invoke /v1/promotion_codes APIs.
 	PromotionCodes *promotioncode.Client
-	// QuotePreviewInvoices is the client used to invoke /quotes/{quote}/preview_invoices APIs.
+	// QuotePreviewInvoices is the client used to invoke /v1/quotes/{quote}/preview_invoices APIs.
 	QuotePreviewInvoices *quotepreviewinvoice.Client
-	// QuotePreviewSubscriptionSchedules is the client used to invoke /quotes/{quote}/preview_subscription_schedules APIs.
+	// QuotePreviewSubscriptionSchedules is the client used to invoke /v1/quotes/{quote}/preview_subscription_schedules APIs.
 	QuotePreviewSubscriptionSchedules *quotepreviewsubscriptionschedule.Client
-	// Quotes is the client used to invoke /quotes APIs.
+	// Quotes is the client used to invoke /v1/quotes APIs.
 	Quotes *quote.Client
-	// RadarEarlyFraudWarnings is the client used to invoke /radar/early_fraud_warnings APIs.
+	// RadarEarlyFraudWarnings is the client used to invoke /v1/radar/early_fraud_warnings APIs.
 	RadarEarlyFraudWarnings *radarearlyfraudwarning.Client
-	// RadarValueListItems is the client used to invoke /radar/value_list_items APIs.
+	// RadarValueListItems is the client used to invoke /v1/radar/value_list_items APIs.
 	RadarValueListItems *radarvaluelistitem.Client
-	// RadarValueLists is the client used to invoke /radar/value_lists APIs.
+	// RadarValueLists is the client used to invoke /v1/radar/value_lists APIs.
 	RadarValueLists *radarvaluelist.Client
-	// Refunds is the client used to invoke /refunds APIs.
+	// Refunds is the client used to invoke /v1/refunds APIs.
 	Refunds *refund.Client
-	// ReportingReportRuns is the client used to invoke /reporting/report_runs APIs.
+	// ReportingReportRuns is the client used to invoke /v1/reporting/report_runs APIs.
 	ReportingReportRuns *reportingreportrun.Client
-	// ReportingReportTypes is the client used to invoke /reporting/report_types APIs.
+	// ReportingReportTypes is the client used to invoke /v1/reporting/report_types APIs.
 	ReportingReportTypes *reportingreporttype.Client
-	// Reviews is the client used to invoke /reviews APIs.
+	// Reviews is the client used to invoke /v1/reviews APIs.
 	Reviews *review.Client
-	// SetupAttempts is the client used to invoke /setup_attempts APIs.
+	// SetupAttempts is the client used to invoke /v1/setup_attempts APIs.
 	SetupAttempts *setupattempt.Client
-	// SetupIntents is the client used to invoke /setup_intents APIs.
+	// SetupIntents is the client used to invoke /v1/setup_intents APIs.
 	SetupIntents *setupintent.Client
-	// ShippingRates is the client used to invoke /shipping_rates APIs.
+	// ShippingRates is the client used to invoke /v1/shipping_rates APIs.
 	ShippingRates *shippingrate.Client
-	// SigmaScheduledQueryRuns is the client used to invoke /sigma/scheduled_query_runs APIs.
+	// SigmaScheduledQueryRuns is the client used to invoke /v1/sigma/scheduled_query_runs APIs.
 	SigmaScheduledQueryRuns *sigmascheduledqueryrun.Client
-	// Sources is the client used to invoke /sources APIs.
+	// Sources is the client used to invoke /v1/sources APIs.
 	Sources *source.Client
-	// SourceTransactions is the client used to invoke sourcetransaction related APIs.
+	// SourceTransactions is the client used to invoke /v1/sources/{source}/source_transactions APIs.
 	SourceTransactions *sourcetransaction.Client
-	// SubscriptionItems is the client used to invoke /subscription_items APIs.
+	// SubscriptionItems is the client used to invoke /v1/subscription_items APIs.
 	SubscriptionItems *subscriptionitem.Client
-	// Subscriptions is the client used to invoke /subscriptions APIs.
+	// Subscriptions is the client used to invoke /v1/subscriptions APIs.
 	Subscriptions *subscription.Client
-	// SubscriptionSchedules is the client used to invoke /subscription_schedules APIs.
+	// SubscriptionSchedules is the client used to invoke /v1/subscription_schedules APIs.
 	SubscriptionSchedules *subscriptionschedule.Client
 	// TaxAssociations is the client used to invoke association related APIs.
 	TaxAssociations *taxassociation.Client
-	// TaxCalculations is the client used to invoke /tax/calculations APIs.
+	// TaxCalculations is the client used to invoke /v1/tax/calculations APIs.
 	TaxCalculations *taxcalculation.Client
-	// TaxCodes is the client used to invoke /tax_codes APIs.
+	// TaxCodes is the client used to invoke /v1/tax_codes APIs.
 	TaxCodes *taxcode.Client
-	// TaxForms is the client used to invoke /tax/forms APIs.
+	// TaxForms is the client used to invoke /v1/tax/forms APIs.
 	TaxForms *taxform.Client
-	// TaxIDs is the client used to invoke /tax_ids APIs.
+	// TaxIDs is the client used to invoke /v1/tax_ids APIs.
 	TaxIDs *taxid.Client
-	// TaxRates is the client used to invoke /tax_rates APIs.
+	// TaxRates is the client used to invoke /v1/tax_rates APIs.
 	TaxRates *taxrate.Client
-	// TaxRegistrations is the client used to invoke /tax/registrations APIs.
+	// TaxRegistrations is the client used to invoke /v1/tax/registrations APIs.
 	TaxRegistrations *taxregistration.Client
-	// TaxSettings is the client used to invoke /tax/settings APIs.
+	// TaxSettings is the client used to invoke /v1/tax/settings APIs.
 	TaxSettings *taxsettings.Client
-	// TaxTransactions is the client used to invoke /tax/transactions APIs.
+	// TaxTransactions is the client used to invoke /v1/tax/transactions APIs.
 	TaxTransactions *taxtransaction.Client
-	// TerminalConfigurations is the client used to invoke /terminal/configurations APIs.
+	// TerminalConfigurations is the client used to invoke /v1/terminal/configurations APIs.
 	TerminalConfigurations *terminalconfiguration.Client
-	// TerminalConnectionTokens is the client used to invoke /terminal/connection_tokens APIs.
+	// TerminalConnectionTokens is the client used to invoke /v1/terminal/connection_tokens APIs.
 	TerminalConnectionTokens *terminalconnectiontoken.Client
-	// TerminalLocations is the client used to invoke /terminal/locations APIs.
+	// TerminalLocations is the client used to invoke /v1/terminal/locations APIs.
 	TerminalLocations *terminallocation.Client
-	// TerminalReaderCollectedData is the client used to invoke /terminal/reader_collected_data APIs.
+	// TerminalReaderCollectedData is the client used to invoke /v1/terminal/reader_collected_data APIs.
 	TerminalReaderCollectedData *terminalreadercollecteddata.Client
-	// TerminalReaders is the client used to invoke /terminal/readers APIs.
+	// TerminalReaders is the client used to invoke /v1/terminal/readers APIs.
 	TerminalReaders *terminalreader.Client
-	// TestHelpersConfirmationTokens is the client used to invoke /confirmation_tokens APIs.
+	// TestHelpersConfirmationTokens is the client used to invoke /v1/confirmation_tokens APIs.
 	TestHelpersConfirmationTokens *testhelpersconfirmationtoken.Client
-	// TestHelpersCustomers is the client used to invoke /customers APIs.
+	// TestHelpersCustomers is the client used to invoke /v1/customers APIs.
 	TestHelpersCustomers *testhelperscustomer.Client
-	// TestHelpersIssuingAuthorizations is the client used to invoke /issuing/authorizations APIs.
+	// TestHelpersIssuingAuthorizations is the client used to invoke /v1/issuing/authorizations APIs.
 	TestHelpersIssuingAuthorizations *testhelpersissuingauthorization.Client
-	// TestHelpersIssuingCards is the client used to invoke /issuing/cards APIs.
+	// TestHelpersIssuingCards is the client used to invoke /v1/issuing/cards APIs.
 	TestHelpersIssuingCards *testhelpersissuingcard.Client
-	// TestHelpersIssuingPersonalizationDesigns is the client used to invoke /issuing/personalization_designs APIs.
+	// TestHelpersIssuingPersonalizationDesigns is the client used to invoke /v1/issuing/personalization_designs APIs.
 	TestHelpersIssuingPersonalizationDesigns *testhelpersissuingpersonalizationdesign.Client
-	// TestHelpersIssuingTransactions is the client used to invoke /issuing/transactions APIs.
+	// TestHelpersIssuingTransactions is the client used to invoke /v1/issuing/transactions APIs.
 	TestHelpersIssuingTransactions *testhelpersissuingtransaction.Client
-	// TestHelpersRefunds is the client used to invoke /refunds APIs.
+	// TestHelpersRefunds is the client used to invoke /v1/refunds APIs.
 	TestHelpersRefunds *testhelpersrefund.Client
-	// TestHelpersTerminalReaders is the client used to invoke /terminal/readers APIs.
+	// TestHelpersTerminalReaders is the client used to invoke /v1/terminal/readers APIs.
 	TestHelpersTerminalReaders *testhelpersterminalreader.Client
-	// TestHelpersTestClocks is the client used to invoke /test_helpers/test_clocks APIs.
+	// TestHelpersTestClocks is the client used to invoke /v1/test_helpers/test_clocks APIs.
 	TestHelpersTestClocks *testhelperstestclock.Client
-	// TestHelpersTreasuryInboundTransfers is the client used to invoke /treasury/inbound_transfers APIs.
+	// TestHelpersTreasuryInboundTransfers is the client used to invoke /v1/treasury/inbound_transfers APIs.
 	TestHelpersTreasuryInboundTransfers *testhelperstreasuryinboundtransfer.Client
-	// TestHelpersTreasuryOutboundPayments is the client used to invoke /treasury/outbound_payments APIs.
+	// TestHelpersTreasuryOutboundPayments is the client used to invoke /v1/treasury/outbound_payments APIs.
 	TestHelpersTreasuryOutboundPayments *testhelperstreasuryoutboundpayment.Client
-	// TestHelpersTreasuryOutboundTransfers is the client used to invoke /treasury/outbound_transfers APIs.
+	// TestHelpersTreasuryOutboundTransfers is the client used to invoke /v1/treasury/outbound_transfers APIs.
 	TestHelpersTreasuryOutboundTransfers *testhelperstreasuryoutboundtransfer.Client
-	// TestHelpersTreasuryReceivedCredits is the client used to invoke /treasury/received_credits APIs.
+	// TestHelpersTreasuryReceivedCredits is the client used to invoke /v1/treasury/received_credits APIs.
 	TestHelpersTreasuryReceivedCredits *testhelperstreasuryreceivedcredit.Client
-	// TestHelpersTreasuryReceivedDebits is the client used to invoke /treasury/received_debits APIs.
+	// TestHelpersTreasuryReceivedDebits is the client used to invoke /v1/treasury/received_debits APIs.
 	TestHelpersTreasuryReceivedDebits *testhelperstreasuryreceiveddebit.Client
-	// Tokens is the client used to invoke /tokens APIs.
+	// Tokens is the client used to invoke /v1/tokens APIs.
 	Tokens *token.Client
-	// Topups is the client used to invoke /topups APIs.
+	// Topups is the client used to invoke /v1/topups APIs.
 	Topups *topup.Client
-	// TransferReversals is the client used to invoke /transfers/{id}/reversals APIs.
+	// TransferReversals is the client used to invoke /v1/transfers/{id}/reversals APIs.
 	TransferReversals *transferreversal.Client
-	// Transfers is the client used to invoke /transfers APIs.
+	// Transfers is the client used to invoke /v1/transfers APIs.
 	Transfers *transfer.Client
-	// TreasuryCreditReversals is the client used to invoke /treasury/credit_reversals APIs.
+	// TreasuryCreditReversals is the client used to invoke /v1/treasury/credit_reversals APIs.
 	TreasuryCreditReversals *treasurycreditreversal.Client
-	// TreasuryDebitReversals is the client used to invoke /treasury/debit_reversals APIs.
+	// TreasuryDebitReversals is the client used to invoke /v1/treasury/debit_reversals APIs.
 	TreasuryDebitReversals *treasurydebitreversal.Client
-	// TreasuryFinancialAccounts is the client used to invoke /treasury/financial_accounts APIs.
+	// TreasuryFinancialAccounts is the client used to invoke /v1/treasury/financial_accounts APIs.
 	TreasuryFinancialAccounts *treasuryfinancialaccount.Client
-	// TreasuryInboundTransfers is the client used to invoke /treasury/inbound_transfers APIs.
+	// TreasuryInboundTransfers is the client used to invoke /v1/treasury/inbound_transfers APIs.
 	TreasuryInboundTransfers *treasuryinboundtransfer.Client
-	// TreasuryOutboundPayments is the client used to invoke /treasury/outbound_payments APIs.
+	// TreasuryOutboundPayments is the client used to invoke /v1/treasury/outbound_payments APIs.
 	TreasuryOutboundPayments *treasuryoutboundpayment.Client
-	// TreasuryOutboundTransfers is the client used to invoke /treasury/outbound_transfers APIs.
+	// TreasuryOutboundTransfers is the client used to invoke /v1/treasury/outbound_transfers APIs.
 	TreasuryOutboundTransfers *treasuryoutboundtransfer.Client
-	// TreasuryReceivedCredits is the client used to invoke /treasury/received_credits APIs.
+	// TreasuryReceivedCredits is the client used to invoke /v1/treasury/received_credits APIs.
 	TreasuryReceivedCredits *treasuryreceivedcredit.Client
-	// TreasuryReceivedDebits is the client used to invoke /treasury/received_debits APIs.
+	// TreasuryReceivedDebits is the client used to invoke /v1/treasury/received_debits APIs.
 	TreasuryReceivedDebits *treasuryreceiveddebit.Client
-	// TreasuryTransactionEntries is the client used to invoke /treasury/transaction_entries APIs.
+	// TreasuryTransactionEntries is the client used to invoke /v1/treasury/transaction_entries APIs.
 	TreasuryTransactionEntries *treasurytransactionentry.Client
-	// TreasuryTransactions is the client used to invoke /treasury/transactions APIs.
+	// TreasuryTransactions is the client used to invoke /v1/treasury/transactions APIs.
 	TreasuryTransactions *treasurytransaction.Client
-	// WebhookEndpoints is the client used to invoke /webhook_endpoints APIs.
+	// V2BillingMeterEventAdjustments is the client used to invoke /v2/billing/meter_event_adjustments APIs.
+	V2BillingMeterEventAdjustments *v2billingmetereventadjustment.Client
+	// V2BillingMeterEvents is the client used to invoke /v2/billing/meter_events APIs.
+	V2BillingMeterEvents *v2billingmeterevent.Client
+	// V2BillingMeterEventSessions is the client used to invoke /v2/billing/meter_event_session APIs.
+	V2BillingMeterEventSessions *v2billingmetereventsession.Client
+	// V2BillingMeterEventStreams is the client used to invoke /v2/billing/meter_event_stream APIs.
+	V2BillingMeterEventStreams *v2billingmetereventstream.Client
+	// V2CoreAccountLinks is the client used to invoke /v2/core/account_links APIs.
+	V2CoreAccountLinks *v2coreaccountlink.Client
+	// V2CoreAccounts is the client used to invoke /v2/core/accounts APIs.
+	V2CoreAccounts *v2coreaccount.Client
+	// V2CoreAccountsPersons is the client used to invoke /v2/core/accounts/{account_id}/persons APIs.
+	V2CoreAccountsPersons *v2coreaccountsperson.Client
+	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
+	V2CoreEventDestinations *v2coreeventdestination.Client
+	// V2CoreEvents is the client used to invoke /v2/core/events APIs.
+	V2CoreEvents *v2coreevent.Client
+	// V2CoreVaultGBBankAccounts is the client used to invoke /v2/core/vault/gb_bank_accounts APIs.
+	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
+	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
+	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
+	// V2MoneyManagementAdjustments is the client used to invoke /v2/money_management/adjustments APIs.
+	V2MoneyManagementAdjustments *v2moneymanagementadjustment.Client
+	// V2MoneyManagementFinancialAccounts is the client used to invoke /v2/money_management/financial_accounts APIs.
+	V2MoneyManagementFinancialAccounts *v2moneymanagementfinancialaccount.Client
+	// V2MoneyManagementFinancialAddresses is the client used to invoke /v2/money_management/financial_addresses APIs.
+	V2MoneyManagementFinancialAddresses *v2moneymanagementfinancialaddress.Client
+	// V2MoneyManagementInboundTransfers is the client used to invoke /v2/money_management/inbound_transfers APIs.
+	V2MoneyManagementInboundTransfers *v2moneymanagementinboundtransfer.Client
+	// V2MoneyManagementOutboundPayments is the client used to invoke /v2/money_management/outbound_payments APIs.
+	V2MoneyManagementOutboundPayments *v2moneymanagementoutboundpayment.Client
+	// V2MoneyManagementOutboundPaymentsQuotes is the client used to invoke /v2/money_management/outbound_payments/quotes APIs.
+	V2MoneyManagementOutboundPaymentsQuotes *v2moneymanagementoutboundpaymentsquote.Client
+	// V2MoneyManagementOutboundSetupIntents is the client used to invoke /v2/money_management/outbound_setup_intents APIs.
+	V2MoneyManagementOutboundSetupIntents *v2moneymanagementoutboundsetupintent.Client
+	// V2MoneyManagementOutboundTransfers is the client used to invoke /v2/money_management/outbound_transfers APIs.
+	V2MoneyManagementOutboundTransfers *v2moneymanagementoutboundtransfer.Client
+	// V2MoneyManagementPayoutMethods is the client used to invoke /v2/money_management/payout_methods APIs.
+	V2MoneyManagementPayoutMethods *v2moneymanagementpayoutmethod.Client
+	// V2MoneyManagementPayoutMethodsBankAccountSpecs is the client used to invoke payoutmethodsbankaccountspec related APIs.
+	V2MoneyManagementPayoutMethodsBankAccountSpecs *v2moneymanagementpayoutmethodsbankaccountspec.Client
+	// V2MoneyManagementReceivedCredits is the client used to invoke /v2/money_management/received_credits APIs.
+	V2MoneyManagementReceivedCredits *v2moneymanagementreceivedcredit.Client
+	// V2MoneyManagementReceivedDebits is the client used to invoke /v2/money_management/received_debits APIs.
+	V2MoneyManagementReceivedDebits *v2moneymanagementreceiveddebit.Client
+	// V2MoneyManagementTransactionEntries is the client used to invoke /v2/money_management/transaction_entries APIs.
+	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
+	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
+	V2MoneyManagementTransactions *v2moneymanagementtransaction.Client
+	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
+	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
+	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
 
@@ -484,9 +562,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	usage := []string{"stripe_client"}
 	if backends == nil {
 		backends = &stripe.Backends{
-			API:     &stripe.UsageBackend{B: stripe.GetBackend(stripe.APIBackend), Usage: usage},
-			Connect: &stripe.UsageBackend{B: stripe.GetBackend(stripe.ConnectBackend), Usage: usage},
-			Uploads: &stripe.UsageBackend{B: stripe.GetBackend(stripe.UploadsBackend), Usage: usage},
+			API:         &stripe.UsageBackend{B: stripe.GetBackend(stripe.APIBackend), Usage: usage},
+			Connect:     &stripe.UsageBackend{B: stripe.GetBackend(stripe.ConnectBackend), Usage: usage},
+			Uploads:     &stripe.UsageBackend{B: stripe.GetBackend(stripe.UploadsBackend), Usage: usage},
+			MeterEvents: &stripe.UsageBackend{B: stripe.GetBackend(stripe.MeterEventsBackend), Usage: usage},
 		}
 	}
 
@@ -644,6 +723,32 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TreasuryReceivedDebits = &treasuryreceiveddebit.Client{B: backends.API, Key: key}
 	a.TreasuryTransactionEntries = &treasurytransactionentry.Client{B: backends.API, Key: key}
 	a.TreasuryTransactions = &treasurytransaction.Client{B: backends.API, Key: key}
+	a.V2BillingMeterEventAdjustments = &v2billingmetereventadjustment.Client{B: backends.API, Key: key}
+	a.V2BillingMeterEvents = &v2billingmeterevent.Client{B: backends.API, Key: key}
+	a.V2BillingMeterEventSessions = &v2billingmetereventsession.Client{B: backends.API, Key: key}
+	a.V2BillingMeterEventStreams = &v2billingmetereventstream.Client{BMeterEvents: backends.MeterEvents, Key: key}
+	a.V2CoreAccountLinks = &v2coreaccountlink.Client{B: backends.API, Key: key}
+	a.V2CoreAccounts = &v2coreaccount.Client{B: backends.API, Key: key}
+	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
+	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
+	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
+	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
+	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementFinancialAddresses = &v2moneymanagementfinancialaddress.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementInboundTransfers = &v2moneymanagementinboundtransfer.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementOutboundPayments = &v2moneymanagementoutboundpayment.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementOutboundPaymentsQuotes = &v2moneymanagementoutboundpaymentsquote.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementOutboundSetupIntents = &v2moneymanagementoutboundsetupintent.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementOutboundTransfers = &v2moneymanagementoutboundtransfer.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementPayoutMethods = &v2moneymanagementpayoutmethod.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2moneymanagementpayoutmethodsbankaccountspec.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementReceivedCredits = &v2moneymanagementreceivedcredit.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
+	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 

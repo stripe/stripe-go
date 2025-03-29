@@ -4,7 +4,7 @@
 //
 //
 
-// Package reportrun provides the /reporting/report_runs APIs
+// Package reportrun provides the /v1/reporting/report_runs APIs
 package reportrun
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /reporting/report_runs APIs.
+// Client is used to invoke /v1/reporting/report_runs APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

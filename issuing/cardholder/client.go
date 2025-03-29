@@ -4,7 +4,7 @@
 //
 //
 
-// Package cardholder provides the /issuing/cardholders APIs
+// Package cardholder provides the /v1/issuing/cardholders APIs
 // For more details, see: https://stripe.com/docs/api/?lang=go#issuing_cardholders
 package cardholder
 
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /issuing/cardholders APIs.
+// Client is used to invoke /v1/issuing/cardholders APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

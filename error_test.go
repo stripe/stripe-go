@@ -42,31 +42,6 @@ func TestErrorResponse(t *testing.T) {
 	assert.True(t, errors.As(err, &invalidRequestErr))
 }
 
-func TestPreviewErrorResponse(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Request-Id", "req_123")
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintln(w, `{"error":{"developer_message":"Unacceptable"}}`)
-	}))
-	defer ts.Close()
-
-	backend := GetBackendWithConfig(APIBackend, &BackendConfig{
-		// Suppress error log output to make a verbose run of this test less
-		// alarming (because we're testing specifically for an error).
-		LeveledLogger: &LeveledLogger{Level: LevelNull},
-
-		URL: String(ts.URL),
-	})
-
-	err := backend.Call(http.MethodGet, "/v1/charges/ch_123", "sk_test_123", nil, nil)
-	assert.Error(t, err)
-
-	stripeErr := err.(*Error)
-	assert.Equal(t, "req_123", stripeErr.RequestID)
-	assert.Equal(t, 400, stripeErr.HTTPStatusCode)
-	assert.Equal(t, "Unacceptable", stripeErr.DeveloperMsg)
-}
-
 func TestErrorRedact(t *testing.T) {
 	pi := &PaymentIntent{Amount: int64(400), ClientSecret: "foo"}
 	si := &SetupIntent{Description: "keepme", ClientSecret: "foo"}
@@ -75,41 +50,41 @@ func TestErrorRedact(t *testing.T) {
 		err := &Error{PaymentIntent: pi, SetupIntent: si}
 		redacted := err.redact()
 		assert.Equal(t, int64(400), err.PaymentIntent.Amount)
-		assert.Equal(t, int64(400), redacted.PaymentIntent.Amount)
+		assert.Equal(t, int64(400), redacted.(*Error).PaymentIntent.Amount)
 		assert.Equal(t, "keepme", err.SetupIntent.Description)
-		assert.Equal(t, "keepme", redacted.SetupIntent.Description)
+		assert.Equal(t, "keepme", redacted.(*Error).SetupIntent.Description)
 		assert.Equal(t, "foo", err.PaymentIntent.ClientSecret)
 		assert.Equal(t, "foo", err.SetupIntent.ClientSecret)
 		assert.Equal(t, "foo", pi.ClientSecret)
 		assert.Equal(t, "foo", si.ClientSecret)
-		assert.Equal(t, "REDACTED", redacted.PaymentIntent.ClientSecret)
-		assert.Equal(t, "REDACTED", redacted.SetupIntent.ClientSecret)
+		assert.Equal(t, "REDACTED", redacted.(*Error).PaymentIntent.ClientSecret)
+		assert.Equal(t, "REDACTED", redacted.(*Error).SetupIntent.ClientSecret)
 	})
 
 	t.Run("NeitherIntentObject", func(t *testing.T) {
 		err := Error{PaymentIntent: nil, SetupIntent: nil}
 		redacted := err.redact()
 		assert.Nil(t, err.PaymentIntent)
-		assert.Nil(t, redacted.PaymentIntent)
+		assert.Nil(t, redacted.(*Error).PaymentIntent)
 	})
 
 	t.Run("PaymentIntentAlone", func(t *testing.T) {
 		err := &Error{PaymentIntent: pi}
 		redacted := err.redact()
 		assert.Equal(t, int64(400), err.PaymentIntent.Amount)
-		assert.Equal(t, int64(400), redacted.PaymentIntent.Amount)
+		assert.Equal(t, int64(400), redacted.(*Error).PaymentIntent.Amount)
 		assert.Equal(t, "foo", err.PaymentIntent.ClientSecret)
 		assert.Equal(t, "foo", pi.ClientSecret)
-		assert.Equal(t, "REDACTED", redacted.PaymentIntent.ClientSecret)
+		assert.Equal(t, "REDACTED", redacted.(*Error).PaymentIntent.ClientSecret)
 	})
 
 	t.Run("SetupIntentAlone", func(t *testing.T) {
 		err := &Error{SetupIntent: si}
 		redacted := err.redact()
 		assert.Equal(t, "keepme", err.SetupIntent.Description)
-		assert.Equal(t, "keepme", redacted.SetupIntent.Description)
+		assert.Equal(t, "keepme", redacted.(*Error).SetupIntent.Description)
 		assert.Equal(t, "foo", err.SetupIntent.ClientSecret)
 		assert.Equal(t, "foo", si.ClientSecret)
-		assert.Equal(t, "REDACTED", redacted.SetupIntent.ClientSecret)
+		assert.Equal(t, "REDACTED", redacted.(*Error).SetupIntent.ClientSecret)
 	})
 }

@@ -4,7 +4,7 @@
 //
 //
 
-// Package refund provides the /refunds APIs
+// Package refund provides the /v1/refunds APIs
 package refund
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /refunds APIs.
+// Client is used to invoke /v1/refunds APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

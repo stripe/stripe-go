@@ -4,7 +4,7 @@
 //
 //
 
-// Package accountinferredbalance provides the /financial_connections/accounts/{account}/inferred_balances APIs
+// Package accountinferredbalance provides the /v1/financial_connections/accounts/{account}/inferred_balances APIs
 package accountinferredbalance
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /financial_connections/accounts/{account}/inferred_balances APIs.
+// Client is used to invoke /v1/financial_connections/accounts/{account}/inferred_balances APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

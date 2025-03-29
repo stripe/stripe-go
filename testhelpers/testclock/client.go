@@ -4,7 +4,7 @@
 //
 //
 
-// Package testclock provides the /test_helpers/test_clocks APIs
+// Package testclock provides the /v1/test_helpers/test_clocks APIs
 package testclock
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /test_helpers/test_clocks APIs.
+// Client is used to invoke /v1/test_helpers/test_clocks APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

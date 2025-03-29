@@ -4,7 +4,7 @@
 //
 //
 
-// Package calculation provides the /tax/calculations APIs
+// Package calculation provides the /v1/tax/calculations APIs
 package calculation
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /tax/calculations APIs.
+// Client is used to invoke /v1/tax/calculations APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

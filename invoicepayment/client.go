@@ -4,7 +4,7 @@
 //
 //
 
-// Package invoicepayment provides the /invoices/{invoice}/payments APIs
+// Package invoicepayment provides the /v1/invoices/{invoice}/payments APIs
 package invoicepayment
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /invoices/{invoice}/payments APIs.
+// Client is used to invoke /v1/invoices/{invoice}/payments APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

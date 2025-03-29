@@ -4,7 +4,7 @@
 //
 //
 
-// Package paymentlink provides the /payment_links APIs
+// Package paymentlink provides the /v1/payment_links APIs
 package paymentlink
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /payment_links APIs.
+// Client is used to invoke /v1/payment_links APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

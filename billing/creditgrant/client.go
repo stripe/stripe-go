@@ -4,7 +4,7 @@
 //
 //
 
-// Package creditgrant provides the /billing/credit_grants APIs
+// Package creditgrant provides the /v1/billing/credit_grants APIs
 package creditgrant
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /billing/credit_grants APIs.
+// Client is used to invoke /v1/billing/credit_grants APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

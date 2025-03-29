@@ -4,7 +4,7 @@
 //
 //
 
-// Package topup provides the /topups APIs
+// Package topup provides the /v1/topups APIs
 package topup
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /topups APIs.
+// Client is used to invoke /v1/topups APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

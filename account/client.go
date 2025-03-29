@@ -4,7 +4,7 @@
 //
 //
 
-// Package account provides the /accounts APIs
+// Package account provides the /v1/accounts APIs
 package account
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /accounts APIs.
+// Client is used to invoke /v1/accounts APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package accountnotice provides the /account_notices APIs
+// Package accountnotice provides the /v1/account_notices APIs
 package accountnotice
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /account_notices APIs.
+// Client is used to invoke /v1/account_notices APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

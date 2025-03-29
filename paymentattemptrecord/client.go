@@ -4,7 +4,7 @@
 //
 //
 
-// Package paymentattemptrecord provides the /payment_attempt_records APIs
+// Package paymentattemptrecord provides the /v1/payment_attempt_records APIs
 package paymentattemptrecord
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /payment_attempt_records APIs.
+// Client is used to invoke /v1/payment_attempt_records APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

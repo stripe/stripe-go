@@ -6,10 +6,6 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-//
-// Public types
-//
-
 // Iter provides a convenient interface
 // for iterating over the elements
 // returned from paginated list API calls.
@@ -93,10 +89,6 @@ func (it *Iter) getPage() {
 // Query is the function used to get a page listing.
 type Query func(*Params, *form.Values) ([]interface{}, ListContainer, error)
 
-//
-// Public functions
-//
-
 // GetIter returns a new Iter for a given query and its options.
 func GetIter(container ListParamsContainer, query Query) *Iter {
 	var listParams *ListParams
@@ -126,10 +118,6 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 	return iter
 }
 
-//
-// Private functions
-//
-
 func listItemID(x interface{}) string {
 	return reflect.ValueOf(x).Elem().FieldByName("ID").String()
 }
@@ -138,4 +126,101 @@ func reverse(a []interface{}) {
 	for i := 0; i < len(a)/2; i++ {
 		a[i], a[len(a)-i-1] = a[len(a)-i-1], a[i]
 	}
+}
+
+// Seq2 is the same as the iter.Seq2 type in Go 1.23+. It is used as the return type
+// of All methods. If you are using Go 1.23+, you can just range over the an All
+// method directly, e.g.,
+//
+//	for event, err := range sc.V2Events.All() {
+//		// check err and do something with event
+//	}
+//
+// For older versions of Go, the yield function should return false
+// to stop iteration or true to continue.
+type Seq2[K, V any] func(yield func(K, V) bool)
+
+// V2List contains a page of data received from a List API call,
+// and the means to paginate to the next page of data via the fetch function.
+type V2List[T any] struct {
+	fetch       Fetch[T]
+	params      ParamsContainer
+	initialized bool
+	// Page contains the items returned from the last API call.
+	V2Page[T]
+}
+
+// V2Page is represents a single page returned from a List API call.
+// Users will not ordinaily interact with this type directly.
+type V2Page[T any] struct {
+	APIResource
+	Data            []T    `json:"data"`
+	NextPageURL     string `json:"next_page_url"`
+	PreviousPageURL string `json:"previous_page_url"`
+}
+
+// NewV2List creates a new V2List with the given path and fetch function.
+func NewV2List[T any](path string, p ParamsContainer, fetch Fetch[T]) *V2List[T] {
+	return &V2List[T]{
+		fetch:  fetch,
+		params: p,
+		V2Page: V2Page[T]{NextPageURL: path},
+	}
+}
+
+// Fetch is a function that fetches a page of items.
+type Fetch[T any] func(path string, p ParamsContainer) (*V2Page[T], error)
+
+// All returns a Seq2 that will be evaluated on each item in a V2List.
+// The All function will continue to fetch pages of items as needed.
+func (s *V2List[T]) All() Seq2[T, error] {
+	return func(yield func(T, error) bool) {
+		var fetchMore bool
+		// fetch inital page
+		err := s.page()
+		if err != nil && !yield(*new(T), err) {
+			return
+		}
+		s.initialized = true
+		fetchMore = (s.NextPageURL != "")
+
+		for len(s.Data) > 0 {
+			for _, item := range s.Data {
+				if !yield(item, nil) {
+					return
+				}
+			}
+
+			if !fetchMore {
+				return
+			}
+			err := s.page()
+			if err != nil && !yield(*new(T), err) {
+				return
+			}
+			fetchMore = (s.NextPageURL != "")
+		}
+	}
+}
+
+// page fetches the next page of items and updates the Seq's state.
+// It returns true if there exist more pages to fetch, and false if
+// that was the last page.
+func (s *V2List[T]) page() error {
+	// if we've already fetched a page, the next page URL
+	// already contains all of the query parameters
+	var params ParamsContainer
+	if s.initialized {
+		params = &Params{}
+	} else {
+		params = s.params
+	}
+
+	next, err := s.fetch(s.NextPageURL, params)
+	if err != nil {
+		return err
+	}
+
+	s.V2Page = *next
+	return nil
 }

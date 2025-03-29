@@ -4,7 +4,7 @@
 //
 //
 
-// Package accountsession provides the /account_sessions APIs
+// Package accountsession provides the /v1/account_sessions APIs
 package accountsession
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /account_sessions APIs.
+// Client is used to invoke /v1/account_sessions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

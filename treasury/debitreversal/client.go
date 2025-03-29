@@ -4,7 +4,7 @@
 //
 //
 
-// Package debitreversal provides the /treasury/debit_reversals APIs
+// Package debitreversal provides the /v1/treasury/debit_reversals APIs
 package debitreversal
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /treasury/debit_reversals APIs.
+// Client is used to invoke /v1/treasury/debit_reversals APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

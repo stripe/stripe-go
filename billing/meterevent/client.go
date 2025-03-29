@@ -4,7 +4,7 @@
 //
 //
 
-// Package meterevent provides the /billing/meter_events APIs
+// Package meterevent provides the /v1/billing/meter_events APIs
 package meterevent
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /billing/meter_events APIs.
+// Client is used to invoke /v1/billing/meter_events APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

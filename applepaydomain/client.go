@@ -4,7 +4,7 @@
 //
 //
 
-// Package applepaydomain provides the /apple_pay/domains APIs
+// Package applepaydomain provides the /v1/apple_pay/domains APIs
 package applepaydomain
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /apple_pay/domains APIs.
+// Client is used to invoke /v1/apple_pay/domains APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

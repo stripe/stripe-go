@@ -221,6 +221,11 @@ type Params struct {
 	// Stripe key.
 	StripeAccount *string `form:"-" json:"-"` // Passed as header
 
+	// StripeContext is used to set the Stripe-Context header on a request.
+	// The Stripe-Context header can be used to set the account with which
+	// the request is made.
+	StripeContext *string `form:"-" json:"-"` // Passed as header
+
 	usage []string `form:"-" json:"-"` // Tracked behaviors
 }
 
@@ -270,6 +275,11 @@ func (p *Params) SetIdempotencyKey(val string) {
 // SetStripeAccount sets a value for the Stripe-Account header.
 func (p *Params) SetStripeAccount(val string) {
 	p.StripeAccount = &val
+}
+
+// SetStripeContext sets a value for the Stripe-Context header.
+func (p *Params) SetStripeContext(val string) {
+	p.StripeContext = &val
 }
 
 // ParamsContainer is a general interface for which all parameter structs

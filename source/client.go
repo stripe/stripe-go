@@ -4,7 +4,7 @@
 //
 //
 
-// Package source provides the /sources APIs
+// Package source provides the /v1/sources APIs
 package source
 
 import (
@@ -14,7 +14,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /sources APIs.
+// Client is used to invoke /v1/sources APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

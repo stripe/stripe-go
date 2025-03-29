@@ -4,7 +4,7 @@
 //
 //
 
-// Package secret provides the /apps/secrets APIs
+// Package secret provides the /v1/apps/secrets APIs
 package secret
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /apps/secrets APIs.
+// Client is used to invoke /v1/apps/secrets APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

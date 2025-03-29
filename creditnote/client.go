@@ -4,7 +4,7 @@
 //
 //
 
-// Package creditnote provides the /credit_notes APIs
+// Package creditnote provides the /v1/credit_notes APIs
 package creditnote
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /credit_notes APIs.
+// Client is used to invoke /v1/credit_notes APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package accountlink provides the /account_links APIs
+// Package accountlink provides the /v1/account_links APIs
 package accountlink
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /account_links APIs.
+// Client is used to invoke /v1/account_links APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

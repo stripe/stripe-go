@@ -4,7 +4,7 @@
 //
 //
 
-// Package paymentintent provides the /payment_intents APIs
+// Package paymentintent provides the /v1/payment_intents APIs
 package paymentintent
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /payment_intents APIs.
+// Client is used to invoke /v1/payment_intents APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

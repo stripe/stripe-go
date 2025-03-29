@@ -4,7 +4,7 @@
 //
 //
 
-// Package transaction provides the /gift_cards/transactions APIs
+// Package transaction provides the /v1/gift_cards/transactions APIs
 package transaction
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /gift_cards/transactions APIs.
+// Client is used to invoke /v1/gift_cards/transactions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

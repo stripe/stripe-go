@@ -4,7 +4,7 @@
 //
 //
 
-// Package session provides the /financial_connections/sessions APIs
+// Package session provides the /v1/financial_connections/sessions APIs
 package session
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /financial_connections/sessions APIs.
+// Client is used to invoke /v1/financial_connections/sessions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package financingsummary provides the /capital/financing_summary APIs
+// Package financingsummary provides the /v1/capital/financing_summary APIs
 package financingsummary
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /capital/financing_summary APIs.
+// Client is used to invoke /v1/capital/financing_summary APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
