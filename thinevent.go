@@ -22,18 +22,11 @@ type ThinEvent struct {
 	// [Optional] Authentication context needed to fetch the event or related object
 	Context *string `json:"context"`
 	// [Optional] Reason for the event
-	Reason *ThinEventReason `json:"reason"`
+	Reason *V2EventReason `json:"reason"`
 }
 
 type RelatedObject struct {
 	ID   string `json:"id"`
 	Type string `json:"type"`
 	URL  string `json:"url"`
-}
-
-type ThinEventReason struct {
-	// Information on the API request that instigated the event
-	Request EventRequest `json:"request"`
-	// Event reason type
-	Type string `json:"type"`
 }
