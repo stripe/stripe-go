@@ -2145,7 +2145,6 @@ type Invoice struct {
 	// The status of the invoice, one of `draft`, `open`, `paid`, `uncollectible`, or `void`. [Learn more](https://stripe.com/docs/billing/invoices/workflow#workflow-overview)
 	Status            InvoiceStatus             `json:"status"`
 	StatusTransitions *InvoiceStatusTransitions `json:"status_transitions"`
-	Subscription      *Subscription             `json:"subscription"`
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or exclusive tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`
 	// The integer amount in cents (or local equivalent) representing the subtotal of the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
