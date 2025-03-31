@@ -550,7 +550,7 @@ type ChargeCaptureTransferDataParams struct {
 // Don't use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://stripe.com/docs/api/payment_intents/capture).
 type ChargeCaptureParams struct {
 	Params `form:"*"`
-	// The amount to capture, which must be less than or equal to the original amount. Any additional amount will be automatically refunded.
+	// The amount to capture, which must be less than or equal to the original amount.
 	Amount *int64 `form:"amount"`
 	// An application fee to add on to this charge.
 	ApplicationFee *int64 `form:"application_fee"`
@@ -783,6 +783,7 @@ type ChargePaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsBillie struct{}
 type ChargePaymentMethodDetailsBLIK struct {
 	// A unique and immutable identifier assigned by BLIK to every buyer.
 	BuyerID string `json:"buyer_id"`
@@ -1240,6 +1241,20 @@ type ChargePaymentMethodDetailsNaverPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
 }
+type ChargePaymentMethodDetailsNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type ChargePaymentMethodDetailsOXXO struct {
 	// OXXO reference number
 	Number string `json:"number"`
@@ -1321,6 +1336,7 @@ type ChargePaymentMethodDetailsSamsungPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
 }
+type ChargePaymentMethodDetailsSatispay struct{}
 type ChargePaymentMethodDetailsSEPACreditTransfer struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
@@ -1415,6 +1431,7 @@ type ChargePaymentMethodDetails struct {
 	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
 	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
 	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
+	Billie             *ChargePaymentMethodDetailsBillie             `json:"billie"`
 	BLIK               *ChargePaymentMethodDetailsBLIK               `json:"blik"`
 	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto"`
 	Card               *ChargePaymentMethodDetailsCard               `json:"card"`
@@ -1435,6 +1452,7 @@ type ChargePaymentMethodDetails struct {
 	Mobilepay          *ChargePaymentMethodDetailsMobilepay          `json:"mobilepay"`
 	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
 	NaverPay           *ChargePaymentMethodDetailsNaverPay           `json:"naver_pay"`
+	NzBankAccount      *ChargePaymentMethodDetailsNzBankAccount      `json:"nz_bank_account"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
 	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
 	PayByBank          *ChargePaymentMethodDetailsPayByBank          `json:"pay_by_bank"`
@@ -1445,6 +1463,7 @@ type ChargePaymentMethodDetails struct {
 	PromptPay          *ChargePaymentMethodDetailsPromptPay          `json:"promptpay"`
 	RevolutPay         *ChargePaymentMethodDetailsRevolutPay         `json:"revolut_pay"`
 	SamsungPay         *ChargePaymentMethodDetailsSamsungPay         `json:"samsung_pay"`
+	Satispay           *ChargePaymentMethodDetailsSatispay           `json:"satispay"`
 	SEPACreditTransfer *ChargePaymentMethodDetailsSEPACreditTransfer `json:"sepa_credit_transfer"`
 	SEPADebit          *ChargePaymentMethodDetailsSEPADebit          `json:"sepa_debit"`
 	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort"`
@@ -1459,6 +1478,12 @@ type ChargePaymentMethodDetails struct {
 	WeChat        *ChargePaymentMethodDetailsWeChat        `json:"wechat"`
 	WeChatPay     *ChargePaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
 	Zip           *ChargePaymentMethodDetailsZip           `json:"zip"`
+}
+type ChargePresentmentDetails struct {
+	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	PresentmentAmount int64 `json:"presentment_amount"`
+	// Currency presented to the customer during payment.
+	PresentmentCurrency Currency `json:"presentment_currency"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -1521,10 +1546,8 @@ type Charge struct {
 	// Information on fraud assessments for the charge.
 	FraudDetails *ChargeFraudDetails `json:"fraud_details"`
 	// Unique identifier for the object.
-	ID string `json:"id"`
-	// ID of the invoice this charge is for if one exists.
-	Invoice *Invoice      `json:"invoice"`
-	Level3  *ChargeLevel3 `json:"level3"`
+	ID     string        `json:"id"`
+	Level3 *ChargeLevel3 `json:"level3"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -1543,6 +1566,7 @@ type Charge struct {
 	PaymentMethod string `json:"payment_method"`
 	// Details about the payment method at the time of the transaction.
 	PaymentMethodDetails *ChargePaymentMethodDetails `json:"payment_method_details"`
+	PresentmentDetails   *ChargePresentmentDetails   `json:"presentment_details"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *ChargeRadarOptions `json:"radar_options"`
 	// This is the email address that the receipt for this charge was sent to.

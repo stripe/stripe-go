@@ -61,6 +61,7 @@ import (
 	"github.com/stripe/stripe-go/v81/invoice"
 	"github.com/stripe/stripe-go/v81/invoiceitem"
 	"github.com/stripe/stripe-go/v81/invoicelineitem"
+	"github.com/stripe/stripe-go/v81/invoicepayment"
 	"github.com/stripe/stripe-go/v81/invoicerenderingtemplate"
 	issuingauthorization "github.com/stripe/stripe-go/v81/issuing/authorization"
 	issuingcard "github.com/stripe/stripe-go/v81/issuing/card"
@@ -142,8 +143,6 @@ import (
 	treasuryreceiveddebit "github.com/stripe/stripe-go/v81/treasury/receiveddebit"
 	treasurytransaction "github.com/stripe/stripe-go/v81/treasury/transaction"
 	treasurytransactionentry "github.com/stripe/stripe-go/v81/treasury/transactionentry"
-	"github.com/stripe/stripe-go/v81/usagerecord"
-	"github.com/stripe/stripe-go/v81/usagerecordsummary"
 	"github.com/stripe/stripe-go/v81/webhookendpoint"
 )
 
@@ -251,6 +250,8 @@ type API struct {
 	InvoiceItems *invoiceitem.Client
 	// InvoiceLineItems is the client used to invoke /invoices/{invoice}/lines APIs.
 	InvoiceLineItems *invoicelineitem.Client
+	// InvoicePayments is the client used to invoke /invoice_payments APIs.
+	InvoicePayments *invoicepayment.Client
 	// InvoiceRenderingTemplates is the client used to invoke /invoice_rendering_templates APIs.
 	InvoiceRenderingTemplates *invoicerenderingtemplate.Client
 	// Invoices is the client used to invoke /invoices APIs.
@@ -415,10 +416,6 @@ type API struct {
 	TreasuryTransactionEntries *treasurytransactionentry.Client
 	// TreasuryTransactions is the client used to invoke /treasury/transactions APIs.
 	TreasuryTransactions *treasurytransaction.Client
-	// UsageRecords is the client used to invoke /subscription_items/{subscription_item}/usage_records APIs.
-	UsageRecords *usagerecord.Client
-	// UsageRecordSummaries is the client used to invoke /subscription_items/{subscription_item}/usage_record_summaries APIs.
-	UsageRecordSummaries *usagerecordsummary.Client
 	// WebhookEndpoints is the client used to invoke /webhook_endpoints APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
@@ -484,6 +481,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IdentityVerificationSessions = &identityverificationsession.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
 	a.InvoiceLineItems = &invoicelineitem.Client{B: backends.API, Key: key}
+	a.InvoicePayments = &invoicepayment.Client{B: backends.API, Key: key}
 	a.InvoiceRenderingTemplates = &invoicerenderingtemplate.Client{B: backends.API, Key: key}
 	a.Invoices = &invoice.Client{B: backends.API, Key: key}
 	a.IssuingAuthorizations = &issuingauthorization.Client{B: backends.API, Key: key}
@@ -566,8 +564,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TreasuryReceivedDebits = &treasuryreceiveddebit.Client{B: backends.API, Key: key}
 	a.TreasuryTransactionEntries = &treasurytransactionentry.Client{B: backends.API, Key: key}
 	a.TreasuryTransactions = &treasurytransaction.Client{B: backends.API, Key: key}
-	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
-	a.UsageRecordSummaries = &usagerecordsummary.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 

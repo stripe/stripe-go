@@ -56,7 +56,7 @@ type PaymentMethodDomainListParams struct {
 	ListParams `form:"*"`
 	// The domain name that this payment method domain object represents.
 	DomainName *string `form:"domain_name"`
-	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods will not appear in Elements
+	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods will not appear in Elements or Embedded Checkout
 	Enabled *bool `form:"enabled"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -72,7 +72,7 @@ type PaymentMethodDomainParams struct {
 	Params `form:"*"`
 	// The domain name that this payment method domain object represents.
 	DomainName *string `form:"domain_name"`
-	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements.
+	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements or Embedded Checkout.
 	Enabled *bool `form:"enabled"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -83,10 +83,10 @@ func (p *PaymentMethodDomainParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Some payment methods such as Apple Pay require additional steps to verify a domain. If the requirements weren't satisfied when the domain was created, the payment method will be inactive on the domain.
-// The payment method doesn't appear in Elements for this domain until it is active.
+// Some payment methods might require additional steps to register a domain. If the requirements weren't satisfied when the domain was created, the payment method will be inactive on the domain.
+// The payment method doesn't appear in Elements or Embedded Checkout for this domain until it is active.
 //
-// To activate a payment method on an existing payment method domain, complete the required validation steps specific to the payment method, and then validate the payment method domain with this endpoint.
+// To activate a payment method on an existing payment method domain, complete the required registration steps specific to the payment method, and then validate the payment method domain with this endpoint.
 //
 // Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
 type PaymentMethodDomainValidateParams struct {

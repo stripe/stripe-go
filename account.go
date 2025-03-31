@@ -11,7 +11,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+// The business type.
 type AccountBusinessType string
 
 // List of values that AccountBusinessType can take
@@ -32,6 +32,7 @@ const (
 	AccountCapabilityStatusPending  AccountCapabilityStatus = "pending"
 )
 
+// This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details.
 type AccountCompanyOwnershipExemptionReason string
 
 // List of values that AccountCompanyOwnershipExemptionReason can take
@@ -40,7 +41,7 @@ const (
 	AccountCompanyOwnershipExemptionReasonQualifiesAsFinancialInstitution          AccountCompanyOwnershipExemptionReason = "qualifies_as_financial_institution"
 )
 
-// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
 // List of values that AccountCompanyStructure can take
@@ -189,6 +190,16 @@ const (
 	AccountRequirementsDisabledReasonRequirementsPastDue                 AccountRequirementsDisabledReason = "requirements.past_due"
 	AccountRequirementsDisabledReasonRequirementsPendingVerification     AccountRequirementsDisabledReason = "requirements.pending_verification"
 	AccountRequirementsDisabledReasonUnderReview                         AccountRequirementsDisabledReason = "under_review"
+)
+
+// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+type AccountSettingsInvoicesHostedPaymentMethodSave string
+
+// List of values that AccountSettingsInvoicesHostedPaymentMethodSave can take
+const (
+	AccountSettingsInvoicesHostedPaymentMethodSaveAlways AccountSettingsInvoicesHostedPaymentMethodSave = "always"
+	AccountSettingsInvoicesHostedPaymentMethodSaveNever  AccountSettingsInvoicesHostedPaymentMethodSave = "never"
+	AccountSettingsInvoicesHostedPaymentMethodSaveOffer  AccountSettingsInvoicesHostedPaymentMethodSave = "offer"
 )
 
 // How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
@@ -390,6 +401,12 @@ type AccountCapabilitiesBankTransferPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The billie_payments capability.
+type AccountCapabilitiesBilliePaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The blik_payments capability.
 type AccountCapabilitiesBLIKPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -540,6 +557,12 @@ type AccountCapabilitiesNaverPayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The nz_bank_account_becs_debit_payments capability.
+type AccountCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The oxxo_payments capability.
 type AccountCapabilitiesOXXOPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -584,6 +607,12 @@ type AccountCapabilitiesRevolutPayPaymentsParams struct {
 
 // The samsung_pay_payments capability.
 type AccountCapabilitiesSamsungPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The satispay_payments capability.
+type AccountCapabilitiesSatispayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -687,6 +716,8 @@ type AccountCapabilitiesParams struct {
 	BancontactPayments *AccountCapabilitiesBancontactPaymentsParams `form:"bancontact_payments"`
 	// The bank_transfer_payments capability.
 	BankTransferPayments *AccountCapabilitiesBankTransferPaymentsParams `form:"bank_transfer_payments"`
+	// The billie_payments capability.
+	BilliePayments *AccountCapabilitiesBilliePaymentsParams `form:"billie_payments"`
 	// The blik_payments capability.
 	BLIKPayments *AccountCapabilitiesBLIKPaymentsParams `form:"blik_payments"`
 	// The boleto_payments capability.
@@ -737,6 +768,8 @@ type AccountCapabilitiesParams struct {
 	MXBankTransferPayments *AccountCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments"`
 	// The naver_pay_payments capability.
 	NaverPayPayments *AccountCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments"`
+	// The nz_bank_account_becs_debit_payments capability.
+	NzBankAccountBECSDebitPayments *AccountCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments"`
 	// The oxxo_payments capability.
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
@@ -753,6 +786,8 @@ type AccountCapabilitiesParams struct {
 	RevolutPayPayments *AccountCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments"`
 	// The samsung_pay_payments capability.
 	SamsungPayPayments *AccountCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments"`
+	// The satispay_payments capability.
+	SatispayPayments *AccountCapabilitiesSatispayPaymentsParams `form:"satispay_payments"`
 	// The sepa_bank_transfer_payments capability.
 	SEPABankTransferPayments *AccountCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments"`
 	// The sepa_debit_payments capability.
@@ -876,8 +911,9 @@ type AccountCompanyParams struct {
 	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 	OwnershipDeclaration *AccountCompanyOwnershipDeclarationParams `form:"ownership_declaration"`
 	// This parameter can only be used on Token creation.
-	OwnershipDeclarationShownAndSigned *bool   `form:"ownership_declaration_shown_and_signed"`
-	OwnershipExemptionReason           *string `form:"ownership_exemption_reason"`
+	OwnershipDeclarationShownAndSigned *bool `form:"ownership_declaration_shown_and_signed"`
+	// This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details.
+	OwnershipExemptionReason *string `form:"ownership_exemption_reason"`
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
@@ -1062,6 +1098,8 @@ type AccountSettingsCardPaymentsParams struct {
 type AccountSettingsInvoicesParams struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
+	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
 }
 
 // Settings that apply across payment methods for charging on the account.
@@ -1273,6 +1311,8 @@ type AccountCapabilities struct {
 	BancontactPayments AccountCapabilityStatus `json:"bancontact_payments"`
 	// The status of the customer_balance payments capability of the account, or whether the account can directly process customer_balance charges.
 	BankTransferPayments AccountCapabilityStatus `json:"bank_transfer_payments"`
+	// The status of the Billie capability of the account, or whether the account can directly process Billie payments.
+	BilliePayments AccountCapabilityStatus `json:"billie_payments"`
 	// The status of the blik payments capability of the account, or whether the account can directly process blik charges.
 	BLIKPayments AccountCapabilityStatus `json:"blik_payments"`
 	// The status of the boleto payments capability of the account, or whether the account can directly process boleto charges.
@@ -1323,6 +1363,8 @@ type AccountCapabilities struct {
 	MXBankTransferPayments AccountCapabilityStatus `json:"mx_bank_transfer_payments"`
 	// The status of the NaverPay capability of the account, or whether the account can directly process NaverPay payments.
 	NaverPayPayments AccountCapabilityStatus `json:"naver_pay_payments"`
+	// The status of the New Zealand BECS Direct Debit payments capability of the account, or whether the account can directly process New Zealand BECS Direct Debit charges.
+	NzBankAccountBECSDebitPayments AccountCapabilityStatus `json:"nz_bank_account_becs_debit_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
@@ -1339,6 +1381,8 @@ type AccountCapabilities struct {
 	RevolutPayPayments AccountCapabilityStatus `json:"revolut_pay_payments"`
 	// The status of the SamsungPay capability of the account, or whether the account can directly process SamsungPay payments.
 	SamsungPayPayments AccountCapabilityStatus `json:"samsung_pay_payments"`
+	// The status of the Satispay capability of the account, or whether the account can directly process Satispay payments.
+	SatispayPayments AccountCapabilityStatus `json:"satispay_payments"`
 	// The status of the SEPA customer_balance payments (EUR currency) capability of the account, or whether the account can directly process SEPA customer_balance charges.
 	SEPABankTransferPayments AccountCapabilityStatus `json:"sepa_bank_transfer_payments"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
@@ -1451,20 +1495,21 @@ type AccountCompany struct {
 	ExportLicenseID string `json:"export_license_id"`
 	// The purpose code to use for export transactions (India only).
 	ExportPurposeCode string `json:"export_purpose_code"`
-	// The company's legal name.
+	// The company's legal name. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	Name string `json:"name"`
-	// The Kana variation of the company's legal name (Japan only).
+	// The Kana variation of the company's legal name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	NameKana string `json:"name_kana"`
-	// The Kanji variation of the company's legal name (Japan only).
+	// The Kanji variation of the company's legal name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	NameKanji string `json:"name_kanji"`
 	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
-	OwnershipDeclaration     *AccountCompanyOwnershipDeclaration    `json:"ownership_declaration"`
+	OwnershipDeclaration *AccountCompanyOwnershipDeclaration `json:"ownership_declaration"`
+	// This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details.
 	OwnershipExemptionReason AccountCompanyOwnershipExemptionReason `json:"ownership_exemption_reason"`
 	// Whether the company's owners have been provided. This Boolean will be `true` if you've manually indicated that all owners are provided via [the `owners_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the `percent_ownership` of each owner together).
 	OwnersProvided bool `json:"owners_provided"`
 	// The company's phone number (used for verification).
 	Phone string `json:"phone"`
-	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 	Structure AccountCompanyStructure `json:"structure"`
 	// Whether the company's business ID number was provided.
 	TaxIDProvided bool `json:"tax_id_provided"`
@@ -1627,6 +1672,8 @@ type AccountSettingsDashboard struct {
 type AccountSettingsInvoices struct {
 	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
 	DefaultAccountTaxIDs []*TaxID `json:"default_account_tax_ids"`
+	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	HostedPaymentMethodSave AccountSettingsInvoicesHostedPaymentMethodSave `json:"hosted_payment_method_save"`
 }
 type AccountSettingsPayments struct {
 	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge.
@@ -1713,7 +1760,7 @@ type Account struct {
 	APIResource
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfile `json:"business_profile"`
-	// The business type. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property is only returned for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// The business type.
 	BusinessType AccountBusinessType  `json:"business_type"`
 	Capabilities *AccountCapabilities `json:"capabilities"`
 	// Whether the account can process charges.
@@ -1740,7 +1787,7 @@ type Account struct {
 	ID string `json:"id"`
 	// This is an object representing a person associated with a Stripe account.
 	//
-	// A platform cannot access a person for an account where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
+	// A platform can only access a subset of data in a person for an account where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
 	//
 	// See the [Standard onboarding](https://stripe.com/connect/standard-accounts) or [Express onboarding](https://stripe.com/connect/express-accounts) documentation for information about prefilling information and account onboarding steps. Learn more about [handling identity verification with the API](https://stripe.com/connect/handling-api-verification#person-information).
 	Individual *Person `json:"individual"`
