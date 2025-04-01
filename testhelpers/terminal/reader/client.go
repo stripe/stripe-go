@@ -4,7 +4,7 @@
 //
 //
 
-// Package reader provides the /terminal/readers APIs
+// Package reader provides the /v1/terminal/readers APIs
 package reader
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /terminal/readers APIs.
+// Client is used to invoke /v1/terminal/readers APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package confirmationtoken provides the /confirmation_tokens APIs
+// Package confirmationtoken provides the /v1/confirmation_tokens APIs
 package confirmationtoken
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /confirmation_tokens APIs.
+// Client is used to invoke /v1/confirmation_tokens APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

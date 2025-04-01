@@ -4,7 +4,7 @@
 //
 //
 
-// Package customersession provides the /customer_sessions APIs
+// Package customersession provides the /v1/customer_sessions APIs
 package customersession
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /customer_sessions APIs.
+// Client is used to invoke /v1/customer_sessions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package paymentmethoddomain provides the /payment_method_domains APIs
+// Package paymentmethoddomain provides the /v1/payment_method_domains APIs
 package paymentmethoddomain
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /payment_method_domains APIs.
+// Client is used to invoke /v1/payment_method_domains APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

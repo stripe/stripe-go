@@ -4,7 +4,7 @@
 //
 //
 
-// Package financingtransaction provides the /capital/financing_transactions APIs
+// Package financingtransaction provides the /v1/capital/financing_transactions APIs
 package financingtransaction
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /capital/financing_transactions APIs.
+// Client is used to invoke /v1/capital/financing_transactions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -30,14 +30,14 @@ import (
 //
 
 const (
+	// APIVersion is the currently supported API version
+	APIVersion string = apiVersion
+
 	// APIBackend is a constant representing the API service backend.
 	APIBackend SupportedBackend = "api"
 
 	// APIURL is the URL of the API service backend.
 	APIURL string = "https://api.stripe.com"
-
-	// APIVersion is the currently supported API version
-	APIVersion string = apiVersion
 
 	// ClientVersion is the version of the stripe-go library being used.
 	ClientVersion string = clientversion
@@ -263,6 +263,11 @@ type BackendConfig struct {
 	//
 	// If left empty, it'll be set to the default for the SupportedBackend.
 	URL *string
+
+	// StripeContext is used to set the Stripe-Context header on a request.
+	// The Stripe-Context header can be used to set the account or other context
+	// for the request.
+	StripeContext *string
 }
 
 // BackendImplementation is the internal implementation for making HTTP calls
@@ -276,6 +281,7 @@ type BackendImplementation struct {
 	HTTPClient        *http.Client
 	LeveledLogger     LeveledLoggerInterface
 	MaxNetworkRetries int64
+	StripeContext     *string
 
 	enableTelemetry bool
 
@@ -471,58 +477,36 @@ func validateMethod(method string) error {
 
 // RawRequest is the Backend.RawRequest implementation for invoking Stripe APIs.
 func (s *BackendImplementation) RawRequest(method, path, key, content string, params *RawParams) (*APIResponse, error) {
-	var bodyBuffer = bytes.NewBuffer(nil)
-	var commonParams *Params
-	var err error
-	var contentType string
-
-	err = validateMethod(method)
+	err := validateMethod(method)
 	if err != nil {
 		return nil, err
 	}
 
-	paramsIsNil := params == nil || reflect.ValueOf(params).IsNil()
-	var apiMode APIMode
-	if strings.HasPrefix(path, "/v1") {
-		apiMode = V1APIMode
-	} else if strings.HasPrefix(path, "/v2") {
-		apiMode = V2APIMode
-	} else {
-		return nil, fmt.Errorf("Unknown path prefix %s", path)
-	}
-
-	_, commonParams, err = extractParams(params)
+	ver, err := extractVersion(path)
 	if err != nil {
 		return nil, err
 	}
 
-	if apiMode == V1APIMode {
-		contentType = "application/x-www-form-urlencoded"
-	} else if apiMode == V2APIMode {
-		contentType = "application/json"
-	} else {
-		return nil, fmt.Errorf("Unknown API mode %s", apiMode)
-	}
-
-	bodyBuffer.WriteString(content)
-
-	req, err := s.NewRequest(method, path, key, contentType, commonParams)
-
+	_, commonParams, err := extractParams(params)
 	if err != nil {
 		return nil, err
 	}
 
-	if !paramsIsNil {
-		if params.StripeContext != "" {
-			req.Header.Set("Stripe-Context", params.StripeContext)
-		}
+	req, err := s.NewRequest(method, path, key, ver.contentType(), commonParams)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil && params.StripeContext != "" {
+		req.Header.Set("Stripe-Context", params.StripeContext)
 	}
 
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 		return s.handleResponseBufferingErrors(res, err)
 	}
 
-	resp, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, bodyBuffer, handleResponse)
+	buf := bytes.NewBufferString(content)
+	resp, result, requestDuration, err := s.requestWithRetriesAndTelemetry(req, buf, handleResponse)
 	if err != nil {
 		return nil, err
 	}
@@ -547,8 +531,9 @@ func (s *BackendImplementation) CallRaw(method, path, key string, body []byte, p
 		return err
 	}
 
-	// On `GET` / `DELETE`, move the payload into the URL
-	if method != http.MethodPost {
+	// On `GET` / `DELETE`, move the payload into the URL.
+	// No need to add a query string if the body is empty.
+	if method != http.MethodPost && string(body) != "" {
 		path += "?" + string(body)
 		body = nil
 	}
@@ -576,10 +561,8 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 		path = "/" + path
 	}
 
-	path = s.URL + path
-
 	// Body is set later by `Do`.
-	req, err := http.NewRequest(method, path, nil)
+	req, err := http.NewRequest(method, s.URL+path, nil)
 	if err != nil {
 		s.LeveledLogger.Errorf("Cannot create Stripe request: %v", err)
 		return nil, err
@@ -592,6 +575,10 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 	req.Header.Add("Stripe-Version", apiVersionWithBetaHeaders)
 	req.Header.Add("User-Agent", encodedUserAgent)
 	req.Header.Add("X-Stripe-Client-User-Agent", getEncodedStripeUserAgent())
+
+	if s.StripeContext != nil {
+		req.Header.Set("Stripe-Context", *s.StripeContext)
+	}
 
 	if params != nil {
 		if params.Context != nil {
@@ -611,6 +598,11 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 
 		if params.StripeAccount != nil {
 			req.Header.Add("Stripe-Account", strings.TrimSpace(*params.StripeAccount))
+		}
+
+		// Note that this overrides the StripeContext set by the BackendImplementation
+		if params.StripeContext != nil {
+			req.Header.Set("Stripe-Context", *params.StripeContext)
 		}
 
 		for k, v := range params.Headers {
@@ -764,7 +756,7 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 }
 
 func (s *BackendImplementation) logError(statusCode int, err error) {
-	if stripeErr, ok := err.(*Error); ok {
+	if stripeErr, ok := err.(redacter); ok {
 		// The Stripe API makes a distinction between errors that were
 		// caused by invalid parameters or something else versus those
 		// that occurred *despite* valid parameters, the latter coming
@@ -844,11 +836,19 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 			res.Body.Close()
 		}
 
-		if err != nil {
-			s.LeveledLogger.Errorf("Request failed with error: %v", err)
-		} else if res.StatusCode >= 400 {
-			err = s.ResponseToError(res, resBody)
+		ver, pathErr := extractVersion(req.URL.Path)
+		if pathErr != nil {
+			return nil, pathErr
+		}
 
+		switch {
+		case err != nil:
+			s.LeveledLogger.Errorf("Request failed with error: %v", err)
+		case res.StatusCode >= 400 && ver == V1APIMode:
+			err = s.ResponseToError(res, resBody)
+			s.logError(res.StatusCode, err)
+		case res.StatusCode >= 400 && ver == V2APIMode:
+			err = s.responseToErrorV2(res, resBody)
 			s.logError(res.StatusCode, err)
 		}
 
@@ -919,6 +919,165 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	return raw.Error
 }
 
+// responseToErrorV2 converts a stripe V2 response to an error.
+func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []byte) error {
+	// First, we partially unmarshal just the error type
+	var partial struct {
+		Error *struct {
+			Type *ErrorType `json:"type"`
+		} `json:"error"`
+	}
+	if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &partial); err != nil {
+		return err
+	}
+
+	// need to return a generic error in this case
+	if partial.Error == nil || partial.Error.Type == nil {
+		err := errors.New(string(resBody))
+		return err
+	}
+
+	var typedError error
+	// The beginning of the section generated from our OpenAPI spec
+	switch *partial.Error.Type {
+	case "temporary_session_expired":
+		tmp := struct {
+			Error *TemporarySessionExpiredError `json:"error"`
+		}{
+			Error: &TemporarySessionExpiredError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "financial_account_not_open":
+		tmp := struct {
+			Error *FinancialAccountNotOpenError `json:"error"`
+		}{
+			Error: &FinancialAccountNotOpenError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "blocked_by_stripe":
+		tmp := struct {
+			Error *BlockedByStripeError `json:"error"`
+		}{
+			Error: &BlockedByStripeError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "already_canceled":
+		tmp := struct {
+			Error *AlreadyCanceledError `json:"error"`
+		}{
+			Error: &AlreadyCanceledError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "not_cancelable":
+		tmp := struct {
+			Error *NotCancelableError `json:"error"`
+		}{
+			Error: &NotCancelableError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "insufficient_funds":
+		tmp := struct {
+			Error *InsufficientFundsError `json:"error"`
+		}{
+			Error: &InsufficientFundsError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "quota_exceeded":
+		tmp := struct {
+			Error *QuotaExceededError `json:"error"`
+		}{
+			Error: &QuotaExceededError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "recipient_not_notifiable":
+		tmp := struct {
+			Error *RecipientNotNotifiableError `json:"error"`
+		}{
+			Error: &RecipientNotNotifiableError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "feature_not_enabled":
+		tmp := struct {
+			Error *FeatureNotEnabledError `json:"error"`
+		}{
+			Error: &FeatureNotEnabledError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "invalid_payout_method":
+		tmp := struct {
+			Error *InvalidPayoutMethodError `json:"error"`
+		}{
+			Error: &InvalidPayoutMethodError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "controlled_by_dashboard":
+		tmp := struct {
+			Error *ControlledByDashboardError `json:"error"`
+		}{
+			Error: &ControlledByDashboardError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "invalid_payment_method":
+		tmp := struct {
+			Error *InvalidPaymentMethodError `json:"error"`
+		}{
+			Error: &InvalidPaymentMethodError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	}
+	// The end of the section generated from our OpenAPI spec
+
+	return typedError
+}
+
 // SetMaxNetworkRetries sets max number of retries on failed requests
 //
 // This function is deprecated. Please use GetBackendWithConfig instead.
@@ -981,8 +1140,6 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		return false, "max retries exceeded"
 	}
 
-	stripeErr, _ := err.(*Error)
-
 	// Don't retry if the context was canceled or its deadline was exceeded.
 	if req.Context() != nil && req.Context().Err() != nil {
 		switch req.Context().Err() {
@@ -995,13 +1152,19 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		}
 	}
 
+	// All errors from the Stripe API should implement the `retrier` interface.
+	// Any other error comes from a different layer
+	if err, ok := err.(retrier); ok {
+		return err.canRetry(), "not retriable error"
+	}
+
 	// We retry most errors that come out of HTTP requests except for a curated
 	// list that we know not to be retryable. This list is probably not
 	// exhaustive, so it'd be okay to add new errors to it. It'd also be okay to
 	// flip this to an inverted strategy of retrying only errors that we know
 	// to be retryable in a future refactor, if a good methodology is found for
 	// identifying that full set of errors.
-	if stripeErr == nil && err != nil {
+	if err != nil {
 		if urlErr, ok := err.(*url.Error); ok {
 			// Don't retry too many redirects.
 			if redirectsErrorRE.MatchString(urlErr.Error()) {
@@ -1036,20 +1199,6 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 	// 409 Conflict
 	if resp.StatusCode == http.StatusConflict {
 		return true, ""
-	}
-
-	// 429 Too Many Requests
-	//
-	// There are a few different problems that can lead to a 429. The most
-	// common is rate limiting, on which we *don't* want to retry because
-	// that'd likely contribute to more contention problems. However, some 429s
-	// are lock timeouts, which is when a request conflicted with another
-	// request or an internal process on some particular object. These 429s are
-	// safe to retry.
-	if resp.StatusCode == http.StatusTooManyRequests {
-		if stripeErr != nil && stripeErr.Code == ErrorCodeLockTimeout {
-			return true, ""
-		}
 	}
 
 	// Retry on 500, 503, and other internal errors.
@@ -1094,8 +1243,8 @@ func (s *BackendImplementation) sleepTime(numRetries int) time.Duration {
 
 // Backends are the currently supported endpoints.
 type Backends struct {
-	API, Connect, Uploads Backend
-	mu                    sync.RWMutex
+	API, Connect, Uploads, MeterEvents Backend
+	mu                                 sync.RWMutex
 }
 
 // LastResponseSetter defines a type that contains an HTTP response from a Stripe
@@ -1200,6 +1349,8 @@ func GetBackend(backendType SupportedBackend) Backend {
 		backend = backends.Connect
 	case UploadsBackend:
 		backend = backends.Uploads
+	case MeterEventsBackend:
+		backend = backends.MeterEvents
 	}
 	backends.mu.RUnlock()
 	if backend != nil {
@@ -1314,10 +1465,12 @@ func NewBackends(httpClient *http.Client) *Backends {
 	apiConfig := &BackendConfig{HTTPClient: httpClient}
 	connectConfig := &BackendConfig{HTTPClient: httpClient}
 	uploadConfig := &BackendConfig{HTTPClient: httpClient}
+	meterConfig := &BackendConfig{HTTPClient: httpClient}
 	return &Backends{
-		API:     GetBackendWithConfig(APIBackend, apiConfig),
-		Connect: GetBackendWithConfig(ConnectBackend, connectConfig),
-		Uploads: GetBackendWithConfig(UploadsBackend, uploadConfig),
+		API:         GetBackendWithConfig(APIBackend, apiConfig),
+		Connect:     GetBackendWithConfig(ConnectBackend, connectConfig),
+		Uploads:     GetBackendWithConfig(UploadsBackend, uploadConfig),
+		MeterEvents: GetBackendWithConfig(MeterEventsBackend, meterConfig),
 	}
 }
 
@@ -1325,9 +1478,10 @@ func NewBackends(httpClient *http.Client) *Backends {
 // Useful for setting up client with a custom logger and http client.
 func NewBackendsWithConfig(config *BackendConfig) *Backends {
 	return &Backends{
-		API:     GetBackendWithConfig(APIBackend, config),
-		Connect: GetBackendWithConfig(ConnectBackend, config),
-		Uploads: GetBackendWithConfig(UploadsBackend, config),
+		API:         GetBackendWithConfig(APIBackend, config),
+		Connect:     GetBackendWithConfig(ConnectBackend, config),
+		Uploads:     GetBackendWithConfig(UploadsBackend, config),
+		MeterEvents: GetBackendWithConfig(MeterEventsBackend, config),
 	}
 }
 
@@ -1381,6 +1535,8 @@ func SetBackend(backend SupportedBackend, b Backend) {
 		backends.Connect = b
 	case UploadsBackend:
 		backends.Uploads = b
+	case MeterEventsBackend:
+		backends.MeterEvents = b
 	}
 }
 
@@ -1620,6 +1776,7 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		MaxNetworkRetries:    *config.MaxNetworkRetries,
 		Type:                 backendType,
 		URL:                  *config.URL,
+		StripeContext:        config.StripeContext,
 		enableTelemetry:      enableTelemetry,
 		networkRetriesSleep:  true,
 		requestMetricsBuffer: requestMetricsBuffer,

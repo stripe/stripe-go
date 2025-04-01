@@ -4,7 +4,7 @@
 //
 //
 
-// Package metereventsummary provides the /billing/meters/{id}/event_summaries APIs
+// Package metereventsummary provides the /v1/billing/meters/{id}/event_summaries APIs
 package metereventsummary
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /billing/meters/{id}/event_summaries APIs.
+// Client is used to invoke /v1/billing/meters/{id}/event_summaries APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

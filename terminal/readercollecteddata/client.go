@@ -4,7 +4,7 @@
 //
 //
 
-// Package readercollecteddata provides the /terminal/reader_collected_data APIs
+// Package readercollecteddata provides the /v1/terminal/reader_collected_data APIs
 package readercollecteddata
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /terminal/reader_collected_data APIs.
+// Client is used to invoke /v1/terminal/reader_collected_data APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

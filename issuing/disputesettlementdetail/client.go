@@ -4,7 +4,7 @@
 //
 //
 
-// Package disputesettlementdetail provides the /issuing/dispute_settlement_details APIs
+// Package disputesettlementdetail provides the /v1/issuing/dispute_settlement_details APIs
 package disputesettlementdetail
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /issuing/dispute_settlement_details APIs.
+// Client is used to invoke /v1/issuing/dispute_settlement_details APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package receiveddebit provides the /treasury/received_debits APIs
+// Package receiveddebit provides the /v1/treasury/received_debits APIs
 package receiveddebit
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /treasury/received_debits APIs.
+// Client is used to invoke /v1/treasury/received_debits APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

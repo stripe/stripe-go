@@ -4,7 +4,7 @@
 //
 //
 
-// Package webhookendpoint provides the /webhook_endpoints APIs
+// Package webhookendpoint provides the /v1/webhook_endpoints APIs
 package webhookendpoint
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /webhook_endpoints APIs.
+// Client is used to invoke /v1/webhook_endpoints APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

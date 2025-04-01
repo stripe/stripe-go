@@ -4,7 +4,7 @@
 //
 //
 
-// Package applicationfee provides the /application_fees APIs
+// Package applicationfee provides the /v1/application_fees APIs
 package applicationfee
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /application_fees APIs.
+// Client is used to invoke /v1/application_fees APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

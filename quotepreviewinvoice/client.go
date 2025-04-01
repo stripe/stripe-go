@@ -4,7 +4,7 @@
 //
 //
 
-// Package quotepreviewinvoice provides the /quotes/{quote}/preview_invoices APIs
+// Package quotepreviewinvoice provides the /v1/quotes/{quote}/preview_invoices APIs
 package quotepreviewinvoice
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /quotes/{quote}/preview_invoices APIs.
+// Client is used to invoke /v1/quotes/{quote}/preview_invoices APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

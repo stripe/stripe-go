@@ -4,7 +4,7 @@
 //
 //
 
-// Package creditunderwritingrecord provides the /issuing/credit_underwriting_records APIs
+// Package creditunderwritingrecord provides the /v1/issuing/credit_underwriting_records APIs
 package creditunderwritingrecord
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /issuing/credit_underwriting_records APIs.
+// Client is used to invoke /v1/issuing/credit_underwriting_records APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package reporttype provides the /reporting/report_types APIs
+// Package reporttype provides the /v1/reporting/report_types APIs
 package reporttype
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /reporting/report_types APIs.
+// Client is used to invoke /v1/reporting/report_types APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

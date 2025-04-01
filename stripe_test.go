@@ -6,6 +6,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -41,7 +42,7 @@ func TestBearerAuth(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	req, err := c.NewRequest("", "", key, "", nil)
+	req, err := c.NewRequest("", "/v1/hello", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -141,7 +142,7 @@ func TestContext(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{Context: context.Background()}
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.NewRequest("", "/v1/hello", "", "", p)
 	assert.NoError(t, err)
 
 	// We assume that contexts are sufficiently tested in the standard library
@@ -211,7 +212,7 @@ func TestDo_Retry(t *testing.T) {
 
 	request, err := backend.NewRequest(
 		http.MethodPost,
-		"/hello",
+		"/v1/hello",
 		"sk_test_123",
 		"application/x-www-form-urlencoded",
 		nil,
@@ -371,9 +372,9 @@ func TestShouldRetry(t *testing.T) {
 	// 429 Too Many Requests -- retry on lock timeout
 	t.Run("RetryOn429TooManyRequestsLockTimeout", func(t *testing.T) {
 		shouldRetry, _ := c.shouldRetry(
-			&Error{Code: ErrorCodeLockTimeout},
+			&Error{Code: ErrorCodeLockTimeout, HTTPStatusCode: http.StatusTooManyRequests},
 			&http.Request{},
-			&http.Response{StatusCode: http.StatusTooManyRequests},
+			&http.Response{},
 			0,
 		)
 		assert.True(t, shouldRetry)
@@ -442,7 +443,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 
 	request, err := backend.NewRequest(
 		http.MethodPost,
-		"/hello",
+		"/v1/hello",
 		"sk_test_123",
 		"application/x-www-form-urlencoded",
 		nil,
@@ -492,7 +493,7 @@ func TestDo_LastResponsePopulated(t *testing.T) {
 
 	request, err := backend.NewRequest(
 		http.MethodGet,
-		"/hello",
+		"/v1/hello",
 		"sk_test_123",
 		"application/x-www-form-urlencoded",
 		nil,
@@ -824,7 +825,7 @@ func TestCall_V2PathPostNilParams(t *testing.T) {
 		assert.Equal(t, r.URL.Path, "/v2/hello")
 		assert.Equal(t, r.Header.Get("Content-Type"), "application/json")
 
-		body, err := ioutil.ReadAll(r.Body)
+		body, err := io.ReadAll(r.Body)
 		assert.NoError(t, err)
 		assert.Equal(t, body, []byte{})
 
@@ -1153,7 +1154,7 @@ func TestMultipleAPICalls(t *testing.T) {
 			c := GetBackend(APIBackend).(*BackendImplementation)
 			key := "apiKey"
 
-			req, err := c.NewRequest("", "", key, "", nil)
+			req, err := c.NewRequest("", "/v1/hello", key, "", nil)
 			assert.NoError(t, err)
 
 			assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -1166,7 +1167,7 @@ func TestIdempotencyKey(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{IdempotencyKey: String("idempotency-key")}
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.NewRequest("", "/v1/hello", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "idempotency-key", req.Header.Get("Idempotency-Key"))
@@ -1184,7 +1185,7 @@ func TestStripeAccount(t *testing.T) {
 	p := &Params{}
 	p.SetStripeAccount("acct_123")
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.NewRequest("", "/v1/hello", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "acct_123", req.Header.Get("Stripe-Account"))
@@ -1292,7 +1293,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 func TestUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
 	assert.NoError(t, err)
 
 	// We keep out version constant private to the package, so use a regexp
@@ -1315,7 +1316,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
 	assert.NoError(t, err)
 
 	//
@@ -1351,7 +1352,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 func TestStripeClientUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
@@ -1385,7 +1386,7 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
@@ -1537,7 +1538,6 @@ func TestRawRequestPreviewPost(t *testing.T) {
 			LeveledLogger:     debugLeveledLogger,
 			MaxNetworkRetries: Int64(0),
 			URL:               String(testServer.URL),
-			EnableTelemetry:   Bool(true),
 		},
 	).(*BackendImplementation)
 
@@ -1781,4 +1781,32 @@ func wrapError(serialized []byte) []byte {
 
 func cleanupBetaHeaders() {
 	apiVersionWithBetaHeaders = APIVersion
+}
+
+func TestStripeContextWhenUnset(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	req, err := c.NewRequest("", "/v2/foo", "", "", nil)
+	assert.NoError(t, err)
+	assert.Empty(t, req.Header.Get("Stripe-Context"))
+}
+
+func TestStripeContextWhenSetWithV1(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	req, err := c.NewRequest("", "/v1/foo", "", "", nil)
+	assert.NoError(t, err)
+	assert.Empty(t, req.Header.Get("Stripe-Context"))
+}
+
+func TestStripeContextWhenSet(t *testing.T) {
+	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+	req, err := c.NewRequest("", "/v2/foo", "", "", nil)
+	assert.NoError(t, err)
+	assert.Equal(t, "ctx", req.Header.Get("Stripe-Context"))
+}
+
+func TestStripeContextWhenSetInParams(t *testing.T) {
+	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+	req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: String("requestCtx")})
+	assert.NoError(t, err)
+	assert.Equal(t, "requestCtx", req.Header.Get("Stripe-Context"))
 }

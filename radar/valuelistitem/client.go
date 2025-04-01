@@ -4,7 +4,7 @@
 //
 //
 
-// Package valuelistitem provides the /radar/value_list_items APIs
+// Package valuelistitem provides the /v1/radar/value_list_items APIs
 // For more details, see: https://stripe.com/docs/api/radar/list_items?lang=go
 package valuelistitem
 
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /radar/value_list_items APIs.
+// Client is used to invoke /v1/radar/value_list_items APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

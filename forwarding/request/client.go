@@ -4,7 +4,7 @@
 //
 //
 
-// Package request provides the /forwarding/requests APIs
+// Package request provides the /v1/forwarding/requests APIs
 package request
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /forwarding/requests APIs.
+// Client is used to invoke /v1/forwarding/requests APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

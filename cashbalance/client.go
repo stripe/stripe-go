@@ -4,7 +4,7 @@
 //
 //
 
-// Package cashbalance provides the /customers/{customer}/cash_balance APIs
+// Package cashbalance provides the /v1/customers/{customer}/cash_balance APIs
 package cashbalance
 
 import (
@@ -14,7 +14,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /customers/{customer}/cash_balance APIs.
+// Client is used to invoke /v1/customers/{customer}/cash_balance APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

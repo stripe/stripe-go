@@ -4,7 +4,7 @@
 //
 //
 
-// Package countryspec provides the /country_specs APIs
+// Package countryspec provides the /v1/country_specs APIs
 package countryspec
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v81/form"
 )
 
-// Client is used to invoke /country_specs APIs.
+// Client is used to invoke /v1/country_specs APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

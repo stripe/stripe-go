@@ -4,7 +4,7 @@
 //
 //
 
-// Package inboundtransfer provides the /treasury/inbound_transfers APIs
+// Package inboundtransfer provides the /v1/treasury/inbound_transfers APIs
 package inboundtransfer
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v81"
 )
 
-// Client is used to invoke /treasury/inbound_transfers APIs.
+// Client is used to invoke /v1/treasury/inbound_transfers APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
