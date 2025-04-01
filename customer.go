@@ -339,7 +339,8 @@ type Customer struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) the customer can be charged in for recurring billing purposes.
-	Currency Currency `json:"currency"`
+	Currency        Currency `json:"currency"`
+	CustomerAccount string   `json:"customer_account"`
 	// ID of the default payment source for the customer.
 	//
 	// If you use payment methods created through the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/object#customer_object-invoice_settings-default_payment_method) field instead.

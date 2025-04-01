@@ -187,10 +187,12 @@ type TerminalReaderCollectInputsInputCustomTextParams struct {
 
 // List of choices for the `selection` input
 type TerminalReaderCollectInputsInputSelectionChoiceParams struct {
+	// The unique identifier for this choice
+	ID *string `form:"id"`
 	// The style of the button which will be shown for this choice
 	Style *string `form:"style"`
 	// The text which will be shown on the button for this choice
-	Value *string `form:"value"`
+	Text *string `form:"text"`
 }
 
 // Options for the `selection` input
@@ -465,18 +467,22 @@ type TerminalReaderActionCollectInputsInputPhone struct {
 
 // List of possible choices to be selected
 type TerminalReaderActionCollectInputsInputSelectionChoice struct {
+	// The id to be selected
+	ID string `json:"id"`
 	// The button style for the choice
 	Style TerminalReaderActionCollectInputsInputSelectionChoiceStyle `json:"style"`
-	// A value to be selected
-	Value string `json:"value"`
+	// The text to be selected
+	Text string `json:"text"`
 }
 
 // Information about a selection being collected using a reader
 type TerminalReaderActionCollectInputsInputSelection struct {
 	// List of possible choices to be selected
 	Choices []*TerminalReaderActionCollectInputsInputSelectionChoice `json:"choices"`
-	// The value of the selected choice
-	Value string `json:"value"`
+	// The id of the selected choice
+	ID string `json:"id"`
+	// The text of the selected choice
+	Text string `json:"text"`
 }
 
 // Information about a signature being collected using a reader

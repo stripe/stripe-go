@@ -8,13 +8,14 @@ package stripe
 
 import "encoding/json"
 
-// One of `forever`, `once`, and `repeating`. Describes how long a customer who applies this coupon will get the discount.
+// One of `forever`, `once`, or `repeating`. Describes how long a customer who applies this coupon will get the discount.
 type CouponDuration string
 
 // List of values that CouponDuration can take
 const (
-	CouponDurationForever CouponDuration = "forever"
-	CouponDurationOnce    CouponDuration = "once"
+	CouponDurationForever   CouponDuration = "forever"
+	CouponDurationOnce      CouponDuration = "once"
+	CouponDurationRepeating CouponDuration = "repeating"
 )
 
 // You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
@@ -30,6 +31,8 @@ type CouponParams struct {
 	CurrencyOptions map[string]*CouponCurrencyOptionsParams `form:"currency_options"`
 	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
 	Duration *string `form:"duration"`
+	// Required only if `duration` is `repeating`, in which case it must be a positive integer that specifies the number of months the discount will be in effect.
+	DurationInMonths *int64 `form:"duration_in_months"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Unique string of your choice that will be used to identify this coupon when applying it to a customer. If you don't want to specify a particular code, you can leave the ID blank and we'll generate a random code for you.
@@ -113,7 +116,7 @@ type Coupon struct {
 	// Coupons defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CouponCurrencyOptions `json:"currency_options"`
 	Deleted         bool                              `json:"deleted"`
-	// One of `forever`, `once`, and `repeating`. Describes how long a customer who applies this coupon will get the discount.
+	// One of `forever`, `once`, or `repeating`. Describes how long a customer who applies this coupon will get the discount.
 	Duration CouponDuration `json:"duration"`
 	// If `duration` is `repeating`, the number of months the coupon applies. Null if coupon `duration` is `forever` or `once`.
 	DurationInMonths int64 `json:"duration_in_months"`

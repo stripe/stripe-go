@@ -298,6 +298,7 @@ type SetupAttemptPaymentMethodDetailsNaverPay struct {
 	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
 	BuyerID string `json:"buyer_id"`
 }
+type SetupAttemptPaymentMethodDetailsNzBankAccount struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsPayto struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
@@ -322,6 +323,7 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsStripeBalance struct{}
 type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
 type SetupAttemptPaymentMethodDetails struct {
 	ACSSDebit      *SetupAttemptPaymentMethodDetailsACSSDebit      `json:"acss_debit"`
@@ -340,11 +342,13 @@ type SetupAttemptPaymentMethodDetails struct {
 	KrCard         *SetupAttemptPaymentMethodDetailsKrCard         `json:"kr_card"`
 	Link           *SetupAttemptPaymentMethodDetailsLink           `json:"link"`
 	NaverPay       *SetupAttemptPaymentMethodDetailsNaverPay       `json:"naver_pay"`
+	NzBankAccount  *SetupAttemptPaymentMethodDetailsNzBankAccount  `json:"nz_bank_account"`
 	Paypal         *SetupAttemptPaymentMethodDetailsPaypal         `json:"paypal"`
 	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto"`
 	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay"`
 	SEPADebit      *SetupAttemptPaymentMethodDetailsSEPADebit      `json:"sepa_debit"`
 	Sofort         *SetupAttemptPaymentMethodDetailsSofort         `json:"sofort"`
+	StripeBalance  *SetupAttemptPaymentMethodDetailsStripeBalance  `json:"stripe_balance"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 	Type          SetupAttemptPaymentMethodDetailsType           `json:"type"`
 	USBankAccount *SetupAttemptPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
@@ -366,6 +370,8 @@ type SetupAttempt struct {
 	Created int64 `json:"created"`
 	// The value of [customer](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-customer) on the SetupIntent at the time of this confirmation.
 	Customer *Customer `json:"customer"`
+	// The value of [customer_account](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-customer_account) on the SetupIntent at the time of this confirmation.
+	CustomerAccount string `json:"customer_account"`
 	// Indicates the directions of money movement for which this payment method is intended to be used.
 	//
 	// Include `inbound` if you intend to use the payment method as the origin to pull funds from. Include `outbound` if you intend to use the payment method as the destination to send funds to. You can include both if you intend to use the payment method for both purposes.

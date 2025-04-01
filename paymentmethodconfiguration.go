@@ -596,6 +596,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationNzBankAccountDisplayPreferencePreferenceNone PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationNzBankAccountDisplayPreferencePreferenceOff  PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationNzBankAccountDisplayPreferencePreferenceOn   PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationNzBankAccountDisplayPreferenceValueOff PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationNzBankAccountDisplayPreferenceValueOn  PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationOXXODisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationOXXODisplayPreferencePreference can take
@@ -1336,6 +1355,18 @@ type PaymentMethodConfigurationMultibancoParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationNzBankAccountDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://stripe.com/docs/payments/nz-bank-account) for more details.
+type PaymentMethodConfigurationNzBankAccountParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationNzBankAccountDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationOXXODisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1624,6 +1655,8 @@ type PaymentMethodConfigurationParams struct {
 	Multibanco *PaymentMethodConfigurationMultibancoParams `form:"multibanco"`
 	// Configuration name.
 	Name *string `form:"name"`
+	// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://stripe.com/docs/payments/nz-bank-account) for more details.
+	NzBankAccount *PaymentMethodConfigurationNzBankAccountParams `form:"nz_bank_account"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://stripe.com/docs/payments/oxxo) for more details.
 	OXXO *PaymentMethodConfigurationOXXOParams `form:"oxxo"`
 	// Przelewy24 is a Poland-based payment method aggregator that allows customers to complete transactions online using bank transfers and other methods. Bank transfers account for 30% of online payments in Poland and Przelewy24 provides a way for customers to pay with over 165 banks. Check this [page](https://stripe.com/docs/payments/p24) for more details.
@@ -2072,6 +2105,19 @@ type PaymentMethodConfigurationMultibanco struct {
 	Available         bool                                                   `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationNzBankAccountDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationNzBankAccountDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationNzBankAccountDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationNzBankAccount struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                      `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationNzBankAccountDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationOXXODisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -2365,7 +2411,8 @@ type PaymentMethodConfiguration struct {
 	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay"`
 	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco"`
 	// The configuration's name.
-	Name string `json:"name"`
+	Name          string                                   `json:"name"`
+	NzBankAccount *PaymentMethodConfigurationNzBankAccount `json:"nz_bank_account"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string                          `json:"object"`
 	OXXO   *PaymentMethodConfigurationOXXO `json:"oxxo"`

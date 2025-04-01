@@ -7,13 +7,13 @@
 package stripe
 
 // Method to be used to send the OutboundPayment.
-type V2MoneyManagementOutboundPaymentsQuoteDeliveryOptionsParams struct {
+type V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsParams struct {
 	// Open Enum. Method for bank account.
 	BankAccount *string `form:"bank_account" json:"bank_account,omitempty"`
 }
 
 // Request details about the sender of an OutboundPaymentQuote.
-type V2MoneyManagementOutboundPaymentsQuoteFromParams struct {
+type V2MoneyManagementOutboundPaymentQuoteFromParams struct {
 	// Describes the FinancialAccount's currency drawn from.
 	Currency *string `form:"currency" json:"currency"`
 	// The FinancialAccount that funds were pulled from.
@@ -21,7 +21,7 @@ type V2MoneyManagementOutboundPaymentsQuoteFromParams struct {
 }
 
 // Request details about the recipient of an OutboundPaymentQuote.
-type V2MoneyManagementOutboundPaymentsQuoteToParams struct {
+type V2MoneyManagementOutboundPaymentQuoteToParams struct {
 	// Describes the currency to send to the recipient.
 	// If included, this currency must match a currency supported by the destination.
 	// Can be omitted in the following cases:
@@ -37,14 +37,14 @@ type V2MoneyManagementOutboundPaymentsQuoteToParams struct {
 }
 
 // Creates an OutboundPaymentQuote usable in an OutboundPayment.
-type V2MoneyManagementOutboundPaymentsQuoteParams struct {
+type V2MoneyManagementOutboundPaymentQuoteParams struct {
 	Params `form:"*"`
 	// The "presentment amount" to be sent to the recipient.
 	Amount *Amount `form:"amount" json:"amount"`
 	// Method to be used to send the OutboundPayment.
-	DeliveryOptions *V2MoneyManagementOutboundPaymentsQuoteDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
+	DeliveryOptions *V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
 	// Request details about the sender of an OutboundPaymentQuote.
-	From *V2MoneyManagementOutboundPaymentsQuoteFromParams `form:"from" json:"from"`
+	From *V2MoneyManagementOutboundPaymentQuoteFromParams `form:"from" json:"from"`
 	// Request details about the recipient of an OutboundPaymentQuote.
-	To *V2MoneyManagementOutboundPaymentsQuoteToParams `form:"to" json:"to"`
+	To *V2MoneyManagementOutboundPaymentQuoteToParams `form:"to" json:"to"`
 }

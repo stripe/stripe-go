@@ -478,6 +478,16 @@ const (
 	PaymentRecordPaymentMethodDetailsSofortPreferredLanguagePL PaymentRecordPaymentMethodDetailsSofortPreferredLanguage = "pl"
 )
 
+// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+type PaymentRecordPaymentMethodDetailsStripeBalanceSourceType string
+
+// List of values that PaymentRecordPaymentMethodDetailsStripeBalanceSourceType can take
+const (
+	PaymentRecordPaymentMethodDetailsStripeBalanceSourceTypeBankAccount PaymentRecordPaymentMethodDetailsStripeBalanceSourceType = "bank_account"
+	PaymentRecordPaymentMethodDetailsStripeBalanceSourceTypeCard        PaymentRecordPaymentMethodDetailsStripeBalanceSourceType = "card"
+	PaymentRecordPaymentMethodDetailsStripeBalanceSourceTypeFPX         PaymentRecordPaymentMethodDetailsStripeBalanceSourceType = "fpx"
+)
+
 // Account holder type: individual or company.
 type PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType string
 
@@ -1328,6 +1338,20 @@ type PaymentRecordPaymentMethodDetailsNaverPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
 }
+type PaymentRecordPaymentMethodDetailsNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type PaymentRecordPaymentMethodDetailsOXXO struct {
 	// OXXO reference number
 	Number string `json:"number"`
@@ -1484,6 +1508,12 @@ type PaymentRecordPaymentMethodDetailsSofort struct {
 	VerifiedName string `json:"verified_name"`
 }
 type PaymentRecordPaymentMethodDetailsStripeAccount struct{}
+type PaymentRecordPaymentMethodDetailsStripeBalance struct {
+	// The connected account ID whose Stripe balance to use as the source of payment
+	Account string `json:"account"`
+	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+	SourceType PaymentRecordPaymentMethodDetailsStripeBalanceSourceType `json:"source_type"`
+}
 type PaymentRecordPaymentMethodDetailsSwish struct {
 	// Uniquely identifies the payer's Swish account. You can use this attribute to check whether two Swish transactions were paid for by the same payer
 	Fingerprint string `json:"fingerprint"`
@@ -1564,6 +1594,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	Mobilepay       *PaymentRecordPaymentMethodDetailsMobilepay       `json:"mobilepay"`
 	Multibanco      *PaymentRecordPaymentMethodDetailsMultibanco      `json:"multibanco"`
 	NaverPay        *PaymentRecordPaymentMethodDetailsNaverPay        `json:"naver_pay"`
+	NzBankAccount   *PaymentRecordPaymentMethodDetailsNzBankAccount   `json:"nz_bank_account"`
 	OXXO            *PaymentRecordPaymentMethodDetailsOXXO            `json:"oxxo"`
 	P24             *PaymentRecordPaymentMethodDetailsP24             `json:"p24"`
 	PayByBank       *PaymentRecordPaymentMethodDetailsPayByBank       `json:"pay_by_bank"`
@@ -1585,6 +1616,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	Shopeepay          *PaymentRecordPaymentMethodDetailsShopeepay          `json:"shopeepay"`
 	Sofort             *PaymentRecordPaymentMethodDetailsSofort             `json:"sofort"`
 	StripeAccount      *PaymentRecordPaymentMethodDetailsStripeAccount      `json:"stripe_account"`
+	StripeBalance      *PaymentRecordPaymentMethodDetailsStripeBalance      `json:"stripe_balance"`
 	Swish              *PaymentRecordPaymentMethodDetailsSwish              `json:"swish"`
 	TWINT              *PaymentRecordPaymentMethodDetailsTWINT              `json:"twint"`
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.

@@ -6419,7 +6419,7 @@ type V2CoreAccountConfigurationMerchantSupport struct {
 	URL string `json:"url"`
 }
 
-// The Merchant Configuration allows the Account to make charges.
+// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
 type V2CoreAccountConfigurationMerchant struct {
 	// Settings used for Bacs debit payments.
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantBACSDebitPayments `json:"bacs_debit_payments"`
@@ -6537,6 +6537,8 @@ type V2CoreAccountConfigurationRecipientCapabilities struct {
 
 // The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard.
 type V2CoreAccountConfigurationRecipientDefaultOutboundDestination struct {
+	// The payout method ID of the default outbound destination.
+	ID string `json:"id"`
 	// Closed Enum. The payout method type of the default outbound destination.
 	Type V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType `json:"type"`
 }
@@ -6553,7 +6555,7 @@ type V2CoreAccountConfigurationRecipient struct {
 type V2CoreAccountConfiguration struct {
 	// The Customer Configuration allows the Account to be used in inbound payment flows.
 	Customer *V2CoreAccountConfigurationCustomer `json:"customer"`
-	// The Merchant Configuration allows the Account to make charges.
+	// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
 	Merchant *V2CoreAccountConfigurationMerchant `json:"merchant"`
 	// The Recipient Configuration allows the Account to receive funds.
 	Recipient *V2CoreAccountConfigurationRecipient `json:"recipient"`
@@ -7261,7 +7263,7 @@ type V2CoreAccountRequirementsEntry struct {
 	RequestedReasons []*V2CoreAccountRequirementsEntryRequestedReason `json:"requested_reasons"`
 }
 
-// An aggregate soonest point when the account will be impacted by not providing requirements.
+// The soonest date and time a requirement on the Account will become `past due`. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
 type V2CoreAccountRequirementsSummaryMinimumDeadline struct {
 	// The current strictest status of all requirements on the Account.
 	Status V2CoreAccountRequirementsSummaryMinimumDeadlineStatus `json:"status"`
@@ -7271,7 +7273,7 @@ type V2CoreAccountRequirementsSummaryMinimumDeadline struct {
 
 // An object containing an overview of requirements for the Account.
 type V2CoreAccountRequirementsSummary struct {
-	// An aggregate soonest point when the account will be impacted by not providing requirements.
+	// The soonest date and time a requirement on the Account will become `past due`. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
 	MinimumDeadline *V2CoreAccountRequirementsSummaryMinimumDeadline `json:"minimum_deadline"`
 }
 
@@ -7292,7 +7294,7 @@ type V2CoreAccount struct {
 	AppliedConfigurations []V2CoreAccountAppliedConfiguration `json:"applied_configurations"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountConfiguration `json:"configuration"`
-	// The default contact email address for the Account.
+	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
 	ContactEmail string `json:"contact_email"`
 	// Time at which the object was created. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`

@@ -107,6 +107,7 @@ const (
 	ErrorCodeFinancialConnectionsNoSuccessfulTransactionRefresh          ErrorCode = "financial_connections_no_successful_transaction_refresh"
 	ErrorCodeForwardingAPIInactive                                       ErrorCode = "forwarding_api_inactive"
 	ErrorCodeForwardingAPIInvalidParameter                               ErrorCode = "forwarding_api_invalid_parameter"
+	ErrorCodeForwardingAPIRetryableUpstreamError                         ErrorCode = "forwarding_api_retryable_upstream_error"
 	ErrorCodeForwardingAPIUpstreamConnectionError                        ErrorCode = "forwarding_api_upstream_connection_error"
 	ErrorCodeForwardingAPIUpstreamConnectionTimeout                      ErrorCode = "forwarding_api_upstream_connection_timeout"
 	ErrorCodeGiftCardBalanceInsufficient                                 ErrorCode = "gift_card_balance_insufficient"
@@ -234,6 +235,8 @@ const (
 	ErrorCodeTransferSourceBalanceParametersMismatch                     ErrorCode = "transfer_source_balance_parameters_mismatch"
 	ErrorCodeTransfersNotAllowed                                         ErrorCode = "transfers_not_allowed"
 	ErrorCodeURLInvalid                                                  ErrorCode = "url_invalid"
+	ErrorCodeV2AccountDisconnectionUnsupported                           ErrorCode = "v2_account_disconnection_unsupported"
+	ErrorCodeV2AccountMissingConfiguration                               ErrorCode = "v2_account_missing_configuration"
 )
 
 // v1ErrorCodes: The end of the section generated from our OpenAPI spec

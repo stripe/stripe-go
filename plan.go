@@ -12,17 +12,6 @@ import (
 	"strconv"
 )
 
-// Specifies a usage aggregation strategy for plans of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
-type PlanAggregateUsage string
-
-// List of values that PlanAggregateUsage can take
-const (
-	PlanAggregateUsageLastDuringPeriod PlanAggregateUsage = "last_during_period"
-	PlanAggregateUsageLastEver         PlanAggregateUsage = "last_ever"
-	PlanAggregateUsageMax              PlanAggregateUsage = "max"
-	PlanAggregateUsageSum              PlanAggregateUsage = "sum"
-)
-
 // Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `amount`) will be charged per unit in `quantity` (for plans with `usage_type=licensed`), or per unit of total usage (for plans with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
 type PlanBillingScheme string
 
@@ -75,8 +64,6 @@ type PlanParams struct {
 	Params `form:"*"`
 	// Whether the plan is currently available for new subscriptions. Defaults to `true`.
 	Active *bool `form:"active"`
-	// Specifies a usage aggregation strategy for plans of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
-	AggregateUsage *string `form:"aggregate_usage"`
 	// A positive integer in cents (or local equivalent) (or 0 for a free plan) representing how much to charge on a recurring basis.
 	Amount *int64 `form:"amount"`
 	// Same as `amount`, but accepts a decimal value with at most 12 decimal places. Only one of `amount` and `amount_decimal` can be set.
@@ -246,8 +233,6 @@ type Plan struct {
 	APIResource
 	// Whether the plan can be used for new purchases.
 	Active bool `json:"active"`
-	// Specifies a usage aggregation strategy for plans of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
-	AggregateUsage PlanAggregateUsage `json:"aggregate_usage"`
 	// The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
 	Amount int64 `json:"amount"`
 	// The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
