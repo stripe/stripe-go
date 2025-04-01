@@ -1,4 +1,4 @@
-module github.com/stripe/stripe-go/v81
+module github.com/stripe/stripe-go/v82
 
 go 1.18
 
