@@ -134,6 +134,8 @@ type BillingPortalSessionParams struct {
 	Configuration *string `form:"configuration"`
 	// The ID of an existing customer.
 	Customer *string `form:"customer"`
+	// The ID of an existing account.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
@@ -262,6 +264,8 @@ type BillingPortalSession struct {
 	Created int64 `json:"created"`
 	// The ID of the customer for this session.
 	Customer string `json:"customer"`
+	// The ID of the account for this session.
+	CustomerAccount string `json:"customer_account"`
 	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.
 	Flow *BillingPortalSessionFlow `json:"flow"`
 	// Unique identifier for the object.

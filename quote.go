@@ -344,6 +344,8 @@ type QuoteListParams struct {
 	ListParams `form:"*"`
 	// The ID of the customer whose quotes will be retrieved.
 	Customer *string `form:"customer"`
+	// The ID of the account whose quotes will be retrieved.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The subscription which the quote updates.
@@ -1041,6 +1043,8 @@ type QuoteParams struct {
 	CollectionMethod *string `form:"collection_method"`
 	// The customer for which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer *string `form:"customer"`
+	// The account for which this quote belongs to. A customer or account is required before finalizing the quote. Once specified, it cannot be changed.
+	CustomerAccount *string `form:"customer_account"`
 	// The tax rates that will apply to any line item that does not have `tax_rates` set.
 	DefaultTaxRates []*string `form:"default_tax_rates"`
 	// A description that will be displayed on the quote PDF. If no value is passed, the default description configured in your [quote template settings](https://dashboard.stripe.com/settings/billing/quote) will be used.
@@ -1244,6 +1248,8 @@ type QuoteAutomaticTax struct {
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *QuoteAutomaticTaxLiability `json:"liability"`
+	// The tax provider powering automatic tax.
+	Provider string `json:"provider"`
 	// The status of the most recent automated tax calculation for this quote.
 	Status QuoteAutomaticTaxStatus `json:"status"`
 }
@@ -1717,6 +1723,8 @@ type Quote struct {
 	Currency Currency `json:"currency"`
 	// The customer which this quote belongs to. A customer is required before finalizing the quote. Once specified, it cannot be changed.
 	Customer *Customer `json:"customer"`
+	// The account which this quote belongs to. A customer or account is required before finalizing the quote. Once specified, it cannot be changed.
+	CustomerAccount string `json:"customer_account"`
 	// The tax rates applied to this quote.
 	DefaultTaxRates []*TaxRate `json:"default_tax_rates"`
 	// A description that will be displayed on the quote PDF.

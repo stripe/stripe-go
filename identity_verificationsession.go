@@ -92,8 +92,9 @@ type IdentityVerificationSessionListParams struct {
 	// Only return VerificationSessions that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
-	Expand          []*string `form:"expand"`
-	RelatedCustomer *string   `form:"related_customer"`
+	Expand                 []*string `form:"expand"`
+	RelatedCustomer        *string   `form:"related_customer"`
+	RelatedCustomerAccount *string   `form:"related_customer_account"`
 	// Only return VerificationSessions with this status. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 	Status *string `form:"status"`
 }
@@ -150,6 +151,8 @@ type IdentityVerificationSessionParams struct {
 	ProvidedDetails *IdentityVerificationSessionProvidedDetailsParams `form:"provided_details"`
 	// Customer ID
 	RelatedCustomer *string `form:"related_customer"`
+	// Token referencing a Customer Account resource.
+	RelatedCustomerAccount *string `form:"related_customer_account"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
@@ -334,6 +337,8 @@ type IdentityVerificationSession struct {
 	Redaction *IdentityVerificationSessionRedaction `json:"redaction"`
 	// Customer ID
 	RelatedCustomer string `json:"related_customer"`
+	// Token referencing a Customer Account resource.
+	RelatedCustomerAccount string `json:"related_customer_account"`
 	// Status of this VerificationSession. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 	Status IdentityVerificationSessionStatus `json:"status"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed.

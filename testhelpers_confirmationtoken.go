@@ -161,6 +161,21 @@ type TestHelpersConfirmationTokenPaymentMethodDataNaverPayParams struct {
 	Funding *string `form:"funding"`
 }
 
+// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataNzBankAccountParams struct {
+	// The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// The numeric code for the bank account's bank.
+	BankCode *string `form:"bank_code"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode *string `form:"branch_code"`
+	Reference  *string `form:"reference"`
+	// The suffix of the bank account number.
+	Suffix *string `form:"suffix"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataOXXOParams struct{}
 
@@ -229,7 +244,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams struct{}
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams struct{}
 
-// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -245,6 +260,14 @@ type TestHelpersConfirmationTokenPaymentMethodDataShopeepayParams struct{}
 type TestHelpersConfirmationTokenPaymentMethodDataSofortParams struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country *string `form:"country"`
+}
+
+// This hash contains details about the Stripe balance payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataStripeBalanceParams struct {
+	// The connected account ID whose Stripe balance to use as the source of payment
+	Account *string `form:"account"`
+	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+	SourceType *string `form:"source_type"`
 }
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -343,6 +366,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Multibanco *TestHelpersConfirmationTokenPaymentMethodDataMultibancoParams `form:"multibanco"`
 	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
 	NaverPay *TestHelpersConfirmationTokenPaymentMethodDataNaverPayParams `form:"naver_pay"`
+	// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+	NzBankAccount *TestHelpersConfirmationTokenPaymentMethodDataNzBankAccountParams `form:"nz_bank_account"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *TestHelpersConfirmationTokenPaymentMethodDataOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -371,7 +396,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	RevolutPay *TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
-	// If this is a Satispay PaymentMethod, this hash contains details about the Satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
 	Satispay *TestHelpersConfirmationTokenPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
@@ -379,6 +404,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Shopeepay *TestHelpersConfirmationTokenPaymentMethodDataShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *TestHelpersConfirmationTokenPaymentMethodDataSofortParams `form:"sofort"`
+	// This hash contains details about the Stripe balance payment method.
+	StripeBalance *TestHelpersConfirmationTokenPaymentMethodDataStripeBalanceParams `form:"stripe_balance"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *TestHelpersConfirmationTokenPaymentMethodDataSwishParams `form:"swish"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -402,6 +429,32 @@ func (p *TestHelpersConfirmationTokenPaymentMethodDataParams) AddMetadata(key st
 	p.Metadata[key] = value
 }
 
+// The selected installment plan to use for this payment attempt.
+// This parameter can only be provided during confirmation.
+type TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanParams struct {
+	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
+	Count *int64 `form:"count"`
+	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
+	// One of `month`.
+	Interval *string `form:"interval"`
+	// Type of installment plan, one of `fixed_count`.
+	Type *string `form:"type"`
+}
+
+// Installment configuration for payments attempted on this PaymentIntent.
+type TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsParams struct {
+	// The selected installment plan to use for this payment attempt.
+	// This parameter can only be provided during confirmation.
+	Plan *TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
+}
+type TestHelpersConfirmationTokenPaymentMethodOptionsCardParams struct {
+	// Installment configuration for payments attempted on this PaymentIntent.
+	Installments *TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
+}
+type TestHelpersConfirmationTokenPaymentMethodOptionsParams struct {
+	Card *TestHelpersConfirmationTokenPaymentMethodOptionsCardParams `form:"card"`
+}
+
 // Shipping information for this ConfirmationToken.
 type TestHelpersConfirmationTokenShippingParams struct {
 	// Shipping address
@@ -420,7 +473,8 @@ type TestHelpersConfirmationTokenParams struct {
 	// ID of an existing PaymentMethod.
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod.
-	PaymentMethodData *TestHelpersConfirmationTokenPaymentMethodDataParams `form:"payment_method_data"`
+	PaymentMethodData    *TestHelpersConfirmationTokenPaymentMethodDataParams    `form:"payment_method_data"`
+	PaymentMethodOptions *TestHelpersConfirmationTokenPaymentMethodOptionsParams `form:"payment_method_options"`
 	// Return URL used to confirm the Intent.
 	ReturnURL *string `form:"return_url"`
 	// Indicates that you intend to make future payments with this ConfirmationToken's payment method.

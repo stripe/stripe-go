@@ -176,6 +176,8 @@ type TaxIDOwner struct {
 	Application *Application `json:"application"`
 	// The customer being referenced when `type` is `customer`.
 	Customer *Customer `json:"customer"`
+	// The account being referenced when `type` is `customer`.
+	CustomerAccount string `json:"customer_account"`
 	// Type of owner referenced.
 	Type TaxIDOwnerType `json:"type"`
 }
@@ -202,7 +204,9 @@ type TaxID struct {
 	Created int64 `json:"created"`
 	// ID of the customer.
 	Customer *Customer `json:"customer"`
-	Deleted  bool      `json:"deleted"`
+	// ID of the account.
+	CustomerAccount string `json:"customer_account"`
+	Deleted         bool   `json:"deleted"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

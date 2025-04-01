@@ -308,6 +308,14 @@ const (
 	EventTypeTreasuryReceivedCreditFailed                         EventType = "treasury.received_credit.failed"
 	EventTypeTreasuryReceivedCreditSucceeded                      EventType = "treasury.received_credit.succeeded"
 	EventTypeTreasuryReceivedDebitCreated                         EventType = "treasury.received_debit.created"
+	EventTypeBillingCreditBalanceTransactionCreated               EventType = "billing.credit_balance_transaction.created"
+	EventTypeBillingCreditGrantCreated                            EventType = "billing.credit_grant.created"
+	EventTypeBillingCreditGrantUpdated                            EventType = "billing.credit_grant.updated"
+	EventTypeBillingMeterCreated                                  EventType = "billing.meter.created"
+	EventTypeBillingMeterDeactivated                              EventType = "billing.meter.deactivated"
+	EventTypeBillingMeterReactivated                              EventType = "billing.meter.reactivated"
+	EventTypeBillingMeterUpdated                                  EventType = "billing.meter.updated"
+	EventTypeBalanceSettingsUpdated                               EventType = "balance_settings.updated"
 )
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
@@ -431,6 +439,7 @@ type Event struct {
 	Account string `json:"account"`
 	// The Stripe API version used to render `data`. This property is populated only for events on or after October 31, 2014.
 	APIVersion string `json:"api_version"`
+	Context    string `json:"context"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64      `json:"created"`
 	Data    *EventData `json:"data"`

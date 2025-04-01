@@ -6,6 +6,23 @@
 
 package stripe
 
+// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
+// One of `month`.
+type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval string
+
+// List of values that ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval can take
+const (
+	ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanIntervalMonth ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval = "month"
+)
+
+// Type of installment plan, one of `fixed_count`.
+type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType string
+
+// List of values that ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType can take
+const (
+	ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanTypeFixedCount ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType = "fixed_count"
+)
+
 // This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 type ConfirmationTokenPaymentMethodPreviewAllowRedisplay string
 
@@ -326,6 +343,16 @@ const (
 	ConfirmationTokenPaymentMethodPreviewP24BankVolkswagenBank       ConfirmationTokenPaymentMethodPreviewP24Bank = "volkswagen_bank"
 )
 
+// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+type ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType can take
+const (
+	ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceTypeBankAccount ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType = "bank_account"
+	ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceTypeCard        ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType = "card"
+	ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceTypeFPX         ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType = "fpx"
+)
+
 // The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 type ConfirmationTokenPaymentMethodPreviewType string
 
@@ -364,6 +391,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeMobilepay        ConfirmationTokenPaymentMethodPreviewType = "mobilepay"
 	ConfirmationTokenPaymentMethodPreviewTypeMultibanco       ConfirmationTokenPaymentMethodPreviewType = "multibanco"
 	ConfirmationTokenPaymentMethodPreviewTypeNaverPay         ConfirmationTokenPaymentMethodPreviewType = "naver_pay"
+	ConfirmationTokenPaymentMethodPreviewTypeNzBankAccount    ConfirmationTokenPaymentMethodPreviewType = "nz_bank_account"
 	ConfirmationTokenPaymentMethodPreviewTypeOXXO             ConfirmationTokenPaymentMethodPreviewType = "oxxo"
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
 	ConfirmationTokenPaymentMethodPreviewTypePayByBank        ConfirmationTokenPaymentMethodPreviewType = "pay_by_bank"
@@ -381,6 +409,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeShopeepay        ConfirmationTokenPaymentMethodPreviewType = "shopeepay"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
+	ConfirmationTokenPaymentMethodPreviewTypeStripeBalance    ConfirmationTokenPaymentMethodPreviewType = "stripe_balance"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
 	ConfirmationTokenPaymentMethodPreviewTypeTWINT            ConfirmationTokenPaymentMethodPreviewType = "twint"
 	ConfirmationTokenPaymentMethodPreviewTypeUSBankAccount    ConfirmationTokenPaymentMethodPreviewType = "us_bank_account"
@@ -491,11 +520,27 @@ type ConfirmationTokenMandateData struct {
 	// This hash contains details about the customer acceptance of the Mandate.
 	CustomerAcceptance *ConfirmationTokenMandateDataCustomerAcceptance `json:"customer_acceptance"`
 }
+type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlan struct {
+	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
+	Count int64 `json:"count"`
+	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
+	// One of `month`.
+	Interval ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval `json:"interval"`
+	// Type of installment plan, one of `fixed_count`.
+	Type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType `json:"type"`
+}
+
+// Installment configuration for payments.
+type ConfirmationTokenPaymentMethodOptionsCardInstallments struct {
+	Plan *ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlan `json:"plan"`
+}
 
 // This hash contains the card payment method options.
 type ConfirmationTokenPaymentMethodOptionsCard struct {
 	// The `cvc_update` Token collected from the Payment Element.
 	CVCToken string `json:"cvc_token"`
+	// Installment configuration for payments.
+	Installments *ConfirmationTokenPaymentMethodOptionsCardInstallments `json:"installments"`
 }
 
 // Payment-method-specific configuration for this ConfirmationToken.
@@ -926,6 +971,20 @@ type ConfirmationTokenPaymentMethodPreviewNaverPay struct {
 	// Whether to fund this transaction with Naver Pay points or a card.
 	Funding ConfirmationTokenPaymentMethodPreviewNaverPayFunding `json:"funding"`
 }
+type ConfirmationTokenPaymentMethodPreviewNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type ConfirmationTokenPaymentMethodPreviewOXXO struct{}
 type ConfirmationTokenPaymentMethodPreviewP24 struct {
 	// The customer's bank, if provided.
@@ -1000,6 +1059,12 @@ type ConfirmationTokenPaymentMethodPreviewSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
 }
+type ConfirmationTokenPaymentMethodPreviewStripeBalance struct {
+	// The connected account ID whose Stripe balance to use as the source of payment
+	Account string `json:"account"`
+	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+	SourceType ConfirmationTokenPaymentMethodPreviewStripeBalanceSourceType `json:"source_type"`
+}
 type ConfirmationTokenPaymentMethodPreviewSwish struct{}
 type ConfirmationTokenPaymentMethodPreviewTWINT struct{}
 
@@ -1068,6 +1133,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	CashApp        *ConfirmationTokenPaymentMethodPreviewCashApp        `json:"cashapp"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
 	Customer        *Customer                                             `json:"customer"`
+	CustomerAccount string                                                `json:"customer_account"`
 	CustomerBalance *ConfirmationTokenPaymentMethodPreviewCustomerBalance `json:"customer_balance"`
 	EPS             *ConfirmationTokenPaymentMethodPreviewEPS             `json:"eps"`
 	FPX             *ConfirmationTokenPaymentMethodPreviewFPX             `json:"fpx"`
@@ -1086,6 +1152,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Mobilepay       *ConfirmationTokenPaymentMethodPreviewMobilepay       `json:"mobilepay"`
 	Multibanco      *ConfirmationTokenPaymentMethodPreviewMultibanco      `json:"multibanco"`
 	NaverPay        *ConfirmationTokenPaymentMethodPreviewNaverPay        `json:"naver_pay"`
+	NzBankAccount   *ConfirmationTokenPaymentMethodPreviewNzBankAccount   `json:"nz_bank_account"`
 	OXXO            *ConfirmationTokenPaymentMethodPreviewOXXO            `json:"oxxo"`
 	P24             *ConfirmationTokenPaymentMethodPreviewP24             `json:"p24"`
 	PayByBank       *ConfirmationTokenPaymentMethodPreviewPayByBank       `json:"pay_by_bank"`
@@ -1103,6 +1170,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit"`
 	Shopeepay       *ConfirmationTokenPaymentMethodPreviewShopeepay       `json:"shopeepay"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort"`
+	StripeBalance   *ConfirmationTokenPaymentMethodPreviewStripeBalance   `json:"stripe_balance"`
 	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish"`
 	TWINT           *ConfirmationTokenPaymentMethodPreviewTWINT           `json:"twint"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.

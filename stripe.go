@@ -1072,6 +1072,8 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	default:
+		typedError = raw.Error
 	}
 	// The end of the section generated from our OpenAPI spec
 

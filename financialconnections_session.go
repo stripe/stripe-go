@@ -103,6 +103,8 @@ type FinancialConnectionsSessionAccountHolderParams struct {
 	Account *string `form:"account"`
 	// The ID of the Stripe customer whose accounts will be retrieved. Should only be present if `type` is `customer`.
 	Customer *string `form:"customer"`
+	// The ID of the Stripe customer Account whose accounts will be retrieved. Should only be present if `type` is `customer`.
+	CustomerAccount *string `form:"customer_account"`
 	// Type of account holder to collect accounts for.
 	Type *string `form:"type"`
 }
@@ -134,7 +136,8 @@ type FinancialConnectionsSessionAccountHolder struct {
 	// The ID of the Stripe account this account belongs to. Should only be present if `account_holder.type` is `account`.
 	Account *Account `json:"account"`
 	// ID of the Stripe customer this account belongs to. Present if and only if `account_holder.type` is `customer`.
-	Customer *Customer `json:"customer"`
+	Customer        *Customer `json:"customer"`
+	CustomerAccount string    `json:"customer_account"`
 	// Type of account holder that this account belongs to.
 	Type FinancialConnectionsSessionAccountHolderType `json:"type"`
 }

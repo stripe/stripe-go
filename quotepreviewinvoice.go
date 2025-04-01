@@ -213,6 +213,25 @@ const (
 	QuotePreviewInvoiceIssuerTypeSelf    QuotePreviewInvoiceIssuerType = "self"
 )
 
+// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+type QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior string
+
+// List of values that QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior can take
+const (
+	QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehaviorKeepAsDraft       QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior = "keep_as_draft"
+	QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehaviorMarkUncollectible QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior = "mark_uncollectible"
+	QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehaviorVoid              QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior = "void"
+)
+
+// The type of parent that generated this invoice
+type QuotePreviewInvoiceParentType string
+
+// List of values that QuotePreviewInvoiceParentType can take
+const (
+	QuotePreviewInvoiceParentTypeQuoteDetails        QuotePreviewInvoiceParentType = "quote_details"
+	QuotePreviewInvoiceParentTypeSubscriptionDetails QuotePreviewInvoiceParentType = "subscription_details"
+)
+
 // Transaction type of the mandate.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
 
@@ -346,6 +365,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeLink               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "link"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeMultibanco         QuotePreviewInvoicePaymentSettingsPaymentMethodType = "multibanco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeNaverPay           QuotePreviewInvoicePaymentSettingsPaymentMethodType = "naver_pay"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeNzBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "nz_bank_account"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeP24                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "p24"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayco              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "payco"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypePayNow             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "paynow"
@@ -355,6 +375,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSEPACreditTransfer QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSEPADebit          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sepa_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSofort             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sofort"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeStripeBalance      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "stripe_balance"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSwish              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "swish"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUSBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "us_bank_account"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeWeChatPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "wechat_pay"
@@ -509,8 +530,18 @@ type QuotePreviewInvoiceAutomaticTax struct {
 	Enabled bool `json:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *QuotePreviewInvoiceAutomaticTaxLiability `json:"liability"`
+	// The tax provider powering automatic tax.
+	Provider string `json:"provider"`
 	// The status of the most recent automated tax calculation for this invoice.
 	Status QuotePreviewInvoiceAutomaticTaxStatus `json:"status"`
+}
+
+// The confirmation secret associated with this invoice. Currently, this contains the client_secret of the PaymentIntent that Stripe creates during invoice finalization.
+type QuotePreviewInvoiceConfirmationSecret struct {
+	// The client_secret of the payment that Stripe creates for the invoice after finalization.
+	ClientSecret string `json:"client_secret"`
+	// The type of client_secret. Currently this is always payment_intent, referencing the default payment_intent that Stripe creates during invoice finalization
+	Type string `json:"type"`
 }
 
 // Custom fields displayed on the invoice.
@@ -541,6 +572,43 @@ type QuotePreviewInvoiceIssuer struct {
 	Account *Account `json:"account"`
 	// Type of the account referenced.
 	Type QuotePreviewInvoiceIssuerType `json:"type"`
+}
+
+// Details about the quote that generated this invoice
+type QuotePreviewInvoiceParentQuoteDetails struct {
+	// The quote that generated this invoice
+	Quote string `json:"quote"`
+}
+
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+type QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior QuotePreviewInvoiceParentSubscriptionDetailsPauseCollectionBehavior `json:"behavior"`
+	// The time after which the subscription will resume collecting payments.
+	ResumesAt int64 `json:"resumes_at"`
+}
+
+// Details about the subscription that generated this invoice
+type QuotePreviewInvoiceParentSubscriptionDetails struct {
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) defined as subscription metadata when an invoice is created. Becomes an immutable snapshot of the subscription metadata at the time of invoice finalization.
+	//  *Note: This attribute is populated only for invoices created on or after June 29, 2023.*
+	Metadata map[string]string `json:"metadata"`
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	PauseCollection *QuotePreviewInvoiceParentSubscriptionDetailsPauseCollection `json:"pause_collection"`
+	// The subscription that generated this invoice
+	Subscription *Subscription `json:"subscription"`
+	// Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
+	SubscriptionProrationDate int64 `json:"subscription_proration_date"`
+}
+
+// The parent that generated this invoice
+type QuotePreviewInvoiceParent struct {
+	// Details about the quote that generated this invoice
+	QuoteDetails *QuotePreviewInvoiceParentQuoteDetails `json:"quote_details"`
+	// Details about the subscription that generated this invoice
+	SubscriptionDetails *QuotePreviewInvoiceParentSubscriptionDetails `json:"subscription_details"`
+	// The type of parent that generated this invoice
+	Type QuotePreviewInvoiceParentType `json:"type"`
 }
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	// Transaction type of the mandate.
@@ -817,10 +885,8 @@ type QuotePreviewInvoice struct {
 	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
 	// ID of the Connect Application that created the invoice.
-	Application *Application `json:"application"`
-	// The fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account when the invoice is paid.
-	ApplicationFeeAmount int64                         `json:"application_fee_amount"`
-	AppliesTo            *QuotePreviewInvoiceAppliesTo `json:"applies_to"`
+	Application *Application                  `json:"application"`
+	AppliesTo   *QuotePreviewInvoiceAppliesTo `json:"applies_to"`
 	// Number of payment attempts made for this invoice, from the perspective of the payment retry schedule. Any payment attempt counts as the first attempt, and subsequently only automatic retries increment the attempt count. In other words, manual payment attempts after the first attempt do not affect the retry schedule. If a failure is returned with a non-retryable return code, the invoice can no longer be retried unless a new payment method is obtained. Retries will continue to be scheduled, and attempt_count will continue to increment, but retries will only be executed if a new payment method is obtained.
 	AttemptCount int64 `json:"attempt_count"`
 	// Whether an attempt has been made to pay the invoice. An invoice is not attempted until 1 hour after the `invoice.created` webhook, for example, so you might not want to display that invoice as unpaid to your users.
@@ -840,10 +906,14 @@ type QuotePreviewInvoice struct {
 	BillingReason QuotePreviewInvoiceBillingReason `json:"billing_reason"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.
 	CollectionMethod QuotePreviewInvoiceCollectionMethod `json:"collection_method"`
+	// The confirmation secret associated with this invoice. Currently, this contains the client_secret of the PaymentIntent that Stripe creates during invoice finalization.
+	ConfirmationSecret *QuotePreviewInvoiceConfirmationSecret `json:"confirmation_secret"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
+	// The ID of the account who will be billed.
+	CustomerAccount string `json:"customer_account"`
 	// The customer's address. Until the invoice is finalized, this field will equal `customer.address`. Once the invoice is finalized, this field will no longer be updated.
 	CustomerAddress *Address `json:"customer_address"`
 	// The customer's email. Until the invoice is finalized, this field will equal `customer.email`. Once the invoice is finalized, this field will no longer be updated.
@@ -903,10 +973,8 @@ type QuotePreviewInvoice struct {
 	Object string `json:"object"`
 	// The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the [Invoices with Connect](https://stripe.com/docs/billing/invoices/connect) documentation for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// Whether payment was successfully collected for this invoice. An invoice can be paid (most commonly) with a charge or with credit from the customer's account balance.
-	Paid bool `json:"paid"`
-	// Returns true if the invoice was manually marked paid, returns false if the invoice hasn't been paid yet or was paid on Stripe.
-	PaidOutOfBand bool `json:"paid_out_of_band"`
+	// The parent that generated this invoice
+	Parent *QuotePreviewInvoiceParent `json:"parent"`
 	// Payments for this invoice
 	Payments        *InvoicePaymentList                 `json:"payments"`
 	PaymentSettings *QuotePreviewInvoicePaymentSettings `json:"payment_settings"`

@@ -38,6 +38,8 @@ type BillingCreditGrantListParams struct {
 	ListParams `form:"*"`
 	// Only return credit grants for this customer.
 	Customer *string `form:"customer"`
+	// Only return credit grants for this account.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -94,6 +96,8 @@ type BillingCreditGrantParams struct {
 	Category *string `form:"category"`
 	// ID of the customer to receive the billing credits.
 	Customer *string `form:"customer"`
+	// ID of the account to receive the billing credits.
+	CustomerAccount *string `form:"customer_account"`
 	// The time when the billing credits become effective-when they're eligible for use. It defaults to the current timestamp if not specified.
 	EffectiveAt *int64 `form:"effective_at"`
 	// Specifies which fields in the response should be expanded.
@@ -188,6 +192,8 @@ type BillingCreditGrant struct {
 	Created int64 `json:"created"`
 	// ID of the customer receiving the billing credits.
 	Customer *Customer `json:"customer"`
+	// ID of the account receiving the billing credits
+	CustomerAccount string `json:"customer_account"`
 	// The time when the billing credits become effective-when they're eligible for use.
 	EffectiveAt int64 `json:"effective_at"`
 	// The time when the billing credits expire. If not present, the billing credits don't expire.

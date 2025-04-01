@@ -17,6 +17,7 @@ import (
 	"github.com/stripe/stripe-go/v81/applicationfee"
 	appssecret "github.com/stripe/stripe-go/v81/apps/secret"
 	"github.com/stripe/stripe-go/v81/balance"
+	"github.com/stripe/stripe-go/v81/balancesettings"
 	"github.com/stripe/stripe-go/v81/balancetransaction"
 	"github.com/stripe/stripe-go/v81/bankaccount"
 	billingalert "github.com/stripe/stripe-go/v81/billing/alert"
@@ -179,7 +180,7 @@ import (
 	v2moneymanagementfinancialaddress "github.com/stripe/stripe-go/v81/v2/moneymanagement/financialaddress"
 	v2moneymanagementinboundtransfer "github.com/stripe/stripe-go/v81/v2/moneymanagement/inboundtransfer"
 	v2moneymanagementoutboundpayment "github.com/stripe/stripe-go/v81/v2/moneymanagement/outboundpayment"
-	v2moneymanagementoutboundpaymentsquote "github.com/stripe/stripe-go/v81/v2/moneymanagement/outboundpayments/quote"
+	v2moneymanagementoutboundpaymentquote "github.com/stripe/stripe-go/v81/v2/moneymanagement/outboundpaymentquote"
 	v2moneymanagementoutboundsetupintent "github.com/stripe/stripe-go/v81/v2/moneymanagement/outboundsetupintent"
 	v2moneymanagementoutboundtransfer "github.com/stripe/stripe-go/v81/v2/moneymanagement/outboundtransfer"
 	v2moneymanagementpayoutmethod "github.com/stripe/stripe-go/v81/v2/moneymanagement/payoutmethod"
@@ -210,6 +211,8 @@ type API struct {
 	AppsSecrets *appssecret.Client
 	// Balance is the client used to invoke /v1/balance APIs.
 	Balance *balance.Client
+	// BalanceSettings is the client used to invoke /v1/balance_settings APIs.
+	BalanceSettings *balancesettings.Client
 	// BalanceTransactions is the client used to invoke /v1/balance_transactions APIs.
 	BalanceTransactions *balancetransaction.Client
 	// BankAccounts is the client used to invoke /v1/accounts/{account}/external_accounts APIs.
@@ -532,10 +535,10 @@ type API struct {
 	V2MoneyManagementFinancialAddresses *v2moneymanagementfinancialaddress.Client
 	// V2MoneyManagementInboundTransfers is the client used to invoke /v2/money_management/inbound_transfers APIs.
 	V2MoneyManagementInboundTransfers *v2moneymanagementinboundtransfer.Client
+	// V2MoneyManagementOutboundPaymentQuotes is the client used to invoke /v2/money_management/outbound_payment_quotes APIs.
+	V2MoneyManagementOutboundPaymentQuotes *v2moneymanagementoutboundpaymentquote.Client
 	// V2MoneyManagementOutboundPayments is the client used to invoke /v2/money_management/outbound_payments APIs.
 	V2MoneyManagementOutboundPayments *v2moneymanagementoutboundpayment.Client
-	// V2MoneyManagementOutboundPaymentsQuotes is the client used to invoke /v2/money_management/outbound_payments/quotes APIs.
-	V2MoneyManagementOutboundPaymentsQuotes *v2moneymanagementoutboundpaymentsquote.Client
 	// V2MoneyManagementOutboundSetupIntents is the client used to invoke /v2/money_management/outbound_setup_intents APIs.
 	V2MoneyManagementOutboundSetupIntents *v2moneymanagementoutboundsetupintent.Client
 	// V2MoneyManagementOutboundTransfers is the client used to invoke /v2/money_management/outbound_transfers APIs.
@@ -577,6 +580,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ApplicationFees = &applicationfee.Client{B: backends.API, Key: key}
 	a.AppsSecrets = &appssecret.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
+	a.BalanceSettings = &balancesettings.Client{B: backends.API, Key: key}
 	a.BalanceTransactions = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingAlerts = &billingalert.Client{B: backends.API, Key: key}
@@ -738,8 +742,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementFinancialAddresses = &v2moneymanagementfinancialaddress.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementInboundTransfers = &v2moneymanagementinboundtransfer.Client{B: backends.API, Key: key}
+	a.V2MoneyManagementOutboundPaymentQuotes = &v2moneymanagementoutboundpaymentquote.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundPayments = &v2moneymanagementoutboundpayment.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementOutboundPaymentsQuotes = &v2moneymanagementoutboundpaymentsquote.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundSetupIntents = &v2moneymanagementoutboundsetupintent.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementOutboundTransfers = &v2moneymanagementoutboundtransfer.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementPayoutMethods = &v2moneymanagementpayoutmethod.Client{B: backends.API, Key: key}

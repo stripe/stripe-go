@@ -525,7 +525,7 @@ type V2CoreAccountConfigurationMerchantSupportParams struct {
 	URL *string `form:"url" json:"url,omitempty"`
 }
 
-// The Merchant Configuration allows the Account to make charges.
+// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
 type V2CoreAccountConfigurationMerchantParams struct {
 	// Settings used for Bacs debit payments.
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
@@ -603,7 +603,7 @@ type V2CoreAccountConfigurationRecipientParams struct {
 type V2CoreAccountConfigurationParams struct {
 	// The Customer Configuration allows the Account to be used in inbound payment flows.
 	Customer *V2CoreAccountConfigurationCustomerParams `form:"customer" json:"customer,omitempty"`
-	// The Merchant Configuration allows the Account to make charges.
+	// The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
 	Merchant *V2CoreAccountConfigurationMerchantParams `form:"merchant" json:"merchant,omitempty"`
 	// The Recipient Configuration allows the Account to receive funds.
 	Recipient *V2CoreAccountConfigurationRecipientParams `form:"recipient" json:"recipient,omitempty"`
@@ -1213,7 +1213,7 @@ type V2CoreAccountParams struct {
 	Params `form:"*"`
 	// An Account Configuration which allows the Account to take on a key persona across Stripe products.
 	Configuration *V2CoreAccountConfigurationParams `form:"configuration" json:"configuration,omitempty"`
-	// The default contact email address for the Account.
+	// The default contact email address for the Account. Required when configuring the account as a merchant or recipient.
 	ContactEmail *string `form:"contact_email" json:"contact_email,omitempty"`
 	// A value indicating the Stripe dashboard this Account has access to. This will depend on which configurations are enabled for this account.
 	Dashboard *string `form:"dashboard" json:"dashboard,omitempty"`
