@@ -1810,3 +1810,49 @@ func TestStripeContextWhenSetInParams(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "requestCtx", req.Header.Get("Stripe-Context"))
 }
+
+func TestHandleV2ErrorWhenKnownError(t *testing.T) {
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(400)
+		_, err := w.Write([]byte(`{"error":{"type":"temporary_session_expired","message":"Temporary session expired"}}`))
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+	err := backend.Call(http.MethodGet, "/v2/hello", "sk_test_xyz", &Params{}, &APIResource{})
+	assert.Error(t, err)
+	stripeErr, ok := err.(*TemporarySessionExpiredError)
+	assert.True(t, ok)
+	assert.Equal(t, "Temporary session expired", stripeErr.Message)
+}
+
+func TestHandleV2ErrorWhenUnknownError(t *testing.T) {
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(400)
+		_, err := w.Write([]byte(`{"error":{"type":"unknown_type","message":"Some message"}}`))
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+	err := backend.Call(http.MethodGet, "/v2/hello", "sk_test_xyz", &Params{}, &APIResource{})
+	assert.Error(t, err)
+	stripeErr, ok := err.(*V2RawError)
+	assert.True(t, ok)
+	assert.Equal(t, "Some message", stripeErr.Message)
+}
