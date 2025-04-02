@@ -922,24 +922,26 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 // responseToErrorV2 converts a stripe V2 response to an error.
 func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []byte) error {
 	// First, we partially unmarshal just the error type
-	var partial struct {
-		Error *struct {
-			Type *ErrorType `json:"type"`
-		} `json:"error"`
+	var raw struct {
+		Error *V2RawError `json:"error"`
 	}
-	if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &partial); err != nil {
+	if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &raw); err != nil {
 		return err
 	}
 
 	// need to return a generic error in this case
-	if partial.Error == nil || partial.Error.Type == nil {
+	if raw.Error == nil {
 		err := errors.New(string(resBody))
 		return err
 	}
 
+	if raw.Error.Type == nil {
+		return raw.Error
+	}
+
 	var typedError error
 	// The beginning of the section generated from our OpenAPI spec
-	switch *partial.Error.Type {
+	switch *raw.Error.Type {
 	case "temporary_session_expired":
 		tmp := struct {
 			Error *TemporarySessionExpiredError `json:"error"`
@@ -1072,6 +1074,8 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	default:
+		typedError = raw.Error
 	}
 	// The end of the section generated from our OpenAPI spec
 
