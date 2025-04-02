@@ -1,5 +1,171 @@
 # Changelog
 
+## 82.1.0-beta.1 - 2025-04-02
+* [#2009](https://github.com/stripe/stripe-go/pull/2009) Update generated code for beta
+  This release changes the pinned API version to `2025-03-31.preview`
+
+### Breaking Changes
+* Remove support for `AmountOverpaid` on `InvoicePayment`
+* Remove support for values `out_of_band_payment` and `payment_record` from enum `InvoicePaymentPayment.Type`
+* Remove support for `RateCardSubscriptionDetails` on `InvoiceItemParent`
+* Remove support for `ApplicationFeeAmount`, `PaidOutOfBand`, and `Paid` on `QuotePreviewInvoice`
+* Remove support for `BillingThresholds` on `QuotePreviewSubscriptionScheduleDefaultSettings`, `QuotePreviewSubscriptionSchedulePhasesItems`, and `QuotePreviewSubscriptionSchedulePhases`
+* Remove support for `Value` on `TerminalReaderActionCollectInputsInputsSelectionChoices`, `TerminalReaderActionCollectInputsInputsSelection`, and `TerminalReaderCollectInputsInputsSelectionChoicesParams`
+* Change type of `InvoiceCreatePreviewSubscriptionDetailsParams.CancelAt` and `SubscriptionParams.CancelAt` from `DateTime | literal('min_period_end')` to `DateTime`
+* Change type of `PaymentAttemptRecord.payment_method_details.type` and `PaymentRecord.payment_method_details.type` from `literal('custom')` to `string`
+* Change type of `PaymentAttemptRecord.payment_record` from `string` to `nullable(string)`
+* Change type of `PaymentRecord.latest_payment_attempt_record` from `string` to `nullable(string)`
+
+### Additions
+* Add support for new resources `BalanceSettings` and `TlExternalAccount`
+* Add support for `Get` and `Update` methods on resource `BalanceSettings`
+* Add support for `Del`, `Get`, `List`, `New`, and `Update` methods on resource `TlExternalAccount`
+* Add support for `StripeBalancePayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+* Add support for `CustomerAccount` on `BillingCreditBalanceSummaryParams`, `BillingCreditBalanceSummary`, `BillingCreditBalanceTransactionListParams`, `BillingCreditGrantListParams`, `BillingCreditGrantParams`, `BillingCreditGrant`, `BillingPortalSessionParams`, `BillingPortalSession`, `CashBalance`, `CheckoutSessionListParams`, `CheckoutSessionParams`, `CheckoutSession`, `ConfirmationTokenPaymentMethodPreview`, `CreditNoteListParams`, `CreditNote`, `CustomerBalanceTransaction`, `CustomerCashBalanceTransaction`, `CustomerSessionParams`, `CustomerSession`, `Customer`, `Discount`, `FinancialConnectionsAccountAccountHolder`, `FinancialConnectionsAccountListAccountHolderParams`, `FinancialConnectionsSessionAccountHolderParams`, `FinancialConnectionsSessionAccountHolder`, `InvoiceCreatePreviewParams`, `InvoiceItemListParams`, `InvoiceItemParams`, `InvoiceItem`, `InvoiceListParams`, `InvoiceParams`, `Invoice`, `PaymentIntentListParams`, `PaymentIntentParams`, `PaymentIntent`, `PaymentMethodAttachParams`, `PaymentMethod`, `PromotionCodeListParams`, `PromotionCodeParams`, `PromotionCode`, `QuoteListParams`, `QuoteParams`, `QuotePreviewInvoice`, `QuotePreviewSubscriptionSchedule`, `Quote`, `SetupAttempt`, `SetupIntentListParams`, `SetupIntentParams`, `SetupIntent`, `SubscriptionListParams`, `SubscriptionParams`, `SubscriptionScheduleListParams`, `SubscriptionScheduleParams`, `SubscriptionSchedule`, `Subscription`, `TaxIdOwner`, and `TaxId`
+* Add support for `StripeBalance` on `ChargePaymentMethodDetails`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentAttemptRecordPaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, `PaymentMethod`, `PaymentRecordPaymentMethodDetails`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+* Add support for `UpdateLineItems` on `CheckoutSessionPermissionsParams` and `CheckoutSessionPermissions`
+* Add support for `Provider` on `CheckoutSessionAutomaticTax`, `InvoiceAutomaticTax`, `QuoteAutomaticTax`, and `QuotePreviewInvoiceAutomaticTax`
+* Add support for `PaymentMethodOptions` on `ConfirmationTokenParams`
+* Add support for `Installments` on `ConfirmationTokenPaymentMethodOptionsCard`
+* Add support for `DurationInMonths` on `CouponParams`
+* Add support for new value `repeating` on enum `Coupon.Duration`
+* Add support for `TaxCalculationReference` on `CreditNoteLineItem`, `InvoiceLineItem`, and `LineItem`
+* Add support for `Context` on `Event`
+* Add support for `RelatedCustomerAccount` on `IdentityVerificationSessionListParams`, `IdentityVerificationSessionParams`, and `IdentityVerificationSession`
+* Add support for `CancelAtPeriodEnd` on `InvoiceCreatePreviewSubscriptionDetailsParams`, `SubscriptionParams`, and `Subscription`
+* Add support for `NzBankAccount` on `PaymentAttemptRecordPaymentMethodDetails` and `PaymentRecordPaymentMethodDetails`
+* Add support for `Billie` on `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+* Add support for `PayoutMethod` on `PayoutParams` and `Payout`
+* Add support for `ConfirmationSecret` and `Parent` on `QuotePreviewInvoice`
+* Add support for new values `forwarding_api_retryable_upstream_error`, `v2_account_disconnection_unsupported`, and `v2_account_missing_configuration` on enum `QuotePreviewInvoiceLastFinalizationError.Code`
+* Add support for new values `nz_bank_account` and `stripe_balance` on enum `QuotePreviewInvoicePaymentSettings.PaymentMethodTypes`
+* Add support for `ID` and `Text` on `TerminalReaderActionCollectInputsInputsSelectionChoices`, `TerminalReaderActionCollectInputsInputsSelection`, and `TerminalReaderCollectInputsInputsSelectionChoicesParams`
+
+#### New APIs for Money CardManagement
+
+* Add support for new resources `V2.FinancialAddressCreditSimulation`, `V2.FinancialAddressGeneratedMicrodeposits`, `V2.MoneyManagement.Adjustment`, `V2.MoneyManagement.FinancialAccount`, `V2.MoneyManagement.FinancialAddress`, `V2.MoneyManagement.InboundTransfer`, `V2.MoneyManagement.OutboundPaymentQuote`, `V2.MoneyManagement.OutboundPayment`, `V2.MoneyManagement.OutboundSetupIntent`, `V2.MoneyManagement.OutboundTransfer`, `V2.MoneyManagement.PayoutMethod`, `V2.MoneyManagement.PayoutMethodsBankAccountSpec`, `V2.MoneyManagement.ReceivedCredit`, `V2.MoneyManagement.ReceivedDebit`, `V2.MoneyManagement.TransactionEntry`, and `V2.MoneyManagement.Transaction`
+* Add support for `New` method on resource `V2.MoneyManagement.OutboundPaymentQuote`
+* Add support for `Get` and `List` methods on resources `V2.MoneyManagement.Adjustment`, `V2.MoneyManagement.FinancialAccount`, `V2.MoneyManagement.ReceivedCredit`, `V2.MoneyManagement.ReceivedDebit`, `V2.MoneyManagement.TransactionEntry`, and `V2.MoneyManagement.Transaction`
+* Add support for `Get`, `List`, and `New` methods on resources `V2.MoneyManagement.FinancialAddress` and `V2.MoneyManagement.InboundTransfer`
+* Add support for `Cancel`, `Get`, `List`, and `New` methods on resources `V2.MoneyManagement.OutboundPayment` and `V2.MoneyManagement.OutboundTransfer`
+* Add support for `Archive`, `Get`, `List`, and `Unarchive` methods on resource `V2.MoneyManagement.PayoutMethod`
+* Add support for `Cancel`, `Get`, `List`, `New`, and `Update` methods on resource `V2.MoneyManagement.OutboundSetupIntent`
+* Add support for `Get` method on resource `V2.MoneyManagement.PayoutMethodsBankAccountSpec`
+* Add support for new values `account_number`, `fedwire_routing_number`, and `routing_number` on enum `InvalidPaymentMethod.InvalidParam`
+* Add support for new thin event `V2MoneyManagementFinancialAccountCreatedEvent` with related object `V2.MoneyManagement.FinancialAccount`
+* Add support for new thin events `V2MoneyManagementFinancialAddressActivatedEvent` and `V2MoneyManagementFinancialAddressFailedEvent` with related object `V2.MoneyManagement.FinancialAddress`
+* Add support for new thin events `V2MoneyManagementInboundTransferAvailableEvent`, `V2MoneyManagementInboundTransferBankDebitFailedEvent`, `V2MoneyManagementInboundTransferBankDebitProcessingEvent`, `V2MoneyManagementInboundTransferBankDebitQueuedEvent`, `V2MoneyManagementInboundTransferBankDebitReturnedEvent`, and `V2MoneyManagementInboundTransferBankDebitSucceededEvent` with related object `V2.MoneyManagement.InboundTransfer`
+* Add support for new thin events `V2MoneyManagementOutboundPaymentCanceledEvent`, `V2MoneyManagementOutboundPaymentCreatedEvent`, `V2MoneyManagementOutboundPaymentFailedEvent`, `V2MoneyManagementOutboundPaymentPostedEvent`, and `V2MoneyManagementOutboundPaymentReturnedEvent` with related object `V2.MoneyManagement.OutboundPayment`
+* Add support for new thin events `V2MoneyManagementOutboundTransferCanceledEvent`, `V2MoneyManagementOutboundTransferCreatedEvent`, `V2MoneyManagementOutboundTransferFailedEvent`, `V2MoneyManagementOutboundTransferPostedEvent`, and `V2MoneyManagementOutboundTransferReturnedEvent` with related object `V2.MoneyManagement.OutboundTransfer`
+* Add support for new thin events `V2MoneyManagementReceivedCreditAvailableEvent`, `V2MoneyManagementReceivedCreditFailedEvent`, `V2MoneyManagementReceivedCreditReturnedEvent`, and `V2MoneyManagementReceivedCreditSucceededEvent` with related object `V2.MoneyManagement.ReceivedCredit`
+* Add support for new thin events `V2MoneyManagementReceivedDebitCanceledEvent`, `V2MoneyManagementReceivedDebitFailedEvent`, `V2MoneyManagementReceivedDebitPendingEvent`, `V2MoneyManagementReceivedDebitSucceededEvent`, and `V2MoneyManagementReceivedDebitUpdatedEvent` with related object `V2.MoneyManagement.ReceivedDebit`
+* Add support for new error types `AlreadyCanceledError`, `BlockedByStripeError`, `ControlledByDashboardError`, `FeatureNotEnabledError`, `FinancialAccountNotOpenError`, `InsufficientFundsError`, `InvalidPayoutMethodError`, `NotCancelableError`, and `RecipientNotNotifiableError`
+
+
+#### New APIs for Accounts v2 in private preview
+See [SaaS platform payments with subscription billing using Accounts v2](https://docs.stripe.com/connect/accounts-v2/saas-platform-payments-billing)
+* Add support for new resources `V2.Core.AccountLink`, `V2.Core.Account`, `V2.Core.Person`, `V2.Core.Vault.GbBankAccount`, `V2.Core.Vault.UsBankAccount`
+* Add support for `Close`, `Get`, `List`, `New`, and `Update` methods on resource `V2.Core.Account`
+* Add support for `New` method on resource `V2.Core.AccountLink`
+* Add support for `AcknowledgeConfirmationOfPayee`, `Archive`, `Get`, `InitiateConfirmationOfPayee`, and `New` methods on resource `V2.Core.Vault.GbBankAccount`
+* Add support for `Archive`, `Get`, `New`, and `Update` methods on resource `V2.Core.Vault.UsBankAccount`
+* Add support for new thin events `V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent`, `V2CoreAccountIncludingConfigurationCustomerUpdatedEvent`, `V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent`, `V2CoreAccountIncludingConfigurationMerchantUpdatedEvent`, `V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent`, `V2CoreAccountIncludingConfigurationRecipientUpdatedEvent`, `V2CoreAccountIncludingIdentityUpdatedEvent`, and `V2CoreAccountIncludingRequirementsUpdatedEvent`
+* Add support for new thin event `V2CoreAccountLinkCompletedEvent` with related object `V2.Core.AccountLink`
+* Add support for new thin events `V2CoreAccountPersonCreatedEvent`, `V2CoreAccountPersonDeletedEvent`, and `V2CoreAccountPersonUpdatedEvent` with related object `V2.Core.Person`
+
+### Changes
+* Change type of `InvoiceItemParent.Type` from `enum('rate_card_subscription_details'|'subscription_details')` to `literal('subscription_details')`
+* Change type of `InvoicePayment.is_default` from `nullable(boolean)` to `boolean`
+* Change type of `PaymentAttemptRecord.payment_method_details.custom` and `PaymentRecord.payment_method_details.custom` from `nullable(PaymentsPrimitivesPaymentRecordsResourcePaymentMethodCustomDetails)` to `PaymentsPrimitivesPaymentRecordsResourcePaymentMethodCustomDetails`
+
+
+* [#2002](https://github.com/stripe/stripe-go/pull/2002) Update behavior of AddBetaHeader
+  - AddBetaVersion will use the highest version number used for a beta feature instead of return an `error` on a conflict as it had done previously.
+  
+## 82.0.0 - 2025-04-01
+* [#1992](https://github.com/stripe/stripe-go/pull/1992) Support for APIs in the new API version 2025-03-31.basil
+  
+  This release changes the pinned API version to `2025-03-31.basil`.
+  
+  ### ⚠️ Breaking changes due to changes in the Stripe API
+  
+  Please review details for the breaking changes and alternatives in the [Stripe API changelog](https://docs.stripe.com/changelog/basil) before upgrading.
+
+  * Remove support for resources `UsageRecordSummary` and `UsageRecord`
+  * Remove support for `New` method on resource `UsageRecord`
+  * Remove support for `List` method on resource `UsageRecordSummary`
+  * Remove support for `UpcomingLines` and `Upcoming` methods on resource `Invoice`
+  * Remove support for `UsageRecordSummaries` method on resource `SubscriptionItem`
+  * Remove support for `Invoice` on `Charge` and `PaymentIntent`
+  * Remove support for `ShippingDetails` on `CheckoutSession`
+  * Remove support for `Carrier`, `Phone`, and `TrackingNumber` on `CheckoutSessionCollectedInformationShippingDetails`
+  * Remove support for `Refund` on `CreditNoteParams`, `CreditNotePreviewLinesParams`, `CreditNotePreviewParams`, and `CreditNote`
+  * Remove support for `TaxAmounts` on `CreditNoteLineItem`, `CreditNote`, and `InvoiceLineItem`
+  * Remove support for `AmountExcludingTax` and `UnitAmountExcludingTax` on `CreditNoteLineItem` and `InvoiceLineItem`
+  * Remove support for `Coupon` on `CustomerParams`, `InvoiceCreatePreviewParams`, `InvoiceCreatePreviewScheduleDetailsPhasesParams`, `SubscriptionParams`, `SubscriptionSchedulePhasesParams`, and `SubscriptionSchedulePhases`
+  * Remove support for `PromotionCode` on `CustomerParams` and `SubscriptionParams`
+  * Remove support for `Price` on `InvoiceAddLinesLinesParams`, `InvoiceItemParams`, `InvoiceItem`, `InvoiceLineItemParams`, `InvoiceLineItem`, and `InvoiceUpdateLinesLinesParams`
+  * Remove support for `BillingThresholds` on `InvoiceCreatePreviewScheduleDetailsPhasesItemsParams`, `InvoiceCreatePreviewScheduleDetailsPhasesParams`, `InvoiceCreatePreviewSubscriptionDetailsItemsParams`, `SubscriptionItemParams`, `SubscriptionItem`, `SubscriptionItemsParams`, `SubscriptionParams`, `SubscriptionScheduleDefaultSettingsParams`, `SubscriptionScheduleDefaultSettings`, `SubscriptionSchedulePhasesItemsParams`, `SubscriptionSchedulePhasesItems`, `SubscriptionSchedulePhasesParams`, `SubscriptionSchedulePhases`, and `Subscription`
+  * Remove support for `ApplicationFeeAmount`, `Charge`, `PaidOutOfBand`, `Paid`, `PaymentIntent`, `Quote`, `Subscription`, `SubscriptionDetails`, `SubscriptionProrationDate`, `Tax`, `TotalTaxAmounts`, and `TransferData` on `Invoice`
+  * Remove support for `Discount` on `Invoice` and `Subscription`
+  * Remove support for `InvoiceItem`, `ProrationDetails`, `Proration`, `TaxRates`, and `Type` on `InvoiceLineItem`
+  * Remove support for `Plan` and `SubscriptionItem` on `InvoiceItem` and `InvoiceLineItem`
+  * Remove support for `UnitAmount` on `InvoiceItemParams` and `InvoiceItem`
+  * Remove support for `Subscription` and `UnitAmountDecimal` on `InvoiceItem`
+  * Remove support for `NaverPay` on `PaymentMethodParams`
+  * Remove support for `AggregateUsage` on `PlanParams`, `Plan`, `PriceRecurringParams`, and `PriceRecurring`
+  * Remove support for `CurrentPeriodEnd` and `CurrentPeriodStart` on `Subscription`
+  
+  ### ⚠️ Other Breaking changes in the SDK
+
+  * [#1999](https://github.com/stripe/stripe-go/pull/1999) Upgrade to go 1.18
+      * Go version 1.18 or later is now required to address security vulnerabilities in Go <= 1.17. In particular, HTTP/2 is enabled now by default for all users (it was disabled for Go <= 1.14).
+  * [#1998](https://github.com/stripe/stripe-go/pull/1998) Breaking changes to support V2
+      * Renamed the `stripe.Amount` type in the `stripe.Balance` object to `stripe.BalanceAmount`
+      * Changed the signature of the `CallRaw` method in the `stripe.Backend` interface to accept a `[]byte` instead of `*form.Values` in its fourth argument. Call sites can safely replace a `*form.Values` argument `v` with `[]byte(v.Encode())` (`Encode` is `nil`-safe).
+
+  ### Additions to Stripe API
+  
+  * Add support for new resource `InvoicePayment`
+  * Add support for `Get` and `List` methods on resource `InvoicePayment`
+  * Add support for `BilliePayments`, `NzBankAccountBECSDebitPayments`, and `SatispayPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `HostedPaymentMethodSave` on `AccountSettingsInvoicesParams` and `AccountSettingsInvoices`
+  * Add support for `Invoices` on `AccountSettingsParams`
+  * Add support for new values `forwarding_api_retryable_upstream_error` and `setup_intent_mobile_wallet_unsupported` on enums `InvoiceLastFinalizationError.Code`, `PaymentIntentLastPaymentError.Code`, `SetupAttemptSetupError.Code`, `SetupIntentLastSetupError.Code`, and `StripeError.Code`
+  * Add support for new values `stripe_balance_payment_debit_reversal` and `stripe_balance_payment_debit` on enum `BalanceTransaction.Type`
+  * Add support for new values `information_missing`, `invalid_signator`, `verification_failed_authorizer_authority`, and `verification_rejected_ownership_exemption_reason` on enums `BankAccountFutureRequirementsErrors.Code` and `BankAccountRequirementsErrors.Code`
+  * Add support for new value `last` on enum `BillingMeterDefaultAggregation.Formula`
+  * Add support for `PresentmentDetails` on `Charge`, `CheckoutSession`, `PaymentIntent`, and `Refund`
+  * Add support for `Billie` and `Satispay` on `ChargePaymentMethodDetails`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `NzBankAccount` on `ChargePaymentMethodDetails`, `ConfirmationTokenPaymentMethodDataParams`, `ConfirmationTokenPaymentMethodPreview`, `MandatePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodConfigurationParams`, `PaymentMethodConfiguration`, `PaymentMethodParams`, `PaymentMethod`, `SetupAttemptPaymentMethodDetails`, `SetupIntentConfirmPaymentMethodDataParams`, and `SetupIntentPaymentMethodDataParams`
+  * Add support for `OptionalItems` on `CheckoutSessionParams`, `CheckoutSession`, `PaymentLinkParams`, and `PaymentLink`
+  * Add support for `Permissions` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `ShippingOptions` on `CheckoutSessionParams`
+  * Add support for new value `custom` on enum `CheckoutSession.UIMode`
+  * Add support for `BuyerID` on `ConfirmationTokenPaymentMethodPreviewNaverPay` and `PaymentMethodNaverPay`
+  * Add support for new values `billie`, `nz_bank_account`, and `satispay` on enums `ConfirmationTokenPaymentMethodPreview.Type` and `PaymentMethod.Type`
+  * Add support for `Refunds` on `CreditNoteParams`, `CreditNotePreviewLinesParams`, `CreditNotePreviewParams`, and `CreditNote`
+  * Add support for `TotalTaxes` on `CreditNote` and `Invoice`
+  * Add support for `Taxes` on `CreditNoteLineItem` and `InvoiceLineItem`
+  * Add support for `TaxabilityReason` on `InvoiceAddLinesLinesTaxAmountsParams`, `InvoiceLineItemTaxAmountsParams`, and `InvoiceUpdateLinesLinesTaxAmountsParams`
+  * Add support for `JurisdictionLevel` on `InvoiceAddLinesLinesTaxAmountsTaxRateDataParams`, `InvoiceLineItemTaxAmountsTaxRateDataParams`, and `InvoiceUpdateLinesLinesTaxAmountsTaxRateDataParams`
+  * Add support for `AmountOverpaid`, `ConfirmationSecret`, and `Payments` on `Invoice`
+  * Add support for `Parent` on `InvoiceItem`, `InvoiceLineItem`, and `Invoice`
+  * Add support for new values `klarna` and `nz_bank_account` on enums `InvoicePaymentSettings.PaymentMethodTypes` and `SubscriptionPaymentSettings.PaymentMethodTypes`
+  * Add support for `CheckoutSession` on `CustomerBalanceTransaction`
+  * Add support for new values `checkout_session_subscription_payment_canceled` and `checkout_session_subscription_payment` on enum `CustomerBalanceTransaction.Type`
+  * Add support for new value `invoice.overpaid` on enum `Event.Type`
+  * Add support for `Pricing` on `InvoiceAddLinesLinesParams`, `InvoiceItemParams`, `InvoiceItem`, `InvoiceLineItemParams`, `InvoiceLineItem`, and `InvoiceUpdateLinesLinesParams`
+  * Add support for `Wifi` on `TerminalConfigurationParams` and `TerminalConfiguration`
+  * Add support for `NzBankTransfer` on `RefundDestinationDetails`
+  * Add support for new value `canceled` on enum `Review.ClosedReason`
+  * Add support for `CurrentPeriodEnd` and `CurrentPeriodStart` on `SubscriptionItem`
+  * Add support for `NaverPay` on `MandatePaymentMethodDetails` and `SetupAttemptPaymentMethodDetails`
+  * Add support for `SetupFutureUsage` on `PaymentIntentConfirmPaymentMethodOptionsNaverPayParams`, `PaymentIntentPaymentMethodOptionsNaverPayParams`, and `PaymentIntentPaymentMethodOptionsNaverPay`
+  * Add support for new value `expired` on enum `PaymentIntent.CancellationReason`
+  * Add support for `DefaultValue` on `PaymentLinkCustomFieldsDropdownParams`, `PaymentLinkCustomFieldsDropdown`, `PaymentLinkCustomFieldsNumericParams`, `PaymentLinkCustomFieldsNumeric`, `PaymentLinkCustomFieldsTextParams`, and `PaymentLinkCustomFieldsText`
+  * Add support for new values `billie` and `satispay` on enum `PaymentLink.PaymentMethodTypes`
+
 ## 81.5.0-beta.1 - 2025-03-18
 * [#1997](https://github.com/stripe/stripe-go/pull/1997) Beta SDK updates between Open API versions 1473 and 1505
   

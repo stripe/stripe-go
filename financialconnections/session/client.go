@@ -10,7 +10,7 @@ package session
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v81"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /v1/financial_connections/sessions APIs.

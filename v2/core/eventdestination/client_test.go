@@ -10,10 +10,10 @@ import (
 	"fmt"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v81"
-	"github.com/stripe/stripe-go/v81/client"
-	"github.com/stripe/stripe-go/v81/mock"
-	. "github.com/stripe/stripe-go/v81/testing"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/client"
+	"github.com/stripe/stripe-go/v82/mock"
+	. "github.com/stripe/stripe-go/v82/testing"
 )
 
 func TestEventDestinationNew(t *testing.T) {

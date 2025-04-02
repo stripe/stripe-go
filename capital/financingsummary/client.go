@@ -10,7 +10,7 @@ package financingsummary
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v81"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /v1/capital/financing_summary APIs.

@@ -10,7 +10,7 @@ package inboundtransfer
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v81"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /v1/treasury/inbound_transfers APIs.

@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/stripe/stripe-go/v81"
-	"github.com/stripe/stripe-go/v81/rawrequest"
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/rawrequest"
 )
 
 func main() {
