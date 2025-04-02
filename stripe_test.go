@@ -1856,3 +1856,26 @@ func TestHandleV2ErrorWhenUnknownError(t *testing.T) {
 	assert.True(t, ok)
 	assert.Equal(t, "Some message", stripeErr.Message)
 }
+
+func TestHandleV2ErrorWhenUnknownErrorWithoutType(t *testing.T) {
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(400)
+		_, err := w.Write([]byte(`{"error":{"message":"Some message"}}`))
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+	err := backend.Call(http.MethodGet, "/v2/hello", "sk_test_xyz", &Params{}, &APIResource{})
+	assert.Error(t, err)
+	stripeErr, ok := err.(*V2RawError)
+	assert.True(t, ok)
+	assert.Equal(t, "Some message", stripeErr.Message)
+}

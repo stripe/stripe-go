@@ -935,6 +935,10 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		return err
 	}
 
+	if raw.Error.Type == nil {
+		return raw.Error
+	}
+
 	var typedError error
 	// The beginning of the section generated from our OpenAPI spec
 	switch *raw.Error.Type {
