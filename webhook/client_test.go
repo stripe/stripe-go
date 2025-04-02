@@ -297,3 +297,25 @@ func TestConstructEventWithOptions_UsesDefaultToleranceWhenNoneProvided(t *testi
 		t.Errorf("Expected error due to being too old, but got %v.", err)
 	}
 }
+
+func TestApiVersionCompatibility(t *testing.T) {
+	tests := []struct {
+		sdkApiVersion   string
+		eventApiVersion string
+		expected        bool
+	}{
+		{"2024-02-31.acacia", "1999-03-31", false},
+		{"2024-02-31.acacia", "2025-03-31.basil", false},
+		{"2024-04-31.basil", "2025-03-31.basil", true},
+		{"2024-01-01.preview", "2025-03-31.basil", false},
+		{"2024-01-01.preview", "2025-03-31.preview", false},
+		{"2024-01-01.preview", "2024-01-01.preview", true},
+	}
+
+	for _, test := range tests {
+		result := isCompatibleAPIVersion(test.sdkApiVersion, test.eventApiVersion)
+		if result != test.expected {
+			t.Errorf("Expected %v for API version %s <> %s, got %v", test.expected, test.sdkApiVersion, test.eventApiVersion, result)
+		}
+	}
+}
