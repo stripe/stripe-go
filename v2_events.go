@@ -30,78 +30,78 @@ const (
 )
 
 // Open Enum. The capability which had its status updated.
-type V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability string
+type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability string
 
-// List of values that V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability can take
+// List of values that V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability can take
 const (
-	V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapabilityAutomaticIndirectTax V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability = "automatic_indirect_tax"
+	V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapabilityAutomaticIndirectTax V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability = "automatic_indirect_tax"
 )
 
 // Open Enum. The capability which had its status updated.
-type V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability string
+type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability string
 
-// List of values that V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability can take
+// List of values that V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability can take
 const (
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityACHDebitPayments         V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "ach_debit_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityACSSDebitPayments        V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "acss_debit_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAffirmPayments           V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "affirm_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAfterpayClearpayPayments V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "afterpay_clearpay_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAlmaPayments             V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "alma_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAmazonPayPayments        V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "amazon_pay_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAUBECSDebitPayments      V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "au_becs_debit_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBACSDebitPayments        V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bacs_debit_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBancontactPayments       V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bancontact_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBLIKPayments             V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "blik_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBoletoPayments           V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "boleto_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCardPayments             V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "card_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCartesBancairesPayments  V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "cartes_bancaires_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCashAppPayments          V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "cashapp_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityEPSPayments              V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "eps_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityFPXPayments              V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "fpx_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityGBBankTransferPayments   V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "gb_bank_transfer_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityGrabpayPayments          V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "grabpay_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityIDEALPayments            V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "ideal_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityJCBPayments              V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "jcb_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityJPBankTransferPayments   V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "jp_bank_transfer_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKakaoPayPayments         V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "kakao_pay_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKlarnaPayments           V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "klarna_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKonbiniPayments          V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "konbini_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKrCardPayments           V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "kr_card_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityLinkPayments             V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "link_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMobilepayPayments        V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mobilepay_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMultibancoPayments       V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "multibanco_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMXBankTransferPayments   V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mx_bank_transfer_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityNaverPayPayments         V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "naver_pay_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityOXXOPayments             V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "oxxo_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityP24Payments              V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "p24_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPaycoPayments            V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "payco_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayNowPayments           V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "paynow_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayByBankPayments        V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "pay_by_bank_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPromptPayPayments        V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "promptpay_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityRevolutPayPayments       V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "revolut_pay_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySamsungPayPayments       V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "samsung_pay_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPABankTransferPayments V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_bank_transfer_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPADebitPayments        V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_debit_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySwishPayments            V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "swish_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityTWINTPayments            V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "twint_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityUSBankTransferPayments   V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "us_bank_transfer_payments"
-	V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityZipPayments              V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "zip_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityACHDebitPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "ach_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityACSSDebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "acss_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAffirmPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "affirm_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAfterpayClearpayPayments V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "afterpay_clearpay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAlmaPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "alma_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAmazonPayPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "amazon_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityAUBECSDebitPayments      V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "au_becs_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBACSDebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bacs_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBancontactPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "bancontact_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBLIKPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "blik_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityBoletoPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "boleto_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCardPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "card_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCartesBancairesPayments  V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "cartes_bancaires_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityCashAppPayments          V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "cashapp_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityEPSPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "eps_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityFPXPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "fpx_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityGBBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "gb_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityGrabpayPayments          V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "grabpay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityIDEALPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "ideal_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityJCBPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "jcb_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityJPBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "jp_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKakaoPayPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "kakao_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKlarnaPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "klarna_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKonbiniPayments          V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "konbini_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityKrCardPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "kr_card_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityLinkPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "link_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMobilepayPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mobilepay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMultibancoPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "multibanco_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityMXBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "mx_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityNaverPayPayments         V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "naver_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityOXXOPayments             V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "oxxo_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityP24Payments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "p24_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPaycoPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "payco_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayNowPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "paynow_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayByBankPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "pay_by_bank_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPromptPayPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "promptpay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityRevolutPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "revolut_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySamsungPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "samsung_pay_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPABankTransferPayments V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySEPADebitPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "sepa_debit_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilitySwishPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "swish_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityTWINTPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "twint_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityUSBankTransferPayments   V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "us_bank_transfer_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityZipPayments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "zip_payments"
 )
 
 // Open Enum. The capability which had its status updated.
-type V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability string
+type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability string
 
-// List of values that V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability can take
+// List of values that V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability can take
 const (
-	V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsLocal            V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.local"
-	V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsLocalUk          V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.local_uk"
-	V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWire             V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire"
-	V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWireUk           V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire_uk"
-	V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCards                        V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards"
-	V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCardsUk                      V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards_uk"
-	V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCryptoWalletsV2              V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "crypto_wallets_v2"
-	V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalanceStripeTransfers V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.stripe_transfers"
-	V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeTransfers              V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe.transfers"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsLocal            V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.local"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsLocalUk          V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.local_uk"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWire             V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWireUk           V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire_uk"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCards                        V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCardsUk                      V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards_uk"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCryptoWalletsV2              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "crypto_wallets_v2"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalanceStripeTransfers V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.stripe_transfers"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeTransfers              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe.transfers"
 )
 
 // Open Enum.
@@ -151,38 +151,65 @@ type V2RawEvent struct {
 	RelatedObject *RelatedObject   `json:"related_object"`
 }
 
-// V2CoreAccountRequirementsUpdatedEvent is the Go struct for the "v2.core.account[requirements].updated" event.
+// V2CoreAccountIncludingRequirementsUpdatedEvent is the Go struct for the "v2.core.account[requirements].updated" event.
 // This event occurs when the account's requirements are updated.
-type V2CoreAccountRequirementsUpdatedEvent struct{ V2RawEvent }
+type V2CoreAccountIncludingRequirementsUpdatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
 
 // V2CoreAccountLinkCompletedEvent is the Go struct for the "v2.core.account_link.completed" event.
 // The generated account link has been completed.
 type V2CoreAccountLinkCompletedEvent struct {
 	V2RawEvent
-	Data               V2CoreAccountLinkCompletedEventData
-	RelatedObject      RelatedObject
-	fetchRelatedObject func() (*V2CoreAccountLink, error)
+	Data V2CoreAccountLinkCompletedEventData
 }
 
-// FetchRelatedObject fetches the related V2CoreAccountLink object for the event.
-func (e V2CoreAccountLinkCompletedEvent) FetchRelatedObject() (*V2CoreAccountLink, error) {
+// V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
+// The status of a customer config capability was updated.
+type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent struct {
+	V2RawEvent
+	Data               V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
 }
 
-// V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
-// The status of a customer config capability was updated.
-type V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEvent struct {
+// V2CoreAccountIncludingConfigurationCustomerUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].updated" event.
+// A customer config was updated.
+type V2CoreAccountIncludingConfigurationCustomerUpdatedEvent struct {
 	V2RawEvent
-	Data V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEventData
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// V2CoreAccountConfigurationCustomerUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].updated" event.
-// A customer config was updated.
-type V2CoreAccountConfigurationCustomerUpdatedEvent struct{ V2RawEvent }
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
 
-// V2CoreAccountIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
+// V2CoreAccountIncludingIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
 // This event occurs when identity is updated.
-type V2CoreAccountIdentityUpdatedEvent struct{ V2RawEvent }
+type V2CoreAccountIncludingIdentityUpdatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
 
 // V2CoreAccountPersonCreatedEvent is the Go struct for the "v2.core.account_person.created" event.
 // This event occurs when a person is created.
@@ -226,27 +253,59 @@ func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, er
 	return e.fetchRelatedObject()
 }
 
-// V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].capability_status_updated" event.
+// V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].capability_status_updated" event.
 // The status of a merchant config capability was updated.
-type V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEvent struct {
+type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent struct {
 	V2RawEvent
-	Data V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventData
+	Data               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// V2CoreAccountConfigurationMerchantUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].updated" event.
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationMerchantUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].updated" event.
 // A merchant config was updated.
-type V2CoreAccountConfigurationMerchantUpdatedEvent struct{ V2RawEvent }
-
-// V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].capability_status_updated" event.
-// The status of a recipient config capability was updated.
-type V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEvent struct {
+type V2CoreAccountIncludingConfigurationMerchantUpdatedEvent struct {
 	V2RawEvent
-	Data V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventData
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
-// V2CoreAccountConfigurationRecipientUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].updated" event.
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationMerchantUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].capability_status_updated" event.
+// The status of a recipient config capability was updated.
+type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent struct {
+	V2RawEvent
+	Data               V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationRecipientUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].updated" event.
 // A recipient config was updated.
-type V2CoreAccountConfigurationRecipientUpdatedEvent struct{ V2RawEvent }
+type V2CoreAccountIncludingConfigurationRecipientUpdatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
 
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
 // This event occurs when there are invalid async usage events for a given meter.
@@ -646,9 +705,9 @@ type V2CoreAccountLinkCompletedEventData struct {
 }
 
 // The status of a customer config capability was updated.
-type V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEventData struct {
+type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData struct {
 	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+	UpdatedCapability V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
 }
 
 // This event occurs when a person is created.
@@ -670,15 +729,15 @@ type V2CoreAccountPersonUpdatedEventData struct {
 }
 
 // The status of a merchant config capability was updated.
-type V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventData struct {
+type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData struct {
 	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+	UpdatedCapability V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
 }
 
 // The status of a recipient config capability was updated.
-type V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventData struct {
+type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData struct {
 	// Open Enum. The capability which had its status updated.
-	UpdatedCapability V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+	UpdatedCapability V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
 }
 
 // The request causes the error.
@@ -786,18 +845,11 @@ type V2MoneyManagementReceivedCreditAvailableEventData struct {
 func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, error) {
 	switch event.Type {
 	case "v2.core.account[requirements].updated":
-		result := &V2CoreAccountRequirementsUpdatedEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
-		return result, nil
-	case "v2.core.account_link.completed":
-		result := &V2CoreAccountLinkCompletedEvent{}
+		result := &V2CoreAccountIncludingRequirementsUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2CoreAccountLink, error) {
-			v := &V2CoreAccountLink{}
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
@@ -805,23 +857,48 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return nil, err
 		}
 		return result, nil
-	case "v2.core.account[configuration.customer].capability_status_updated":
-		result := &V2CoreAccountConfigurationCustomerCapabilityStatusUpdatedEvent{}
+	case "v2.core.account_link.completed":
+		result := &V2CoreAccountLinkCompletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.customer].capability_status_updated":
+		result := &V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
 		if err := json.Unmarshal(*event.Data, result); err != nil {
 			return nil, err
 		}
 		return result, nil
 	case "v2.core.account[configuration.customer].updated":
-		result := &V2CoreAccountConfigurationCustomerUpdatedEvent{}
+		result := &V2CoreAccountIncludingConfigurationCustomerUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
 		if err := json.Unmarshal(*event.Data, result); err != nil {
 			return nil, err
 		}
 		return result, nil
 	case "v2.core.account[identity].updated":
-		result := &V2CoreAccountIdentityUpdatedEvent{}
+		result := &V2CoreAccountIncludingIdentityUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
 		if err := json.Unmarshal(*event.Data, result); err != nil {
 			return nil, err
 		}
@@ -866,29 +943,53 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		}
 		return result, nil
 	case "v2.core.account[configuration.merchant].capability_status_updated":
-		result := &V2CoreAccountConfigurationMerchantCapabilityStatusUpdatedEvent{}
+		result := &V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
 		if err := json.Unmarshal(*event.Data, result); err != nil {
 			return nil, err
 		}
 		return result, nil
 	case "v2.core.account[configuration.merchant].updated":
-		result := &V2CoreAccountConfigurationMerchantUpdatedEvent{}
+		result := &V2CoreAccountIncludingConfigurationMerchantUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
 		if err := json.Unmarshal(*event.Data, result); err != nil {
 			return nil, err
 		}
 		return result, nil
 	case "v2.core.account[configuration.recipient].capability_status_updated":
-		result := &V2CoreAccountConfigurationRecipientCapabilityStatusUpdatedEvent{}
+		result := &V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
 		if err := json.Unmarshal(*event.Data, result); err != nil {
 			return nil, err
 		}
 		return result, nil
 	case "v2.core.account[configuration.recipient].updated":
-		result := &V2CoreAccountConfigurationRecipientUpdatedEvent{}
+		result := &V2CoreAccountIncludingConfigurationRecipientUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
 		if err := json.Unmarshal(*event.Data, result); err != nil {
 			return nil, err
 		}
