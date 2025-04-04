@@ -10,8 +10,8 @@ package externalaccount
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v81"
-	"github.com/stripe/stripe-go/v81/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /v1/external_accounts APIs.
@@ -79,9 +79,10 @@ func NewBankAccount(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 
 // Create an external account for a given connected account.
 func (c Client) NewBankAccount(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
+	body := &form.Values{}
+	params.AppendToAsSourceOrExternalAccount(body)
 	bankaccount := &stripe.BankAccount{}
-	err := c.B.Call(
-		http.MethodPost, "/v1/external_accounts", c.Key, params, bankaccount)
+	err := c.B.CallRaw(http.MethodPost, "/v1/external_accounts", c.Key, []byte(body.Encode()), &params.Params, bankaccount)
 	return bankaccount, err
 }
 
@@ -92,8 +93,10 @@ func NewCard(params *stripe.CardParams) (*stripe.Card, error) {
 
 // Create an external account for a given connected account.
 func (c Client) NewCard(params *stripe.CardParams) (*stripe.Card, error) {
+	body := &form.Values{}
+	params.AppendToAsCardSourceOrExternalAccount(body, nil)
 	card := &stripe.Card{}
-	err := c.B.Call(http.MethodPost, "/v1/external_accounts", c.Key, params, card)
+	err := c.B.CallRaw(http.MethodPost, "/v1/external_accounts", c.Key, []byte(body.Encode()), &params.Params, card)
 	return card, err
 }
 
