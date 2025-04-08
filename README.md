@@ -41,8 +41,6 @@ go get -u github.com/stripe/stripe-go/v82
 For a comprehensive list of examples, check out the [API
 documentation][api-docs].
 
-See [video demonstrations][youtube-playlist] covering how to use the library.
-
 For details on all the functionality in this library, see the [Go
 documentation][goref].
 
