@@ -3286,8 +3286,6 @@ type PaymentIntentParams struct {
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
-	FxQuote *string `form:"fx_quote"`
 	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -4169,8 +4167,6 @@ type PaymentIntentConfirmParams struct {
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
-	FxQuote *string `form:"fx_quote"`
 	// ID of the mandate that's used for this payment.
 	Mandate     *string                         `form:"mandate"`
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
@@ -5874,8 +5870,6 @@ type PaymentIntent struct {
 	CustomerAccount string `json:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
-	// The FX Quote used for the PaymentIntent.
-	FxQuote string `json:"fx_quote"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.
