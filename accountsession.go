@@ -144,6 +144,17 @@ type AccountSessionComponentsDocumentsParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsExportTaxTransactionsFeaturesParams struct{}
+
+// Configuration for the export tax transactions embedded component.
+type AccountSessionComponentsExportTaxTransactionsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsExportTaxTransactionsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsFinancialAccountFeaturesParams struct {
 	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
@@ -407,6 +418,8 @@ type AccountSessionComponentsParams struct {
 	CapitalOverview *AccountSessionComponentsCapitalOverviewParams `form:"capital_overview"`
 	// Configuration for the documents embedded component.
 	Documents *AccountSessionComponentsDocumentsParams `form:"documents"`
+	// Configuration for the export tax transactions embedded component.
+	ExportTaxTransactions *AccountSessionComponentsExportTaxTransactionsParams `form:"export_tax_transactions"`
 	// Configuration for the financial account embedded component.
 	FinancialAccount *AccountSessionComponentsFinancialAccountParams `form:"financial_account"`
 	// Configuration for the financial account transactions embedded component.

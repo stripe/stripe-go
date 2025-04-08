@@ -1290,6 +1290,15 @@ const (
 	CheckoutSessionUIModeHosted   CheckoutSessionUIMode = "hosted"
 )
 
+// Describes whether Checkout should display Link. Defaults to `auto`.
+type CheckoutSessionWalletOptionsLinkDisplay string
+
+// List of values that CheckoutSessionWalletOptionsLinkDisplay can take
+const (
+	CheckoutSessionWalletOptionsLinkDisplayAuto  CheckoutSessionWalletOptionsLinkDisplay = "auto"
+	CheckoutSessionWalletOptionsLinkDisplayNever CheckoutSessionWalletOptionsLinkDisplay = "never"
+)
+
 // Only return the Checkout Sessions for the Customer details specified.
 type CheckoutSessionListCustomerDetailsParams struct {
 	// Customer's email address.
@@ -2474,7 +2483,7 @@ type CheckoutSessionPermissionsUpdateParams struct {
 
 // This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
 //
-// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 type CheckoutSessionPermissionsParams struct {
 	// Permissions for updating the Checkout Session.
 	Update *CheckoutSessionPermissionsUpdateParams `form:"update"`
@@ -2700,6 +2709,18 @@ type CheckoutSessionTaxIDCollectionParams struct {
 	Required *string `form:"required"`
 }
 
+// contains details about the Link wallet options.
+type CheckoutSessionWalletOptionsLinkParams struct {
+	// Specifies whether Checkout should display Link as a payment option. By default, Checkout will display all the supported wallets that the Checkout Session was created with. This is the `auto` behavior, and it is the default choice.
+	Display *string `form:"display"`
+}
+
+// Wallet-specific configuration.
+type CheckoutSessionWalletOptionsParams struct {
+	// contains details about the Link wallet options.
+	Link *CheckoutSessionWalletOptionsLinkParams `form:"link"`
+}
+
 // Creates a Checkout Session object.
 type CheckoutSessionParams struct {
 	Params `form:"*"`
@@ -2826,7 +2847,7 @@ type CheckoutSessionParams struct {
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
 	//
-	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 	Permissions *CheckoutSessionPermissionsParams `form:"permissions"`
 	// Controls phone number collection settings for the session.
 	//
@@ -2864,6 +2885,8 @@ type CheckoutSessionParams struct {
 	TaxIDCollection *CheckoutSessionTaxIDCollectionParams `form:"tax_id_collection"`
 	// The UI mode of the Session. Defaults to `hosted`.
 	UIMode *string `form:"ui_mode"`
+	// Wallet-specific configuration.
+	WalletOptions *CheckoutSessionWalletOptionsParams `form:"wallet_options"`
 }
 
 // AddExpand appends a new field to expand.
@@ -3772,7 +3795,7 @@ type CheckoutSessionPermissionsUpdate struct {
 
 // This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
 //
-// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 type CheckoutSessionPermissions struct {
 	// Permissions for updating the Checkout Session.
 	Update *CheckoutSessionPermissionsUpdate `json:"update"`
@@ -3900,6 +3923,15 @@ type CheckoutSessionTotalDetails struct {
 	AmountTax int64                                 `json:"amount_tax"`
 	Breakdown *CheckoutSessionTotalDetailsBreakdown `json:"breakdown"`
 }
+type CheckoutSessionWalletOptionsLink struct {
+	// Describes whether Checkout should display Link. Defaults to `auto`.
+	Display CheckoutSessionWalletOptionsLinkDisplay `json:"display"`
+}
+
+// Wallet-specific configuration for this Checkout Session.
+type CheckoutSessionWalletOptions struct {
+	Link *CheckoutSessionWalletOptionsLink `json:"link"`
+}
 
 // A Checkout Session represents your customer's session as they pay for
 // one-time purchases or subscriptions through [Checkout](https://stripe.com/docs/payments/checkout)
@@ -4014,7 +4046,7 @@ type CheckoutSession struct {
 	PaymentStatus CheckoutSessionPaymentStatus `json:"payment_status"`
 	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
 	//
-	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 	Permissions           *CheckoutSessionPermissions           `json:"permissions"`
 	PhoneNumberCollection *CheckoutSessionPhoneNumberCollection `json:"phone_number_collection"`
 	PresentmentDetails    *CheckoutSessionPresentmentDetails    `json:"presentment_details"`
@@ -4053,6 +4085,8 @@ type CheckoutSession struct {
 	// The URL to the Checkout Session. Applies to Checkout Sessions with `ui_mode: hosted`. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://stripe.com/docs/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
 	// This value is only present when the session is active.
 	URL string `json:"url"`
+	// Wallet-specific configuration for this Checkout Session.
+	WalletOptions *CheckoutSessionWalletOptions `json:"wallet_options"`
 }
 
 // CheckoutSessionList is a list of Sessions as retrieved from a list endpoint.

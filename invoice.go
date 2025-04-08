@@ -756,7 +756,8 @@ type InvoiceListParams struct {
 	// Only return invoices that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Only return invoices for the customer specified by this customer ID.
-	Customer        *string           `form:"customer"`
+	Customer *string `form:"customer"`
+	// Only return invoices for the account specified by this account ID.
 	CustomerAccount *string           `form:"customer_account"`
 	DueDate         *int64            `form:"due_date"`
 	DueDateRange    *RangeQueryParams `form:"due_date"`

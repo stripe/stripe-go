@@ -100,6 +100,8 @@ import (
 	"github.com/stripe/stripe-go/v82/person"
 	"github.com/stripe/stripe-go/v82/plan"
 	"github.com/stripe/stripe-go/v82/price"
+	privacyredactionjob "github.com/stripe/stripe-go/v82/privacy/redactionjob"
+	privacyredactionjobvalidationerror "github.com/stripe/stripe-go/v82/privacy/redactionjobvalidationerror"
 	"github.com/stripe/stripe-go/v82/product"
 	"github.com/stripe/stripe-go/v82/productfeature"
 	"github.com/stripe/stripe-go/v82/promotioncode"
@@ -377,6 +379,10 @@ type API struct {
 	Plans *plan.Client
 	// Prices is the client used to invoke /v1/prices APIs.
 	Prices *price.Client
+	// PrivacyRedactionJobs is the client used to invoke /v1/privacy/redaction_jobs APIs.
+	PrivacyRedactionJobs *privacyredactionjob.Client
+	// PrivacyRedactionJobValidationErrors is the client used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.
+	PrivacyRedactionJobValidationErrors *privacyredactionjobvalidationerror.Client
 	// ProductFeatures is the client used to invoke /v1/products/{product}/features APIs.
 	ProductFeatures *productfeature.Client
 	// Products is the client used to invoke /v1/products APIs.
@@ -663,6 +669,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Persons = &person.Client{B: backends.API, Key: key}
 	a.Plans = &plan.Client{B: backends.API, Key: key}
 	a.Prices = &price.Client{B: backends.API, Key: key}
+	a.PrivacyRedactionJobs = &privacyredactionjob.Client{B: backends.API, Key: key}
+	a.PrivacyRedactionJobValidationErrors = &privacyredactionjobvalidationerror.Client{B: backends.API, Key: key}
 	a.ProductFeatures = &productfeature.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
 	a.PromotionCodes = &promotioncode.Client{B: backends.API, Key: key}

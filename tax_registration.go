@@ -487,6 +487,14 @@ const (
 )
 
 // Type of registration in `country`.
+type TaxRegistrationCountryOptionsInType string
+
+// List of values that TaxRegistrationCountryOptionsInType can take
+const (
+	TaxRegistrationCountryOptionsInTypeSimplified TaxRegistrationCountryOptionsInType = "simplified"
+)
+
+// Type of registration in `country`.
 type TaxRegistrationCountryOptionsIsType string
 
 // List of values that TaxRegistrationCountryOptionsIsType can take
@@ -1410,6 +1418,12 @@ type TaxRegistrationCountryOptionsIeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in IN.
+type TaxRegistrationCountryOptionsInParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in IS.
 type TaxRegistrationCountryOptionsIsParams struct {
 	// Type of registration to be created in `country`.
@@ -1910,6 +1924,8 @@ type TaxRegistrationCountryOptionsParams struct {
 	ID *TaxRegistrationCountryOptionsIDParams `form:"id"`
 	// Options for the registration in IE.
 	Ie *TaxRegistrationCountryOptionsIeParams `form:"ie"`
+	// Options for the registration in IN.
+	In *TaxRegistrationCountryOptionsInParams `form:"in"`
 	// Options for the registration in IS.
 	Is *TaxRegistrationCountryOptionsIsParams `form:"is"`
 	// Options for the registration in IT.
@@ -2270,6 +2286,10 @@ type TaxRegistrationCountryOptionsIe struct {
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsIeType `json:"type"`
 }
+type TaxRegistrationCountryOptionsIn struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsInType `json:"type"`
+}
 type TaxRegistrationCountryOptionsIs struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsIsType `json:"type"`
@@ -2589,6 +2609,7 @@ type TaxRegistrationCountryOptions struct {
 	HU *TaxRegistrationCountryOptionsHU `json:"hu"`
 	ID *TaxRegistrationCountryOptionsID `json:"id"`
 	Ie *TaxRegistrationCountryOptionsIe `json:"ie"`
+	In *TaxRegistrationCountryOptionsIn `json:"in"`
 	Is *TaxRegistrationCountryOptionsIs `json:"is"`
 	IT *TaxRegistrationCountryOptionsIT `json:"it"`
 	JP *TaxRegistrationCountryOptionsJP `json:"jp"`
