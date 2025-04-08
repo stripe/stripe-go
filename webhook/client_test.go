@@ -210,6 +210,12 @@ func TestConstructEvent_SuccessOnExpectedAPIVersion(t *testing.T) {
 }
 
 func TestConstructEvent_SuccessOnNewAPIVersionInExpectedReleaseTrain(t *testing.T) {
+	// this test only makes sense on GA versions- the exact version for preview versions doesn't
+	// work this way and we can't mock private methods from this test class.
+	if strings.HasSuffix(stripe.APIVersion, ".preview") {
+		t.Skip("Skipping test for new API version in expected release train")
+	}
+
 	p := newSignedPayload(func(p *SignedPayload) {
 		p.Payload = testPayloadWithNewVersionInReleaseTrain
 	})
