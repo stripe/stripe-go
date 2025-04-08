@@ -699,7 +699,6 @@ pull request][pulls].
 [stripe]: https://stripe.com
 [stripe-mock]: https://github.com/stripe/stripe-mock
 [stripe-mock-usage]: https://github.com/stripe/stripe-mock#usage
-[youtube-playlist]: https://www.youtube.com/playlist?list=PLy1nL-pvL2M5eqpSBR9KL7K0lcnWo0V0a
 [zapsugaredlogger]: https://godoc.org/go.uber.org/zap#SugaredLogger
 
 <!--
