@@ -267,6 +267,24 @@ type AccountSessionComponentsPaymentDetailsParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsPaymentDisputesFeaturesParams struct {
+	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement *bool `form:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement *bool `form:"refund_management"`
+}
+
+// Configuration for the payment disputes embedded component.
+type AccountSessionComponentsPaymentDisputesParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPaymentDisputesFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentMethodSettingsFeaturesParams struct{}
 
 // Configuration for the payment method settings embedded component.
@@ -432,6 +450,8 @@ type AccountSessionComponentsParams struct {
 	NotificationBanner *AccountSessionComponentsNotificationBannerParams `form:"notification_banner"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
+	// Configuration for the payment disputes embedded component.
+	PaymentDisputes *AccountSessionComponentsPaymentDisputesParams `form:"payment_disputes"`
 	// Configuration for the payment method settings embedded component.
 	PaymentMethodSettings *AccountSessionComponentsPaymentMethodSettingsParams `form:"payment_method_settings"`
 	// Configuration for the payments embedded component.
