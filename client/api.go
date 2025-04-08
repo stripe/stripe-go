@@ -63,6 +63,7 @@ import (
 	financialconnectionssession "github.com/stripe/stripe-go/v82/financialconnections/session"
 	financialconnectionstransaction "github.com/stripe/stripe-go/v82/financialconnections/transaction"
 	forwardingrequest "github.com/stripe/stripe-go/v82/forwarding/request"
+	"github.com/stripe/stripe-go/v82/fxquote"
 	giftcardscard "github.com/stripe/stripe-go/v82/giftcards/card"
 	giftcardstransaction "github.com/stripe/stripe-go/v82/giftcards/transaction"
 	identityverificationreport "github.com/stripe/stripe-go/v82/identity/verificationreport"
@@ -305,6 +306,8 @@ type API struct {
 	FinancialConnectionsTransactions *financialconnectionstransaction.Client
 	// ForwardingRequests is the client used to invoke /v1/forwarding/requests APIs.
 	ForwardingRequests *forwardingrequest.Client
+	// FxQuotes is the client used to invoke /v1/fx_quotes APIs.
+	FxQuotes *fxquote.Client
 	// GiftCardsCards is the client used to invoke /v1/gift_cards/cards APIs.
 	GiftCardsCards *giftcardscard.Client
 	// GiftCardsTransactions is the client used to invoke /v1/gift_cards/transactions APIs.
@@ -632,6 +635,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.FinancialConnectionsSessions = &financialconnectionssession.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsTransactions = &financialconnectionstransaction.Client{B: backends.API, Key: key}
 	a.ForwardingRequests = &forwardingrequest.Client{B: backends.API, Key: key}
+	a.FxQuotes = &fxquote.Client{B: backends.API, Key: key}
 	a.GiftCardsCards = &giftcardscard.Client{B: backends.API, Key: key}
 	a.GiftCardsTransactions = &giftcardstransaction.Client{B: backends.API, Key: key}
 	a.IdentityVerificationReports = &identityverificationreport.Client{B: backends.API, Key: key}
