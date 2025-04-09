@@ -54,6 +54,7 @@ import (
 	entitlementsfeature "github.com/stripe/stripe-go/v82/entitlements/feature"
 	"github.com/stripe/stripe-go/v82/ephemeralkey"
 	"github.com/stripe/stripe-go/v82/event"
+	"github.com/stripe/stripe-go/v82/externalaccount"
 	"github.com/stripe/stripe-go/v82/feerefund"
 	"github.com/stripe/stripe-go/v82/file"
 	"github.com/stripe/stripe-go/v82/filelink"
@@ -287,6 +288,8 @@ type API struct {
 	EphemeralKeys *ephemeralkey.Client
 	// Events is the client used to invoke /v1/events APIs.
 	Events *event.Client
+	// ExternalAccounts is the client used to invoke /v1/external_accounts APIs.
+	ExternalAccounts *externalaccount.Client
 	// FeeRefunds is the client used to invoke /v1/application_fees/{id}/refunds APIs.
 	FeeRefunds *feerefund.Client
 	// FileLinks is the client used to invoke /v1/file_links APIs.
@@ -623,6 +626,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.EntitlementsFeatures = &entitlementsfeature.Client{B: backends.API, Key: key}
 	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
 	a.Events = &event.Client{B: backends.API, Key: key}
+	a.ExternalAccounts = &externalaccount.Client{B: backends.API, Key: key}
 	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
 	a.FileLinks = &filelink.Client{B: backends.API, Key: key}
 	a.Files = &file.Client{B: backends.API, BUploads: backends.Uploads, Key: key}
