@@ -106,7 +106,7 @@ type BalanceSettingsSettlementTiming struct {
 	DelayDays int64 `json:"delay_days"`
 }
 
-// "Options for customizing account balances within Stripe."
+// Options for customizing account balances within Stripe.
 type BalanceSettings struct {
 	APIResource
 	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.

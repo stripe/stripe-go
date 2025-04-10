@@ -34,6 +34,15 @@ const (
 )
 
 // The status of the payment method on the domain.
+type PaymentMethodDomainKlarnaStatus string
+
+// List of values that PaymentMethodDomainKlarnaStatus can take
+const (
+	PaymentMethodDomainKlarnaStatusActive   PaymentMethodDomainKlarnaStatus = "active"
+	PaymentMethodDomainKlarnaStatusInactive PaymentMethodDomainKlarnaStatus = "inactive"
+)
+
+// The status of the payment method on the domain.
 type PaymentMethodDomainLinkStatus string
 
 // List of values that PaymentMethodDomainLinkStatus can take
@@ -143,6 +152,20 @@ type PaymentMethodDomainGooglePay struct {
 }
 
 // Contains additional details about the status of a payment method for a specific payment method domain.
+type PaymentMethodDomainKlarnaStatusDetails struct {
+	// The error message associated with the status of the payment method on the domain.
+	ErrorMessage string `json:"error_message"`
+}
+
+// Indicates the status of a specific payment method on a payment method domain.
+type PaymentMethodDomainKlarna struct {
+	// The status of the payment method on the domain.
+	Status PaymentMethodDomainKlarnaStatus `json:"status"`
+	// Contains additional details about the status of a payment method for a specific payment method domain.
+	StatusDetails *PaymentMethodDomainKlarnaStatusDetails `json:"status_details"`
+}
+
+// Contains additional details about the status of a payment method for a specific payment method domain.
 type PaymentMethodDomainLinkStatusDetails struct {
 	// The error message associated with the status of the payment method on the domain.
 	ErrorMessage string `json:"error_message"`
@@ -190,6 +213,8 @@ type PaymentMethodDomain struct {
 	GooglePay *PaymentMethodDomainGooglePay `json:"google_pay"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Indicates the status of a specific payment method on a payment method domain.
+	Klarna *PaymentMethodDomainKlarna `json:"klarna"`
 	// Indicates the status of a specific payment method on a payment method domain.
 	Link *PaymentMethodDomainLink `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

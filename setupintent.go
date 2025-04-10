@@ -400,7 +400,7 @@ type SetupIntentPaymentMethodDataBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type SetupIntentPaymentMethodDataBancontactParams struct{}
 
-// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 type SetupIntentPaymentMethodDataBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -588,13 +588,13 @@ type SetupIntentPaymentMethodDataRechnungParams struct {
 	DOB *SetupIntentPaymentMethodDataRechnungDOBParams `form:"dob"`
 }
 
-// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type SetupIntentPaymentMethodDataRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type SetupIntentPaymentMethodDataSamsungPayParams struct{}
 
-// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type SetupIntentPaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -669,7 +669,7 @@ type SetupIntentPaymentMethodDataParams struct {
 	BACSDebit *SetupIntentPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *SetupIntentPaymentMethodDataBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *SetupIntentPaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentPaymentMethodDataBillingDetailsParams `form:"billing_details"`
@@ -743,11 +743,11 @@ type SetupIntentPaymentMethodDataParams struct {
 	RadarOptions *SetupIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *SetupIntentPaymentMethodDataRechnungParams `form:"rechnung"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *SetupIntentPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *SetupIntentPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
@@ -1193,7 +1193,7 @@ type SetupIntentConfirmPaymentMethodDataBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type SetupIntentConfirmPaymentMethodDataBancontactParams struct{}
 
-// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 type SetupIntentConfirmPaymentMethodDataBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -1381,13 +1381,13 @@ type SetupIntentConfirmPaymentMethodDataRechnungParams struct {
 	DOB *SetupIntentConfirmPaymentMethodDataRechnungDOBParams `form:"dob"`
 }
 
-// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type SetupIntentConfirmPaymentMethodDataRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type SetupIntentConfirmPaymentMethodDataSamsungPayParams struct{}
 
-// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type SetupIntentConfirmPaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -1462,7 +1462,7 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	BACSDebit *SetupIntentConfirmPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *SetupIntentConfirmPaymentMethodDataBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *SetupIntentConfirmPaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *SetupIntentConfirmPaymentMethodDataBillingDetailsParams `form:"billing_details"`
@@ -1536,11 +1536,11 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	RadarOptions *SetupIntentConfirmPaymentMethodDataRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *SetupIntentConfirmPaymentMethodDataRechnungParams `form:"rechnung"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *SetupIntentConfirmPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *SetupIntentConfirmPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *SetupIntentConfirmPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *SetupIntentConfirmPaymentMethodDataSEPADebitParams `form:"sepa_debit"`

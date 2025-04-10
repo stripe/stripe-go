@@ -673,11 +673,11 @@ func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddMetadata(key string
 	p.Metadata[key] = value
 }
 
-// The amount you intend to collect for this payment.
+// The amount you initially requested for this payment.
 type PaymentRecordReportPaymentAmountRequestedParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) e.g., 100 cents for $1.00 or 100 for ¥100, a zero-decimal currency).
+	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
 	Value *int64 `form:"value"`
 }
 
@@ -753,7 +753,7 @@ type PaymentRecordReportPaymentShippingDetailsParams struct {
 //	Records in a terminal state directly, through this method.
 type PaymentRecordReportPaymentParams struct {
 	Params `form:"*"`
-	// The amount you intend to collect for this payment.
+	// The amount you initially requested for this payment.
 	AmountRequested *PaymentRecordReportPaymentAmountRequestedParams `form:"amount_requested"`
 	// Customer information for this payment.
 	CustomerDetails *PaymentRecordReportPaymentCustomerDetailsParams `form:"customer_details"`
@@ -799,7 +799,7 @@ func (p *PaymentRecordReportPaymentParams) AddMetadata(key string, value string)
 type PaymentRecordAmountCanceled struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) e.g., 100 cents for $1.00 or 100 for ¥100, a zero-decimal currency).
+	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
 	Value int64 `json:"value"`
 }
 
@@ -807,7 +807,7 @@ type PaymentRecordAmountCanceled struct {
 type PaymentRecordAmountFailed struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) e.g., 100 cents for $1.00 or 100 for ¥100, a zero-decimal currency).
+	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
 	Value int64 `json:"value"`
 }
 
@@ -815,7 +815,7 @@ type PaymentRecordAmountFailed struct {
 type PaymentRecordAmountGuaranteed struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) e.g., 100 cents for $1.00 or 100 for ¥100, a zero-decimal currency).
+	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
 	Value int64 `json:"value"`
 }
 
@@ -823,7 +823,7 @@ type PaymentRecordAmountGuaranteed struct {
 type PaymentRecordAmountRequested struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) e.g., 100 cents for $1.00 or 100 for ¥100, a zero-decimal currency).
+	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
 	Value int64 `json:"value"`
 }
 

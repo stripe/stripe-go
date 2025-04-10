@@ -41,8 +41,6 @@ go get -u github.com/stripe/stripe-go/v82
 For a comprehensive list of examples, check out the [API
 documentation][api-docs].
 
-See [video demonstrations][youtube-playlist] covering how to use the library.
-
 For details on all the functionality in this library, see the [Go
 documentation][goref].
 
@@ -701,7 +699,6 @@ pull request][pulls].
 [stripe]: https://stripe.com
 [stripe-mock]: https://github.com/stripe/stripe-mock
 [stripe-mock-usage]: https://github.com/stripe/stripe-mock#usage
-[youtube-playlist]: https://www.youtube.com/playlist?list=PLy1nL-pvL2M5eqpSBR9KL7K0lcnWo0V0a
 [zapsugaredlogger]: https://godoc.org/go.uber.org/zap#SugaredLogger
 
 <!--

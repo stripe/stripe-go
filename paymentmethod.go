@@ -459,7 +459,7 @@ type PaymentMethodBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type PaymentMethodBancontactParams struct{}
 
-// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 type PaymentMethodBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -669,13 +669,13 @@ type PaymentMethodRechnungParams struct {
 	DOB *PaymentMethodRechnungDOBParams `form:"dob"`
 }
 
-// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type PaymentMethodRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type PaymentMethodSamsungPayParams struct{}
 
-// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type PaymentMethodSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -752,7 +752,7 @@ type PaymentMethodParams struct {
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *PaymentMethodBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentMethodBillingDetailsParams `form:"billing_details"`
@@ -830,11 +830,11 @@ type PaymentMethodParams struct {
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
 	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
 	Rechnung *PaymentMethodRechnungParams `form:"rechnung"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`

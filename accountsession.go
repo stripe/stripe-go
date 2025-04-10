@@ -144,6 +144,17 @@ type AccountSessionComponentsDocumentsParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsExportTaxTransactionsFeaturesParams struct{}
+
+// Configuration for the export tax transactions embedded component.
+type AccountSessionComponentsExportTaxTransactionsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsExportTaxTransactionsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsFinancialAccountFeaturesParams struct {
 	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
@@ -253,6 +264,24 @@ type AccountSessionComponentsPaymentDetailsParams struct {
 	Enabled *bool `form:"enabled"`
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionComponentsPaymentDetailsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionComponentsPaymentDisputesFeaturesParams struct {
+	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement *bool `form:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement *bool `form:"refund_management"`
+}
+
+// Configuration for the payment disputes embedded component.
+type AccountSessionComponentsPaymentDisputesParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPaymentDisputesFeaturesParams `form:"features"`
 }
 
 // The list of features enabled in the embedded component.
@@ -407,6 +436,8 @@ type AccountSessionComponentsParams struct {
 	CapitalOverview *AccountSessionComponentsCapitalOverviewParams `form:"capital_overview"`
 	// Configuration for the documents embedded component.
 	Documents *AccountSessionComponentsDocumentsParams `form:"documents"`
+	// Configuration for the export tax transactions embedded component.
+	ExportTaxTransactions *AccountSessionComponentsExportTaxTransactionsParams `form:"export_tax_transactions"`
 	// Configuration for the financial account embedded component.
 	FinancialAccount *AccountSessionComponentsFinancialAccountParams `form:"financial_account"`
 	// Configuration for the financial account transactions embedded component.
@@ -419,6 +450,8 @@ type AccountSessionComponentsParams struct {
 	NotificationBanner *AccountSessionComponentsNotificationBannerParams `form:"notification_banner"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
+	// Configuration for the payment disputes embedded component.
+	PaymentDisputes *AccountSessionComponentsPaymentDisputesParams `form:"payment_disputes"`
 	// Configuration for the payment method settings embedded component.
 	PaymentMethodSettings *AccountSessionComponentsPaymentMethodSettingsParams `form:"payment_method_settings"`
 	// Configuration for the payments embedded component.

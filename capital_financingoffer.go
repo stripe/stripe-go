@@ -56,8 +56,9 @@ type CapitalFinancingOfferType string
 
 // List of values that CapitalFinancingOfferType can take
 const (
-	CapitalFinancingOfferTypeCashAdvance CapitalFinancingOfferType = "cash_advance"
-	CapitalFinancingOfferTypeFlexLoan    CapitalFinancingOfferType = "flex_loan"
+	CapitalFinancingOfferTypeCashAdvance   CapitalFinancingOfferType = "cash_advance"
+	CapitalFinancingOfferTypeFixedTermLoan CapitalFinancingOfferType = "fixed_term_loan"
+	CapitalFinancingOfferTypeFlexLoan      CapitalFinancingOfferType = "flex_loan"
 )
 
 // Retrieves the financing offers available for Connected accounts that belong to your platform.
