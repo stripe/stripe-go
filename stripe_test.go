@@ -1452,8 +1452,8 @@ func TestString_Enum(t *testing.T) {
 		MyEnumBar MyEnum = "bar"
 	)
 
-	result := String(MyEnumFoo)
-	assert.Equal(t, MyEnumFoo, *result)
+	assert.Equal(t, "foo", *String(MyEnumFoo))
+	assert.Equal(t, "foo", *String(string(MyEnumFoo)))
 }
 
 func TestRawRequestPreviewPost(t *testing.T) {
