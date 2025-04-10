@@ -1425,6 +1425,37 @@ func TestBoolSlice(t *testing.T) {
 	assert.Equal(t, 0, len(BoolSlice(nil)))
 }
 
+func TestTimeValue_NilPointer(t *testing.T) {
+	var nilTime *time.Time
+	result := TimeValue(nilTime)
+	assert.Equal(t, time.Time{}, result)
+}
+
+func TestTime(t *testing.T) {
+	now := time.Now()
+	stripeNow := Time(now)
+	assert.Equal(t, &now, stripeNow)
+	result := TimeValue(stripeNow)
+	assert.Equal(t, now, result)
+}
+
+func TestString(t *testing.T) {
+	input := "foo"
+	result := String(input)
+	assert.Equal(t, "foo", *result)
+}
+
+func TestString_Enum(t *testing.T) {
+	type MyEnum string
+	const (
+		MyEnumFoo MyEnum = "foo"
+		MyEnumBar MyEnum = "bar"
+	)
+
+	result := String(MyEnumFoo)
+	assert.Equal(t, MyEnumFoo, *result)
+}
+
 func TestRawRequestPreviewPost(t *testing.T) {
 	var body string
 	var path string

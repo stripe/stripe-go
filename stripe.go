@@ -1390,8 +1390,8 @@ func SetHTTPClient(client *http.Client) {
 	httpClient = client
 }
 
-// String returns a pointer to the string value passed in.
-func String(v string) *string {
+// String returns a pointer to the string value or enum passed in.
+func String[T ~string](v T) *T {
 	return &v
 }
 
@@ -1411,6 +1411,32 @@ func StringSlice(v []string) []*string {
 		out[i] = &v[i]
 	}
 	return out
+}
+
+// Time returns a pointer to the time.Time value passed in.
+func Time(v time.Time) *time.Time {
+	return &v
+}
+
+// TimeValue returns the value of the time.Time pointer passed in or
+// time.Time{} if the pointer is nil.
+func TimeValue(v *time.Time) time.Time {
+	if v != nil {
+		return *v
+	}
+	return time.Time{}
+}
+
+// UnixTime returns a pointer to the time.Time value associated to the
+// Unix epoch timestamp passed in.
+func UnixTime(v int64) *time.Time {
+	return Time(time.Unix(v, 0))
+}
+
+// UnixTimeValue returns the Unix epoch timestamp value of the time.Time
+// pointer passed in or 0 if the pointer is nil.
+func UnixTimeValue(v *time.Time) int64 {
+	return TimeValue(v).Unix()
 }
 
 //
