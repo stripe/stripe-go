@@ -129,6 +129,7 @@ const (
 	EventTypeFinancialConnectionsAccountRefreshedOwnership        EventType = "financial_connections.account.refreshed_ownership"
 	EventTypeFinancialConnectionsAccountRefreshedTransactions     EventType = "financial_connections.account.refreshed_transactions"
 	EventTypeFinancialConnectionsSessionUpdated                   EventType = "financial_connections.session.updated"
+	EventTypeFxQuoteExpired                                       EventType = "fx_quote.expired"
 	EventTypeIdentityVerificationSessionCanceled                  EventType = "identity.verification_session.canceled"
 	EventTypeIdentityVerificationSessionCreated                   EventType = "identity.verification_session.created"
 	EventTypeIdentityVerificationSessionProcessing                EventType = "identity.verification_session.processing"
