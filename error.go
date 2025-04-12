@@ -450,6 +450,27 @@ func (e *TemporarySessionExpiredError) canRetry() bool {
 
 // errorStructs: The end of the section generated from our OpenAPI spec
 
+// V2RawError is a catch-all for any errors not covered by other types
+type V2RawError struct {
+	Code       string     `json:"code"`
+	Type       *ErrorType `json:"type,omitempty"`
+	Message    string     `json:"message"`
+	UserMesage *string    `json:"user_message,omitempty"`
+}
+
+func (e *V2RawError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+func (e *V2RawError) redact() error {
+	return e
+}
+
+func (e *V2RawError) canRetry() bool {
+	return false
+}
+
 // rawError deserializes the outer JSON object returned in an error response
 // from the API.
 type rawError struct {
