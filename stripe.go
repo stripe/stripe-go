@@ -17,7 +17,6 @@ import (
 	"reflect"
 	"regexp"
 	"runtime"
-	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -572,7 +571,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 
 	req.Header.Add("Authorization", authorization)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Stripe-Version", apiVersionWithBetaHeaders)
+	req.Header.Add("Stripe-Version", apiVersion)
 	req.Header.Add("User-Agent", encodedUserAgent)
 	req.Header.Add("X-Stripe-Client-User-Agent", getEncodedStripeUserAgent())
 
@@ -1454,44 +1453,6 @@ func StringSlice(v []string) []*string {
 	return out
 }
 
-// AddBetaVersion adds or updates a beta version for a given beta feature in the API version string.
-// It ensures the beta version starts with 'v' followed by a number (e.g. "v2") and updates the API version string
-// with the highest version number for the given beta feature if there's a conflict.
-func AddBetaVersion(betaName string, betaVersion string) error {
-	if !strings.HasPrefix(betaVersion, "v") {
-		return errors.New("beta version should start with 'v'")
-	}
-	if _, err := strconv.Atoi(betaVersion[1:]); err != nil {
-		return errors.New("beta version should start with 'v' followed by a number")
-	}
-
-	parts := strings.Split(apiVersionWithBetaHeaders, "; ")
-	updated := false
-
-	for i, part := range parts {
-		part = strings.TrimSpace(part)
-		if strings.HasPrefix(part, betaName+"=") {
-			// Extract the existing version
-			existingVersion := strings.TrimPrefix(part, betaName+"=")
-			if betaVersion > existingVersion {
-				// Overwrite with the bigger version number
-				parts[i] = fmt.Sprintf("%s=%s", betaName, betaVersion)
-			}
-			updated = true
-			break
-		}
-	}
-
-	if !updated {
-		// Append the new betaName and betaVersion if not found
-		parts = append(parts, fmt.Sprintf("%s=%s", betaName, betaVersion))
-	}
-
-	// Join the parts back together
-	apiVersionWithBetaHeaders = strings.Join(parts, "; ")
-	return nil
-}
-
 //
 // Private constants
 //
@@ -1561,9 +1522,6 @@ var backends Backends
 var encodedStripeUserAgent string
 var encodedStripeUserAgentReady *sync.Once
 var encodedUserAgent string
-
-// API Version with beta headers if any
-var apiVersionWithBetaHeaders string = apiVersion
 
 // The default HTTP client used for communication with any of Stripe's
 // backends.
