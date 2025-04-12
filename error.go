@@ -1,27 +1,40 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"net/http"
+)
+
+// errorEnums: The beginning of the section generated from our OpenAPI spec
+
+// errorEnums: The end of the section generated from our OpenAPI spec
 
 // ErrorType is the list of allowed values for the error's type.
 type ErrorType string
 
 // List of values that ErrorType can take.
+// errorTypes: The beginning of the section generated from our OpenAPI spec
 const (
 	ErrorTypeAPI            ErrorType = "api_error"
 	ErrorTypeCard           ErrorType = "card_error"
 	ErrorTypeIdempotency    ErrorType = "idempotency_error"
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
+
+	// V2 error types
+	ErrorTypeTemporarySessionExpired ErrorType = "temporary_session_expired"
 )
 
-// ErrorCode is the list of allowed values for the error's code.
-type ErrorCode string
+// errorTypes: The end of the section generated from our OpenAPI spec
 
 // DeclineCode is the list of reasons provided by card issuers for decline of payment.
 type DeclineCode string
 
+// ErrorCode is the list of allowed values for the error's code.
+type ErrorCode string
+
 // List of values that ErrorCode can take.
 // For descriptions see https://stripe.com/docs/error-codes
-// The beginning of the section generated from our OpenAPI spec
+// v1ErrorCodes: The beginning of the section generated from our OpenAPI spec
 const (
 	ErrorCodeACSSDebitSessionIncomplete                                  ErrorCode = "acss_debit_session_incomplete"
 	ErrorCodeAPIKeyExpired                                               ErrorCode = "api_key_expired"
@@ -199,7 +212,17 @@ const (
 	ErrorCodeURLInvalid                                                  ErrorCode = "url_invalid"
 )
 
-// The end of the section generated from our OpenAPI spec
+// v1ErrorCodes: The end of the section generated from our OpenAPI spec
+
+// V2ErrorCode is the list of allowed values for the V2 error's code.
+type V2ErrorCode string
+
+// v2ErrorCodes: The beginning of the section generated from our OpenAPI spec
+const (
+	ErrorCodeBillingMeterEventSessionExpired V2ErrorCode = "billing_meter_event_session_expired"
+)
+
+// v2ErrorCodes: The end of the section generated from our OpenAPI spec
 
 // List of DeclineCode values.
 // For descriptions see https://stripe.com/docs/declines/codes
@@ -253,6 +276,14 @@ const (
 	DeclineCodeWithdrawalCountLimitExceeded   DeclineCode = "withdrawal_count_limit_exceeded"
 )
 
+type retrier interface {
+	canRetry() bool
+}
+
+type redacter interface {
+	redact() error
+}
+
 // Error is the response returned when a call is unsuccessful.
 // For more details see https://stripe.com/docs/api#errors.
 type Error struct {
@@ -271,6 +302,7 @@ type Error struct {
 
 	HTTPStatusCode    int               `json:"status,omitempty"`
 	Msg               string            `json:"message"`
+	DeveloperMsg      string            `json:"developer_message,omitempty"`
 	Param             string            `json:"param,omitempty"`
 	PaymentIntent     *PaymentIntent    `json:"payment_intent,omitempty"`
 	PaymentMethod     *PaymentMethod    `json:"payment_method,omitempty"`
@@ -295,6 +327,48 @@ func (e *Error) Error() string {
 // Unwrap returns the wrapped typed error.
 func (e *Error) Unwrap() error {
 	return e.Err
+}
+
+// canRetry implements the retrier interface.
+func (e *Error) canRetry() bool {
+	if e == nil {
+		return false
+	}
+
+	// 429 Too Many Requests
+	//
+	// There are a few different problems that can lead to a 429. The most
+	// common is rate limiting, on which we *don't* want to retry because
+	// that'd likely contribute to more contention problems. However, some 429s
+	// are lock timeouts, which is when a request conflicted with another
+	// request or an internal process on some particular object. These 429s are
+	// safe to retry.
+	if e.HTTPStatusCode == http.StatusTooManyRequests && e.Code == ErrorCodeLockTimeout {
+		return true
+	}
+
+	return false
+}
+
+// redact returns a copy of the error object with sensitive fields replaced with
+// a placeholder value. This implements the redacter interface.
+func (e *Error) redact() error {
+	// Fast path, since this applies to most cases
+	if e.PaymentIntent == nil && e.SetupIntent == nil {
+		return e
+	}
+	errCopy := *e
+	if e.PaymentIntent != nil {
+		pi := *e.PaymentIntent
+		errCopy.PaymentIntent = &pi
+		errCopy.PaymentIntent.ClientSecret = "REDACTED"
+	}
+	if e.SetupIntent != nil {
+		si := *e.SetupIntent
+		errCopy.SetupIntent = &si
+		errCopy.SetupIntent.ClientSecret = "REDACTED"
+	}
+	return &errCopy
 }
 
 // APIError is a catch all for any errors not covered by other types (and
@@ -345,26 +419,36 @@ func (e *IdempotencyError) Error() string {
 	return e.stripeErr.Error()
 }
 
-// redact returns a copy of the error object with sensitive fields replaced with
-// a placeholder value.
-func (e *Error) redact() *Error {
-	// Fast path, since this applies to most cases
-	if e.PaymentIntent == nil && e.SetupIntent == nil {
-		return e
-	}
-	errCopy := *e
-	if e.PaymentIntent != nil {
-		pi := *e.PaymentIntent
-		errCopy.PaymentIntent = &pi
-		errCopy.PaymentIntent.ClientSecret = "REDACTED"
-	}
-	if e.SetupIntent != nil {
-		si := *e.SetupIntent
-		errCopy.SetupIntent = &si
-		errCopy.SetupIntent.ClientSecret = "REDACTED"
-	}
-	return &errCopy
+// errorStructs: The beginning of the section generated from our OpenAPI spec
+
+// TemporarySessionExpiredError is the Go struct corresponding to the error type "temporary_session_expired."
+// The temporary session token has expired.
+type TemporarySessionExpiredError struct {
+	APIResource
+	Code        V2ErrorCode `json:"code"`
+	DocURL      *string     `json:"doc_url,omitempty"`
+	Message     string      `json:"message"`
+	Type        ErrorType   `json:"type"`
+	UserMessage *string     `json:"user_message,omitempty"`
 }
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *TemporarySessionExpiredError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *TemporarySessionExpiredError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *TemporarySessionExpiredError) canRetry() bool {
+	return false
+}
+
+// errorStructs: The end of the section generated from our OpenAPI spec
 
 // rawError deserializes the outer JSON object returned in an error response
 // from the API.
