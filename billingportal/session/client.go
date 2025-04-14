@@ -10,7 +10,7 @@ package session
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /billing_portal/sessions APIs.
@@ -28,12 +28,7 @@ func New(params *stripe.BillingPortalSessionParams) (*stripe.BillingPortalSessio
 func (c Client) New(params *stripe.BillingPortalSessionParams) (*stripe.BillingPortalSession, error) {
 	session := &stripe.BillingPortalSession{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/billing_portal/sessions",
-		c.Key,
-		params,
-		session,
-	)
+		http.MethodPost, "/v1/billing_portal/sessions", c.Key, params, session)
 	return session, err
 }
 

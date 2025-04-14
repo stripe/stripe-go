@@ -10,8 +10,8 @@ package configuration
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /billing_portal/configurations APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.BillingPortalConfigurationParams) (*stripe.BillingPortal
 func (c Client) New(params *stripe.BillingPortalConfigurationParams) (*stripe.BillingPortalConfiguration, error) {
 	configuration := &stripe.BillingPortalConfiguration{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/billing_portal/configurations",
-		c.Key,
-		params,
-		configuration,
-	)
+		http.MethodPost, "/v1/billing_portal/configurations", c.Key, params, configuration)
 	return configuration, err
 }
 
@@ -74,7 +69,7 @@ func (c Client) List(listParams *stripe.BillingPortalConfigurationListParams) *I
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.BillingPortalConfigurationList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/billing_portal/configurations", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/billing_portal/configurations", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

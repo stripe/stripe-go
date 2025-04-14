@@ -45,7 +45,7 @@ const (
 	TerminalReaderActionTypeSetReaderDisplay     TerminalReaderActionType = "set_reader_display"
 )
 
-// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, `simulated_wisepos_e`, or `mobile_phone_reader`.
+// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `stripe_s700`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, `simulated_wisepos_e`, or `mobile_phone_reader`.
 type TerminalReaderDeviceType string
 
 // List of values that TerminalReaderDeviceType can take
@@ -56,10 +56,11 @@ const (
 	TerminalReaderDeviceTypeMobilePhoneReader TerminalReaderDeviceType = "mobile_phone_reader"
 	TerminalReaderDeviceTypeSimulatedWisePOSE TerminalReaderDeviceType = "simulated_wisepos_e"
 	TerminalReaderDeviceTypeStripeM2          TerminalReaderDeviceType = "stripe_m2"
+	TerminalReaderDeviceTypeStripeS700        TerminalReaderDeviceType = "stripe_s700"
 	TerminalReaderDeviceTypeVerifoneP400      TerminalReaderDeviceType = "verifone_P400"
 )
 
-// The networking status of the reader.
+// The networking status of the reader. We do not recommend using this field in flows that may block taking payments.
 type TerminalReaderStatus string
 
 // List of values that TerminalReaderStatus can take
@@ -137,6 +138,8 @@ type TerminalReaderProcessPaymentIntentProcessConfigTippingParams struct {
 
 // Configuration overrides
 type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
+	AllowRedisplay *string `form:"allow_redisplay"`
 	// Enables cancel button on transaction screens.
 	EnableCustomerCancellation *bool `form:"enable_customer_cancellation"`
 	// Override showing a tipping selection screen on this transaction.
@@ -170,8 +173,8 @@ type TerminalReaderProcessSetupIntentProcessConfigParams struct {
 // Initiates a setup intent flow on a Reader.
 type TerminalReaderProcessSetupIntentParams struct {
 	Params `form:"*"`
-	// Customer Consent Collected
-	CustomerConsentCollected *bool `form:"customer_consent_collected"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
+	AllowRedisplay *string `form:"allow_redisplay"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Configuration overrides
@@ -392,7 +395,7 @@ type TerminalReader struct {
 	Deleted bool                  `json:"deleted"`
 	// The current software version of the reader.
 	DeviceSwVersion string `json:"device_sw_version"`
-	// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, `simulated_wisepos_e`, or `mobile_phone_reader`.
+	// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `stripe_s700`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, `simulated_wisepos_e`, or `mobile_phone_reader`.
 	DeviceType TerminalReaderDeviceType `json:"device_type"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -410,7 +413,7 @@ type TerminalReader struct {
 	Object string `json:"object"`
 	// Serial number of the reader.
 	SerialNumber string `json:"serial_number"`
-	// The networking status of the reader.
+	// The networking status of the reader. We do not recommend using this field in flows that may block taking payments.
 	Status TerminalReaderStatus `json:"status"`
 }
 

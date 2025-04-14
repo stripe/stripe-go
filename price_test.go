@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v78/form"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 func TestPrice_Unmarshal(t *testing.T) {
@@ -13,10 +13,9 @@ func TestPrice_Unmarshal(t *testing.T) {
 		"id":     "price_123",
 		"object": "price",
 		"recurring": map[string]interface{}{
-			"aggregate_usage": "last_during_period",
-			"interval":        "month",
-			"interval_count":  6,
-			"usage_type":      "metered",
+			"interval":       "month",
+			"interval_count": 6,
+			"usage_type":     "metered",
 		},
 		"tiers": []map[string]interface{}{
 			{
@@ -43,7 +42,6 @@ func TestPrice_Unmarshal(t *testing.T) {
 	err = json.Unmarshal(bytes, &price)
 	assert.NoError(t, err)
 
-	assert.Equal(t, PriceRecurringAggregateUsageLastDuringPeriod, price.Recurring.AggregateUsage)
 	assert.Equal(t, PriceRecurringIntervalMonth, price.Recurring.Interval)
 	assert.Equal(t, int64(6), price.Recurring.IntervalCount)
 	assert.Equal(t, PriceRecurringUsageTypeMetered, price.Recurring.UsageType)

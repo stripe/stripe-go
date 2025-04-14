@@ -6,12 +6,21 @@
 
 package stripe
 
+// The rails used to send funds.
+type TreasuryOutboundTransferDestinationPaymentMethodDetailsFinancialAccountNetwork string
+
+// List of values that TreasuryOutboundTransferDestinationPaymentMethodDetailsFinancialAccountNetwork can take
+const (
+	TreasuryOutboundTransferDestinationPaymentMethodDetailsFinancialAccountNetworkStripe TreasuryOutboundTransferDestinationPaymentMethodDetailsFinancialAccountNetwork = "stripe"
+)
+
 // The type of the payment method used in the OutboundTransfer.
 type TreasuryOutboundTransferDestinationPaymentMethodDetailsType string
 
 // List of values that TreasuryOutboundTransferDestinationPaymentMethodDetailsType can take
 const (
-	TreasuryOutboundTransferDestinationPaymentMethodDetailsTypeUSBankAccount TreasuryOutboundTransferDestinationPaymentMethodDetailsType = "us_bank_account"
+	TreasuryOutboundTransferDestinationPaymentMethodDetailsTypeFinancialAccount TreasuryOutboundTransferDestinationPaymentMethodDetailsType = "financial_account"
+	TreasuryOutboundTransferDestinationPaymentMethodDetailsTypeUSBankAccount    TreasuryOutboundTransferDestinationPaymentMethodDetailsType = "us_bank_account"
 )
 
 // Account holder type: individual or company.
@@ -95,6 +104,14 @@ func (p *TreasuryOutboundTransferListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Hash used to generate the PaymentMethod to be used for this OutboundTransfer. Exclusive with `destination_payment_method`.
+type TreasuryOutboundTransferDestinationPaymentMethodDataParams struct {
+	// Required if type is set to `financial_account`. The FinancialAccount ID to send funds to.
+	FinancialAccount *string `form:"financial_account"`
+	// The type of the destination.
+	Type *string `form:"type"`
+}
+
 // Optional fields for `us_bank_account`.
 type TreasuryOutboundTransferDestinationPaymentMethodOptionsUSBankAccountParams struct {
 	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
@@ -118,6 +135,8 @@ type TreasuryOutboundTransferParams struct {
 	Description *string `form:"description"`
 	// The PaymentMethod to use as the payment instrument for the OutboundTransfer.
 	DestinationPaymentMethod *string `form:"destination_payment_method"`
+	// Hash used to generate the PaymentMethod to be used for this OutboundTransfer. Exclusive with `destination_payment_method`.
+	DestinationPaymentMethodData *TreasuryOutboundTransferDestinationPaymentMethodDataParams `form:"destination_payment_method_data"`
 	// Hash describing payment method configuration details.
 	DestinationPaymentMethodOptions *TreasuryOutboundTransferDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
 	// Specifies which fields in the response should be expanded.
@@ -163,6 +182,12 @@ type TreasuryOutboundTransferDestinationPaymentMethodDetailsBillingDetails struc
 	// Full name.
 	Name string `json:"name"`
 }
+type TreasuryOutboundTransferDestinationPaymentMethodDetailsFinancialAccount struct {
+	// Token of the FinancialAccount.
+	ID string `json:"id"`
+	// The rails used to send funds.
+	Network TreasuryOutboundTransferDestinationPaymentMethodDetailsFinancialAccountNetwork `json:"network"`
+}
 type TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount struct {
 	// Account holder type: individual or company.
 	AccountHolderType TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
@@ -182,7 +207,8 @@ type TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount struct
 	RoutingNumber string `json:"routing_number"`
 }
 type TreasuryOutboundTransferDestinationPaymentMethodDetails struct {
-	BillingDetails *TreasuryOutboundTransferDestinationPaymentMethodDetailsBillingDetails `json:"billing_details"`
+	BillingDetails   *TreasuryOutboundTransferDestinationPaymentMethodDetailsBillingDetails   `json:"billing_details"`
+	FinancialAccount *TreasuryOutboundTransferDestinationPaymentMethodDetailsFinancialAccount `json:"financial_account"`
 	// The type of the payment method used in the OutboundTransfer.
 	Type          TreasuryOutboundTransferDestinationPaymentMethodDetailsType           `json:"type"`
 	USBankAccount *TreasuryOutboundTransferDestinationPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
@@ -210,6 +236,8 @@ type TreasuryOutboundTransferTrackingDetailsACH struct {
 	TraceID string `json:"trace_id"`
 }
 type TreasuryOutboundTransferTrackingDetailsUSDomesticWire struct {
+	// CHIPS System Sequence Number (SSN) of the OutboundTransfer for transfers sent over the `us_domestic_wire` network.
+	Chips string `json:"chips"`
 	// IMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network.
 	Imad string `json:"imad"`
 	// OMAD of the OutboundTransfer for transfers sent over the `us_domestic_wire` network.
@@ -224,9 +252,11 @@ type TreasuryOutboundTransferTrackingDetails struct {
 	USDomesticWire *TreasuryOutboundTransferTrackingDetailsUSDomesticWire `json:"us_domestic_wire"`
 }
 
-// Use OutboundTransfers to transfer funds from a [FinancialAccount](https://stripe.com/docs/api#financial_accounts) to a PaymentMethod belonging to the same entity. To send funds to a different party, use [OutboundPayments](https://stripe.com/docs/api#outbound_payments) instead. You can send funds over ACH rails or through a domestic wire transfer to a user's own external bank account.
+// Use [OutboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers) to transfer funds from a [FinancialAccount](https://stripe.com/docs/api#financial_accounts) to a PaymentMethod belonging to the same entity. To send funds to a different party, use [OutboundPayments](https://stripe.com/docs/api#outbound_payments) instead. You can send funds over ACH rails or through a domestic wire transfer to a user's own external bank account.
 //
 // Simulate OutboundTransfer state changes with the `/v1/test_helpers/treasury/outbound_transfers` endpoints. These methods can only be called on test mode objects.
+//
+// Related guide: [Moving money with Treasury using OutboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers)
 type TreasuryOutboundTransfer struct {
 	APIResource
 	// Amount (in cents) transferred.

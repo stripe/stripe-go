@@ -1,3 +1,5 @@
+# NOTE: this file is deprecated and slated for deletion; prefer using the equivalent `just` commands.
+
 all: test bench vet lint check-api-clients check-gofmt ci-test
 
 bench:
@@ -40,10 +42,10 @@ update-version:
 
 codegen-format: normalize-imports
 	scripts/gofmt.sh
-	go install golang.org/x/tools/cmd/goimports@latest && goimports -w example/generated_examples_test.go
+	go install golang.org/x/tools/cmd/goimports@v0.24.0 && goimports -w example/generated_examples_test.go
 
 CURRENT_MAJOR_VERSION := $(shell cat VERSION | sed 's/\..*//')
-normalize-imports:	
+normalize-imports:
 	@perl -pi -e 's|github.com/stripe/stripe-go/v\d+|github.com/stripe/stripe-go/v$(CURRENT_MAJOR_VERSION)|' go.mod
 	@find . -name '*.go' -exec perl -pi -e 's|github.com/stripe/stripe-go/(v\d+\|\[MAJOR_VERSION\])|github.com/stripe/stripe-go/v$(CURRENT_MAJOR_VERSION)|' {} +
 

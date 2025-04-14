@@ -10,8 +10,8 @@ package secret
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /apps/secrets APIs.
@@ -41,12 +41,7 @@ func DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret
 func (c Client) DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/apps/secrets/delete",
-		c.Key,
-		params,
-		secret,
-	)
+		http.MethodPost, "/v1/apps/secrets/delete", c.Key, params, secret)
 	return secret, err
 }
 
@@ -59,12 +54,7 @@ func Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 func (c Client) Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	err := c.B.Call(
-		http.MethodGet,
-		"/v1/apps/secrets/find",
-		c.Key,
-		params,
-		secret,
-	)
+		http.MethodGet, "/v1/apps/secrets/find", c.Key, params, secret)
 	return secret, err
 }
 
@@ -78,7 +68,7 @@ func (c Client) List(listParams *stripe.AppsSecretListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.AppsSecretList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/apps/secrets", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/apps/secrets", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -10,8 +10,8 @@ package price
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /prices APIs.
@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Creates a new price for an existing product. The price can be recurring or one-time.
+// Creates a new [Price for an existing <a href="https://docs.stripe.com/api/products">Product](https://docs.stripe.com/api/prices). The Price can be recurring or one-time.
 func New(params *stripe.PriceParams) (*stripe.Price, error) {
 	return getC().New(params)
 }
 
-// Creates a new price for an existing product. The price can be recurring or one-time.
+// Creates a new [Price for an existing <a href="https://docs.stripe.com/api/products">Product](https://docs.stripe.com/api/prices). The Price can be recurring or one-time.
 func (c Client) New(params *stripe.PriceParams) (*stripe.Price, error) {
 	price := &stripe.Price{}
 	err := c.B.Call(http.MethodPost, "/v1/prices", c.Key, params, price)
@@ -68,7 +68,7 @@ func (c Client) List(listParams *stripe.PriceListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PriceList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/prices", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/prices", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -113,7 +113,7 @@ func (c Client) Search(params *stripe.PriceSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.PriceSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/prices/search", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/prices/search", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

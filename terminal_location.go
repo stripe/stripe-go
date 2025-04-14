@@ -11,11 +11,11 @@ import "encoding/json"
 // Deletes a Location object.
 type TerminalLocationParams struct {
 	Params `form:"*"`
-	// The full address of the location.
+	// The full address of the location. You can't change the location's `country`. If you need to modify the `country` field, create a new `Location` object and re-register any existing readers to that location.
 	Address *AddressParams `form:"address"`
 	// The ID of a configuration that will be used to customize all readers in this location.
 	ConfigurationOverrides *string `form:"configuration_overrides"`
-	// A name for the location.
+	// A name for the location. Maximum length is 1000 characters.
 	DisplayName *string `form:"display_name"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

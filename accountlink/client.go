@@ -10,7 +10,7 @@ package accountlink
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /account_links APIs.
@@ -28,12 +28,7 @@ func New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
 func (c Client) New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
 	accountlink := &stripe.AccountLink{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/account_links",
-		c.Key,
-		params,
-		accountlink,
-	)
+		http.MethodPost, "/v1/account_links", c.Key, params, accountlink)
 	return accountlink, err
 }
 

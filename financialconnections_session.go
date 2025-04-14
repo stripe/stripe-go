@@ -15,6 +15,18 @@ const (
 	FinancialConnectionsSessionAccountHolderTypeCustomer FinancialConnectionsSessionAccountHolderType = "customer"
 )
 
+// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
+type FinancialConnectionsSessionFiltersAccountSubcategory string
+
+// List of values that FinancialConnectionsSessionFiltersAccountSubcategory can take
+const (
+	FinancialConnectionsSessionFiltersAccountSubcategoryChecking     FinancialConnectionsSessionFiltersAccountSubcategory = "checking"
+	FinancialConnectionsSessionFiltersAccountSubcategoryCreditCard   FinancialConnectionsSessionFiltersAccountSubcategory = "credit_card"
+	FinancialConnectionsSessionFiltersAccountSubcategoryLineOfCredit FinancialConnectionsSessionFiltersAccountSubcategory = "line_of_credit"
+	FinancialConnectionsSessionFiltersAccountSubcategoryMortgage     FinancialConnectionsSessionFiltersAccountSubcategory = "mortgage"
+	FinancialConnectionsSessionFiltersAccountSubcategorySavings      FinancialConnectionsSessionFiltersAccountSubcategory = "savings"
+)
+
 // Permissions requested for accounts collected during this session.
 type FinancialConnectionsSessionPermission string
 
@@ -72,6 +84,8 @@ type FinancialConnectionsSessionAccountHolderParams struct {
 
 // Filters to restrict the kinds of accounts to collect.
 type FinancialConnectionsSessionFiltersParams struct {
+	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
+	AccountSubcategories []*string `form:"account_subcategories"`
 	// List of countries from which to collect accounts.
 	Countries []*string `form:"countries"`
 }
@@ -86,6 +100,8 @@ type FinancialConnectionsSessionAccountHolder struct {
 	Type FinancialConnectionsSessionAccountHolderType `json:"type"`
 }
 type FinancialConnectionsSessionFilters struct {
+	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
+	AccountSubcategories []FinancialConnectionsSessionFiltersAccountSubcategory `json:"account_subcategories"`
 	// List of countries from which to filter accounts.
 	Countries []string `json:"countries"`
 }

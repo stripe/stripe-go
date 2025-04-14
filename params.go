@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/stripe/stripe-go/v78/form"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 //
@@ -30,7 +30,7 @@ const (
 // They're implemented as a custom type so that they can have their own
 // AppendTo implementation.
 type ExtraValues struct {
-	url.Values `form:"-"` // See custom AppendTo implementation
+	url.Values `form:"-" json:"-"` // See custom AppendTo implementation
 }
 
 // AppendTo implements custom form encoding for extra parameter values.
@@ -44,7 +44,7 @@ func (v ExtraValues) AppendTo(body *form.Values, keyParts []string) {
 
 // Filters is a structure that contains a collection of filters for list-related APIs.
 type Filters struct {
-	f []*filter `form:"-"` // See custom AppendTo implementation
+	f []*filter `form:"-" json:"-"` // See custom AppendTo implementation
 }
 
 // AddFilter adds a new filter with a given key, op and value.
@@ -172,6 +172,24 @@ type ListParamsContainer interface {
 	GetListParams() *ListParams
 }
 
+type APIMode string
+
+var V1APIMode APIMode = "v1"
+var V2APIMode APIMode = "v2"
+
+func (m APIMode) contentType() string {
+	switch m {
+	case V1APIMode:
+		return "application/x-www-form-urlencoded"
+	case V2APIMode:
+		return "application/json"
+	default:
+		// The only way we can get here is if someone has mutated the APIMode
+		// variables, which would lead to unexpected behavior.
+		panic("unknown API mode")
+	}
+}
+
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
@@ -183,27 +201,27 @@ type Params struct {
 	// guarantee whether the operation was or was not completed on Stripe's API
 	// servers. For certainty, you must either retry with the same idempotency
 	// key or query the state of the API.
-	Context context.Context `form:"-"`
+	Context context.Context `form:"-" json:"-"`
 
 	// Deprecated: please use Expand in the surrounding struct instead.
-	Expand []*string    `form:"expand"`
-	Extra  *ExtraValues `form:"*"`
+	Expand []*string    `form:"expand" json:"-"`
+	Extra  *ExtraValues `form:"*"  json:"-"`
 
 	// Headers may be used to provide extra header lines on the HTTP request.
-	Headers http.Header `form:"-"`
+	Headers http.Header `form:"-" json:"-"`
 
-	IdempotencyKey *string `form:"-"` // Passed as header
+	IdempotencyKey *string `form:"-" json:"-"` // Passed as header
 
 	// Deprecated: Please use Metadata in the surrounding struct instead.
-	Metadata map[string]string `form:"metadata"`
+	Metadata map[string]string `form:"metadata" json:"-"`
 
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
-	StripeAccount *string `form:"-"` // Passed as header
+	StripeAccount *string `form:"-" json:"-"` // Passed as header
 
-	usage []string `form:"-"` // Tracked behaviors
+	usage []string `form:"-" json:"-"` // Tracked behaviors
 }
 
 // AddExpand on the Params embedded struct is deprecated.
@@ -215,7 +233,7 @@ func (p *Params) AddExpand(f string) {
 // InternalSetUsage sets the usage field on the Params struct.
 // Unstable: for internal stripe-go usage only.
 func (p *Params) InternalSetUsage(usage []string) {
-	p.usage = usage
+	p.usage = append(p.usage, usage...)
 }
 
 // AddExtra adds a new arbitrary key-value pair to the request data
@@ -259,6 +277,11 @@ func (p *Params) SetStripeAccount(val string) {
 // its implementation of this interface.
 type ParamsContainer interface {
 	GetParams() *Params
+}
+
+type RawParams struct {
+	Params        `form:"*"`
+	StripeContext string `form:"-"`
 }
 
 // RangeQueryParams are a set of generic request parameters that are used on

@@ -72,7 +72,7 @@ const (
 type PersonParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
-	// Details on the legal guardian's acceptance of the required Stripe agreements.
+	// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 	AdditionalTOSAcceptances *PersonAdditionalTOSAcceptancesParams `form:"additional_tos_acceptances"`
 	// The person's address.
 	Address *AddressParams `form:"address"`
@@ -154,7 +154,7 @@ type PersonAdditionalTOSAcceptancesAccountParams struct {
 	UserAgent *string `form:"user_agent"`
 }
 
-// Details on the legal guardian's acceptance of the required Stripe agreements.
+// Details on the legal guardian's or authorizer's acceptance of the required Stripe agreements.
 type PersonAdditionalTOSAcceptancesParams struct {
 	// Details on the legal guardian's acceptance of the main Stripe service agreement.
 	Account *PersonAdditionalTOSAcceptancesAccountParams `form:"account"`
@@ -236,6 +236,8 @@ type PersonDocumentsParams struct {
 
 // The relationship that this person has with the account's legal entity.
 type PersonRelationshipParams struct {
+	// Whether the person is the authorizer of the account's representative.
+	Authorizer *bool `form:"authorizer"`
 	// Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
 	Director *bool `form:"director"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
@@ -270,6 +272,8 @@ type PersonVerificationParams struct {
 
 // Filters on the list of people returned based on the person's relationship to the account's company.
 type PersonListRelationshipParams struct {
+	// A filter on the list of people returned based on whether these people are authorizers of the account's representative.
+	Authorizer *bool `form:"authorizer"`
 	// A filter on the list of people returned based on whether these people are directors of the account's company.
 	Director *bool `form:"director"`
 	// A filter on the list of people returned based on whether these people are executives of the account's company.
@@ -297,6 +301,7 @@ func (p *PersonListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Details on the legal guardian's acceptance of the main Stripe service agreement.
 type PersonAdditionalTOSAcceptancesAccount struct {
 	// The Unix timestamp marking when the legal guardian accepted the service agreement.
 	Date int64 `json:"date"`
@@ -306,6 +311,7 @@ type PersonAdditionalTOSAcceptancesAccount struct {
 	UserAgent string `json:"user_agent"`
 }
 type PersonAdditionalTOSAcceptances struct {
+	// Details on the legal guardian's acceptance of the main Stripe service agreement.
 	Account *PersonAdditionalTOSAcceptancesAccount `json:"account"`
 }
 
@@ -379,7 +385,7 @@ type PersonFutureRequirements struct {
 	CurrentlyDue []string `json:"currently_due"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*PersonFutureRequirementsError `json:"errors"`
-	// Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `future_requirements[current_deadline]` becomes set.
+	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `future_requirements[current_deadline]` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
 	// Fields that weren't collected by the account's `requirements.current_deadline`. These fields need to be collected to enable the person's account. New fields will never appear here; `future_requirements.past_due` will always be a subset of `requirements.past_due`.
 	PastDue []string `json:"past_due"`
@@ -387,6 +393,8 @@ type PersonFutureRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 type PersonRelationship struct {
+	// Whether the person is the authorizer of the account's representative.
+	Authorizer bool `json:"authorizer"`
 	// Whether the person is a director of the account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
 	Director bool `json:"director"`
 	// Whether the person has significant responsibility to control, manage, or direct the organization.
@@ -419,7 +427,7 @@ type PersonRequirements struct {
 	CurrentlyDue []string `json:"currently_due"`
 	// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 	Errors []*AccountRequirementsError `json:"errors"`
-	// Fields that need to be collected assuming all volume thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `current_deadline` becomes set.
+	// Fields you must collect when all thresholds are reached. As they become required, they appear in `currently_due` as well, and the account's `current_deadline` becomes set.
 	EventuallyDue []string `json:"eventually_due"`
 	// Fields that weren't collected by the account's `current_deadline`. These fields need to be collected to enable the person's account.
 	PastDue []string `json:"past_due"`
@@ -452,7 +460,7 @@ type PersonVerification struct {
 
 // This is an object representing a person associated with a Stripe account.
 //
-// A platform cannot access a person for an account where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
+// A platform can only access a subset of data in a person for an account where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
 //
 // See the [Standard onboarding](https://stripe.com/connect/standard-accounts) or [Express onboarding](https://stripe.com/connect/express-accounts) documentation for information about prefilling information and account onboarding steps. Learn more about [handling identity verification with the API](https://stripe.com/connect/handling-api-verification#person-information).
 type Person struct {
@@ -469,19 +477,19 @@ type Person struct {
 	Created int64      `json:"created"`
 	Deleted bool       `json:"deleted"`
 	DOB     *PersonDOB `json:"dob"`
-	// The person's email address.
+	// The person's email address. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	Email string `json:"email"`
-	// The person's first name.
+	// The person's first name. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	FirstName string `json:"first_name"`
-	// The Kana variation of the person's first name (Japan only).
+	// The Kana variation of the person's first name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	FirstNameKana string `json:"first_name_kana"`
-	// The Kanji variation of the person's first name (Japan only).
+	// The Kanji variation of the person's first name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	FirstNameKanji string `json:"first_name_kanji"`
-	// A list of alternate names or aliases that the person is known by.
+	// A list of alternate names or aliases that the person is known by. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	FullNameAliases []string `json:"full_name_aliases"`
 	// Information about the [upcoming new requirements for this person](https://stripe.com/docs/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
 	FutureRequirements *PersonFutureRequirements `json:"future_requirements"`
-	// The person's gender (International regulations require either "male" or "female").
+	// The person's gender.
 	Gender string `json:"gender"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
@@ -489,11 +497,11 @@ type Person struct {
 	IDNumberProvided bool `json:"id_number_provided"`
 	// Whether the person's `id_number_secondary` was provided.
 	IDNumberSecondaryProvided bool `json:"id_number_secondary_provided"`
-	// The person's last name.
+	// The person's last name. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	LastName string `json:"last_name"`
-	// The Kana variation of the person's last name (Japan only).
+	// The Kana variation of the person's last name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	LastNameKana string `json:"last_name_kana"`
-	// The Kanji variation of the person's last name (Japan only).
+	// The Kanji variation of the person's last name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	LastNameKanji string `json:"last_name_kanji"`
 	// The person's maiden name.
 	MaidenName string `json:"maiden_name"`

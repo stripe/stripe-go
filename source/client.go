@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /sources APIs.
@@ -71,14 +71,10 @@ func Detach(id string, params *stripe.SourceDetachParams) (*stripe.Source, error
 func (c Client) Detach(id string, params *stripe.SourceDetachParams) (*stripe.Source, error) {
 	if params.Customer == nil {
 		return nil, fmt.Errorf(
-			"Invalid source detach params: Customer needs to be set",
-		)
+			"Invalid source detach params: Customer needs to be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/customers/%s/sources/%s",
-		stripe.StringValue(params.Customer),
-		id,
-	)
+		"/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	source := &stripe.Source{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, source)
 	return source, err

@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stripe/stripe-go/v78"
+	"github.com/stripe/stripe-go/v82"
 )
 
 var testPayload = []byte(fmt.Sprintf(`{
@@ -15,11 +15,25 @@ var testPayload = []byte(fmt.Sprintf(`{
   "object": "event",
   "api_version": "%s"
 }`, stripe.APIVersion))
+
+var testPayloadWithNewVersionInReleaseTrain = []byte(fmt.Sprintf(`{
+	"id": "evt_test_webhook",
+	"object": "event",
+	"api_version": "%s"
+  }`, "2099-10-10."+strings.Split(stripe.APIVersion, ".")[1]))
+
 var testPayloadWithAPIVersionMismatch = []byte(`{
 	"id": "evt_test_webhook",
 	"object": "event",
 	"api_version": "2020-01-01"
   }`)
+
+var testPayloadWithReleaseTrainVersionMismatch = []byte(`{
+	"id": "evt_test_webhook",
+	"object": "event",
+	"api_version": "2099-10-10.the_larch"
+  }`)
+
 var testSecret = "whsec_test_secret"
 
 func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
@@ -179,7 +193,45 @@ func TestTokenNew(t *testing.T) {
 	}
 }
 
-func TestConstructEvent_ErrorOnAPIVersionMismatch(t *testing.T) {
+func TestConstructEvent_SuccessOnExpectedAPIVersion(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Payload = testPayload
+	})
+
+	evt, err := ConstructEvent(p.Payload, p.Header, p.Secret)
+
+	if err != nil {
+		t.Errorf("Unexpected error in ConstructEvent: %v", err)
+	}
+
+	if evt.APIVersion != stripe.APIVersion {
+		t.Errorf("Expected API versions to match")
+	}
+}
+
+func TestConstructEvent_SuccessOnNewAPIVersionInExpectedReleaseTrain(t *testing.T) {
+	// this test only makes sense on GA versions- the exact version for preview versions doesn't
+	// work this way and we can't mock private methods from this test class.
+	if strings.HasSuffix(stripe.APIVersion, ".preview") {
+		t.Skip("Skipping test for new API version in expected release train")
+	}
+
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Payload = testPayloadWithNewVersionInReleaseTrain
+	})
+
+	evt, err := ConstructEvent(p.Payload, p.Header, p.Secret)
+
+	if err != nil {
+		t.Errorf("Unexpected error in ConstructEvent: %v", err)
+	}
+
+	expectedSuffix := "." + strings.Split(stripe.APIVersion, ".")[1]
+	if !strings.HasSuffix(evt.APIVersion, expectedSuffix) {
+		t.Errorf("Expected API release trains to match")
+	}
+}
+func TestConstructEvent_ErrorOnLegacyAPIVersionMismatch(t *testing.T) {
 	p := newSignedPayload(func(p *SignedPayload) {
 		p.Payload = testPayloadWithAPIVersionMismatch
 	})
@@ -195,6 +247,21 @@ func TestConstructEvent_ErrorOnAPIVersionMismatch(t *testing.T) {
 	}
 }
 
+func TestConstructEvent_ErrorOnReleaseTrainMismatch(t *testing.T) {
+	p := newSignedPayload(func(p *SignedPayload) {
+		p.Payload = testPayloadWithReleaseTrainVersionMismatch
+	})
+
+	_, err := ConstructEvent(p.Payload, p.Header, p.Secret)
+
+	if err == nil {
+		t.Errorf("Expected error due to API version mismatch.")
+	}
+
+	if !strings.Contains(err.Error(), "Received event with API version") {
+		t.Errorf("Expected API version mismatch error but received %v", err)
+	}
+}
 func TestConstructEventWithOptions_IgnoreAPIVersionMismatch(t *testing.T) {
 
 	p := newSignedPayload(func(p *SignedPayload) {
@@ -234,5 +301,27 @@ func TestConstructEventWithOptions_UsesDefaultToleranceWhenNoneProvided(t *testi
 
 	if err != ErrTooOld {
 		t.Errorf("Expected error due to being too old, but got %v.", err)
+	}
+}
+
+func TestApiVersionCompatibility(t *testing.T) {
+	tests := []struct {
+		sdkApiVersion   string
+		eventApiVersion string
+		expected        bool
+	}{
+		{"2024-02-31.acacia", "1999-03-31", false},
+		{"2024-02-31.acacia", "2025-03-31.basil", false},
+		{"2024-04-31.basil", "2025-03-31.basil", true},
+		{"2024-01-01.preview", "2025-03-31.basil", false},
+		{"2024-01-01.preview", "2025-03-31.preview", false},
+		{"2024-01-01.preview", "2024-01-01.preview", true},
+	}
+
+	for _, test := range tests {
+		result := isCompatibleAPIVersion(test.sdkApiVersion, test.eventApiVersion)
+		if result != test.expected {
+			t.Errorf("Expected %v for API version %s <> %s, got %v", test.expected, test.sdkApiVersion, test.eventApiVersion, result)
+		}
 	}
 }

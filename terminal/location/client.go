@@ -10,8 +10,8 @@ package location
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /terminal/locations APIs.
@@ -31,12 +31,7 @@ func New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error
 func (c Client) New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	location := &stripe.TerminalLocation{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/terminal/locations",
-		c.Key,
-		params,
-		location,
-	)
+		http.MethodPost, "/v1/terminal/locations", c.Key, params, location)
 	return location, err
 }
 
@@ -89,7 +84,7 @@ func (c Client) List(listParams *stripe.TerminalLocationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TerminalLocationList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/terminal/locations", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/terminal/locations", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

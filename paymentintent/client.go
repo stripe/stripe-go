@@ -10,8 +10,8 @@ package paymentintent
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /payment_intents APIs.
@@ -47,12 +47,7 @@ func New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 func (c Client) New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_intents",
-		c.Key,
-		params,
-		paymentintent,
-	)
+		http.MethodPost, "/v1/payment_intents", c.Key, params, paymentintent)
 	return paymentintent, err
 }
 
@@ -110,9 +105,7 @@ func ApplyCustomerBalance(id string, params *stripe.PaymentIntentApplyCustomerBa
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
 func (c Client) ApplyCustomerBalance(id string, params *stripe.PaymentIntentApplyCustomerBalanceParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_intents/%s/apply_customer_balance",
-		id,
-	)
+		"/v1/payment_intents/%s/apply_customer_balance", id)
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
@@ -182,6 +175,9 @@ func (c Client) Capture(id string, params *stripe.PaymentIntentCaptureParams) (*
 // after those actions are completed. Your server needs to then
 // explicitly re-confirm the PaymentIntent to initiate the next payment
 // attempt.
+// There is a variable upper limit on how many times a PaymentIntent can be confirmed.
+// After this limit is reached, any further calls to this endpoint will
+// transition the PaymentIntent to the canceled state.
 func Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.PaymentIntent, error) {
 	return getC().Confirm(id, params)
 }
@@ -208,6 +204,9 @@ func Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.Paym
 // after those actions are completed. Your server needs to then
 // explicitly re-confirm the PaymentIntent to initiate the next payment
 // attempt.
+// There is a variable upper limit on how many times a PaymentIntent can be confirmed.
+// After this limit is reached, any further calls to this endpoint will
+// transition the PaymentIntent to the canceled state.
 func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/confirm", id)
 	paymentintent := &stripe.PaymentIntent{}
@@ -269,9 +268,7 @@ func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuth
 // Learn more about [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations).
 func (c Client) IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_intents/%s/increment_authorization",
-		id,
-	)
+		"/v1/payment_intents/%s/increment_authorization", id)
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
@@ -285,9 +282,7 @@ func VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepos
 // Verifies microdeposits on a PaymentIntent object.
 func (c Client) VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepositsParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
-		"/v1/payment_intents/%s/verify_microdeposits",
-		id,
-	)
+		"/v1/payment_intents/%s/verify_microdeposits", id)
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
@@ -303,7 +298,7 @@ func (c Client) List(listParams *stripe.PaymentIntentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentIntentList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -348,7 +343,7 @@ func (c Client) Search(params *stripe.PaymentIntentSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.PaymentIntentSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents/search", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents/search", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

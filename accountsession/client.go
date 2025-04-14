@@ -10,7 +10,7 @@ package accountsession
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /account_sessions APIs.
@@ -28,12 +28,7 @@ func New(params *stripe.AccountSessionParams) (*stripe.AccountSession, error) {
 func (c Client) New(params *stripe.AccountSessionParams) (*stripe.AccountSession, error) {
 	accountsession := &stripe.AccountSession{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/account_sessions",
-		c.Key,
-		params,
-		accountsession,
-	)
+		http.MethodPost, "/v1/account_sessions", c.Key, params, accountsession)
 	return accountsession, err
 }
 

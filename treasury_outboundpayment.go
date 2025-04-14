@@ -305,6 +305,8 @@ type TreasuryOutboundPaymentTrackingDetailsACH struct {
 	TraceID string `json:"trace_id"`
 }
 type TreasuryOutboundPaymentTrackingDetailsUSDomesticWire struct {
+	// CHIPS System Sequence Number (SSN) of the OutboundPayment for payments sent over the `us_domestic_wire` network.
+	Chips string `json:"chips"`
 	// IMAD of the OutboundPayment for payments sent over the `us_domestic_wire` network.
 	Imad string `json:"imad"`
 	// OMAD of the OutboundPayment for payments sent over the `us_domestic_wire` network.
@@ -319,9 +321,11 @@ type TreasuryOutboundPaymentTrackingDetails struct {
 	USDomesticWire *TreasuryOutboundPaymentTrackingDetailsUSDomesticWire `json:"us_domestic_wire"`
 }
 
-// Use OutboundPayments to send funds to another party's external bank account or [FinancialAccount](https://stripe.com/docs/api#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://stripe.com/docs/api#outbound_transfers).
+// Use [OutboundPayments](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments) to send funds to another party's external bank account or [FinancialAccount](https://stripe.com/docs/api#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://stripe.com/docs/api#outbound_transfers).
 //
 // Simulate OutboundPayment state changes with the `/v1/test_helpers/treasury/outbound_payments` endpoints. These methods can only be called on test mode objects.
+//
+// Related guide: [Moving money with Treasury using OutboundPayment objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments)
 type TreasuryOutboundPayment struct {
 	APIResource
 	// Amount (in cents) transferred.

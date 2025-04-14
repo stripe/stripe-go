@@ -52,7 +52,7 @@ const (
 	ShippingRateTaxBehaviorUnspecified ShippingRateTaxBehavior = "unspecified"
 )
 
-// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
+// The type of calculation to use on the shipping rate.
 type ShippingRateType string
 
 // List of values that ShippingRateType can take
@@ -141,7 +141,7 @@ type ShippingRateParams struct {
 	TaxBehavior *string `form:"tax_behavior"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *string `form:"tax_code"`
-	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
+	// The type of calculation to use on the shipping rate.
 	Type *string `form:"type"`
 }
 
@@ -224,7 +224,7 @@ type ShippingRate struct {
 	TaxBehavior ShippingRateTaxBehavior `json:"tax_behavior"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *TaxCode `json:"tax_code"`
-	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
+	// The type of calculation to use on the shipping rate.
 	Type ShippingRateType `json:"type"`
 }
 

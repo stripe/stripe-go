@@ -52,7 +52,7 @@ type TokenAccountParams struct {
 	Company *AccountCompanyParams `form:"company"`
 	// Information about the person represented by the account.
 	Individual *PersonParams `form:"individual"`
-	// Whether the user described by the data in the token has been shown [the Stripe Connected Account Agreement](https://docs.stripe.com/connect/account-tokens#stripe-connected-account-agreement). When creating an account token to create a new Connect account, this value must be `true`.
+	// Whether the user described by the data in the token has been shown [the Stripe Connected Account Agreement](https://stripe.com/connect/account-tokens#stripe-connected-account-agreement). When creating an account token to create a new Connect account, this value must be `true`.
 	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
@@ -93,8 +93,7 @@ type Token struct {
 	// These bank accounts are payment methods on `Customer` objects.
 	//
 	// On the other hand [External Accounts](https://stripe.com/api#external_accounts) are transfer
-	// destinations on `Account` objects for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
-	// is `application`, which includes [Custom accounts](https://stripe.com/connect/custom-accounts).
+	// destinations on `Account` objects for connected accounts.
 	// They can be bank accounts or debit cards as well, and are documented in the links above.
 	//
 	// Related guide: [Bank debits and transfers](https://stripe.com/payments/bank-debits-transfers)

@@ -15,32 +15,42 @@ const (
 	TaxCalculationCustomerDetailsAddressSourceShipping TaxCalculationCustomerDetailsAddressSource = "shipping"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or `unknown`
 type TaxCalculationCustomerDetailsTaxIDType string
 
 // List of values that TaxCalculationCustomerDetailsTaxIDType can take
 const (
 	TaxCalculationCustomerDetailsTaxIDTypeADNRT    TaxCalculationCustomerDetailsTaxIDType = "ad_nrt"
 	TaxCalculationCustomerDetailsTaxIDTypeAETRN    TaxCalculationCustomerDetailsTaxIDType = "ae_trn"
+	TaxCalculationCustomerDetailsTaxIDTypeAlTin    TaxCalculationCustomerDetailsTaxIDType = "al_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeAmTin    TaxCalculationCustomerDetailsTaxIDType = "am_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeAoTin    TaxCalculationCustomerDetailsTaxIDType = "ao_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeARCUIT   TaxCalculationCustomerDetailsTaxIDType = "ar_cuit"
 	TaxCalculationCustomerDetailsTaxIDTypeAUABN    TaxCalculationCustomerDetailsTaxIDType = "au_abn"
 	TaxCalculationCustomerDetailsTaxIDTypeAUARN    TaxCalculationCustomerDetailsTaxIDType = "au_arn"
+	TaxCalculationCustomerDetailsTaxIDTypeBaTin    TaxCalculationCustomerDetailsTaxIDType = "ba_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeBbTin    TaxCalculationCustomerDetailsTaxIDType = "bb_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeBGUIC    TaxCalculationCustomerDetailsTaxIDType = "bg_uic"
 	TaxCalculationCustomerDetailsTaxIDTypeBhVAT    TaxCalculationCustomerDetailsTaxIDType = "bh_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeBOTIN    TaxCalculationCustomerDetailsTaxIDType = "bo_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeBRCNPJ   TaxCalculationCustomerDetailsTaxIDType = "br_cnpj"
 	TaxCalculationCustomerDetailsTaxIDTypeBRCPF    TaxCalculationCustomerDetailsTaxIDType = "br_cpf"
+	TaxCalculationCustomerDetailsTaxIDTypeBsTin    TaxCalculationCustomerDetailsTaxIDType = "bs_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeByTin    TaxCalculationCustomerDetailsTaxIDType = "by_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeCABN     TaxCalculationCustomerDetailsTaxIDType = "ca_bn"
 	TaxCalculationCustomerDetailsTaxIDTypeCAGSTHST TaxCalculationCustomerDetailsTaxIDType = "ca_gst_hst"
 	TaxCalculationCustomerDetailsTaxIDTypeCAPSTBC  TaxCalculationCustomerDetailsTaxIDType = "ca_pst_bc"
 	TaxCalculationCustomerDetailsTaxIDTypeCAPSTMB  TaxCalculationCustomerDetailsTaxIDType = "ca_pst_mb"
 	TaxCalculationCustomerDetailsTaxIDTypeCAPSTSK  TaxCalculationCustomerDetailsTaxIDType = "ca_pst_sk"
 	TaxCalculationCustomerDetailsTaxIDTypeCAQST    TaxCalculationCustomerDetailsTaxIDType = "ca_qst"
+	TaxCalculationCustomerDetailsTaxIDTypeCdNif    TaxCalculationCustomerDetailsTaxIDType = "cd_nif"
+	TaxCalculationCustomerDetailsTaxIDTypeCHUID    TaxCalculationCustomerDetailsTaxIDType = "ch_uid"
 	TaxCalculationCustomerDetailsTaxIDTypeCHVAT    TaxCalculationCustomerDetailsTaxIDType = "ch_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeCLTIN    TaxCalculationCustomerDetailsTaxIDType = "cl_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeCNTIN    TaxCalculationCustomerDetailsTaxIDType = "cn_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeCONIT    TaxCalculationCustomerDetailsTaxIDType = "co_nit"
 	TaxCalculationCustomerDetailsTaxIDTypeCRTIN    TaxCalculationCustomerDetailsTaxIDType = "cr_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeDEStn    TaxCalculationCustomerDetailsTaxIDType = "de_stn"
 	TaxCalculationCustomerDetailsTaxIDTypeDORCN    TaxCalculationCustomerDetailsTaxIDType = "do_rcn"
 	TaxCalculationCustomerDetailsTaxIDTypeECRUC    TaxCalculationCustomerDetailsTaxIDType = "ec_ruc"
 	TaxCalculationCustomerDetailsTaxIDTypeEGTIN    TaxCalculationCustomerDetailsTaxIDType = "eg_tin"
@@ -49,7 +59,9 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeEUVAT    TaxCalculationCustomerDetailsTaxIDType = "eu_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeGBVAT    TaxCalculationCustomerDetailsTaxIDType = "gb_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeGEVAT    TaxCalculationCustomerDetailsTaxIDType = "ge_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeGnNif    TaxCalculationCustomerDetailsTaxIDType = "gn_nif"
 	TaxCalculationCustomerDetailsTaxIDTypeHKBR     TaxCalculationCustomerDetailsTaxIDType = "hk_br"
+	TaxCalculationCustomerDetailsTaxIDTypeHROIB    TaxCalculationCustomerDetailsTaxIDType = "hr_oib"
 	TaxCalculationCustomerDetailsTaxIDTypeHUTIN    TaxCalculationCustomerDetailsTaxIDType = "hu_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeIDNPWP   TaxCalculationCustomerDetailsTaxIDType = "id_npwp"
 	TaxCalculationCustomerDetailsTaxIDTypeILVAT    TaxCalculationCustomerDetailsTaxIDType = "il_vat"
@@ -59,9 +71,16 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeJPRN     TaxCalculationCustomerDetailsTaxIDType = "jp_rn"
 	TaxCalculationCustomerDetailsTaxIDTypeJPTRN    TaxCalculationCustomerDetailsTaxIDType = "jp_trn"
 	TaxCalculationCustomerDetailsTaxIDTypeKEPIN    TaxCalculationCustomerDetailsTaxIDType = "ke_pin"
+	TaxCalculationCustomerDetailsTaxIDTypeKhTin    TaxCalculationCustomerDetailsTaxIDType = "kh_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeKRBRN    TaxCalculationCustomerDetailsTaxIDType = "kr_brn"
 	TaxCalculationCustomerDetailsTaxIDTypeKzBin    TaxCalculationCustomerDetailsTaxIDType = "kz_bin"
 	TaxCalculationCustomerDetailsTaxIDTypeLIUID    TaxCalculationCustomerDetailsTaxIDType = "li_uid"
+	TaxCalculationCustomerDetailsTaxIDTypeLiVAT    TaxCalculationCustomerDetailsTaxIDType = "li_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeMaVAT    TaxCalculationCustomerDetailsTaxIDType = "ma_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeMdVAT    TaxCalculationCustomerDetailsTaxIDType = "md_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeMePib    TaxCalculationCustomerDetailsTaxIDType = "me_pib"
+	TaxCalculationCustomerDetailsTaxIDTypeMkVAT    TaxCalculationCustomerDetailsTaxIDType = "mk_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeMrNif    TaxCalculationCustomerDetailsTaxIDType = "mr_nif"
 	TaxCalculationCustomerDetailsTaxIDTypeMXRFC    TaxCalculationCustomerDetailsTaxIDType = "mx_rfc"
 	TaxCalculationCustomerDetailsTaxIDTypeMYFRP    TaxCalculationCustomerDetailsTaxIDType = "my_frp"
 	TaxCalculationCustomerDetailsTaxIDTypeMYITN    TaxCalculationCustomerDetailsTaxIDType = "my_itn"
@@ -69,6 +88,7 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeNgTin    TaxCalculationCustomerDetailsTaxIDType = "ng_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeNOVAT    TaxCalculationCustomerDetailsTaxIDType = "no_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeNOVOEC   TaxCalculationCustomerDetailsTaxIDType = "no_voec"
+	TaxCalculationCustomerDetailsTaxIDTypeNpPan    TaxCalculationCustomerDetailsTaxIDType = "np_pan"
 	TaxCalculationCustomerDetailsTaxIDTypeNZGST    TaxCalculationCustomerDetailsTaxIDType = "nz_gst"
 	TaxCalculationCustomerDetailsTaxIDTypeOmVAT    TaxCalculationCustomerDetailsTaxIDType = "om_vat"
 	TaxCalculationCustomerDetailsTaxIDTypePERUC    TaxCalculationCustomerDetailsTaxIDType = "pe_ruc"
@@ -81,17 +101,26 @@ const (
 	TaxCalculationCustomerDetailsTaxIDTypeSGGST    TaxCalculationCustomerDetailsTaxIDType = "sg_gst"
 	TaxCalculationCustomerDetailsTaxIDTypeSGUEN    TaxCalculationCustomerDetailsTaxIDType = "sg_uen"
 	TaxCalculationCustomerDetailsTaxIDTypeSITIN    TaxCalculationCustomerDetailsTaxIDType = "si_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeSnNinea  TaxCalculationCustomerDetailsTaxIDType = "sn_ninea"
+	TaxCalculationCustomerDetailsTaxIDTypeSrFin    TaxCalculationCustomerDetailsTaxIDType = "sr_fin"
 	TaxCalculationCustomerDetailsTaxIDTypeSVNIT    TaxCalculationCustomerDetailsTaxIDType = "sv_nit"
 	TaxCalculationCustomerDetailsTaxIDTypeTHVAT    TaxCalculationCustomerDetailsTaxIDType = "th_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeTjTin    TaxCalculationCustomerDetailsTaxIDType = "tj_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeTRTIN    TaxCalculationCustomerDetailsTaxIDType = "tr_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeTWVAT    TaxCalculationCustomerDetailsTaxIDType = "tw_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeTzVAT    TaxCalculationCustomerDetailsTaxIDType = "tz_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeUAVAT    TaxCalculationCustomerDetailsTaxIDType = "ua_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeUgTin    TaxCalculationCustomerDetailsTaxIDType = "ug_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeUnknown  TaxCalculationCustomerDetailsTaxIDType = "unknown"
 	TaxCalculationCustomerDetailsTaxIDTypeUSEIN    TaxCalculationCustomerDetailsTaxIDType = "us_ein"
 	TaxCalculationCustomerDetailsTaxIDTypeUYRUC    TaxCalculationCustomerDetailsTaxIDType = "uy_ruc"
+	TaxCalculationCustomerDetailsTaxIDTypeUzTin    TaxCalculationCustomerDetailsTaxIDType = "uz_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeUzVAT    TaxCalculationCustomerDetailsTaxIDType = "uz_vat"
 	TaxCalculationCustomerDetailsTaxIDTypeVERIF    TaxCalculationCustomerDetailsTaxIDType = "ve_rif"
 	TaxCalculationCustomerDetailsTaxIDTypeVNTIN    TaxCalculationCustomerDetailsTaxIDType = "vn_tin"
 	TaxCalculationCustomerDetailsTaxIDTypeZAVAT    TaxCalculationCustomerDetailsTaxIDType = "za_vat"
+	TaxCalculationCustomerDetailsTaxIDTypeZmTin    TaxCalculationCustomerDetailsTaxIDType = "zm_tin"
+	TaxCalculationCustomerDetailsTaxIDTypeZwTin    TaxCalculationCustomerDetailsTaxIDType = "zw_tin"
 )
 
 // The taxability override used for taxation.
@@ -148,8 +177,10 @@ const (
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "service_tax"
 	TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationShippingCostTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
@@ -175,6 +206,15 @@ const (
 	TaxCalculationShippingCostTaxBreakdownTaxabilityReasonZeroRated            TaxCalculationShippingCostTaxBreakdownTaxabilityReason = "zero_rated"
 )
 
+// Indicates the type of tax rate applied to the taxable amount. This value can be `null` when no tax applies to the location. This field is only present for TaxRates created by Stripe Tax.
+type TaxCalculationTaxBreakdownTaxRateDetailsRateType string
+
+// List of values that TaxCalculationTaxBreakdownTaxRateDetailsRateType can take
+const (
+	TaxCalculationTaxBreakdownTaxRateDetailsRateTypeFlatAmount TaxCalculationTaxBreakdownTaxRateDetailsRateType = "flat_amount"
+	TaxCalculationTaxBreakdownTaxRateDetailsRateTypePercentage TaxCalculationTaxBreakdownTaxRateDetailsRateType = "percentage"
+)
+
 // The tax type, such as `vat` or `sales_tax`.
 type TaxCalculationTaxBreakdownTaxRateDetailsTaxType string
 
@@ -189,8 +229,10 @@ const (
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeLeaseTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "lease_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypePST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "pst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeQST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "qst"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRetailDeliveryFee TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "retail_delivery_fee"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeRST               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "rst"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeSalesTax          TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "sales_tax"
+	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeServiceTax        TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "service_tax"
 	TaxCalculationTaxBreakdownTaxRateDetailsTaxTypeVAT               TaxCalculationTaxBreakdownTaxRateDetailsTaxType = "vat"
 )
 
@@ -216,7 +258,33 @@ const (
 	TaxCalculationTaxBreakdownTaxabilityReasonZeroRated            TaxCalculationTaxBreakdownTaxabilityReason = "zero_rated"
 )
 
-// Retrieves the line items of a persisted tax calculation as a collection.
+// Retrieves a Tax Calculation object, if the calculation hasn't expired.
+type TaxCalculationParams struct {
+	Params `form:"*"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of an existing customer to use for this calculation. If provided, the customer's address and tax IDs are copied to `customer_details`.
+	Customer *string `form:"customer"`
+	// Details about the customer, including address and tax IDs.
+	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A list of items the customer is purchasing.
+	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
+	// Details about the address from which the goods are being shipped.
+	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details"`
+	// Shipping cost details to be used for the calculation.
+	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
+	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
+	TaxDate *int64 `form:"tax_date"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxCalculationParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 type TaxCalculationListLineItemsParams struct {
 	ListParams  `form:"*"`
 	Calculation *string `form:"-"` // Included in URL
@@ -231,7 +299,7 @@ func (p *TaxCalculationListLineItemsParams) AddExpand(f string) {
 
 // The customer's tax IDs. Stripe Tax might consider a transaction with applicable tax IDs to be B2B, which might affect the tax calculation result. Stripe Tax doesn't validate tax IDs for correctness.
 type TaxCalculationCustomerDetailsTaxIDParams struct {
-	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `ar_cuit`, `au_abn`, `au_arn`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kr_brn`, `kz_bin`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sv_nit`, `th_vat`, `tr_tin`, `tw_vat`, `ua_vat`, `us_ein`, `uy_ruc`, `ve_rif`, `vn_tin`, or `za_vat`
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `ba_tin`, `bb_tin`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kh_tin`, `kr_brn`, `kz_bin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
 	Type *string `form:"type"`
 	// Value of the tax ID.
 	Value *string `form:"value"`
@@ -253,9 +321,7 @@ type TaxCalculationCustomerDetailsParams struct {
 
 // A list of items the customer is purchasing.
 type TaxCalculationLineItemParams struct {
-	// A positive integer representing the line item's total price in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency).
-	// The minimum amount is $0.0 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts).
-	// The amount value supports up to twelve digits (e.g., a value of 999999999999 for a USD charge of $9,999,999,999.99).
+	// A positive integer representing the line item's total price in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
@@ -284,39 +350,13 @@ type TaxCalculationShippingCostParams struct {
 	ShippingRate *string `form:"shipping_rate"`
 	// Specifies whether the `amount` includes taxes. If `tax_behavior=inclusive`, then the amount includes taxes. Defaults to `exclusive`.
 	TaxBehavior *string `form:"tax_behavior"`
-	// The [tax code](https://stripe.com/docs/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://stripe.com/settings/tax) is used.
+	// The [tax code](https://stripe.com/docs/tax/tax-categories) used to calculate tax on shipping. If not provided, the default shipping tax code from your [Tax Settings](https://dashboard.stripe.com/settings/tax) is used.
 	TaxCode *string `form:"tax_code"`
-}
-
-// Calculates tax based on input and returns a Tax Calculation object.
-type TaxCalculationParams struct {
-	Params `form:"*"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency *string `form:"currency"`
-	// The ID of an existing customer to use for this calculation. If provided, the customer's address and tax IDs are copied to `customer_details`.
-	Customer *string `form:"customer"`
-	// Details about the customer, including address and tax IDs.
-	CustomerDetails *TaxCalculationCustomerDetailsParams `form:"customer_details"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// A list of items the customer is purchasing.
-	LineItems []*TaxCalculationLineItemParams `form:"line_items"`
-	// Details about the address from which the goods are being shipped.
-	ShipFromDetails *TaxCalculationShipFromDetailsParams `form:"ship_from_details"`
-	// Shipping cost details to be used for the calculation.
-	ShippingCost *TaxCalculationShippingCostParams `form:"shipping_cost"`
-	// Timestamp of date at which the tax rules and rates in effect applies for the calculation. Measured in seconds since the Unix epoch. Can be up to 48 hours in the past, and up to 48 hours in the future.
-	TaxDate *int64 `form:"tax_date"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *TaxCalculationParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
 }
 
 // The customer's tax IDs (for example, EU VAT numbers).
 type TaxCalculationCustomerDetailsTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or `unknown`
 	Type TaxCalculationCustomerDetailsTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`
@@ -345,7 +385,7 @@ type TaxCalculationShippingCostTaxBreakdownJurisdiction struct {
 	DisplayName string `json:"display_name"`
 	// Indicates the level of the jurisdiction imposing the tax.
 	Level TaxCalculationShippingCostTaxBreakdownJurisdictionLevel `json:"level"`
-	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2:US), without country prefix. For example, "NY" for New York, United States.
+	// [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2), without country prefix. For example, "NY" for New York, United States.
 	State string `json:"state"`
 }
 
@@ -389,11 +429,23 @@ type TaxCalculationShippingCost struct {
 	// The [tax code](https://stripe.com/docs/tax/tax-categories) ID used for shipping.
 	TaxCode string `json:"tax_code"`
 }
+
+// The amount of the tax rate when the `rate_type` is `flat_amount`. Tax rates with `rate_type` `percentage` can vary based on the transaction, resulting in this field being `null`. This field exposes the amount and currency of the flat tax rate.
+type TaxCalculationTaxBreakdownTaxRateDetailsFlatAmount struct {
+	// Amount of the tax when the `rate_type` is `flat_amount`. This positive integer represents how much to charge in the smallest currency unit (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	Amount int64 `json:"amount"`
+	// Three-letter ISO currency code, in lowercase.
+	Currency Currency `json:"currency"`
+}
 type TaxCalculationTaxBreakdownTaxRateDetails struct {
 	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
 	Country string `json:"country"`
+	// The amount of the tax rate when the `rate_type` is `flat_amount`. Tax rates with `rate_type` `percentage` can vary based on the transaction, resulting in this field being `null`. This field exposes the amount and currency of the flat tax rate.
+	FlatAmount *TaxCalculationTaxBreakdownTaxRateDetailsFlatAmount `json:"flat_amount"`
 	// The tax rate percentage as a string. For example, 8.5% is represented as `"8.5"`.
 	PercentageDecimal string `json:"percentage_decimal"`
+	// Indicates the type of tax rate applied to the taxable amount. This value can be `null` when no tax applies to the location. This field is only present for TaxRates created by Stripe Tax.
+	RateType TaxCalculationTaxBreakdownTaxRateDetailsRateType `json:"rate_type"`
 	// State, county, province, or region.
 	State string `json:"state"`
 	// The tax type, such as `vat` or `sales_tax`.
@@ -418,7 +470,7 @@ type TaxCalculationTaxBreakdown struct {
 // Related guide: [Calculate tax in your custom payment flow](https://stripe.com/docs/tax/custom)
 type TaxCalculation struct {
 	APIResource
-	// Total after taxes.
+	// Total amount after taxes in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	AmountTotal int64 `json:"amount_total"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`

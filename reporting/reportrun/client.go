@@ -10,8 +10,8 @@ package reportrun
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /reporting/report_runs APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, e
 func (c Client) New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, error) {
 	reportrun := &stripe.ReportingReportRun{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/reporting/report_runs",
-		c.Key,
-		params,
-		reportrun,
-	)
+		http.MethodPost, "/v1/reporting/report_runs", c.Key, params, reportrun)
 	return reportrun, err
 }
 
@@ -61,7 +56,7 @@ func (c Client) List(listParams *stripe.ReportingReportRunListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ReportingReportRunList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_runs", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_runs", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

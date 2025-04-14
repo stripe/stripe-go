@@ -10,8 +10,8 @@ package refund
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /refunds APIs.
@@ -99,17 +99,17 @@ func (c Client) Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Re
 	return refund, err
 }
 
-// Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first The 10 most recent refunds are always available by default on the Charge object.
+// Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first. The 10 most recent refunds are always available by default on the Charge object.
 func List(params *stripe.RefundListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first The 10 most recent refunds are always available by default on the Charge object.
+// Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first. The 10 most recent refunds are always available by default on the Charge object.
 func (c Client) List(listParams *stripe.RefundListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.RefundList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/refunds", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/refunds", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

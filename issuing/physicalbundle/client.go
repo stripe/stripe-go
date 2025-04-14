@@ -10,8 +10,8 @@ package physicalbundle
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /issuing/physical_bundles APIs.
@@ -43,7 +43,7 @@ func (c Client) List(listParams *stripe.IssuingPhysicalBundleListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingPhysicalBundleList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/physical_bundles", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/physical_bundles", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

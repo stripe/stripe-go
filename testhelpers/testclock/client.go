@@ -10,8 +10,8 @@ package testclock
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /test_helpers/test_clocks APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestCloc
 func (c Client) New(params *stripe.TestHelpersTestClockParams) (*stripe.TestHelpersTestClock, error) {
 	testclock := &stripe.TestHelpersTestClock{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/test_clocks",
-		c.Key,
-		params,
-		testclock,
-	)
+		http.MethodPost, "/v1/test_helpers/test_clocks", c.Key, params, testclock)
 	return testclock, err
 }
 
@@ -87,7 +82,7 @@ func (c Client) List(listParams *stripe.TestHelpersTestClockListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TestHelpersTestClockList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/test_helpers/test_clocks", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/test_helpers/test_clocks", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

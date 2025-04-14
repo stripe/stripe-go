@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // The method for mapping a meter event to a customer.
 type BillingMeterCustomerMappingType string
 
@@ -20,6 +22,7 @@ type BillingMeterDefaultAggregationFormula string
 // List of values that BillingMeterDefaultAggregationFormula can take
 const (
 	BillingMeterDefaultAggregationFormulaCount BillingMeterDefaultAggregationFormula = "count"
+	BillingMeterDefaultAggregationFormulaLast  BillingMeterDefaultAggregationFormula = "last"
 	BillingMeterDefaultAggregationFormulaSum   BillingMeterDefaultAggregationFormula = "sum"
 )
 
@@ -57,7 +60,7 @@ func (p *BillingMeterListParams) AddExpand(f string) {
 
 // Fields that specify how to map a meter event to a customer.
 type BillingMeterCustomerMappingParams struct {
-	// The key in the usage event payload to use for mapping the event to a customer.
+	// The key in the meter event payload to use for mapping the event to a customer.
 	EventPayloadKey *string `form:"event_payload_key"`
 	// The method for mapping a meter event to a customer. Must be `by_id`.
 	Type *string `form:"type"`
@@ -65,7 +68,7 @@ type BillingMeterCustomerMappingParams struct {
 
 // The default settings to aggregate a meter's events with.
 type BillingMeterDefaultAggregationParams struct {
-	// Specifies how events are aggregated. Allowed values are `count` to count the number of events and `sum` to sum each event's value.
+	// Specifies how events are aggregated. Allowed values are `count` to count the number of events, `sum` to sum each event's value and `last` to take the last event's value in the window.
 	Formula *string `form:"formula"`
 }
 
@@ -75,14 +78,14 @@ type BillingMeterValueSettingsParams struct {
 	EventPayloadKey *string `form:"event_payload_key"`
 }
 
-// Creates a billing meter
+// Creates a billing meter.
 type BillingMeterParams struct {
 	Params `form:"*"`
 	// Fields that specify how to map a meter event to a customer.
 	CustomerMapping *BillingMeterCustomerMappingParams `form:"customer_mapping"`
 	// The default settings to aggregate a meter's events with.
 	DefaultAggregation *BillingMeterDefaultAggregationParams `form:"default_aggregation"`
-	// The meter's name.
+	// The meter's name. Not visible to the customer.
 	DisplayName *string `form:"display_name"`
 	// The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events.
 	EventName *string `form:"event_name"`
@@ -99,7 +102,7 @@ func (p *BillingMeterParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Deactivates a billing meter
+// When a meter is deactivated, no more meter events will be accepted for this meter. You can't attach a deactivated meter to a price.
 type BillingMeterDeactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -111,7 +114,7 @@ func (p *BillingMeterDeactivateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Reactivates a billing meter
+// When a meter is reactivated, events for this meter can be accepted and you can attach the meter to a price.
 type BillingMeterReactivateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -142,7 +145,9 @@ type BillingMeterValueSettings struct {
 	EventPayloadKey string `json:"event_payload_key"`
 }
 
-// A billing meter is a resource that allows you to track usage of a particular event. For example, you might create a billing meter to track the number of API calls made by a particular user. You can then attach the billing meter to a price and attach the price to a subscription to charge the user for the number of API calls they make.
+// Meters specify how to aggregate meter events over a billing period. Meter events represent the actions that customers take in your system. Meters attach to prices and form the basis of the bill.
+//
+// Related guide: [Usage based billing](https://docs.stripe.com/billing/subscriptions/usage-based)
 type BillingMeter struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -174,4 +179,23 @@ type BillingMeterList struct {
 	APIResource
 	ListMeta
 	Data []*BillingMeter `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a BillingMeter.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (b *BillingMeter) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		b.ID = id
+		return nil
+	}
+
+	type billingMeter BillingMeter
+	var v billingMeter
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*b = BillingMeter(v)
+	return nil
 }

@@ -9,7 +9,7 @@ package stripe
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/stripe/stripe-go/v78/form"
+	"github.com/stripe/stripe-go/v82/form"
 	"io"
 	"mime/multipart"
 	"net/url"
@@ -29,8 +29,10 @@ const (
 	FilePurposeDisputeEvidence                  FilePurpose = "dispute_evidence"
 	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeFinanceReportRun                 FilePurpose = "finance_report_run"
+	FilePurposeFinancialAccountStatement        FilePurpose = "financial_account_statement"
 	FilePurposeIdentityDocument                 FilePurpose = "identity_document"
 	FilePurposeIdentityDocumentDownloadable     FilePurpose = "identity_document_downloadable"
+	FilePurposeIssuingRegulatoryReporting       FilePurpose = "issuing_regulatory_reporting"
 	FilePurposePCIDocument                      FilePurpose = "pci_document"
 	FilePurposeSelfie                           FilePurpose = "selfie"
 	FilePurposeSigmaScheduledQuery              FilePurpose = "sigma_scheduled_query"
@@ -59,7 +61,7 @@ func (p *FileListParams) AddExpand(f string) {
 // Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
 type FileFileLinkDataParams struct {
 	Params `form:"*"`
-	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `pci_document`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
+	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `issuing_regulatory_reporting`, `pci_document`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
 	Create *bool `form:"create"`
 	// The link isn't available after this future timestamp.
 	ExpiresAt *int64 `form:"expires_at"`
@@ -154,9 +156,7 @@ func (p *FileParams) GetBody() (*bytes.Buffer, string, error) {
 
 	if p.FileReader != nil && p.Filename != nil {
 		part, err := writer.CreateFormFile(
-			"file",
-			filepath.Base(StringValue(p.Filename)),
-		)
+			"file", filepath.Base(StringValue(p.Filename)))
 
 		if err != nil {
 			return nil, "", err

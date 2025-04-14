@@ -58,6 +58,11 @@ func main() {
 			return nil
 		}
 
+		// rawrequest client is not exposed this way
+		if strings.HasSuffix(path, "rawrequest/client.go") {
+			return nil
+		}
+
 		packageName, err := findClientType(fset, path)
 		if err != nil {
 			exitWithError(err)

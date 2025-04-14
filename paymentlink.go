@@ -136,9 +136,11 @@ const (
 	PaymentLinkPaymentMethodTypeAffirm           PaymentLinkPaymentMethodType = "affirm"
 	PaymentLinkPaymentMethodTypeAfterpayClearpay PaymentLinkPaymentMethodType = "afterpay_clearpay"
 	PaymentLinkPaymentMethodTypeAlipay           PaymentLinkPaymentMethodType = "alipay"
+	PaymentLinkPaymentMethodTypeAlma             PaymentLinkPaymentMethodType = "alma"
 	PaymentLinkPaymentMethodTypeAUBECSDebit      PaymentLinkPaymentMethodType = "au_becs_debit"
 	PaymentLinkPaymentMethodTypeBACSDebit        PaymentLinkPaymentMethodType = "bacs_debit"
 	PaymentLinkPaymentMethodTypeBancontact       PaymentLinkPaymentMethodType = "bancontact"
+	PaymentLinkPaymentMethodTypeBillie           PaymentLinkPaymentMethodType = "billie"
 	PaymentLinkPaymentMethodTypeBLIK             PaymentLinkPaymentMethodType = "blik"
 	PaymentLinkPaymentMethodTypeBoleto           PaymentLinkPaymentMethodType = "boleto"
 	PaymentLinkPaymentMethodTypeCard             PaymentLinkPaymentMethodType = "card"
@@ -151,17 +153,23 @@ const (
 	PaymentLinkPaymentMethodTypeKlarna           PaymentLinkPaymentMethodType = "klarna"
 	PaymentLinkPaymentMethodTypeKonbini          PaymentLinkPaymentMethodType = "konbini"
 	PaymentLinkPaymentMethodTypeLink             PaymentLinkPaymentMethodType = "link"
+	PaymentLinkPaymentMethodTypeMobilepay        PaymentLinkPaymentMethodType = "mobilepay"
+	PaymentLinkPaymentMethodTypeMultibanco       PaymentLinkPaymentMethodType = "multibanco"
 	PaymentLinkPaymentMethodTypeOXXO             PaymentLinkPaymentMethodType = "oxxo"
 	PaymentLinkPaymentMethodTypeP24              PaymentLinkPaymentMethodType = "p24"
+	PaymentLinkPaymentMethodTypePayByBank        PaymentLinkPaymentMethodType = "pay_by_bank"
 	PaymentLinkPaymentMethodTypePayNow           PaymentLinkPaymentMethodType = "paynow"
 	PaymentLinkPaymentMethodTypePaypal           PaymentLinkPaymentMethodType = "paypal"
 	PaymentLinkPaymentMethodTypePix              PaymentLinkPaymentMethodType = "pix"
 	PaymentLinkPaymentMethodTypePromptPay        PaymentLinkPaymentMethodType = "promptpay"
+	PaymentLinkPaymentMethodTypeSatispay         PaymentLinkPaymentMethodType = "satispay"
 	PaymentLinkPaymentMethodTypeSEPADebit        PaymentLinkPaymentMethodType = "sepa_debit"
 	PaymentLinkPaymentMethodTypeSofort           PaymentLinkPaymentMethodType = "sofort"
 	PaymentLinkPaymentMethodTypeSwish            PaymentLinkPaymentMethodType = "swish"
+	PaymentLinkPaymentMethodTypeTWINT            PaymentLinkPaymentMethodType = "twint"
 	PaymentLinkPaymentMethodTypeUSBankAccount    PaymentLinkPaymentMethodType = "us_bank_account"
 	PaymentLinkPaymentMethodTypeWeChatPay        PaymentLinkPaymentMethodType = "wechat_pay"
+	PaymentLinkPaymentMethodTypeZip              PaymentLinkPaymentMethodType = "zip"
 )
 
 // Indicates the type of transaction being performed which customizes relevant text on the page, such as the submit button.
@@ -169,10 +177,11 @@ type PaymentLinkSubmitType string
 
 // List of values that PaymentLinkSubmitType can take
 const (
-	PaymentLinkSubmitTypeAuto   PaymentLinkSubmitType = "auto"
-	PaymentLinkSubmitTypeBook   PaymentLinkSubmitType = "book"
-	PaymentLinkSubmitTypeDonate PaymentLinkSubmitType = "donate"
-	PaymentLinkSubmitTypePay    PaymentLinkSubmitType = "pay"
+	PaymentLinkSubmitTypeAuto      PaymentLinkSubmitType = "auto"
+	PaymentLinkSubmitTypeBook      PaymentLinkSubmitType = "book"
+	PaymentLinkSubmitTypeDonate    PaymentLinkSubmitType = "donate"
+	PaymentLinkSubmitTypePay       PaymentLinkSubmitType = "pay"
+	PaymentLinkSubmitTypeSubscribe PaymentLinkSubmitType = "subscribe"
 )
 
 // Type of the account referenced.
@@ -192,6 +201,14 @@ const (
 	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethodCancel        PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod = "cancel"
 	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethodCreateInvoice PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod = "create_invoice"
 	PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethodPause         PaymentLinkSubscriptionDataTrialSettingsEndBehaviorMissingPaymentMethod = "pause"
+)
+
+type PaymentLinkTaxIDCollectionRequired string
+
+// List of values that PaymentLinkTaxIDCollectionRequired can take
+const (
+	PaymentLinkTaxIDCollectionRequiredIfSupported PaymentLinkTaxIDCollectionRequired = "if_supported"
+	PaymentLinkTaxIDCollectionRequiredNever       PaymentLinkTaxIDCollectionRequired = "never"
 )
 
 // Returns a list of your payment links.
@@ -240,7 +257,9 @@ type PaymentLinkAutomaticTaxLiabilityParams struct {
 
 // Configuration for automatic tax collection.
 type PaymentLinkAutomaticTaxParams struct {
-	// If `true`, tax will be calculated automatically using the customer's location.
+	// Set to `true` to [calculate tax automatically](https://docs.stripe.com/tax) using the customer's location.
+	//
+	// Enabling this parameter causes the payment link to collect any billing address information necessary for tax calculation.
 	Enabled *bool `form:"enabled"`
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *PaymentLinkAutomaticTaxLiabilityParams `form:"liability"`
@@ -276,6 +295,8 @@ type PaymentLinkCustomFieldDropdownOptionParams struct {
 
 // Configuration for `type=dropdown` fields.
 type PaymentLinkCustomFieldDropdownParams struct {
+	// The value that will pre-fill the field on the payment page.Must match a `value` in the `options` array.
+	DefaultValue *string `form:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCustomFieldDropdownOptionParams `form:"options"`
 }
@@ -290,6 +311,8 @@ type PaymentLinkCustomFieldLabelParams struct {
 
 // Configuration for `type=numeric` fields.
 type PaymentLinkCustomFieldNumericParams struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
@@ -298,6 +321,8 @@ type PaymentLinkCustomFieldNumericParams struct {
 
 // Configuration for `type=text` fields.
 type PaymentLinkCustomFieldTextParams struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue *string `form:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength *int64 `form:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
@@ -437,6 +462,28 @@ type PaymentLinkLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 }
 
+// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
+type PaymentLinkOptionalItemAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled *bool `form:"enabled"`
+	// The maximum quantity of this item the customer can purchase. By default this value is 99.
+	Maximum *int64 `form:"maximum"`
+	// The minimum quantity of this item the customer must purchase, if they choose to purchase it. Because this item is optional, the customer will always be able to remove it from their order, even if the `minimum` configured here is greater than 0. By default this value is 0.
+	Minimum *int64 `form:"minimum"`
+}
+
+// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+// There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
+// There is a maximum of 20 combined line items and optional items.
+type PaymentLinkOptionalItemParams struct {
+	// When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
+	AdjustableQuantity *PaymentLinkOptionalItemAdjustableQuantityParams `form:"adjustable_quantity"`
+	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object.
+	Price *string `form:"price"`
+	// The initial quantity of the line item created when a customer chooses to add this optional item to their order.
+	Quantity *int64 `form:"quantity"`
+}
+
 // A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 type PaymentLinkPaymentIntentDataParams struct {
 	// Controls when the funds will be captured from the customer's account.
@@ -457,9 +504,11 @@ type PaymentLinkPaymentIntentDataParams struct {
 	//
 	// When processing card payments, Checkout also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as SCA.
 	SetupFutureUsage *string `form:"setup_future_usage"`
-	// Extra information about the payment. This will appear on your customer's statement when this payment succeeds in creating a charge.
+	// Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
+	//
+	// Setting this value for a card charge returns an error. For card charges, set the [statement_descriptor_suffix](https://docs.stripe.com/get-started/account/statement-descriptors#dynamic) instead.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.
 	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
 	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup *string `form:"transfer_group"`
@@ -497,7 +546,7 @@ type PaymentLinkRestrictionsParams struct {
 // Configuration for collecting the customer's shipping address.
 type PaymentLinkShippingAddressCollectionParams struct {
 	// An array of two-letter ISO country codes representing which countries Checkout should provide as options for
-	// shipping locations. Unsupported country codes: `AS, CX, CC, CU, HM, IR, KP, MH, FM, NF, MP, PW, SD, SY, UM, VI`.
+	// shipping locations.
 	AllowedCountries []*string `form:"allowed_countries"`
 }
 
@@ -558,8 +607,10 @@ func (p *PaymentLinkSubscriptionDataParams) AddMetadata(key string, value string
 
 // Controls tax ID collection during checkout.
 type PaymentLinkTaxIDCollectionParams struct {
-	// Set to `true` to enable tax ID collection.
+	// Enable tax ID collection during checkout. Defaults to `false`.
 	Enabled *bool `form:"enabled"`
+	// Describes whether a tax ID is required during checkout. Defaults to `never`.
+	Required *string `form:"required"`
 }
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
@@ -612,6 +663,10 @@ type PaymentLinkParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// A list of optional items the customer can add to their order at checkout. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+	// There is a maximum of 10 optional items allowed on a payment link, and the existing limits on the number of line items allowed on a payment link apply to the combined number of line items and optional items.
+	// There is a maximum of 20 combined line items and optional items.
+	OptionalItems []*PaymentLinkOptionalItemParams `form:"optional_items"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *PaymentLinkPaymentIntentDataParams `form:"payment_intent_data"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.This may occur if the Checkout Session includes a free trial or a discount.
@@ -724,6 +779,8 @@ type PaymentLinkCustomFieldDropdownOption struct {
 	Value string `json:"value"`
 }
 type PaymentLinkCustomFieldDropdown struct {
+	// The value that will pre-fill on the payment page.
+	DefaultValue string `json:"default_value"`
 	// The options available for the customer to select. Up to 200 options allowed.
 	Options []*PaymentLinkCustomFieldDropdownOption `json:"options"`
 }
@@ -734,12 +791,16 @@ type PaymentLinkCustomFieldLabel struct {
 	Type PaymentLinkCustomFieldLabelType `json:"type"`
 }
 type PaymentLinkCustomFieldNumeric struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
 	MinimumLength int64 `json:"minimum_length"`
 }
 type PaymentLinkCustomFieldText struct {
+	// The value that will pre-fill the field on the payment page.
+	DefaultValue string `json:"default_value"`
 	// The maximum character length constraint for the customer's input.
 	MaximumLength int64 `json:"maximum_length"`
 	// The minimum character length requirement for the customer's input.
@@ -841,6 +902,21 @@ type PaymentLinkInvoiceCreation struct {
 	// Configuration for the invoice. Default invoice values will be used if unspecified.
 	InvoiceData *PaymentLinkInvoiceCreationInvoiceData `json:"invoice_data"`
 }
+type PaymentLinkOptionalItemAdjustableQuantity struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled bool `json:"enabled"`
+	// The maximum quantity of this item the customer can purchase. By default this value is 99.
+	Maximum int64 `json:"maximum"`
+	// The minimum quantity of this item the customer must purchase, if they choose to purchase it. Because this item is optional, the customer will always be able to remove it from their order, even if the `minimum` configured here is greater than 0. By default this value is 0.
+	Minimum int64 `json:"minimum"`
+}
+
+// The optional items presented to the customer at checkout.
+type PaymentLinkOptionalItem struct {
+	AdjustableQuantity *PaymentLinkOptionalItemAdjustableQuantity `json:"adjustable_quantity"`
+	Price              string                                     `json:"price"`
+	Quantity           int64                                      `json:"quantity"`
+}
 
 // Indicates the parameters to be passed to PaymentIntent creation during checkout.
 type PaymentLinkPaymentIntentData struct {
@@ -852,9 +928,9 @@ type PaymentLinkPaymentIntentData struct {
 	Metadata map[string]string `json:"metadata"`
 	// Indicates that you intend to make future payments with the payment method collected during checkout.
 	SetupFutureUsage PaymentLinkPaymentIntentDataSetupFutureUsage `json:"setup_future_usage"`
-	// Extra information about the payment. This will appear on your customer's statement when this payment succeeds in creating a charge.
+	// For a non-card payment, information about the charge that appears on the customer's statement when this payment succeeds in creating a charge.
 	StatementDescriptor string `json:"statement_descriptor"`
-	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	// For a card payment, information about the charge that appears on the customer's statement when this payment succeeds in creating a charge. Concatenated with the account's statement descriptor prefix to form the complete statement descriptor.
 	StatementDescriptorSuffix string `json:"statement_descriptor_suffix"`
 	// A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	TransferGroup string `json:"transfer_group"`
@@ -924,7 +1000,8 @@ type PaymentLinkSubscriptionData struct {
 }
 type PaymentLinkTaxIDCollection struct {
 	// Indicates whether tax ID collection is enabled for the session.
-	Enabled bool `json:"enabled"`
+	Enabled  bool                               `json:"enabled"`
+	Required PaymentLinkTaxIDCollectionRequired `json:"required"`
 }
 
 // The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
@@ -981,6 +1058,8 @@ type PaymentLink struct {
 	Object string `json:"object"`
 	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
+	// The optional items presented to the customer at checkout.
+	OptionalItems []*PaymentLinkOptionalItem `json:"optional_items"`
 	// Indicates the parameters to be passed to PaymentIntent creation during checkout.
 	PaymentIntentData *PaymentLinkPaymentIntentData `json:"payment_intent_data"`
 	// Configuration for collecting a payment method during checkout. Defaults to `always`.

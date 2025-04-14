@@ -1,29 +1,29 @@
 # Go Stripe
-[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v78)
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v82)
 [![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
-[![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-go/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-go?branch=master)
 
 The official [Stripe][stripe] Go client library.
 
 ## Requirements
 
-- Go 1.15 or later
+- Go 1.18 or later
 
 ## Installation
 
 Make sure your project is using Go Modules (it will have a `go.mod` file in its
 root if it already is):
 
-``` sh
+```sh
 go mod init
 ```
 
 Then, reference stripe-go in a Go program with `import`:
 
-``` go
+```go
 import (
-	"github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/customer"
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/customer"
 )
 ```
 
@@ -33,15 +33,13 @@ toolchain will resolve and fetch the stripe-go module automatically.
 Alternatively, you can also explicitly `go get` the package into a project:
 
 ```bash
-go get -u github.com/stripe/stripe-go/v78
+go get -u github.com/stripe/stripe-go/v82
 ```
 
 ## Documentation
 
 For a comprehensive list of examples, check out the [API
 documentation][api-docs].
-
-See [video demonstrations][youtube-playlist] covering how to use the library.
 
 For details on all the functionality in this library, see the [Go
 documentation][goref].
@@ -122,8 +120,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-	"github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/client"
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/client"
 )
 
 stripe := &client.API{}
@@ -144,8 +142,8 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/client"
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -179,8 +177,8 @@ client.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/$resource$"
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/customer"
 )
 
 // Setup
@@ -190,21 +188,22 @@ stripe.Key = "sk_key"
 // stripe.SetBackend("api", backend)
 
 // Create
-resource, err := $resource$.New(&stripe.$Resource$Params{})
+c, err := customer.New(&stripe.CustomerParams{})
 
 // Get
-resource, err = $resource$.Get(id, &stripe.$Resource$Params{})
+c, err := customer.Get(id, &stripe.CustomerParams{})
 
 // Update
-resource, err = $resource$.Update(id, &stripe.$Resource$Params{})
+c, err := customer.Update(id, &stripe.CustomerParams{})
 
 // Delete
-resourceDeleted, err := $resource$.Del(id, &stripe.$Resource$Params{})
+c, err := customer.Del(id, &stripe.CustomerParams{})
 
 // List
-i := $resource$.List(&stripe.$Resource$ListParams{})
+i := customer.List(&stripe.CustomerListParams{})
 for i.Next() {
-	resource := i.$Resource$()
+	c := i.Customer()
+	// do something
 }
 
 if err := i.Err(); err != nil {
@@ -220,30 +219,32 @@ individual key.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/client"
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/client"
 )
 
 // Setup
-sc := &client.API{}
-sc.Init("sk_key", nil) // the second parameter overrides the backends used if needed for mocking
+sc := client.New("sk_key", nil)
+// To set backends, e.g. for testing, use this instead:
+// sc := client.New("sk_key", backends)
 
 // Create
-$resource$, err := sc.$Resource$s.New(&stripe.$Resource$Params{})
+c, err := sc.Customers.New(&stripe.CustomerParams{})
 
 // Get
-$resource$, err = sc.$Resource$s.Get(id, &stripe.$Resource$Params{})
+c, err := sc.Customers.Get(&stripe.CustomerParams{})
 
 // Update
-$resource$, err = sc.$Resource$s.Update(id, &stripe.$Resource$Params{})
+c, err := sc.Customers.Update(&stripe.CustomerParams{})
 
 // Delete
-$resource$Deleted, err := sc.$Resource$s.Del(id, &stripe.$Resource$Params{})
+c, err := sc.Customers.Del(&stripe.CustomerParams{})
 
 // List
-i := sc.$Resource$s.List(&stripe.$Resource$ListParams{})
+i := sc.Customers.List(&stripe.CustomerListParams{})
 for i.Next() {
-	$resource$ := i.$Resource$()
+	c := i.Customer()
+	// do something
 }
 
 if err := i.Err(); err != nil {
@@ -256,7 +257,7 @@ if err := i.Err(); err != nil {
 Use `LastResponse` on any `APIResource` to look at the API response that
 generated the current object:
 
-``` go
+```go
 c, err := coupon.New(...)
 requestID := coupon.LastResponse.RequestID
 ```
@@ -264,7 +265,7 @@ requestID := coupon.LastResponse.RequestID
 Similarly, for `List` operations, the last response is available on the list
 object attached to the iterator:
 
-``` go
+```go
 it := coupon.List(...)
 for it.Next() {
     // Last response *NOT* on the individual iterator object
@@ -292,8 +293,8 @@ with `MaxNetworkRetries`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/client"
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/client"
 )
 
 config := &stripe.BackendConfig{
@@ -354,7 +355,7 @@ full resource struct, but unless expansion is requested, only the `ID` field of
 that struct is populated. Expansion is requested by calling `AddExpand` on
 parameter structs. For example:
 
-``` go
+```go
 //
 // *Without* expansion
 //
@@ -373,11 +374,12 @@ c, _ = charge.Get("ch_123", p)
 c.Customer.ID    // ID is still available
 c.Customer.Name  // Name is now also available (if it had a value)
 ```
+
 ### How to use undocumented parameters and properties
 
 stripe-go is a typed library and it supports all public properties or parameters.
 
-Stripe sometimes launches private beta features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used. 
+Stripe sometimes launches private beta features which introduce new properties or parameters that are not immediately public. These will not have typed accessors in the stripe-go library but can still be used.
 
 #### Parameters
 
@@ -412,13 +414,15 @@ secret_parameter, ok := rawData["secret_parameter"].(map[string]interface{})
 if ok {
 	primary := secret_parameter["primary"].(string)
 	secondary := secret_parameter["secondary"].(string)
-} 
+}
 ```
 
 ### Webhook signing
+
 Stripe can optionally sign the webhook events it sends to your endpoint, allowing you to validate that they were not sent by a third-party. You can read more about it [here](https://stripe.com/docs/webhooks/signatures).
 
 #### Testing Webhook signing
+
 You can use `stripe.webhook.GenerateTestSignedPayload` to mock webhook events that come from Stripe:
 
 ```go
@@ -477,10 +481,13 @@ config := &stripe.BackendConfig{
 To mock a Stripe client for a unit tests using [GoMock](https://github.com/golang/mock):
 
 1. Generate a `Backend` type mock.
+
 ```
-mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v78 Backend
+mockgen -destination=mocks/backend.go -package=mocks github.com/stripe/stripe-go/v82 Backend
 ```
+
 2. Use the `Backend` mock to initialize and call methods on the client.
+
 ```go
 
 import (
@@ -489,8 +496,8 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
-	"github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/account"
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/account"
 )
 
 func UseMockedStripeClient(t *testing.T) {
@@ -527,22 +534,102 @@ We would love for you to try these and share feedback with us before these featu
 To install a beta version of stripe-go use the commit notation of the `go get` command to point to a beta tag:
 
 ```
-go get -u github.com/stripe/stripe-go/v78@v77.1.0-beta.1
+go get -u github.com/stripe/stripe-go/v82@beta
 ```
 
 > **Note**
-> There can be breaking changes between beta versions. 
+> There can be breaking changes between beta versions.
 
 We highly recommend keeping an eye on when the beta feature you are interested in goes from beta to stable so that you can move from using a beta version of the SDK to the stable version.
 
 If your beta feature requires a `Stripe-Version` header to be sent, set the `stripe.APIVersion` field using the `stripe.AddBetaVersion` function to set it:
 
 > **Note**
-> The `APIVersion` can only be set in beta versions of the library. 
+> The `APIVersion` can only be set in beta versions of the library.
 
 ```go
 stripe.AddBetaVersion("feature_beta", "v3")
 ```
+
+### Custom Request
+
+If you would like to send a request to an API that is:
+
+- not yet supported in stripe-go (like any `/v2/...` endpoints), or
+- undocumented (like a private beta), or
+- public, but you prefer to bypass the method definitions in the library and specify your request details directly
+
+You can use the `rawrequest` package:
+
+```go
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
+	"github.com/stripe/stripe-go/v82/rawrequest"
+)
+
+func make_raw_request() error {
+	stripe.Key = "sk_test_123"
+
+	b, err := stripe.GetRawRequestBackend(stripe.APIBackend)
+	if err != nil {
+		return err
+	}
+
+	client := rawrequest.Client{B: b, Key: apiKey}
+
+	payload := map[string]interface{}{
+		"event_name": "hotdogs_eaten",
+		"payload": map[string]string{
+			"value":              "123",
+			"stripe_customer_id": "cus_Quq8itmW58RMet",
+		},
+	}
+
+	// for a v2 request, json encode the payload
+	body, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	v2_resp, err := client.RawRequest(http.MethodPost, "/v2/billing/meter_events", string(body), nil)
+	if err != nil {
+		return err
+	}
+
+	var v2_response map[string]interface{}
+	err = json.Unmarshal(v2_resp.RawJSON, &v2_response)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%#v\n", v2_response)
+
+	// for a v1 request, form encode the payload
+	formValues := &form.Values{}
+	form.AppendTo(formValues, payload)
+	content := formValues.Encode()
+
+	v1_resp, err := client.RawRequest(http.MethodPost, "/v1/billing/meter_events", content, nil)
+	if err != nil {
+		return err
+	}
+
+	var v1_response map[string]interface{}
+	err = json.Unmarshal(v1_resp.RawJSON, &v1_response)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%#v\n", v1_response)
+
+	return nil
+}
+
+```
+
+See more examples in the [/example/v2 folder](example/v2).
 
 ## Support
 
@@ -555,19 +642,15 @@ the following guidelines in mind:
 
 1. Code must be `go fmt` compliant.
 2. All types, structs and funcs should be documented.
-3. Ensure that `make test` succeeds.
+3. Ensure that `just test` succeeds.
+
+[Other contribution guidelines for this project](CONTRIBUTING.md)
 
 ## Test
 
-The test suite needs testify's `require` package to run:
+We use [just](https://github.com/casey/just) for conveniently running development tasks. You can use them directly, or copy the commands out of the `justfile`. To our help docs, run `just`.
 
-    github.com/stretchr/testify/require
-
-Before running the tests, make sure to grab all of the package's dependencies:
-
-    go get -t -v
-
-It also depends on [stripe-mock][stripe-mock], so make sure to fetch and run it from a
+This package depends on [stripe-mock][stripe-mock], so make sure to fetch and run it from a
 background terminal ([stripe-mock's README][stripe-mock-usage] also contains
 instructions for installing via Homebrew and other methods):
 
@@ -576,15 +659,24 @@ instructions for installing via Homebrew and other methods):
 
 Run all tests:
 
-    make test
+```sh
+just test
+# or: go test ./...
+```
 
 Run tests for one package:
 
-    go test ./invoice
+```sh
+just test ./invoice
+# or: go test ./invoice
+```
 
 Run a single test:
 
-    go test ./invoice -run TestInvoiceGet
+```sh
+just test ./invoice -run TestInvoiceGet
+# or: go test ./invoice -run TestInvoiceGet
+```
 
 For any requests, bug or comments, please [open an issue][issues] or [submit a
 pull request][pulls].
@@ -607,7 +699,6 @@ pull request][pulls].
 [stripe]: https://stripe.com
 [stripe-mock]: https://github.com/stripe/stripe-mock
 [stripe-mock-usage]: https://github.com/stripe/stripe-mock#usage
-[youtube-playlist]: https://www.youtube.com/playlist?list=PLy1nL-pvL2M5eqpSBR9KL7K0lcnWo0V0a
 [zapsugaredlogger]: https://godoc.org/go.uber.org/zap#SugaredLogger
 
 <!--

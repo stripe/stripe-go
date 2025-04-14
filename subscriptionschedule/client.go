@@ -10,8 +10,8 @@ package subscriptionschedule
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /subscription_schedules APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedul
 func (c Client) New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/subscription_schedules",
-		c.Key,
-		params,
-		subscriptionschedule,
-	)
+		http.MethodPost, "/v1/subscription_schedules", c.Key, params, subscriptionschedule)
 	return subscriptionschedule, err
 }
 
@@ -100,7 +95,7 @@ func (c Client) List(listParams *stripe.SubscriptionScheduleListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SubscriptionScheduleList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/subscription_schedules", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/subscription_schedules", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

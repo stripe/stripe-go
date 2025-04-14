@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v78/form"
+	"github.com/stripe/stripe-go/v82/form"
 	"strconv"
 )
 
@@ -35,6 +35,7 @@ type BankAccountFutureRequirementsErrorCode string
 
 // List of values that BankAccountFutureRequirementsErrorCode can take
 const (
+	BankAccountFutureRequirementsErrorCodeInformationMissing                                     BankAccountFutureRequirementsErrorCode = "information_missing"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountFutureRequirementsErrorCode = "invalid_address_city_state_postal_code"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountFutureRequirementsErrorCode = "invalid_address_highway_contract_box"
 	BankAccountFutureRequirementsErrorCodeInvalidAddressPrivateMailbox                           BankAccountFutureRequirementsErrorCode = "invalid_address_private_mailbox"
@@ -47,6 +48,7 @@ const (
 	BankAccountFutureRequirementsErrorCodeInvalidProductDescriptionLength                        BankAccountFutureRequirementsErrorCode = "invalid_product_description_length"
 	BankAccountFutureRequirementsErrorCodeInvalidProductDescriptionURLMatch                      BankAccountFutureRequirementsErrorCode = "invalid_product_description_url_match"
 	BankAccountFutureRequirementsErrorCodeInvalidRepresentativeCountry                           BankAccountFutureRequirementsErrorCode = "invalid_representative_country"
+	BankAccountFutureRequirementsErrorCodeInvalidSignator                                        BankAccountFutureRequirementsErrorCode = "invalid_signator"
 	BankAccountFutureRequirementsErrorCodeInvalidStatementDescriptorBusinessMismatch             BankAccountFutureRequirementsErrorCode = "invalid_statement_descriptor_business_mismatch"
 	BankAccountFutureRequirementsErrorCodeInvalidStatementDescriptorDenylisted                   BankAccountFutureRequirementsErrorCode = "invalid_statement_descriptor_denylisted"
 	BankAccountFutureRequirementsErrorCodeInvalidStatementDescriptorLength                       BankAccountFutureRequirementsErrorCode = "invalid_statement_descriptor_length"
@@ -108,6 +110,7 @@ const (
 	BankAccountFutureRequirementsErrorCodeVerificationDocumentTypeNotSupported                   BankAccountFutureRequirementsErrorCode = "verification_document_type_not_supported"
 	BankAccountFutureRequirementsErrorCodeVerificationExtraneousDirectors                        BankAccountFutureRequirementsErrorCode = "verification_extraneous_directors"
 	BankAccountFutureRequirementsErrorCodeVerificationFailedAddressMatch                         BankAccountFutureRequirementsErrorCode = "verification_failed_address_match"
+	BankAccountFutureRequirementsErrorCodeVerificationFailedAuthorizerAuthority                  BankAccountFutureRequirementsErrorCode = "verification_failed_authorizer_authority"
 	BankAccountFutureRequirementsErrorCodeVerificationFailedBusinessIecNumber                    BankAccountFutureRequirementsErrorCode = "verification_failed_business_iec_number"
 	BankAccountFutureRequirementsErrorCodeVerificationFailedDocumentMatch                        BankAccountFutureRequirementsErrorCode = "verification_failed_document_match"
 	BankAccountFutureRequirementsErrorCodeVerificationFailedIDNumberMatch                        BankAccountFutureRequirementsErrorCode = "verification_failed_id_number_match"
@@ -122,8 +125,10 @@ const (
 	BankAccountFutureRequirementsErrorCodeVerificationMissingDirectors                           BankAccountFutureRequirementsErrorCode = "verification_missing_directors"
 	BankAccountFutureRequirementsErrorCodeVerificationMissingExecutives                          BankAccountFutureRequirementsErrorCode = "verification_missing_executives"
 	BankAccountFutureRequirementsErrorCodeVerificationMissingOwners                              BankAccountFutureRequirementsErrorCode = "verification_missing_owners"
+	BankAccountFutureRequirementsErrorCodeVerificationRejectedOwnershipExemptionReason           BankAccountFutureRequirementsErrorCode = "verification_rejected_ownership_exemption_reason"
 	BankAccountFutureRequirementsErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations BankAccountFutureRequirementsErrorCode = "verification_requires_additional_memorandum_of_associations"
 	BankAccountFutureRequirementsErrorCodeVerificationRequiresAdditionalProofOfRegistration      BankAccountFutureRequirementsErrorCode = "verification_requires_additional_proof_of_registration"
+	BankAccountFutureRequirementsErrorCodeVerificationSupportability                             BankAccountFutureRequirementsErrorCode = "verification_supportability"
 )
 
 // The code for the type of error.
@@ -131,6 +136,7 @@ type BankAccountRequirementsErrorCode string
 
 // List of values that BankAccountRequirementsErrorCode can take
 const (
+	BankAccountRequirementsErrorCodeInformationMissing                                     BankAccountRequirementsErrorCode = "information_missing"
 	BankAccountRequirementsErrorCodeInvalidAddressCityStatePostalCode                      BankAccountRequirementsErrorCode = "invalid_address_city_state_postal_code"
 	BankAccountRequirementsErrorCodeInvalidAddressHighwayContractBox                       BankAccountRequirementsErrorCode = "invalid_address_highway_contract_box"
 	BankAccountRequirementsErrorCodeInvalidAddressPrivateMailbox                           BankAccountRequirementsErrorCode = "invalid_address_private_mailbox"
@@ -143,6 +149,7 @@ const (
 	BankAccountRequirementsErrorCodeInvalidProductDescriptionLength                        BankAccountRequirementsErrorCode = "invalid_product_description_length"
 	BankAccountRequirementsErrorCodeInvalidProductDescriptionURLMatch                      BankAccountRequirementsErrorCode = "invalid_product_description_url_match"
 	BankAccountRequirementsErrorCodeInvalidRepresentativeCountry                           BankAccountRequirementsErrorCode = "invalid_representative_country"
+	BankAccountRequirementsErrorCodeInvalidSignator                                        BankAccountRequirementsErrorCode = "invalid_signator"
 	BankAccountRequirementsErrorCodeInvalidStatementDescriptorBusinessMismatch             BankAccountRequirementsErrorCode = "invalid_statement_descriptor_business_mismatch"
 	BankAccountRequirementsErrorCodeInvalidStatementDescriptorDenylisted                   BankAccountRequirementsErrorCode = "invalid_statement_descriptor_denylisted"
 	BankAccountRequirementsErrorCodeInvalidStatementDescriptorLength                       BankAccountRequirementsErrorCode = "invalid_statement_descriptor_length"
@@ -204,6 +211,7 @@ const (
 	BankAccountRequirementsErrorCodeVerificationDocumentTypeNotSupported                   BankAccountRequirementsErrorCode = "verification_document_type_not_supported"
 	BankAccountRequirementsErrorCodeVerificationExtraneousDirectors                        BankAccountRequirementsErrorCode = "verification_extraneous_directors"
 	BankAccountRequirementsErrorCodeVerificationFailedAddressMatch                         BankAccountRequirementsErrorCode = "verification_failed_address_match"
+	BankAccountRequirementsErrorCodeVerificationFailedAuthorizerAuthority                  BankAccountRequirementsErrorCode = "verification_failed_authorizer_authority"
 	BankAccountRequirementsErrorCodeVerificationFailedBusinessIecNumber                    BankAccountRequirementsErrorCode = "verification_failed_business_iec_number"
 	BankAccountRequirementsErrorCodeVerificationFailedDocumentMatch                        BankAccountRequirementsErrorCode = "verification_failed_document_match"
 	BankAccountRequirementsErrorCodeVerificationFailedIDNumberMatch                        BankAccountRequirementsErrorCode = "verification_failed_id_number_match"
@@ -218,8 +226,10 @@ const (
 	BankAccountRequirementsErrorCodeVerificationMissingDirectors                           BankAccountRequirementsErrorCode = "verification_missing_directors"
 	BankAccountRequirementsErrorCodeVerificationMissingExecutives                          BankAccountRequirementsErrorCode = "verification_missing_executives"
 	BankAccountRequirementsErrorCodeVerificationMissingOwners                              BankAccountRequirementsErrorCode = "verification_missing_owners"
+	BankAccountRequirementsErrorCodeVerificationRejectedOwnershipExemptionReason           BankAccountRequirementsErrorCode = "verification_rejected_ownership_exemption_reason"
 	BankAccountRequirementsErrorCodeVerificationRequiresAdditionalMemorandumOfAssociations BankAccountRequirementsErrorCode = "verification_requires_additional_memorandum_of_associations"
 	BankAccountRequirementsErrorCodeVerificationRequiresAdditionalProofOfRegistration      BankAccountRequirementsErrorCode = "verification_requires_additional_proof_of_registration"
+	BankAccountRequirementsErrorCodeVerificationSupportability                             BankAccountRequirementsErrorCode = "verification_supportability"
 )
 
 // For bank accounts, possible values are `new`, `validated`, `verified`, `verification_failed`, or `errored`. A bank account that hasn't had any activity or validation performed is `new`. If Stripe can determine that the bank account exists, its status will be `validated`. Note that there often isn't enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be `verified`. If the verification failed for any reason, such as microdeposit failure, the status will be `verification_failed`. If a payout sent to this bank account fails, we'll set the status to `errored` and will not continue to send [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) until the bank details are updated.
@@ -284,6 +294,14 @@ type BankAccountParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Cardholder name.
 	Name *string `form:"name"`
+	// The ID of a Payment Method with a `type` of `us_bank_account`. The Payment Method's bank account information will be copied and
+	// returned as a Bank Account Token. This parameter is exclusive with respect to all other parameters in the `bank_account` hash.
+	// You must include the top-level `customer` parameter if the Payment Method is attached to a `Customer` object. If the Payment
+	// Method is not attached to a `Customer` object, it will be consumed and cannot be used again. You may not use Payment Methods which were
+	// created by a Setup Intent with `attach_to_self=true`.
+	// This is used for TokenParams.BankAccountParams only and will be removed in the next major version.
+	// **DO NOT USE THIS FOR OTHER METHODS.**
+	PaymentMethod *string `form:"payment_method"`
 	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
 	RoutingNumber *string `form:"routing_number"`
 	// ID is used when tokenizing a bank account for shared customers
@@ -323,9 +341,8 @@ func (p *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 
 		if p.DefaultForCurrency != nil {
 			body.Add(
-				"default_for_currency",
-				strconv.FormatBool(BoolValue(p.DefaultForCurrency)),
-			)
+				"default_for_currency", strconv.FormatBool(
+					BoolValue(p.DefaultForCurrency)))
 		}
 	} else {
 		body.Add(sourceType+"[object]", "bank_account")
@@ -368,7 +385,7 @@ func (p *BankAccountParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a voided check.
+// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
 type BankAccountDocumentsBankAccountOwnershipVerificationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
 	Files []*string `form:"files"`
@@ -376,17 +393,19 @@ type BankAccountDocumentsBankAccountOwnershipVerificationParams struct {
 
 // Documents that may be submitted to satisfy various informational requests.
 type BankAccountDocumentsParams struct {
-	// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a voided check.
+	// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
 	BankAccountOwnershipVerification *BankAccountDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
 }
 type BankAccountListParams struct {
 	ListParams `form:"*"`
-	// The identifier of the parent account under which the bank accounts are
-	// nested. Either Account or Customer should be populated.
-	Account *string `form:"-"` // Included in URL
 	// The identifier of the parent customer under which the bank accounts are
 	// nested. Either Account or Customer should be populated.
 	Customer *string `form:"-"` // Included in URL
+	// The identifier of the parent account under which the bank accounts are
+	// nested. Either Account or Customer should be populated.
+	Account *string `form:"-"` // Included in URL
+	// Filter according to a particular object type. Valid values are "bank_account" or "card".
+	Object *string `form:"object"`
 }
 
 // AppendTo implements custom encoding logic for BankAccountListParams
@@ -443,14 +462,13 @@ type BankAccountRequirements struct {
 // These bank accounts are payment methods on `Customer` objects.
 //
 // On the other hand [External Accounts](https://stripe.com/api#external_accounts) are transfer
-// destinations on `Account` objects for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
-// is `application`, which includes [Custom accounts](https://stripe.com/connect/custom-accounts).
+// destinations on `Account` objects for connected accounts.
 // They can be bank accounts or debit cards as well, and are documented in the links above.
 //
 // Related guide: [Bank debits and transfers](https://stripe.com/payments/bank-debits-transfers)
 type BankAccount struct {
 	APIResource
-	// The ID of the account that the bank account is associated with.
+	// The account this bank account belongs to. Only applicable on Accounts (not customers or recipients) This property is only available when returned as an [External Account](https://stripe.com/api/external_account_bank_accounts/object) where [controller.is_controller](https://stripe.com/api/accounts/object#account_object-controller-is_controller) is `true`.
 	Account *Account `json:"account"`
 	// The name of the person or business that owns the bank account.
 	AccountHolderName string `json:"account_holder_name"`

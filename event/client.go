@@ -10,8 +10,8 @@ package event
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /events APIs.
@@ -20,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieves the details of an event. Supply the unique identifier of the event, which you might have received in a webhook.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique identifier of the event, which you might have received in a webhook.
 func Get(id string, params *stripe.EventParams) (*stripe.Event, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieves the details of an event. Supply the unique identifier of the event, which you might have received in a webhook.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique identifier of the event, which you might have received in a webhook.
 func (c Client) Get(id string, params *stripe.EventParams) (*stripe.Event, error) {
 	path := stripe.FormatURLPath("/v1/events/%s", id)
 	event := &stripe.Event{}
@@ -43,7 +43,7 @@ func (c Client) List(listParams *stripe.EventListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.EventList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/events", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/events", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

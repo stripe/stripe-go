@@ -10,7 +10,7 @@ package session
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /financial_connections/sessions APIs.
@@ -28,12 +28,7 @@ func New(params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialCon
 func (c Client) New(params *stripe.FinancialConnectionsSessionParams) (*stripe.FinancialConnectionsSession, error) {
 	session := &stripe.FinancialConnectionsSession{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/financial_connections/sessions",
-		c.Key,
-		params,
-		session,
-	)
+		http.MethodPost, "/v1/financial_connections/sessions", c.Key, params, session)
 	return session, err
 }
 

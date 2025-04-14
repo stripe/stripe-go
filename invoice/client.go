@@ -10,8 +10,8 @@ package invoice
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /invoices APIs.
@@ -81,6 +81,19 @@ func (c Client) Del(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 	return invoice, err
 }
 
+// Adds multiple line items to an invoice. This is only possible when an invoice is still a draft.
+func AddLines(id string, params *stripe.InvoiceAddLinesParams) (*stripe.Invoice, error) {
+	return getC().AddLines(id, params)
+}
+
+// Adds multiple line items to an invoice. This is only possible when an invoice is still a draft.
+func (c Client) AddLines(id string, params *stripe.InvoiceAddLinesParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/add_lines", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
 // At any time, you can preview the upcoming invoice for a customer. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
 //
 // Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
@@ -102,12 +115,7 @@ func CreatePreview(params *stripe.InvoiceCreatePreviewParams) (*stripe.Invoice, 
 func (c Client) CreatePreview(params *stripe.InvoiceCreatePreviewParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/invoices/create_preview",
-		c.Key,
-		params,
-		invoice,
-	)
+		http.MethodPost, "/v1/invoices/create_preview", c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -150,6 +158,19 @@ func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice
 	return invoice, err
 }
 
+// Removes multiple line items from an invoice. This is only possible when an invoice is still a draft.
+func RemoveLines(id string, params *stripe.InvoiceRemoveLinesParams) (*stripe.Invoice, error) {
+	return getC().RemoveLines(id, params)
+}
+
+// Removes multiple line items from an invoice. This is only possible when an invoice is still a draft.
+func (c Client) RemoveLines(id string, params *stripe.InvoiceRemoveLinesParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/remove_lines", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
 // Stripe will automatically send invoices to customers according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to manually send an invoice to your customer out of the normal schedule, you can do so. When sending invoices that have already been paid, there will be no reference to the payment in the email.
 //
 // Requests made in test-mode result in no emails being sent, despite sending an invoice.sent event.
@@ -167,33 +188,16 @@ func (c Client) SendInvoice(id string, params *stripe.InvoiceSendInvoiceParams) 
 	return invoice, err
 }
 
-// At any time, you can preview the upcoming invoice for a customer. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
-//
-// Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
-//
-// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_details.proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_details.proration_date value passed in the request.
-//
-// Note: Currency conversion calculations use the latest exchange rates. Exchange rates may vary between the time of the preview and the time of the actual invoice creation. [Learn more](https://docs.stripe.com/currencies/conversions)
-func Upcoming(params *stripe.InvoiceUpcomingParams) (*stripe.Invoice, error) {
-	return getC().Upcoming(params)
+// Updates multiple line items on an invoice. This is only possible when an invoice is still a draft.
+func UpdateLines(id string, params *stripe.InvoiceUpdateLinesParams) (*stripe.Invoice, error) {
+	return getC().UpdateLines(id, params)
 }
 
-// At any time, you can preview the upcoming invoice for a customer. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
-//
-// Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
-//
-// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_details.proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_details.proration_date value passed in the request.
-//
-// Note: Currency conversion calculations use the latest exchange rates. Exchange rates may vary between the time of the preview and the time of the actual invoice creation. [Learn more](https://docs.stripe.com/currencies/conversions)
-func (c Client) Upcoming(params *stripe.InvoiceUpcomingParams) (*stripe.Invoice, error) {
+// Updates multiple line items on an invoice. This is only possible when an invoice is still a draft.
+func (c Client) UpdateLines(id string, params *stripe.InvoiceUpdateLinesParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/update_lines", id)
 	invoice := &stripe.Invoice{}
-	err := c.B.Call(
-		http.MethodGet,
-		"/v1/invoices/upcoming",
-		c.Key,
-		params,
-		invoice,
-	)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -224,7 +228,7 @@ func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -261,35 +265,11 @@ func ListLines(params *stripe.InvoiceListLinesParams) *LineItemIter {
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLines(listParams *stripe.InvoiceListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/invoices/%s/lines",
-		stripe.StringValue(listParams.Invoice),
-	)
+		"/v1/invoices/%s/lines", stripe.StringValue(listParams.Invoice))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
-
-			ret := make([]interface{}, len(list.Data))
-			for i, v := range list.Data {
-				ret[i] = v
-			}
-
-			return ret, list, err
-		}),
-	}
-}
-
-// When retrieving an upcoming invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func UpcomingLines(params *stripe.InvoiceUpcomingLinesParams) *LineItemIter {
-	return getC().UpcomingLines(params)
-}
-
-// When retrieving an upcoming invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
-func (c Client) UpcomingLines(listParams *stripe.InvoiceUpcomingLinesParams) *LineItemIter {
-	return &LineItemIter{
-		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-			list := &stripe.InvoiceLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/invoices/upcoming/lines", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -334,7 +314,7 @@ func (c Client) Search(params *stripe.InvoiceSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.InvoiceSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/invoices/search", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/invoices/search", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

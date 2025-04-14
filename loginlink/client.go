@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /accounts/{account}/login_links APIs.
@@ -20,14 +20,14 @@ type Client struct {
 	Key string
 }
 
-// Creates a single-use login link for a connected account to access the Express Dashboard.
+// Creates a login link for a connected account to access the Express Dashboard.
 //
 // You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
 func New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 	return getC().New(params)
 }
 
-// Creates a single-use login link for a connected account to access the Express Dashboard.
+// Creates a login link for a connected account to access the Express Dashboard.
 //
 // You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
 func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
@@ -35,9 +35,7 @@ func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 		return nil, fmt.Errorf("Invalid login link params: Account must be set")
 	}
 	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/login_links",
-		stripe.StringValue(params.Account),
-	)
+		"/v1/accounts/%s/login_links", stripe.StringValue(params.Account))
 	loginlink := &stripe.LoginLink{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, loginlink)
 	return loginlink, err

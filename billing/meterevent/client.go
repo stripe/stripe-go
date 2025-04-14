@@ -10,7 +10,7 @@ package meterevent
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /billing/meter_events APIs.
@@ -19,21 +19,16 @@ type Client struct {
 	Key string
 }
 
-// Creates a billing meter event
+// Creates a billing meter event.
 func New(params *stripe.BillingMeterEventParams) (*stripe.BillingMeterEvent, error) {
 	return getC().New(params)
 }
 
-// Creates a billing meter event
+// Creates a billing meter event.
 func (c Client) New(params *stripe.BillingMeterEventParams) (*stripe.BillingMeterEvent, error) {
 	meterevent := &stripe.BillingMeterEvent{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/billing/meter_events",
-		c.Key,
-		params,
-		meterevent,
-	)
+		http.MethodPost, "/v1/billing/meter_events", c.Key, params, meterevent)
 	return meterevent, err
 }
 

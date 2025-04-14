@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke card related APIs.
@@ -52,7 +52,7 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	// make an explicit call using a form and CallRaw instead of the standard
 	// Call (which takes a set of parameters).
 	card := &stripe.Card{}
-	err := c.B.CallRaw(http.MethodPost, path, c.Key, body, &params.Params, card)
+	err := c.B.CallRaw(http.MethodPost, path, c.Key, []byte(body.Encode()), &params.Params, card)
 	return card, err
 }
 
@@ -161,7 +161,7 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 				return nil, list, outerErr
 			}
 
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

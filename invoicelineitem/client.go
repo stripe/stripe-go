@@ -10,7 +10,7 @@ package invoicelineitem
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /invoices/{invoice}/lines APIs.
@@ -33,10 +33,7 @@ func Update(id string, params *stripe.InvoiceLineItemParams) (*stripe.InvoiceLin
 // Updating an invoice's line item is only possible before the invoice is finalized.
 func (c Client) Update(id string, params *stripe.InvoiceLineItemParams) (*stripe.InvoiceLineItem, error) {
 	path := stripe.FormatURLPath(
-		"/v1/invoices/%s/lines/%s",
-		stripe.StringValue(params.Invoice),
-		id,
-	)
+		"/v1/invoices/%s/lines/%s", stripe.StringValue(params.Invoice), id)
 	invoicelineitem := &stripe.InvoiceLineItem{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoicelineitem)
 	return invoicelineitem, err

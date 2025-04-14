@@ -10,8 +10,8 @@ package debitreversal
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /treasury/debit_reversals APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitRever
 func (c Client) New(params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitReversal, error) {
 	debitreversal := &stripe.TreasuryDebitReversal{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/treasury/debit_reversals",
-		c.Key,
-		params,
-		debitreversal,
-	)
+		http.MethodPost, "/v1/treasury/debit_reversals", c.Key, params, debitreversal)
 	return debitreversal, err
 }
 
@@ -61,7 +56,7 @@ func (c Client) List(listParams *stripe.TreasuryDebitReversalListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryDebitReversalList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/debit_reversals", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/debit_reversals", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -27,6 +27,7 @@ const (
 	EventTypeApplicationFeeRefundUpdated                        EventType = "application_fee.refund.updated"
 	EventTypeApplicationFeeRefunded                             EventType = "application_fee.refunded"
 	EventTypeBalanceAvailable                                   EventType = "balance.available"
+	EventTypeBillingAlertTriggered                              EventType = "billing.alert.triggered"
 	EventTypeBillingPortalConfigurationCreated                  EventType = "billing_portal.configuration.created"
 	EventTypeBillingPortalConfigurationUpdated                  EventType = "billing_portal.configuration.updated"
 	EventTypeBillingPortalSessionCreated                        EventType = "billing_portal.session.created"
@@ -104,6 +105,8 @@ const (
 	EventTypeInvoiceFinalizationFailed                          EventType = "invoice.finalization_failed"
 	EventTypeInvoiceFinalized                                   EventType = "invoice.finalized"
 	EventTypeInvoiceMarkedUncollectible                         EventType = "invoice.marked_uncollectible"
+	EventTypeInvoiceOverdue                                     EventType = "invoice.overdue"
+	EventTypeInvoiceOverpaid                                    EventType = "invoice.overpaid"
 	EventTypeInvoicePaid                                        EventType = "invoice.paid"
 	EventTypeInvoicePaymentActionRequired                       EventType = "invoice.payment_action_required"
 	EventTypeInvoicePaymentFailed                               EventType = "invoice.payment_failed"
@@ -112,6 +115,7 @@ const (
 	EventTypeInvoiceUpcoming                                    EventType = "invoice.upcoming"
 	EventTypeInvoiceUpdated                                     EventType = "invoice.updated"
 	EventTypeInvoiceVoided                                      EventType = "invoice.voided"
+	EventTypeInvoiceWillBeDue                                   EventType = "invoice.will_be_due"
 	EventTypeInvoiceItemCreated                                 EventType = "invoiceitem.created"
 	EventTypeInvoiceItemDeleted                                 EventType = "invoiceitem.deleted"
 	EventTypeIssuingAuthorizationCreated                        EventType = "issuing_authorization.created"
@@ -124,6 +128,7 @@ const (
 	EventTypeIssuingDisputeClosed                               EventType = "issuing_dispute.closed"
 	EventTypeIssuingDisputeCreated                              EventType = "issuing_dispute.created"
 	EventTypeIssuingDisputeFundsReinstated                      EventType = "issuing_dispute.funds_reinstated"
+	EventTypeIssuingDisputeFundsRescinded                       EventType = "issuing_dispute.funds_rescinded"
 	EventTypeIssuingDisputeSubmitted                            EventType = "issuing_dispute.submitted"
 	EventTypeIssuingDisputeUpdated                              EventType = "issuing_dispute.updated"
 	EventTypeIssuingPersonalizationDesignActivated              EventType = "issuing_personalization_design.activated"
@@ -133,6 +138,7 @@ const (
 	EventTypeIssuingTokenCreated                                EventType = "issuing_token.created"
 	EventTypeIssuingTokenUpdated                                EventType = "issuing_token.updated"
 	EventTypeIssuingTransactionCreated                          EventType = "issuing_transaction.created"
+	EventTypeIssuingTransactionPurchaseDetailsReceiptUpdated    EventType = "issuing_transaction.purchase_details_receipt_updated"
 	EventTypeIssuingTransactionUpdated                          EventType = "issuing_transaction.updated"
 	EventTypeMandateUpdated                                     EventType = "mandate.updated"
 	EventTypePaymentIntentAmountCapturableUpdated               EventType = "payment_intent.amount_capturable_updated"
@@ -176,6 +182,7 @@ const (
 	EventTypeRadarEarlyFraudWarningCreated                      EventType = "radar.early_fraud_warning.created"
 	EventTypeRadarEarlyFraudWarningUpdated                      EventType = "radar.early_fraud_warning.updated"
 	EventTypeRefundCreated                                      EventType = "refund.created"
+	EventTypeRefundFailed                                       EventType = "refund.failed"
 	EventTypeRefundUpdated                                      EventType = "refund.updated"
 	EventTypeReportingReportRunFailed                           EventType = "reporting.report_run.failed"
 	EventTypeReportingReportRunSucceeded                        EventType = "reporting.report_run.succeeded"
@@ -250,6 +257,13 @@ const (
 	EventTypeTreasuryReceivedCreditFailed                       EventType = "treasury.received_credit.failed"
 	EventTypeTreasuryReceivedCreditSucceeded                    EventType = "treasury.received_credit.succeeded"
 	EventTypeTreasuryReceivedDebitCreated                       EventType = "treasury.received_debit.created"
+	EventTypeBillingCreditBalanceTransactionCreated             EventType = "billing.credit_balance_transaction.created"
+	EventTypeBillingCreditGrantCreated                          EventType = "billing.credit_grant.created"
+	EventTypeBillingCreditGrantUpdated                          EventType = "billing.credit_grant.updated"
+	EventTypeBillingMeterCreated                                EventType = "billing.meter.created"
+	EventTypeBillingMeterDeactivated                            EventType = "billing.meter.deactivated"
+	EventTypeBillingMeterReactivated                            EventType = "billing.meter.reactivated"
+	EventTypeBillingMeterUpdated                                EventType = "billing.meter.updated"
 )
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
@@ -274,7 +288,7 @@ func (p *EventListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves the details of an event. Supply the unique identifier of the event, which you might have received in a webhook.
+// Retrieves the details of an event if it was created in the last 30 days. Supply the unique identifier of the event, which you might have received in a webhook.
 type EventParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.

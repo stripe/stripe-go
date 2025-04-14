@@ -20,14 +20,19 @@ const (
 	IssuingTransactionPurchaseDetailsFuelTypeUnleadedSuper   IssuingTransactionPurchaseDetailsFuelType = "unleaded_super"
 )
 
-// The units for `volume_decimal`. One of `liter`, `us_gallon`, or `other`.
+// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
 type IssuingTransactionPurchaseDetailsFuelUnit string
 
 // List of values that IssuingTransactionPurchaseDetailsFuelUnit can take
 const (
-	IssuingTransactionPurchaseDetailsFuelUnitLiter    IssuingTransactionPurchaseDetailsFuelUnit = "liter"
-	IssuingTransactionPurchaseDetailsFuelUnitUSGallon IssuingTransactionPurchaseDetailsFuelUnit = "us_gallon"
-	IssuingTransactionPurchaseDetailsFuelUnitOther    IssuingTransactionPurchaseDetailsFuelUnit = "other"
+	IssuingTransactionPurchaseDetailsFuelUnitChargingMinute IssuingTransactionPurchaseDetailsFuelUnit = "charging_minute"
+	IssuingTransactionPurchaseDetailsFuelUnitImperialGallon IssuingTransactionPurchaseDetailsFuelUnit = "imperial_gallon"
+	IssuingTransactionPurchaseDetailsFuelUnitKilogram       IssuingTransactionPurchaseDetailsFuelUnit = "kilogram"
+	IssuingTransactionPurchaseDetailsFuelUnitKilowattHour   IssuingTransactionPurchaseDetailsFuelUnit = "kilowatt_hour"
+	IssuingTransactionPurchaseDetailsFuelUnitLiter          IssuingTransactionPurchaseDetailsFuelUnit = "liter"
+	IssuingTransactionPurchaseDetailsFuelUnitPound          IssuingTransactionPurchaseDetailsFuelUnit = "pound"
+	IssuingTransactionPurchaseDetailsFuelUnitUSGallon       IssuingTransactionPurchaseDetailsFuelUnit = "us_gallon"
+	IssuingTransactionPurchaseDetailsFuelUnitOther          IssuingTransactionPurchaseDetailsFuelUnit = "other"
 )
 
 // The nature of the transaction.
@@ -112,6 +117,62 @@ type IssuingTransactionNetworkData struct {
 	TransactionID string `json:"transaction_id"`
 }
 
+// Answers to prompts presented to cardholder at point of sale.
+type IssuingTransactionPurchaseDetailsFleetCardholderPromptData struct {
+	// Driver ID.
+	DriverID string `json:"driver_id"`
+	// Odometer reading.
+	Odometer int64 `json:"odometer"`
+	// An alphanumeric ID. This field is used when a vehicle ID, driver ID, or generic ID is entered by the cardholder, but the merchant or card network did not specify the prompt type.
+	UnspecifiedID string `json:"unspecified_id"`
+	// User ID.
+	UserID string `json:"user_id"`
+	// Vehicle number.
+	VehicleNumber string `json:"vehicle_number"`
+}
+
+// Breakdown of fuel portion of the purchase.
+type IssuingTransactionPurchaseDetailsFleetReportedBreakdownFuel struct {
+	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	GrossAmountDecimal float64 `json:"gross_amount_decimal,string"`
+}
+
+// Breakdown of non-fuel portion of the purchase.
+type IssuingTransactionPurchaseDetailsFleetReportedBreakdownNonFuel struct {
+	// Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes.
+	GrossAmountDecimal float64 `json:"gross_amount_decimal,string"`
+}
+
+// Information about tax included in this transaction.
+type IssuingTransactionPurchaseDetailsFleetReportedBreakdownTax struct {
+	// Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax.
+	LocalAmountDecimal float64 `json:"local_amount_decimal,string"`
+	// Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax.
+	NationalAmountDecimal float64 `json:"national_amount_decimal,string"`
+}
+
+// More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
+type IssuingTransactionPurchaseDetailsFleetReportedBreakdown struct {
+	// Breakdown of fuel portion of the purchase.
+	Fuel *IssuingTransactionPurchaseDetailsFleetReportedBreakdownFuel `json:"fuel"`
+	// Breakdown of non-fuel portion of the purchase.
+	NonFuel *IssuingTransactionPurchaseDetailsFleetReportedBreakdownNonFuel `json:"non_fuel"`
+	// Information about tax included in this transaction.
+	Tax *IssuingTransactionPurchaseDetailsFleetReportedBreakdownTax `json:"tax"`
+}
+
+// Fleet-specific information for transactions using Fleet cards.
+type IssuingTransactionPurchaseDetailsFleet struct {
+	// Answers to prompts presented to cardholder at point of sale.
+	CardholderPromptData *IssuingTransactionPurchaseDetailsFleetCardholderPromptData `json:"cardholder_prompt_data"`
+	// The type of purchase. One of `fuel_purchase`, `non_fuel_purchase`, or `fuel_and_non_fuel_purchase`.
+	PurchaseType string `json:"purchase_type"`
+	// More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
+	ReportedBreakdown *IssuingTransactionPurchaseDetailsFleetReportedBreakdown `json:"reported_breakdown"`
+	// The type of fuel service. One of `non_fuel_transaction`, `full_service`, or `self_service`.
+	ServiceType string `json:"service_type"`
+}
+
 // The legs of the trip.
 type IssuingTransactionPurchaseDetailsFlightSegment struct {
 	// The three-letter IATA airport code of the flight's destination.
@@ -144,14 +205,16 @@ type IssuingTransactionPurchaseDetailsFlight struct {
 
 // Information about fuel that was purchased with this transaction.
 type IssuingTransactionPurchaseDetailsFuel struct {
+	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
+	IndustryProductCode string `json:"industry_product_code"`
+	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
+	QuantityDecimal float64 `json:"quantity_decimal,string"`
 	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 	Type IssuingTransactionPurchaseDetailsFuelType `json:"type"`
-	// The units for `volume_decimal`. One of `liter`, `us_gallon`, or `other`.
+	// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
 	Unit IssuingTransactionPurchaseDetailsFuelUnit `json:"unit"`
 	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
 	UnitCostDecimal float64 `json:"unit_cost_decimal,string"`
-	// The volume of the fuel that was pumped, represented as a decimal string with at most 12 decimal places.
-	VolumeDecimal float64 `json:"volume_decimal,string"`
 }
 
 // Information about lodging that was purchased with this transaction.
@@ -176,6 +239,8 @@ type IssuingTransactionPurchaseDetailsReceipt struct {
 
 // Additional purchase information that is optionally provided by the merchant.
 type IssuingTransactionPurchaseDetails struct {
+	// Fleet-specific information for transactions using Fleet cards.
+	Fleet *IssuingTransactionPurchaseDetailsFleet `json:"fleet"`
 	// Information about the flight that was purchased with this transaction.
 	Flight *IssuingTransactionPurchaseDetailsFlight `json:"flight"`
 	// Information about fuel that was purchased with this transaction.

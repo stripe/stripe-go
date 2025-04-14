@@ -10,8 +10,8 @@ package product
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v78"
-	"github.com/stripe/stripe-go/v78/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /products APIs.
@@ -81,7 +81,7 @@ func (c Client) List(listParams *stripe.ProductListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ProductList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/products", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/products", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -126,7 +126,7 @@ func (c Client) Search(params *stripe.ProductSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
 			list := &stripe.ProductSearchResult{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/products/search", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/products/search", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
