@@ -54,6 +54,20 @@ func (p *RadarEarlyFraudWarningParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of an early fraud warning that has previously been created.
+//
+// Please refer to the [early fraud warning](https://stripe.com/docs/api#early_fraud_warning_object) object reference for more details.
+type RadarEarlyFraudWarningRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RadarEarlyFraudWarningRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // An early fraud warning indicates that the card issuer has notified us that a
 // charge may be fraudulent.
 //

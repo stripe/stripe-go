@@ -1252,6 +1252,1979 @@ func (p *AccountRejectParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// With [Connect](https://stripe.com/connect), you can delete accounts you manage.
+//
+// Test-mode accounts can be deleted at any time.
+//
+// Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://stripe.com/api/balance/balance_object) are zero.
+//
+// If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
+type AccountDeleteParams struct {
+	Params `form:"*"`
+}
+
+// Retrieves the details of an account.
+type AccountRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *AccountRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// The applicant's gross annual revenue for its preceding fiscal year.
+type AccountUpdateBusinessProfileAnnualRevenueParams struct {
+	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
+	FiscalYearEnd *string `form:"fiscal_year_end"`
+}
+
+// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
+type AccountUpdateBusinessProfileMonthlyEstimatedRevenueParams struct {
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+}
+
+// Business information about the account.
+type AccountUpdateBusinessProfileParams struct {
+	// The applicant's gross annual revenue for its preceding fiscal year.
+	AnnualRevenue *AccountUpdateBusinessProfileAnnualRevenueParams `form:"annual_revenue"`
+	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
+	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
+	MCC *string `form:"mcc"`
+	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
+	MonthlyEstimatedRevenue *AccountUpdateBusinessProfileMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue"`
+	// The customer-facing business name.
+	Name *string `form:"name"`
+	// Internal-only description of the product sold by, or service provided by, the business. Used by Stripe for risk and underwriting purposes.
+	ProductDescription *string `form:"product_description"`
+	// A publicly available mailing address for sending support issues to.
+	SupportAddress *AddressParams `form:"support_address"`
+	// A publicly available email address for sending support issues to.
+	SupportEmail *string `form:"support_email"`
+	// A publicly available phone number to call with support issues.
+	SupportPhone *string `form:"support_phone"`
+	// A publicly available website for handling support issues.
+	SupportURL *string `form:"support_url"`
+	// The business's publicly available website.
+	URL *string `form:"url"`
+}
+
+// The acss_debit_payments capability.
+type AccountUpdateCapabilitiesACSSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The affirm_payments capability.
+type AccountUpdateCapabilitiesAffirmPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The afterpay_clearpay_payments capability.
+type AccountUpdateCapabilitiesAfterpayClearpayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The alma_payments capability.
+type AccountUpdateCapabilitiesAlmaPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The amazon_pay_payments capability.
+type AccountUpdateCapabilitiesAmazonPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The au_becs_debit_payments capability.
+type AccountUpdateCapabilitiesAUBECSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The bacs_debit_payments capability.
+type AccountUpdateCapabilitiesBACSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The bancontact_payments capability.
+type AccountUpdateCapabilitiesBancontactPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The bank_transfer_payments capability.
+type AccountUpdateCapabilitiesBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The billie_payments capability.
+type AccountUpdateCapabilitiesBilliePaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The blik_payments capability.
+type AccountUpdateCapabilitiesBLIKPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The boleto_payments capability.
+type AccountUpdateCapabilitiesBoletoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The card_issuing capability.
+type AccountUpdateCapabilitiesCardIssuingParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The card_payments capability.
+type AccountUpdateCapabilitiesCardPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The cartes_bancaires_payments capability.
+type AccountUpdateCapabilitiesCartesBancairesPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The cashapp_payments capability.
+type AccountUpdateCapabilitiesCashAppPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The eps_payments capability.
+type AccountUpdateCapabilitiesEPSPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The fpx_payments capability.
+type AccountUpdateCapabilitiesFPXPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The gb_bank_transfer_payments capability.
+type AccountUpdateCapabilitiesGBBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The giropay_payments capability.
+type AccountUpdateCapabilitiesGiropayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The grabpay_payments capability.
+type AccountUpdateCapabilitiesGrabpayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The ideal_payments capability.
+type AccountUpdateCapabilitiesIDEALPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The india_international_payments capability.
+type AccountUpdateCapabilitiesIndiaInternationalPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The jcb_payments capability.
+type AccountUpdateCapabilitiesJCBPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The jp_bank_transfer_payments capability.
+type AccountUpdateCapabilitiesJPBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The kakao_pay_payments capability.
+type AccountUpdateCapabilitiesKakaoPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The klarna_payments capability.
+type AccountUpdateCapabilitiesKlarnaPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The konbini_payments capability.
+type AccountUpdateCapabilitiesKonbiniPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The kr_card_payments capability.
+type AccountUpdateCapabilitiesKrCardPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The legacy_payments capability.
+type AccountUpdateCapabilitiesLegacyPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The link_payments capability.
+type AccountUpdateCapabilitiesLinkPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The mobilepay_payments capability.
+type AccountUpdateCapabilitiesMobilepayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The multibanco_payments capability.
+type AccountUpdateCapabilitiesMultibancoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The mx_bank_transfer_payments capability.
+type AccountUpdateCapabilitiesMXBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The naver_pay_payments capability.
+type AccountUpdateCapabilitiesNaverPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The nz_bank_account_becs_debit_payments capability.
+type AccountUpdateCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The oxxo_payments capability.
+type AccountUpdateCapabilitiesOXXOPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The p24_payments capability.
+type AccountUpdateCapabilitiesP24PaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The pay_by_bank_payments capability.
+type AccountUpdateCapabilitiesPayByBankPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The payco_payments capability.
+type AccountUpdateCapabilitiesPaycoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The paynow_payments capability.
+type AccountUpdateCapabilitiesPayNowPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The promptpay_payments capability.
+type AccountUpdateCapabilitiesPromptPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The revolut_pay_payments capability.
+type AccountUpdateCapabilitiesRevolutPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The samsung_pay_payments capability.
+type AccountUpdateCapabilitiesSamsungPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The satispay_payments capability.
+type AccountUpdateCapabilitiesSatispayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The sepa_bank_transfer_payments capability.
+type AccountUpdateCapabilitiesSEPABankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The sepa_debit_payments capability.
+type AccountUpdateCapabilitiesSEPADebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The sofort_payments capability.
+type AccountUpdateCapabilitiesSofortPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The swish_payments capability.
+type AccountUpdateCapabilitiesSwishPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The tax_reporting_us_1099_k capability.
+type AccountUpdateCapabilitiesTaxReportingUS1099KParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The tax_reporting_us_1099_misc capability.
+type AccountUpdateCapabilitiesTaxReportingUS1099MISCParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The transfers capability.
+type AccountUpdateCapabilitiesTransfersParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury capability.
+type AccountUpdateCapabilitiesTreasuryParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The twint_payments capability.
+type AccountUpdateCapabilitiesTWINTPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The us_bank_account_ach_payments capability.
+type AccountUpdateCapabilitiesUSBankAccountACHPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The us_bank_transfer_payments capability.
+type AccountUpdateCapabilitiesUSBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The zip_payments capability.
+type AccountUpdateCapabilitiesZipPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// Each key of the dictionary represents a capability, and each capability
+// maps to its settings (for example, whether it has been requested or not). Each
+// capability is inactive until you have provided its specific
+// requirements and Stripe has verified them. An account might have some
+// of its requested capabilities be active and some be inactive.
+//
+// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+// is `none`, which includes Custom accounts.
+type AccountUpdateCapabilitiesParams struct {
+	// The acss_debit_payments capability.
+	ACSSDebitPayments *AccountUpdateCapabilitiesACSSDebitPaymentsParams `form:"acss_debit_payments"`
+	// The affirm_payments capability.
+	AffirmPayments *AccountUpdateCapabilitiesAffirmPaymentsParams `form:"affirm_payments"`
+	// The afterpay_clearpay_payments capability.
+	AfterpayClearpayPayments *AccountUpdateCapabilitiesAfterpayClearpayPaymentsParams `form:"afterpay_clearpay_payments"`
+	// The alma_payments capability.
+	AlmaPayments *AccountUpdateCapabilitiesAlmaPaymentsParams `form:"alma_payments"`
+	// The amazon_pay_payments capability.
+	AmazonPayPayments *AccountUpdateCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments"`
+	// The au_becs_debit_payments capability.
+	AUBECSDebitPayments *AccountUpdateCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments"`
+	// The bacs_debit_payments capability.
+	BACSDebitPayments *AccountUpdateCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	// The bancontact_payments capability.
+	BancontactPayments *AccountUpdateCapabilitiesBancontactPaymentsParams `form:"bancontact_payments"`
+	// The bank_transfer_payments capability.
+	BankTransferPayments *AccountUpdateCapabilitiesBankTransferPaymentsParams `form:"bank_transfer_payments"`
+	// The billie_payments capability.
+	BilliePayments *AccountUpdateCapabilitiesBilliePaymentsParams `form:"billie_payments"`
+	// The blik_payments capability.
+	BLIKPayments *AccountUpdateCapabilitiesBLIKPaymentsParams `form:"blik_payments"`
+	// The boleto_payments capability.
+	BoletoPayments *AccountUpdateCapabilitiesBoletoPaymentsParams `form:"boleto_payments"`
+	// The card_issuing capability.
+	CardIssuing *AccountUpdateCapabilitiesCardIssuingParams `form:"card_issuing"`
+	// The card_payments capability.
+	CardPayments *AccountUpdateCapabilitiesCardPaymentsParams `form:"card_payments"`
+	// The cartes_bancaires_payments capability.
+	CartesBancairesPayments *AccountUpdateCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
+	// The cashapp_payments capability.
+	CashAppPayments *AccountUpdateCapabilitiesCashAppPaymentsParams `form:"cashapp_payments"`
+	// The eps_payments capability.
+	EPSPayments *AccountUpdateCapabilitiesEPSPaymentsParams `form:"eps_payments"`
+	// The fpx_payments capability.
+	FPXPayments *AccountUpdateCapabilitiesFPXPaymentsParams `form:"fpx_payments"`
+	// The gb_bank_transfer_payments capability.
+	GBBankTransferPayments *AccountUpdateCapabilitiesGBBankTransferPaymentsParams `form:"gb_bank_transfer_payments"`
+	// The giropay_payments capability.
+	GiropayPayments *AccountUpdateCapabilitiesGiropayPaymentsParams `form:"giropay_payments"`
+	// The grabpay_payments capability.
+	GrabpayPayments *AccountUpdateCapabilitiesGrabpayPaymentsParams `form:"grabpay_payments"`
+	// The ideal_payments capability.
+	IDEALPayments *AccountUpdateCapabilitiesIDEALPaymentsParams `form:"ideal_payments"`
+	// The india_international_payments capability.
+	IndiaInternationalPayments *AccountUpdateCapabilitiesIndiaInternationalPaymentsParams `form:"india_international_payments"`
+	// The jcb_payments capability.
+	JCBPayments *AccountUpdateCapabilitiesJCBPaymentsParams `form:"jcb_payments"`
+	// The jp_bank_transfer_payments capability.
+	JPBankTransferPayments *AccountUpdateCapabilitiesJPBankTransferPaymentsParams `form:"jp_bank_transfer_payments"`
+	// The kakao_pay_payments capability.
+	KakaoPayPayments *AccountUpdateCapabilitiesKakaoPayPaymentsParams `form:"kakao_pay_payments"`
+	// The klarna_payments capability.
+	KlarnaPayments *AccountUpdateCapabilitiesKlarnaPaymentsParams `form:"klarna_payments"`
+	// The konbini_payments capability.
+	KonbiniPayments *AccountUpdateCapabilitiesKonbiniPaymentsParams `form:"konbini_payments"`
+	// The kr_card_payments capability.
+	KrCardPayments *AccountUpdateCapabilitiesKrCardPaymentsParams `form:"kr_card_payments"`
+	// The legacy_payments capability.
+	LegacyPayments *AccountUpdateCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
+	// The link_payments capability.
+	LinkPayments *AccountUpdateCapabilitiesLinkPaymentsParams `form:"link_payments"`
+	// The mobilepay_payments capability.
+	MobilepayPayments *AccountUpdateCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
+	// The multibanco_payments capability.
+	MultibancoPayments *AccountUpdateCapabilitiesMultibancoPaymentsParams `form:"multibanco_payments"`
+	// The mx_bank_transfer_payments capability.
+	MXBankTransferPayments *AccountUpdateCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments"`
+	// The naver_pay_payments capability.
+	NaverPayPayments *AccountUpdateCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments"`
+	// The nz_bank_account_becs_debit_payments capability.
+	NzBankAccountBECSDebitPayments *AccountUpdateCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments"`
+	// The oxxo_payments capability.
+	OXXOPayments *AccountUpdateCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
+	// The p24_payments capability.
+	P24Payments *AccountUpdateCapabilitiesP24PaymentsParams `form:"p24_payments"`
+	// The pay_by_bank_payments capability.
+	PayByBankPayments *AccountUpdateCapabilitiesPayByBankPaymentsParams `form:"pay_by_bank_payments"`
+	// The payco_payments capability.
+	PaycoPayments *AccountUpdateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
+	// The paynow_payments capability.
+	PayNowPayments *AccountUpdateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The promptpay_payments capability.
+	PromptPayPayments *AccountUpdateCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
+	// The revolut_pay_payments capability.
+	RevolutPayPayments *AccountUpdateCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments"`
+	// The samsung_pay_payments capability.
+	SamsungPayPayments *AccountUpdateCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments"`
+	// The satispay_payments capability.
+	SatispayPayments *AccountUpdateCapabilitiesSatispayPaymentsParams `form:"satispay_payments"`
+	// The sepa_bank_transfer_payments capability.
+	SEPABankTransferPayments *AccountUpdateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments"`
+	// The sepa_debit_payments capability.
+	SEPADebitPayments *AccountUpdateCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
+	// The sofort_payments capability.
+	SofortPayments *AccountUpdateCapabilitiesSofortPaymentsParams `form:"sofort_payments"`
+	// The swish_payments capability.
+	SwishPayments *AccountUpdateCapabilitiesSwishPaymentsParams `form:"swish_payments"`
+	// The tax_reporting_us_1099_k capability.
+	TaxReportingUS1099K *AccountUpdateCapabilitiesTaxReportingUS1099KParams `form:"tax_reporting_us_1099_k"`
+	// The tax_reporting_us_1099_misc capability.
+	TaxReportingUS1099MISC *AccountUpdateCapabilitiesTaxReportingUS1099MISCParams `form:"tax_reporting_us_1099_misc"`
+	// The transfers capability.
+	Transfers *AccountUpdateCapabilitiesTransfersParams `form:"transfers"`
+	// The treasury capability.
+	Treasury *AccountUpdateCapabilitiesTreasuryParams `form:"treasury"`
+	// The twint_payments capability.
+	TWINTPayments *AccountUpdateCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
+	// The us_bank_account_ach_payments capability.
+	USBankAccountACHPayments *AccountUpdateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
+	// The us_bank_transfer_payments capability.
+	USBankTransferPayments *AccountUpdateCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments"`
+	// The zip_payments capability.
+	ZipPayments *AccountUpdateCapabilitiesZipPaymentsParams `form:"zip_payments"`
+}
+
+// The Kana variation of the company's primary address (Japan only).
+type AccountUpdateCompanyAddressKanaParams struct {
+	// City or ward.
+	City *string `form:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country"`
+	// Block or building number.
+	Line1 *string `form:"line1"`
+	// Building details.
+	Line2 *string `form:"line2"`
+	// Postal code.
+	PostalCode *string `form:"postal_code"`
+	// Prefecture.
+	State *string `form:"state"`
+	// Town or cho-me.
+	Town *string `form:"town"`
+}
+
+// The Kanji variation of the company's primary address (Japan only).
+type AccountUpdateCompanyAddressKanjiParams struct {
+	// City or ward.
+	City *string `form:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country"`
+	// Block or building number.
+	Line1 *string `form:"line1"`
+	// Building details.
+	Line2 *string `form:"line2"`
+	// Postal code.
+	PostalCode *string `form:"postal_code"`
+	// Prefecture.
+	State *string `form:"state"`
+	// Town or cho-me.
+	Town *string `form:"town"`
+}
+
+// This hash is used to attest that the directors information provided to Stripe is both current and correct.
+type AccountUpdateCompanyDirectorshipDeclarationParams struct {
+	// The Unix timestamp marking when the directorship declaration attestation was made.
+	Date *int64 `form:"date"`
+	// The IP address from which the directorship declaration attestation was made.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the directorship declaration attestation was made.
+	UserAgent *string `form:"user_agent"`
+}
+
+// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
+type AccountUpdateCompanyOwnershipDeclarationParams struct {
+	// The Unix timestamp marking when the beneficial owner attestation was made.
+	Date *int64 `form:"date"`
+	// The IP address from which the beneficial owner attestation was made.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the beneficial owner attestation was made.
+	UserAgent *string `form:"user_agent"`
+}
+
+// A document verifying the business.
+type AccountUpdateCompanyVerificationDocumentParams struct {
+	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	Back *string `form:"back"`
+	// The front of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	Front *string `form:"front"`
+}
+
+// Information on the verification state of the company.
+type AccountUpdateCompanyVerificationParams struct {
+	// A document verifying the business.
+	Document *AccountUpdateCompanyVerificationDocumentParams `form:"document"`
+}
+
+// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+type AccountUpdateCompanyParams struct {
+	// The company's primary address.
+	Address *AddressParams `form:"address"`
+	// The Kana variation of the company's primary address (Japan only).
+	AddressKana *AccountUpdateCompanyAddressKanaParams `form:"address_kana"`
+	// The Kanji variation of the company's primary address (Japan only).
+	AddressKanji *AccountUpdateCompanyAddressKanjiParams `form:"address_kanji"`
+	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
+	DirectorshipDeclaration *AccountUpdateCompanyDirectorshipDeclarationParams `form:"directorship_declaration"`
+	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
+	DirectorsProvided *bool `form:"directors_provided"`
+	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
+	ExecutivesProvided *bool `form:"executives_provided"`
+	// The export license ID number of the company, also referred as Import Export Code (India only).
+	ExportLicenseID *string `form:"export_license_id"`
+	// The purpose code to use for export transactions (India only).
+	ExportPurposeCode *string `form:"export_purpose_code"`
+	// The company's legal name.
+	Name *string `form:"name"`
+	// The Kana variation of the company's legal name (Japan only).
+	NameKana *string `form:"name_kana"`
+	// The Kanji variation of the company's legal name (Japan only).
+	NameKanji *string `form:"name_kanji"`
+	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
+	OwnershipDeclaration *AccountUpdateCompanyOwnershipDeclarationParams `form:"ownership_declaration"`
+	// This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details.
+	OwnershipExemptionReason *string `form:"ownership_exemption_reason"`
+	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
+	OwnersProvided *bool `form:"owners_provided"`
+	// The company's phone number (used for verification).
+	Phone *string `form:"phone"`
+	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
+	RegistrationNumber *string `form:"registration_number"`
+	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
+	Structure *string `form:"structure"`
+	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
+	TaxID *string `form:"tax_id"`
+	// The jurisdiction in which the `tax_id` is registered (Germany-based companies only).
+	TaxIDRegistrar *string `form:"tax_id_registrar"`
+	// The VAT number of the company.
+	VATID *string `form:"vat_id"`
+	// Information on the verification state of the company.
+	Verification *AccountUpdateCompanyVerificationParams `form:"verification"`
+}
+
+// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
+type AccountUpdateDocumentsBankAccountOwnershipVerificationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents that demonstrate proof of a company's license to operate.
+type AccountUpdateDocumentsCompanyLicenseParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents showing the company's Memorandum of Association.
+type AccountUpdateDocumentsCompanyMemorandumOfAssociationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
+type AccountUpdateDocumentsCompanyMinisterialDecreeParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
+type AccountUpdateDocumentsCompanyRegistrationVerificationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents that demonstrate proof of a company's tax ID.
+type AccountUpdateDocumentsCompanyTaxIDVerificationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents showing the company's proof of registration with the national business registry.
+type AccountUpdateDocumentsProofOfRegistrationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents that demonstrate proof of ultimate beneficial ownership.
+type AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// Documents that may be submitted to satisfy various informational requests.
+type AccountUpdateDocumentsParams struct {
+	// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
+	BankAccountOwnershipVerification *AccountUpdateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
+	// One or more documents that demonstrate proof of a company's license to operate.
+	CompanyLicense *AccountUpdateDocumentsCompanyLicenseParams `form:"company_license"`
+	// One or more documents showing the company's Memorandum of Association.
+	CompanyMemorandumOfAssociation *AccountUpdateDocumentsCompanyMemorandumOfAssociationParams `form:"company_memorandum_of_association"`
+	// (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
+	CompanyMinisterialDecree *AccountUpdateDocumentsCompanyMinisterialDecreeParams `form:"company_ministerial_decree"`
+	// One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
+	CompanyRegistrationVerification *AccountUpdateDocumentsCompanyRegistrationVerificationParams `form:"company_registration_verification"`
+	// One or more documents that demonstrate proof of a company's tax ID.
+	CompanyTaxIDVerification *AccountUpdateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
+	// One or more documents showing the company's proof of registration with the national business registry.
+	ProofOfRegistration *AccountUpdateDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
+	// One or more documents that demonstrate proof of ultimate beneficial ownership.
+	ProofOfUltimateBeneficialOwnership *AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership"`
+}
+
+// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
+//
+// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+type AccountUpdateExternalAccountParams struct {
+	// The name of the person or business that owns the bank account.This field is required when attaching the bank account to a `Customer` object.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The type of entity that holds the account. It can be `company` or `individual`. This field is required when attaching the bank account to a `Customer` object.
+	AccountHolderType *string `form:"account_holder_type"`
+	// The account number for the bank account, in string form. Must be a checking account.
+	AccountNumber  *string `form:"account_number"`
+	AddressCity    *string `form:"address_city"`
+	AddressCountry *string `form:"address_country"`
+	AddressLine1   *string `form:"address_line1"`
+	AddressLine2   *string `form:"address_line2"`
+	AddressState   *string `form:"address_state"`
+	AddressZip     *string `form:"address_zip"`
+	// The country in which the bank account is located.
+	Country *string `form:"country"`
+	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports.](docs/payouts)
+	Currency           *string `form:"currency"`
+	CVC                *string `form:"cvc"`
+	DefaultForCurrency *bool   `form:"default_for_currency"`
+	ExpMonth           *int64  `form:"exp_month"`
+	ExpYear            *int64  `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata"`
+	Name     *string           `form:"name"`
+	Number   *string           `form:"number"`
+	Object   *string           `form:"object"`
+	// The routing number, sort code, or other country-appropriateinstitution number for the bank account. For US bank accounts, this is required and should bethe ACH routing number, not the wire routing number. If you are providing an IBAN for`account_number`, this field is not required.
+	RoutingNumber *string `form:"routing_number"`
+	Token         *string `form:"token"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *AccountUpdateExternalAccountParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// A hash of account group type to tokens. These are account groups this account should be added to.
+type AccountUpdateGroupsParams struct {
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	PaymentsPricing *string `form:"payments_pricing"`
+}
+
+// Settings specific to Bacs Direct Debit payments.
+type AccountUpdateSettingsBACSDebitPaymentsParams struct {
+	// The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
+	DisplayName *string `form:"display_name"`
+}
+
+// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
+type AccountUpdateSettingsBrandingParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) An icon for the account. Must be square and at least 128px x 128px.
+	Icon *string `form:"icon"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) A logo for the account that will be used in Checkout instead of the icon and without the account's name next to it if provided. Must be at least 128px x 128px.
+	Logo *string `form:"logo"`
+	// A CSS hex color value representing the primary branding color for this account.
+	PrimaryColor *string `form:"primary_color"`
+	// A CSS hex color value representing the secondary branding color for this account.
+	SecondaryColor *string `form:"secondary_color"`
+}
+
+// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+type AccountUpdateSettingsCardIssuingTOSAcceptanceParams struct {
+	// The Unix timestamp marking when the account representative accepted the service agreement.
+	Date *int64 `form:"date"`
+	// The IP address from which the account representative accepted the service agreement.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the account representative accepted the service agreement.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Settings specific to the account's use of the Card Issuing product.
+type AccountUpdateSettingsCardIssuingParams struct {
+	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+	TOSAcceptance *AccountUpdateSettingsCardIssuingTOSAcceptanceParams `form:"tos_acceptance"`
+}
+
+// Automatically declines certain charge types regardless of whether the card issuer accepted or declined the charge.
+type AccountUpdateSettingsCardPaymentsDeclineOnParams struct {
+	// Whether Stripe automatically declines charges with an incorrect ZIP or postal code. This setting only applies when a ZIP or postal code is provided and they fail bank verification.
+	AVSFailure *bool `form:"avs_failure"`
+	// Whether Stripe automatically declines charges with an incorrect CVC. This setting only applies when a CVC is provided and it fails bank verification.
+	CVCFailure *bool `form:"cvc_failure"`
+}
+
+// Settings specific to card charging on the account.
+type AccountUpdateSettingsCardPaymentsParams struct {
+	// Automatically declines certain charge types regardless of whether the card issuer accepted or declined the charge.
+	DeclineOn *AccountUpdateSettingsCardPaymentsDeclineOnParams `form:"decline_on"`
+	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge. `statement_descriptor_prefix` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefix *string `form:"statement_descriptor_prefix"`
+	// The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kana` specified on the charge. `statement_descriptor_prefix_kana` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKana *string `form:"statement_descriptor_prefix_kana"`
+	// The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKanji *string `form:"statement_descriptor_prefix_kanji"`
+}
+
+// Settings specific to the account's use of Invoices.
+type AccountUpdateSettingsInvoicesParams struct {
+	// The list of default Account Tax IDs to automatically include on invoices. Account Tax IDs get added when an invoice is finalized.
+	DefaultAccountTaxIDs []*string `form:"default_account_tax_ids"`
+	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
+}
+
+// Settings that apply across payment methods for charging on the account.
+type AccountUpdateSettingsPaymentsParams struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a `statement_descriptor_prefix`, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the `statement_descriptor` text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the [account settings documentation](https://docs.stripe.com/get-started/account/statement-descriptors).
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// The Kana variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	StatementDescriptorKana *string `form:"statement_descriptor_kana"`
+	// The Kanji variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	StatementDescriptorKanji *string `form:"statement_descriptor_kanji"`
+}
+
+// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+type AccountUpdateSettingsPayoutsScheduleParams struct {
+	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://stripe.com/connect/manage-payout-schedule).
+	DelayDays        *int64 `form:"delay_days"`
+	DelayDaysMinimum *bool  `form:"-"` // See custom AppendTo
+	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
+	Interval *string `form:"interval"`
+	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
+	MonthlyAnchor *int64 `form:"monthly_anchor"`
+	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
+	WeeklyAnchor *string `form:"weekly_anchor"`
+}
+
+// AppendTo implements custom encoding logic for AccountUpdateSettingsPayoutsScheduleParams.
+func (p *AccountUpdateSettingsPayoutsScheduleParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.DelayDaysMinimum) {
+		body.Add(form.FormatKey(append(keyParts, "delay_days")), "minimum")
+	}
+}
+
+// Settings specific to the account's payouts.
+type AccountUpdateSettingsPayoutsParams struct {
+	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://stripe.com/connect/account-balances).
+	DebitNegativeBalances *bool `form:"debit_negative_balances"`
+	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+	Schedule *AccountUpdateSettingsPayoutsScheduleParams `form:"schedule"`
+	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
+	StatementDescriptor *string `form:"statement_descriptor"`
+}
+
+// Details on the account's acceptance of the Stripe Treasury Services Agreement.
+type AccountUpdateSettingsTreasuryTOSAcceptanceParams struct {
+	// The Unix timestamp marking when the account representative accepted the service agreement.
+	Date *int64 `form:"date"`
+	// The IP address from which the account representative accepted the service agreement.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the account representative accepted the service agreement.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Settings specific to the account's Treasury FinancialAccounts.
+type AccountUpdateSettingsTreasuryParams struct {
+	// Details on the account's acceptance of the Stripe Treasury Services Agreement.
+	TOSAcceptance *AccountUpdateSettingsTreasuryTOSAcceptanceParams `form:"tos_acceptance"`
+}
+
+// Options for customizing how the account functions within Stripe.
+type AccountUpdateSettingsParams struct {
+	// Settings specific to Bacs Direct Debit payments.
+	BACSDebitPayments *AccountUpdateSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
+	Branding *AccountUpdateSettingsBrandingParams `form:"branding"`
+	// Settings specific to the account's use of the Card Issuing product.
+	CardIssuing *AccountUpdateSettingsCardIssuingParams `form:"card_issuing"`
+	// Settings specific to card charging on the account.
+	CardPayments *AccountUpdateSettingsCardPaymentsParams `form:"card_payments"`
+	// Settings specific to the account's use of Invoices.
+	Invoices *AccountUpdateSettingsInvoicesParams `form:"invoices"`
+	// Settings that apply across payment methods for charging on the account.
+	Payments *AccountUpdateSettingsPaymentsParams `form:"payments"`
+	// Settings specific to the account's payouts.
+	Payouts *AccountUpdateSettingsPayoutsParams `form:"payouts"`
+	// Settings specific to the account's Treasury FinancialAccounts.
+	Treasury *AccountUpdateSettingsTreasuryParams `form:"treasury"`
+}
+
+// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+type AccountUpdateTOSAcceptanceParams struct {
+	// The Unix timestamp marking when the account representative accepted their service agreement.
+	Date *int64 `form:"date"`
+	// The IP address from which the account representative accepted their service agreement.
+	IP *string `form:"ip"`
+	// The user's service agreement type.
+	ServiceAgreement *string `form:"service_agreement"`
+	// The user agent of the browser from which the account representative accepted their service agreement.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Updates a [connected account](https://stripe.com/connect/accounts) by setting the values of the parameters passed. Any parameters not provided are
+// left unchanged.
+//
+// For accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
+// is application, which includes Custom accounts, you can update any information on the account.
+//
+// For accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
+// is stripe, which includes Standard and Express accounts, you can update all information until you create
+// an [Account Link or <a href="/api/account_sessions">Account Session](https://stripe.com/api/account_links) to start Connect onboarding,
+// after which some properties can no longer be updated.
+//
+// To update your own account, use the [Dashboard](https://dashboard.stripe.com/settings/account). Refer to our
+// [Connect](https://stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
+type AccountUpdateParams struct {
+	Params `form:"*"`
+	// An [account token](https://stripe.com/docs/api#create_account_token), used to securely provide details to the account.
+	AccountToken *string `form:"account_token"`
+	// Business information about the account.
+	BusinessProfile *AccountUpdateBusinessProfileParams `form:"business_profile"`
+	// The business type. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	BusinessType *string `form:"business_type"`
+	// Each key of the dictionary represents a capability, and each capability
+	// maps to its settings (for example, whether it has been requested or not). Each
+	// capability is inactive until you have provided its specific
+	// requirements and Stripe has verified them. An account might have some
+	// of its requested capabilities be active and some be inactive.
+	//
+	// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+	// is `none`, which includes Custom accounts.
+	Capabilities *AccountUpdateCapabilitiesParams `form:"capabilities"`
+	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	Company *AccountUpdateCompanyParams `form:"company"`
+	// Three-letter ISO currency code representing the default currency for the account. This must be a currency that [Stripe supports in the account's country](https://docs.stripe.com/payouts).
+	DefaultCurrency *string `form:"default_currency"`
+	// Documents that may be submitted to satisfy various informational requests.
+	Documents *AccountUpdateDocumentsParams `form:"documents"`
+	// The email address of the account holder. This is only to make the account easier to identify to you. If [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, Stripe doesn't email the account without your consent.
+	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// ExternalAccount *[todo({"shape":"primitive","primitive":"string"} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountUpdateExternalAccountParams"}} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountUpdateExternalAccountParams"}} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountUpdateExternalAccountParams"}})] `form:"external_account"`
+	// A hash of account group type to tokens. These are account groups this account should be added to.
+	Groups *AccountUpdateGroupsParams `form:"groups"`
+	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	Individual *PersonParams `form:"individual"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Options for customizing how the account functions within Stripe.
+	Settings *AccountUpdateSettingsParams `form:"settings"`
+	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+	TOSAcceptance *AccountUpdateTOSAcceptanceParams `form:"tos_acceptance"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *AccountUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *AccountUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The applicant's gross annual revenue for its preceding fiscal year.
+type AccountCreateBusinessProfileAnnualRevenueParams struct {
+	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The close-out date of the preceding fiscal year in ISO 8601 format. E.g. 2023-12-31 for the 31st of December, 2023.
+	FiscalYearEnd *string `form:"fiscal_year_end"`
+}
+
+// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
+type AccountCreateBusinessProfileMonthlyEstimatedRevenueParams struct {
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+}
+
+// Business information about the account.
+type AccountCreateBusinessProfileParams struct {
+	// The applicant's gross annual revenue for its preceding fiscal year.
+	AnnualRevenue *AccountCreateBusinessProfileAnnualRevenueParams `form:"annual_revenue"`
+	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
+	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
+	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
+	MCC *string `form:"mcc"`
+	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
+	MonthlyEstimatedRevenue *AccountCreateBusinessProfileMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue"`
+	// The customer-facing business name.
+	Name *string `form:"name"`
+	// Internal-only description of the product sold by, or service provided by, the business. Used by Stripe for risk and underwriting purposes.
+	ProductDescription *string `form:"product_description"`
+	// A publicly available mailing address for sending support issues to.
+	SupportAddress *AddressParams `form:"support_address"`
+	// A publicly available email address for sending support issues to.
+	SupportEmail *string `form:"support_email"`
+	// A publicly available phone number to call with support issues.
+	SupportPhone *string `form:"support_phone"`
+	// A publicly available website for handling support issues.
+	SupportURL *string `form:"support_url"`
+	// The business's publicly available website.
+	URL *string `form:"url"`
+}
+
+// The acss_debit_payments capability.
+type AccountCreateCapabilitiesACSSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The affirm_payments capability.
+type AccountCreateCapabilitiesAffirmPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The afterpay_clearpay_payments capability.
+type AccountCreateCapabilitiesAfterpayClearpayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The alma_payments capability.
+type AccountCreateCapabilitiesAlmaPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The amazon_pay_payments capability.
+type AccountCreateCapabilitiesAmazonPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The au_becs_debit_payments capability.
+type AccountCreateCapabilitiesAUBECSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The bacs_debit_payments capability.
+type AccountCreateCapabilitiesBACSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The bancontact_payments capability.
+type AccountCreateCapabilitiesBancontactPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The bank_transfer_payments capability.
+type AccountCreateCapabilitiesBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The billie_payments capability.
+type AccountCreateCapabilitiesBilliePaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The blik_payments capability.
+type AccountCreateCapabilitiesBLIKPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The boleto_payments capability.
+type AccountCreateCapabilitiesBoletoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The card_issuing capability.
+type AccountCreateCapabilitiesCardIssuingParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The card_payments capability.
+type AccountCreateCapabilitiesCardPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The cartes_bancaires_payments capability.
+type AccountCreateCapabilitiesCartesBancairesPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The cashapp_payments capability.
+type AccountCreateCapabilitiesCashAppPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The eps_payments capability.
+type AccountCreateCapabilitiesEPSPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The fpx_payments capability.
+type AccountCreateCapabilitiesFPXPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The gb_bank_transfer_payments capability.
+type AccountCreateCapabilitiesGBBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The giropay_payments capability.
+type AccountCreateCapabilitiesGiropayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The grabpay_payments capability.
+type AccountCreateCapabilitiesGrabpayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The ideal_payments capability.
+type AccountCreateCapabilitiesIDEALPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The india_international_payments capability.
+type AccountCreateCapabilitiesIndiaInternationalPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The jcb_payments capability.
+type AccountCreateCapabilitiesJCBPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The jp_bank_transfer_payments capability.
+type AccountCreateCapabilitiesJPBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The kakao_pay_payments capability.
+type AccountCreateCapabilitiesKakaoPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The klarna_payments capability.
+type AccountCreateCapabilitiesKlarnaPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The konbini_payments capability.
+type AccountCreateCapabilitiesKonbiniPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The kr_card_payments capability.
+type AccountCreateCapabilitiesKrCardPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The legacy_payments capability.
+type AccountCreateCapabilitiesLegacyPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The link_payments capability.
+type AccountCreateCapabilitiesLinkPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The mobilepay_payments capability.
+type AccountCreateCapabilitiesMobilepayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The multibanco_payments capability.
+type AccountCreateCapabilitiesMultibancoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The mx_bank_transfer_payments capability.
+type AccountCreateCapabilitiesMXBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The naver_pay_payments capability.
+type AccountCreateCapabilitiesNaverPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The nz_bank_account_becs_debit_payments capability.
+type AccountCreateCapabilitiesNzBankAccountBECSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The oxxo_payments capability.
+type AccountCreateCapabilitiesOXXOPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The p24_payments capability.
+type AccountCreateCapabilitiesP24PaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The pay_by_bank_payments capability.
+type AccountCreateCapabilitiesPayByBankPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The payco_payments capability.
+type AccountCreateCapabilitiesPaycoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The paynow_payments capability.
+type AccountCreateCapabilitiesPayNowPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The promptpay_payments capability.
+type AccountCreateCapabilitiesPromptPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The revolut_pay_payments capability.
+type AccountCreateCapabilitiesRevolutPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The samsung_pay_payments capability.
+type AccountCreateCapabilitiesSamsungPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The satispay_payments capability.
+type AccountCreateCapabilitiesSatispayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The sepa_bank_transfer_payments capability.
+type AccountCreateCapabilitiesSEPABankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The sepa_debit_payments capability.
+type AccountCreateCapabilitiesSEPADebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The sofort_payments capability.
+type AccountCreateCapabilitiesSofortPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The swish_payments capability.
+type AccountCreateCapabilitiesSwishPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The tax_reporting_us_1099_k capability.
+type AccountCreateCapabilitiesTaxReportingUS1099KParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The tax_reporting_us_1099_misc capability.
+type AccountCreateCapabilitiesTaxReportingUS1099MISCParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The transfers capability.
+type AccountCreateCapabilitiesTransfersParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury capability.
+type AccountCreateCapabilitiesTreasuryParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The twint_payments capability.
+type AccountCreateCapabilitiesTWINTPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The us_bank_account_ach_payments capability.
+type AccountCreateCapabilitiesUSBankAccountACHPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The us_bank_transfer_payments capability.
+type AccountCreateCapabilitiesUSBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The zip_payments capability.
+type AccountCreateCapabilitiesZipPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// Each key of the dictionary represents a capability, and each capability
+// maps to its settings (for example, whether it has been requested or not). Each
+// capability is inactive until you have provided its specific
+// requirements and Stripe has verified them. An account might have some
+// of its requested capabilities be active and some be inactive.
+//
+// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+// is `none`, which includes Custom accounts.
+type AccountCreateCapabilitiesParams struct {
+	// The acss_debit_payments capability.
+	ACSSDebitPayments *AccountCreateCapabilitiesACSSDebitPaymentsParams `form:"acss_debit_payments"`
+	// The affirm_payments capability.
+	AffirmPayments *AccountCreateCapabilitiesAffirmPaymentsParams `form:"affirm_payments"`
+	// The afterpay_clearpay_payments capability.
+	AfterpayClearpayPayments *AccountCreateCapabilitiesAfterpayClearpayPaymentsParams `form:"afterpay_clearpay_payments"`
+	// The alma_payments capability.
+	AlmaPayments *AccountCreateCapabilitiesAlmaPaymentsParams `form:"alma_payments"`
+	// The amazon_pay_payments capability.
+	AmazonPayPayments *AccountCreateCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments"`
+	// The au_becs_debit_payments capability.
+	AUBECSDebitPayments *AccountCreateCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments"`
+	// The bacs_debit_payments capability.
+	BACSDebitPayments *AccountCreateCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	// The bancontact_payments capability.
+	BancontactPayments *AccountCreateCapabilitiesBancontactPaymentsParams `form:"bancontact_payments"`
+	// The bank_transfer_payments capability.
+	BankTransferPayments *AccountCreateCapabilitiesBankTransferPaymentsParams `form:"bank_transfer_payments"`
+	// The billie_payments capability.
+	BilliePayments *AccountCreateCapabilitiesBilliePaymentsParams `form:"billie_payments"`
+	// The blik_payments capability.
+	BLIKPayments *AccountCreateCapabilitiesBLIKPaymentsParams `form:"blik_payments"`
+	// The boleto_payments capability.
+	BoletoPayments *AccountCreateCapabilitiesBoletoPaymentsParams `form:"boleto_payments"`
+	// The card_issuing capability.
+	CardIssuing *AccountCreateCapabilitiesCardIssuingParams `form:"card_issuing"`
+	// The card_payments capability.
+	CardPayments *AccountCreateCapabilitiesCardPaymentsParams `form:"card_payments"`
+	// The cartes_bancaires_payments capability.
+	CartesBancairesPayments *AccountCreateCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
+	// The cashapp_payments capability.
+	CashAppPayments *AccountCreateCapabilitiesCashAppPaymentsParams `form:"cashapp_payments"`
+	// The eps_payments capability.
+	EPSPayments *AccountCreateCapabilitiesEPSPaymentsParams `form:"eps_payments"`
+	// The fpx_payments capability.
+	FPXPayments *AccountCreateCapabilitiesFPXPaymentsParams `form:"fpx_payments"`
+	// The gb_bank_transfer_payments capability.
+	GBBankTransferPayments *AccountCreateCapabilitiesGBBankTransferPaymentsParams `form:"gb_bank_transfer_payments"`
+	// The giropay_payments capability.
+	GiropayPayments *AccountCreateCapabilitiesGiropayPaymentsParams `form:"giropay_payments"`
+	// The grabpay_payments capability.
+	GrabpayPayments *AccountCreateCapabilitiesGrabpayPaymentsParams `form:"grabpay_payments"`
+	// The ideal_payments capability.
+	IDEALPayments *AccountCreateCapabilitiesIDEALPaymentsParams `form:"ideal_payments"`
+	// The india_international_payments capability.
+	IndiaInternationalPayments *AccountCreateCapabilitiesIndiaInternationalPaymentsParams `form:"india_international_payments"`
+	// The jcb_payments capability.
+	JCBPayments *AccountCreateCapabilitiesJCBPaymentsParams `form:"jcb_payments"`
+	// The jp_bank_transfer_payments capability.
+	JPBankTransferPayments *AccountCreateCapabilitiesJPBankTransferPaymentsParams `form:"jp_bank_transfer_payments"`
+	// The kakao_pay_payments capability.
+	KakaoPayPayments *AccountCreateCapabilitiesKakaoPayPaymentsParams `form:"kakao_pay_payments"`
+	// The klarna_payments capability.
+	KlarnaPayments *AccountCreateCapabilitiesKlarnaPaymentsParams `form:"klarna_payments"`
+	// The konbini_payments capability.
+	KonbiniPayments *AccountCreateCapabilitiesKonbiniPaymentsParams `form:"konbini_payments"`
+	// The kr_card_payments capability.
+	KrCardPayments *AccountCreateCapabilitiesKrCardPaymentsParams `form:"kr_card_payments"`
+	// The legacy_payments capability.
+	LegacyPayments *AccountCreateCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
+	// The link_payments capability.
+	LinkPayments *AccountCreateCapabilitiesLinkPaymentsParams `form:"link_payments"`
+	// The mobilepay_payments capability.
+	MobilepayPayments *AccountCreateCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
+	// The multibanco_payments capability.
+	MultibancoPayments *AccountCreateCapabilitiesMultibancoPaymentsParams `form:"multibanco_payments"`
+	// The mx_bank_transfer_payments capability.
+	MXBankTransferPayments *AccountCreateCapabilitiesMXBankTransferPaymentsParams `form:"mx_bank_transfer_payments"`
+	// The naver_pay_payments capability.
+	NaverPayPayments *AccountCreateCapabilitiesNaverPayPaymentsParams `form:"naver_pay_payments"`
+	// The nz_bank_account_becs_debit_payments capability.
+	NzBankAccountBECSDebitPayments *AccountCreateCapabilitiesNzBankAccountBECSDebitPaymentsParams `form:"nz_bank_account_becs_debit_payments"`
+	// The oxxo_payments capability.
+	OXXOPayments *AccountCreateCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
+	// The p24_payments capability.
+	P24Payments *AccountCreateCapabilitiesP24PaymentsParams `form:"p24_payments"`
+	// The pay_by_bank_payments capability.
+	PayByBankPayments *AccountCreateCapabilitiesPayByBankPaymentsParams `form:"pay_by_bank_payments"`
+	// The payco_payments capability.
+	PaycoPayments *AccountCreateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
+	// The paynow_payments capability.
+	PayNowPayments *AccountCreateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The promptpay_payments capability.
+	PromptPayPayments *AccountCreateCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
+	// The revolut_pay_payments capability.
+	RevolutPayPayments *AccountCreateCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments"`
+	// The samsung_pay_payments capability.
+	SamsungPayPayments *AccountCreateCapabilitiesSamsungPayPaymentsParams `form:"samsung_pay_payments"`
+	// The satispay_payments capability.
+	SatispayPayments *AccountCreateCapabilitiesSatispayPaymentsParams `form:"satispay_payments"`
+	// The sepa_bank_transfer_payments capability.
+	SEPABankTransferPayments *AccountCreateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments"`
+	// The sepa_debit_payments capability.
+	SEPADebitPayments *AccountCreateCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
+	// The sofort_payments capability.
+	SofortPayments *AccountCreateCapabilitiesSofortPaymentsParams `form:"sofort_payments"`
+	// The swish_payments capability.
+	SwishPayments *AccountCreateCapabilitiesSwishPaymentsParams `form:"swish_payments"`
+	// The tax_reporting_us_1099_k capability.
+	TaxReportingUS1099K *AccountCreateCapabilitiesTaxReportingUS1099KParams `form:"tax_reporting_us_1099_k"`
+	// The tax_reporting_us_1099_misc capability.
+	TaxReportingUS1099MISC *AccountCreateCapabilitiesTaxReportingUS1099MISCParams `form:"tax_reporting_us_1099_misc"`
+	// The transfers capability.
+	Transfers *AccountCreateCapabilitiesTransfersParams `form:"transfers"`
+	// The treasury capability.
+	Treasury *AccountCreateCapabilitiesTreasuryParams `form:"treasury"`
+	// The twint_payments capability.
+	TWINTPayments *AccountCreateCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
+	// The us_bank_account_ach_payments capability.
+	USBankAccountACHPayments *AccountCreateCapabilitiesUSBankAccountACHPaymentsParams `form:"us_bank_account_ach_payments"`
+	// The us_bank_transfer_payments capability.
+	USBankTransferPayments *AccountCreateCapabilitiesUSBankTransferPaymentsParams `form:"us_bank_transfer_payments"`
+	// The zip_payments capability.
+	ZipPayments *AccountCreateCapabilitiesZipPaymentsParams `form:"zip_payments"`
+}
+
+// The Kana variation of the company's primary address (Japan only).
+type AccountCreateCompanyAddressKanaParams struct {
+	// City or ward.
+	City *string `form:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country"`
+	// Block or building number.
+	Line1 *string `form:"line1"`
+	// Building details.
+	Line2 *string `form:"line2"`
+	// Postal code.
+	PostalCode *string `form:"postal_code"`
+	// Prefecture.
+	State *string `form:"state"`
+	// Town or cho-me.
+	Town *string `form:"town"`
+}
+
+// The Kanji variation of the company's primary address (Japan only).
+type AccountCreateCompanyAddressKanjiParams struct {
+	// City or ward.
+	City *string `form:"city"`
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country"`
+	// Block or building number.
+	Line1 *string `form:"line1"`
+	// Building details.
+	Line2 *string `form:"line2"`
+	// Postal code.
+	PostalCode *string `form:"postal_code"`
+	// Prefecture.
+	State *string `form:"state"`
+	// Town or cho-me.
+	Town *string `form:"town"`
+}
+
+// This hash is used to attest that the directors information provided to Stripe is both current and correct.
+type AccountCreateCompanyDirectorshipDeclarationParams struct {
+	// The Unix timestamp marking when the directorship declaration attestation was made.
+	Date *int64 `form:"date"`
+	// The IP address from which the directorship declaration attestation was made.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the directorship declaration attestation was made.
+	UserAgent *string `form:"user_agent"`
+}
+
+// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
+type AccountCreateCompanyOwnershipDeclarationParams struct {
+	// The Unix timestamp marking when the beneficial owner attestation was made.
+	Date *int64 `form:"date"`
+	// The IP address from which the beneficial owner attestation was made.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the beneficial owner attestation was made.
+	UserAgent *string `form:"user_agent"`
+}
+
+// A document verifying the business.
+type AccountCreateCompanyVerificationDocumentParams struct {
+	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	Back *string `form:"back"`
+	// The front of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
+	Front *string `form:"front"`
+}
+
+// Information on the verification state of the company.
+type AccountCreateCompanyVerificationParams struct {
+	// A document verifying the business.
+	Document *AccountCreateCompanyVerificationDocumentParams `form:"document"`
+}
+
+// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+type AccountCreateCompanyParams struct {
+	// The company's primary address.
+	Address *AddressParams `form:"address"`
+	// The Kana variation of the company's primary address (Japan only).
+	AddressKana *AccountCreateCompanyAddressKanaParams `form:"address_kana"`
+	// The Kanji variation of the company's primary address (Japan only).
+	AddressKanji *AccountCreateCompanyAddressKanjiParams `form:"address_kanji"`
+	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
+	DirectorshipDeclaration *AccountCreateCompanyDirectorshipDeclarationParams `form:"directorship_declaration"`
+	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
+	DirectorsProvided *bool `form:"directors_provided"`
+	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
+	ExecutivesProvided *bool `form:"executives_provided"`
+	// The export license ID number of the company, also referred as Import Export Code (India only).
+	ExportLicenseID *string `form:"export_license_id"`
+	// The purpose code to use for export transactions (India only).
+	ExportPurposeCode *string `form:"export_purpose_code"`
+	// The company's legal name.
+	Name *string `form:"name"`
+	// The Kana variation of the company's legal name (Japan only).
+	NameKana *string `form:"name_kana"`
+	// The Kanji variation of the company's legal name (Japan only).
+	NameKanji *string `form:"name_kanji"`
+	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
+	OwnershipDeclaration               *AccountCreateCompanyOwnershipDeclarationParams `form:"ownership_declaration"`
+	OwnershipDeclarationShownAndSigned *bool                                           `form:"ownership_declaration_shown_and_signed"`
+	// This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details.
+	OwnershipExemptionReason *string `form:"ownership_exemption_reason"`
+	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
+	OwnersProvided *bool `form:"owners_provided"`
+	// The company's phone number (used for verification).
+	Phone *string `form:"phone"`
+	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
+	RegistrationNumber *string `form:"registration_number"`
+	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
+	Structure *string `form:"structure"`
+	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
+	TaxID *string `form:"tax_id"`
+	// The jurisdiction in which the `tax_id` is registered (Germany-based companies only).
+	TaxIDRegistrar *string `form:"tax_id_registrar"`
+	// The VAT number of the company.
+	VATID *string `form:"vat_id"`
+	// Information on the verification state of the company.
+	Verification *AccountCreateCompanyVerificationParams `form:"verification"`
+}
+
+// A hash of configuration for who pays Stripe fees for product usage on this account.
+type AccountCreateControllerFeesParams struct {
+	// A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior).
+	Payer *string `form:"payer"`
+}
+
+// A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
+type AccountCreateControllerLossesParams struct {
+	// A value indicating who is liable when this account can't pay back negative balances resulting from payments. Defaults to `stripe`.
+	Payments *string `form:"payments"`
+}
+
+// A hash of configuration for Stripe-hosted dashboards.
+type AccountCreateControllerStripeDashboardParams struct {
+	// Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no Stripe-hosted dashboard (`none`). Defaults to `full`.
+	Type *string `form:"type"`
+}
+
+// A hash of configuration describing the account controller's attributes.
+type AccountCreateControllerParams struct {
+	// A hash of configuration for who pays Stripe fees for product usage on this account.
+	Fees *AccountCreateControllerFeesParams `form:"fees"`
+	// A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
+	Losses *AccountCreateControllerLossesParams `form:"losses"`
+	// A value indicating responsibility for collecting updated information when requirements on the account are due or change. Defaults to `stripe`.
+	RequirementCollection *string `form:"requirement_collection"`
+	// A hash of configuration for Stripe-hosted dashboards.
+	StripeDashboard *AccountCreateControllerStripeDashboardParams `form:"stripe_dashboard"`
+}
+
+// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
+type AccountCreateDocumentsBankAccountOwnershipVerificationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents that demonstrate proof of a company's license to operate.
+type AccountCreateDocumentsCompanyLicenseParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents showing the company's Memorandum of Association.
+type AccountCreateDocumentsCompanyMemorandumOfAssociationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
+type AccountCreateDocumentsCompanyMinisterialDecreeParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
+type AccountCreateDocumentsCompanyRegistrationVerificationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents that demonstrate proof of a company's tax ID.
+type AccountCreateDocumentsCompanyTaxIDVerificationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents showing the company's proof of registration with the national business registry.
+type AccountCreateDocumentsProofOfRegistrationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// One or more documents that demonstrate proof of ultimate beneficial ownership.
+type AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// Documents that may be submitted to satisfy various informational requests.
+type AccountCreateDocumentsParams struct {
+	// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a check.
+	BankAccountOwnershipVerification *AccountCreateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
+	// One or more documents that demonstrate proof of a company's license to operate.
+	CompanyLicense *AccountCreateDocumentsCompanyLicenseParams `form:"company_license"`
+	// One or more documents showing the company's Memorandum of Association.
+	CompanyMemorandumOfAssociation *AccountCreateDocumentsCompanyMemorandumOfAssociationParams `form:"company_memorandum_of_association"`
+	// (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
+	CompanyMinisterialDecree *AccountCreateDocumentsCompanyMinisterialDecreeParams `form:"company_ministerial_decree"`
+	// One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
+	CompanyRegistrationVerification *AccountCreateDocumentsCompanyRegistrationVerificationParams `form:"company_registration_verification"`
+	// One or more documents that demonstrate proof of a company's tax ID.
+	CompanyTaxIDVerification *AccountCreateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
+	// One or more documents showing the company's proof of registration with the national business registry.
+	ProofOfRegistration *AccountCreateDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
+	// One or more documents that demonstrate proof of ultimate beneficial ownership.
+	ProofOfUltimateBeneficialOwnership *AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership"`
+}
+
+// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
+//
+// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+type AccountCreateExternalAccountParams struct {
+	// The name of the person or business that owns the bank account.This field is required when attaching the bank account to a `Customer` object.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The type of entity that holds the account. It can be `company` or `individual`. This field is required when attaching the bank account to a `Customer` object.
+	AccountHolderType *string `form:"account_holder_type"`
+	// The account number for the bank account, in string form. Must be a checking account.
+	AccountNumber  *string `form:"account_number"`
+	AddressCity    *string `form:"address_city"`
+	AddressCountry *string `form:"address_country"`
+	AddressLine1   *string `form:"address_line1"`
+	AddressLine2   *string `form:"address_line2"`
+	AddressState   *string `form:"address_state"`
+	AddressZip     *string `form:"address_zip"`
+	// The country in which the bank account is located.
+	Country *string `form:"country"`
+	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports.](docs/payouts)
+	Currency           *string `form:"currency"`
+	CVC                *string `form:"cvc"`
+	DefaultForCurrency *bool   `form:"default_for_currency"`
+	ExpMonth           *int64  `form:"exp_month"`
+	ExpYear            *int64  `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata"`
+	Name     *string           `form:"name"`
+	Number   *string           `form:"number"`
+	Object   *string           `form:"object"`
+	// The routing number, sort code, or other country-appropriateinstitution number for the bank account. For US bank accounts, this is required and should bethe ACH routing number, not the wire routing number. If you are providing an IBAN for`account_number`, this field is not required.
+	RoutingNumber *string `form:"routing_number"`
+	Token         *string `form:"token"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *AccountCreateExternalAccountParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// A hash of account group type to tokens. These are account groups this account should be added to.
+type AccountCreateGroupsParams struct {
+	// The group the account is in to determine their payments pricing, and null if the account is on customized pricing. [See the Platform pricing tool documentation](https://stripe.com/docs/connect/platform-pricing-tools) for details.
+	PaymentsPricing *string `form:"payments_pricing"`
+}
+
+// Settings specific to Bacs Direct Debit.
+type AccountCreateSettingsBACSDebitPaymentsParams struct {
+	// The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
+	DisplayName *string `form:"display_name"`
+}
+
+// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
+type AccountCreateSettingsBrandingParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) An icon for the account. Must be square and at least 128px x 128px.
+	Icon *string `form:"icon"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) A logo for the account that will be used in Checkout instead of the icon and without the account's name next to it if provided. Must be at least 128px x 128px.
+	Logo *string `form:"logo"`
+	// A CSS hex color value representing the primary branding color for this account.
+	PrimaryColor *string `form:"primary_color"`
+	// A CSS hex color value representing the secondary branding color for this account.
+	SecondaryColor *string `form:"secondary_color"`
+}
+
+// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+type AccountCreateSettingsCardIssuingTOSAcceptanceParams struct {
+	// The Unix timestamp marking when the account representative accepted the service agreement.
+	Date *int64 `form:"date"`
+	// The IP address from which the account representative accepted the service agreement.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the account representative accepted the service agreement.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Settings specific to the account's use of the Card Issuing product.
+type AccountCreateSettingsCardIssuingParams struct {
+	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+	TOSAcceptance *AccountCreateSettingsCardIssuingTOSAcceptanceParams `form:"tos_acceptance"`
+}
+
+// Automatically declines certain charge types regardless of whether the card issuer accepted or declined the charge.
+type AccountCreateSettingsCardPaymentsDeclineOnParams struct {
+	// Whether Stripe automatically declines charges with an incorrect ZIP or postal code. This setting only applies when a ZIP or postal code is provided and they fail bank verification.
+	AVSFailure *bool `form:"avs_failure"`
+	// Whether Stripe automatically declines charges with an incorrect CVC. This setting only applies when a CVC is provided and it fails bank verification.
+	CVCFailure *bool `form:"cvc_failure"`
+}
+
+// Settings specific to card charging on the account.
+type AccountCreateSettingsCardPaymentsParams struct {
+	// Automatically declines certain charge types regardless of whether the card issuer accepted or declined the charge.
+	DeclineOn *AccountCreateSettingsCardPaymentsDeclineOnParams `form:"decline_on"`
+	// The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic `statement_descriptor` specified on the charge. `statement_descriptor_prefix` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefix *string `form:"statement_descriptor_prefix"`
+	// The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kana` specified on the charge. `statement_descriptor_prefix_kana` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKana *string `form:"statement_descriptor_prefix_kana"`
+	// The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only). This field prefixes any dynamic `statement_descriptor_suffix_kanji` specified on the charge. `statement_descriptor_prefix_kanji` is useful for maximizing descriptor space for the dynamic portion.
+	StatementDescriptorPrefixKanji *string `form:"statement_descriptor_prefix_kanji"`
+}
+
+// Settings specific to the account's use of Invoices.
+type AccountCreateSettingsInvoicesParams struct {
+	// Whether payment methods should be saved when a payment is completed for a one-time invoices on a hosted invoice page.
+	HostedPaymentMethodSave *string `form:"hosted_payment_method_save"`
+}
+
+// Settings that apply across payment methods for charging on the account.
+type AccountCreateSettingsPaymentsParams struct {
+	// The default text that appears on statements for non-card charges outside of Japan. For card charges, if you don't set a `statement_descriptor_prefix`, this text is also used as the statement descriptor prefix. In that case, if concatenating the statement descriptor suffix causes the combined statement descriptor to exceed 22 characters, we truncate the `statement_descriptor` text to limit the full descriptor to 22 characters. For more information about statement descriptors and their requirements, see the [account settings documentation](https://docs.stripe.com/get-started/account/statement-descriptors).
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// The Kana variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	StatementDescriptorKana *string `form:"statement_descriptor_kana"`
+	// The Kanji variation of `statement_descriptor` used for charges in Japan. Japanese statement descriptors have [special requirements](https://docs.stripe.com/get-started/account/statement-descriptors#set-japanese-statement-descriptors).
+	StatementDescriptorKanji *string `form:"statement_descriptor_kanji"`
+}
+
+// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+type AccountCreateSettingsPayoutsScheduleParams struct {
+	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://stripe.com/connect/manage-payout-schedule).
+	DelayDays        *int64 `form:"delay_days"`
+	DelayDaysMinimum *bool  `form:"-"` // See custom AppendTo
+	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
+	Interval *string `form:"interval"`
+	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
+	MonthlyAnchor *int64 `form:"monthly_anchor"`
+	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
+	WeeklyAnchor *string `form:"weekly_anchor"`
+}
+
+// AppendTo implements custom encoding logic for AccountCreateSettingsPayoutsScheduleParams.
+func (p *AccountCreateSettingsPayoutsScheduleParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.DelayDaysMinimum) {
+		body.Add(form.FormatKey(append(keyParts, "delay_days")), "minimum")
+	}
+}
+
+// Settings specific to the account's payouts.
+type AccountCreateSettingsPayoutsParams struct {
+	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://stripe.com/connect/account-balances).
+	DebitNegativeBalances *bool `form:"debit_negative_balances"`
+	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+	Schedule *AccountCreateSettingsPayoutsScheduleParams `form:"schedule"`
+	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
+	StatementDescriptor *string `form:"statement_descriptor"`
+}
+
+// Details on the account's acceptance of the Stripe Treasury Services Agreement.
+type AccountCreateSettingsTreasuryTOSAcceptanceParams struct {
+	// The Unix timestamp marking when the account representative accepted the service agreement.
+	Date *int64 `form:"date"`
+	// The IP address from which the account representative accepted the service agreement.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the account representative accepted the service agreement.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Settings specific to the account's Treasury FinancialAccounts.
+type AccountCreateSettingsTreasuryParams struct {
+	// Details on the account's acceptance of the Stripe Treasury Services Agreement.
+	TOSAcceptance *AccountCreateSettingsTreasuryTOSAcceptanceParams `form:"tos_acceptance"`
+}
+
+// Options for customizing how the account functions within Stripe.
+type AccountCreateSettingsParams struct {
+	// Settings specific to Bacs Direct Debit.
+	BACSDebitPayments *AccountCreateSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
+	Branding *AccountCreateSettingsBrandingParams `form:"branding"`
+	// Settings specific to the account's use of the Card Issuing product.
+	CardIssuing *AccountCreateSettingsCardIssuingParams `form:"card_issuing"`
+	// Settings specific to card charging on the account.
+	CardPayments *AccountCreateSettingsCardPaymentsParams `form:"card_payments"`
+	// Settings specific to the account's use of Invoices.
+	Invoices *AccountCreateSettingsInvoicesParams `form:"invoices"`
+	// Settings that apply across payment methods for charging on the account.
+	Payments *AccountCreateSettingsPaymentsParams `form:"payments"`
+	// Settings specific to the account's payouts.
+	Payouts *AccountCreateSettingsPayoutsParams `form:"payouts"`
+	// Settings specific to the account's Treasury FinancialAccounts.
+	Treasury *AccountCreateSettingsTreasuryParams `form:"treasury"`
+}
+
+// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+type AccountCreateTOSAcceptanceParams struct {
+	// The Unix timestamp marking when the account representative accepted their service agreement.
+	Date *int64 `form:"date"`
+	// The IP address from which the account representative accepted their service agreement.
+	IP *string `form:"ip"`
+	// The user's service agreement type.
+	ServiceAgreement *string `form:"service_agreement"`
+	// The user agent of the browser from which the account representative accepted their service agreement.
+	UserAgent *string `form:"user_agent"`
+}
+
+// With [Connect](https://stripe.com/docs/connect), you can create Stripe accounts for your users.
+// To do this, you'll first need to [register your platform](https://dashboard.stripe.com/account/applications/settings).
+//
+// If you've already collected information for your connected accounts, you [can prefill that information](https://stripe.com/docs/connect/best-practices#onboarding) when
+// creating the account. Connect Onboarding won't ask for the prefilled information during account onboarding.
+// You can prefill any information on the account.
+type AccountCreateParams struct {
+	Params `form:"*"`
+	// An [account token](https://stripe.com/docs/api#create_account_token), used to securely provide details to the account.
+	AccountToken *string `form:"account_token"`
+	// Business information about the account.
+	BusinessProfile *AccountCreateBusinessProfileParams `form:"business_profile"`
+	// The business type. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	BusinessType *string `form:"business_type"`
+	// Each key of the dictionary represents a capability, and each capability
+	// maps to its settings (for example, whether it has been requested or not). Each
+	// capability is inactive until you have provided its specific
+	// requirements and Stripe has verified them. An account might have some
+	// of its requested capabilities be active and some be inactive.
+	//
+	// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+	// is `none`, which includes Custom accounts.
+	Capabilities *AccountCreateCapabilitiesParams `form:"capabilities"`
+	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	Company *AccountCreateCompanyParams `form:"company"`
+	// A hash of configuration describing the account controller's attributes.
+	Controller *AccountCreateControllerParams `form:"controller"`
+	// The country in which the account holder resides, or in which the business is legally established. This should be an ISO 3166-1 alpha-2 country code. For example, if you are in the United States and the business for which you're creating an account is legally represented in Canada, you would use `CA` as the country for the account being created. Available countries include [Stripe's global markets](https://stripe.com/global) as well as countries where [cross-border payouts](https://stripe.com/docs/connect/cross-border-payouts) are supported.
+	Country *string `form:"country"`
+	// Three-letter ISO currency code representing the default currency for the account. This must be a currency that [Stripe supports in the account's country](https://docs.stripe.com/payouts).
+	DefaultCurrency *string `form:"default_currency"`
+	// Documents that may be submitted to satisfy various informational requests.
+	Documents *AccountCreateDocumentsParams `form:"documents"`
+	// The email address of the account holder. This is only to make the account easier to identify to you. If [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, Stripe doesn't email the account without your consent.
+	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// ExternalAccount *[todo({"shape":"primitive","primitive":"string"} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountCreateExternalAccountParams"}} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountCreateExternalAccountParams"}} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountCreateExternalAccountParams"}})] `form:"external_account"`
+	// A hash of account group type to tokens. These are account groups this account should be added to.
+	Groups *AccountCreateGroupsParams `form:"groups"`
+	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	Individual *PersonParams `form:"individual"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Options for customizing how the account functions within Stripe.
+	Settings *AccountCreateSettingsParams `form:"settings"`
+	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+	TOSAcceptance *AccountCreateTOSAcceptanceParams `form:"tos_acceptance"`
+	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
+	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *AccountCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *AccountCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The applicant's gross annual revenue for its preceding fiscal year.
 type AccountBusinessProfileAnnualRevenue struct {
 	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).

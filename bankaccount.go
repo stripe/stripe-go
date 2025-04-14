@@ -415,6 +415,113 @@ func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
 	body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
 }
 
+// Delete a specified external account for a given account.
+type BankAccountDeleteParams struct {
+	Params  `form:"*"`
+	Account *string `form:"-"` // Included in URL
+}
+
+// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
+type BankAccountUpdateDocumentsBankAccountOwnershipVerificationParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
+// Documents that may be submitted to satisfy various informational requests.
+type BankAccountUpdateDocumentsParams struct {
+	// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
+	BankAccountOwnershipVerification *BankAccountUpdateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
+}
+
+// Updates the metadata, account holder name, account holder type of a bank account belonging to
+// a connected account and optionally sets it as the default for its currency. Other bank account
+// details are not editable by design.
+//
+// You can only update bank accounts when [account.controller.requirement_collection is application, which includes <a href="/connect/custom-accounts">Custom accounts](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection).
+//
+// You can re-enable a disabled bank account by performing an update call without providing any
+// arguments or changes.
+type BankAccountUpdateParams struct {
+	Params  `form:"*"`
+	Account *string `form:"-"` // Included in URL
+	// The name of the person or business that owns the bank account.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The type of entity that holds the account. This can be either `individual` or `company`.
+	AccountHolderType *string `form:"account_holder_type"`
+	// The bank account type. This can only be `checking` or `savings` in most countries. In Japan, this can only be `futsu` or `toza`.
+	AccountType *string `form:"account_type"`
+	// City/District/Suburb/Town/Village.
+	AddressCity *string `form:"address_city"`
+	// Billing address country, if provided when creating card.
+	AddressCountry *string `form:"address_country"`
+	// Address line 1 (Street address/PO Box/Company name).
+	AddressLine1 *string `form:"address_line1"`
+	// Address line 2 (Apartment/Suite/Unit/Building).
+	AddressLine2 *string `form:"address_line2"`
+	// State/County/Province/Region.
+	AddressState *string `form:"address_state"`
+	// ZIP or postal code.
+	AddressZip *string `form:"address_zip"`
+	// When set to true, this becomes the default external account for its currency.
+	DefaultForCurrency *bool `form:"default_for_currency"`
+	// Documents that may be submitted to satisfy various informational requests.
+	Documents *BankAccountUpdateDocumentsParams `form:"documents"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Two digit number representing the card's expiration month.
+	ExpMonth *string `form:"exp_month"`
+	// Four digit number representing the card's expiration year.
+	ExpYear *string `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Cardholder name.
+	Name *string `form:"name"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BankAccountUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *BankAccountUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// New creates a new bank account
+type BankAccountCreateParams struct {
+	Params   `form:"*"`
+	Account  *string `form:"-"` // Included in URL
+	Customer *string `form:"-"` // Included in URL
+	Token    *string `form:"-"` // Included in URL
+	// The account number for the bank account, in string form. Must be a checking account.
+	AccountNumber *string `form:"account_number"`
+	// The country in which the bank account is located.
+	Country *string `form:"country"`
+	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports](https://stripe.com/docs/payouts).
+	Currency *string `form:"currency"`
+	// The ID of a Payment Method with a `type` of `us_bank_account`. The Payment Method's bank account information will be copied and
+	// returned as a Bank Account Token. This parameter is exclusive with respect to all other parameters in the `bank_account` hash.
+	// You must include the top-level `customer` parameter if the Payment Method is attached to a `Customer` object. If the Payment
+	// Method is not attached to a `Customer` object, it will be consumed and cannot be used again. You may not use Payment Methods which were
+	// created by a Setup Intent with `attach_to_self=true`.
+	// This is used for TokenParams.BankAccountParams only and will be removed in the next major version.
+	// **DO NOT USE THIS FOR OTHER METHODS.**
+	PaymentMethod *string `form:"payment_method"`
+	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
+	RoutingNumber *string `form:"routing_number"`
+}
+
+// Get returns the details of a bank account.
+type BankAccountRetrieveParams struct {
+	Params  `form:"*"`
+	Account *string `form:"-"` // Included in URL
+}
+
 // Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type BankAccountFutureRequirementsError struct {
 	// The code for the type of error.

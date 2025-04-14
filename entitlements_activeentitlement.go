@@ -32,6 +32,18 @@ func (p *EntitlementsActiveEntitlementParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieve an active entitlement
+type EntitlementsActiveEntitlementRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *EntitlementsActiveEntitlementRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // An active entitlement describes access to a feature for a customer.
 type EntitlementsActiveEntitlement struct {
 	APIResource

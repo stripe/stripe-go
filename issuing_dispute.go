@@ -321,6 +321,350 @@ func (p *IssuingDisputeSubmitParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Evidence provided when `reason` is 'canceled'.
+type IssuingDisputeCreateEvidenceCanceledParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Date when order was canceled.
+	CanceledAt *int64 `form:"canceled_at"`
+	// Whether the cardholder was provided with a cancellation policy.
+	CancellationPolicyProvided *bool `form:"cancellation_policy_provided"`
+	// Reason for canceling the order.
+	CancellationReason *string `form:"cancellation_reason"`
+	// Date when the cardholder expected to receive the product.
+	ExpectedAt *int64 `form:"expected_at"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription *string `form:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType *string `form:"product_type"`
+	// Date when the product was returned or attempted to be returned.
+	ReturnedAt *int64 `form:"returned_at"`
+	// Result of cardholder's attempt to return the product.
+	ReturnStatus *string `form:"return_status"`
+}
+
+// Evidence provided when `reason` is 'duplicate'.
+type IssuingDisputeCreateEvidenceDuplicateParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the card statement showing that the product had already been paid for.
+	CardStatement *string `form:"card_statement"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the receipt showing that the product had been paid for in cash.
+	CashReceipt *string `form:"cash_receipt"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Image of the front and back of the check that was used to pay for the product.
+	CheckImage *string `form:"check_image"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
+	OriginalTransaction *string `form:"original_transaction"`
+}
+
+// Evidence provided when `reason` is 'fraudulent'.
+type IssuingDisputeCreateEvidenceFraudulentParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+}
+
+// Evidence provided when `reason` is 'merchandise_not_as_described'.
+type IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Date when the product was received.
+	ReceivedAt *int64 `form:"received_at"`
+	// Description of the cardholder's attempt to return the product.
+	ReturnDescription *string `form:"return_description"`
+	// Date when the product was returned or attempted to be returned.
+	ReturnedAt *int64 `form:"returned_at"`
+	// Result of cardholder's attempt to return the product.
+	ReturnStatus *string `form:"return_status"`
+}
+
+// Evidence provided when `reason` is 'no_valid_authorization'.
+type IssuingDisputeCreateEvidenceNoValidAuthorizationParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+}
+
+// Evidence provided when `reason` is 'not_received'.
+type IssuingDisputeCreateEvidenceNotReceivedParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Date when the cardholder expected to receive the product.
+	ExpectedAt *int64 `form:"expected_at"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription *string `form:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType *string `form:"product_type"`
+}
+
+// Evidence provided when `reason` is 'other'.
+type IssuingDisputeCreateEvidenceOtherParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription *string `form:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType *string `form:"product_type"`
+}
+
+// Evidence provided when `reason` is 'service_not_as_described'.
+type IssuingDisputeCreateEvidenceServiceNotAsDescribedParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Date when order was canceled.
+	CanceledAt *int64 `form:"canceled_at"`
+	// Reason for canceling the order.
+	CancellationReason *string `form:"cancellation_reason"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Date when the product was received.
+	ReceivedAt *int64 `form:"received_at"`
+}
+
+// Evidence provided for the dispute.
+type IssuingDisputeCreateEvidenceParams struct {
+	// Evidence provided when `reason` is 'canceled'.
+	Canceled *IssuingDisputeCreateEvidenceCanceledParams `form:"canceled"`
+	// Evidence provided when `reason` is 'duplicate'.
+	Duplicate *IssuingDisputeCreateEvidenceDuplicateParams `form:"duplicate"`
+	// Evidence provided when `reason` is 'fraudulent'.
+	Fraudulent *IssuingDisputeCreateEvidenceFraudulentParams `form:"fraudulent"`
+	// Evidence provided when `reason` is 'merchandise_not_as_described'.
+	MerchandiseNotAsDescribed *IssuingDisputeCreateEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described"`
+	// Evidence provided when `reason` is 'not_received'.
+	NotReceived *IssuingDisputeCreateEvidenceNotReceivedParams `form:"not_received"`
+	// Evidence provided when `reason` is 'no_valid_authorization'.
+	NoValidAuthorization *IssuingDisputeCreateEvidenceNoValidAuthorizationParams `form:"no_valid_authorization"`
+	// Evidence provided when `reason` is 'other'.
+	Other *IssuingDisputeCreateEvidenceOtherParams `form:"other"`
+	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
+	Reason *string `form:"reason"`
+	// Evidence provided when `reason` is 'service_not_as_described'.
+	ServiceNotAsDescribed *IssuingDisputeCreateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
+}
+
+// Params for disputes related to Treasury FinancialAccounts
+type IssuingDisputeCreateTreasuryParams struct {
+	// The ID of the ReceivedDebit to initiate an Issuings dispute for.
+	ReceivedDebit *string `form:"received_debit"`
+}
+
+// Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
+type IssuingDisputeCreateParams struct {
+	Params `form:"*"`
+	// The dispute amount in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal). If not set, defaults to the full transaction amount.
+	Amount *int64 `form:"amount"`
+	// Evidence provided for the dispute.
+	Evidence *IssuingDisputeCreateEvidenceParams `form:"evidence"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The ID of the issuing transaction to create a dispute for. For transaction on Treasury FinancialAccounts, use `treasury.received_debit`.
+	Transaction *string `form:"transaction"`
+	// Params for disputes related to Treasury FinancialAccounts
+	Treasury *IssuingDisputeCreateTreasuryParams `form:"treasury"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingDisputeCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingDisputeCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves an Issuing Dispute object.
+type IssuingDisputeRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingDisputeRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Evidence provided when `reason` is 'canceled'.
+type IssuingDisputeUpdateEvidenceCanceledParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Date when order was canceled.
+	CanceledAt *int64 `form:"canceled_at"`
+	// Whether the cardholder was provided with a cancellation policy.
+	CancellationPolicyProvided *bool `form:"cancellation_policy_provided"`
+	// Reason for canceling the order.
+	CancellationReason *string `form:"cancellation_reason"`
+	// Date when the cardholder expected to receive the product.
+	ExpectedAt *int64 `form:"expected_at"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription *string `form:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType *string `form:"product_type"`
+	// Date when the product was returned or attempted to be returned.
+	ReturnedAt *int64 `form:"returned_at"`
+	// Result of cardholder's attempt to return the product.
+	ReturnStatus *string `form:"return_status"`
+}
+
+// Evidence provided when `reason` is 'duplicate'.
+type IssuingDisputeUpdateEvidenceDuplicateParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the card statement showing that the product had already been paid for.
+	CardStatement *string `form:"card_statement"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the receipt showing that the product had been paid for in cash.
+	CashReceipt *string `form:"cash_receipt"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Image of the front and back of the check that was used to pay for the product.
+	CheckImage *string `form:"check_image"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
+	OriginalTransaction *string `form:"original_transaction"`
+}
+
+// Evidence provided when `reason` is 'fraudulent'.
+type IssuingDisputeUpdateEvidenceFraudulentParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+}
+
+// Evidence provided when `reason` is 'merchandise_not_as_described'.
+type IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Date when the product was received.
+	ReceivedAt *int64 `form:"received_at"`
+	// Description of the cardholder's attempt to return the product.
+	ReturnDescription *string `form:"return_description"`
+	// Date when the product was returned or attempted to be returned.
+	ReturnedAt *int64 `form:"returned_at"`
+	// Result of cardholder's attempt to return the product.
+	ReturnStatus *string `form:"return_status"`
+}
+
+// Evidence provided when `reason` is 'no_valid_authorization'.
+type IssuingDisputeUpdateEvidenceNoValidAuthorizationParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+}
+
+// Evidence provided when `reason` is 'not_received'.
+type IssuingDisputeUpdateEvidenceNotReceivedParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Date when the cardholder expected to receive the product.
+	ExpectedAt *int64 `form:"expected_at"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription *string `form:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType *string `form:"product_type"`
+}
+
+// Evidence provided when `reason` is 'other'.
+type IssuingDisputeUpdateEvidenceOtherParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription *string `form:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType *string `form:"product_type"`
+}
+
+// Evidence provided when `reason` is 'service_not_as_described'.
+type IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Date when order was canceled.
+	CanceledAt *int64 `form:"canceled_at"`
+	// Reason for canceling the order.
+	CancellationReason *string `form:"cancellation_reason"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Date when the product was received.
+	ReceivedAt *int64 `form:"received_at"`
+}
+
+// Evidence provided for the dispute.
+type IssuingDisputeUpdateEvidenceParams struct {
+	// Evidence provided when `reason` is 'canceled'.
+	Canceled *IssuingDisputeUpdateEvidenceCanceledParams `form:"canceled"`
+	// Evidence provided when `reason` is 'duplicate'.
+	Duplicate *IssuingDisputeUpdateEvidenceDuplicateParams `form:"duplicate"`
+	// Evidence provided when `reason` is 'fraudulent'.
+	Fraudulent *IssuingDisputeUpdateEvidenceFraudulentParams `form:"fraudulent"`
+	// Evidence provided when `reason` is 'merchandise_not_as_described'.
+	MerchandiseNotAsDescribed *IssuingDisputeUpdateEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described"`
+	// Evidence provided when `reason` is 'not_received'.
+	NotReceived *IssuingDisputeUpdateEvidenceNotReceivedParams `form:"not_received"`
+	// Evidence provided when `reason` is 'no_valid_authorization'.
+	NoValidAuthorization *IssuingDisputeUpdateEvidenceNoValidAuthorizationParams `form:"no_valid_authorization"`
+	// Evidence provided when `reason` is 'other'.
+	Other *IssuingDisputeUpdateEvidenceOtherParams `form:"other"`
+	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
+	Reason *string `form:"reason"`
+	// Evidence provided when `reason` is 'service_not_as_described'.
+	ServiceNotAsDescribed *IssuingDisputeUpdateEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
+}
+
+// Updates the specified Issuing Dispute object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Properties on the evidence object can be unset by passing in an empty string.
+type IssuingDisputeUpdateParams struct {
+	Params `form:"*"`
+	// The dispute amount in the card's currency and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// Evidence provided for the dispute.
+	Evidence *IssuingDisputeUpdateEvidenceParams `form:"evidence"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingDisputeUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingDisputeUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type IssuingDisputeEvidenceCanceled struct {
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *File `json:"additional_documentation"`
