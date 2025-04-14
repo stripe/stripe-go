@@ -53,7 +53,6 @@ func (c Client) Get(id string, params *stripe.TransferReversalParams) (*stripe.T
 	if params == nil {
 		return nil, fmt.Errorf(
       "params cannot be nil, and params.Transfer must be set")
-
 	}
 	path := stripe.FormatURLPath(
 		"/v1/transfers/%s/reversals/%s", stripe.StringValue(params.ID), id)
