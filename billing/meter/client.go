@@ -4,7 +4,7 @@
 //
 //
 
-// Package meter provides the /billing/meters APIs
+// Package meter provides the /v1/billing/meters APIs
 package meter
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /billing/meters APIs.
+// Client is used to invoke /v1/billing/meters APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

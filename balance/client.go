@@ -4,7 +4,7 @@
 //
 //
 
-// Package balance provides the /balance APIs
+// Package balance provides the /v1/balance APIs
 package balance
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v82"
 )
 
-// Client is used to invoke /balance APIs.
+// Client is used to invoke /v1/balance APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

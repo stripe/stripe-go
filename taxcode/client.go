@@ -4,7 +4,7 @@
 //
 //
 
-// Package taxcode provides the /tax_codes APIs
+// Package taxcode provides the /v1/tax_codes APIs
 package taxcode
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /tax_codes APIs.
+// Client is used to invoke /v1/tax_codes APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package invoicerenderingtemplate provides the /invoice_rendering_templates APIs
+// Package invoicerenderingtemplate provides the /v1/invoice_rendering_templates APIs
 package invoicerenderingtemplate
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /invoice_rendering_templates APIs.
+// Client is used to invoke /v1/invoice_rendering_templates APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

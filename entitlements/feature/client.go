@@ -4,7 +4,7 @@
 //
 //
 
-// Package feature provides the /entitlements/features APIs
+// Package feature provides the /v1/entitlements/features APIs
 package feature
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /entitlements/features APIs.
+// Client is used to invoke /v1/entitlements/features APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

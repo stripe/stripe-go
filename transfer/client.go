@@ -4,7 +4,7 @@
 //
 //
 
-// Package transfer provides the /transfers APIs
+// Package transfer provides the /v1/transfers APIs
 package transfer
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /transfers APIs.
+// Client is used to invoke /v1/transfers APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

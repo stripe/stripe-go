@@ -4,7 +4,7 @@
 //
 //
 
-// Package setupintent provides the /setup_intents APIs
+// Package setupintent provides the /v1/setup_intents APIs
 package setupintent
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /setup_intents APIs.
+// Client is used to invoke /v1/setup_intents APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package customercashbalancetransaction provides the /customers/{customer}/cash_balance_transactions APIs
+// Package customercashbalancetransaction provides the /v1/customers/{customer}/cash_balance_transactions APIs
 package customercashbalancetransaction
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /customers/{customer}/cash_balance_transactions APIs.
+// Client is used to invoke /v1/customers/{customer}/cash_balance_transactions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
