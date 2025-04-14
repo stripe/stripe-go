@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /ephemeral_keys APIs.
@@ -38,12 +38,7 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 
 	ephemeralkey := &stripe.EphemeralKey{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/ephemeral_keys",
-		c.Key,
-		params,
-		ephemeralkey,
-	)
+		http.MethodPost, "/v1/ephemeral_keys", c.Key, params, ephemeralkey)
 	return ephemeralkey, err
 }
 

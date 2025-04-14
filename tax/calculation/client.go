@@ -10,8 +10,8 @@ package calculation
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /tax/calculations APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	calculation := &stripe.TaxCalculation{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/calculations",
-		c.Key,
-		params,
-		calculation,
-	)
+		http.MethodPost, "/v1/tax/calculations", c.Key, params, calculation)
 	return calculation, err
 }
 
@@ -59,13 +54,12 @@ func ListLineItems(params *stripe.TaxCalculationListLineItemsParams) *LineItemIt
 // Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 func (c Client) ListLineItems(listParams *stripe.TaxCalculationListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/tax/calculations/%s/line_items",
-		stripe.StringValue(listParams.Calculation),
-	)
+		"/v1/tax/calculations/%s/line_items", stripe.StringValue(
+			listParams.Calculation))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxCalculationLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

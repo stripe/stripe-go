@@ -10,8 +10,8 @@ package feature
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /entitlements/features APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature,
 func (c Client) New(params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	feature := &stripe.EntitlementsFeature{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/entitlements/features",
-		c.Key,
-		params,
-		feature,
-	)
+		http.MethodPost, "/v1/entitlements/features", c.Key, params, feature)
 	return feature, err
 }
 
@@ -74,7 +69,7 @@ func (c Client) List(listParams *stripe.EntitlementsFeatureListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.EntitlementsFeatureList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/entitlements/features", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/entitlements/features", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

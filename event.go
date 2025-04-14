@@ -106,6 +106,7 @@ const (
 	EventTypeInvoiceFinalized                                   EventType = "invoice.finalized"
 	EventTypeInvoiceMarkedUncollectible                         EventType = "invoice.marked_uncollectible"
 	EventTypeInvoiceOverdue                                     EventType = "invoice.overdue"
+	EventTypeInvoiceOverpaid                                    EventType = "invoice.overpaid"
 	EventTypeInvoicePaid                                        EventType = "invoice.paid"
 	EventTypeInvoicePaymentActionRequired                       EventType = "invoice.payment_action_required"
 	EventTypeInvoicePaymentFailed                               EventType = "invoice.payment_failed"
@@ -137,6 +138,7 @@ const (
 	EventTypeIssuingTokenCreated                                EventType = "issuing_token.created"
 	EventTypeIssuingTokenUpdated                                EventType = "issuing_token.updated"
 	EventTypeIssuingTransactionCreated                          EventType = "issuing_transaction.created"
+	EventTypeIssuingTransactionPurchaseDetailsReceiptUpdated    EventType = "issuing_transaction.purchase_details_receipt_updated"
 	EventTypeIssuingTransactionUpdated                          EventType = "issuing_transaction.updated"
 	EventTypeMandateUpdated                                     EventType = "mandate.updated"
 	EventTypePaymentIntentAmountCapturableUpdated               EventType = "payment_intent.amount_capturable_updated"
@@ -180,6 +182,7 @@ const (
 	EventTypeRadarEarlyFraudWarningCreated                      EventType = "radar.early_fraud_warning.created"
 	EventTypeRadarEarlyFraudWarningUpdated                      EventType = "radar.early_fraud_warning.updated"
 	EventTypeRefundCreated                                      EventType = "refund.created"
+	EventTypeRefundFailed                                       EventType = "refund.failed"
 	EventTypeRefundUpdated                                      EventType = "refund.updated"
 	EventTypeReportingReportRunFailed                           EventType = "reporting.report_run.failed"
 	EventTypeReportingReportRunSucceeded                        EventType = "reporting.report_run.succeeded"
@@ -254,6 +257,13 @@ const (
 	EventTypeTreasuryReceivedCreditFailed                       EventType = "treasury.received_credit.failed"
 	EventTypeTreasuryReceivedCreditSucceeded                    EventType = "treasury.received_credit.succeeded"
 	EventTypeTreasuryReceivedDebitCreated                       EventType = "treasury.received_debit.created"
+	EventTypeBillingCreditBalanceTransactionCreated             EventType = "billing.credit_balance_transaction.created"
+	EventTypeBillingCreditGrantCreated                          EventType = "billing.credit_grant.created"
+	EventTypeBillingCreditGrantUpdated                          EventType = "billing.credit_grant.updated"
+	EventTypeBillingMeterCreated                                EventType = "billing.meter.created"
+	EventTypeBillingMeterDeactivated                            EventType = "billing.meter.deactivated"
+	EventTypeBillingMeterReactivated                            EventType = "billing.meter.reactivated"
+	EventTypeBillingMeterUpdated                                EventType = "billing.meter.updated"
 )
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).

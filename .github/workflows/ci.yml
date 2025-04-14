@@ -22,9 +22,10 @@ jobs:
   lint:
     name: Lint
 
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-24.04"
 
     steps:
+      - uses: extractions/setup-just@v2
       - uses: actions/checkout@master
 
       - name: Setup go
@@ -34,42 +35,45 @@ jobs:
 
       - name: lint
         run: |
-          go install honnef.co/go/tools/cmd/staticcheck@v0.4.7 &&
-          go install golang.org/x/tools/cmd/goimports@v0.24.0 &&
-          $HOME/go/bin/staticcheck &&
-          make vet &&
-          make check-gofmt
+          just lint format-check
+
+  govulncheck:
+    name: govulncheck
+    runs-on: "ubuntu-24.04"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+          check-latest: true
+      - name: Install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      - name: Run vulnerability scan
+        run: govulncheck ./...
 
   test:
-     runs-on: ubuntu-latest
-     strategy:
-       matrix:
-         go:
-           - "1.23"
-           - "1.22"
-           - "1.21"
-           - "1.20"
-           - "1.19"
-           - "1.18"
-           - "1.17"
-           - "1.16"
-           - "1.15"
-     name: "Test: go v${{ matrix.go }}"
-     steps:
-       - uses: actions/checkout@v2
-       - name: Setup go
-         uses: actions/setup-go@v1
-         with:
-           go-version: ${{ matrix.go }}
-       - uses: stripe/openapi/actions/stripe-mock@master
-       - name: Test
-         run: make ci-test
-       - name: Coveralls
-         run: make coverage && make coveralls
-         if: matrix.go == '1.16'
-         env:
-           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-           COVERALLS_FLAG_NAME: Go-${{ matrix.go }}
+    runs-on: "ubuntu-24.04"
+    strategy:
+      matrix:
+        go:
+          - "1.23"
+          - "1.22"
+          - "1.21"
+          - "1.20"
+          - "1.19"
+          - "1.18"
+    name: "Test: go v${{ matrix.go }}"
+    steps:
+      - uses: extractions/setup-just@v2
+      - uses: actions/checkout@v2
+      - name: Setup go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+      - uses: stripe/openapi/actions/stripe-mock@master
+      - name: Test
+        run: just ci-test
 
   publish:
     name: Publish
@@ -77,7 +81,7 @@ jobs:
       (github.event_name == 'workflow_dispatch' || github.event_name == 'push') &&
       startsWith(github.ref, 'refs/tags/v') &&
       endsWith(github.actor, '-stripe')
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-24.04"
     steps:
       - uses: actions/checkout@v2
       - uses: stripe/openapi/actions/notify-release@master

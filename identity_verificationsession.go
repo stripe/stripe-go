@@ -148,13 +148,13 @@ type IdentityVerificationSessionParams struct {
 	Options *IdentityVerificationSessionOptionsParams `form:"options"`
 	// Details provided about the user being verified. These details may be shown to the user.
 	ProvidedDetails *IdentityVerificationSessionProvidedDetailsParams `form:"provided_details"`
-	// Token referencing a Customer resource.
+	// Customer ID
 	RelatedCustomer *string `form:"related_customer"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
 	Type *string `form:"type"`
-	// The ID of a Verification Flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows.
+	// The ID of a verification flow from the Dashboard. See https://docs.stripe.com/identity/verification-flows.
 	VerificationFlow *string `form:"verification_flow"`
 }
 
@@ -332,7 +332,7 @@ type IdentityVerificationSession struct {
 	ProvidedDetails *IdentityVerificationSessionProvidedDetails `json:"provided_details"`
 	// Redaction status of this VerificationSession. If the VerificationSession is not redacted, this field will be null.
 	Redaction *IdentityVerificationSessionRedaction `json:"redaction"`
-	// Token referencing a Customer resource.
+	// Customer ID
 	RelatedCustomer string `json:"related_customer"`
 	// Status of this VerificationSession. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 	Status IdentityVerificationSessionStatus `json:"status"`
@@ -340,7 +340,7 @@ type IdentityVerificationSession struct {
 	Type IdentityVerificationSessionType `json:"type"`
 	// The short-lived URL that you use to redirect a user to Stripe to submit their identity information. This URL expires after 48 hours and can only be used once. Don't store it, log it, send it in emails or expose it to anyone other than the user. Refer to our docs on [verifying identity documents](https://stripe.com/docs/identity/verify-identity-documents?platform=web&type=redirect) to learn how to redirect users to Stripe.
 	URL string `json:"url"`
-	// The configuration token of a Verification Flow from the dashboard.
+	// The configuration token of a verification flow from the dashboard.
 	VerificationFlow string `json:"verification_flow"`
 	// The user's verified data.
 	VerifiedOutputs *IdentityVerificationSessionVerifiedOutputs `json:"verified_outputs"`

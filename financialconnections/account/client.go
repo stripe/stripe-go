@@ -10,8 +10,8 @@ package account
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /financial_connections/accounts APIs.
@@ -41,9 +41,7 @@ func Disconnect(id string, params *stripe.FinancialConnectionsAccountDisconnectP
 // Disables your access to a Financial Connections Account. You will no longer be able to access data associated with the account (e.g. balances, transactions).
 func (c Client) Disconnect(id string, params *stripe.FinancialConnectionsAccountDisconnectParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath(
-		"/v1/financial_connections/accounts/%s/disconnect",
-		id,
-	)
+		"/v1/financial_connections/accounts/%s/disconnect", id)
 	account := &stripe.FinancialConnectionsAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
 	return account, err
@@ -57,9 +55,7 @@ func Refresh(id string, params *stripe.FinancialConnectionsAccountRefreshParams)
 // Refreshes the data associated with a Financial Connections Account.
 func (c Client) Refresh(id string, params *stripe.FinancialConnectionsAccountRefreshParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath(
-		"/v1/financial_connections/accounts/%s/refresh",
-		id,
-	)
+		"/v1/financial_connections/accounts/%s/refresh", id)
 	account := &stripe.FinancialConnectionsAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
 	return account, err
@@ -73,9 +69,7 @@ func Subscribe(id string, params *stripe.FinancialConnectionsAccountSubscribePar
 // Subscribes to periodic refreshes of data associated with a Financial Connections Account.
 func (c Client) Subscribe(id string, params *stripe.FinancialConnectionsAccountSubscribeParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath(
-		"/v1/financial_connections/accounts/%s/subscribe",
-		id,
-	)
+		"/v1/financial_connections/accounts/%s/subscribe", id)
 	account := &stripe.FinancialConnectionsAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
 	return account, err
@@ -89,9 +83,7 @@ func Unsubscribe(id string, params *stripe.FinancialConnectionsAccountUnsubscrib
 // Unsubscribes from periodic refreshes of data associated with a Financial Connections Account.
 func (c Client) Unsubscribe(id string, params *stripe.FinancialConnectionsAccountUnsubscribeParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath(
-		"/v1/financial_connections/accounts/%s/unsubscribe",
-		id,
-	)
+		"/v1/financial_connections/accounts/%s/unsubscribe", id)
 	account := &stripe.FinancialConnectionsAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
 	return account, err
@@ -107,7 +99,7 @@ func (c Client) List(listParams *stripe.FinancialConnectionsAccountListParams) *
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FinancialConnectionsAccountList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/financial_connections/accounts", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/financial_connections/accounts", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -144,13 +136,12 @@ func ListOwners(params *stripe.FinancialConnectionsAccountListOwnersParams) *Own
 // Lists all owners for a given Account
 func (c Client) ListOwners(listParams *stripe.FinancialConnectionsAccountListOwnersParams) *OwnerIter {
 	path := stripe.FormatURLPath(
-		"/v1/financial_connections/accounts/%s/owners",
-		stripe.StringValue(listParams.Account),
-	)
+		"/v1/financial_connections/accounts/%s/owners", stripe.StringValue(
+			listParams.Account))
 	return &OwnerIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FinancialConnectionsAccountOwnerList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

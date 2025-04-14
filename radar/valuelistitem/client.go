@@ -11,8 +11,8 @@ package valuelistitem
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /radar/value_list_items APIs.
@@ -30,12 +30,7 @@ func New(params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, e
 func (c Client) New(params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
 	valuelistitem := &stripe.RadarValueListItem{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/radar/value_list_items",
-		c.Key,
-		params,
-		valuelistitem,
-	)
+		http.MethodPost, "/v1/radar/value_list_items", c.Key, params, valuelistitem)
 	return valuelistitem, err
 }
 
@@ -75,7 +70,7 @@ func (c Client) List(listParams *stripe.RadarValueListItemListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.RadarValueListItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/radar/value_list_items", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/radar/value_list_items", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

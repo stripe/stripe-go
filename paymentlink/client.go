@@ -10,8 +10,8 @@ package paymentlink
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /payment_links APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 func (c Client) New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	paymentlink := &stripe.PaymentLink{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_links",
-		c.Key,
-		params,
-		paymentlink,
-	)
+		http.MethodPost, "/v1/payment_links", c.Key, params, paymentlink)
 	return paymentlink, err
 }
 
@@ -74,7 +69,7 @@ func (c Client) List(listParams *stripe.PaymentLinkListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentLinkList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_links", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_links", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -111,13 +106,12 @@ func ListLineItems(params *stripe.PaymentLinkListLineItemsParams) *LineItemIter 
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLineItems(listParams *stripe.PaymentLinkListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/payment_links/%s/line_items",
-		stripe.StringValue(listParams.PaymentLink),
-	)
+		"/v1/payment_links/%s/line_items", stripe.StringValue(
+			listParams.PaymentLink))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.LineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

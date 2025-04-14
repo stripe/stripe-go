@@ -10,8 +10,8 @@ package setupintent
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /setup_intents APIs.
@@ -35,12 +35,7 @@ func New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 func (c Client) New(params *stripe.SetupIntentParams) (*stripe.SetupIntent, error) {
 	setupintent := &stripe.SetupIntent{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/setup_intents",
-		c.Key,
-		params,
-		setupintent,
-	)
+		http.MethodPost, "/v1/setup_intents", c.Key, params, setupintent)
 	return setupintent, err
 }
 
@@ -157,7 +152,7 @@ func (c Client) List(listParams *stripe.SetupIntentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.SetupIntentList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/setup_intents", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/setup_intents", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

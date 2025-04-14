@@ -207,7 +207,7 @@ type SetupAttemptPaymentMethodDetailsCardWallet struct {
 	Type SetupAttemptPaymentMethodDetailsCardWalletType `json:"type"`
 }
 type SetupAttemptPaymentMethodDetailsCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
 	// Check results by Card networks on Card address and CVC at the time of authorization
 	Checks *SetupAttemptPaymentMethodDetailsCardChecks `json:"checks"`
@@ -231,7 +231,7 @@ type SetupAttemptPaymentMethodDetailsCard struct {
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
-	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
 	// Populated if this authorization used 3D Secure authentication.
 	ThreeDSecure *SetupAttemptPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
@@ -268,8 +268,15 @@ type SetupAttemptPaymentMethodDetailsIDEAL struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsKakaoPay struct{}
 type SetupAttemptPaymentMethodDetailsKlarna struct{}
+type SetupAttemptPaymentMethodDetailsKrCard struct{}
 type SetupAttemptPaymentMethodDetailsLink struct{}
+type SetupAttemptPaymentMethodDetailsNaverPay struct {
+	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
+	BuyerID string `json:"buyer_id"`
+}
+type SetupAttemptPaymentMethodDetailsNzBankAccount struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
@@ -295,22 +302,26 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 }
 type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
 type SetupAttemptPaymentMethodDetails struct {
-	ACSSDebit   *SetupAttemptPaymentMethodDetailsACSSDebit   `json:"acss_debit"`
-	AmazonPay   *SetupAttemptPaymentMethodDetailsAmazonPay   `json:"amazon_pay"`
-	AUBECSDebit *SetupAttemptPaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
-	BACSDebit   *SetupAttemptPaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
-	Bancontact  *SetupAttemptPaymentMethodDetailsBancontact  `json:"bancontact"`
-	Boleto      *SetupAttemptPaymentMethodDetailsBoleto      `json:"boleto"`
-	Card        *SetupAttemptPaymentMethodDetailsCard        `json:"card"`
-	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`
-	CashApp     *SetupAttemptPaymentMethodDetailsCashApp     `json:"cashapp"`
-	IDEAL       *SetupAttemptPaymentMethodDetailsIDEAL       `json:"ideal"`
-	Klarna      *SetupAttemptPaymentMethodDetailsKlarna      `json:"klarna"`
-	Link        *SetupAttemptPaymentMethodDetailsLink        `json:"link"`
-	Paypal      *SetupAttemptPaymentMethodDetailsPaypal      `json:"paypal"`
-	RevolutPay  *SetupAttemptPaymentMethodDetailsRevolutPay  `json:"revolut_pay"`
-	SEPADebit   *SetupAttemptPaymentMethodDetailsSEPADebit   `json:"sepa_debit"`
-	Sofort      *SetupAttemptPaymentMethodDetailsSofort      `json:"sofort"`
+	ACSSDebit     *SetupAttemptPaymentMethodDetailsACSSDebit     `json:"acss_debit"`
+	AmazonPay     *SetupAttemptPaymentMethodDetailsAmazonPay     `json:"amazon_pay"`
+	AUBECSDebit   *SetupAttemptPaymentMethodDetailsAUBECSDebit   `json:"au_becs_debit"`
+	BACSDebit     *SetupAttemptPaymentMethodDetailsBACSDebit     `json:"bacs_debit"`
+	Bancontact    *SetupAttemptPaymentMethodDetailsBancontact    `json:"bancontact"`
+	Boleto        *SetupAttemptPaymentMethodDetailsBoleto        `json:"boleto"`
+	Card          *SetupAttemptPaymentMethodDetailsCard          `json:"card"`
+	CardPresent   *SetupAttemptPaymentMethodDetailsCardPresent   `json:"card_present"`
+	CashApp       *SetupAttemptPaymentMethodDetailsCashApp       `json:"cashapp"`
+	IDEAL         *SetupAttemptPaymentMethodDetailsIDEAL         `json:"ideal"`
+	KakaoPay      *SetupAttemptPaymentMethodDetailsKakaoPay      `json:"kakao_pay"`
+	Klarna        *SetupAttemptPaymentMethodDetailsKlarna        `json:"klarna"`
+	KrCard        *SetupAttemptPaymentMethodDetailsKrCard        `json:"kr_card"`
+	Link          *SetupAttemptPaymentMethodDetailsLink          `json:"link"`
+	NaverPay      *SetupAttemptPaymentMethodDetailsNaverPay      `json:"naver_pay"`
+	NzBankAccount *SetupAttemptPaymentMethodDetailsNzBankAccount `json:"nz_bank_account"`
+	Paypal        *SetupAttemptPaymentMethodDetailsPaypal        `json:"paypal"`
+	RevolutPay    *SetupAttemptPaymentMethodDetailsRevolutPay    `json:"revolut_pay"`
+	SEPADebit     *SetupAttemptPaymentMethodDetailsSEPADebit     `json:"sepa_debit"`
+	Sofort        *SetupAttemptPaymentMethodDetailsSofort        `json:"sofort"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 	Type          SetupAttemptPaymentMethodDetailsType           `json:"type"`
 	USBankAccount *SetupAttemptPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`

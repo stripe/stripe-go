@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /files APIs.
@@ -35,8 +35,7 @@ func New(params *stripe.FileParams) (*stripe.File, error) {
 func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
-			"params cannot be nil, and params.Purpose and params.File must be set",
-		)
+			"params cannot be nil, and params.Purpose and params.File must be set")
 	}
 
 	bodyBuffer, boundary, err := params.GetBody()
@@ -73,7 +72,7 @@ func (c Client) List(listParams *stripe.FileListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.FileList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/files", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/files", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -10,7 +10,7 @@ package confirmationtoken
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /confirmation_tokens APIs.

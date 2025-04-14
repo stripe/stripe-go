@@ -10,7 +10,7 @@ package authorization
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /issuing/authorizations APIs.
@@ -28,12 +28,7 @@ func New(params *stripe.TestHelpersIssuingAuthorizationParams) (*stripe.IssuingA
 func (c Client) New(params *stripe.TestHelpersIssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	authorization := &stripe.IssuingAuthorization{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/issuing/authorizations",
-		c.Key,
-		params,
-		authorization,
-	)
+		http.MethodPost, "/v1/test_helpers/issuing/authorizations", c.Key, params, authorization)
 	return authorization, err
 }
 
@@ -45,9 +40,7 @@ func Capture(id string, params *stripe.TestHelpersIssuingAuthorizationCapturePar
 // Capture a test-mode authorization.
 func (c Client) Capture(id string, params *stripe.TestHelpersIssuingAuthorizationCaptureParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/issuing/authorizations/%s/capture",
-		id,
-	)
+		"/v1/test_helpers/issuing/authorizations/%s/capture", id)
 	authorization := &stripe.IssuingAuthorization{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
 	return authorization, err
@@ -61,9 +54,7 @@ func Expire(id string, params *stripe.TestHelpersIssuingAuthorizationExpireParam
 // Expire a test-mode Authorization.
 func (c Client) Expire(id string, params *stripe.TestHelpersIssuingAuthorizationExpireParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/issuing/authorizations/%s/expire",
-		id,
-	)
+		"/v1/test_helpers/issuing/authorizations/%s/expire", id)
 	authorization := &stripe.IssuingAuthorization{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
 	return authorization, err
@@ -77,9 +68,7 @@ func FinalizeAmount(id string, params *stripe.TestHelpersIssuingAuthorizationFin
 // Finalize the amount on an Authorization prior to capture, when the initial authorization was for an estimated amount.
 func (c Client) FinalizeAmount(id string, params *stripe.TestHelpersIssuingAuthorizationFinalizeAmountParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/issuing/authorizations/%s/finalize_amount",
-		id,
-	)
+		"/v1/test_helpers/issuing/authorizations/%s/finalize_amount", id)
 	authorization := &stripe.IssuingAuthorization{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
 	return authorization, err
@@ -93,9 +82,21 @@ func Increment(id string, params *stripe.TestHelpersIssuingAuthorizationIncremen
 // Increment a test-mode Authorization.
 func (c Client) Increment(id string, params *stripe.TestHelpersIssuingAuthorizationIncrementParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/issuing/authorizations/%s/increment",
-		id,
-	)
+		"/v1/test_helpers/issuing/authorizations/%s/increment", id)
+	authorization := &stripe.IssuingAuthorization{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	return authorization, err
+}
+
+// Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
+func Respond(id string, params *stripe.TestHelpersIssuingAuthorizationRespondParams) (*stripe.IssuingAuthorization, error) {
+	return getC().Respond(id, params)
+}
+
+// Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
+func (c Client) Respond(id string, params *stripe.TestHelpersIssuingAuthorizationRespondParams) (*stripe.IssuingAuthorization, error) {
+	path := stripe.FormatURLPath(
+		"/v1/test_helpers/issuing/authorizations/%s/fraud_challenges/respond", id)
 	authorization := &stripe.IssuingAuthorization{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
 	return authorization, err
@@ -109,9 +110,7 @@ func Reverse(id string, params *stripe.TestHelpersIssuingAuthorizationReversePar
 // Reverse a test-mode Authorization.
 func (c Client) Reverse(id string, params *stripe.TestHelpersIssuingAuthorizationReverseParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/issuing/authorizations/%s/reverse",
-		id,
-	)
+		"/v1/test_helpers/issuing/authorizations/%s/reverse", id)
 	authorization := &stripe.IssuingAuthorization{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
 	return authorization, err

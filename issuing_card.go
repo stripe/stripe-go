@@ -81,6 +81,7 @@ const (
 	IssuingCardShippingStatusPending   IssuingCardShippingStatus = "pending"
 	IssuingCardShippingStatusReturned  IssuingCardShippingStatus = "returned"
 	IssuingCardShippingStatusShipped   IssuingCardShippingStatus = "shipped"
+	IssuingCardShippingStatusSubmitted IssuingCardShippingStatus = "submitted"
 )
 
 // Packaging options.
@@ -255,7 +256,7 @@ type IssuingCardParams struct {
 	ReplacementFor *string `form:"replacement_for"`
 	// If `replacement_for` is specified, this should indicate why that card is being replaced.
 	ReplacementReason *string `form:"replacement_reason"`
-	// The second line to print on the card.
+	// The second line to print on the card. Max length: 24 characters.
 	SecondLine *string `form:"second_line"`
 	// The address where the card will be shipped.
 	Shipping *IssuingCardShippingParams `form:"shipping"`
@@ -373,7 +374,7 @@ type IssuingCardWallets struct {
 	PrimaryAccountIdentifier string `json:"primary_account_identifier"`
 }
 
-// You can [create physical or virtual cards](https://stripe.com/docs/issuing/cards) that are issued to cardholders.
+// You can [create physical or virtual cards](https://stripe.com/docs/issuing) that are issued to cardholders.
 type IssuingCard struct {
 	APIResource
 	// The brand of the card.
@@ -382,7 +383,7 @@ type IssuingCard struct {
 	CancellationReason IssuingCardCancellationReason `json:"cancellation_reason"`
 	// An Issuing `Cardholder` object represents an individual or business entity who is [issued](https://stripe.com/docs/issuing) cards.
 	//
-	// Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards#create-cardholder)
+	// Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards/virtual/issue-cards#create-cardholder)
 	Cardholder *IssuingCardholder `json:"cardholder"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`

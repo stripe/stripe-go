@@ -10,8 +10,8 @@ package verificationsession
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /identity/verification_sessions APIs.
@@ -41,12 +41,7 @@ func New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVeri
 func (c Client) New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVerificationSession, error) {
 	verificationsession := &stripe.IdentityVerificationSession{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/identity/verification_sessions",
-		c.Key,
-		params,
-		verificationsession,
-	)
+		http.MethodPost, "/v1/identity/verification_sessions", c.Key, params, verificationsession)
 	return verificationsession, err
 }
 
@@ -100,9 +95,7 @@ func Cancel(id string, params *stripe.IdentityVerificationSessionCancelParams) (
 // Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://stripe.com/docs/identity/verification-sessions#cancel).
 func (c Client) Cancel(id string, params *stripe.IdentityVerificationSessionCancelParams) (*stripe.IdentityVerificationSession, error) {
 	path := stripe.FormatURLPath(
-		"/v1/identity/verification_sessions/%s/cancel",
-		id,
-	)
+		"/v1/identity/verification_sessions/%s/cancel", id)
 	verificationsession := &stripe.IdentityVerificationSession{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, verificationsession)
 	return verificationsession, err
@@ -152,9 +145,7 @@ func Redact(id string, params *stripe.IdentityVerificationSessionRedactParams) (
 // [Learn more](https://stripe.com/docs/identity/verification-sessions#redact).
 func (c Client) Redact(id string, params *stripe.IdentityVerificationSessionRedactParams) (*stripe.IdentityVerificationSession, error) {
 	path := stripe.FormatURLPath(
-		"/v1/identity/verification_sessions/%s/redact",
-		id,
-	)
+		"/v1/identity/verification_sessions/%s/redact", id)
 	verificationsession := &stripe.IdentityVerificationSession{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, verificationsession)
 	return verificationsession, err
@@ -170,7 +161,7 @@ func (c Client) List(listParams *stripe.IdentityVerificationSessionListParams) *
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IdentityVerificationSessionList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/identity/verification_sessions", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/identity/verification_sessions", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

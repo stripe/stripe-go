@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v79/form"
+	"github.com/stripe/stripe-go/v82/form"
 	"strconv"
 )
 
@@ -32,6 +32,16 @@ const (
 	CardAddressZipCheckPass        CardAddressZipCheck = "pass"
 	CardAddressZipCheckUnavailable CardAddressZipCheck = "unavailable"
 	CardAddressZipCheckUnchecked   CardAddressZipCheck = "unchecked"
+)
+
+// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
+type CardAllowRedisplay string
+
+// List of values that CardAllowRedisplay can take
+const (
+	CardAllowRedisplayAlways      CardAllowRedisplay = "always"
+	CardAllowRedisplayLimited     CardAllowRedisplay = "limited"
+	CardAllowRedisplayUnspecified CardAllowRedisplay = "unspecified"
 )
 
 // A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
@@ -78,6 +88,15 @@ const (
 	CardFundingDebit   CardFunding = "debit"
 	CardFundingPrepaid CardFunding = "prepaid"
 	CardFundingUnknown CardFunding = "unknown"
+)
+
+// Status of a card based on the card issuer.
+type CardRegulatedStatus string
+
+// List of values that CardRegulatedStatus can take
+const (
+	CardRegulatedStatusRegulated   CardRegulatedStatus = "regulated"
+	CardRegulatedStatusUnregulated CardRegulatedStatus = "unregulated"
 )
 
 // If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.
@@ -158,9 +177,9 @@ func (p *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 
 	if p.DefaultForCurrency != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, "default_for_currency")),
-			strconv.FormatBool(BoolValue(p.DefaultForCurrency)),
-		)
+			form.FormatKey(
+				append(keyParts, "default_for_currency")), strconv.FormatBool(
+				BoolValue(p.DefaultForCurrency)))
 	}
 
 	if p.Token != nil {
@@ -177,69 +196,60 @@ func (p *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 	}
 	if p.CVC != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "cvc")),
-			StringValue(p.CVC),
-		)
+			form.FormatKey(append(keyParts, cardSource, "cvc")), StringValue(p.CVC))
 	}
 	if p.Currency != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "currency")),
-			StringValue(p.Currency),
-		)
+			form.FormatKey(append(keyParts, cardSource, "currency")), StringValue(
+				p.Currency))
 	}
 	if p.ExpMonth != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "exp_month")),
-			StringValue(p.ExpMonth),
-		)
+			form.FormatKey(append(keyParts, cardSource, "exp_month")), StringValue(
+				p.ExpMonth))
 	}
 	if p.ExpYear != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "exp_year")),
-			StringValue(p.ExpYear),
-		)
+			form.FormatKey(append(keyParts, cardSource, "exp_year")), StringValue(
+				p.ExpYear))
 	}
 	if p.Name != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "name")),
-			StringValue(p.Name),
-		)
+			form.FormatKey(append(keyParts, cardSource, "name")), StringValue(p.Name))
 	}
 	if p.AddressCity != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_city")),
-			StringValue(p.AddressCity),
-		)
+			form.FormatKey(append(keyParts, cardSource, "address_city")), StringValue(
+				p.AddressCity))
 	}
 	if p.AddressCountry != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_country")),
-			StringValue(p.AddressCountry),
-		)
+			form.FormatKey(
+				append(keyParts, cardSource, "address_country")), StringValue(
+				p.AddressCountry))
 	}
 	if p.AddressLine1 != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_line1")),
-			StringValue(p.AddressLine1),
-		)
+			form.FormatKey(
+				append(keyParts, cardSource, "address_line1")), StringValue(
+				p.AddressLine1))
 	}
 	if p.AddressLine2 != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_line2")),
-			StringValue(p.AddressLine2),
-		)
+			form.FormatKey(
+				append(keyParts, cardSource, "address_line2")), StringValue(
+				p.AddressLine2))
 	}
 	if p.AddressState != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_state")),
-			StringValue(p.AddressState),
-		)
+			form.FormatKey(
+				append(keyParts, cardSource, "address_state")), StringValue(
+				p.AddressState))
 	}
 	if p.AddressZip != nil {
 		body.Add(
-			form.FormatKey(append(keyParts, cardSource, "address_zip")),
-			StringValue(p.AddressZip),
-		)
+			form.FormatKey(append(keyParts, cardSource, "address_zip")), StringValue(
+				p.AddressZip))
 	}
 }
 
@@ -295,7 +305,6 @@ type CardNetworks struct {
 // Related guide: [Card payments with Sources](https://stripe.com/docs/sources/cards)
 type Card struct {
 	APIResource
-	// The account this card belongs to. This attribute will not be in the card object if the card belongs to a customer or recipient instead. This property is only available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Account *Account `json:"account"`
 	// City/District/Suburb/Town/Village.
 	AddressCity string `json:"address_city"`
@@ -313,13 +322,15 @@ type Card struct {
 	AddressZip string `json:"address_zip"`
 	// If `address_zip` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
 	AddressZipCheck CardAddressZipCheck `json:"address_zip_check"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
+	AllowRedisplay CardAllowRedisplay `json:"allow_redisplay"`
 	// A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
 	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods"`
 	// Card brand. Can be `American Express`, `Diners Club`, `Discover`, `Eftpos Australia`, `Girocard`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 	Brand CardBrand `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
-	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies). Only applicable on accounts (not customers or recipients). The card can be used as a transfer destination for funds in this currency. This property is only available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// Three-letter [ISO code for currency](https://www.iso.org/iso-4217-currency-codes.html) in lowercase. Must be a [supported currency](https://docs.stripe.com/currencies). Only applicable on accounts (not customers or recipients). The card can be used as a transfer destination for funds in this currency. This property is only available when returned as an [External Account](https://stripe.com/api/external_account_cards/object) where [controller.is_controller](https://stripe.com/api/accounts/object#account_object-controller-is_controller) is `true`.
 	Currency Currency `json:"currency"`
 	// The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.
 	Customer *Customer `json:"customer"`
@@ -369,6 +380,8 @@ type Card struct {
 	Networks *CardNetworks `json:"networks"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
+	// Status of a card based on the card issuer.
+	RegulatedStatus CardRegulatedStatus `json:"regulated_status"`
 	// For external accounts that are cards, possible values are `new` and `errored`. If a payout fails, the status is set to `errored` and [scheduled payouts](https://stripe.com/docs/payouts#payout-schedule) are stopped until account details are updated.
 	Status string `json:"status"`
 	// If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.

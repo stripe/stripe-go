@@ -10,8 +10,8 @@ package outboundtransfer
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /treasury/outbound_transfers APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.TreasuryOutboundTransferParams) (*stripe.TreasuryOutboun
 func (c Client) New(params *stripe.TreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	outboundtransfer := &stripe.TreasuryOutboundTransfer{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/treasury/outbound_transfers",
-		c.Key,
-		params,
-		outboundtransfer,
-	)
+		http.MethodPost, "/v1/treasury/outbound_transfers", c.Key, params, outboundtransfer)
 	return outboundtransfer, err
 }
 
@@ -74,7 +69,7 @@ func (c Client) List(listParams *stripe.TreasuryOutboundTransferListParams) *Ite
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TreasuryOutboundTransferList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/outbound_transfers", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/treasury/outbound_transfers", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

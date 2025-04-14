@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 	"golang.org/x/net/http2"
 )
 
@@ -30,6 +30,9 @@ const (
 	// TestMerchantID is a token that can be used to represent a merchant ID in
 	// simple tests.
 	TestMerchantID = "acct_123"
+
+	// TestAPIKey is an API key that can be used against stripe-mock in tests.
+	TestAPIKey = "sk_test_myTestKey"
 )
 
 func init() {
@@ -82,7 +85,7 @@ func init() {
 		os.Exit(1)
 	}
 
-	stripe.Key = "sk_test_myTestKey"
+	stripe.Key = TestAPIKey
 
 	// Configure a backend for stripe-mock and set it for both the API and
 	// Uploads (unlike the real Stripe API, stripe-mock supports both these

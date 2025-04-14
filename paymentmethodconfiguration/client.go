@@ -10,8 +10,8 @@ package paymentmethodconfiguration
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /payment_method_configurations APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethod
 func (c Client) New(params *stripe.PaymentMethodConfigurationParams) (*stripe.PaymentMethodConfiguration, error) {
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_method_configurations",
-		c.Key,
-		params,
-		paymentmethodconfiguration,
-	)
+		http.MethodPost, "/v1/payment_method_configurations", c.Key, params, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
 }
 
@@ -48,12 +43,7 @@ func (c Client) Get(id string, params *stripe.PaymentMethodConfigurationParams) 
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	err := c.B.Call(
-		http.MethodGet,
-		path,
-		c.Key,
-		params,
-		paymentmethodconfiguration,
-	)
+		http.MethodGet, path, c.Key, params, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
 }
 
@@ -67,12 +57,7 @@ func (c Client) Update(id string, params *stripe.PaymentMethodConfigurationParam
 	path := stripe.FormatURLPath("/v1/payment_method_configurations/%s", id)
 	paymentmethodconfiguration := &stripe.PaymentMethodConfiguration{}
 	err := c.B.Call(
-		http.MethodPost,
-		path,
-		c.Key,
-		params,
-		paymentmethodconfiguration,
-	)
+		http.MethodPost, path, c.Key, params, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
 }
 
@@ -86,7 +71,7 @@ func (c Client) List(listParams *stripe.PaymentMethodConfigurationListParams) *I
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentMethodConfigurationList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_method_configurations", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_method_configurations", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

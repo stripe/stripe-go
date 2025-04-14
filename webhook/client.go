@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stripe/stripe-go/v79"
+	"github.com/stripe/stripe-go/v82"
 )
 
 //
@@ -187,6 +187,25 @@ type signedHeader struct {
 // Private functions
 //
 
+func isCompatibleAPIVersion(sdkApiVersion, eventApiVersion string) bool {
+	// If the event api version is from before we started adding
+	// a release train, there's no way its compatible with this
+	// version
+	if !strings.Contains(eventApiVersion, ".") {
+		return false
+	}
+
+	// if the SDK is pinned to a preview version, the event's API version must match exactly
+	var currentReleaseTrain = strings.Split(sdkApiVersion, ".")[1]
+	if currentReleaseTrain == "preview" {
+		return sdkApiVersion == eventApiVersion
+	}
+
+	// versions are yyyy-MM-dd.train
+	var eventReleaseTrain = strings.Split(eventApiVersion, ".")[1]
+	return eventReleaseTrain == currentReleaseTrain
+}
+
 func constructEvent(payload []byte, sigHeader string, secret string, options ConstructEventOptions) (stripe.Event, error) {
 	e := stripe.Event{}
 
@@ -203,7 +222,7 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
-	if !options.IgnoreAPIVersionMismatch && e.APIVersion != stripe.APIVersion {
+	if !options.IgnoreAPIVersionMismatch && !isCompatibleAPIVersion(stripe.APIVersion, e.APIVersion) {
 		return e, fmt.Errorf("Received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized.", e.APIVersion, stripe.ClientVersion, stripe.APIVersion)
 	}
 

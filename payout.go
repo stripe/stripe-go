@@ -178,6 +178,14 @@ func (p *PayoutReverseParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// A value that generates from the beneficiary's bank that allows users to track payouts with their bank. Banks might call this a "reference number" or something similar.
+type PayoutTraceID struct {
+	// Possible values are `pending`, `supported`, and `unsupported`. When `payout.status` is `pending` or `in_transit`, this will be `pending`. When the payout transitions to `paid`, `failed`, or `canceled`, this status will become `supported` or `unsupported` shortly after in most cases. In some cases, this may appear as `pending` for up to 10 days after `arrival_date` until transitioning to `supported` or `unsupported`.
+	Status string `json:"status"`
+	// The trace ID value if `trace_id.status` is `supported`, otherwise `nil`.
+	Value string `json:"value"`
+}
+
 // A `Payout` object is created when you receive funds from Stripe, or when you
 // initiate a payout to either a bank account or debit card of a [connected
 // Stripe account](https://stripe.com/docs/connect/bank-debit-card-payouts). You can retrieve individual payouts,
@@ -236,6 +244,8 @@ type Payout struct {
 	StatementDescriptor string `json:"statement_descriptor"`
 	// Current status of the payout: `paid`, `pending`, `in_transit`, `canceled` or `failed`. A payout is `pending` until it's submitted to the bank, when it becomes `in_transit`. The status changes to `paid` if the transaction succeeds, or to `failed` or `canceled` (within 5 business days). Some payouts that fail might initially show as `paid`, then change to `failed`.
 	Status PayoutStatus `json:"status"`
+	// A value that generates from the beneficiary's bank that allows users to track payouts with their bank. Banks might call this a "reference number" or something similar.
+	TraceID *PayoutTraceID `json:"trace_id"`
 	// Can be `bank_account` or `card`.
 	Type PayoutType `json:"type"`
 }

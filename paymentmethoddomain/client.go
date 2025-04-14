@@ -10,8 +10,8 @@ package paymentmethoddomain
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /payment_method_domains APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain,
 func (c Client) New(params *stripe.PaymentMethodDomainParams) (*stripe.PaymentMethodDomain, error) {
 	paymentmethoddomain := &stripe.PaymentMethodDomain{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_method_domains",
-		c.Key,
-		params,
-		paymentmethoddomain,
-	)
+		http.MethodPost, "/v1/payment_method_domains", c.Key, params, paymentmethoddomain)
 	return paymentmethoddomain, err
 }
 
@@ -64,20 +59,20 @@ func (c Client) Update(id string, params *stripe.PaymentMethodDomainParams) (*st
 	return paymentmethoddomain, err
 }
 
-// Some payment methods such as Apple Pay require additional steps to verify a domain. If the requirements weren't satisfied when the domain was created, the payment method will be inactive on the domain.
-// The payment method doesn't appear in Elements for this domain until it is active.
+// Some payment methods might require additional steps to register a domain. If the requirements weren't satisfied when the domain was created, the payment method will be inactive on the domain.
+// The payment method doesn't appear in Elements or Embedded Checkout for this domain until it is active.
 //
-// To activate a payment method on an existing payment method domain, complete the required validation steps specific to the payment method, and then validate the payment method domain with this endpoint.
+// To activate a payment method on an existing payment method domain, complete the required registration steps specific to the payment method, and then validate the payment method domain with this endpoint.
 //
 // Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
 func Validate(id string, params *stripe.PaymentMethodDomainValidateParams) (*stripe.PaymentMethodDomain, error) {
 	return getC().Validate(id, params)
 }
 
-// Some payment methods such as Apple Pay require additional steps to verify a domain. If the requirements weren't satisfied when the domain was created, the payment method will be inactive on the domain.
-// The payment method doesn't appear in Elements for this domain until it is active.
+// Some payment methods might require additional steps to register a domain. If the requirements weren't satisfied when the domain was created, the payment method will be inactive on the domain.
+// The payment method doesn't appear in Elements or Embedded Checkout for this domain until it is active.
 //
-// To activate a payment method on an existing payment method domain, complete the required validation steps specific to the payment method, and then validate the payment method domain with this endpoint.
+// To activate a payment method on an existing payment method domain, complete the required registration steps specific to the payment method, and then validate the payment method domain with this endpoint.
 //
 // Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
 func (c Client) Validate(id string, params *stripe.PaymentMethodDomainValidateParams) (*stripe.PaymentMethodDomain, error) {
@@ -97,7 +92,7 @@ func (c Client) List(listParams *stripe.PaymentMethodDomainListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentMethodDomainList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_method_domains", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_method_domains", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

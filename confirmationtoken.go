@@ -58,6 +58,15 @@ const (
 	ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
+// Status of a card based on the card issuer.
+type ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus can take
+const (
+	ConfirmationTokenPaymentMethodPreviewCardRegulatedStatusRegulated   ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus = "regulated"
+	ConfirmationTokenPaymentMethodPreviewCardRegulatedStatusUnregulated ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus = "unregulated"
+)
+
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
 type ConfirmationTokenPaymentMethodPreviewCardWalletType string
 
@@ -235,6 +244,44 @@ const (
 	ConfirmationTokenPaymentMethodPreviewInteracPresentReadMethodMagneticStripeTrack2     ConfirmationTokenPaymentMethodPreviewInteracPresentReadMethod = "magnetic_stripe_track2"
 )
 
+// The local credit or debit card brand.
+type ConfirmationTokenPaymentMethodPreviewKrCardBrand string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewKrCardBrand can take
+const (
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandBc          ConfirmationTokenPaymentMethodPreviewKrCardBrand = "bc"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandCiti        ConfirmationTokenPaymentMethodPreviewKrCardBrand = "citi"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandHana        ConfirmationTokenPaymentMethodPreviewKrCardBrand = "hana"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandHyundai     ConfirmationTokenPaymentMethodPreviewKrCardBrand = "hyundai"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandJeju        ConfirmationTokenPaymentMethodPreviewKrCardBrand = "jeju"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandJeonbuk     ConfirmationTokenPaymentMethodPreviewKrCardBrand = "jeonbuk"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandKakaobank   ConfirmationTokenPaymentMethodPreviewKrCardBrand = "kakaobank"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandKbank       ConfirmationTokenPaymentMethodPreviewKrCardBrand = "kbank"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandKdbbank     ConfirmationTokenPaymentMethodPreviewKrCardBrand = "kdbbank"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandKookmin     ConfirmationTokenPaymentMethodPreviewKrCardBrand = "kookmin"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandKwangju     ConfirmationTokenPaymentMethodPreviewKrCardBrand = "kwangju"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandLotte       ConfirmationTokenPaymentMethodPreviewKrCardBrand = "lotte"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandMg          ConfirmationTokenPaymentMethodPreviewKrCardBrand = "mg"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandNh          ConfirmationTokenPaymentMethodPreviewKrCardBrand = "nh"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandPost        ConfirmationTokenPaymentMethodPreviewKrCardBrand = "post"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandSamsung     ConfirmationTokenPaymentMethodPreviewKrCardBrand = "samsung"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandSavingsbank ConfirmationTokenPaymentMethodPreviewKrCardBrand = "savingsbank"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandShinhan     ConfirmationTokenPaymentMethodPreviewKrCardBrand = "shinhan"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandShinhyup    ConfirmationTokenPaymentMethodPreviewKrCardBrand = "shinhyup"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandSuhyup      ConfirmationTokenPaymentMethodPreviewKrCardBrand = "suhyup"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandTossbank    ConfirmationTokenPaymentMethodPreviewKrCardBrand = "tossbank"
+	ConfirmationTokenPaymentMethodPreviewKrCardBrandWoori       ConfirmationTokenPaymentMethodPreviewKrCardBrand = "woori"
+)
+
+// Whether to fund this transaction with Naver Pay points or a card.
+type ConfirmationTokenPaymentMethodPreviewNaverPayFunding string
+
+// List of values that ConfirmationTokenPaymentMethodPreviewNaverPayFunding can take
+const (
+	ConfirmationTokenPaymentMethodPreviewNaverPayFundingCard   ConfirmationTokenPaymentMethodPreviewNaverPayFunding = "card"
+	ConfirmationTokenPaymentMethodPreviewNaverPayFundingPoints ConfirmationTokenPaymentMethodPreviewNaverPayFunding = "points"
+)
+
 // The customer's bank, if provided.
 type ConfirmationTokenPaymentMethodPreviewP24Bank string
 
@@ -277,10 +324,12 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeAffirm           ConfirmationTokenPaymentMethodPreviewType = "affirm"
 	ConfirmationTokenPaymentMethodPreviewTypeAfterpayClearpay ConfirmationTokenPaymentMethodPreviewType = "afterpay_clearpay"
 	ConfirmationTokenPaymentMethodPreviewTypeAlipay           ConfirmationTokenPaymentMethodPreviewType = "alipay"
+	ConfirmationTokenPaymentMethodPreviewTypeAlma             ConfirmationTokenPaymentMethodPreviewType = "alma"
 	ConfirmationTokenPaymentMethodPreviewTypeAmazonPay        ConfirmationTokenPaymentMethodPreviewType = "amazon_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeAUBECSDebit      ConfirmationTokenPaymentMethodPreviewType = "au_becs_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeBACSDebit        ConfirmationTokenPaymentMethodPreviewType = "bacs_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeBancontact       ConfirmationTokenPaymentMethodPreviewType = "bancontact"
+	ConfirmationTokenPaymentMethodPreviewTypeBillie           ConfirmationTokenPaymentMethodPreviewType = "billie"
 	ConfirmationTokenPaymentMethodPreviewTypeBLIK             ConfirmationTokenPaymentMethodPreviewType = "blik"
 	ConfirmationTokenPaymentMethodPreviewTypeBoleto           ConfirmationTokenPaymentMethodPreviewType = "boleto"
 	ConfirmationTokenPaymentMethodPreviewTypeCard             ConfirmationTokenPaymentMethodPreviewType = "card"
@@ -293,18 +342,26 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeGrabpay          ConfirmationTokenPaymentMethodPreviewType = "grabpay"
 	ConfirmationTokenPaymentMethodPreviewTypeIDEAL            ConfirmationTokenPaymentMethodPreviewType = "ideal"
 	ConfirmationTokenPaymentMethodPreviewTypeInteracPresent   ConfirmationTokenPaymentMethodPreviewType = "interac_present"
+	ConfirmationTokenPaymentMethodPreviewTypeKakaoPay         ConfirmationTokenPaymentMethodPreviewType = "kakao_pay"
 	ConfirmationTokenPaymentMethodPreviewTypeKlarna           ConfirmationTokenPaymentMethodPreviewType = "klarna"
 	ConfirmationTokenPaymentMethodPreviewTypeKonbini          ConfirmationTokenPaymentMethodPreviewType = "konbini"
+	ConfirmationTokenPaymentMethodPreviewTypeKrCard           ConfirmationTokenPaymentMethodPreviewType = "kr_card"
 	ConfirmationTokenPaymentMethodPreviewTypeLink             ConfirmationTokenPaymentMethodPreviewType = "link"
 	ConfirmationTokenPaymentMethodPreviewTypeMobilepay        ConfirmationTokenPaymentMethodPreviewType = "mobilepay"
 	ConfirmationTokenPaymentMethodPreviewTypeMultibanco       ConfirmationTokenPaymentMethodPreviewType = "multibanco"
+	ConfirmationTokenPaymentMethodPreviewTypeNaverPay         ConfirmationTokenPaymentMethodPreviewType = "naver_pay"
+	ConfirmationTokenPaymentMethodPreviewTypeNzBankAccount    ConfirmationTokenPaymentMethodPreviewType = "nz_bank_account"
 	ConfirmationTokenPaymentMethodPreviewTypeOXXO             ConfirmationTokenPaymentMethodPreviewType = "oxxo"
 	ConfirmationTokenPaymentMethodPreviewTypeP24              ConfirmationTokenPaymentMethodPreviewType = "p24"
+	ConfirmationTokenPaymentMethodPreviewTypePayByBank        ConfirmationTokenPaymentMethodPreviewType = "pay_by_bank"
+	ConfirmationTokenPaymentMethodPreviewTypePayco            ConfirmationTokenPaymentMethodPreviewType = "payco"
 	ConfirmationTokenPaymentMethodPreviewTypePayNow           ConfirmationTokenPaymentMethodPreviewType = "paynow"
 	ConfirmationTokenPaymentMethodPreviewTypePaypal           ConfirmationTokenPaymentMethodPreviewType = "paypal"
 	ConfirmationTokenPaymentMethodPreviewTypePix              ConfirmationTokenPaymentMethodPreviewType = "pix"
 	ConfirmationTokenPaymentMethodPreviewTypePromptPay        ConfirmationTokenPaymentMethodPreviewType = "promptpay"
 	ConfirmationTokenPaymentMethodPreviewTypeRevolutPay       ConfirmationTokenPaymentMethodPreviewType = "revolut_pay"
+	ConfirmationTokenPaymentMethodPreviewTypeSamsungPay       ConfirmationTokenPaymentMethodPreviewType = "samsung_pay"
+	ConfirmationTokenPaymentMethodPreviewTypeSatispay         ConfirmationTokenPaymentMethodPreviewType = "satispay"
 	ConfirmationTokenPaymentMethodPreviewTypeSEPADebit        ConfirmationTokenPaymentMethodPreviewType = "sepa_debit"
 	ConfirmationTokenPaymentMethodPreviewTypeSofort           ConfirmationTokenPaymentMethodPreviewType = "sofort"
 	ConfirmationTokenPaymentMethodPreviewTypeSwish            ConfirmationTokenPaymentMethodPreviewType = "swish"
@@ -444,6 +501,7 @@ type ConfirmationTokenPaymentMethodPreviewACSSDebit struct {
 type ConfirmationTokenPaymentMethodPreviewAffirm struct{}
 type ConfirmationTokenPaymentMethodPreviewAfterpayClearpay struct{}
 type ConfirmationTokenPaymentMethodPreviewAlipay struct{}
+type ConfirmationTokenPaymentMethodPreviewAlma struct{}
 type ConfirmationTokenPaymentMethodPreviewAmazonPay struct{}
 type ConfirmationTokenPaymentMethodPreviewAUBECSDebit struct {
 	// Six-digit number identifying bank and branch associated with this bank account.
@@ -462,6 +520,7 @@ type ConfirmationTokenPaymentMethodPreviewBACSDebit struct {
 	SortCode string `json:"sort_code"`
 }
 type ConfirmationTokenPaymentMethodPreviewBancontact struct{}
+type ConfirmationTokenPaymentMethodPreviewBillie struct{}
 type ConfirmationTokenPaymentMethodPreviewBillingDetails struct {
 	// Billing address.
 	Address *Address `json:"address"`
@@ -524,7 +583,7 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -558,9 +617,9 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
-	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
-	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. The first three digits of the Trace ID is the Financial Network Code, the next 6 digits is the Banknet Reference Number, and the last 4 digits represent the date (MM/DD). This field will be available for successful Visa, Mastercard, or American Express transactions and always null for other card brands.
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
 	// Details about payments collected offline.
 	Offline *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline `json:"offline"`
@@ -594,7 +653,7 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFrom struct {
 
 // Contains information about card networks that can be used to process the payment.
 type ConfirmationTokenPaymentMethodPreviewCardNetworks struct {
-	// All available networks for the card.
+	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
 	Preferred string `json:"preferred"`
@@ -646,7 +705,7 @@ type ConfirmationTokenPaymentMethodPreviewCardWallet struct {
 	VisaCheckout *ConfirmationTokenPaymentMethodPreviewCardWalletVisaCheckout `json:"visa_checkout"`
 }
 type ConfirmationTokenPaymentMethodPreviewCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
 	// Checks on Card address and CVC if provided.
 	Checks *ConfirmationTokenPaymentMethodPreviewCardChecks `json:"checks"`
@@ -676,6 +735,8 @@ type ConfirmationTokenPaymentMethodPreviewCard struct {
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
 	Networks *ConfirmationTokenPaymentMethodPreviewCardNetworks `json:"networks"`
+	// Status of a card based on the card issuer.
+	RegulatedStatus ConfirmationTokenPaymentMethodPreviewCardRegulatedStatus `json:"regulated_status"`
 	// Contains details on how this Card may be used for 3D Secure authentication.
 	ThreeDSecureUsage *ConfirmationTokenPaymentMethodPreviewCardThreeDSecureUsage `json:"three_d_secure_usage"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -684,7 +745,7 @@ type ConfirmationTokenPaymentMethodPreviewCard struct {
 
 // Contains information about card networks that can be used to process the payment.
 type ConfirmationTokenPaymentMethodPreviewCardPresentNetworks struct {
-	// All available networks for the card.
+	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`
@@ -702,7 +763,7 @@ type ConfirmationTokenPaymentMethodPreviewCardPresentWallet struct {
 	Type ConfirmationTokenPaymentMethodPreviewCardPresentWalletType `json:"type"`
 }
 type ConfirmationTokenPaymentMethodPreviewCardPresent struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -766,7 +827,7 @@ type ConfirmationTokenPaymentMethodPreviewIDEAL struct {
 
 // Contains information about card networks that can be used to process the payment.
 type ConfirmationTokenPaymentMethodPreviewInteracPresentNetworks struct {
-	// All available networks for the card.
+	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`
@@ -803,6 +864,7 @@ type ConfirmationTokenPaymentMethodPreviewInteracPresent struct {
 	// How card details were read in this transaction.
 	ReadMethod ConfirmationTokenPaymentMethodPreviewInteracPresentReadMethod `json:"read_method"`
 }
+type ConfirmationTokenPaymentMethodPreviewKakaoPay struct{}
 
 // The customer's date of birth, if provided.
 type ConfirmationTokenPaymentMethodPreviewKlarnaDOB struct {
@@ -818,6 +880,12 @@ type ConfirmationTokenPaymentMethodPreviewKlarna struct {
 	DOB *ConfirmationTokenPaymentMethodPreviewKlarnaDOB `json:"dob"`
 }
 type ConfirmationTokenPaymentMethodPreviewKonbini struct{}
+type ConfirmationTokenPaymentMethodPreviewKrCard struct {
+	// The local credit or debit card brand.
+	Brand ConfirmationTokenPaymentMethodPreviewKrCardBrand `json:"brand"`
+	// The last four digits of the card. This may not be present for American Express cards.
+	Last4 string `json:"last4"`
+}
 type ConfirmationTokenPaymentMethodPreviewLink struct {
 	// Account owner's email address.
 	Email string `json:"email"`
@@ -827,13 +895,37 @@ type ConfirmationTokenPaymentMethodPreviewLink struct {
 }
 type ConfirmationTokenPaymentMethodPreviewMobilepay struct{}
 type ConfirmationTokenPaymentMethodPreviewMultibanco struct{}
+type ConfirmationTokenPaymentMethodPreviewNaverPay struct {
+	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
+	BuyerID string `json:"buyer_id"`
+	// Whether to fund this transaction with Naver Pay points or a card.
+	Funding ConfirmationTokenPaymentMethodPreviewNaverPayFunding `json:"funding"`
+}
+type ConfirmationTokenPaymentMethodPreviewNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type ConfirmationTokenPaymentMethodPreviewOXXO struct{}
 type ConfirmationTokenPaymentMethodPreviewP24 struct {
 	// The customer's bank, if provided.
 	Bank ConfirmationTokenPaymentMethodPreviewP24Bank `json:"bank"`
 }
+type ConfirmationTokenPaymentMethodPreviewPayByBank struct{}
+type ConfirmationTokenPaymentMethodPreviewPayco struct{}
 type ConfirmationTokenPaymentMethodPreviewPayNow struct{}
 type ConfirmationTokenPaymentMethodPreviewPaypal struct {
+	// Two-letter ISO code representing the buyer's country. Values are provided by PayPal directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	Country string `json:"country"`
 	// Owner's email. Values are provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	PayerEmail string `json:"payer_email"`
@@ -843,6 +935,8 @@ type ConfirmationTokenPaymentMethodPreviewPaypal struct {
 type ConfirmationTokenPaymentMethodPreviewPix struct{}
 type ConfirmationTokenPaymentMethodPreviewPromptPay struct{}
 type ConfirmationTokenPaymentMethodPreviewRevolutPay struct{}
+type ConfirmationTokenPaymentMethodPreviewSamsungPay struct{}
+type ConfirmationTokenPaymentMethodPreviewSatispay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type ConfirmationTokenPaymentMethodPreviewSEPADebitGeneratedFrom struct {
@@ -921,10 +1015,12 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Alipay           *ConfirmationTokenPaymentMethodPreviewAlipay           `json:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 	AllowRedisplay ConfirmationTokenPaymentMethodPreviewAllowRedisplay  `json:"allow_redisplay"`
+	Alma           *ConfirmationTokenPaymentMethodPreviewAlma           `json:"alma"`
 	AmazonPay      *ConfirmationTokenPaymentMethodPreviewAmazonPay      `json:"amazon_pay"`
 	AUBECSDebit    *ConfirmationTokenPaymentMethodPreviewAUBECSDebit    `json:"au_becs_debit"`
 	BACSDebit      *ConfirmationTokenPaymentMethodPreviewBACSDebit      `json:"bacs_debit"`
 	Bancontact     *ConfirmationTokenPaymentMethodPreviewBancontact     `json:"bancontact"`
+	Billie         *ConfirmationTokenPaymentMethodPreviewBillie         `json:"billie"`
 	BillingDetails *ConfirmationTokenPaymentMethodPreviewBillingDetails `json:"billing_details"`
 	BLIK           *ConfirmationTokenPaymentMethodPreviewBLIK           `json:"blik"`
 	Boleto         *ConfirmationTokenPaymentMethodPreviewBoleto         `json:"boleto"`
@@ -940,18 +1036,26 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Grabpay         *ConfirmationTokenPaymentMethodPreviewGrabpay         `json:"grabpay"`
 	IDEAL           *ConfirmationTokenPaymentMethodPreviewIDEAL           `json:"ideal"`
 	InteracPresent  *ConfirmationTokenPaymentMethodPreviewInteracPresent  `json:"interac_present"`
+	KakaoPay        *ConfirmationTokenPaymentMethodPreviewKakaoPay        `json:"kakao_pay"`
 	Klarna          *ConfirmationTokenPaymentMethodPreviewKlarna          `json:"klarna"`
 	Konbini         *ConfirmationTokenPaymentMethodPreviewKonbini         `json:"konbini"`
+	KrCard          *ConfirmationTokenPaymentMethodPreviewKrCard          `json:"kr_card"`
 	Link            *ConfirmationTokenPaymentMethodPreviewLink            `json:"link"`
 	Mobilepay       *ConfirmationTokenPaymentMethodPreviewMobilepay       `json:"mobilepay"`
 	Multibanco      *ConfirmationTokenPaymentMethodPreviewMultibanco      `json:"multibanco"`
+	NaverPay        *ConfirmationTokenPaymentMethodPreviewNaverPay        `json:"naver_pay"`
+	NzBankAccount   *ConfirmationTokenPaymentMethodPreviewNzBankAccount   `json:"nz_bank_account"`
 	OXXO            *ConfirmationTokenPaymentMethodPreviewOXXO            `json:"oxxo"`
 	P24             *ConfirmationTokenPaymentMethodPreviewP24             `json:"p24"`
+	PayByBank       *ConfirmationTokenPaymentMethodPreviewPayByBank       `json:"pay_by_bank"`
+	Payco           *ConfirmationTokenPaymentMethodPreviewPayco           `json:"payco"`
 	PayNow          *ConfirmationTokenPaymentMethodPreviewPayNow          `json:"paynow"`
 	Paypal          *ConfirmationTokenPaymentMethodPreviewPaypal          `json:"paypal"`
 	Pix             *ConfirmationTokenPaymentMethodPreviewPix             `json:"pix"`
 	PromptPay       *ConfirmationTokenPaymentMethodPreviewPromptPay       `json:"promptpay"`
 	RevolutPay      *ConfirmationTokenPaymentMethodPreviewRevolutPay      `json:"revolut_pay"`
+	SamsungPay      *ConfirmationTokenPaymentMethodPreviewSamsungPay      `json:"samsung_pay"`
+	Satispay        *ConfirmationTokenPaymentMethodPreviewSatispay        `json:"satispay"`
 	SEPADebit       *ConfirmationTokenPaymentMethodPreviewSEPADebit       `json:"sepa_debit"`
 	Sofort          *ConfirmationTokenPaymentMethodPreviewSofort          `json:"sofort"`
 	Swish           *ConfirmationTokenPaymentMethodPreviewSwish           `json:"swish"`

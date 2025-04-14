@@ -10,8 +10,8 @@ package configuration
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /terminal/configurations APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfigurat
 func (c Client) New(params *stripe.TerminalConfigurationParams) (*stripe.TerminalConfiguration, error) {
 	configuration := &stripe.TerminalConfiguration{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/terminal/configurations",
-		c.Key,
-		params,
-		configuration,
-	)
+		http.MethodPost, "/v1/terminal/configurations", c.Key, params, configuration)
 	return configuration, err
 }
 
@@ -87,7 +82,7 @@ func (c Client) List(listParams *stripe.TerminalConfigurationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TerminalConfigurationList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/terminal/configurations", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/terminal/configurations", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

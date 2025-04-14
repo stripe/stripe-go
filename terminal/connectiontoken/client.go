@@ -10,7 +10,7 @@ package connectiontoken
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /terminal/connection_tokens APIs.
@@ -28,12 +28,7 @@ func New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnecti
 func (c Client) New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnectionToken, error) {
 	connectiontoken := &stripe.TerminalConnectionToken{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/terminal/connection_tokens",
-		c.Key,
-		params,
-		connectiontoken,
-	)
+		http.MethodPost, "/v1/terminal/connection_tokens", c.Key, params, connectiontoken)
 	return connectiontoken, err
 }
 

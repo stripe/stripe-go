@@ -10,8 +10,8 @@ package promotioncode
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /promotion_codes APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 func (c Client) New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	promotioncode := &stripe.PromotionCode{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/promotion_codes",
-		c.Key,
-		params,
-		promotioncode,
-	)
+		http.MethodPost, "/v1/promotion_codes", c.Key, params, promotioncode)
 	return promotioncode, err
 }
 
@@ -74,7 +69,7 @@ func (c Client) List(listParams *stripe.PromotionCodeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PromotionCodeList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/promotion_codes", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/promotion_codes", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -10,8 +10,8 @@ package creditnote
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /credit_notes APIs.
@@ -51,12 +51,7 @@ func New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 func (c Client) New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/credit_notes",
-		c.Key,
-		params,
-		creditnote,
-	)
+		http.MethodPost, "/v1/credit_notes", c.Key, params, creditnote)
 	return creditnote, err
 }
 
@@ -95,12 +90,7 @@ func Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error)
 func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
 	err := c.B.Call(
-		http.MethodGet,
-		"/v1/credit_notes/preview",
-		c.Key,
-		params,
-		creditnote,
-	)
+		http.MethodGet, "/v1/credit_notes/preview", c.Key, params, creditnote)
 	return creditnote, err
 }
 
@@ -127,7 +117,7 @@ func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -164,13 +154,11 @@ func ListLines(params *stripe.CreditNoteListLinesParams) *LineItemIter {
 // When retrieving a credit note, you'll get a lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/credit_notes/%s/lines",
-		stripe.StringValue(listParams.CreditNote),
-	)
+		"/v1/credit_notes/%s/lines", stripe.StringValue(listParams.CreditNote))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {
@@ -192,7 +180,7 @@ func (c Client) PreviewLines(listParams *stripe.CreditNotePreviewLinesParams) *L
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.CreditNoteLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

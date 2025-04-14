@@ -10,8 +10,8 @@ package shippingrate
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /shipping_rates APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 func (c Client) New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	shippingrate := &stripe.ShippingRate{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/shipping_rates",
-		c.Key,
-		params,
-		shippingrate,
-	)
+		http.MethodPost, "/v1/shipping_rates", c.Key, params, shippingrate)
 	return shippingrate, err
 }
 
@@ -74,7 +69,7 @@ func (c Client) List(listParams *stripe.ShippingRateListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ShippingRateList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/shipping_rates", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/shipping_rates", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

@@ -10,8 +10,8 @@ package paymentmethod
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /payment_methods APIs.
@@ -33,12 +33,7 @@ func New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 func (c Client) New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 	paymentmethod := &stripe.PaymentMethod{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/payment_methods",
-		c.Key,
-		params,
-		paymentmethod,
-	)
+		http.MethodPost, "/v1/payment_methods", c.Key, params, paymentmethod)
 	return paymentmethod, err
 }
 
@@ -128,7 +123,7 @@ func (c Client) List(listParams *stripe.PaymentMethodListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.PaymentMethodList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/payment_methods", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_methods", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

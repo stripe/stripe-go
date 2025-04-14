@@ -6,6 +6,16 @@
 
 package stripe
 
+// Security type of the WiFi network. The hash with the corresponding name contains the credentials for this security type.
+type TerminalConfigurationWifiType string
+
+// List of values that TerminalConfigurationWifiType can take
+const (
+	TerminalConfigurationWifiTypeEnterpriseEapPeap TerminalConfigurationWifiType = "enterprise_eap_peap"
+	TerminalConfigurationWifiTypeEnterpriseEapTLS  TerminalConfigurationWifiType = "enterprise_eap_tls"
+	TerminalConfigurationWifiTypePersonalPsk       TerminalConfigurationWifiType = "personal_psk"
+)
+
 // Deletes a Configuration object.
 type TerminalConfigurationParams struct {
 	Params `form:"*"`
@@ -25,6 +35,8 @@ type TerminalConfigurationParams struct {
 	Tipping *TerminalConfigurationTippingParams `form:"tipping"`
 	// An object containing device type specific settings for Verifone P400 readers
 	VerifoneP400 *TerminalConfigurationVerifoneP400Params `form:"verifone_p400"`
+	// Configurations for connecting to a WiFi network.
+	Wifi *TerminalConfigurationWifiParams `form:"wifi"`
 }
 
 // AddExpand appends a new field to expand.
@@ -34,7 +46,7 @@ func (p *TerminalConfigurationParams) AddExpand(f string) {
 
 // An object containing device type specific settings for BBPOS WisePOS E readers
 type TerminalConfigurationBBPOSWisePOSEParams struct {
-	// A File ID representing an image you would like displayed on the reader.
+	// A File ID representing an image to display on the reader
 	Splashscreen *string `form:"splashscreen"`
 }
 
@@ -138,6 +150,16 @@ type TerminalConfigurationTippingHKDParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
+// Tipping configuration for JPY
+type TerminalConfigurationTippingJPYParams struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []*int64 `form:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []*int64 `form:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
+}
+
 // Tipping configuration for MYR
 type TerminalConfigurationTippingMYRParams struct {
 	// Fixed amounts displayed when collecting a tip
@@ -160,6 +182,16 @@ type TerminalConfigurationTippingNOKParams struct {
 
 // Tipping configuration for NZD
 type TerminalConfigurationTippingNZDParams struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []*int64 `form:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []*int64 `form:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
+}
+
+// Tipping configuration for PLN
+type TerminalConfigurationTippingPLNParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -216,12 +248,16 @@ type TerminalConfigurationTippingParams struct {
 	GBP *TerminalConfigurationTippingGBPParams `form:"gbp"`
 	// Tipping configuration for HKD
 	HKD *TerminalConfigurationTippingHKDParams `form:"hkd"`
+	// Tipping configuration for JPY
+	JPY *TerminalConfigurationTippingJPYParams `form:"jpy"`
 	// Tipping configuration for MYR
 	MYR *TerminalConfigurationTippingMYRParams `form:"myr"`
 	// Tipping configuration for NOK
 	NOK *TerminalConfigurationTippingNOKParams `form:"nok"`
 	// Tipping configuration for NZD
 	NZD *TerminalConfigurationTippingNZDParams `form:"nzd"`
+	// Tipping configuration for PLN
+	PLN *TerminalConfigurationTippingPLNParams `form:"pln"`
 	// Tipping configuration for SEK
 	SEK *TerminalConfigurationTippingSEKParams `form:"sek"`
 	// Tipping configuration for SGD
@@ -234,6 +270,52 @@ type TerminalConfigurationTippingParams struct {
 type TerminalConfigurationVerifoneP400Params struct {
 	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *string `form:"splashscreen"`
+}
+
+// Credentials for a WPA-Enterprise WiFi network using the EAP-PEAP authentication method.
+type TerminalConfigurationWifiEnterpriseEapPeapParams struct {
+	// A File ID representing a PEM file containing the server certificate
+	CaCertificateFile *string `form:"ca_certificate_file"`
+	// Password for connecting to the WiFi network
+	Password *string `form:"password"`
+	// Name of the WiFi network
+	Ssid *string `form:"ssid"`
+	// Username for connecting to the WiFi network
+	Username *string `form:"username"`
+}
+
+// Credentials for a WPA-Enterprise WiFi network using the EAP-TLS authentication method.
+type TerminalConfigurationWifiEnterpriseEapTLSParams struct {
+	// A File ID representing a PEM file containing the server certificate
+	CaCertificateFile *string `form:"ca_certificate_file"`
+	// A File ID representing a PEM file containing the client certificate
+	ClientCertificateFile *string `form:"client_certificate_file"`
+	// A File ID representing a PEM file containing the client RSA private key
+	PrivateKeyFile *string `form:"private_key_file"`
+	// Password for the private key file
+	PrivateKeyFilePassword *string `form:"private_key_file_password"`
+	// Name of the WiFi network
+	Ssid *string `form:"ssid"`
+}
+
+// Credentials for a WPA-Personal WiFi network.
+type TerminalConfigurationWifiPersonalPskParams struct {
+	// Password for connecting to the WiFi network
+	Password *string `form:"password"`
+	// Name of the WiFi network
+	Ssid *string `form:"ssid"`
+}
+
+// Configurations for connecting to a WiFi network.
+type TerminalConfigurationWifiParams struct {
+	// Credentials for a WPA-Enterprise WiFi network using the EAP-PEAP authentication method.
+	EnterpriseEapPeap *TerminalConfigurationWifiEnterpriseEapPeapParams `form:"enterprise_eap_peap"`
+	// Credentials for a WPA-Enterprise WiFi network using the EAP-TLS authentication method.
+	EnterpriseEapTLS *TerminalConfigurationWifiEnterpriseEapTLSParams `form:"enterprise_eap_tls"`
+	// Credentials for a WPA-Personal WiFi network.
+	PersonalPsk *TerminalConfigurationWifiPersonalPskParams `form:"personal_psk"`
+	// Security type of the WiFi network. Fill out the hash with the corresponding name to provide the set of credentials for this security type.
+	Type *string `form:"type"`
 }
 
 // Returns a list of Configuration objects.
@@ -251,7 +333,7 @@ func (p *TerminalConfigurationListParams) AddExpand(f string) {
 }
 
 type TerminalConfigurationBBPOSWisePOSE struct {
-	// A File ID representing an image you would like displayed on the reader.
+	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
 }
 type TerminalConfigurationOffline struct {
@@ -265,7 +347,7 @@ type TerminalConfigurationRebootWindow struct {
 	StartHour int64 `json:"start_hour"`
 }
 type TerminalConfigurationStripeS700 struct {
-	// A File ID representing an image you would like displayed on the reader.
+	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
 }
 type TerminalConfigurationTippingAUD struct {
@@ -332,6 +414,14 @@ type TerminalConfigurationTippingHKD struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
+type TerminalConfigurationTippingJPY struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []int64 `json:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []int64 `json:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold int64 `json:"smart_tip_threshold"`
+}
 type TerminalConfigurationTippingMYR struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
@@ -349,6 +439,14 @@ type TerminalConfigurationTippingNOK struct {
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
 type TerminalConfigurationTippingNZD struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []int64 `json:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []int64 `json:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold int64 `json:"smart_tip_threshold"`
+}
+type TerminalConfigurationTippingPLN struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -389,16 +487,53 @@ type TerminalConfigurationTipping struct {
 	EUR *TerminalConfigurationTippingEUR `json:"eur"`
 	GBP *TerminalConfigurationTippingGBP `json:"gbp"`
 	HKD *TerminalConfigurationTippingHKD `json:"hkd"`
+	JPY *TerminalConfigurationTippingJPY `json:"jpy"`
 	MYR *TerminalConfigurationTippingMYR `json:"myr"`
 	NOK *TerminalConfigurationTippingNOK `json:"nok"`
 	NZD *TerminalConfigurationTippingNZD `json:"nzd"`
+	PLN *TerminalConfigurationTippingPLN `json:"pln"`
 	SEK *TerminalConfigurationTippingSEK `json:"sek"`
 	SGD *TerminalConfigurationTippingSGD `json:"sgd"`
 	USD *TerminalConfigurationTippingUSD `json:"usd"`
 }
 type TerminalConfigurationVerifoneP400 struct {
-	// A File ID representing an image you would like displayed on the reader.
+	// A File ID representing an image to display on the reader
 	Splashscreen *File `json:"splashscreen"`
+}
+type TerminalConfigurationWifiEnterpriseEapPeap struct {
+	// A File ID representing a PEM file containing the server certificate
+	CaCertificateFile string `json:"ca_certificate_file"`
+	// Password for connecting to the WiFi network
+	Password string `json:"password"`
+	// Name of the WiFi network
+	Ssid string `json:"ssid"`
+	// Username for connecting to the WiFi network
+	Username string `json:"username"`
+}
+type TerminalConfigurationWifiEnterpriseEapTLS struct {
+	// A File ID representing a PEM file containing the server certificate
+	CaCertificateFile string `json:"ca_certificate_file"`
+	// A File ID representing a PEM file containing the client certificate
+	ClientCertificateFile string `json:"client_certificate_file"`
+	// A File ID representing a PEM file containing the client RSA private key
+	PrivateKeyFile string `json:"private_key_file"`
+	// Password for the private key file
+	PrivateKeyFilePassword string `json:"private_key_file_password"`
+	// Name of the WiFi network
+	Ssid string `json:"ssid"`
+}
+type TerminalConfigurationWifiPersonalPsk struct {
+	// Password for connecting to the WiFi network
+	Password string `json:"password"`
+	// Name of the WiFi network
+	Ssid string `json:"ssid"`
+}
+type TerminalConfigurationWifi struct {
+	EnterpriseEapPeap *TerminalConfigurationWifiEnterpriseEapPeap `json:"enterprise_eap_peap"`
+	EnterpriseEapTLS  *TerminalConfigurationWifiEnterpriseEapTLS  `json:"enterprise_eap_tls"`
+	PersonalPsk       *TerminalConfigurationWifiPersonalPsk       `json:"personal_psk"`
+	// Security type of the WiFi network. The hash with the corresponding name contains the credentials for this security type.
+	Type TerminalConfigurationWifiType `json:"type"`
 }
 
 // A Configurations object represents how features should be configured for terminal readers.
@@ -421,6 +556,7 @@ type TerminalConfiguration struct {
 	StripeS700   *TerminalConfigurationStripeS700   `json:"stripe_s700"`
 	Tipping      *TerminalConfigurationTipping      `json:"tipping"`
 	VerifoneP400 *TerminalConfigurationVerifoneP400 `json:"verifone_p400"`
+	Wifi         *TerminalConfigurationWifi         `json:"wifi"`
 }
 
 // TerminalConfigurationList is a list of Configurations as retrieved from a list endpoint.

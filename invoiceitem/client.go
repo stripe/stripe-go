@@ -10,8 +10,8 @@ package invoiceitem
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /invoiceitems APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	invoiceitem := &stripe.InvoiceItem{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/invoiceitems",
-		c.Key,
-		params,
-		invoiceitem,
-	)
+		http.MethodPost, "/v1/invoiceitems", c.Key, params, invoiceitem)
 	return invoiceitem, err
 }
 
@@ -87,7 +82,7 @@ func (c Client) List(listParams *stripe.InvoiceItemListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.InvoiceItemList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/invoiceitems", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/invoiceitems", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

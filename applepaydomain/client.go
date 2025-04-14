@@ -10,8 +10,8 @@ package applepaydomain
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /apple_pay/domains APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 func (c Client) New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	applepaydomain := &stripe.ApplePayDomain{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/apple_pay/domains",
-		c.Key,
-		params,
-		applepaydomain,
-	)
+		http.MethodPost, "/v1/apple_pay/domains", c.Key, params, applepaydomain)
 	return applepaydomain, err
 }
 
@@ -74,7 +69,7 @@ func (c Client) List(listParams *stripe.ApplePayDomainListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.ApplePayDomainList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/apple_pay/domains", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/apple_pay/domains", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

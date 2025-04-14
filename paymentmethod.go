@@ -18,7 +18,7 @@ const (
 	PaymentMethodAllowRedisplayUnspecified PaymentMethodAllowRedisplay = "unspecified"
 )
 
-// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 type PaymentMethodCardBrand string
 
 // List of values that PaymentMethodCardBrand can take
@@ -108,7 +108,7 @@ const (
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
-// All available networks for the card.
+// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 type PaymentMethodCardNetworksAvailable string
 
 // List of values that PaymentMethodCardNetworksAvailable can take
@@ -140,6 +140,15 @@ const (
 	PaymentMethodCardNetworksPreferredUnionpay        PaymentMethodCardNetworksPreferred = "unionpay"
 	PaymentMethodCardNetworksPreferredVisa            PaymentMethodCardNetworksPreferred = "visa"
 	PaymentMethodCardNetworksPreferredUnknown         PaymentMethodCardNetworksPreferred = "unknown"
+)
+
+// Status of a card based on the card issuer.
+type PaymentMethodCardRegulatedStatus string
+
+// List of values that PaymentMethodCardRegulatedStatus can take
+const (
+	PaymentMethodCardRegulatedStatusRegulated   PaymentMethodCardRegulatedStatus = "regulated"
+	PaymentMethodCardRegulatedStatusUnregulated PaymentMethodCardRegulatedStatus = "unregulated"
 )
 
 // The type of the card wallet, one of `amex_express_checkout`, `apple_pay`, `google_pay`, `masterpass`, `samsung_pay`, `visa_checkout`, or `link`. An additional hash is included on the Wallet subhash with a name matching this value. It contains additional information specific to the card wallet type.
@@ -208,6 +217,44 @@ const (
 	PaymentMethodInteracPresentReadMethodMagneticStripeTrack2     PaymentMethodInteracPresentReadMethod = "magnetic_stripe_track2"
 )
 
+// The local credit or debit card brand.
+type PaymentMethodKrCardBrand string
+
+// List of values that PaymentMethodKrCardBrand can take
+const (
+	PaymentMethodKrCardBrandBc          PaymentMethodKrCardBrand = "bc"
+	PaymentMethodKrCardBrandCiti        PaymentMethodKrCardBrand = "citi"
+	PaymentMethodKrCardBrandHana        PaymentMethodKrCardBrand = "hana"
+	PaymentMethodKrCardBrandHyundai     PaymentMethodKrCardBrand = "hyundai"
+	PaymentMethodKrCardBrandJeju        PaymentMethodKrCardBrand = "jeju"
+	PaymentMethodKrCardBrandJeonbuk     PaymentMethodKrCardBrand = "jeonbuk"
+	PaymentMethodKrCardBrandKakaobank   PaymentMethodKrCardBrand = "kakaobank"
+	PaymentMethodKrCardBrandKbank       PaymentMethodKrCardBrand = "kbank"
+	PaymentMethodKrCardBrandKdbbank     PaymentMethodKrCardBrand = "kdbbank"
+	PaymentMethodKrCardBrandKookmin     PaymentMethodKrCardBrand = "kookmin"
+	PaymentMethodKrCardBrandKwangju     PaymentMethodKrCardBrand = "kwangju"
+	PaymentMethodKrCardBrandLotte       PaymentMethodKrCardBrand = "lotte"
+	PaymentMethodKrCardBrandMg          PaymentMethodKrCardBrand = "mg"
+	PaymentMethodKrCardBrandNh          PaymentMethodKrCardBrand = "nh"
+	PaymentMethodKrCardBrandPost        PaymentMethodKrCardBrand = "post"
+	PaymentMethodKrCardBrandSamsung     PaymentMethodKrCardBrand = "samsung"
+	PaymentMethodKrCardBrandSavingsbank PaymentMethodKrCardBrand = "savingsbank"
+	PaymentMethodKrCardBrandShinhan     PaymentMethodKrCardBrand = "shinhan"
+	PaymentMethodKrCardBrandShinhyup    PaymentMethodKrCardBrand = "shinhyup"
+	PaymentMethodKrCardBrandSuhyup      PaymentMethodKrCardBrand = "suhyup"
+	PaymentMethodKrCardBrandTossbank    PaymentMethodKrCardBrand = "tossbank"
+	PaymentMethodKrCardBrandWoori       PaymentMethodKrCardBrand = "woori"
+)
+
+// Whether to fund this transaction with Naver Pay points or a card.
+type PaymentMethodNaverPayFunding string
+
+// List of values that PaymentMethodNaverPayFunding can take
+const (
+	PaymentMethodNaverPayFundingCard   PaymentMethodNaverPayFunding = "card"
+	PaymentMethodNaverPayFundingPoints PaymentMethodNaverPayFunding = "points"
+)
+
 // The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 type PaymentMethodType string
 
@@ -217,10 +264,12 @@ const (
 	PaymentMethodTypeAffirm           PaymentMethodType = "affirm"
 	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
 	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
+	PaymentMethodTypeAlma             PaymentMethodType = "alma"
 	PaymentMethodTypeAmazonPay        PaymentMethodType = "amazon_pay"
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
+	PaymentMethodTypeBillie           PaymentMethodType = "billie"
 	PaymentMethodTypeBLIK             PaymentMethodType = "blik"
 	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
@@ -233,18 +282,26 @@ const (
 	PaymentMethodTypeGrabpay          PaymentMethodType = "grabpay"
 	PaymentMethodTypeIDEAL            PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent   PaymentMethodType = "interac_present"
+	PaymentMethodTypeKakaoPay         PaymentMethodType = "kakao_pay"
 	PaymentMethodTypeKlarna           PaymentMethodType = "klarna"
 	PaymentMethodTypeKonbini          PaymentMethodType = "konbini"
+	PaymentMethodTypeKrCard           PaymentMethodType = "kr_card"
 	PaymentMethodTypeLink             PaymentMethodType = "link"
 	PaymentMethodTypeMobilepay        PaymentMethodType = "mobilepay"
 	PaymentMethodTypeMultibanco       PaymentMethodType = "multibanco"
+	PaymentMethodTypeNaverPay         PaymentMethodType = "naver_pay"
+	PaymentMethodTypeNzBankAccount    PaymentMethodType = "nz_bank_account"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
+	PaymentMethodTypePayByBank        PaymentMethodType = "pay_by_bank"
+	PaymentMethodTypePayco            PaymentMethodType = "payco"
 	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
 	PaymentMethodTypePaypal           PaymentMethodType = "paypal"
 	PaymentMethodTypePix              PaymentMethodType = "pix"
 	PaymentMethodTypePromptPay        PaymentMethodType = "promptpay"
 	PaymentMethodTypeRevolutPay       PaymentMethodType = "revolut_pay"
+	PaymentMethodTypeSamsungPay       PaymentMethodType = "samsung_pay"
+	PaymentMethodTypeSatispay         PaymentMethodType = "satispay"
 	PaymentMethodTypeSEPADebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 	PaymentMethodTypeSwish            PaymentMethodType = "swish"
@@ -348,6 +405,9 @@ type PaymentMethodAfterpayClearpayParams struct{}
 // If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
 type PaymentMethodAlipayParams struct{}
 
+// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+type PaymentMethodAlmaParams struct{}
+
 // If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 type PaymentMethodAmazonPayParams struct{}
 
@@ -369,6 +429,9 @@ type PaymentMethodBACSDebitParams struct {
 
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type PaymentMethodBancontactParams struct{}
+
+// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+type PaymentMethodBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 type PaymentMethodBillingDetailsParams struct {
@@ -441,12 +504,15 @@ type PaymentMethodGrabpayParams struct{}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type PaymentMethodIDEALParams struct {
-	// The customer's bank.
+	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
 	Bank *string `form:"bank"`
 }
 
 // If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 type PaymentMethodInteracPresentParams struct{}
+
+// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+type PaymentMethodKakaoPayParams struct{}
 
 // Customer's date of birth
 type PaymentMethodKlarnaDOBParams struct {
@@ -467,6 +533,9 @@ type PaymentMethodKlarnaParams struct {
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type PaymentMethodKonbiniParams struct{}
 
+// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+type PaymentMethodKrCardParams struct{}
+
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type PaymentMethodLinkParams struct{}
 
@@ -476,6 +545,27 @@ type PaymentMethodMobilepayParams struct{}
 // If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 type PaymentMethodMultibancoParams struct{}
 
+// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+type PaymentMethodNaverPayParams struct {
+	// Whether to use Naver Pay points or a card to fund this transaction. If not provided, this defaults to `card`.
+	Funding *string `form:"funding"`
+}
+
+// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+type PaymentMethodNzBankAccountParams struct {
+	// The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// The numeric code for the bank account's bank.
+	BankCode *string `form:"bank_code"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode *string `form:"branch_code"`
+	Reference  *string `form:"reference"`
+	// The suffix of the bank account number.
+	Suffix *string `form:"suffix"`
+}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type PaymentMethodOXXOParams struct{}
 
@@ -484,6 +574,12 @@ type PaymentMethodP24Params struct {
 	// The customer's bank.
 	Bank *string `form:"bank"`
 }
+
+// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+type PaymentMethodPayByBankParams struct{}
+
+// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+type PaymentMethodPaycoParams struct{}
 
 // If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 type PaymentMethodPayNowParams struct{}
@@ -505,6 +601,12 @@ type PaymentMethodRadarOptionsParams struct {
 
 // If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type PaymentMethodRevolutPayParams struct{}
+
+// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+type PaymentMethodSamsungPayParams struct{}
+
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+type PaymentMethodSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type PaymentMethodSEPADebitParams struct {
@@ -559,6 +661,8 @@ type PaymentMethodParams struct {
 	Alipay *PaymentMethodAlipayParams `form:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
 	AllowRedisplay *string `form:"allow_redisplay"`
+	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	Alma *PaymentMethodAlmaParams `form:"alma"`
 	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
 	AmazonPay *PaymentMethodAmazonPayParams `form:"amazon_pay"`
 	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
@@ -567,6 +671,8 @@ type PaymentMethodParams struct {
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	Billie *PaymentMethodBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentMethodBillingDetailsParams `form:"billing_details"`
 	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -593,10 +699,14 @@ type PaymentMethodParams struct {
 	IDEAL *PaymentMethodIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
+	// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+	KakaoPay *PaymentMethodKakaoPayParams `form:"kakao_pay"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *PaymentMethodKlarnaParams `form:"klarna"`
 	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
+	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+	KrCard *PaymentMethodKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodLinkParams `form:"link"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -605,10 +715,18 @@ type PaymentMethodParams struct {
 	Mobilepay *PaymentMethodMobilepayParams `form:"mobilepay"`
 	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
 	Multibanco *PaymentMethodMultibancoParams `form:"multibanco"`
+	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+	NaverPay *PaymentMethodNaverPayParams `form:"naver_pay"`
+	// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+	NzBankAccount *PaymentMethodNzBankAccountParams `form:"nz_bank_account"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *PaymentMethodP24Params `form:"p24"`
+	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+	PayByBank *PaymentMethodPayByBankParams `form:"pay_by_bank"`
+	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+	Payco *PaymentMethodPaycoParams `form:"payco"`
 	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
 	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
@@ -621,6 +739,10 @@ type PaymentMethodParams struct {
 	RadarOptions *PaymentMethodRadarOptionsParams `form:"radar_options"`
 	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
+	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	Satispay *PaymentMethodSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
@@ -711,6 +833,7 @@ type PaymentMethodACSSDebit struct {
 type PaymentMethodAffirm struct{}
 type PaymentMethodAfterpayClearpay struct{}
 type PaymentMethodAlipay struct{}
+type PaymentMethodAlma struct{}
 type PaymentMethodAmazonPay struct{}
 type PaymentMethodAUBECSDebit struct {
 	// Six-digit number identifying bank and branch associated with this bank account.
@@ -729,6 +852,7 @@ type PaymentMethodBACSDebit struct {
 	SortCode string `json:"sort_code"`
 }
 type PaymentMethodBancontact struct{}
+type PaymentMethodBillie struct{}
 type PaymentMethodBillingDetails struct {
 	// Billing address.
 	Address *Address `json:"address"`
@@ -791,7 +915,7 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet struct 
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -825,9 +949,9 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	Issuer string `json:"issuer"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
-	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `interac`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Network string `json:"network"`
-	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. The first three digits of the Trace ID is the Financial Network Code, the next 6 digits is the Banknet Reference Number, and the last 4 digits represent the date (MM/DD). This field will be available for successful Visa, Mastercard, or American Express transactions and always null for other card brands.
+	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
 	// Details about payments collected offline.
 	Offline *PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentOffline `json:"offline"`
@@ -861,7 +985,7 @@ type PaymentMethodCardGeneratedFrom struct {
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodCardNetworks struct {
-	// All available networks for the card.
+	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []PaymentMethodCardNetworksAvailable `json:"available"`
 	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
 	Preferred PaymentMethodCardNetworksPreferred `json:"preferred"`
@@ -913,7 +1037,7 @@ type PaymentMethodCardWallet struct {
 	VisaCheckout *PaymentMethodCardWalletVisaCheckout `json:"visa_checkout"`
 }
 type PaymentMethodCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// Checks on Card address and CVC if provided.
 	Checks *PaymentMethodCardChecks `json:"checks"`
@@ -937,6 +1061,8 @@ type PaymentMethodCard struct {
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
 	Networks *PaymentMethodCardNetworks `json:"networks"`
+	// Status of a card based on the card issuer.
+	RegulatedStatus PaymentMethodCardRegulatedStatus `json:"regulated_status"`
 	// Contains details on how this Card may be used for 3D Secure authentication.
 	ThreeDSecureUsage *PaymentMethodCardThreeDSecureUsage `json:"three_d_secure_usage"`
 	// If this Card is part of a card wallet, this contains the details of the card wallet.
@@ -953,7 +1079,7 @@ type PaymentMethodCard struct {
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodCardPresentNetworks struct {
-	// All available networks for the card.
+	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`
@@ -971,7 +1097,7 @@ type PaymentMethodCardPresentWallet struct {
 	Type PaymentMethodCardPresentWalletType `json:"type"`
 }
 type PaymentMethodCardPresent struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -1035,7 +1161,7 @@ type PaymentMethodIDEAL struct {
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodInteracPresentNetworks struct {
-	// All available networks for the card.
+	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`
@@ -1072,6 +1198,7 @@ type PaymentMethodInteracPresent struct {
 	// How card details were read in this transaction.
 	ReadMethod PaymentMethodInteracPresentReadMethod `json:"read_method"`
 }
+type PaymentMethodKakaoPay struct{}
 
 // The customer's date of birth, if provided.
 type PaymentMethodKlarnaDOB struct {
@@ -1087,6 +1214,12 @@ type PaymentMethodKlarna struct {
 	DOB *PaymentMethodKlarnaDOB `json:"dob"`
 }
 type PaymentMethodKonbini struct{}
+type PaymentMethodKrCard struct {
+	// The local credit or debit card brand.
+	Brand PaymentMethodKrCardBrand `json:"brand"`
+	// The last four digits of the card. This may not be present for American Express cards.
+	Last4 string `json:"last4"`
+}
 type PaymentMethodLink struct {
 	// Account owner's email address.
 	Email string `json:"email"`
@@ -1096,13 +1229,37 @@ type PaymentMethodLink struct {
 }
 type PaymentMethodMobilepay struct{}
 type PaymentMethodMultibanco struct{}
+type PaymentMethodNaverPay struct {
+	// Uniquely identifies this particular Naver Pay account. You can use this attribute to check whether two Naver Pay accounts are the same.
+	BuyerID string `json:"buyer_id"`
+	// Whether to fund this transaction with Naver Pay points or a card.
+	Funding PaymentMethodNaverPayFunding `json:"funding"`
+}
+type PaymentMethodNzBankAccount struct {
+	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName string `json:"account_holder_name"`
+	// The numeric code for the bank account's bank.
+	BankCode string `json:"bank_code"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode string `json:"branch_code"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// The suffix of the bank account number.
+	Suffix string `json:"suffix"`
+}
 type PaymentMethodOXXO struct{}
 type PaymentMethodP24 struct {
 	// The customer's bank, if provided.
 	Bank string `json:"bank"`
 }
+type PaymentMethodPayByBank struct{}
+type PaymentMethodPayco struct{}
 type PaymentMethodPayNow struct{}
 type PaymentMethodPaypal struct {
+	// Two-letter ISO code representing the buyer's country. Values are provided by PayPal directly (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+	Country string `json:"country"`
 	// Owner's email. Values are provided by PayPal directly
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	PayerEmail string `json:"payer_email"`
@@ -1118,6 +1275,8 @@ type PaymentMethodRadarOptions struct {
 	Session string `json:"session"`
 }
 type PaymentMethodRevolutPay struct{}
+type PaymentMethodSamsungPay struct{}
+type PaymentMethodSatispay struct{}
 
 // Information about the object that generated this PaymentMethod.
 type PaymentMethodSEPADebitGeneratedFrom struct {
@@ -1201,10 +1360,12 @@ type PaymentMethod struct {
 	Alipay           *PaymentMethodAlipay           `json:"alipay"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 	AllowRedisplay PaymentMethodAllowRedisplay  `json:"allow_redisplay"`
+	Alma           *PaymentMethodAlma           `json:"alma"`
 	AmazonPay      *PaymentMethodAmazonPay      `json:"amazon_pay"`
 	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
 	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit"`
 	Bancontact     *PaymentMethodBancontact     `json:"bancontact"`
+	Billie         *PaymentMethodBillie         `json:"billie"`
 	BillingDetails *PaymentMethodBillingDetails `json:"billing_details"`
 	BLIK           *PaymentMethodBLIK           `json:"blik"`
 	Boleto         *PaymentMethodBoleto         `json:"boleto"`
@@ -1224,19 +1385,25 @@ type PaymentMethod struct {
 	ID             string                       `json:"id"`
 	IDEAL          *PaymentMethodIDEAL          `json:"ideal"`
 	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`
+	KakaoPay       *PaymentMethodKakaoPay       `json:"kakao_pay"`
 	Klarna         *PaymentMethodKlarna         `json:"klarna"`
 	Konbini        *PaymentMethodKonbini        `json:"konbini"`
+	KrCard         *PaymentMethodKrCard         `json:"kr_card"`
 	Link           *PaymentMethodLink           `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata   map[string]string        `json:"metadata"`
-	Mobilepay  *PaymentMethodMobilepay  `json:"mobilepay"`
-	Multibanco *PaymentMethodMultibanco `json:"multibanco"`
+	Metadata      map[string]string           `json:"metadata"`
+	Mobilepay     *PaymentMethodMobilepay     `json:"mobilepay"`
+	Multibanco    *PaymentMethodMultibanco    `json:"multibanco"`
+	NaverPay      *PaymentMethodNaverPay      `json:"naver_pay"`
+	NzBankAccount *PaymentMethodNzBankAccount `json:"nz_bank_account"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object    string                  `json:"object"`
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
 	P24       *PaymentMethodP24       `json:"p24"`
+	PayByBank *PaymentMethodPayByBank `json:"pay_by_bank"`
+	Payco     *PaymentMethodPayco     `json:"payco"`
 	PayNow    *PaymentMethodPayNow    `json:"paynow"`
 	Paypal    *PaymentMethodPaypal    `json:"paypal"`
 	Pix       *PaymentMethodPix       `json:"pix"`
@@ -1244,6 +1411,8 @@ type PaymentMethod struct {
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodRadarOptions `json:"radar_options"`
 	RevolutPay   *PaymentMethodRevolutPay   `json:"revolut_pay"`
+	SamsungPay   *PaymentMethodSamsungPay   `json:"samsung_pay"`
+	Satispay     *PaymentMethodSatispay     `json:"satispay"`
 	SEPADebit    *PaymentMethodSEPADebit    `json:"sepa_debit"`
 	Sofort       *PaymentMethodSofort       `json:"sofort"`
 	Swish        *PaymentMethodSwish        `json:"swish"`

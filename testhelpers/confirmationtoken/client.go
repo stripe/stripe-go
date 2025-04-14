@@ -10,7 +10,7 @@ package confirmationtoken
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /confirmation_tokens APIs.
@@ -28,12 +28,7 @@ func New(params *stripe.TestHelpersConfirmationTokenParams) (*stripe.Confirmatio
 func (c Client) New(params *stripe.TestHelpersConfirmationTokenParams) (*stripe.ConfirmationToken, error) {
 	confirmationtoken := &stripe.ConfirmationToken{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/confirmation_tokens",
-		c.Key,
-		params,
-		confirmationtoken,
-	)
+		http.MethodPost, "/v1/test_helpers/confirmation_tokens", c.Key, params, confirmationtoken)
 	return confirmationtoken, err
 }
 

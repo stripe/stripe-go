@@ -10,8 +10,8 @@ package alert
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /billing/alerts APIs.
@@ -94,7 +94,7 @@ func (c Client) List(listParams *stripe.BillingAlertListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.BillingAlertList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/billing/alerts", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/billing/alerts", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

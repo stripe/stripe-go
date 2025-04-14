@@ -10,7 +10,7 @@ package transaction
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /issuing/transactions APIs.
@@ -28,12 +28,7 @@ func CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceC
 func (c Client) CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceCaptureParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/issuing/transactions/create_force_capture",
-		c.Key,
-		params,
-		transaction,
-	)
+		http.MethodPost, "/v1/test_helpers/issuing/transactions/create_force_capture", c.Key, params, transaction)
 	return transaction, err
 }
 
@@ -46,12 +41,7 @@ func CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnli
 func (c Client) CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/issuing/transactions/create_unlinked_refund",
-		c.Key,
-		params,
-		transaction,
-	)
+		http.MethodPost, "/v1/test_helpers/issuing/transactions/create_unlinked_refund", c.Key, params, transaction)
 	return transaction, err
 }
 
@@ -63,9 +53,7 @@ func Refund(id string, params *stripe.TestHelpersIssuingTransactionRefundParams)
 // Refund a test-mode Transaction.
 func (c Client) Refund(id string, params *stripe.TestHelpersIssuingTransactionRefundParams) (*stripe.IssuingTransaction, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/issuing/transactions/%s/refund",
-		id,
-	)
+		"/v1/test_helpers/issuing/transactions/%s/refund", id)
 	transaction := &stripe.IssuingTransaction{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
 	return transaction, err

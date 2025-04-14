@@ -10,8 +10,8 @@ package transaction
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /tax/transactions APIs.
@@ -42,12 +42,7 @@ func CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationPar
 func (c Client) CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/transactions/create_from_calculation",
-		c.Key,
-		params,
-		transaction,
-	)
+		http.MethodPost, "/v1/tax/transactions/create_from_calculation", c.Key, params, transaction)
 	return transaction, err
 }
 
@@ -60,12 +55,7 @@ func CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.
 func (c Client) CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/tax/transactions/create_reversal",
-		c.Key,
-		params,
-		transaction,
-	)
+		http.MethodPost, "/v1/tax/transactions/create_reversal", c.Key, params, transaction)
 	return transaction, err
 }
 
@@ -77,13 +67,12 @@ func ListLineItems(params *stripe.TaxTransactionListLineItemsParams) *LineItemIt
 // Retrieves the line items of a committed standalone transaction as a collection.
 func (c Client) ListLineItems(listParams *stripe.TaxTransactionListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
-		"/v1/tax/transactions/%s/line_items",
-		stripe.StringValue(listParams.Transaction),
-	)
+		"/v1/tax/transactions/%s/line_items", stripe.StringValue(
+			listParams.Transaction))
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TaxTransactionLineItemList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

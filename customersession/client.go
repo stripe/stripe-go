@@ -10,7 +10,7 @@ package customersession
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /customer_sessions APIs.
@@ -28,12 +28,7 @@ func New(params *stripe.CustomerSessionParams) (*stripe.CustomerSession, error) 
 func (c Client) New(params *stripe.CustomerSessionParams) (*stripe.CustomerSession, error) {
 	customersession := &stripe.CustomerSession{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/customer_sessions",
-		c.Key,
-		params,
-		customersession,
-	)
+		http.MethodPost, "/v1/customer_sessions", c.Key, params, customersession)
 	return customersession, err
 }
 

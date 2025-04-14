@@ -17,9 +17,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
-	_ "github.com/stripe/stripe-go/v79/testing"
+	stripe "github.com/stripe/stripe-go/v82"
+	_ "github.com/stripe/stripe-go/v82/testing"
 )
 
 const (
@@ -53,7 +52,7 @@ func (b *testBackend) Call(method, path, key string, params stripe.ParamsContain
 func (b *testBackend) CallStreaming(method, path, key string, params stripe.ParamsContainer, v stripe.StreamingLastResponseSetter) error {
 	return nil
 }
-func (b *testBackend) CallRaw(method, path, key string, body *form.Values, params *stripe.Params, v stripe.LastResponseSetter) error {
+func (b *testBackend) CallRaw(method, path, key string, body []byte, params *stripe.Params, v stripe.LastResponseSetter) error {
 	return nil
 }
 func (b *testBackend) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *stripe.Params, v stripe.LastResponseSetter) error {

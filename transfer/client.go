@@ -10,8 +10,8 @@ package transfer
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /transfers APIs.
@@ -72,7 +72,7 @@ func (c Client) List(listParams *stripe.TransferListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.TransferList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/transfers", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/transfers", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

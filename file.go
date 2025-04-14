@@ -9,7 +9,7 @@ package stripe
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/stripe/stripe-go/v79/form"
+	"github.com/stripe/stripe-go/v82/form"
 	"io"
 	"mime/multipart"
 	"net/url"
@@ -29,6 +29,7 @@ const (
 	FilePurposeDisputeEvidence                  FilePurpose = "dispute_evidence"
 	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeFinanceReportRun                 FilePurpose = "finance_report_run"
+	FilePurposeFinancialAccountStatement        FilePurpose = "financial_account_statement"
 	FilePurposeIdentityDocument                 FilePurpose = "identity_document"
 	FilePurposeIdentityDocumentDownloadable     FilePurpose = "identity_document_downloadable"
 	FilePurposeIssuingRegulatoryReporting       FilePurpose = "issuing_regulatory_reporting"
@@ -155,9 +156,7 @@ func (p *FileParams) GetBody() (*bytes.Buffer, string, error) {
 
 	if p.FileReader != nil && p.Filename != nil {
 		part, err := writer.CreateFormFile(
-			"file",
-			filepath.Base(StringValue(p.Filename)),
-		)
+			"file", filepath.Base(StringValue(p.Filename)))
 
 		if err != nil {
 			return nil, "", err

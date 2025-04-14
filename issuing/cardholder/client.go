@@ -11,8 +11,8 @@ package cardholder
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /issuing/cardholders APIs.
@@ -30,12 +30,7 @@ func New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, err
 func (c Client) New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	cardholder := &stripe.IssuingCardholder{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/cardholders",
-		c.Key,
-		params,
-		cardholder,
-	)
+		http.MethodPost, "/v1/issuing/cardholders", c.Key, params, cardholder)
 	return cardholder, err
 }
 
@@ -75,7 +70,7 @@ func (c Client) List(listParams *stripe.IssuingCardholderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingCardholderList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cardholders", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cardholders", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

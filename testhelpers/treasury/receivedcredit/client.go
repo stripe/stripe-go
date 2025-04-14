@@ -10,7 +10,7 @@ package receivedcredit
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /treasury/received_credits APIs.
@@ -28,12 +28,7 @@ func New(params *stripe.TestHelpersTreasuryReceivedCreditParams) (*stripe.Treasu
 func (c Client) New(params *stripe.TestHelpersTreasuryReceivedCreditParams) (*stripe.TreasuryReceivedCredit, error) {
 	receivedcredit := &stripe.TreasuryReceivedCredit{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/test_helpers/treasury/received_credits",
-		c.Key,
-		params,
-		receivedcredit,
-	)
+		http.MethodPost, "/v1/test_helpers/treasury/received_credits", c.Key, params, receivedcredit)
 	return receivedcredit, err
 }
 

@@ -10,8 +10,8 @@ package personalizationdesign
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
-	"github.com/stripe/stripe-go/v79/form"
+	stripe "github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // Client is used to invoke /issuing/personalization_designs APIs.
@@ -29,12 +29,7 @@ func New(params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPers
 func (c Client) New(params *stripe.IssuingPersonalizationDesignParams) (*stripe.IssuingPersonalizationDesign, error) {
 	personalizationdesign := &stripe.IssuingPersonalizationDesign{}
 	err := c.B.Call(
-		http.MethodPost,
-		"/v1/issuing/personalization_designs",
-		c.Key,
-		params,
-		personalizationdesign,
-	)
+		http.MethodPost, "/v1/issuing/personalization_designs", c.Key, params, personalizationdesign)
 	return personalizationdesign, err
 }
 
@@ -74,7 +69,7 @@ func (c Client) List(listParams *stripe.IssuingPersonalizationDesignListParams) 
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 			list := &stripe.IssuingPersonalizationDesignList{}
-			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/personalization_designs", c.Key, b, p, list)
+			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/personalization_designs", c.Key, []byte(b.Encode()), p, list)
 
 			ret := make([]interface{}, len(list.Data))
 			for i, v := range list.Data {

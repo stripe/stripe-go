@@ -10,7 +10,7 @@ package inboundtransfer
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v79"
+	stripe "github.com/stripe/stripe-go/v82"
 )
 
 // Client is used to invoke /treasury/inbound_transfers APIs.
@@ -27,9 +27,7 @@ func Fail(id string, params *stripe.TestHelpersTreasuryInboundTransferFailParams
 // Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
 func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryInboundTransferFailParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/treasury/inbound_transfers/%s/fail",
-		id,
-	)
+		"/v1/test_helpers/treasury/inbound_transfers/%s/fail", id)
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, inboundtransfer)
 	return inboundtransfer, err
@@ -43,9 +41,7 @@ func ReturnInboundTransfer(id string, params *stripe.TestHelpersTreasuryInboundT
 // Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
 func (c Client) ReturnInboundTransfer(id string, params *stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/treasury/inbound_transfers/%s/return",
-		id,
-	)
+		"/v1/test_helpers/treasury/inbound_transfers/%s/return", id)
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, inboundtransfer)
 	return inboundtransfer, err
@@ -59,9 +55,7 @@ func Succeed(id string, params *stripe.TestHelpersTreasuryInboundTransferSucceed
 // Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
 func (c Client) Succeed(id string, params *stripe.TestHelpersTreasuryInboundTransferSucceedParams) (*stripe.TreasuryInboundTransfer, error) {
 	path := stripe.FormatURLPath(
-		"/v1/test_helpers/treasury/inbound_transfers/%s/succeed",
-		id,
-	)
+		"/v1/test_helpers/treasury/inbound_transfers/%s/succeed", id)
 	inboundtransfer := &stripe.TreasuryInboundTransfer{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, inboundtransfer)
 	return inboundtransfer, err

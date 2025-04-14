@@ -385,7 +385,7 @@ type IdentityVerificationReport struct {
 	Selfie *IdentityVerificationReportSelfie `json:"selfie"`
 	// Type of report.
 	Type IdentityVerificationReportType `json:"type"`
-	// The configuration token of a Verification Flow from the dashboard.
+	// The configuration token of a verification flow from the dashboard.
 	VerificationFlow string `json:"verification_flow"`
 	// ID of the VerificationSession that created this report.
 	VerificationSession string `json:"verification_session"`

@@ -25,7 +25,7 @@ type FinancialConnectionsTransactionListTransactionRefreshParams struct {
 // Returns a list of Financial Connections Transaction objects.
 type FinancialConnectionsTransactionListParams struct {
 	ListParams `form:"*"`
-	// The ID of the Stripe account whose transactions will be retrieved.
+	// The ID of the Financial Connections Account whose transactions will be retrieved.
 	Account *string `form:"account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

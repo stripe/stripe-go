@@ -8,6 +8,63 @@ package stripe
 
 import "encoding/json"
 
+// List of eligibility types that are included in `enhanced_evidence`.
+type DisputeEnhancedEligibilityType string
+
+// List of values that DisputeEnhancedEligibilityType can take
+const (
+	DisputeEnhancedEligibilityTypeVisaCompellingEvidence3 DisputeEnhancedEligibilityType = "visa_compelling_evidence_3"
+)
+
+// Categorization of disputed payment.
+type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServices string
+
+// List of values that DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServices can take
+const (
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServicesMerchandise DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServices = "merchandise"
+	DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServicesServices    DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServices = "services"
+)
+
+// List of actions required to qualify dispute for Visa Compelling Evidence 3.0 evidence submission.
+type DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction string
+
+// List of values that DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction can take
+const (
+	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredActionMissingCustomerIdentifiers                   DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction = "missing_customer_identifiers"
+	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredActionMissingDisputedTransactionDescription        DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction = "missing_disputed_transaction_description"
+	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredActionMissingMerchandiseOrServices                 DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction = "missing_merchandise_or_services"
+	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredActionMissingPriorUndisputedTransactionDescription DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction = "missing_prior_undisputed_transaction_description"
+	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredActionMissingPriorUndisputedTransactions           DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction = "missing_prior_undisputed_transactions"
+)
+
+// Visa Compelling Evidence 3.0 eligibility status.
+type DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status string
+
+// List of values that DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status can take
+const (
+	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3StatusNotQualified   DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status = "not_qualified"
+	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3StatusQualified      DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status = "qualified"
+	DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3StatusRequiresAction DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status = "requires_action"
+)
+
+// Visa compliance eligibility status.
+type DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus string
+
+// List of values that DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus can take
+const (
+	DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatusFeeAcknowledged            DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus = "fee_acknowledged"
+	DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatusRequiresFeeAcknowledgement DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus = "requires_fee_acknowledgement"
+)
+
+// The AmazonPay dispute type, chargeback or claim
+type DisputePaymentMethodDetailsAmazonPayDisputeType string
+
+// List of values that DisputePaymentMethodDetailsAmazonPayDisputeType can take
+const (
+	DisputePaymentMethodDetailsAmazonPayDisputeTypeChargeback DisputePaymentMethodDetailsAmazonPayDisputeType = "chargeback"
+	DisputePaymentMethodDetailsAmazonPayDisputeTypeClaim      DisputePaymentMethodDetailsAmazonPayDisputeType = "claim"
+)
+
 // The type of dispute opened. Different case types may have varying fees and financial impact.
 type DisputePaymentMethodDetailsCardCaseType string
 
@@ -22,9 +79,10 @@ type DisputePaymentMethodDetailsType string
 
 // List of values that DisputePaymentMethodDetailsType can take
 const (
-	DisputePaymentMethodDetailsTypeCard   DisputePaymentMethodDetailsType = "card"
-	DisputePaymentMethodDetailsTypeKlarna DisputePaymentMethodDetailsType = "klarna"
-	DisputePaymentMethodDetailsTypePaypal DisputePaymentMethodDetailsType = "paypal"
+	DisputePaymentMethodDetailsTypeAmazonPay DisputePaymentMethodDetailsType = "amazon_pay"
+	DisputePaymentMethodDetailsTypeCard      DisputePaymentMethodDetailsType = "card"
+	DisputePaymentMethodDetailsTypeKlarna    DisputePaymentMethodDetailsType = "klarna"
+	DisputePaymentMethodDetailsTypePaypal    DisputePaymentMethodDetailsType = "paypal"
 )
 
 // Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://stripe.com/docs/disputes/categories).
@@ -109,6 +167,68 @@ func (p *DisputeParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
+type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams struct {
+	// User Account ID used to log into business platform. Must be recognizable by the user.
+	CustomerAccountID *string `form:"customer_account_id"`
+	// Unique identifier of the cardholder's device derived from a combination of at least two hardware and software attributes. Must be at least 20 characters.
+	CustomerDeviceFingerprint *string `form:"customer_device_fingerprint"`
+	// Unique identifier of the cardholder's device such as a device serial number (e.g., International Mobile Equipment Identity [IMEI]). Must be at least 15 characters.
+	CustomerDeviceID *string `form:"customer_device_id"`
+	// The email address of the customer.
+	CustomerEmailAddress *string `form:"customer_email_address"`
+	// The IP address that the customer used when making the purchase.
+	CustomerPurchaseIP *string `form:"customer_purchase_ip"`
+	// Categorization of disputed payment.
+	MerchandiseOrServices *string `form:"merchandise_or_services"`
+	// A description of the product or service that was sold.
+	ProductDescription *string `form:"product_description"`
+	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
+	ShippingAddress *AddressParams `form:"shipping_address"`
+}
+
+// List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
+type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams struct {
+	// Stripe charge ID for the Visa Compelling Evidence 3.0 eligible prior charge.
+	Charge *string `form:"charge"`
+	// User Account ID used to log into business platform. Must be recognizable by the user.
+	CustomerAccountID *string `form:"customer_account_id"`
+	// Unique identifier of the cardholder's device derived from a combination of at least two hardware and software attributes. Must be at least 20 characters.
+	CustomerDeviceFingerprint *string `form:"customer_device_fingerprint"`
+	// Unique identifier of the cardholder's device such as a device serial number (e.g., International Mobile Equipment Identity [IMEI]). Must be at least 15 characters.
+	CustomerDeviceID *string `form:"customer_device_id"`
+	// The email address of the customer.
+	CustomerEmailAddress *string `form:"customer_email_address"`
+	// The IP address that the customer used when making the purchase.
+	CustomerPurchaseIP *string `form:"customer_purchase_ip"`
+	// A description of the product or service that was sold.
+	ProductDescription *string `form:"product_description"`
+	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
+	ShippingAddress *AddressParams `form:"shipping_address"`
+}
+
+// Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
+type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3Params struct {
+	// Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
+	DisputedTransaction *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams `form:"disputed_transaction"`
+	// List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
+	PriorUndisputedTransactions []*DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams `form:"prior_undisputed_transactions"`
+}
+
+// Evidence provided for Visa compliance evidence submission.
+type DisputeEvidenceEnhancedEvidenceVisaComplianceParams struct {
+	// A field acknowledging the fee incurred when countering a Visa compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute. Stripe collects a 500 USD (or local equivalent) amount to cover the network costs associated with resolving compliance disputes. Stripe refunds the 500 USD network fee if you win the dispute.
+	FeeAcknowledged *bool `form:"fee_acknowledged"`
+}
+
+// Additional evidence for qualifying evidence programs.
+type DisputeEvidenceEnhancedEvidenceParams struct {
+	// Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
+	VisaCompellingEvidence3 *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3Params `form:"visa_compelling_evidence_3"`
+	// Evidence provided for Visa compliance evidence submission.
+	VisaCompliance *DisputeEvidenceEnhancedEvidenceVisaComplianceParams `form:"visa_compliance"`
+}
+
 // Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
 type DisputeEvidenceParams struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity. Has a maximum character count of 20,000.
@@ -137,6 +257,8 @@ type DisputeEvidenceParams struct {
 	DuplicateChargeExplanation *string `form:"duplicate_charge_explanation"`
 	// The Stripe ID for the prior charge which appears to be a duplicate of the disputed charge.
 	DuplicateChargeID *string `form:"duplicate_charge_id"`
+	// Additional evidence for qualifying evidence programs.
+	EnhancedEvidence *DisputeEvidenceEnhancedEvidenceParams `form:"enhanced_evidence"`
 	// A description of the product or service that was sold. Has a maximum character count of 20,000.
 	ProductDescription *string `form:"product_description"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any receipt or message sent to the customer notifying them of the charge.
@@ -166,6 +288,60 @@ type DisputeEvidenceParams struct {
 	// Any additional evidence or statements. Has a maximum character count of 20,000.
 	UncategorizedText *string `form:"uncategorized_text"`
 }
+
+// Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
+type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransaction struct {
+	// User Account ID used to log into business platform. Must be recognizable by the user.
+	CustomerAccountID string `json:"customer_account_id"`
+	// Unique identifier of the cardholder's device derived from a combination of at least two hardware and software attributes. Must be at least 20 characters.
+	CustomerDeviceFingerprint string `json:"customer_device_fingerprint"`
+	// Unique identifier of the cardholder's device such as a device serial number (e.g., International Mobile Equipment Identity [IMEI]). Must be at least 15 characters.
+	CustomerDeviceID string `json:"customer_device_id"`
+	// The email address of the customer.
+	CustomerEmailAddress string `json:"customer_email_address"`
+	// The IP address that the customer used when making the purchase.
+	CustomerPurchaseIP string `json:"customer_purchase_ip"`
+	// Categorization of disputed payment.
+	MerchandiseOrServices DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionMerchandiseOrServices `json:"merchandise_or_services"`
+	// A description of the product or service that was sold.
+	ProductDescription string `json:"product_description"`
+	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
+	ShippingAddress *Address `json:"shipping_address"`
+}
+
+// List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
+type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransaction struct {
+	// Stripe charge ID for the Visa Compelling Evidence 3.0 eligible prior charge.
+	Charge string `json:"charge"`
+	// User Account ID used to log into business platform. Must be recognizable by the user.
+	CustomerAccountID string `json:"customer_account_id"`
+	// Unique identifier of the cardholder's device derived from a combination of at least two hardware and software attributes. Must be at least 20 characters.
+	CustomerDeviceFingerprint string `json:"customer_device_fingerprint"`
+	// Unique identifier of the cardholder's device such as a device serial number (e.g., International Mobile Equipment Identity [IMEI]). Must be at least 15 characters.
+	CustomerDeviceID string `json:"customer_device_id"`
+	// The email address of the customer.
+	CustomerEmailAddress string `json:"customer_email_address"`
+	// The IP address that the customer used when making the purchase.
+	CustomerPurchaseIP string `json:"customer_purchase_ip"`
+	// A description of the product or service that was sold.
+	ProductDescription string `json:"product_description"`
+	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
+	ShippingAddress *Address `json:"shipping_address"`
+}
+type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3 struct {
+	// Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
+	DisputedTransaction *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransaction `json:"disputed_transaction"`
+	// List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
+	PriorUndisputedTransactions []*DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransaction `json:"prior_undisputed_transactions"`
+}
+type DisputeEvidenceEnhancedEvidenceVisaCompliance struct {
+	// A field acknowledging the fee incurred when countering a Visa compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute. Stripe collects a 500 USD (or local equivalent) amount to cover the network costs associated with resolving compliance disputes. Stripe refunds the 500 USD network fee if you win the dispute.
+	FeeAcknowledged bool `json:"fee_acknowledged"`
+}
+type DisputeEvidenceEnhancedEvidence struct {
+	VisaCompellingEvidence3 *DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3 `json:"visa_compelling_evidence_3"`
+	VisaCompliance          *DisputeEvidenceEnhancedEvidenceVisaCompliance          `json:"visa_compliance"`
+}
 type DisputeEvidence struct {
 	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity.
 	AccessActivityLog string `json:"access_activity_log"`
@@ -192,7 +368,8 @@ type DisputeEvidence struct {
 	// An explanation of the difference between the disputed charge versus the prior charge that appears to be a duplicate.
 	DuplicateChargeExplanation string `json:"duplicate_charge_explanation"`
 	// The Stripe ID for the prior charge which appears to be a duplicate of the disputed charge.
-	DuplicateChargeID string `json:"duplicate_charge_id"`
+	DuplicateChargeID string                           `json:"duplicate_charge_id"`
+	EnhancedEvidence  *DisputeEvidenceEnhancedEvidence `json:"enhanced_evidence"`
 	// A description of the product or service that was sold.
 	ProductDescription string `json:"product_description"`
 	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any receipt or message sent to the customer notifying them of the charge.
@@ -222,9 +399,24 @@ type DisputeEvidence struct {
 	// Any additional evidence or statements.
 	UncategorizedText string `json:"uncategorized_text"`
 }
+type DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3 struct {
+	// List of actions required to qualify dispute for Visa Compelling Evidence 3.0 evidence submission.
+	RequiredActions []DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3RequiredAction `json:"required_actions"`
+	// Visa Compelling Evidence 3.0 eligibility status.
+	Status DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3Status `json:"status"`
+}
+type DisputeEvidenceDetailsEnhancedEligibilityVisaCompliance struct {
+	// Visa compliance eligibility status.
+	Status DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus `json:"status"`
+}
+type DisputeEvidenceDetailsEnhancedEligibility struct {
+	VisaCompellingEvidence3 *DisputeEvidenceDetailsEnhancedEligibilityVisaCompellingEvidence3 `json:"visa_compelling_evidence_3"`
+	VisaCompliance          *DisputeEvidenceDetailsEnhancedEligibilityVisaCompliance          `json:"visa_compliance"`
+}
 type DisputeEvidenceDetails struct {
 	// Date by which evidence must be submitted in order to successfully challenge dispute. Will be 0 if the customer's bank or credit card company doesn't allow a response for this particular dispute.
-	DueBy int64 `json:"due_by"`
+	DueBy               int64                                      `json:"due_by"`
+	EnhancedEligibility *DisputeEvidenceDetailsEnhancedEligibility `json:"enhanced_eligibility"`
 	// Whether evidence has been staged for this dispute.
 	HasEvidence bool `json:"has_evidence"`
 	// Whether the last evidence submission was submitted past the due date. Defaults to `false` if no evidence submissions have occurred. If `true`, then delivery of the latest evidence is *not* guaranteed.
@@ -232,8 +424,12 @@ type DisputeEvidenceDetails struct {
 	// The number of times evidence has been submitted. Typically, you may only submit evidence once.
 	SubmissionCount int64 `json:"submission_count"`
 }
+type DisputePaymentMethodDetailsAmazonPay struct {
+	// The AmazonPay dispute type, chargeback or claim
+	DisputeType DisputePaymentMethodDetailsAmazonPayDisputeType `json:"dispute_type"`
+}
 type DisputePaymentMethodDetailsCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand string `json:"brand"`
 	// The type of dispute opened. Different case types may have varying fees and financial impact.
 	CaseType DisputePaymentMethodDetailsCardCaseType `json:"case_type"`
@@ -251,9 +447,10 @@ type DisputePaymentMethodDetailsPaypal struct {
 	ReasonCode string `json:"reason_code"`
 }
 type DisputePaymentMethodDetails struct {
-	Card   *DisputePaymentMethodDetailsCard   `json:"card"`
-	Klarna *DisputePaymentMethodDetailsKlarna `json:"klarna"`
-	Paypal *DisputePaymentMethodDetailsPaypal `json:"paypal"`
+	AmazonPay *DisputePaymentMethodDetailsAmazonPay `json:"amazon_pay"`
+	Card      *DisputePaymentMethodDetailsCard      `json:"card"`
+	Klarna    *DisputePaymentMethodDetailsKlarna    `json:"klarna"`
+	Paypal    *DisputePaymentMethodDetailsPaypal    `json:"paypal"`
 	// Payment method type.
 	Type DisputePaymentMethodDetailsType `json:"type"`
 }
@@ -274,9 +471,11 @@ type Dispute struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency        Currency                `json:"currency"`
-	Evidence        *DisputeEvidence        `json:"evidence"`
-	EvidenceDetails *DisputeEvidenceDetails `json:"evidence_details"`
+	Currency Currency `json:"currency"`
+	// List of eligibility types that are included in `enhanced_evidence`.
+	EnhancedEligibilityTypes []DisputeEnhancedEligibilityType `json:"enhanced_eligibility_types"`
+	Evidence                 *DisputeEvidence                 `json:"evidence"`
+	EvidenceDetails          *DisputeEvidenceDetails          `json:"evidence_details"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// If true, it's still possible to refund the disputed payment. After the payment has been fully refunded, no further funds are withdrawn from your Stripe account as a result of this dispute.
