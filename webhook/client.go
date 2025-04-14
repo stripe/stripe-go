@@ -279,14 +279,13 @@ func validatePayload(payload []byte, sigHeader string, secret string, tolerance 
 	if err != nil {
 		return err
 	}
-	
+
 	expiredTimestamp := time.Since(header.timestamp) > tolerance
 	if enforceTolerance && expiredTimestamp {
 		return ErrTooOld
 	}
 
 	expectedSignature := ComputeSignature(header.timestamp, payload, secret)
-
 	// Check all given v1 signatures, multiple signatures will be sent temporarily in the case of a rolled signature secret
 	for _, sig := range header.signatures {
 		if hmac.Equal(expectedSignature, sig) {
