@@ -118,56 +118,51 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 	return iter
 }
 
-// V1List provides a convenient interface
-// for iterating over the elements
-// returned from paginated list API calls.
-// Successive calls to the Next method
-// will step through each item in the list,
-// fetching pages of items as needed.
-// Iterators are not thread-safe, so they should not be consumed
-// across multiple goroutines.
-type V1List[T any] struct {
+// v1List provides a convenient interface for iterating over the elements
+// returned from paginated list API calls. It is meant to be an improvement
+// over the Iter type, which was written before Go introduced generics and iter.Seq2.
+// Calling the `All` allows you to iterate over all items in the list,
+// with automatic pagination.
+type v1List[T any] struct {
 	cur           T
-	listErr       error
+	err           error
 	formValues    *form.Values
 	listContainer ListContainer
 	listParams    ListParams
 	listMeta      *ListMeta
-	query         V1Query[T]
+	query         v1Query[T]
 	values        []T
+}
+
+// All returns a Seq2 that will be evaluated on each item in a v1List.
+// The All function will continue to fetch pages of items as needed.
+func (it *v1List[T]) All() Seq2[T, error] {
+	return func(yield func(T, error) bool) {
+		for it.next() {
+			if !yield(it.current(), nil) {
+				return
+			}
+		}
+		if it.err != nil {
+			if !yield(*new(T), it.err) {
+				return
+			}
+		}
+	}
 }
 
 // Current returns the most recent item
 // visited by a call to Next.
-func (it *V1List[T]) current() T {
+func (it *v1List[T]) current() T {
 	return it.cur
 }
 
-// Err returns the error, if any,
-// that caused the Iter to stop.
-// It must be inspected
-// after Next returns false.
-func (it *V1List[T]) err() error {
-	return it.listErr
-}
-
-// List returns the current list object which the iterator is currently using.
-// List objects will change as new API calls are made to continue pagination.
-func (it *V1List[T]) list() ListContainer {
-	return it.listContainer
-}
-
-// Meta returns the list metadata.
-func (it *V1List[T]) meta() *ListMeta {
-	return it.listMeta
-}
-
-// Next advances the Iter to the next item in the list,
+// next advances the V1List to the next item in the list,
 // which will then be available
-// through the Current method.
+// through the current method.
 // It returns false when the iterator stops
 // at the end of the list.
-func (it *V1List[T]) Next() bool {
+func (it *v1List[T]) next() bool {
 	if len(it.values) == 0 && it.listMeta.HasMore && !it.listParams.Single {
 		// determine if we're moving forward or backwards in paging
 		if it.listParams.EndingBefore != nil {
@@ -187,8 +182,8 @@ func (it *V1List[T]) Next() bool {
 	return true
 }
 
-func (it *V1List[T]) getPage() {
-	it.values, it.listContainer, it.listErr = it.query(it.listParams.GetParams(), it.formValues)
+func (it *v1List[T]) getPage() {
+	it.values, it.listContainer, it.err = it.query(it.listParams.GetParams(), it.formValues)
 	it.listMeta = it.listContainer.GetListMeta()
 
 	if it.listParams.EndingBefore != nil {
@@ -199,14 +194,10 @@ func (it *V1List[T]) getPage() {
 }
 
 // Query is the function used to get a page listing.
-type V1Query[T any] func(*Params, *form.Values) ([]T, ListContainer, error)
+type v1Query[T any] func(*Params, *form.Values) ([]T, ListContainer, error)
 
-//
-// Public functions
-//
-
-// GetIter returns a new Iter for a given query and its options.
-func GetV1(container ListParamsContainer, query Query) *Iter {
+// getV1List returns a new v1List for a given query and its options.
+func getV1List[T any](container ListParamsContainer, query v1Query[T]) *v1List[T] {
 	var listParams *ListParams
 	formValues := &form.Values{}
 
@@ -223,7 +214,7 @@ func GetV1(container ListParamsContainer, query Query) *Iter {
 	if listParams == nil {
 		listParams = &ListParams{}
 	}
-	iter := &Iter{
+	iter := &v1List[T]{
 		formValues: formValues,
 		listParams: *listParams,
 		query:      query,
@@ -233,10 +224,6 @@ func GetV1(container ListParamsContainer, query Query) *Iter {
 
 	return iter
 }
-
-//
-// Private functions
-//
 
 func listItemID[T any](x T) string {
 	return reflect.ValueOf(x).Elem().FieldByName("ID").String()
