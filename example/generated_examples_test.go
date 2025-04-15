@@ -9,6 +9,8 @@ package example
 import (
 	"testing"
 
+	"net/http"
+
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go/v82"
 	account "github.com/stripe/stripe-go/v82/account"
@@ -8378,6 +8380,19 @@ func TestWebhookEndpointsPost2Service(t *testing.T) {
 	}
 	sc := client.New(TestAPIKey, nil)
 	result, err := sc.WebhookEndpoints.Update("we_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestCoreEventsGetService(t *testing.T) {
+	params := &stripe.V2CoreEventParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/events/ll_123", params, "{\"context\":\"context\",\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"livemode\":true,\"object\":\"v2.core.event\",\"reason\":{\"type\":\"request\",\"request\":{\"id\":\"obj_123\",\"idempotency_key\":\"idempotency_key\"}},\"type\":\"type\"}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreEvents.Get("ll_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
