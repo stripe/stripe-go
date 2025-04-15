@@ -4,7 +4,7 @@
 //
 //
 
-// Package transferreversal provides the /transfers/{id}/reversals APIs
+// Package transferreversal provides the /v1/transfers/{id}/reversals APIs
 package transferreversal
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /transfers/{id}/reversals APIs.
+// Client is used to invoke /v1/transfers/{id}/reversals APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

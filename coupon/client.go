@@ -4,7 +4,7 @@
 //
 //
 
-// Package coupon provides the /coupons APIs
+// Package coupon provides the /v1/coupons APIs
 package coupon
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /coupons APIs.
+// Client is used to invoke /v1/coupons APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package receivedcredit provides the /treasury/received_credits APIs
+// Package receivedcredit provides the /v1/treasury/received_credits APIs
 package receivedcredit
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v82"
 )
 
-// Client is used to invoke /treasury/received_credits APIs.
+// Client is used to invoke /v1/treasury/received_credits APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

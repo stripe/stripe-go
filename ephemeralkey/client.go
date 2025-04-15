@@ -4,7 +4,7 @@
 //
 //
 
-// Package ephemeralkey provides the /ephemeral_keys APIs
+// Package ephemeralkey provides the /v1/ephemeral_keys APIs
 package ephemeralkey
 
 import (
@@ -14,7 +14,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v82"
 )
 
-// Client is used to invoke /ephemeral_keys APIs.
+// Client is used to invoke /v1/ephemeral_keys APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

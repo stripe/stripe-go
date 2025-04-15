@@ -6,6 +6,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -41,17 +42,27 @@ func TestBearerAuth(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	key := "apiKey"
 
-	req, err := c.NewRequest("", "", key, "", nil)
+	req, err := c.NewRequest("", "/v1/hello", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
+}
+
+func TestApiVersion(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil)
+	assert.NoError(t, err)
+
+	assert.Equal(t, APIVersion, req.Header.Get("Stripe-Version"))
 }
 
 func TestContext(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{Context: context.Background()}
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.NewRequest("", "/v1/hello", "", "", p)
 	assert.NoError(t, err)
 
 	// We assume that contexts are sufficiently tested in the standard library
@@ -121,7 +132,7 @@ func TestDo_Retry(t *testing.T) {
 
 	request, err := backend.NewRequest(
 		http.MethodPost,
-		"/hello",
+		"/v1/hello",
 		"sk_test_123",
 		"application/x-www-form-urlencoded",
 		nil,
@@ -281,9 +292,9 @@ func TestShouldRetry(t *testing.T) {
 	// 429 Too Many Requests -- retry on lock timeout
 	t.Run("RetryOn429TooManyRequestsLockTimeout", func(t *testing.T) {
 		shouldRetry, _ := c.shouldRetry(
-			&Error{Code: ErrorCodeLockTimeout},
+			&Error{Code: ErrorCodeLockTimeout, HTTPStatusCode: http.StatusTooManyRequests},
 			&http.Request{},
-			&http.Response{StatusCode: http.StatusTooManyRequests},
+			&http.Response{},
 			0,
 		)
 		assert.True(t, shouldRetry)
@@ -352,7 +363,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 
 	request, err := backend.NewRequest(
 		http.MethodPost,
-		"/hello",
+		"/v1/hello",
 		"sk_test_123",
 		"application/x-www-form-urlencoded",
 		nil,
@@ -402,7 +413,7 @@ func TestDo_LastResponsePopulated(t *testing.T) {
 
 	request, err := backend.NewRequest(
 		http.MethodGet,
-		"/hello",
+		"/v1/hello",
 		"sk_test_123",
 		"application/x-www-form-urlencoded",
 		nil,
@@ -734,7 +745,7 @@ func TestCall_V2PathPostNilParams(t *testing.T) {
 		assert.Equal(t, r.URL.Path, "/v2/hello")
 		assert.Equal(t, r.Header.Get("Content-Type"), "application/json")
 
-		body, err := ioutil.ReadAll(r.Body)
+		body, err := io.ReadAll(r.Body)
 		assert.NoError(t, err)
 		assert.Equal(t, body, []byte{})
 
@@ -1063,7 +1074,7 @@ func TestMultipleAPICalls(t *testing.T) {
 			c := GetBackend(APIBackend).(*BackendImplementation)
 			key := "apiKey"
 
-			req, err := c.NewRequest("", "", key, "", nil)
+			req, err := c.NewRequest("", "/v1/hello", key, "", nil)
 			assert.NoError(t, err)
 
 			assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -1076,7 +1087,7 @@ func TestIdempotencyKey(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 	p := &Params{IdempotencyKey: String("idempotency-key")}
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.NewRequest("", "/v1/hello", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "idempotency-key", req.Header.Get("Idempotency-Key"))
@@ -1094,7 +1105,7 @@ func TestStripeAccount(t *testing.T) {
 	p := &Params{}
 	p.SetStripeAccount("acct_123")
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.NewRequest("", "/v1/hello", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "acct_123", req.Header.Get("Stripe-Account"))
@@ -1202,7 +1213,7 @@ func TestUnmarshalJSONVerbose(t *testing.T) {
 func TestUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
 	assert.NoError(t, err)
 
 	// We keep out version constant private to the package, so use a regexp
@@ -1225,7 +1236,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
 	assert.NoError(t, err)
 
 	//
@@ -1261,7 +1272,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 func TestStripeClientUserAgent(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
@@ -1295,7 +1306,7 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 
 	c := GetBackend(APIBackend).(*BackendImplementation)
 
-	req, err := c.NewRequest("", "", "", "", nil)
+	req, err := c.NewRequest("", "/v1/hello", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
@@ -1632,6 +1643,43 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 	defer testServer.Close()
 }
 
+func TestRawRequestTelemetry(t *testing.T) {
+	var telemetry []byte
+	i := 0
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		r.Body.Close()
+		telemetry = []byte(r.Header.Get("X-Stripe-Client-Telemetry"))
+		i += 1
+		w.Header().Add("Request-Id", fmt.Sprintf("req_%d", i))
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"object": "abc", "xyz": {"def": "jih"}}`))
+	}))
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+			EnableTelemetry:   Bool(true),
+		},
+	).(*BackendImplementation)
+
+	params := &RawParams{Params: Params{}}
+	_, err := backend.RawRequest(http.MethodPost, "/v2/abcs", "sk_test_xyz", `{}`, params)
+	assert.Empty(t, telemetry)
+	assert.NoError(t, err)
+	// Again, for the telemetry.
+	_, err = backend.RawRequest(http.MethodPost, "/v2/abcs", "sk_test_xyz", `{}`, params)
+	assert.NoError(t, err)
+	metrics := struct {
+		LastRequestMetrics requestMetrics `json:"last_request_metrics"`
+	}{}
+	json.Unmarshal(telemetry, &metrics)
+	assert.Equal(t, []string{"raw_request"}, metrics.LastRequestMetrics.Usage)
+	defer testServer.Close()
+}
+
 //
 // ---
 //
@@ -1640,4 +1688,101 @@ func TestRawRequestWithAdditionalHeaders(t *testing.T) {
 // which comes wrapper in a JSON object with a single field of "error".
 func wrapError(serialized []byte) []byte {
 	return []byte(`{"error":` + string(serialized) + `}`)
+}
+
+func TestStripeContextWhenUnset(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	req, err := c.NewRequest("", "/v2/foo", "", "", nil)
+	assert.NoError(t, err)
+	assert.Empty(t, req.Header.Get("Stripe-Context"))
+}
+
+func TestStripeContextWhenSetWithV1(t *testing.T) {
+	c := GetBackend(APIBackend).(*BackendImplementation)
+	req, err := c.NewRequest("", "/v1/foo", "", "", nil)
+	assert.NoError(t, err)
+	assert.Empty(t, req.Header.Get("Stripe-Context"))
+}
+
+func TestStripeContextWhenSet(t *testing.T) {
+	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+	req, err := c.NewRequest("", "/v2/foo", "", "", nil)
+	assert.NoError(t, err)
+	assert.Equal(t, "ctx", req.Header.Get("Stripe-Context"))
+}
+
+func TestStripeContextWhenSetInParams(t *testing.T) {
+	c := GetBackendWithConfig(APIBackend, &BackendConfig{StripeContext: String("ctx")}).(*BackendImplementation)
+	req, err := c.NewRequest("", "/v2/foo", "", "", &Params{StripeContext: String("requestCtx")})
+	assert.NoError(t, err)
+	assert.Equal(t, "requestCtx", req.Header.Get("Stripe-Context"))
+}
+
+func TestHandleV2ErrorWhenKnownError(t *testing.T) {
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(400)
+		_, err := w.Write([]byte(`{"error":{"type":"temporary_session_expired","message":"Temporary session expired"}}`))
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+	err := backend.Call(http.MethodGet, "/v2/hello", "sk_test_xyz", &Params{}, &APIResource{})
+	assert.Error(t, err)
+	stripeErr, ok := err.(*TemporarySessionExpiredError)
+	assert.True(t, ok)
+	assert.Equal(t, "Temporary session expired", stripeErr.Message)
+}
+
+func TestHandleV2ErrorWhenUnknownError(t *testing.T) {
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(400)
+		_, err := w.Write([]byte(`{"error":{"type":"unknown_type","message":"Some message"}}`))
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+	err := backend.Call(http.MethodGet, "/v2/hello", "sk_test_xyz", &Params{}, &APIResource{})
+	assert.Error(t, err)
+	stripeErr, ok := err.(*V2RawError)
+	assert.True(t, ok)
+	assert.Equal(t, "Some message", stripeErr.Message)
+}
+
+func TestHandleV2ErrorWhenUnknownErrorWithoutType(t *testing.T) {
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(400)
+		_, err := w.Write([]byte(`{"error":{"message":"Some message"}}`))
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	)
+	err := backend.Call(http.MethodGet, "/v2/hello", "sk_test_xyz", &Params{}, &APIResource{})
+	assert.Error(t, err)
+	stripeErr, ok := err.(*V2RawError)
+	assert.True(t, ok)
+	assert.Equal(t, "Some message", stripeErr.Message)
 }

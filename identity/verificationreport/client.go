@@ -4,7 +4,7 @@
 //
 //
 
-// Package verificationreport provides the /identity/verification_reports APIs
+// Package verificationreport provides the /v1/identity/verification_reports APIs
 package verificationreport
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /identity/verification_reports APIs.
+// Client is used to invoke /v1/identity/verification_reports APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

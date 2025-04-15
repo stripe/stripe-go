@@ -4,7 +4,7 @@
 //
 //
 
-// Package event provides the /events APIs
+// Package event provides the /v1/events APIs
 package event
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /events APIs.
+// Client is used to invoke /v1/events APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package quote provides the /quotes APIs
+// Package quote provides the /v1/quotes APIs
 package quote
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /quotes APIs.
+// Client is used to invoke /v1/quotes APIs.
 type Client struct {
 	B        stripe.Backend
 	BUploads stripe.Backend

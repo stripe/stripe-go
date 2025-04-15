@@ -4,7 +4,7 @@
 //
 //
 
-// Package creditreversal provides the /treasury/credit_reversals APIs
+// Package creditreversal provides the /v1/treasury/credit_reversals APIs
 package creditreversal
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /treasury/credit_reversals APIs.
+// Client is used to invoke /v1/treasury/credit_reversals APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

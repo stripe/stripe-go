@@ -4,7 +4,7 @@
 //
 //
 
-// Package session provides the /checkout/sessions APIs
+// Package session provides the /v1/checkout/sessions APIs
 package session
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /checkout/sessions APIs.
+// Client is used to invoke /v1/checkout/sessions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

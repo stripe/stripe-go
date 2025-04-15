@@ -4,7 +4,7 @@
 //
 //
 
-// Package subscription provides the /subscriptions APIs
+// Package subscription provides the /v1/subscriptions APIs
 package subscription
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /subscriptions APIs.
+// Client is used to invoke /v1/subscriptions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

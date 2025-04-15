@@ -4,7 +4,7 @@
 //
 //
 
-// Package alert provides the /billing/alerts APIs
+// Package alert provides the /v1/billing/alerts APIs
 package alert
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /billing/alerts APIs.
+// Client is used to invoke /v1/billing/alerts APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
