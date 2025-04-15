@@ -4,7 +4,7 @@
 //
 //
 
-// Package registration provides the /tax/registrations APIs
+// Package registration provides the /v1/tax/registrations APIs
 package registration
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /tax/registrations APIs.
+// Client is used to invoke /v1/tax/registrations APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

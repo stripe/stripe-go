@@ -4,7 +4,7 @@
 //
 //
 
-// Package paymentmethod provides the /payment_methods APIs
+// Package paymentmethod provides the /v1/payment_methods APIs
 package paymentmethod
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /payment_methods APIs.
+// Client is used to invoke /v1/payment_methods APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

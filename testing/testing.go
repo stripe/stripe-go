@@ -2,12 +2,17 @@ package testing
 
 import (
 	"crypto/tls"
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
+	"net/http/httptest"
 	"os"
 	"strconv"
 	"strings"
+	"testing"
 
+	"github.com/stretchr/testify/assert"
 	stripe "github.com/stripe/stripe-go/v82"
 	"github.com/stripe/stripe-go/v82/form"
 	"golang.org/x/net/http2"
@@ -100,6 +105,23 @@ func init() {
 	)
 	stripe.SetBackend(stripe.APIBackend, stripeMockBackend)
 	stripe.SetBackend(stripe.UploadsBackend, stripeMockBackend)
+}
+
+func MockServer(t *testing.T, method, path string, params interface{}, resp string) *httptest.Server {
+	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, r.Method, method)
+		assert.Equal(t, r.URL.Path, path)
+		assert.Equal(t, r.Header.Get("Authorization"), "Bearer "+TestAPIKey)
+
+		body, err := io.ReadAll(r.Body)
+		assert.NoError(t, err)
+		if len(body) > 0 {
+			assert.NoError(t, json.Unmarshal(body, params))
+		}
+		data := []byte(resp)
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
 }
 
 // compareVersions compares two semantic version strings. We need this because

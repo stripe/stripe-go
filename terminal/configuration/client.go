@@ -4,7 +4,7 @@
 //
 //
 
-// Package configuration provides the /terminal/configurations APIs
+// Package configuration provides the /v1/terminal/configurations APIs
 package configuration
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /terminal/configurations APIs.
+// Client is used to invoke /v1/terminal/configurations APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

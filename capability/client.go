@@ -4,7 +4,7 @@
 //
 //
 
-// Package capability provides the /accounts/{account}/capabilities APIs
+// Package capability provides the /v1/accounts/{account}/capabilities APIs
 package capability
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /accounts/{account}/capabilities APIs.
+// Client is used to invoke /v1/accounts/{account}/capabilities APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

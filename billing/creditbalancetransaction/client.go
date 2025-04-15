@@ -4,7 +4,7 @@
 //
 //
 
-// Package creditbalancetransaction provides the /billing/credit_balance_transactions APIs
+// Package creditbalancetransaction provides the /v1/billing/credit_balance_transactions APIs
 package creditbalancetransaction
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /billing/credit_balance_transactions APIs.
+// Client is used to invoke /v1/billing/credit_balance_transactions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

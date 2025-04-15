@@ -4,7 +4,7 @@
 //
 //
 
-// Package location provides the /terminal/locations APIs
+// Package location provides the /v1/terminal/locations APIs
 package location
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /terminal/locations APIs.
+// Client is used to invoke /v1/terminal/locations APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

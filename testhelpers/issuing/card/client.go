@@ -4,7 +4,7 @@
 //
 //
 
-// Package card provides the /issuing/cards APIs
+// Package card provides the /v1/issuing/cards APIs
 package card
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v82"
 )
 
-// Client is used to invoke /issuing/cards APIs.
+// Client is used to invoke /v1/issuing/cards APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

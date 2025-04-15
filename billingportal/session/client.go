@@ -4,7 +4,7 @@
 //
 //
 
-// Package session provides the /billing_portal/sessions APIs
+// Package session provides the /v1/billing_portal/sessions APIs
 package session
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v82"
 )
 
-// Client is used to invoke /billing_portal/sessions APIs.
+// Client is used to invoke /v1/billing_portal/sessions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

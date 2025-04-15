@@ -4,7 +4,7 @@
 //
 //
 
-// Package file provides the /files APIs
+// Package file provides the /v1/files APIs
 package file
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /files APIs.
+// Client is used to invoke /v1/files APIs.
 type Client struct {
 	B        stripe.Backend
 	BUploads stripe.Backend

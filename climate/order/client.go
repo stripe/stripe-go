@@ -4,7 +4,7 @@
 //
 //
 
-// Package order provides the /climate/orders APIs
+// Package order provides the /v1/climate/orders APIs
 package order
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /climate/orders APIs.
+// Client is used to invoke /v1/climate/orders APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
