@@ -71,6 +71,54 @@ func (p *ReportingReportRunParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
+type ReportingReportRunCreateParametersParams struct {
+	// The set of report columns to include in the report output. If omitted, the Report Type is run with its default column set.
+	Columns []*string `form:"columns"`
+	// Connected account ID to filter for in the report run.
+	ConnectedAccount *string `form:"connected_account"`
+	// Currency of objects to be included in the report run.
+	Currency *string `form:"currency"`
+	// Ending timestamp of data to be included in the report run (exclusive).
+	IntervalEnd *int64 `form:"interval_end"`
+	// Starting timestamp of data to be included in the report run.
+	IntervalStart *int64 `form:"interval_start"`
+	// Payout ID by which to filter the report run.
+	Payout *string `form:"payout"`
+	// Category of balance transactions to be included in the report run.
+	ReportingCategory *string `form:"reporting_category"`
+	// Defaults to `Etc/UTC`. The output timezone for all timestamps in the report. A list of possible time zone values is maintained at the [IANA Time Zone Database](http://www.iana.org/time-zones). Has no effect on `interval_start` or `interval_end`.
+	Timezone *string `form:"timezone"`
+}
+
+// Creates a new object and begin running the report. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
+type ReportingReportRunCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
+	Parameters *ReportingReportRunCreateParametersParams `form:"parameters"`
+	// The ID of the [report type](https://stripe.com/docs/reporting/statements/api#report-types) to run, such as `"balance.summary.1"`.
+	ReportType *string `form:"report_type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ReportingReportRunCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves the details of an existing Report Run.
+type ReportingReportRunRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ReportingReportRunRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type ReportingReportRunParameters struct {
 	// The set of output columns requested for inclusion in the report run.
 	Columns []string `json:"columns"`

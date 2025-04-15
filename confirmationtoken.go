@@ -453,6 +453,18 @@ func (p *ConfirmationTokenParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves an existing ConfirmationToken object
+type ConfirmationTokenRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ConfirmationTokenRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // If this is a Mandate accepted online, this hash contains details about the online acceptance.
 type ConfirmationTokenMandateDataCustomerAcceptanceOnline struct {
 	// The IP address from which the Mandate was accepted by the customer.

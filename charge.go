@@ -578,6 +578,157 @@ func (p *ChargeCaptureParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+type ChargeCreateDestinationParams struct {
+	// ID of an existing, connected Stripe account.
+	Account *string `form:"account"`
+	// The amount to transfer to the destination account without creating an `Application Fee` object. Cannot be combined with the `application_fee` parameter. Must be less than or equal to the charge amount.
+	Amount *int64 `form:"amount"`
+}
+
+// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+type ChargeCreateRadarOptionsParams struct {
+	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	Session *string `form:"session"`
+}
+
+// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+type ChargeCreateTransferDataParams struct {
+	// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
+	Amount *int64 `form:"amount"`
+	// ID of an existing, connected Stripe account.
+	Destination *string `form:"destination"`
+}
+type ChargeCreateLevel3LineItemParams struct {
+	DiscountAmount     *int64  `form:"discount_amount"`
+	ProductCode        *string `form:"product_code"`
+	ProductDescription *string `form:"product_description"`
+	Quantity           *int64  `form:"quantity"`
+	TaxAmount          *int64  `form:"tax_amount"`
+	UnitCost           *int64  `form:"unit_cost"`
+}
+type ChargeCreateLevel3Params struct {
+	CustomerReference  *string                             `form:"customer_reference"`
+	LineItems          []*ChargeCreateLevel3LineItemParams `form:"line_items"`
+	MerchantReference  *string                             `form:"merchant_reference"`
+	ShippingAddressZip *string                             `form:"shipping_address_zip"`
+	ShippingAmount     *int64                              `form:"shipping_amount"`
+	ShippingFromZip    *string                             `form:"shipping_from_zip"`
+}
+
+// This method is no longer recommended—use the [Payment Intents API](https://stripe.com/docs/api/payment_intents)
+// to initiate a new payment instead. Confirmation of the PaymentIntent creates the Charge
+// object used to request payment.
+type ChargeCreateParams struct {
+	Params `form:"*"`
+	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	Amount         *int64 `form:"amount"`
+	ApplicationFee *int64 `form:"application_fee"`
+	// A fee in cents (or local equivalent) that will be applied to the charge and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the `Stripe-Account` header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/connect/direct-charges#collect-fees).
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// Whether to immediately capture the charge. Defaults to `true`. When `false`, the charge issues an authorization (or pre-authorization), and will need to be [captured](https://stripe.com/docs/api#capture_charge) later. Uncaptured charges expire after a set number of days (7 by default). For more information, see the [authorizing charges and settling later](https://stripe.com/docs/charges/placing-a-hold) documentation.
+	Capture *bool `form:"capture"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of an existing customer that will be charged in this request.
+	Customer *string `form:"customer"`
+	// An arbitrary string which you can attach to a `Charge` object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the `description` of the charge(s) that they are describing.
+	Description  *string                        `form:"description"`
+	Destination  *ChargeCreateDestinationParams `form:"destination"`
+	ExchangeRate *float64                       `form:"exchange_rate"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string                 `form:"expand"`
+	Level3 *ChargeCreateLevel3Params `form:"level3"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The Stripe account ID for which these funds are intended. Automatically set if you use the `destination` parameter. For details, see [Creating Separate Charges and Transfers](https://stripe.com/docs/connect/separate-charges-and-transfers#settlement-merchant).
+	OnBehalfOf *string `form:"on_behalf_of"`
+	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	RadarOptions *ChargeCreateRadarOptionsParams `form:"radar_options"`
+	// The email address to which this charge's [receipt](https://stripe.com/docs/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://stripe.com/docs/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
+	ReceiptEmail *string `form:"receipt_email"`
+	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
+	Shipping *ShippingDetailsParams `form:"shipping"`
+	// A payment source to be charged. This can be the ID of a [card](https://stripe.com/docs/api#cards) (i.e., credit or debit card), a [bank account](https://stripe.com/docs/api#bank_accounts), a [source](https://stripe.com/docs/api#sources), a [token](https://stripe.com/docs/api#tokens), or a [connected account](https://stripe.com/docs/connect/account-debits#charging-a-connected-account). For certain sources---namely, [cards](https://stripe.com/docs/api#cards), [bank accounts](https://stripe.com/docs/api#bank_accounts), and attached [sources](https://stripe.com/docs/api#sources)---you must also pass the ID of the associated customer.
+	Source *string `form:"source"`
+	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
+	//
+	// For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement. If the account has no prefix value, the suffix is concatenated to the account's statement descriptor.
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+	TransferData *ChargeCreateTransferDataParams `form:"transfer_data"`
+	// A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options).
+	TransferGroup *string `form:"transfer_group"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ChargeCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ChargeCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the details of a charge that has previously been created. Supply the unique charge ID that was returned from your previous request, and Stripe will return the corresponding charge information. The same information is returned when creating or refunding the charge.
+type ChargeRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ChargeRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
+type ChargeUpdateFraudDetailsParams struct {
+	// Either `safe` or `fraudulent`.
+	UserReport *string `form:"user_report"`
+}
+
+// Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+type ChargeUpdateParams struct {
+	Params `form:"*"`
+	// The ID of an existing customer that will be associated with this request. This field may only be updated if there is no existing associated customer with this charge.
+	Customer *string `form:"customer"`
+	// An arbitrary string which you can attach to a charge object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the `description` of the charge(s) that they are describing.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
+	FraudDetails *ChargeUpdateFraudDetailsParams `form:"fraud_details"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// This is the email address that the receipt for this charge will be sent to. If this field is updated, then a new email receipt will be sent to the updated address.
+	ReceiptEmail *string `form:"receipt_email"`
+	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
+	Shipping *ShippingDetailsParams `form:"shipping"`
+	// A string that identifies this transaction as part of a group. `transfer_group` may only be provided if it has not been set. See the [Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options) for details.
+	TransferGroup *string `form:"transfer_group"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ChargeUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ChargeUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type ChargeBillingDetails struct {
 	// Billing address.
 	Address *Address `json:"address"`

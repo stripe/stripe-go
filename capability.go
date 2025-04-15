@@ -82,6 +82,36 @@ func (p *CapabilityParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves information about the specified Account Capability.
+type CapabilityRetrieveParams struct {
+	Params  `form:"*"`
+	Account *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapabilityRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates an existing Account Capability. Request or remove a capability by updating its requested parameter.
+type CapabilityUpdateParams struct {
+	Params  `form:"*"`
+	Account *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// To request a new capability for an account, pass true. There can be a delay before the requested capability becomes active. If the capability has any activation requirements, the response includes them in the `requirements` arrays.
+	//
+	// If a capability isn't permanent, you can remove it from the account by passing false. Some capabilities are permanent after they've been requested. Attempting to remove a permanent capability returns an error.
+	Requested *bool `form:"requested"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapabilityUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 type CapabilityFutureRequirementsAlternative struct {
 	// Fields that can be provided to satisfy all fields in `original_fields_due`.

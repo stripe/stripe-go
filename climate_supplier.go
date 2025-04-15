@@ -40,6 +40,18 @@ func (p *ClimateSupplierParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves a Climate supplier object.
+type ClimateSupplierRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ClimateSupplierRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The locations in which this supplier operates.
 type ClimateSupplierLocation struct {
 	// The city where the supplier is located.

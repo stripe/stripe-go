@@ -101,6 +101,60 @@ func (p *FileParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
+type FileCreateFileLinkDataParams struct {
+	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `issuing_regulatory_reporting`, `pci_document`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
+	Create *bool `form:"create"`
+	// The link isn't available after this future timestamp.
+	ExpiresAt *int64 `form:"expires_at"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *FileCreateFileLinkDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// To upload a file to Stripe, you need to send a request of type multipart/form-data. Include the file you want to upload in the request, and the parameters for creating a file.
+//
+// All of Stripe's officially supported Client libraries support sending multipart/form-data.
+type FileCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// FileReader is a reader with the contents of the file that should be uploaded.
+	FileReader io.Reader
+
+	// Filename is just the name of the file without path information.
+	Filename *string
+	// Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
+	FileLinkData *FileCreateFileLinkDataParams `form:"file_link_data"`
+	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
+	Purpose *string `form:"purpose"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://stripe.com/docs/file-upload#download-file-contents).
+type FileRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // This object represents files hosted on Stripe's servers. You can upload
 // files with the [create file](https://stripe.com/docs/api#create_file) request
 // (for example, when uploading dispute evidence). Stripe also

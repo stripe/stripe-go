@@ -130,6 +130,128 @@ func (p *IssuingPersonalizationDesignParams) AddMetadata(key string, value strin
 }
 
 // Hash containing carrier text, for use with physical bundles that support carrier text.
+type IssuingPersonalizationDesignCreateCarrierTextParams struct {
+	// The footer body text of the carrier letter.
+	FooterBody *string `form:"footer_body"`
+	// The footer title text of the carrier letter.
+	FooterTitle *string `form:"footer_title"`
+	// The header body text of the carrier letter.
+	HeaderBody *string `form:"header_body"`
+	// The header title text of the carrier letter.
+	HeaderTitle *string `form:"header_title"`
+}
+
+// Information on whether this personalization design is used to create cards when one is not specified.
+type IssuingPersonalizationDesignCreatePreferencesParams struct {
+	// Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
+	IsDefault *bool `form:"is_default"`
+}
+
+// Creates a personalization design object.
+type IssuingPersonalizationDesignCreateParams struct {
+	Params `form:"*"`
+	// The file for the card logo, for use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`.
+	CardLogo *string `form:"card_logo"`
+	// Hash containing carrier text, for use with physical bundles that support carrier text.
+	CarrierText *IssuingPersonalizationDesignCreateCarrierTextParams `form:"carrier_text"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
+	LookupKey *string `form:"lookup_key"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Friendly display name.
+	Name *string `form:"name"`
+	// The physical bundle object belonging to this personalization design.
+	PhysicalBundle *string `form:"physical_bundle"`
+	// Information on whether this personalization design is used to create cards when one is not specified.
+	Preferences *IssuingPersonalizationDesignCreatePreferencesParams `form:"preferences"`
+	// If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
+	TransferLookupKey *bool `form:"transfer_lookup_key"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingPersonalizationDesignCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingPersonalizationDesignCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves a personalization design object.
+type IssuingPersonalizationDesignRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingPersonalizationDesignRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Hash containing carrier text, for use with physical bundles that support carrier text.
+type IssuingPersonalizationDesignUpdateCarrierTextParams struct {
+	// The footer body text of the carrier letter.
+	FooterBody *string `form:"footer_body"`
+	// The footer title text of the carrier letter.
+	FooterTitle *string `form:"footer_title"`
+	// The header body text of the carrier letter.
+	HeaderBody *string `form:"header_body"`
+	// The header title text of the carrier letter.
+	HeaderTitle *string `form:"header_title"`
+}
+
+// Information on whether this personalization design is used to create cards when one is not specified.
+type IssuingPersonalizationDesignUpdatePreferencesParams struct {
+	// Whether we use this personalization design to create cards when one isn't specified. A connected account uses the Connect platform's default design if no personalization design is set as the default design.
+	IsDefault *bool `form:"is_default"`
+}
+
+// Updates a card personalization object.
+type IssuingPersonalizationDesignUpdateParams struct {
+	Params `form:"*"`
+	// The file for the card logo, for use with physical bundles that support card logos. Must have a `purpose` value of `issuing_logo`.
+	CardLogo *string `form:"card_logo"`
+	// Hash containing carrier text, for use with physical bundles that support carrier text.
+	CarrierText *IssuingPersonalizationDesignUpdateCarrierTextParams `form:"carrier_text"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A lookup key used to retrieve personalization designs dynamically from a static string. This may be up to 200 characters.
+	LookupKey *string `form:"lookup_key"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Friendly display name. Providing an empty string will set the field to null.
+	Name *string `form:"name"`
+	// The physical bundle object belonging to this personalization design.
+	PhysicalBundle *string `form:"physical_bundle"`
+	// Information on whether this personalization design is used to create cards when one is not specified.
+	Preferences *IssuingPersonalizationDesignUpdatePreferencesParams `form:"preferences"`
+	// If set to true, will atomically remove the lookup key from the existing personalization design, and assign it to this personalization design.
+	TransferLookupKey *bool `form:"transfer_lookup_key"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingPersonalizationDesignUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *IssuingPersonalizationDesignUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Hash containing carrier text, for use with physical bundles that support carrier text.
 type IssuingPersonalizationDesignCarrierText struct {
 	// The footer body text of the carrier letter.
 	FooterBody string `json:"footer_body"`
