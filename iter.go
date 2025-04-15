@@ -118,11 +118,131 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 	return iter
 }
 
-func listItemID(x interface{}) string {
+// V1List provides a convenient interface
+// for iterating over the elements
+// returned from paginated list API calls.
+// Successive calls to the Next method
+// will step through each item in the list,
+// fetching pages of items as needed.
+// Iterators are not thread-safe, so they should not be consumed
+// across multiple goroutines.
+type V1List[T any] struct {
+	cur           T
+	listErr       error
+	formValues    *form.Values
+	listContainer ListContainer
+	listParams    ListParams
+	listMeta      *ListMeta
+	query         V1Query[T]
+	values        []T
+}
+
+// Current returns the most recent item
+// visited by a call to Next.
+func (it *V1List[T]) current() T {
+	return it.cur
+}
+
+// Err returns the error, if any,
+// that caused the Iter to stop.
+// It must be inspected
+// after Next returns false.
+func (it *V1List[T]) err() error {
+	return it.listErr
+}
+
+// List returns the current list object which the iterator is currently using.
+// List objects will change as new API calls are made to continue pagination.
+func (it *V1List[T]) list() ListContainer {
+	return it.listContainer
+}
+
+// Meta returns the list metadata.
+func (it *V1List[T]) meta() *ListMeta {
+	return it.listMeta
+}
+
+// Next advances the Iter to the next item in the list,
+// which will then be available
+// through the Current method.
+// It returns false when the iterator stops
+// at the end of the list.
+func (it *V1List[T]) Next() bool {
+	if len(it.values) == 0 && it.listMeta.HasMore && !it.listParams.Single {
+		// determine if we're moving forward or backwards in paging
+		if it.listParams.EndingBefore != nil {
+			it.listParams.EndingBefore = String(listItemID(it.cur))
+			it.formValues.Set(EndingBefore, *it.listParams.EndingBefore)
+		} else {
+			it.listParams.StartingAfter = String(listItemID(it.cur))
+			it.formValues.Set(StartingAfter, *it.listParams.StartingAfter)
+		}
+		it.getPage()
+	}
+	if len(it.values) == 0 {
+		return false
+	}
+	it.cur = it.values[0]
+	it.values = it.values[1:]
+	return true
+}
+
+func (it *V1List[T]) getPage() {
+	it.values, it.listContainer, it.listErr = it.query(it.listParams.GetParams(), it.formValues)
+	it.listMeta = it.listContainer.GetListMeta()
+
+	if it.listParams.EndingBefore != nil {
+		// We are moving backward,
+		// but items arrive in forward order.
+		reverse(it.values)
+	}
+}
+
+// Query is the function used to get a page listing.
+type V1Query[T any] func(*Params, *form.Values) ([]T, ListContainer, error)
+
+//
+// Public functions
+//
+
+// GetIter returns a new Iter for a given query and its options.
+func GetV1(container ListParamsContainer, query Query) *Iter {
+	var listParams *ListParams
+	formValues := &form.Values{}
+
+	if container != nil {
+		reflectValue := reflect.ValueOf(container)
+
+		// See the comment on Call in stripe.go.
+		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
+			listParams = container.GetListParams()
+			form.AppendTo(formValues, container)
+		}
+	}
+
+	if listParams == nil {
+		listParams = &ListParams{}
+	}
+	iter := &Iter{
+		formValues: formValues,
+		listParams: *listParams,
+		query:      query,
+	}
+
+	iter.getPage()
+
+	return iter
+}
+
+//
+// Private functions
+//
+
+func listItemID[T any](x T) string {
 	return reflect.ValueOf(x).Elem().FieldByName("ID").String()
 }
 
-func reverse(a []interface{}) {
+func reverse[T any](a []T) {
 	for i := 0; i < len(a)/2; i++ {
 		a[i], a[len(a)-i-1] = a[len(a)-i-1], a[i]
 	}
