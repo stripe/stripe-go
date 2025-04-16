@@ -89,3 +89,43 @@ type TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams struct {
 func (p *TestHelpersTreasuryOutboundPaymentReturnOutboundPaymentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
+
+// ACH network tracking details.
+type TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsACHParams struct {
+	// ACH trace ID for funds sent over the `ach` network.
+	TraceID *string `form:"trace_id"`
+}
+
+// US domestic wire network tracking details.
+type TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsUSDomesticWireParams struct {
+	// CHIPS System Sequence Number (SSN) for funds sent over the `us_domestic_wire` network.
+	Chips *string `form:"chips"`
+	// IMAD for funds sent over the `us_domestic_wire` network.
+	Imad *string `form:"imad"`
+	// OMAD for funds sent over the `us_domestic_wire` network.
+	Omad *string `form:"omad"`
+}
+
+// Details about network-specific tracking information.
+type TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsParams struct {
+	// ACH network tracking details.
+	ACH *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsACHParams `form:"ach"`
+	// The US bank account network used to send funds.
+	Type *string `form:"type"`
+	// US domestic wire network tracking details.
+	USDomesticWire *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsUSDomesticWireParams `form:"us_domestic_wire"`
+}
+
+// Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
+type TestHelpersTreasuryOutboundPaymentUpdateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Details about network-specific tracking information.
+	TrackingDetails *TestHelpersTreasuryOutboundPaymentUpdateTrackingDetailsParams `form:"tracking_details"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTreasuryOutboundPaymentUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}

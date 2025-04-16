@@ -234,6 +234,18 @@ func (p *FinancialConnectionsAccountUnsubscribeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of an Financial Connections Account.
+type FinancialConnectionsAccountRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsAccountRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The account holder that this account belongs to.
 type FinancialConnectionsAccountAccountHolder struct {
 	// The ID of the Stripe account this account belongs to. Should only be present if `account_holder.type` is `account`.

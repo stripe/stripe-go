@@ -234,6 +234,260 @@ func (p *ProductSearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Delete a product. Deleting a product is only possible if it has no prices associated with it. Additionally, deleting a product with type=good is only possible if it has no SKUs associated with it.
+type ProductDeleteParams struct {
+	Params `form:"*"`
+}
+
+// Retrieves the details of an existing product. Supply the unique product ID from either a product creation request or the product list, and Stripe will return the corresponding product information.
+type ProductRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://stripe.com/docs/payments/checkout/pricing-table).
+type ProductUpdateMarketingFeatureParams struct {
+	// The marketing feature name. Up to 80 characters long.
+	Name *string `form:"name"`
+}
+
+// The dimensions of this product for shipping purposes.
+type ProductUpdatePackageDimensionsParams struct {
+	// Height, in inches. Maximum precision is 2 decimal places.
+	Height *float64 `form:"height"`
+	// Length, in inches. Maximum precision is 2 decimal places.
+	Length *float64 `form:"length"`
+	// Weight, in ounces. Maximum precision is 2 decimal places.
+	Weight *float64 `form:"weight"`
+	// Width, in inches. Maximum precision is 2 decimal places.
+	Width *float64 `form:"width"`
+}
+
+// Updates the specific product by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+type ProductUpdateParams struct {
+	Params `form:"*"`
+	// Whether the product is available for purchase.
+	Active *bool `form:"active"`
+	// The ID of the [Price](https://stripe.com/docs/api/prices) object that is the default price for this product.
+	DefaultPrice *string `form:"default_price"`
+	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+	Images []*string `form:"images"`
+	// A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://stripe.com/docs/payments/checkout/pricing-table).
+	MarketingFeatures []*ProductUpdateMarketingFeatureParams `form:"marketing_features"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name"`
+	// The dimensions of this product for shipping purposes.
+	PackageDimensions *ProductUpdatePackageDimensionsParams `form:"package_dimensions"`
+	// Whether this product is shipped (i.e., physical goods).
+	Shippable *bool `form:"shippable"`
+	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
+	//
+	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
+	//  It must contain at least one letter. May only be set if `type=service`. Only used for subscription payments.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal. May only be set if `type=service`.
+	UnitLabel *string `form:"unit_label"`
+	// A URL of a publicly-accessible webpage for this product.
+	URL *string `form:"url"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ProductUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type ProductCreateDefaultPriceDataCurrencyOptionsCustomUnitAmountParams struct {
+	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+	Enabled *bool `form:"enabled"`
+	// The maximum unit amount the customer can specify for this item.
+	Maximum *int64 `form:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum *int64 `form:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset *int64 `form:"preset"`
+}
+
+// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+type ProductCreateDefaultPriceDataCurrencyOptionsTierParams struct {
+	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
+	FlatAmount *int64 `form:"flat_amount"`
+	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	// The per unit billing amount for each individual unit for which this tier applies.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
+	UpTo    *int64 `form:"up_to"`
+	UpToInf *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for ProductCreateDefaultPriceDataCurrencyOptionsTierParams.
+func (p *ProductCreateDefaultPriceDataCurrencyOptionsTierParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.UpToInf) {
+		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
+	}
+}
+
+// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type ProductCreateDefaultPriceDataCurrencyOptionsParams struct {
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *ProductCreateDefaultPriceDataCurrencyOptionsCustomUnitAmountParams `form:"custom_unit_amount"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+	Tiers []*ProductCreateDefaultPriceDataCurrencyOptionsTierParams `form:"tiers"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+type ProductCreateDefaultPriceDataCustomUnitAmountParams struct {
+	// Pass in `true` to enable `custom_unit_amount`, otherwise omit `custom_unit_amount`.
+	Enabled *bool `form:"enabled"`
+	// The maximum unit amount the customer can specify for this item.
+	Maximum *int64 `form:"maximum"`
+	// The minimum unit amount the customer can specify for this item. Must be at least the minimum charge amount.
+	Minimum *int64 `form:"minimum"`
+	// The starting unit amount which can be updated by the customer.
+	Preset *int64 `form:"preset"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type ProductCreateDefaultPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object. This Price will be set as the default price for this product.
+type ProductCreateDefaultPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Prices defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*ProductCreateDefaultPriceDataCurrencyOptionsParams `form:"currency_options"`
+	// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
+	CustomUnitAmount *ProductCreateDefaultPriceDataCustomUnitAmountParams `form:"custom_unit_amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *ProductCreateDefaultPriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge. One of `unit_amount`, `unit_amount_decimal`, or `custom_unit_amount` is required.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ProductCreateDefaultPriceDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://stripe.com/docs/payments/checkout/pricing-table).
+type ProductCreateMarketingFeatureParams struct {
+	// The marketing feature name. Up to 80 characters long.
+	Name *string `form:"name"`
+}
+
+// The dimensions of this product for shipping purposes.
+type ProductCreatePackageDimensionsParams struct {
+	// Height, in inches. Maximum precision is 2 decimal places.
+	Height *float64 `form:"height"`
+	// Length, in inches. Maximum precision is 2 decimal places.
+	Length *float64 `form:"length"`
+	// Weight, in ounces. Maximum precision is 2 decimal places.
+	Weight *float64 `form:"weight"`
+	// Width, in inches. Maximum precision is 2 decimal places.
+	Width *float64 `form:"width"`
+}
+
+// Creates a new product object.
+type ProductCreateParams struct {
+	Params `form:"*"`
+	// Whether the product is currently available for purchase. Defaults to `true`.
+	Active *bool `form:"active"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object. This Price will be set as the default price for this product.
+	DefaultPriceData *ProductCreateDefaultPriceDataParams `form:"default_price_data"`
+	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// An identifier will be randomly generated by Stripe. You can optionally override this ID, but the ID must be unique across all products in your Stripe account.
+	ID *string `form:"id"`
+	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+	Images []*string `form:"images"`
+	// A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://stripe.com/docs/payments/checkout/pricing-table).
+	MarketingFeatures []*ProductCreateMarketingFeatureParams `form:"marketing_features"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name"`
+	// The dimensions of this product for shipping purposes.
+	PackageDimensions *ProductCreatePackageDimensionsParams `form:"package_dimensions"`
+	// Whether this product is shipped (i.e., physical goods).
+	Shippable *bool `form:"shippable"`
+	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
+	//
+	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
+	//  It must contain at least one letter. Only used for subscription payments.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+	// The type of the product. Defaults to `service` if not explicitly specified, enabling use of this product with Subscriptions and Plans. Set this parameter to `good` to use this product with Orders and SKUs. On API versions before `2018-02-05`, this field defaults to `good` for compatibility reasons.
+	Type *string `form:"type"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
+	// A URL of a publicly-accessible webpage for this product.
+	URL *string `form:"url"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ProductCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // A list of up to 15 marketing features for this product. These are displayed in [pricing tables](https://stripe.com/docs/payments/checkout/pricing-table).
 type ProductMarketingFeature struct {
 	// The marketing feature name. Up to 80 characters long.

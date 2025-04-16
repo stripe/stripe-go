@@ -100,6 +100,48 @@ func (p *PaymentMethodDomainValidateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Creates a payment method domain.
+type PaymentMethodDomainCreateParams struct {
+	Params `form:"*"`
+	// The domain name that this payment method domain object represents.
+	DomainName *string `form:"domain_name"`
+	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements or Embedded Checkout.
+	Enabled *bool `form:"enabled"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodDomainCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves the details of an existing payment method domain.
+type PaymentMethodDomainRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodDomainRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates an existing payment method domain.
+type PaymentMethodDomainUpdateParams struct {
+	Params `form:"*"`
+	// Whether this payment method domain is enabled. If the domain is not enabled, payment methods that require a payment method domain will not appear in Elements or Embedded Checkout.
+	Enabled *bool `form:"enabled"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodDomainUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Contains additional details about the status of a payment method for a specific payment method domain.
 type PaymentMethodDomainAmazonPayStatusDetails struct {
 	// The error message associated with the status of the payment method on the domain.

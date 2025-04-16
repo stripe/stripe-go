@@ -68,6 +68,69 @@ type TokenPIIParams struct {
 	IDNumber *string `form:"id_number"`
 }
 
+// Retrieves the token with the given ID.
+type TokenRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TokenRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Information for the account this token represents.
+type TokenCreateAccountParams struct {
+	// The business type.
+	BusinessType *string `form:"business_type"`
+	// Information about the company or business.
+	Company *AccountCompanyParams `form:"company"`
+	// Information about the person represented by the account.
+	Individual *PersonParams `form:"individual"`
+	// Whether the user described by the data in the token has been shown [the Stripe Connected Account Agreement](https://stripe.com/connect/account-tokens#stripe-connected-account-agreement). When creating an account token to create a new Connect account, this value must be `true`.
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
+}
+
+// The updated CVC value this token represents.
+type TokenCreateCVCUpdateParams struct {
+	// The CVC value, in string form.
+	CVC *string `form:"cvc"`
+}
+
+// The PII this token represents.
+type TokenCreatePIIParams struct {
+	// The `id_number` for the PII, in string form.
+	IDNumber *string `form:"id_number"`
+}
+
+// Creates a single-use token that represents a bank account's details.
+// You can use this token with any v1 API method in place of a bank account dictionary. You can only use this token once. To do so, attach it to a [connected account](https://stripe.com/docs/api#accounts) where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is application, which includes Custom accounts.
+type TokenCreateParams struct {
+	Params `form:"*"`
+	// Information for the account this token represents.
+	Account *TokenCreateAccountParams `form:"account"`
+	// The bank account this token will represent.
+	BankAccount *BankAccountParams `form:"bank_account"`
+	// The card this token will represent. If you also pass in a customer, the card must be the ID of a card belonging to the customer. Otherwise, if you do not pass in a customer, this is a dictionary containing a user's credit card details, with the options described below.
+	Card *CardParams `form:"card"`
+	// Create a token for the customer, which is owned by the application's account. You can only use this with an [OAuth access token](https://stripe.com/docs/connect/standard-accounts) or [Stripe-Account header](https://stripe.com/docs/connect/authentication). Learn more about [cloning saved payment methods](https://stripe.com/docs/connect/cloning-saved-payment-methods).
+	Customer *string `form:"customer"`
+	// The updated CVC value this token represents.
+	CVCUpdate *TokenCreateCVCUpdateParams `form:"cvc_update"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Information for the person this token represents.
+	Person *PersonParams `form:"person"`
+	// The PII this token represents.
+	PII *TokenCreatePIIParams `form:"pii"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TokenCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Tokenization is the process Stripe uses to collect sensitive card or bank
 // account details, or personally identifiable information (PII), directly from
 // your customers in a secure manner. A token representing this information is

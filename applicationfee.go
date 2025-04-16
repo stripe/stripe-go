@@ -47,6 +47,18 @@ func (p *ApplicationFeeParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of an application fee that your account has collected. The same information is returned when refunding the application fee.
+type ApplicationFeeRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ApplicationFeeRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Polymorphic source of the application fee. Includes the ID of the object the application fee was created from.
 type ApplicationFeeFeeSource struct {
 	// Charge ID that created this application fee.

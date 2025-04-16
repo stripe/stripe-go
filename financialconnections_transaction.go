@@ -54,6 +54,18 @@ func (p *FinancialConnectionsTransactionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of a Financial Connections Transaction
+type FinancialConnectionsTransactionRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsTransactionRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type FinancialConnectionsTransactionStatusTransitions struct {
 	// Time at which this transaction posted. Measured in seconds since the Unix epoch.
 	PostedAt int64 `json:"posted_at"`

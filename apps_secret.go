@@ -113,6 +113,34 @@ func (p *AppsSecretDeleteWhereParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
+type AppsSecretCreateScopeParams struct {
+	// The secret scope type.
+	Type *string `form:"type"`
+	// The user ID. This field is required if `type` is set to `user`, and should not be provided if `type` is set to `account`.
+	User *string `form:"user"`
+}
+
+// Create or replace a secret in the secret store.
+type AppsSecretCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The Unix timestamp for the expiry time of the secret, after which the secret deletes.
+	ExpiresAt *int64 `form:"expires_at"`
+	// A name for the secret that's unique within the scope.
+	Name *string `form:"name"`
+	// The plaintext secret value to be stored.
+	Payload *string `form:"payload"`
+	// Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user.
+	Scope *AppsSecretCreateScopeParams `form:"scope"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *AppsSecretCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type AppsSecretScope struct {
 	// The secret scope type.
 	Type AppsSecretScopeType `json:"type"`

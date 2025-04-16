@@ -48,6 +48,30 @@ func (p *BillingMeterEventAdjustmentParams) AddExpand(f string) {
 }
 
 // Specifies which event to cancel.
+type BillingMeterEventAdjustmentCreateCancelParams struct {
+	// Unique identifier for the event. You can only cancel events within 24 hours of Stripe receiving them.
+	Identifier *string `form:"identifier"`
+}
+
+// Creates a billing meter event adjustment.
+type BillingMeterEventAdjustmentCreateParams struct {
+	Params `form:"*"`
+	// Specifies which event to cancel.
+	Cancel *BillingMeterEventAdjustmentCreateCancelParams `form:"cancel"`
+	// The name of the meter event. Corresponds with the `event_name` field on a meter.
+	EventName *string `form:"event_name"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Specifies whether to cancel a single event or a range of events for a time period. Time period cancellation is not supported yet.
+	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingMeterEventAdjustmentCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Specifies which event to cancel.
 type BillingMeterEventAdjustmentCancel struct {
 	// Unique identifier for the event.
 	Identifier string `json:"identifier"`

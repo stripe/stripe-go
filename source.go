@@ -266,6 +266,275 @@ type SourceRedirectParams struct {
 	// The URL you provide to redirect the customer back to you after they authenticated their payment. It can use your application URI scheme in the context of a mobile application.
 	ReturnURL *string `form:"return_url"`
 }
+
+// Retrieves an existing source object. Supply the unique source ID from a source creation request and Stripe will return the corresponding up-to-date source object information.
+type SourceRetrieveParams struct {
+	Params `form:"*"`
+	// The client secret of the source. Required if a publishable key is used to retrieve the source.
+	ClientSecret *string `form:"client_secret"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SourceRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// The parameters required to store a mandate accepted offline. Should only be set if `mandate[type]` is `offline`
+type SourceUpdateMandateAcceptanceOfflineParams struct {
+	// An email to contact you with if a copy of the mandate is requested, required if `type` is `offline`.
+	ContactEmail *string `form:"contact_email"`
+}
+
+// The parameters required to store a mandate accepted online. Should only be set if `mandate[type]` is `online`
+type SourceUpdateMandateAcceptanceOnlineParams struct {
+	// The Unix timestamp (in seconds) when the mandate was accepted or refused by the customer.
+	Date *int64 `form:"date"`
+	// The IP address from which the mandate was accepted or refused by the customer.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the mandate was accepted or refused by the customer.
+	UserAgent *string `form:"user_agent"`
+}
+
+// The parameters required to notify Stripe of a mandate acceptance or refusal by the customer.
+type SourceUpdateMandateAcceptanceParams struct {
+	// The Unix timestamp (in seconds) when the mandate was accepted or refused by the customer.
+	Date *int64 `form:"date"`
+	// The IP address from which the mandate was accepted or refused by the customer.
+	IP *string `form:"ip"`
+	// The parameters required to store a mandate accepted offline. Should only be set if `mandate[type]` is `offline`
+	Offline *SourceUpdateMandateAcceptanceOfflineParams `form:"offline"`
+	// The parameters required to store a mandate accepted online. Should only be set if `mandate[type]` is `online`
+	Online *SourceUpdateMandateAcceptanceOnlineParams `form:"online"`
+	// The status of the mandate acceptance. Either `accepted` (the mandate was accepted) or `refused` (the mandate was refused).
+	Status *string `form:"status"`
+	// The type of acceptance information included with the mandate. Either `online` or `offline`
+	Type *string `form:"type"`
+	// The user agent of the browser from which the mandate was accepted or refused by the customer.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
+type SourceUpdateMandateParams struct {
+	// The parameters required to notify Stripe of a mandate acceptance or refusal by the customer.
+	Acceptance *SourceUpdateMandateAcceptanceParams `form:"acceptance"`
+	// The amount specified by the mandate. (Leave null for a mandate covering all amounts)
+	Amount *int64 `form:"amount"`
+	// The currency specified by the mandate. (Must match `currency` of the source)
+	Currency *string `form:"currency"`
+	// The interval of debits permitted by the mandate. Either `one_time` (just permitting a single debit), `scheduled` (with debits on an agreed schedule or for clearly-defined events), or `variable`(for debits with any frequency)
+	Interval *string `form:"interval"`
+	// The method Stripe should use to notify the customer of upcoming debit instructions and/or mandate confirmation as required by the underlying debit network. Either `email` (an email is sent directly to the customer), `manual` (a `source.mandate_notification` event is sent to your webhooks endpoint and you should handle the notification) or `none` (the underlying debit network does not require any notification).
+	NotificationMethod *string `form:"notification_method"`
+}
+
+// Information about the owner of the payment instrument that may be used or required by particular source types.
+type SourceUpdateOwnerParams struct {
+	// Owner's address.
+	Address *AddressParams `form:"address"`
+	// Owner's email address.
+	Email *string `form:"email"`
+	// Owner's full name.
+	Name *string `form:"name"`
+	// Owner's phone number.
+	Phone *string `form:"phone"`
+}
+
+// List of items constituting the order.
+type SourceUpdateSourceOrderItemParams struct {
+	Amount      *int64  `form:"amount"`
+	Currency    *string `form:"currency"`
+	Description *string `form:"description"`
+	// The ID of the SKU being ordered.
+	Parent *string `form:"parent"`
+	// The quantity of this order item. When type is `sku`, this is the number of instances of the SKU to be ordered.
+	Quantity *int64  `form:"quantity"`
+	Type     *string `form:"type"`
+}
+
+// Information about the items and shipping associated with the source. Required for transactional credit (for example Klarna) sources before you can charge it.
+type SourceUpdateSourceOrderParams struct {
+	// List of items constituting the order.
+	Items []*SourceUpdateSourceOrderItemParams `form:"items"`
+	// Shipping address for the order. Required if any of the SKUs are for products that have `shippable` set to true.
+	Shipping *ShippingDetailsParams `form:"shipping"`
+}
+
+// Updates the specified source by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+//
+// This request accepts the metadata and owner as arguments. It is also possible to update type specific information for selected payment methods. Please refer to our [payment method guides](https://stripe.com/docs/sources) for more detail.
+type SourceUpdateParams struct {
+	Params `form:"*"`
+	// Amount associated with the source.
+	Amount *int64 `form:"amount"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
+	Mandate *SourceUpdateMandateParams `form:"mandate"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Information about the owner of the payment instrument that may be used or required by particular source types.
+	Owner *SourceUpdateOwnerParams `form:"owner"`
+	// Information about the items and shipping associated with the source. Required for transactional credit (for example Klarna) sources before you can charge it.
+	SourceOrder *SourceUpdateSourceOrderParams `form:"source_order"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SourceUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SourceUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The parameters required to store a mandate accepted offline. Should only be set if `mandate[type]` is `offline`
+type SourceCreateMandateAcceptanceOfflineParams struct {
+	// An email to contact you with if a copy of the mandate is requested, required if `type` is `offline`.
+	ContactEmail *string `form:"contact_email"`
+}
+
+// The parameters required to store a mandate accepted online. Should only be set if `mandate[type]` is `online`
+type SourceCreateMandateAcceptanceOnlineParams struct {
+	// The Unix timestamp (in seconds) when the mandate was accepted or refused by the customer.
+	Date *int64 `form:"date"`
+	// The IP address from which the mandate was accepted or refused by the customer.
+	IP *string `form:"ip"`
+	// The user agent of the browser from which the mandate was accepted or refused by the customer.
+	UserAgent *string `form:"user_agent"`
+}
+
+// The parameters required to notify Stripe of a mandate acceptance or refusal by the customer.
+type SourceCreateMandateAcceptanceParams struct {
+	// The Unix timestamp (in seconds) when the mandate was accepted or refused by the customer.
+	Date *int64 `form:"date"`
+	// The IP address from which the mandate was accepted or refused by the customer.
+	IP *string `form:"ip"`
+	// The parameters required to store a mandate accepted offline. Should only be set if `mandate[type]` is `offline`
+	Offline *SourceCreateMandateAcceptanceOfflineParams `form:"offline"`
+	// The parameters required to store a mandate accepted online. Should only be set if `mandate[type]` is `online`
+	Online *SourceCreateMandateAcceptanceOnlineParams `form:"online"`
+	// The status of the mandate acceptance. Either `accepted` (the mandate was accepted) or `refused` (the mandate was refused).
+	Status *string `form:"status"`
+	// The type of acceptance information included with the mandate. Either `online` or `offline`
+	Type *string `form:"type"`
+	// The user agent of the browser from which the mandate was accepted or refused by the customer.
+	UserAgent *string `form:"user_agent"`
+}
+
+// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
+type SourceCreateMandateParams struct {
+	// The parameters required to notify Stripe of a mandate acceptance or refusal by the customer.
+	Acceptance *SourceCreateMandateAcceptanceParams `form:"acceptance"`
+	// The amount specified by the mandate. (Leave null for a mandate covering all amounts)
+	Amount *int64 `form:"amount"`
+	// The currency specified by the mandate. (Must match `currency` of the source)
+	Currency *string `form:"currency"`
+	// The interval of debits permitted by the mandate. Either `one_time` (just permitting a single debit), `scheduled` (with debits on an agreed schedule or for clearly-defined events), or `variable`(for debits with any frequency)
+	Interval *string `form:"interval"`
+	// The method Stripe should use to notify the customer of upcoming debit instructions and/or mandate confirmation as required by the underlying debit network. Either `email` (an email is sent directly to the customer), `manual` (a `source.mandate_notification` event is sent to your webhooks endpoint and you should handle the notification) or `none` (the underlying debit network does not require any notification).
+	NotificationMethod *string `form:"notification_method"`
+}
+
+// Information about the owner of the payment instrument that may be used or required by particular source types.
+type SourceCreateOwnerParams struct {
+	// Owner's address.
+	Address *AddressParams `form:"address"`
+	// Owner's email address.
+	Email *string `form:"email"`
+	// Owner's full name.
+	Name *string `form:"name"`
+	// Owner's phone number.
+	Phone *string `form:"phone"`
+}
+
+// Optional parameters for the receiver flow. Can be set only if the source is a receiver (`flow` is `receiver`).
+type SourceCreateReceiverParams struct {
+	// The method Stripe should use to request information needed to process a refund or mispayment. Either `email` (an email is sent directly to the customer) or `manual` (a `source.refund_attributes_required` event is sent to your webhooks endpoint). Refer to each payment method's documentation to learn which refund attributes may be required.
+	RefundAttributesMethod *string `form:"refund_attributes_method"`
+}
+
+// Parameters required for the redirect flow. Required if the source is authenticated by a redirect (`flow` is `redirect`).
+type SourceCreateRedirectParams struct {
+	// The URL you provide to redirect the customer back to you after they authenticated their payment. It can use your application URI scheme in the context of a mobile application.
+	ReturnURL *string `form:"return_url"`
+}
+
+// List of items constituting the order.
+type SourceCreateSourceOrderItemParams struct {
+	Amount      *int64  `form:"amount"`
+	Currency    *string `form:"currency"`
+	Description *string `form:"description"`
+	// The ID of the SKU being ordered.
+	Parent *string `form:"parent"`
+	// The quantity of this order item. When type is `sku`, this is the number of instances of the SKU to be ordered.
+	Quantity *int64  `form:"quantity"`
+	Type     *string `form:"type"`
+}
+
+// Information about the items and shipping associated with the source. Required for transactional credit (for example Klarna) sources before you can charge it.
+type SourceCreateSourceOrderParams struct {
+	// List of items constituting the order.
+	Items []*SourceCreateSourceOrderItemParams `form:"items"`
+	// Shipping address for the order. Required if any of the SKUs are for products that have `shippable` set to true.
+	Shipping *ShippingDetailsParams `form:"shipping"`
+}
+
+// Creates a new source object.
+type SourceCreateParams struct {
+	Params `form:"*"`
+	// Amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for `single_use` sources. Not supported for `receiver` type sources, where charge amount may not be specified until funds land.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) associated with the source. This is the currency for which the source will be chargeable once ready.
+	Currency *string `form:"currency"`
+	// The `Customer` to whom the original source is attached to. Must be set when the original source is not a `Source` (e.g., `Card`).
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The authentication `flow` of the source to create. `flow` is one of `redirect`, `receiver`, `code_verification`, `none`. It is generally inferred unless a type supports multiple flows.
+	Flow *string `form:"flow"`
+	// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
+	Mandate  *SourceCreateMandateParams `form:"mandate"`
+	Metadata map[string]string          `form:"metadata"`
+	// The source to share.
+	OriginalSource *string `form:"original_source"`
+	// Information about the owner of the payment instrument that may be used or required by particular source types.
+	Owner *SourceCreateOwnerParams `form:"owner"`
+	// Optional parameters for the receiver flow. Can be set only if the source is a receiver (`flow` is `receiver`).
+	Receiver *SourceCreateReceiverParams `form:"receiver"`
+	// Parameters required for the redirect flow. Required if the source is authenticated by a redirect (`flow` is `redirect`).
+	Redirect *SourceCreateRedirectParams `form:"redirect"`
+	// Information about the items and shipping associated with the source. Required for transactional credit (for example Klarna) sources before you can charge it.
+	SourceOrder *SourceCreateSourceOrderParams `form:"source_order"`
+	// An arbitrary string to be displayed on your customer's statement. As an example, if your website is `RunClub` and the item you're charging for is a race ticket, you may want to specify a `statement_descriptor` of `RunClub 5K race ticket.` While many payment types will display this information, some may not display it at all.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// An optional token used to create the source. When passed, token properties will override source parameters.
+	Token *string `form:"token"`
+	// The `type` of the source to create. Required unless `customer` and `original_source` are specified (see the [Cloning card Sources](https://stripe.com/docs/sources/connect#cloning-card-sources) guide)
+	Type  *string `form:"type"`
+	Usage *string `form:"usage"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SourceCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SourceCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type SourceACHCreditTransfer struct {
 	AccountNumber           string `json:"account_number"`
 	BankName                string `json:"bank_name"`

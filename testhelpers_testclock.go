@@ -60,6 +60,39 @@ func (p *TestHelpersTestClockAdvanceParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Deletes a test clock.
+type TestHelpersTestClockDeleteParams struct {
+	Params `form:"*"`
+}
+
+// Retrieves a test clock.
+type TestHelpersTestClockRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTestClockRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Creates a new test clock that can be attached to new customers and quotes.
+type TestHelpersTestClockCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The initial frozen time for this test clock.
+	FrozenTime *int64 `form:"frozen_time"`
+	// The name for this test clock.
+	Name *string `form:"name"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTestClockCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TestHelpersTestClockStatusDetailsAdvancing struct {
 	// The `frozen_time` that the Test Clock is advancing towards.
 	TargetFrozenTime int64 `json:"target_frozen_time"`

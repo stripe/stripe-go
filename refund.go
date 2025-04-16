@@ -139,6 +139,97 @@ func (p *RefundCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// When you create a new refund, you must specify a Charge or a PaymentIntent object on which to create it.
+//
+// Creating a new refund will refund a charge that has previously been created but not yet refunded.
+// Funds will be refunded to the credit or debit card that was originally charged.
+//
+// You can optionally refund only part of a charge.
+// You can do so multiple times, until the entire charge has been refunded.
+//
+// Once entirely refunded, a charge can't be refunded again.
+// This method will raise an error when called on an already-refunded charge,
+// or when trying to refund more money than is left on a charge.
+type RefundCreateParams struct {
+	Params `form:"*"`
+	Amount *int64 `form:"amount"`
+	// The identifier of the charge to refund.
+	Charge *string `form:"charge"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Customer whose customer balance to refund from.
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// For payment methods without native refund support (e.g., Konbini, PromptPay), use this email from the customer to receive refund instructions.
+	InstructionsEmail *string `form:"instructions_email"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Origin of the refund
+	Origin *string `form:"origin"`
+	// The identifier of the PaymentIntent to refund.
+	PaymentIntent *string `form:"payment_intent"`
+	// String indicating the reason for the refund. If set, possible values are `duplicate`, `fraudulent`, and `requested_by_customer`. If you believe the charge to be fraudulent, specifying `fraudulent` as the reason will add the associated card and email to your [block lists](https://stripe.com/docs/radar/lists), and will also help us improve our fraud detection algorithms.
+	Reason *string `form:"reason"`
+	// Boolean indicating whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. An application fee can be refunded only by the application that created the charge.
+	RefundApplicationFee *bool `form:"refund_application_fee"`
+	// Boolean indicating whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount).
+	//
+	// A transfer can be reversed only by the application that created the charge.
+	ReverseTransfer *bool `form:"reverse_transfer"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RefundCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *RefundCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the details of an existing refund.
+type RefundRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RefundRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates the refund that you specify by setting the values of the passed parameters. Any parameters that you don't provide remain unchanged.
+//
+// This request only accepts metadata as an argument.
+type RefundUpdateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RefundUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *RefundUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type RefundDestinationDetailsAffirm struct{}
 type RefundDestinationDetailsAfterpayClearpay struct{}
 type RefundDestinationDetailsAlipay struct{}

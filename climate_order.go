@@ -96,6 +96,89 @@ func (p *ClimateOrderCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
+type ClimateOrderCreateBeneficiaryParams struct {
+	// Publicly displayable name for the end beneficiary of carbon removal.
+	PublicName *string `form:"public_name"`
+}
+
+// Creates a Climate order object for a given Climate product. The order will be processed immediately
+// after creation and payment will be deducted your Stripe balance.
+type ClimateOrderCreateParams struct {
+	Params `form:"*"`
+	// Requested amount of carbon removal units. Either this or `metric_tons` must be specified.
+	Amount *int64 `form:"amount"`
+	// Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
+	Beneficiary *ClimateOrderCreateBeneficiaryParams `form:"beneficiary"`
+	// Request currency for the order as a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a supported [settlement currency for your account](https://stripe.com/docs/currencies). If omitted, the account's default currency will be used.
+	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Requested number of tons for the order. Either this or `amount` must be specified.
+	MetricTons *float64 `form:"metric_tons,high_precision"`
+	// Unique identifier of the Climate product.
+	Product *string `form:"product"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ClimateOrderCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ClimateOrderCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the details of a Climate order object with the given ID.
+type ClimateOrderRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ClimateOrderRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
+type ClimateOrderUpdateBeneficiaryParams struct {
+	// Publicly displayable name for the end beneficiary of carbon removal.
+	PublicName *string `form:"public_name"`
+}
+
+// Updates the specified order by setting the values of the parameters passed.
+type ClimateOrderUpdateParams struct {
+	Params `form:"*"`
+	// Publicly sharable reference for the end beneficiary of carbon removal. Assumed to be the Stripe account if not set.
+	Beneficiary *ClimateOrderUpdateBeneficiaryParams `form:"beneficiary"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ClimateOrderUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ClimateOrderUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type ClimateOrderBeneficiary struct {
 	// Publicly displayable name for the end beneficiary of carbon removal.
 	PublicName string `json:"public_name"`

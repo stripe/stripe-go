@@ -32,6 +32,18 @@ func (p *ClimateProductParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of a Climate product with the given ID.
+type ClimateProductRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ClimateProductRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Current prices for a metric ton of carbon removal in a currency's smallest unit.
 type ClimateProductCurrentPricesPerMetricTon struct {
 	// Fees for one metric ton of carbon removal in the currency's smallest unit.
