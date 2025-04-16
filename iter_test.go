@@ -268,7 +268,7 @@ func (tq *testV1Query[T]) query(*Params, *form.Values) ([]T, ListContainer, erro
 	return x.v, x.m, x.e
 }
 
-func collectList[T any](it *v1List[*T]) ([]*T, error) {
+func collectList[T any](it *v1List[T]) ([]*T, error) {
 	var tt []*T
 	var err error
 	it.All()(func(t *T, e error) bool {

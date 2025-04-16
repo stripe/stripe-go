@@ -124,37 +124,31 @@ func GetIter(container ListParamsContainer, query Query) *Iter {
 // Calling the `All` allows you to iterate over all items in the list,
 // with automatic pagination.
 type v1List[T any] struct {
-	cur           T
+	cur           *T
 	err           error
 	formValues    *form.Values
 	listContainer ListContainer
 	listParams    ListParams
 	listMeta      *ListMeta
 	query         v1Query[T]
-	values        []T
+	values        []*T
 }
 
 // All returns a Seq2 that will be evaluated on each item in a v1List.
 // The All function will continue to fetch pages of items as needed.
-func (it *v1List[T]) All() Seq2[T, error] {
-	return func(yield func(T, error) bool) {
+func (it *v1List[T]) All() Seq2[*T, error] {
+	return func(yield func(*T, error) bool) {
 		for it.next() {
-			if !yield(it.current(), nil) {
+			if !yield(it.cur, nil) {
 				return
 			}
 		}
 		if it.err != nil {
-			if !yield(*new(T), it.err) {
+			if !yield(new(T), it.err) {
 				return
 			}
 		}
 	}
-}
-
-// Current returns the most recent item
-// visited by a call to Next.
-func (it *v1List[T]) current() T {
-	return it.cur
 }
 
 // next advances the V1List to the next item in the list,
@@ -194,7 +188,7 @@ func (it *v1List[T]) getPage() {
 }
 
 // Query is the function used to get a page listing.
-type v1Query[T any] func(*Params, *form.Values) ([]T, ListContainer, error)
+type v1Query[T any] func(*Params, *form.Values) ([]*T, ListContainer, error)
 
 // getV1List returns a new v1List for a given query and its options.
 func getV1List[T any](container ListParamsContainer, query v1Query[T]) *v1List[T] {
