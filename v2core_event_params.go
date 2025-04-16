@@ -19,3 +19,8 @@ type V2CoreEventListParams struct {
 type V2CoreEventParams struct {
 	Params `form:"*"`
 }
+
+// Retrieves the details of an event.
+type V2CoreEventRetrieveParams struct {
+	Params `form:"*"`
+}
