@@ -224,10 +224,10 @@ func TestV1ListReversed(t *testing.T) {
 
 func TestV1ListReversedTwoPages(t *testing.T) {
 	tq := testV1Query[*item]{
-		{[]*item{&item{"3"}, &item{"4"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
-		{[]*item{&item{"1"}, &item{"2"}}, &ListMeta{}, nil},
+		{[]*item{{"3"}, {"4"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
+		{[]*item{{"1"}, {"2"}}, &ListMeta{}, nil},
 	}
-	want := []*item{&item{"4"}, &item{"3"}, &item{"2"}, &item{"1"}}
+	want := []*item{{"4"}, {"3"}, {"2"}, {"1"}}
 	g, gerr := collectList(getV1List(&ListParams{EndingBefore: String("x")}, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
