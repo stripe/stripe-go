@@ -289,6 +289,169 @@ type DisputeEvidenceParams struct {
 	UncategorizedText *string `form:"uncategorized_text"`
 }
 
+// Retrieves the dispute with the given ID.
+type DisputeRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *DisputeRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
+type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams struct {
+	// User Account ID used to log into business platform. Must be recognizable by the user.
+	CustomerAccountID *string `form:"customer_account_id"`
+	// Unique identifier of the cardholder's device derived from a combination of at least two hardware and software attributes. Must be at least 20 characters.
+	CustomerDeviceFingerprint *string `form:"customer_device_fingerprint"`
+	// Unique identifier of the cardholder's device such as a device serial number (e.g., International Mobile Equipment Identity [IMEI]). Must be at least 15 characters.
+	CustomerDeviceID *string `form:"customer_device_id"`
+	// The email address of the customer.
+	CustomerEmailAddress *string `form:"customer_email_address"`
+	// The IP address that the customer used when making the purchase.
+	CustomerPurchaseIP *string `form:"customer_purchase_ip"`
+	// Categorization of disputed payment.
+	MerchandiseOrServices *string `form:"merchandise_or_services"`
+	// A description of the product or service that was sold.
+	ProductDescription *string `form:"product_description"`
+	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
+	ShippingAddress *AddressParams `form:"shipping_address"`
+}
+
+// List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
+type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams struct {
+	// Stripe charge ID for the Visa Compelling Evidence 3.0 eligible prior charge.
+	Charge *string `form:"charge"`
+	// User Account ID used to log into business platform. Must be recognizable by the user.
+	CustomerAccountID *string `form:"customer_account_id"`
+	// Unique identifier of the cardholder's device derived from a combination of at least two hardware and software attributes. Must be at least 20 characters.
+	CustomerDeviceFingerprint *string `form:"customer_device_fingerprint"`
+	// Unique identifier of the cardholder's device such as a device serial number (e.g., International Mobile Equipment Identity [IMEI]). Must be at least 15 characters.
+	CustomerDeviceID *string `form:"customer_device_id"`
+	// The email address of the customer.
+	CustomerEmailAddress *string `form:"customer_email_address"`
+	// The IP address that the customer used when making the purchase.
+	CustomerPurchaseIP *string `form:"customer_purchase_ip"`
+	// A description of the product or service that was sold.
+	ProductDescription *string `form:"product_description"`
+	// The address to which a physical product was shipped. All fields are required for Visa Compelling Evidence 3.0 evidence submission.
+	ShippingAddress *AddressParams `form:"shipping_address"`
+}
+
+// Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
+type DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3Params struct {
+	// Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
+	DisputedTransaction *DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransactionParams `form:"disputed_transaction"`
+	// List of exactly two prior undisputed transaction objects for Visa Compelling Evidence 3.0 evidence submission.
+	PriorUndisputedTransactions []*DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3PriorUndisputedTransactionParams `form:"prior_undisputed_transactions"`
+}
+
+// Evidence provided for Visa compliance evidence submission.
+type DisputeUpdateEvidenceEnhancedEvidenceVisaComplianceParams struct {
+	// A field acknowledging the fee incurred when countering a Visa compliance dispute. If this field is set to true, evidence can be submitted for the compliance dispute. Stripe collects a 500 USD (or local equivalent) amount to cover the network costs associated with resolving compliance disputes. Stripe refunds the 500 USD network fee if you win the dispute.
+	FeeAcknowledged *bool `form:"fee_acknowledged"`
+}
+
+// Additional evidence for qualifying evidence programs.
+type DisputeUpdateEvidenceEnhancedEvidenceParams struct {
+	// Evidence provided for Visa Compelling Evidence 3.0 evidence submission.
+	VisaCompellingEvidence3 *DisputeUpdateEvidenceEnhancedEvidenceVisaCompellingEvidence3Params `form:"visa_compelling_evidence_3"`
+	// Evidence provided for Visa compliance evidence submission.
+	VisaCompliance *DisputeUpdateEvidenceEnhancedEvidenceVisaComplianceParams `form:"visa_compliance"`
+}
+
+// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
+type DisputeUpdateEvidenceParams struct {
+	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity. Has a maximum character count of 20,000.
+	AccessActivityLog *string `form:"access_activity_log"`
+	// The billing address provided by the customer.
+	BillingAddress *string `form:"billing_address"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.
+	CancellationPolicy *string `form:"cancellation_policy"`
+	// An explanation of how and when the customer was shown your refund policy prior to purchase. Has a maximum character count of 20,000.
+	CancellationPolicyDisclosure *string `form:"cancellation_policy_disclosure"`
+	// A justification for why the customer's subscription was not canceled. Has a maximum character count of 20,000.
+	CancellationRebuttal *string `form:"cancellation_rebuttal"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any communication with the customer that you feel is relevant to your case. Examples include emails proving that the customer received the product or service, or demonstrating their use of or satisfaction with the product or service.
+	CustomerCommunication *string `form:"customer_communication"`
+	// The email address of the customer.
+	CustomerEmailAddress *string `form:"customer_email_address"`
+	// The name of the customer.
+	CustomerName *string `form:"customer_name"`
+	// The IP address that the customer used when making the purchase.
+	CustomerPurchaseIP *string `form:"customer_purchase_ip"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) A relevant document or contract showing the customer's signature.
+	CustomerSignature *string `form:"customer_signature"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Documentation for the prior charge that can uniquely identify the charge, such as a receipt, shipping label, work order, etc. This document should be paired with a similar document from the disputed payment that proves the two payments are separate.
+	DuplicateChargeDocumentation *string `form:"duplicate_charge_documentation"`
+	// An explanation of the difference between the disputed charge versus the prior charge that appears to be a duplicate. Has a maximum character count of 20,000.
+	DuplicateChargeExplanation *string `form:"duplicate_charge_explanation"`
+	// The Stripe ID for the prior charge which appears to be a duplicate of the disputed charge.
+	DuplicateChargeID *string `form:"duplicate_charge_id"`
+	// Additional evidence for qualifying evidence programs.
+	EnhancedEvidence *DisputeUpdateEvidenceEnhancedEvidenceParams `form:"enhanced_evidence"`
+	// A description of the product or service that was sold. Has a maximum character count of 20,000.
+	ProductDescription *string `form:"product_description"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any receipt or message sent to the customer notifying them of the charge.
+	Receipt *string `form:"receipt"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your refund policy, as shown to the customer.
+	RefundPolicy *string `form:"refund_policy"`
+	// Documentation demonstrating that the customer was shown your refund policy prior to purchase. Has a maximum character count of 20,000.
+	RefundPolicyDisclosure *string `form:"refund_policy_disclosure"`
+	// A justification for why the customer is not entitled to a refund. Has a maximum character count of 20,000.
+	RefundRefusalExplanation *string `form:"refund_refusal_explanation"`
+	// The date on which the customer received or began receiving the purchased service, in a clear human-readable format.
+	ServiceDate *string `form:"service_date"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Documentation showing proof that a service was provided to the customer. This could include a copy of a signed contract, work order, or other form of written agreement.
+	ServiceDocumentation *string `form:"service_documentation"`
+	// The address to which a physical product was shipped. You should try to include as complete address information as possible.
+	ShippingAddress *string `form:"shipping_address"`
+	// The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc. If multiple carriers were used for this purchase, please separate them with commas.
+	ShippingCarrier *string `form:"shipping_carrier"`
+	// The date on which a physical product began its route to the shipping address, in a clear human-readable format.
+	ShippingDate *string `form:"shipping_date"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Documentation showing proof that a product was shipped to the customer at the same address the customer provided to you. This could include a copy of the shipment receipt, shipping label, etc. It should show the customer's full shipping address, if possible.
+	ShippingDocumentation *string `form:"shipping_documentation"`
+	// The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.
+	ShippingTrackingNumber *string `form:"shipping_tracking_number"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any additional evidence or statements.
+	UncategorizedFile *string `form:"uncategorized_file"`
+	// Any additional evidence or statements. Has a maximum character count of 20,000.
+	UncategorizedText *string `form:"uncategorized_text"`
+}
+
+// When you get a dispute, contacting your customer is always the best first step. If that doesn't work, you can submit evidence to help us resolve the dispute in your favor. You can do this in your [dashboard](https://dashboard.stripe.com/disputes), but if you prefer, you can use the API to submit evidence programmatically.
+//
+// Depending on your dispute type, different evidence fields will give you a better chance of winning your dispute. To figure out which evidence fields to provide, see our [guide to dispute types](https://stripe.com/docs/disputes/categories).
+type DisputeUpdateParams struct {
+	Params `form:"*"`
+	// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
+	Evidence *DisputeUpdateEvidenceParams `form:"evidence"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
+	Submit *bool `form:"submit"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *DisputeUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *DisputeUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Disputed transaction details for Visa Compelling Evidence 3.0 evidence submission.
 type DisputeEvidenceEnhancedEvidenceVisaCompellingEvidence3DisputedTransaction struct {
 	// User Account ID used to log into business platform. Must be recognizable by the user.

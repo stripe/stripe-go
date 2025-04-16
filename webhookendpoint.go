@@ -55,6 +55,87 @@ func (p *WebhookEndpointListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// You can also delete webhook endpoints via the [webhook endpoint management](https://dashboard.stripe.com/account/webhooks) page of the Stripe dashboard.
+type WebhookEndpointDeleteParams struct {
+	Params `form:"*"`
+}
+
+// Retrieves the webhook endpoint with the given ID.
+type WebhookEndpointRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *WebhookEndpointRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates the webhook endpoint. You may edit the url, the list of enabled_events, and the status of your endpoint.
+type WebhookEndpointUpdateParams struct {
+	Params `form:"*"`
+	// An optional description of what the webhook is used for.
+	Description *string `form:"description"`
+	// Disable the webhook endpoint if set to true.
+	Disabled *bool `form:"disabled"`
+	// The list of events to enable for this endpoint. You may specify `['*']` to enable all events, except those that require explicit selection.
+	EnabledEvents []*string `form:"enabled_events"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The URL of the webhook endpoint.
+	URL *string `form:"url"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *WebhookEndpointUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *WebhookEndpointUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// A webhook endpoint must have a url and a list of enabled_events. You may optionally specify the Boolean connect parameter. If set to true, then a Connect webhook endpoint that notifies the specified url about events from all connected accounts is created; otherwise an account webhook endpoint that notifies the specified url only about events from your account is created. You can also create webhook endpoints in the [webhooks settings](https://dashboard.stripe.com/account/webhooks) section of the Dashboard.
+type WebhookEndpointCreateParams struct {
+	Params `form:"*"`
+	// Events sent to this endpoint will be generated with this Stripe Version instead of your account's default Stripe Version.
+	APIVersion *string `form:"api_version"`
+	// Whether this endpoint should receive events from connected accounts (`true`), or from your account (`false`). Defaults to `false`.
+	Connect *bool `form:"connect"`
+	// An optional description of what the webhook is used for.
+	Description *string `form:"description"`
+	// The list of events to enable for this endpoint. You may specify `['*']` to enable all events, except those that require explicit selection.
+	EnabledEvents []*string `form:"enabled_events"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The URL of the webhook endpoint.
+	URL *string `form:"url"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *WebhookEndpointCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *WebhookEndpointCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // You can configure [webhook endpoints](https://docs.stripe.com/webhooks/) via the API to be
 // notified about events that happen in your Stripe account or connected
 // accounts.

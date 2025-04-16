@@ -35,6 +35,39 @@ type CashBalanceSettingsParams struct {
 	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
 	ReconciliationMode *string `form:"reconciliation_mode"`
 }
+
+// Retrieves a customer's cash balance.
+type CashBalanceRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CashBalanceRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// A hash of settings for this cash balance.
+type CashBalanceUpdateSettingsParams struct {
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	ReconciliationMode *string `form:"reconciliation_mode"`
+}
+
+// Changes the settings on a customer's cash balance.
+type CashBalanceUpdateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A hash of settings for this cash balance.
+	Settings *CashBalanceUpdateSettingsParams `form:"settings"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CashBalanceUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type CashBalanceSettings struct {
 	// The configuration for how funds that land in the customer cash balance are reconciled.
 	ReconciliationMode CashBalanceSettingsReconciliationMode `json:"reconciliation_mode"`

@@ -113,6 +113,18 @@ func (p *TreasuryReceivedDebitParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of an existing ReceivedDebit by passing the unique ReceivedDebit ID from the ReceivedDebit list
+type TreasuryReceivedDebitRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryReceivedDebitRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TreasuryReceivedDebitInitiatingPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`
 	// Email address.

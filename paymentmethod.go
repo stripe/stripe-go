@@ -917,6 +917,488 @@ func (p *PaymentMethodDetachParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
+type PaymentMethodCreateACSSDebitParams struct {
+	// Customer's bank account number.
+	AccountNumber *string `form:"account_number"`
+	// Institution number of the customer's bank.
+	InstitutionNumber *string `form:"institution_number"`
+	// Transit number of the customer's bank.
+	TransitNumber *string `form:"transit_number"`
+}
+
+// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
+type PaymentMethodCreateAffirmParams struct{}
+
+// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
+type PaymentMethodCreateAfterpayClearpayParams struct{}
+
+// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
+type PaymentMethodCreateAlipayParams struct{}
+
+// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+type PaymentMethodCreateAlmaParams struct{}
+
+// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+type PaymentMethodCreateAmazonPayParams struct{}
+
+// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
+type PaymentMethodCreateAUBECSDebitParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+}
+
+// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
+type PaymentMethodCreateBACSDebitParams struct {
+	// Account number of the bank account that the funds will be debited from.
+	AccountNumber *string `form:"account_number"`
+	// Sort code of the bank account. (e.g., `10-20-30`)
+	SortCode *string `form:"sort_code"`
+}
+
+// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
+type PaymentMethodCreateBancontactParams struct{}
+
+// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+type PaymentMethodCreateBillieParams struct{}
+
+// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
+type PaymentMethodCreateBillingDetailsParams struct {
+	// Billing address.
+	Address *AddressParams `form:"address"`
+	// Email address.
+	Email *string `form:"email"`
+	// Full name.
+	Name *string `form:"name"`
+	// Billing phone number (including extension).
+	Phone *string `form:"phone"`
+}
+
+// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+type PaymentMethodCreateBLIKParams struct{}
+
+// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
+type PaymentMethodCreateBoletoParams struct {
+	// The tax ID of the customer (CPF for individual consumers or CNPJ for businesses consumers)
+	TaxID *string `form:"tax_id"`
+}
+
+// Contains information about card networks used to process the payment.
+type PaymentMethodCreateCardNetworksParams struct {
+	// The customer's preferred card network for co-branded cards. Supports `cartes_bancaires`, `mastercard`, or `visa`. Selection of a network that does not apply to the card will be stored as `invalid_preference` on the card.
+	Preferred *string `form:"preferred"`
+}
+
+// If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
+type PaymentMethodCreateCardParams struct {
+	// The card's CVC. It is highly recommended to always include this value.
+	CVC *string `form:"cvc"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth *int64 `form:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear *int64 `form:"exp_year"`
+	// Contains information about card networks used to process the payment.
+	Networks *PaymentMethodCreateCardNetworksParams `form:"networks"`
+	// The card number, as a string without any separators.
+	Number *string `form:"number"`
+	// For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format card: {token: "tok_visa"}.
+	Token *string `form:"token"`
+}
+
+// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
+type PaymentMethodCreateCashAppParams struct{}
+
+// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
+type PaymentMethodCreateCustomerBalanceParams struct{}
+
+// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
+type PaymentMethodCreateEPSParams struct {
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
+type PaymentMethodCreateFPXParams struct {
+	// Account holder type for FPX transaction
+	AccountHolderType *string `form:"account_holder_type"`
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
+type PaymentMethodCreateGiropayParams struct{}
+
+// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
+type PaymentMethodCreateGrabpayParams struct{}
+
+// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
+type PaymentMethodCreateIDEALParams struct {
+	// The customer's bank. Only use this parameter for existing customers. Don't use it for new customers.
+	Bank *string `form:"bank"`
+}
+
+// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
+type PaymentMethodCreateInteracPresentParams struct{}
+
+// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+type PaymentMethodCreateKakaoPayParams struct{}
+
+// Customer's date of birth
+type PaymentMethodCreateKlarnaDOBParams struct {
+	// The day of birth, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of birth, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of birth.
+	Year *int64 `form:"year"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
+type PaymentMethodCreateKlarnaParams struct {
+	// Customer's date of birth
+	DOB *PaymentMethodCreateKlarnaDOBParams `form:"dob"`
+}
+
+// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+type PaymentMethodCreateKonbiniParams struct{}
+
+// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+type PaymentMethodCreateKrCardParams struct{}
+
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+type PaymentMethodCreateLinkParams struct{}
+
+// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
+type PaymentMethodCreateMobilepayParams struct{}
+
+// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+type PaymentMethodCreateMultibancoParams struct{}
+
+// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+type PaymentMethodCreateNaverPayParams struct {
+	// Whether to use Naver Pay points or a card to fund this transaction. If not provided, this defaults to `card`.
+	Funding *string `form:"funding"`
+}
+
+// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+type PaymentMethodCreateNzBankAccountParams struct {
+	// The name on the bank account. Only required if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// The numeric code for the bank account's bank.
+	BankCode *string `form:"bank_code"`
+	// The numeric code for the bank account's bank branch.
+	BranchCode *string `form:"branch_code"`
+	Reference  *string `form:"reference"`
+	// The suffix of the bank account number.
+	Suffix *string `form:"suffix"`
+}
+
+// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
+type PaymentMethodCreateOXXOParams struct{}
+
+// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
+type PaymentMethodCreateP24Params struct {
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+type PaymentMethodCreatePayByBankParams struct{}
+
+// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+type PaymentMethodCreatePaycoParams struct{}
+
+// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
+type PaymentMethodCreatePayNowParams struct{}
+
+// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+type PaymentMethodCreatePaypalParams struct{}
+
+// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
+type PaymentMethodCreatePixParams struct{}
+
+// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
+type PaymentMethodCreatePromptPayParams struct{}
+
+// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+type PaymentMethodCreateRadarOptionsParams struct {
+	// A [Radar Session](https://stripe.com/docs/radar/radar-session) is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
+	Session *string `form:"session"`
+}
+
+// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+type PaymentMethodCreateRevolutPayParams struct{}
+
+// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+type PaymentMethodCreateSamsungPayParams struct{}
+
+// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+type PaymentMethodCreateSatispayParams struct{}
+
+// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
+type PaymentMethodCreateSEPADebitParams struct {
+	// IBAN of the bank account.
+	IBAN *string `form:"iban"`
+}
+
+// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
+type PaymentMethodCreateSofortParams struct {
+	// Two-letter ISO code representing the country the bank account is located in.
+	Country *string `form:"country"`
+}
+
+// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
+type PaymentMethodCreateSwishParams struct{}
+
+// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
+type PaymentMethodCreateTWINTParams struct{}
+
+// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+type PaymentMethodCreateUSBankAccountParams struct {
+	// Account holder type: individual or company.
+	AccountHolderType *string `form:"account_holder_type"`
+	// Account number of the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Account type: checkings or savings. Defaults to checking if omitted.
+	AccountType *string `form:"account_type"`
+	// The ID of a Financial Connections Account to use as a payment method.
+	FinancialConnectionsAccount *string `form:"financial_connections_account"`
+	// Routing number of the bank account.
+	RoutingNumber *string `form:"routing_number"`
+}
+
+// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
+type PaymentMethodCreateWeChatPayParams struct{}
+
+// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+type PaymentMethodCreateZipParams struct{}
+
+// Creates a PaymentMethod object. Read the [Stripe.js reference](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
+//
+// Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
+type PaymentMethodCreateParams struct {
+	Params `form:"*"`
+	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
+	ACSSDebit *PaymentMethodCreateACSSDebitParams `form:"acss_debit"`
+	// If this is an `affirm` PaymentMethod, this hash contains details about the Affirm payment method.
+	Affirm *PaymentMethodCreateAffirmParams `form:"affirm"`
+	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
+	AfterpayClearpay *PaymentMethodCreateAfterpayClearpayParams `form:"afterpay_clearpay"`
+	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
+	Alipay *PaymentMethodCreateAlipayParams `form:"alipay"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
+	AllowRedisplay *string `form:"allow_redisplay"`
+	// If this is a Alma PaymentMethod, this hash contains details about the Alma payment method.
+	Alma *PaymentMethodCreateAlmaParams `form:"alma"`
+	// If this is a AmazonPay PaymentMethod, this hash contains details about the AmazonPay payment method.
+	AmazonPay *PaymentMethodCreateAmazonPayParams `form:"amazon_pay"`
+	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
+	AUBECSDebit *PaymentMethodCreateAUBECSDebitParams `form:"au_becs_debit"`
+	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
+	BACSDebit *PaymentMethodCreateBACSDebitParams `form:"bacs_debit"`
+	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
+	Bancontact *PaymentMethodCreateBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	Billie *PaymentMethodCreateBillieParams `form:"billie"`
+	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
+	BillingDetails *PaymentMethodCreateBillingDetailsParams `form:"billing_details"`
+	// If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
+	BLIK *PaymentMethodCreateBLIKParams `form:"blik"`
+	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
+	Boleto *PaymentMethodCreateBoletoParams `form:"boleto"`
+	// If this is a `card` PaymentMethod, this hash contains the user's card details. For backwards compatibility, you can alternatively provide a Stripe token (e.g., for Apple Pay, Amex Express Checkout, or legacy Checkout) into the card hash with format `card: {token: "tok_visa"}`. When providing a card number, you must meet the requirements for [PCI compliance](https://stripe.com/docs/security#validating-pci-compliance). We strongly recommend using Stripe.js instead of interacting with this API directly.
+	Card *PaymentMethodCreateCardParams `form:"card"`
+	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
+	CashApp *PaymentMethodCreateCashAppParams `form:"cashapp"`
+	// The `Customer` to whom the original PaymentMethod is attached.
+	Customer *string `form:"customer"`
+	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
+	CustomerBalance *PaymentMethodCreateCustomerBalanceParams `form:"customer_balance"`
+	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
+	EPS *PaymentMethodCreateEPSParams `form:"eps"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
+	FPX *PaymentMethodCreateFPXParams `form:"fpx"`
+	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
+	Giropay *PaymentMethodCreateGiropayParams `form:"giropay"`
+	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
+	Grabpay *PaymentMethodCreateGrabpayParams `form:"grabpay"`
+	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
+	IDEAL *PaymentMethodCreateIDEALParams `form:"ideal"`
+	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
+	InteracPresent *PaymentMethodCreateInteracPresentParams `form:"interac_present"`
+	// If this is a `kakao_pay` PaymentMethod, this hash contains details about the Kakao Pay payment method.
+	KakaoPay *PaymentMethodCreateKakaoPayParams `form:"kakao_pay"`
+	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
+	Klarna *PaymentMethodCreateKlarnaParams `form:"klarna"`
+	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+	Konbini *PaymentMethodCreateKonbiniParams `form:"konbini"`
+	// If this is a `kr_card` PaymentMethod, this hash contains details about the Korean Card payment method.
+	KrCard *PaymentMethodCreateKrCardParams `form:"kr_card"`
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	Link *PaymentMethodCreateLinkParams `form:"link"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
+	Mobilepay *PaymentMethodCreateMobilepayParams `form:"mobilepay"`
+	// If this is a `multibanco` PaymentMethod, this hash contains details about the Multibanco payment method.
+	Multibanco *PaymentMethodCreateMultibancoParams `form:"multibanco"`
+	// If this is a `naver_pay` PaymentMethod, this hash contains details about the Naver Pay payment method.
+	NaverPay *PaymentMethodCreateNaverPayParams `form:"naver_pay"`
+	// If this is an nz_bank_account PaymentMethod, this hash contains details about the nz_bank_account payment method.
+	NzBankAccount *PaymentMethodCreateNzBankAccountParams `form:"nz_bank_account"`
+	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
+	OXXO *PaymentMethodCreateOXXOParams `form:"oxxo"`
+	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
+	P24 *PaymentMethodCreateP24Params `form:"p24"`
+	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+	PayByBank *PaymentMethodCreatePayByBankParams `form:"pay_by_bank"`
+	// If this is a `payco` PaymentMethod, this hash contains details about the PAYCO payment method.
+	Payco *PaymentMethodCreatePaycoParams `form:"payco"`
+	// The PaymentMethod to share.
+	PaymentMethod *string `form:"payment_method"`
+	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
+	PayNow *PaymentMethodCreatePayNowParams `form:"paynow"`
+	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
+	Paypal *PaymentMethodCreatePaypalParams `form:"paypal"`
+	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
+	Pix *PaymentMethodCreatePixParams `form:"pix"`
+	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
+	PromptPay *PaymentMethodCreatePromptPayParams `form:"promptpay"`
+	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
+	RadarOptions *PaymentMethodCreateRadarOptionsParams `form:"radar_options"`
+	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	RevolutPay *PaymentMethodCreateRevolutPayParams `form:"revolut_pay"`
+	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
+	SamsungPay *PaymentMethodCreateSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	Satispay *PaymentMethodCreateSatispayParams `form:"satispay"`
+	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
+	SEPADebit *PaymentMethodCreateSEPADebitParams `form:"sepa_debit"`
+	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
+	Sofort *PaymentMethodCreateSofortParams `form:"sofort"`
+	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
+	Swish *PaymentMethodCreateSwishParams `form:"swish"`
+	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
+	TWINT *PaymentMethodCreateTWINTParams `form:"twint"`
+	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
+	Type *string `form:"type"`
+	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+	USBankAccount *PaymentMethodCreateUSBankAccountParams `form:"us_bank_account"`
+	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
+	WeChatPay *PaymentMethodCreateWeChatPayParams `form:"wechat_pay"`
+	// If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
+	Zip *PaymentMethodCreateZipParams `form:"zip"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentMethodCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves a PaymentMethod object attached to the StripeAccount. To retrieve a payment method attached to a Customer, you should use [Retrieve a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer)
+type PaymentMethodRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
+type PaymentMethodUpdateBillingDetailsParams struct {
+	// Billing address.
+	Address *AddressParams `form:"address"`
+	// Email address.
+	Email *string `form:"email"`
+	// Full name.
+	Name *string `form:"name"`
+	// Billing phone number (including extension).
+	Phone *string `form:"phone"`
+}
+
+// Contains information about card networks used to process the payment.
+type PaymentMethodUpdateCardNetworksParams struct {
+	// The customer's preferred card network for co-branded cards. Supports `cartes_bancaires`, `mastercard`, or `visa`. Selection of a network that does not apply to the card will be stored as `invalid_preference` on the card.
+	Preferred *string `form:"preferred"`
+}
+
+// If this is a `card` PaymentMethod, this hash contains the user's card details.
+type PaymentMethodUpdateCardParams struct {
+	// Two-digit number representing the card's expiration month.
+	ExpMonth *int64 `form:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear *int64 `form:"exp_year"`
+	// Contains information about card networks used to process the payment.
+	Networks *PaymentMethodUpdateCardNetworksParams `form:"networks"`
+}
+
+// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+type PaymentMethodUpdateLinkParams struct{}
+
+// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+type PaymentMethodUpdatePayByBankParams struct{}
+
+// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+type PaymentMethodUpdateUSBankAccountParams struct {
+	// Bank account holder type.
+	AccountHolderType *string `form:"account_holder_type"`
+	// Bank account type.
+	AccountType *string `form:"account_type"`
+}
+
+// Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.
+type PaymentMethodUpdateParams struct {
+	Params `form:"*"`
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
+	AllowRedisplay *string `form:"allow_redisplay"`
+	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
+	BillingDetails *PaymentMethodUpdateBillingDetailsParams `form:"billing_details"`
+	// If this is a `card` PaymentMethod, this hash contains the user's card details.
+	Card *PaymentMethodUpdateCardParams `form:"card"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
+	Link *PaymentMethodUpdateLinkParams `form:"link"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
+	PayByBank *PaymentMethodUpdatePayByBankParams `form:"pay_by_bank"`
+	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+	USBankAccount *PaymentMethodUpdateUSBankAccountParams `form:"us_bank_account"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentMethodUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentMethodUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type PaymentMethodACSSDebit struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`

@@ -133,6 +133,18 @@ func (p *TreasuryReceivedCreditParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of an existing ReceivedCredit by passing the unique ReceivedCredit ID from the ReceivedCredit list.
+type TreasuryReceivedCreditRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryReceivedCreditRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TreasuryReceivedCreditInitiatingPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`
 	// Email address.

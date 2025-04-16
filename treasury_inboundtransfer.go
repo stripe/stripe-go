@@ -134,6 +134,53 @@ func (p *TreasuryInboundTransferCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Creates an InboundTransfer.
+type TreasuryInboundTransferCreateParams struct {
+	Params `form:"*"`
+	// Amount (in cents) to be transferred.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The FinancialAccount to send funds to.
+	FinancialAccount *string `form:"financial_account"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The origin payment method to be debited for the InboundTransfer.
+	OriginPaymentMethod *string `form:"origin_payment_method"`
+	// The complete description that appears on your customers' statements. Maximum 10 characters.
+	StatementDescriptor *string `form:"statement_descriptor"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryInboundTransferCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TreasuryInboundTransferCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the details of an existing InboundTransfer.
+type TreasuryInboundTransferRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryInboundTransferRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Details about this InboundTransfer's failure. Only set when status is `failed`.
 type TreasuryInboundTransferFailureDetails struct {
 	// Reason for the failure.

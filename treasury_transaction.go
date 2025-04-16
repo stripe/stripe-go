@@ -94,6 +94,18 @@ func (p *TreasuryTransactionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of an existing Transaction.
+type TreasuryTransactionRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryTransactionRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Change to a FinancialAccount's balance
 type TreasuryTransactionBalanceImpact struct {
 	// The change made to funds the user can spend right now.
