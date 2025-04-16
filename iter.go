@@ -190,8 +190,9 @@ func (it *v1List[T]) getPage() {
 // Query is the function used to get a page listing.
 type v1Query[T any] func(*Params, *form.Values) ([]*T, ListContainer, error)
 
-// getV1List returns a new v1List for a given query and its options.
-func getV1List[T any](container ListParamsContainer, query v1Query[T]) *v1List[T] {
+// newV1List returns a new v1List for a given query and its options, and initializes
+// it by fetching the first page of items.
+func newV1List[T any](container ListParamsContainer, query v1Query[T]) *v1List[T] {
 	var listParams *ListParams
 	formValues := &form.Values{}
 

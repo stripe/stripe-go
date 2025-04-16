@@ -145,7 +145,7 @@ func TestIterListAndMeta(t *testing.T) {
 
 func TestV1ListEmpty(t *testing.T) {
 	tq := testV1Query[*int]{{nil, &ListMeta{}, nil}}
-	g, gerr := collectList(getV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
 	assert.NoError(t, gerr)
@@ -153,7 +153,7 @@ func TestV1ListEmpty(t *testing.T) {
 
 func TestV1ListEmptyErr(t *testing.T) {
 	tq := testV1Query[*int]{{nil, &ListMeta{}, errTest}}
-	g, gerr := collectList(getV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, 0, len(g))
 	assert.Equal(t, errTest, gerr)
@@ -162,7 +162,7 @@ func TestV1ListEmptyErr(t *testing.T) {
 func TestV1ListOne(t *testing.T) {
 	tq := testV1Query[*int]{{[]*int{intPtr(1)}, &ListMeta{}, nil}}
 	want := []*int{intPtr(1)}
-	g, gerr := collectList(getV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)
@@ -171,7 +171,7 @@ func TestV1ListOne(t *testing.T) {
 func TestV1ListOneErr(t *testing.T) {
 	tq := testV1Query[*int]{{[]*int{intPtr(1)}, &ListMeta{}, errTest}}
 	want := []*int{intPtr(1)}
-	g, gerr := collectList(getV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
@@ -183,7 +183,7 @@ func TestV1ListPage2EmptyErr(t *testing.T) {
 		{nil, &ListMeta{}, errTest},
 	}
 	want := []*item{{"x"}}
-	g, gerr := collectList(getV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
@@ -195,7 +195,7 @@ func TestV1ListTwoPages(t *testing.T) {
 		{[]*item{{"y"}}, &ListMeta{}, nil},
 	}
 	want := []*item{{"x"}, {"y"}}
-	g, gerr := collectList(getV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)
@@ -207,7 +207,7 @@ func TestV1ListTwoPagesErr(t *testing.T) {
 		{[]*item{{"y"}}, &ListMeta{}, errTest},
 	}
 	want := []*item{{"x"}, {"y"}}
-	g, gerr := collectList(getV1List(nil, tq.query))
+	g, gerr := collectList(newV1List(nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.Equal(t, errTest, gerr)
@@ -216,7 +216,7 @@ func TestV1ListTwoPagesErr(t *testing.T) {
 func TestV1ListReversed(t *testing.T) {
 	tq := testV1Query[*int]{{[]*int{intPtr(1), intPtr(2)}, &ListMeta{}, nil}}
 	want := []*int{intPtr(2), intPtr(1)}
-	g, gerr := collectList(getV1List(&ListParams{EndingBefore: String("x")}, tq.query))
+	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)
@@ -228,7 +228,7 @@ func TestV1ListReversedTwoPages(t *testing.T) {
 		{[]*item{{"1"}, {"2"}}, &ListMeta{}, nil},
 	}
 	want := []*item{{"4"}, {"3"}, {"2"}, {"1"}}
-	g, gerr := collectList(getV1List(&ListParams{EndingBefore: String("x")}, tq.query))
+	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)
