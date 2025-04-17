@@ -93,6 +93,116 @@ func (p *PromotionCodeParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type PromotionCodeCreateRestrictionsCurrencyOptionsParams struct {
+	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+	MinimumAmount *int64 `form:"minimum_amount"`
+}
+
+// Settings that restrict the redemption of the promotion code.
+type PromotionCodeCreateRestrictionsParams struct {
+	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*PromotionCodeCreateRestrictionsCurrencyOptionsParams `form:"currency_options"`
+	// A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
+	FirstTimeTransaction *bool `form:"first_time_transaction"`
+	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount
+	MinimumAmountCurrency *string `form:"minimum_amount_currency"`
+}
+
+// A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
+type PromotionCodeCreateParams struct {
+	Params `form:"*"`
+	// Whether the promotion code is currently active.
+	Active *bool `form:"active"`
+	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for a specific customer. Valid characters are lower case letters (a-z), upper case letters (A-Z), and digits (0-9).
+	//
+	// If left blank, we will generate one automatically.
+	Code *string `form:"code"`
+	// The coupon for this promotion code.
+	Coupon *string `form:"coupon"`
+	// The customer that this promotion code can be used by. If not set, the promotion code can be used by all customers.
+	Customer *string `form:"customer"`
+	// The account that this promotion code can be used by. If not set, the promotion code can be used by all accounts.
+	CustomerAccount *string `form:"customer_account"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The timestamp at which this promotion code will expire. If the coupon has specified a `redeems_by`, then this value cannot be after the coupon's `redeems_by`.
+	ExpiresAt *int64 `form:"expires_at"`
+	// A positive integer specifying the number of times the promotion code can be redeemed. If the coupon has specified a `max_redemptions`, then this value cannot be greater than the coupon's `max_redemptions`.
+	MaxRedemptions *int64 `form:"max_redemptions"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Settings that restrict the redemption of the promotion code.
+	Restrictions *PromotionCodeCreateRestrictionsParams `form:"restrictions"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PromotionCodeCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PromotionCodeCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
+type PromotionCodeRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PromotionCodeRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type PromotionCodeUpdateRestrictionsCurrencyOptionsParams struct {
+	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+	MinimumAmount *int64 `form:"minimum_amount"`
+}
+
+// Settings that restrict the redemption of the promotion code.
+type PromotionCodeUpdateRestrictionsParams struct {
+	// Promotion codes defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*PromotionCodeUpdateRestrictionsCurrencyOptionsParams `form:"currency_options"`
+}
+
+// Updates the specified promotion code by setting the values of the parameters passed. Most fields are, by design, not editable.
+type PromotionCodeUpdateParams struct {
+	Params `form:"*"`
+	// Whether the promotion code is currently active. A promotion code can only be reactivated when the coupon is still valid and the promotion code is otherwise redeemable.
+	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Settings that restrict the redemption of the promotion code.
+	Restrictions *PromotionCodeUpdateRestrictionsParams `form:"restrictions"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PromotionCodeUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PromotionCodeUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Promotion code restrictions defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 type PromotionCodeRestrictionsCurrencyOptions struct {
 	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).

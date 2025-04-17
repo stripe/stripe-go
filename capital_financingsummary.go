@@ -28,6 +28,18 @@ func (p *CapitalFinancingSummaryParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieve the financing state for the account that was authenticated in the request.
+type CapitalFinancingSummaryRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapitalFinancingSummaryRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The chronologically current repayment interval for the financing offer.
 type CapitalFinancingSummaryDetailsCurrentRepaymentInterval struct {
 	// The time at which the minimum payment amount will be due. If not met through withholding, the Connected account's linked bank account or account balance will be debited.

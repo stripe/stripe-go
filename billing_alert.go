@@ -129,6 +129,56 @@ func (p *BillingAlertDeactivateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
+type BillingAlertCreateUsageThresholdFilterParams struct {
+	// Limit the scope to this usage alert only to this customer.
+	Customer *string `form:"customer"`
+	// What type of filter is being applied to this usage alert.
+	Type *string `form:"type"`
+}
+
+// The configuration of the usage threshold.
+type BillingAlertCreateUsageThresholdParams struct {
+	// The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
+	Filters []*BillingAlertCreateUsageThresholdFilterParams `form:"filters"`
+	// Defines at which value the alert will fire.
+	GTE *int64 `form:"gte"`
+	// The [Billing Meter](https://stripe.com/api/billing/meter) ID whose usage is monitored.
+	Meter *string `form:"meter"`
+	// Whether the alert should only fire only once, or once per billing cycle.
+	Recurrence *string `form:"recurrence"`
+}
+
+// Creates a billing alert
+type BillingAlertCreateParams struct {
+	Params `form:"*"`
+	// The type of alert to create.
+	AlertType *string `form:"alert_type"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The title of the alert.
+	Title *string `form:"title"`
+	// The configuration of the usage threshold.
+	UsageThreshold *BillingAlertCreateUsageThresholdParams `form:"usage_threshold"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingAlertCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves a billing alert given an ID
+type BillingAlertRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingAlertRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.
 type BillingAlertUsageThresholdFilter struct {
 	// Limit the scope of the alert to this customer ID

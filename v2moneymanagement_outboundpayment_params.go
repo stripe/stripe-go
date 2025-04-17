@@ -105,3 +105,75 @@ type V2MoneyManagementOutboundPaymentListParams struct {
 	// Closed Enum. Only return OutboundPayments with this status.
 	Status []*string `form:"status" json:"status,omitempty"`
 }
+
+// Delivery options to be used to send the OutboundPayment.
+type V2MoneyManagementOutboundPaymentCreateDeliveryOptionsParams struct {
+	// Open Enum. Method for bank account.
+	BankAccount *string `form:"bank_account" json:"bank_account,omitempty"`
+}
+
+// From which FinancialAccount and BalanceType to pull funds from.
+type V2MoneyManagementOutboundPaymentCreateFromParams struct {
+	// Describes the FinancialAmount's currency drawn from.
+	Currency *string `form:"currency" json:"currency"`
+	// The FinancialAccount that funds were pulled from.
+	FinancialAccount *string `form:"financial_account" json:"financial_account"`
+}
+
+// Details about the notification settings for the OutboundPayment recipient.
+type V2MoneyManagementOutboundPaymentCreateRecipientNotificationParams struct {
+	// Closed Enum. Configuration option to enable or disable notifications to recipients.
+	// Do not send notifications when setting is NONE. Default to account setting when setting is CONFIGURED or not set.
+	Setting *string `form:"setting" json:"setting"`
+}
+
+// To which payout method to send the OutboundPayment.
+type V2MoneyManagementOutboundPaymentCreateToParams struct {
+	// Describes the currency to send to the recipient.
+	// If included, this currency must match a currency supported by the destination.
+	// Can be omitted in the following cases:
+	// - destination only supports one currency
+	// - destination supports multiple currencies and one of the currencies matches the FA currency
+	// - destination supports multiple currencies and one of the currencies matches the presentment currency
+	// Note - when both FA currency and presentment currency are supported, we pick the FA currency to minimize FX.
+	Currency *string `form:"currency" json:"currency,omitempty"`
+	// The payout method which the OutboundPayment uses to send payout.
+	PayoutMethod *string `form:"payout_method" json:"payout_method,omitempty"`
+	// To which account the OutboundPayment is sent.
+	Recipient *string `form:"recipient" json:"recipient"`
+}
+
+// Creates an OutboundPayment.
+type V2MoneyManagementOutboundPaymentCreateParams struct {
+	Params `form:"*"`
+	// The "presentment amount" to be sent to the recipient.
+	Amount *Amount `form:"amount" json:"amount"`
+	// Delivery options to be used to send the OutboundPayment.
+	DeliveryOptions *V2MoneyManagementOutboundPaymentCreateDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
+	// An arbitrary string attached to the OutboundPayment. Often useful for displaying to users.
+	Description *string `form:"description" json:"description,omitempty"`
+	// From which FinancialAccount and BalanceType to pull funds from.
+	From *V2MoneyManagementOutboundPaymentCreateFromParams `form:"from" json:"from"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
+	// The quote for this OutboundPayment. Only required for countries with regulatory mandates to display fee estimates before OutboundPayment creation.
+	OutboundPaymentQuote *string `form:"outbound_payment_quote" json:"outbound_payment_quote,omitempty"`
+	// Details about the notification settings for the OutboundPayment recipient.
+	RecipientNotification *V2MoneyManagementOutboundPaymentCreateRecipientNotificationParams `form:"recipient_notification" json:"recipient_notification,omitempty"`
+	// To which payout method to send the OutboundPayment.
+	To *V2MoneyManagementOutboundPaymentCreateToParams `form:"to" json:"to"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *V2MoneyManagementOutboundPaymentCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the details of an existing OutboundPayment by passing the unique OutboundPayment ID from either the OutboundPayment create or list response.
+type V2MoneyManagementOutboundPaymentRetrieveParams struct {
+	Params `form:"*"`
+}

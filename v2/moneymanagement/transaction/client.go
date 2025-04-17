@@ -28,9 +28,9 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementTransactionParams
 }
 
 // Returns a list of Transactions that match the provided filters.
-func (c Client) All(listParams *stripe.V2MoneyManagementTransactionListParams) stripe.Seq2[stripe.V2MoneyManagementTransaction, error] {
-	return stripe.NewV2List("/v2/money_management/transactions", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2MoneyManagementTransaction], error) {
-		page := &stripe.V2Page[stripe.V2MoneyManagementTransaction]{}
+func (c Client) All(listParams *stripe.V2MoneyManagementTransactionListParams) stripe.Seq2[*stripe.V2MoneyManagementTransaction, error] {
+	return stripe.NewV2List("/v2/money_management/transactions", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementTransaction], error) {
+		page := &stripe.V2Page[*stripe.V2MoneyManagementTransaction]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

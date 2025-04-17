@@ -33,3 +33,8 @@ type V2MoneyManagementTransactionListParams struct {
 type V2MoneyManagementTransactionParams struct {
 	Params `form:"*"`
 }
+
+// Retrieves the details of a Transaction by ID.
+type V2MoneyManagementTransactionRetrieveParams struct {
+	Params `form:"*"`
+}

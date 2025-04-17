@@ -26,6 +26,18 @@ func (p *TerminalReaderCollectedDataParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieve data collected using Reader hardware.
+type TerminalReaderCollectedDataRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderCollectedDataRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The magstripe data collected by the reader.
 type TerminalReaderCollectedDataMagstripe struct {
 	// The raw magstripe data collected by the reader.

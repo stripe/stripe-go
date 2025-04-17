@@ -2058,6 +2058,1034 @@ func (p *TaxRegistrationParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+// Options for the registration in AE.
+type TaxRegistrationCreateCountryOptionsAeParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in AL.
+type TaxRegistrationCreateCountryOptionsAlParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in AM.
+type TaxRegistrationCreateCountryOptionsAmParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in AO.
+type TaxRegistrationCreateCountryOptionsAoParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsAtStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in AT.
+type TaxRegistrationCreateCountryOptionsAtParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsAtStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in AU.
+type TaxRegistrationCreateCountryOptionsAuParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in BA.
+type TaxRegistrationCreateCountryOptionsBaParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in BB.
+type TaxRegistrationCreateCountryOptionsBbParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsBeStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in BE.
+type TaxRegistrationCreateCountryOptionsBeParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsBeStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsBGStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in BG.
+type TaxRegistrationCreateCountryOptionsBGParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsBGStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in BH.
+type TaxRegistrationCreateCountryOptionsBhParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in BS.
+type TaxRegistrationCreateCountryOptionsBsParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in BY.
+type TaxRegistrationCreateCountryOptionsByParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the provincial tax registration.
+type TaxRegistrationCreateCountryOptionsCaProvinceStandardParams struct {
+	// Two-letter CA province code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
+	Province *string `form:"province"`
+}
+
+// Options for the registration in CA.
+type TaxRegistrationCreateCountryOptionsCaParams struct {
+	// Options for the provincial tax registration.
+	ProvinceStandard *TaxRegistrationCreateCountryOptionsCaProvinceStandardParams `form:"province_standard"`
+	// Type of registration to be created in Canada.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in CD.
+type TaxRegistrationCreateCountryOptionsCdParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in CH.
+type TaxRegistrationCreateCountryOptionsChParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in CL.
+type TaxRegistrationCreateCountryOptionsClParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in CO.
+type TaxRegistrationCreateCountryOptionsCoParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in CR.
+type TaxRegistrationCreateCountryOptionsCrParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsCyStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in CY.
+type TaxRegistrationCreateCountryOptionsCyParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsCyStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsCzStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in CZ.
+type TaxRegistrationCreateCountryOptionsCzParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsCzStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsDEStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in DE.
+type TaxRegistrationCreateCountryOptionsDEParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsDEStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsDkStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in DK.
+type TaxRegistrationCreateCountryOptionsDkParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsDkStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in EC.
+type TaxRegistrationCreateCountryOptionsEcParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsEeStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in EE.
+type TaxRegistrationCreateCountryOptionsEeParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsEeStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in EG.
+type TaxRegistrationCreateCountryOptionsEgParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsESStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in ES.
+type TaxRegistrationCreateCountryOptionsESParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsESStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsFIStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in FI.
+type TaxRegistrationCreateCountryOptionsFIParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsFIStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsFRStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in FR.
+type TaxRegistrationCreateCountryOptionsFRParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsFRStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in GB.
+type TaxRegistrationCreateCountryOptionsGBParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in GE.
+type TaxRegistrationCreateCountryOptionsGeParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in GN.
+type TaxRegistrationCreateCountryOptionsGnParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsGrStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in GR.
+type TaxRegistrationCreateCountryOptionsGrParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsGrStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsHRStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in HR.
+type TaxRegistrationCreateCountryOptionsHRParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsHRStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsHUStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in HU.
+type TaxRegistrationCreateCountryOptionsHUParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsHUStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in ID.
+type TaxRegistrationCreateCountryOptionsIDParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsIeStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in IE.
+type TaxRegistrationCreateCountryOptionsIeParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsIeStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in IN.
+type TaxRegistrationCreateCountryOptionsInParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in IS.
+type TaxRegistrationCreateCountryOptionsIsParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsITStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in IT.
+type TaxRegistrationCreateCountryOptionsITParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsITStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in JP.
+type TaxRegistrationCreateCountryOptionsJPParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in KE.
+type TaxRegistrationCreateCountryOptionsKeParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in KH.
+type TaxRegistrationCreateCountryOptionsKhParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in KR.
+type TaxRegistrationCreateCountryOptionsKrParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in KZ.
+type TaxRegistrationCreateCountryOptionsKzParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsLTStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in LT.
+type TaxRegistrationCreateCountryOptionsLTParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsLTStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsLuStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in LU.
+type TaxRegistrationCreateCountryOptionsLuParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsLuStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsLVStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in LV.
+type TaxRegistrationCreateCountryOptionsLVParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsLVStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in MA.
+type TaxRegistrationCreateCountryOptionsMaParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in MD.
+type TaxRegistrationCreateCountryOptionsMdParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in ME.
+type TaxRegistrationCreateCountryOptionsMeParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in MK.
+type TaxRegistrationCreateCountryOptionsMkParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in MR.
+type TaxRegistrationCreateCountryOptionsMrParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsMTStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in MT.
+type TaxRegistrationCreateCountryOptionsMTParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsMTStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in MX.
+type TaxRegistrationCreateCountryOptionsMXParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in MY.
+type TaxRegistrationCreateCountryOptionsMyParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in NG.
+type TaxRegistrationCreateCountryOptionsNgParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsNLStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in NL.
+type TaxRegistrationCreateCountryOptionsNLParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsNLStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in NO.
+type TaxRegistrationCreateCountryOptionsNoParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in NP.
+type TaxRegistrationCreateCountryOptionsNpParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in NZ.
+type TaxRegistrationCreateCountryOptionsNzParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in OM.
+type TaxRegistrationCreateCountryOptionsOmParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in PE.
+type TaxRegistrationCreateCountryOptionsPeParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsPLStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in PL.
+type TaxRegistrationCreateCountryOptionsPLParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsPLStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsPTStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in PT.
+type TaxRegistrationCreateCountryOptionsPTParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsPTStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsROStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in RO.
+type TaxRegistrationCreateCountryOptionsROParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsROStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in RS.
+type TaxRegistrationCreateCountryOptionsRsParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in RU.
+type TaxRegistrationCreateCountryOptionsRUParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in SA.
+type TaxRegistrationCreateCountryOptionsSaParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsSeStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in SE.
+type TaxRegistrationCreateCountryOptionsSeParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsSeStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in SG.
+type TaxRegistrationCreateCountryOptionsSgParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsSiStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in SI.
+type TaxRegistrationCreateCountryOptionsSiParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsSiStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsSKStandardParams struct {
+	// Place of supply scheme used in an EU standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
+// Options for the registration in SK.
+type TaxRegistrationCreateCountryOptionsSKParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsSKStandardParams `form:"standard"`
+	// Type of registration to be created in an EU country.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in SN.
+type TaxRegistrationCreateCountryOptionsSnParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in SR.
+type TaxRegistrationCreateCountryOptionsSrParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in TH.
+type TaxRegistrationCreateCountryOptionsTHParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in TJ.
+type TaxRegistrationCreateCountryOptionsTjParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in TR.
+type TaxRegistrationCreateCountryOptionsTRParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in TZ.
+type TaxRegistrationCreateCountryOptionsTzParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in UG.
+type TaxRegistrationCreateCountryOptionsUgParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the local amusement tax registration.
+type TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams struct {
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago), `06613` (Bloomington), `21696` (East Dundee), `24582` (Evanston), `45421` (Lynwood), `64343` (River Grove), and `68081` (Schiller Park).
+	Jurisdiction *string `form:"jurisdiction"`
+}
+
+// Options for the local lease tax registration.
+type TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams struct {
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `14000` (Chicago).
+	Jurisdiction *string `form:"jurisdiction"`
+}
+
+// Elections for the state sales tax registration.
+type TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams struct {
+	// A [FIPS code](https://www.census.gov/library/reference/code-lists/ansi.html) representing the local jurisdiction. Supported FIPS codes are: `003` (Allegheny County) and `60000` (Philadelphia City).
+	Jurisdiction *string `form:"jurisdiction"`
+	// The type of the election for the state sales tax registration.
+	Type *string `form:"type"`
+}
+
+// Options for the state sales tax registration.
+type TaxRegistrationCreateCountryOptionsUSStateSalesTaxParams struct {
+	// Elections for the state sales tax registration.
+	Elections []*TaxRegistrationCreateCountryOptionsUSStateSalesTaxElectionParams `form:"elections"`
+}
+
+// Options for the registration in US.
+type TaxRegistrationCreateCountryOptionsUSParams struct {
+	// Options for the local amusement tax registration.
+	LocalAmusementTax *TaxRegistrationCreateCountryOptionsUSLocalAmusementTaxParams `form:"local_amusement_tax"`
+	// Options for the local lease tax registration.
+	LocalLeaseTax *TaxRegistrationCreateCountryOptionsUSLocalLeaseTaxParams `form:"local_lease_tax"`
+	// Two-letter US state code ([ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)).
+	State *string `form:"state"`
+	// Options for the state sales tax registration.
+	StateSalesTax *TaxRegistrationCreateCountryOptionsUSStateSalesTaxParams `form:"state_sales_tax"`
+	// Type of registration to be created in the US.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in UY.
+type TaxRegistrationCreateCountryOptionsUyParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in UZ.
+type TaxRegistrationCreateCountryOptionsUzParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in VN.
+type TaxRegistrationCreateCountryOptionsVnParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in ZA.
+type TaxRegistrationCreateCountryOptionsZaParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in ZM.
+type TaxRegistrationCreateCountryOptionsZmParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Options for the registration in ZW.
+type TaxRegistrationCreateCountryOptionsZwParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
+// Specific options for a registration in the specified `country`.
+type TaxRegistrationCreateCountryOptionsParams struct {
+	// Options for the registration in AE.
+	Ae *TaxRegistrationCreateCountryOptionsAeParams `form:"ae"`
+	// Options for the registration in AL.
+	Al *TaxRegistrationCreateCountryOptionsAlParams `form:"al"`
+	// Options for the registration in AM.
+	Am *TaxRegistrationCreateCountryOptionsAmParams `form:"am"`
+	// Options for the registration in AO.
+	Ao *TaxRegistrationCreateCountryOptionsAoParams `form:"ao"`
+	// Options for the registration in AT.
+	At *TaxRegistrationCreateCountryOptionsAtParams `form:"at"`
+	// Options for the registration in AU.
+	Au *TaxRegistrationCreateCountryOptionsAuParams `form:"au"`
+	// Options for the registration in BA.
+	Ba *TaxRegistrationCreateCountryOptionsBaParams `form:"ba"`
+	// Options for the registration in BB.
+	Bb *TaxRegistrationCreateCountryOptionsBbParams `form:"bb"`
+	// Options for the registration in BE.
+	Be *TaxRegistrationCreateCountryOptionsBeParams `form:"be"`
+	// Options for the registration in BG.
+	BG *TaxRegistrationCreateCountryOptionsBGParams `form:"bg"`
+	// Options for the registration in BH.
+	Bh *TaxRegistrationCreateCountryOptionsBhParams `form:"bh"`
+	// Options for the registration in BS.
+	Bs *TaxRegistrationCreateCountryOptionsBsParams `form:"bs"`
+	// Options for the registration in BY.
+	By *TaxRegistrationCreateCountryOptionsByParams `form:"by"`
+	// Options for the registration in CA.
+	Ca *TaxRegistrationCreateCountryOptionsCaParams `form:"ca"`
+	// Options for the registration in CD.
+	Cd *TaxRegistrationCreateCountryOptionsCdParams `form:"cd"`
+	// Options for the registration in CH.
+	Ch *TaxRegistrationCreateCountryOptionsChParams `form:"ch"`
+	// Options for the registration in CL.
+	Cl *TaxRegistrationCreateCountryOptionsClParams `form:"cl"`
+	// Options for the registration in CO.
+	Co *TaxRegistrationCreateCountryOptionsCoParams `form:"co"`
+	// Options for the registration in CR.
+	Cr *TaxRegistrationCreateCountryOptionsCrParams `form:"cr"`
+	// Options for the registration in CY.
+	Cy *TaxRegistrationCreateCountryOptionsCyParams `form:"cy"`
+	// Options for the registration in CZ.
+	Cz *TaxRegistrationCreateCountryOptionsCzParams `form:"cz"`
+	// Options for the registration in DE.
+	DE *TaxRegistrationCreateCountryOptionsDEParams `form:"de"`
+	// Options for the registration in DK.
+	Dk *TaxRegistrationCreateCountryOptionsDkParams `form:"dk"`
+	// Options for the registration in EC.
+	Ec *TaxRegistrationCreateCountryOptionsEcParams `form:"ec"`
+	// Options for the registration in EE.
+	Ee *TaxRegistrationCreateCountryOptionsEeParams `form:"ee"`
+	// Options for the registration in EG.
+	Eg *TaxRegistrationCreateCountryOptionsEgParams `form:"eg"`
+	// Options for the registration in ES.
+	ES *TaxRegistrationCreateCountryOptionsESParams `form:"es"`
+	// Options for the registration in FI.
+	FI *TaxRegistrationCreateCountryOptionsFIParams `form:"fi"`
+	// Options for the registration in FR.
+	FR *TaxRegistrationCreateCountryOptionsFRParams `form:"fr"`
+	// Options for the registration in GB.
+	GB *TaxRegistrationCreateCountryOptionsGBParams `form:"gb"`
+	// Options for the registration in GE.
+	Ge *TaxRegistrationCreateCountryOptionsGeParams `form:"ge"`
+	// Options for the registration in GN.
+	Gn *TaxRegistrationCreateCountryOptionsGnParams `form:"gn"`
+	// Options for the registration in GR.
+	Gr *TaxRegistrationCreateCountryOptionsGrParams `form:"gr"`
+	// Options for the registration in HR.
+	HR *TaxRegistrationCreateCountryOptionsHRParams `form:"hr"`
+	// Options for the registration in HU.
+	HU *TaxRegistrationCreateCountryOptionsHUParams `form:"hu"`
+	// Options for the registration in ID.
+	ID *TaxRegistrationCreateCountryOptionsIDParams `form:"id"`
+	// Options for the registration in IE.
+	Ie *TaxRegistrationCreateCountryOptionsIeParams `form:"ie"`
+	// Options for the registration in IN.
+	In *TaxRegistrationCreateCountryOptionsInParams `form:"in"`
+	// Options for the registration in IS.
+	Is *TaxRegistrationCreateCountryOptionsIsParams `form:"is"`
+	// Options for the registration in IT.
+	IT *TaxRegistrationCreateCountryOptionsITParams `form:"it"`
+	// Options for the registration in JP.
+	JP *TaxRegistrationCreateCountryOptionsJPParams `form:"jp"`
+	// Options for the registration in KE.
+	Ke *TaxRegistrationCreateCountryOptionsKeParams `form:"ke"`
+	// Options for the registration in KH.
+	Kh *TaxRegistrationCreateCountryOptionsKhParams `form:"kh"`
+	// Options for the registration in KR.
+	Kr *TaxRegistrationCreateCountryOptionsKrParams `form:"kr"`
+	// Options for the registration in KZ.
+	Kz *TaxRegistrationCreateCountryOptionsKzParams `form:"kz"`
+	// Options for the registration in LT.
+	LT *TaxRegistrationCreateCountryOptionsLTParams `form:"lt"`
+	// Options for the registration in LU.
+	Lu *TaxRegistrationCreateCountryOptionsLuParams `form:"lu"`
+	// Options for the registration in LV.
+	LV *TaxRegistrationCreateCountryOptionsLVParams `form:"lv"`
+	// Options for the registration in MA.
+	Ma *TaxRegistrationCreateCountryOptionsMaParams `form:"ma"`
+	// Options for the registration in MD.
+	Md *TaxRegistrationCreateCountryOptionsMdParams `form:"md"`
+	// Options for the registration in ME.
+	Me *TaxRegistrationCreateCountryOptionsMeParams `form:"me"`
+	// Options for the registration in MK.
+	Mk *TaxRegistrationCreateCountryOptionsMkParams `form:"mk"`
+	// Options for the registration in MR.
+	Mr *TaxRegistrationCreateCountryOptionsMrParams `form:"mr"`
+	// Options for the registration in MT.
+	MT *TaxRegistrationCreateCountryOptionsMTParams `form:"mt"`
+	// Options for the registration in MX.
+	MX *TaxRegistrationCreateCountryOptionsMXParams `form:"mx"`
+	// Options for the registration in MY.
+	My *TaxRegistrationCreateCountryOptionsMyParams `form:"my"`
+	// Options for the registration in NG.
+	Ng *TaxRegistrationCreateCountryOptionsNgParams `form:"ng"`
+	// Options for the registration in NL.
+	NL *TaxRegistrationCreateCountryOptionsNLParams `form:"nl"`
+	// Options for the registration in NO.
+	No *TaxRegistrationCreateCountryOptionsNoParams `form:"no"`
+	// Options for the registration in NP.
+	Np *TaxRegistrationCreateCountryOptionsNpParams `form:"np"`
+	// Options for the registration in NZ.
+	Nz *TaxRegistrationCreateCountryOptionsNzParams `form:"nz"`
+	// Options for the registration in OM.
+	Om *TaxRegistrationCreateCountryOptionsOmParams `form:"om"`
+	// Options for the registration in PE.
+	Pe *TaxRegistrationCreateCountryOptionsPeParams `form:"pe"`
+	// Options for the registration in PL.
+	PL *TaxRegistrationCreateCountryOptionsPLParams `form:"pl"`
+	// Options for the registration in PT.
+	PT *TaxRegistrationCreateCountryOptionsPTParams `form:"pt"`
+	// Options for the registration in RO.
+	RO *TaxRegistrationCreateCountryOptionsROParams `form:"ro"`
+	// Options for the registration in RS.
+	Rs *TaxRegistrationCreateCountryOptionsRsParams `form:"rs"`
+	// Options for the registration in RU.
+	RU *TaxRegistrationCreateCountryOptionsRUParams `form:"ru"`
+	// Options for the registration in SA.
+	Sa *TaxRegistrationCreateCountryOptionsSaParams `form:"sa"`
+	// Options for the registration in SE.
+	Se *TaxRegistrationCreateCountryOptionsSeParams `form:"se"`
+	// Options for the registration in SG.
+	Sg *TaxRegistrationCreateCountryOptionsSgParams `form:"sg"`
+	// Options for the registration in SI.
+	Si *TaxRegistrationCreateCountryOptionsSiParams `form:"si"`
+	// Options for the registration in SK.
+	SK *TaxRegistrationCreateCountryOptionsSKParams `form:"sk"`
+	// Options for the registration in SN.
+	Sn *TaxRegistrationCreateCountryOptionsSnParams `form:"sn"`
+	// Options for the registration in SR.
+	Sr *TaxRegistrationCreateCountryOptionsSrParams `form:"sr"`
+	// Options for the registration in TH.
+	TH *TaxRegistrationCreateCountryOptionsTHParams `form:"th"`
+	// Options for the registration in TJ.
+	Tj *TaxRegistrationCreateCountryOptionsTjParams `form:"tj"`
+	// Options for the registration in TR.
+	TR *TaxRegistrationCreateCountryOptionsTRParams `form:"tr"`
+	// Options for the registration in TZ.
+	Tz *TaxRegistrationCreateCountryOptionsTzParams `form:"tz"`
+	// Options for the registration in UG.
+	Ug *TaxRegistrationCreateCountryOptionsUgParams `form:"ug"`
+	// Options for the registration in US.
+	US *TaxRegistrationCreateCountryOptionsUSParams `form:"us"`
+	// Options for the registration in UY.
+	Uy *TaxRegistrationCreateCountryOptionsUyParams `form:"uy"`
+	// Options for the registration in UZ.
+	Uz *TaxRegistrationCreateCountryOptionsUzParams `form:"uz"`
+	// Options for the registration in VN.
+	Vn *TaxRegistrationCreateCountryOptionsVnParams `form:"vn"`
+	// Options for the registration in ZA.
+	Za *TaxRegistrationCreateCountryOptionsZaParams `form:"za"`
+	// Options for the registration in ZM.
+	Zm *TaxRegistrationCreateCountryOptionsZmParams `form:"zm"`
+	// Options for the registration in ZW.
+	Zw *TaxRegistrationCreateCountryOptionsZwParams `form:"zw"`
+}
+
+// Creates a new Tax Registration object.
+type TaxRegistrationCreateParams struct {
+	Params `form:"*"`
+	// Time at which the Tax Registration becomes active. It can be either `now` to indicate the current time, or a future timestamp measured in seconds since the Unix epoch.
+	ActiveFrom    *int64 `form:"active_from"`
+	ActiveFromNow *bool  `form:"-"` // See custom AppendTo
+	// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+	Country *string `form:"country"`
+	// Specific options for a registration in the specified `country`.
+	CountryOptions *TaxRegistrationCreateCountryOptionsParams `form:"country_options"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// If set, the Tax Registration stops being active at this time. If not set, the Tax Registration will be active indefinitely. Timestamp measured in seconds since the Unix epoch.
+	ExpiresAt *int64 `form:"expires_at"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxRegistrationCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AppendTo implements custom encoding logic for TaxRegistrationCreateParams.
+func (p *TaxRegistrationCreateParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.ActiveFromNow) {
+		body.Add(form.FormatKey(append(keyParts, "active_from")), "now")
+	}
+}
+
+// Returns a Tax Registration object.
+type TaxRegistrationRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxRegistrationRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates an existing Tax Registration object.
+//
+// A registration cannot be deleted after it has been created. If you wish to end a registration you may do so by setting expires_at.
+type TaxRegistrationUpdateParams struct {
+	Params `form:"*"`
+	// Time at which the registration becomes active. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
+	ActiveFrom    *int64 `form:"active_from"`
+	ActiveFromNow *bool  `form:"-"` // See custom AppendTo
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// If set, the registration stops being active at this time. If not set, the registration will be active indefinitely. It can be either `now` to indicate the current time, or a timestamp measured in seconds since the Unix epoch.
+	ExpiresAt    *int64 `form:"expires_at"`
+	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxRegistrationUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AppendTo implements custom encoding logic for TaxRegistrationUpdateParams.
+func (p *TaxRegistrationUpdateParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.ActiveFromNow) {
+		body.Add(form.FormatKey(append(keyParts, "active_from")), "now")
+	}
+	if BoolValue(p.ExpiresAtNow) {
+		body.Add(form.FormatKey(append(keyParts, "expires_at")), "now")
+	}
+}
+
 type TaxRegistrationCountryOptionsAe struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsAeType `json:"type"`

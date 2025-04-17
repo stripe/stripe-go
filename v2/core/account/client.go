@@ -51,9 +51,9 @@ func (c Client) Close(id string, params *stripe.V2CoreAccountCloseParams) (*stri
 }
 
 // Returns a list of Accounts.
-func (c Client) All(listParams *stripe.V2CoreAccountListParams) stripe.Seq2[stripe.V2CoreAccount, error] {
-	return stripe.NewV2List("/v2/core/accounts", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2CoreAccount], error) {
-		page := &stripe.V2Page[stripe.V2CoreAccount]{}
+func (c Client) All(listParams *stripe.V2CoreAccountListParams) stripe.Seq2[*stripe.V2CoreAccount, error] {
+	return stripe.NewV2List("/v2/core/accounts", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2CoreAccount], error) {
+		page := &stripe.V2Page[*stripe.V2CoreAccount]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

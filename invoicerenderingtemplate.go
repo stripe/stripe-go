@@ -65,6 +65,19 @@ func (p *InvoiceRenderingTemplateUnarchiveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves an invoice rendering template with the given ID. It by default returns the latest version of the template. Optionally, specify a version to see previous versions.
+type InvoiceRenderingTemplateRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand  []*string `form:"expand"`
+	Version *int64    `form:"version"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *InvoiceRenderingTemplateRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Invoice Rendering Templates are used to configure how invoices are rendered on surfaces like the PDF. Invoice Rendering Templates
 // can be created from within the Dashboard, and they can be used over the API when creating invoices.
 type InvoiceRenderingTemplate struct {

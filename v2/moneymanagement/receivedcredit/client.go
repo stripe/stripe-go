@@ -28,9 +28,9 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementReceivedCreditPar
 }
 
 // Retrieves a list of ReceivedCredits.
-func (c Client) All(listParams *stripe.V2MoneyManagementReceivedCreditListParams) stripe.Seq2[stripe.V2MoneyManagementReceivedCredit, error] {
-	return stripe.NewV2List("/v2/money_management/received_credits", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2MoneyManagementReceivedCredit], error) {
-		page := &stripe.V2Page[stripe.V2MoneyManagementReceivedCredit]{}
+func (c Client) All(listParams *stripe.V2MoneyManagementReceivedCreditListParams) stripe.Seq2[*stripe.V2MoneyManagementReceivedCredit, error] {
+	return stripe.NewV2List("/v2/money_management/received_credits", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementReceivedCredit], error) {
+		page := &stripe.V2Page[*stripe.V2MoneyManagementReceivedCredit]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

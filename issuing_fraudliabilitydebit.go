@@ -34,6 +34,18 @@ func (p *IssuingFraudLiabilityDebitParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves an Issuing FraudLiabilityDebit object.
+type IssuingFraudLiabilityDebitRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingFraudLiabilityDebitRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A fraud liability debit occurs when Stripe debits a platform's account for fraud losses on Issuing transactions.
 type IssuingFraudLiabilityDebit struct {
 	APIResource

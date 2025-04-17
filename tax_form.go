@@ -101,6 +101,18 @@ func (p *TaxFormPDFParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of a tax form that has previously been created. Supply the unique tax form ID that was returned from your previous request, and Stripe will return the corresponding tax form information.
+type TaxFormRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TaxFormRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TaxFormAuSerr struct {
 	// End date of the period represented by the information reported on the tax form.
 	ReportingPeriodEndDate string `json:"reporting_period_end_date"`

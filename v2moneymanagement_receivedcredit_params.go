@@ -34,3 +34,8 @@ type V2MoneyManagementReceivedCreditListParams struct {
 type V2MoneyManagementReceivedCreditParams struct {
 	Params `form:"*"`
 }
+
+// Retrieve a ReceivedCredit by ID.
+type V2MoneyManagementReceivedCreditRetrieveParams struct {
+	Params `form:"*"`
+}

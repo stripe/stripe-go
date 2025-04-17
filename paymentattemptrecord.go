@@ -539,6 +539,18 @@ func (p *PaymentAttemptRecordParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves a Payment Attempt Record with the given ID
+type PaymentAttemptRecordRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentAttemptRecordRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A representation of an amount of money, consisting of an amount and a currency.
 type PaymentAttemptRecordAmountCanceled struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

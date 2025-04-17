@@ -160,6 +160,138 @@ func (p *ShippingRateParams) AddMetadata(key string, value string) {
 }
 
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+type ShippingRateCreateDeliveryEstimateMaximumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The lower bound of the estimated range. If empty, represents no lower bound.
+type ShippingRateCreateDeliveryEstimateMinimumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+type ShippingRateCreateDeliveryEstimateParams struct {
+	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+	Maximum *ShippingRateCreateDeliveryEstimateMaximumParams `form:"maximum"`
+	// The lower bound of the estimated range. If empty, represents no lower bound.
+	Minimum *ShippingRateCreateDeliveryEstimateMinimumParams `form:"minimum"`
+}
+
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type ShippingRateCreateFixedAmountCurrencyOptionsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+type ShippingRateCreateFixedAmountParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*ShippingRateCreateFixedAmountCurrencyOptionsParams `form:"currency_options"`
+}
+
+// Creates a new shipping rate object.
+type ShippingRateCreateParams struct {
+	Params `form:"*"`
+	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DeliveryEstimate *ShippingRateCreateDeliveryEstimateParams `form:"delivery_estimate"`
+	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DisplayName *string `form:"display_name"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+	FixedAmount *ShippingRateCreateFixedAmountParams `form:"fixed_amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
+	TaxCode *string `form:"tax_code"`
+	// The type of calculation to use on the shipping rate.
+	Type *string `form:"type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ShippingRateCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ShippingRateCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Returns the shipping rate object with the given ID.
+type ShippingRateRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ShippingRateRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type ShippingRateUpdateFixedAmountCurrencyOptionsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+type ShippingRateUpdateFixedAmountParams struct {
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*ShippingRateUpdateFixedAmountCurrencyOptionsParams `form:"currency_options"`
+}
+
+// Updates an existing shipping rate object.
+type ShippingRateUpdateParams struct {
+	Params `form:"*"`
+	// Whether the shipping rate can be used for new purchases. Defaults to `true`.
+	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+	FixedAmount *ShippingRateUpdateFixedAmountParams `form:"fixed_amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ShippingRateUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *ShippingRateUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type ShippingRateDeliveryEstimateMaximum struct {
 	// A unit of time.
 	Unit ShippingRateDeliveryEstimateMaximumUnit `json:"unit"`

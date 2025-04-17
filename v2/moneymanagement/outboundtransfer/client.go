@@ -45,9 +45,9 @@ func (c Client) Cancel(id string, params *stripe.V2MoneyManagementOutboundTransf
 }
 
 // Returns a list of OutboundTransfers that match the provided filters.
-func (c Client) All(listParams *stripe.V2MoneyManagementOutboundTransferListParams) stripe.Seq2[stripe.V2MoneyManagementOutboundTransfer, error] {
-	return stripe.NewV2List("/v2/money_management/outbound_transfers", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2MoneyManagementOutboundTransfer], error) {
-		page := &stripe.V2Page[stripe.V2MoneyManagementOutboundTransfer]{}
+func (c Client) All(listParams *stripe.V2MoneyManagementOutboundTransferListParams) stripe.Seq2[*stripe.V2MoneyManagementOutboundTransfer, error] {
+	return stripe.NewV2List("/v2/money_management/outbound_transfers", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementOutboundTransfer], error) {
+		page := &stripe.V2Page[*stripe.V2MoneyManagementOutboundTransfer]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

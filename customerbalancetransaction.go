@@ -70,6 +70,75 @@ func (p *CustomerBalanceTransactionParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
+// Creates an immutable transaction that updates the customer's credit [balance](https://stripe.com/docs/billing/customer/balance).
+type CustomerBalanceTransactionCreateParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// The integer amount in **cents (or local equivalent)** to apply to the customer's credit balance.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Specifies the [`invoice_credit_balance`](https://stripe.com/docs/api/customers/object#customer_object-invoice_credit_balance) that this transaction will apply to. If the customer's `currency` is not set, it will be updated to this value.
+	Currency *string `form:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerBalanceTransactionCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CustomerBalanceTransactionCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
+type CustomerBalanceTransactionRetrieveParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerBalanceTransactionRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Most credit balance transaction fields are immutable, but you may update its description and metadata.
+type CustomerBalanceTransactionUpdateParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerBalanceTransactionUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CustomerBalanceTransactionUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Each customer has a [Balance](https://stripe.com/docs/api/customers/object#customer_object-balance) value,
 // which denotes a debit or credit that's automatically applied to their next invoice upon finalization.
 // You may modify the value directly by using the [update customer API](https://stripe.com/docs/api/customers/update),

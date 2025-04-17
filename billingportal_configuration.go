@@ -239,6 +239,292 @@ func (p *BillingPortalConfigurationParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
+// The business information shown to customers in the portal.
+type BillingPortalConfigurationCreateBusinessProfileParams struct {
+	// The messaging shown to customers in the portal.
+	Headline *string `form:"headline"`
+	// A link to the business's publicly available privacy policy.
+	PrivacyPolicyURL *string `form:"privacy_policy_url"`
+	// A link to the business's publicly available terms of service.
+	TermsOfServiceURL *string `form:"terms_of_service_url"`
+}
+
+// Information about updating the customer details in the portal.
+type BillingPortalConfigurationCreateFeaturesCustomerUpdateParams struct {
+	// The types of customer updates that are supported. When empty, customers are not updateable.
+	AllowedUpdates []*string `form:"allowed_updates"`
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
+// Information about showing the billing history in the portal.
+type BillingPortalConfigurationCreateFeaturesInvoiceHistoryParams struct {
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
+// Information about updating payment methods in the portal.
+type BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParams struct {
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
+// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
+type BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParams struct {
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+	// Which cancellation reasons will be given as options to the customer.
+	Options []*string `form:"options"`
+}
+
+// Information about canceling subscriptions in the portal.
+type BillingPortalConfigurationCreateFeaturesSubscriptionCancelParams struct {
+	// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
+	CancellationReason *BillingPortalConfigurationCreateFeaturesSubscriptionCancelCancellationReasonParams `form:"cancellation_reason"`
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+	// Whether to cancel subscriptions immediately or at the end of the billing period.
+	Mode *string `form:"mode"`
+	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`, which is only compatible with `mode=immediately`. Passing `always_invoice` will result in an error. No prorations are generated when canceling a subscription at the end of its natural billing period.
+	ProrationBehavior *string `form:"proration_behavior"`
+}
+
+// The list of up to 10 products that support subscription updates.
+type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateProductParams struct {
+	// The list of price IDs for the product that a subscription can be updated to.
+	Prices []*string `form:"prices"`
+	// The product id.
+	Product *string `form:"product"`
+}
+
+// List of conditions. When any condition is true, the update will be scheduled at the end of the current period.
+type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodEndConditionParams struct {
+	// The type of condition.
+	Type *string `form:"type"`
+}
+
+// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
+type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams struct {
+	// List of conditions. When any condition is true, the update will be scheduled at the end of the current period.
+	Conditions []*BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodEndConditionParams `form:"conditions"`
+}
+
+// Information about updating subscriptions in the portal.
+type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams struct {
+	// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
+	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of up to 10 products that support subscription updates.
+	Products []*BillingPortalConfigurationCreateFeaturesSubscriptionUpdateProductParams `form:"products"`
+	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
+	ScheduleAtPeriodEnd *BillingPortalConfigurationCreateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
+}
+
+// Information about the features available in the portal.
+type BillingPortalConfigurationCreateFeaturesParams struct {
+	// Information about updating the customer details in the portal.
+	CustomerUpdate *BillingPortalConfigurationCreateFeaturesCustomerUpdateParams `form:"customer_update"`
+	// Information about showing the billing history in the portal.
+	InvoiceHistory *BillingPortalConfigurationCreateFeaturesInvoiceHistoryParams `form:"invoice_history"`
+	// Information about updating payment methods in the portal.
+	PaymentMethodUpdate *BillingPortalConfigurationCreateFeaturesPaymentMethodUpdateParams `form:"payment_method_update"`
+	// Information about canceling subscriptions in the portal.
+	SubscriptionCancel *BillingPortalConfigurationCreateFeaturesSubscriptionCancelParams `form:"subscription_cancel"`
+	// Information about updating subscriptions in the portal.
+	SubscriptionUpdate *BillingPortalConfigurationCreateFeaturesSubscriptionUpdateParams `form:"subscription_update"`
+}
+
+// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
+type BillingPortalConfigurationCreateLoginPageParams struct {
+	// Set to `true` to generate a shareable URL [`login_page.url`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
+	Enabled *bool `form:"enabled"`
+}
+
+// Creates a configuration that describes the functionality and behavior of a PortalSession
+type BillingPortalConfigurationCreateParams struct {
+	Params `form:"*"`
+	// The business information shown to customers in the portal.
+	BusinessProfile *BillingPortalConfigurationCreateBusinessProfileParams `form:"business_profile"`
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	DefaultReturnURL *string `form:"default_return_url"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Information about the features available in the portal.
+	Features *BillingPortalConfigurationCreateFeaturesParams `form:"features"`
+	// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
+	LoginPage *BillingPortalConfigurationCreateLoginPageParams `form:"login_page"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingPortalConfigurationCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *BillingPortalConfigurationCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves a configuration that describes the functionality of the customer portal.
+type BillingPortalConfigurationRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingPortalConfigurationRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// The business information shown to customers in the portal.
+type BillingPortalConfigurationUpdateBusinessProfileParams struct {
+	// The messaging shown to customers in the portal.
+	Headline *string `form:"headline"`
+	// A link to the business's publicly available privacy policy.
+	PrivacyPolicyURL *string `form:"privacy_policy_url"`
+	// A link to the business's publicly available terms of service.
+	TermsOfServiceURL *string `form:"terms_of_service_url"`
+}
+
+// Information about updating the customer details in the portal.
+type BillingPortalConfigurationUpdateFeaturesCustomerUpdateParams struct {
+	// The types of customer updates that are supported. When empty, customers are not updateable.
+	AllowedUpdates []*string `form:"allowed_updates"`
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
+// Information about showing the billing history in the portal.
+type BillingPortalConfigurationUpdateFeaturesInvoiceHistoryParams struct {
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
+// Information about updating payment methods in the portal.
+type BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParams struct {
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
+// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
+type BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParams struct {
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+	// Which cancellation reasons will be given as options to the customer.
+	Options []*string `form:"options"`
+}
+
+// Information about canceling subscriptions in the portal.
+type BillingPortalConfigurationUpdateFeaturesSubscriptionCancelParams struct {
+	// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
+	CancellationReason *BillingPortalConfigurationUpdateFeaturesSubscriptionCancelCancellationReasonParams `form:"cancellation_reason"`
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+	// Whether to cancel subscriptions immediately or at the end of the billing period.
+	Mode *string `form:"mode"`
+	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`, which is only compatible with `mode=immediately`. Passing `always_invoice` will result in an error. No prorations are generated when canceling a subscription at the end of its natural billing period.
+	ProrationBehavior *string `form:"proration_behavior"`
+}
+
+// The list of up to 10 products that support subscription updates.
+type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateProductParams struct {
+	// The list of price IDs for the product that a subscription can be updated to.
+	Prices []*string `form:"prices"`
+	// The product id.
+	Product *string `form:"product"`
+}
+
+// List of conditions. When any condition is true, the update will be scheduled at the end of the current period.
+type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndConditionParams struct {
+	// The type of condition.
+	Type *string `form:"type"`
+}
+
+// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
+type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams struct {
+	// List of conditions. When any condition is true, the update will be scheduled at the end of the current period.
+	Conditions []*BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndConditionParams `form:"conditions"`
+}
+
+// Information about updating subscriptions in the portal.
+type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams struct {
+	// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
+	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of up to 10 products that support subscription updates.
+	Products []*BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateProductParams `form:"products"`
+	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// Setting to control when an update should be scheduled at the end of the period instead of applying immediately.
+	ScheduleAtPeriodEnd *BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateScheduleAtPeriodEndParams `form:"schedule_at_period_end"`
+}
+
+// Information about the features available in the portal.
+type BillingPortalConfigurationUpdateFeaturesParams struct {
+	// Information about updating the customer details in the portal.
+	CustomerUpdate *BillingPortalConfigurationUpdateFeaturesCustomerUpdateParams `form:"customer_update"`
+	// Information about showing the billing history in the portal.
+	InvoiceHistory *BillingPortalConfigurationUpdateFeaturesInvoiceHistoryParams `form:"invoice_history"`
+	// Information about updating payment methods in the portal.
+	PaymentMethodUpdate *BillingPortalConfigurationUpdateFeaturesPaymentMethodUpdateParams `form:"payment_method_update"`
+	// Information about canceling subscriptions in the portal.
+	SubscriptionCancel *BillingPortalConfigurationUpdateFeaturesSubscriptionCancelParams `form:"subscription_cancel"`
+	// Information about updating subscriptions in the portal.
+	SubscriptionUpdate *BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateParams `form:"subscription_update"`
+}
+
+// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
+type BillingPortalConfigurationUpdateLoginPageParams struct {
+	// Set to `true` to generate a shareable URL [`login_page.url`](https://stripe.com/docs/api/customer_portal/configuration#portal_configuration_object-login_page-url) that will take your customers to a hosted login page for the customer portal.
+	//
+	// Set to `false` to deactivate the `login_page.url`.
+	Enabled *bool `form:"enabled"`
+}
+
+// Updates a configuration that describes the functionality of the customer portal.
+type BillingPortalConfigurationUpdateParams struct {
+	Params `form:"*"`
+	// Whether the configuration is active and can be used to create portal sessions.
+	Active *bool `form:"active"`
+	// The business information shown to customers in the portal.
+	BusinessProfile *BillingPortalConfigurationUpdateBusinessProfileParams `form:"business_profile"`
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	DefaultReturnURL *string `form:"default_return_url"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Information about the features available in the portal.
+	Features *BillingPortalConfigurationUpdateFeaturesParams `form:"features"`
+	// The hosted login page for this configuration. Learn more about the portal login page in our [integration docs](https://stripe.com/docs/billing/subscriptions/integrating-customer-portal#share).
+	LoginPage *BillingPortalConfigurationUpdateLoginPageParams `form:"login_page"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingPortalConfigurationUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *BillingPortalConfigurationUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type BillingPortalConfigurationBusinessProfile struct {
 	// The messaging shown to customers in the portal.
 	Headline string `json:"headline"`

@@ -82,6 +82,64 @@ type BalanceSettingsSettlementTimingParams struct {
 	DelayDays *int64 `form:"delay_days"`
 }
 
+// Retrieves balance settings for a given connected account.
+//
+//	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
+type BalanceSettingsRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BalanceSettingsRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+type BalanceSettingsUpdatePayoutsScheduleParams struct {
+	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
+	Interval *string `form:"interval"`
+	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
+	MonthlyAnchor *int64 `form:"monthly_anchor"`
+	// The day of the week when available funds are paid out (required and applicable only if `interval` is `weekly`.)
+	WeeklyAnchor *string `form:"weekly_anchor"`
+}
+
+// Settings specific to the account's payouts.
+type BalanceSettingsUpdatePayoutsParams struct {
+	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+	Schedule *BalanceSettingsUpdatePayoutsScheduleParams `form:"schedule"`
+	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
+	StatementDescriptor *string `form:"statement_descriptor"`
+}
+
+// Settings related to the account's balance settlement timing.
+type BalanceSettingsUpdateSettlementTimingParams struct {
+	// The number of days charge funds are held before becoming available. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `payouts.schedule.interval` is `manual`. [Learn more about controlling payout delay days](https://stripe.com/connect/manage-payout-schedule).
+	DelayDays *int64 `form:"delay_days"`
+}
+
+// Updates balance settings for a given connected account.
+//
+//	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
+type BalanceSettingsUpdateParams struct {
+	Params `form:"*"`
+	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://stripe.com/connect/account-balances).
+	DebitNegativeBalances *bool `form:"debit_negative_balances"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Settings specific to the account's payouts.
+	Payouts *BalanceSettingsUpdatePayoutsParams `form:"payouts"`
+	// Settings related to the account's balance settlement timing.
+	SettlementTiming *BalanceSettingsUpdateSettlementTimingParams `form:"settlement_timing"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BalanceSettingsUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Details on when funds from charges are available, and when they are paid out to an external account. See our [Setting Bank and Debit Card Payouts](https://stripe.com/docs/connect/bank-transfers#payout-information) documentation for details.
 type BalanceSettingsPayoutsSchedule struct {
 	// How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.

@@ -63,3 +63,61 @@ type TestHelpersTreasuryReceivedCreditParams struct {
 func (p *TestHelpersTreasuryReceivedCreditParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
+
+// Optional fields for `us_bank_account`.
+type TestHelpersTreasuryReceivedCreditCreateInitiatingPaymentMethodDetailsUSBankAccountParams struct {
+	// The bank account holder's name.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The bank account number.
+	AccountNumber *string `form:"account_number"`
+	// The bank account's routing number.
+	RoutingNumber *string `form:"routing_number"`
+}
+
+// Initiating payment method details for the object.
+type TestHelpersTreasuryReceivedCreditCreateInitiatingPaymentMethodDetailsParams struct {
+	// The source type.
+	Type *string `form:"type"`
+	// Optional fields for `us_bank_account`.
+	USBankAccount *TestHelpersTreasuryReceivedCreditCreateInitiatingPaymentMethodDetailsUSBankAccountParams `form:"us_bank_account"`
+}
+
+// Optional fields for `ach`.
+type TestHelpersTreasuryReceivedCreditCreateNetworkDetailsACHParams struct {
+	// ACH Addenda record
+	Addenda *string `form:"addenda"`
+}
+
+// Details about the network used for the ReceivedCredit.
+type TestHelpersTreasuryReceivedCreditCreateNetworkDetailsParams struct {
+	// Optional fields for `ach`.
+	ACH *TestHelpersTreasuryReceivedCreditCreateNetworkDetailsACHParams `form:"ach"`
+	// The type of flow that originated the ReceivedCredit.
+	Type *string `form:"type"`
+}
+
+// Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredits initiated by third parties.
+type TestHelpersTreasuryReceivedCreditCreateParams struct {
+	Params `form:"*"`
+	// Amount (in cents) to be transferred.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The FinancialAccount to send funds to.
+	FinancialAccount *string `form:"financial_account"`
+	// Initiating payment method details for the object.
+	InitiatingPaymentMethodDetails *TestHelpersTreasuryReceivedCreditCreateInitiatingPaymentMethodDetailsParams `form:"initiating_payment_method_details"`
+	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
+	Network *string `form:"network"`
+	// Details about the network used for the ReceivedCredit.
+	NetworkDetails *TestHelpersTreasuryReceivedCreditCreateNetworkDetailsParams `form:"network_details"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTreasuryReceivedCreditCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}

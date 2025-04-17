@@ -59,3 +59,36 @@ type V2CoreVaultGBBankAccountInitiateConfirmationOfPayeeParams struct {
 	// The name of the user to be checked against. Legal entity information will be used if unspecified.
 	Name *string `form:"name" json:"name,omitempty"`
 }
+
+// Whether or not to automatically perform Confirmation of Payee to verify the users information
+// against what was provided by the bank. Doing so is required for all bank accounts not owned
+// by you before making domestic UK OutboundPayments.
+type V2CoreVaultGBBankAccountCreateConfirmationOfPayeeParams struct {
+	// The business type to be checked against. Legal entity information will be used if unspecified.
+	// Closed enum.
+	BusinessType *string `form:"business_type" json:"business_type,omitempty"`
+	// User specifies whether Confirmation of Payee is automatically initiated when creating the bank account.
+	Initiate *bool `form:"initiate" json:"initiate"`
+	// The name to be checked against. Legal entity information will be used if unspecified.
+	Name *string `form:"name" json:"name,omitempty"`
+}
+
+// Create a GB bank account.
+type V2CoreVaultGBBankAccountCreateParams struct {
+	Params `form:"*"`
+	// The Account Number of the bank account.
+	AccountNumber *string `form:"account_number" json:"account_number"`
+	// Closed Enum. The type of the bank account (checking or savings).
+	BankAccountType *string `form:"bank_account_type" json:"bank_account_type,omitempty"`
+	// Whether or not to automatically perform Confirmation of Payee to verify the users information
+	// against what was provided by the bank. Doing so is required for all bank accounts not owned
+	// by you before making domestic UK OutboundPayments.
+	ConfirmationOfPayee *V2CoreVaultGBBankAccountCreateConfirmationOfPayeeParams `form:"confirmation_of_payee" json:"confirmation_of_payee,omitempty"`
+	// The Sort Code of the bank account.
+	SortCode *string `form:"sort_code" json:"sort_code"`
+}
+
+// Retrieve a GB bank account.
+type V2CoreVaultGBBankAccountRetrieveParams struct {
+	Params `form:"*"`
+}

@@ -1408,6 +1408,1424 @@ func (p *OrderSubmitParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Settings for automatic tax calculation for this order.
+type OrderCreateAutomaticTaxParams struct {
+	// Enable automatic tax calculation which will automatically compute tax rates on this order.
+	Enabled *bool `form:"enabled"`
+}
+
+// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
+type OrderCreateBillingDetailsParams struct {
+	// The billing address provided by the customer.
+	Address *AddressParams `form:"address"`
+	// The billing email provided by the customer.
+	Email *string `form:"email"`
+	// The billing name provided by the customer.
+	Name *string `form:"name"`
+	// The billing phone number provided by the customer.
+	Phone *string `form:"phone"`
+}
+
+// The credits to apply to the order, only `gift_card` currently supported.
+type OrderCreateCreditParams struct {
+	// The gift card to apply to the order.
+	GiftCard *string `form:"gift_card"`
+	// The type of credit to apply to the order, only `gift_card` currently supported.
+	Type *string `form:"type"`
+}
+
+// The coupons, promotion codes, and/or discounts to apply to the order.
+type OrderCreateDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The discounts applied to this line item.
+type OrderCreateLineItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
+// Data used to generate a new Price object inline.
+//
+// The `price_data` parameter is an alternative to using the `product` or `price` parameters. If you create a Product upfront and configure a `Product.default_price`, pass the `product` parameter when creating a line item. If you prefer not to define Products upfront, or if you charge variable prices, pass the `price_data` parameter to describe the price for this line item.
+//
+// Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
+type OrderCreateLineItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// ID of the [Product](https://docs.stripe.com/api/products) this [Price](https://docs.stripe.com/api/prices) belongs to.
+	//
+	// Use this to implement a variable-pricing model in your integration. This is required if `product_data` is not specified.
+	Product *string `form:"product"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// The dimensions of this product for shipping purposes.
+type OrderCreateLineItemProductDataPackageDimensionsParams struct {
+	// Height, in inches. Maximum precision is 2 decimal places.
+	Height *float64 `form:"height"`
+	// Length, in inches. Maximum precision is 2 decimal places.
+	Length *float64 `form:"length"`
+	// Weight, in ounces. Maximum precision is 2 decimal places.
+	Weight *float64 `form:"weight"`
+	// Width, in inches. Maximum precision is 2 decimal places.
+	Width *float64 `form:"width"`
+}
+
+// Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
+//
+// `product_data` is an alternative to the `product` parameter. If you created a Product upfront, use the `product` parameter to refer to the existing Product. But if you prefer not to create Products upfront, pass the `product_data` parameter to define a Product inline as part of configuring the Order.
+//
+// `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
+type OrderCreateLineItemProductDataParams struct {
+	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
+	Description *string `form:"description"`
+	// A unique identifier for this product.
+	//
+	// `product_data` automatically creates a Product with this ID. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates. If any of the fields in the existing Product are different from the values in `product_data`, `product_data` updates the existing Product with the new information. So set `product_data[id]` to the same string every time you sell the same product, but don't re-use the same string for different products.
+	ID *string `form:"id"`
+	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+	Images []*string `form:"images"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name"`
+	// The dimensions of this product for shipping purposes.
+	PackageDimensions *OrderCreateLineItemProductDataPackageDimensionsParams `form:"package_dimensions"`
+	// Whether this product is shipped (i.e., physical goods).
+	Shippable *bool `form:"shippable"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+	// A URL of a publicly-accessible webpage for this product.
+	URL *string `form:"url"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *OrderCreateLineItemProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
+type OrderCreateLineItemParams struct {
+	// The description for the line item. Will default to the name of the associated product.
+	Description *string `form:"description"`
+	// The discounts applied to this line item.
+	Discounts []*OrderCreateLineItemDiscountParams `form:"discounts"`
+	// The ID of a [Price](https://docs.stripe.com/api/prices) to add to the Order.
+	//
+	// The `price` parameter is an alternative to using the `product` parameter. If each of your products are sold at a single price, you can set `Product.default_price` and then pass the `product` parameter when creating a line item. If your products are sold at several possible prices, use the `price` parameter to explicitly specify which one to use.
+	Price *string `form:"price"`
+	// Data used to generate a new Price object inline.
+	//
+	// The `price_data` parameter is an alternative to using the `product` or `price` parameters. If you create a Product upfront and configure a `Product.default_price`, pass the `product` parameter when creating a line item. If you prefer not to define Products upfront, or if you charge variable prices, pass the `price_data` parameter to describe the price for this line item.
+	//
+	// Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
+	PriceData *OrderCreateLineItemPriceDataParams `form:"price_data"`
+	// The ID of a [Product](https://docs.stripe.com/api/products) to add to the Order.
+	//
+	// The Product must have a `default_price` specified. Otherwise, specify the price by passing the `price` or `price_data` parameter.
+	Product *string `form:"product"`
+	// Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
+	//
+	// `product_data` is an alternative to the `product` parameter. If you created a Product upfront, use the `product` parameter to refer to the existing Product. But if you prefer not to create Products upfront, pass the `product_data` parameter to define a Product inline as part of configuring the Order.
+	//
+	// `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
+	ProductData *OrderCreateLineItemProductDataParams `form:"product_data"`
+	// The quantity of the line item.
+	Quantity *int64 `form:"quantity"`
+	// The tax rates applied to this line item.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// Additional fields for Mandate creation
+type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	// A URL for custom mandate text to render during confirmation step.
+	// The URL will be rendered with additional GET parameters `payment_intent` and `payment_intent_client_secret` when confirming a Payment Intent,
+	// or `setup_intent` and `setup_intent_client_secret` when confirming a Setup Intent.
+	CustomMandateURL *string `form:"custom_mandate_url"`
+	// Description of the mandate interval. Only required if 'payment_schedule' parameter is 'interval' or 'combined'.
+	IntervalDescription *string `form:"interval_description"`
+	// Payment schedule for the mandate.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// Transaction type of the mandate.
+	TransactionType *string `form:"transaction_type"`
+}
+
+// If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
+	// Bank account verification method.
+	VerificationMethod *string `form:"verification_method"`
+}
+
+// If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+	// An internal identifier or reference this payment corresponds to. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
+	Reference *string `form:"reference"`
+	// Indicates that you intend to make future payments with the payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
+	// Preferred language of the Bancontact authorization page that the customer is redirected to.
+	PreferredLanguage *string `form:"preferred_language"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+	// Indicates that you intend to make future payments with the payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// Configuration for the eu_bank_transfer funding type.
+type OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	Country *string `form:"country"`
+}
+
+// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+type OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// Configuration for the eu_bank_transfer funding type.
+	EUBankTransfer *OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
+	//
+	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
+	RequestedAddressTypes []*string `form:"requested_address_types"`
+	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type *string `form:"type"`
+}
+
+// If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
+	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+	BankTransfer *OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+	FundingType *string `form:"funding_type"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+	// Preferred language of the Klarna authorization page that the customer is redirected to
+	PreferredLocale *string `form:"preferred_locale"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated:
+	PersistentToken *string `form:"persistent_token"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsOXXOParams struct {
+	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsP24Params struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Confirm that the payer has accepted the P24 terms and conditions.
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
+}
+
+// The tax information for the line item.
+type OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams struct {
+	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
+	Amount *int64 `form:"amount"`
+	// The tax behavior for the line item.
+	Behavior *string `form:"behavior"`
+}
+
+// The line items purchased by the customer.
+type OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// Descriptive name of the line item.
+	Name *string `form:"name"`
+	// Quantity of the line item. Must be a positive number.
+	Quantity *int64 `form:"quantity"`
+	// Client facing stock keeping unit, article number or similar.
+	SKU *string `form:"sku"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+	// The tax information for the line item.
+	Tax *OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax"`
+	// Price for a single unit of the line item in minor units. Cannot be a negative number.
+	UnitAmount *int64 `form:"unit_amount"`
+}
+
+// If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+	// The line items purchased by the customer.
+	LineItems []*OrderCreatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
+	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
+	PreferredLocale *string `form:"preferred_locale"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	Reference *string `form:"reference"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	ReferenceID *string `form:"reference_id"`
+	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
+	RiskCorrelationID *string `form:"risk_correlation_id"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
+	Subsellers []*string `form:"subsellers"`
+}
+
+// Additional fields for Mandate creation
+type OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+	ReferencePrefix *string `form:"reference_prefix"`
+}
+
+// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
+}
+
+// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams struct {
+	// Language shown to the payer on redirect.
+	PreferredLanguage *string `form:"preferred_language"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
+	// The app ID registered with WeChat Pay. Only required when client is ios or android.
+	AppID *string `form:"app_id"`
+	// The client type that the end customer will pay from
+	Client *string `form:"client"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// PaymentMethod-specific configuration to provide to the order's PaymentIntent.
+type OrderCreatePaymentSettingsPaymentMethodOptionsParams struct {
+	// If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
+	ACSSDebit *OrderCreatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	// If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
+	AfterpayClearpay *OrderCreatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
+	// If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
+	Alipay *OrderCreatePaymentSettingsPaymentMethodOptionsAlipayParams `form:"alipay"`
+	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
+	Bancontact *OrderCreatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
+	Card *OrderCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	// If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
+	CustomerBalance *OrderCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	// If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
+	IDEAL *OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams `form:"ideal"`
+	// If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
+	Klarna *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	// If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
+	Link *OrderCreatePaymentSettingsPaymentMethodOptionsLinkParams `form:"link"`
+	// If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
+	OXXO *OrderCreatePaymentSettingsPaymentMethodOptionsOXXOParams `form:"oxxo"`
+	// If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
+	P24 *OrderCreatePaymentSettingsPaymentMethodOptionsP24Params `form:"p24"`
+	// If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
+	Paypal *OrderCreatePaymentSettingsPaymentMethodOptionsPaypalParams `form:"paypal"`
+	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
+	SEPADebit *OrderCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
+	Sofort *OrderCreatePaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort"`
+	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
+	WeChatPay *OrderCreatePaymentSettingsPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
+}
+
+// Provides configuration for completing a transfer for the order after it is paid.
+type OrderCreatePaymentSettingsTransferDataParams struct {
+	// The amount that will be transferred automatically when the order is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.
+	Amount *int64 `form:"amount"`
+	// ID of the Connected account receiving the transfer.
+	Destination *string `form:"destination"`
+}
+
+// Settings describing how the order should configure generated PaymentIntents.
+type OrderCreatePaymentSettingsParams struct {
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// PaymentMethod-specific configuration to provide to the order's PaymentIntent.
+	PaymentMethodOptions *OrderCreatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	// The list of [payment method types](https://stripe.com/docs/payments/payment-methods/overview) to provide to the order's PaymentIntent. Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	PaymentMethodTypes []*string `form:"payment_method_types"`
+	// The URL to redirect the customer to after they authenticate their payment.
+	ReturnURL *string `form:"return_url"`
+	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	// Provides configuration for completing a transfer for the order after it is paid.
+	TransferData *OrderCreatePaymentSettingsTransferDataParams `form:"transfer_data"`
+}
+
+// Payment information associated with the order, including payment settings.
+type OrderCreatePaymentParams struct {
+	// Settings describing how the order should configure generated PaymentIntents.
+	Settings *OrderCreatePaymentSettingsParams `form:"settings"`
+}
+
+// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+type OrderCreateShippingCostShippingRateDataDeliveryEstimateMaximumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The lower bound of the estimated range. If empty, represents no lower bound.
+type OrderCreateShippingCostShippingRateDataDeliveryEstimateMinimumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+type OrderCreateShippingCostShippingRateDataDeliveryEstimateParams struct {
+	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+	Maximum *OrderCreateShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum"`
+	// The lower bound of the estimated range. If empty, represents no lower bound.
+	Minimum *OrderCreateShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
+}
+
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type OrderCreateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+type OrderCreateShippingCostShippingRateDataFixedAmountParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*OrderCreateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
+}
+
+// Parameters to create a new ad-hoc shipping rate for this order.
+type OrderCreateShippingCostShippingRateDataParams struct {
+	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DeliveryEstimate *OrderCreateShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
+	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DisplayName *string `form:"display_name"`
+	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+	FixedAmount *OrderCreateShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
+	TaxCode *string `form:"tax_code"`
+	// The type of calculation to use on the shipping rate.
+	Type *string `form:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *OrderCreateShippingCostShippingRateDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Settings for the customer cost of shipping for this order.
+type OrderCreateShippingCostParams struct {
+	// The ID of the shipping rate to use for this order.
+	ShippingRate *string `form:"shipping_rate"`
+	// Parameters to create a new ad-hoc shipping rate for this order.
+	ShippingRateData *OrderCreateShippingCostShippingRateDataParams `form:"shipping_rate_data"`
+}
+
+// Shipping details for the order.
+type OrderCreateShippingDetailsParams struct {
+	// The shipping address for the order.
+	Address *AddressParams `form:"address"`
+	// The name of the recipient of the order.
+	Name *string `form:"name"`
+	// The phone number (including extension) for the recipient of the order.
+	Phone *string `form:"phone"`
+}
+
+// The purchaser's tax IDs to be used for this order.
+type OrderCreateTaxDetailsTaxIDParams struct {
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `ba_tin`, `bb_tin`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kh_tin`, `kr_brn`, `kz_bin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	Type *string `form:"type"`
+	// Value of the tax ID.
+	Value *string `form:"value"`
+}
+
+// Additional tax details about the purchaser to be used for this order.
+type OrderCreateTaxDetailsParams struct {
+	// The purchaser's tax exemption status. One of `none`, `exempt`, or `reverse`.
+	TaxExempt *string `form:"tax_exempt"`
+	// The purchaser's tax IDs to be used for this order.
+	TaxIDs []*OrderCreateTaxDetailsTaxIDParams `form:"tax_ids"`
+}
+
+// Creates a new open order object.
+type OrderCreateParams struct {
+	Params `form:"*"`
+	// Settings for automatic tax calculation for this order.
+	AutomaticTax *OrderCreateAutomaticTaxParams `form:"automatic_tax"`
+	// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
+	BillingDetails *OrderCreateBillingDetailsParams `form:"billing_details"`
+	// The credits to apply to the order, only `gift_card` currently supported.
+	Credits []*OrderCreateCreditParams `form:"credits"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The customer associated with this order.
+	Customer *string `form:"customer"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// The coupons, promotion codes, and/or discounts to apply to the order.
+	Discounts []*OrderCreateDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The IP address of the purchaser for this order.
+	IPAddress *string `form:"ip_address"`
+	// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
+	LineItems []*OrderCreateLineItemParams `form:"line_items"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Payment information associated with the order, including payment settings.
+	Payment *OrderCreatePaymentParams `form:"payment"`
+	// Settings for the customer cost of shipping for this order.
+	ShippingCost *OrderCreateShippingCostParams `form:"shipping_cost"`
+	// Shipping details for the order.
+	ShippingDetails *OrderCreateShippingDetailsParams `form:"shipping_details"`
+	// Additional tax details about the purchaser to be used for this order.
+	TaxDetails *OrderCreateTaxDetailsParams `form:"tax_details"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *OrderCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *OrderCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the details of an existing order. Supply the unique order ID from either an order creation request or the order list, and Stripe will return the corresponding order information.
+type OrderRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *OrderRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Settings for automatic tax calculation for this order.
+type OrderUpdateAutomaticTaxParams struct {
+	// Enable automatic tax calculation which will automatically compute tax rates on this order.
+	Enabled *bool `form:"enabled"`
+}
+
+// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
+type OrderUpdateBillingDetailsParams struct {
+	// The billing address provided by the customer.
+	Address *AddressParams `form:"address"`
+	// The billing email provided by the customer.
+	Email *string `form:"email"`
+	// The billing name provided by the customer.
+	Name *string `form:"name"`
+	// The billing phone number provided by the customer.
+	Phone *string `form:"phone"`
+}
+
+// The credits to apply to the order, only `gift_card` currently supported. Pass the empty string `""` to unset this field.
+type OrderUpdateCreditParams struct {
+	// The gift card to apply to the order.
+	GiftCard *string `form:"gift_card"`
+	// The type of credit to apply to the order, only `gift_card` currently supported.
+	Type *string `form:"type"`
+}
+
+// The coupons, promotion codes, and/or discounts to apply to the order. Pass the empty string `""` to unset this field.
+type OrderUpdateDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The discounts applied to this line item.
+type OrderUpdateLineItemDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+}
+
+// Data used to generate a new Price object inline.
+//
+// The `price_data` parameter is an alternative to using the `product` or `price` parameters. If you create a Product upfront and configure a `Product.default_price`, pass the `product` parameter when creating a line item. If you prefer not to define Products upfront, or if you charge variable prices, pass the `price_data` parameter to describe the price for this line item.
+//
+// Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
+type OrderUpdateLineItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// ID of the [Product](https://docs.stripe.com/api/products) this [Price](https://docs.stripe.com/api/prices) belongs to.
+	//
+	// Use this to implement a variable-pricing model in your integration. This is required if `product_data` is not specified.
+	Product *string `form:"product"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// The dimensions of this product for shipping purposes.
+type OrderUpdateLineItemProductDataPackageDimensionsParams struct {
+	// Height, in inches. Maximum precision is 2 decimal places.
+	Height *float64 `form:"height"`
+	// Length, in inches. Maximum precision is 2 decimal places.
+	Length *float64 `form:"length"`
+	// Weight, in ounces. Maximum precision is 2 decimal places.
+	Weight *float64 `form:"weight"`
+	// Width, in inches. Maximum precision is 2 decimal places.
+	Width *float64 `form:"width"`
+}
+
+// Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
+//
+// `product_data` is an alternative to the `product` parameter. If you created a Product upfront, use the `product` parameter to refer to the existing Product. But if you prefer not to create Products upfront, pass the `product_data` parameter to define a Product inline as part of configuring the Order.
+//
+// `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
+type OrderUpdateLineItemProductDataParams struct {
+	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
+	Description *string `form:"description"`
+	// A unique identifier for this product.
+	//
+	// `product_data` automatically creates a Product with this ID. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates. If any of the fields in the existing Product are different from the values in `product_data`, `product_data` updates the existing Product with the new information. So set `product_data[id]` to the same string every time you sell the same product, but don't re-use the same string for different products.
+	ID *string `form:"id"`
+	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+	Images []*string `form:"images"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name"`
+	// The dimensions of this product for shipping purposes.
+	PackageDimensions *OrderUpdateLineItemProductDataPackageDimensionsParams `form:"package_dimensions"`
+	// Whether this product is shipped (i.e., physical goods).
+	Shippable *bool `form:"shippable"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+	// A URL of a publicly-accessible webpage for this product.
+	URL *string `form:"url"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *OrderUpdateLineItemProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
+type OrderUpdateLineItemParams struct {
+	// The description for the line item. Will default to the name of the associated product.
+	Description *string `form:"description"`
+	// The discounts applied to this line item.
+	Discounts []*OrderUpdateLineItemDiscountParams `form:"discounts"`
+	// The ID of an existing line item on the order.
+	ID *string `form:"id"`
+	// The ID of a [Price](https://docs.stripe.com/api/prices) to add to the Order.
+	//
+	// The `price` parameter is an alternative to using the `product` parameter. If each of your products are sold at a single price, you can set `Product.default_price` and then pass the `product` parameter when creating a line item. If your products are sold at several possible prices, use the `price` parameter to explicitly specify which one to use.
+	Price *string `form:"price"`
+	// Data used to generate a new Price object inline.
+	//
+	// The `price_data` parameter is an alternative to using the `product` or `price` parameters. If you create a Product upfront and configure a `Product.default_price`, pass the `product` parameter when creating a line item. If you prefer not to define Products upfront, or if you charge variable prices, pass the `price_data` parameter to describe the price for this line item.
+	//
+	// Each time you pass `price_data` we create a Price for the Product. This Price is hidden in both the Dashboard and API lists and cannot be reused.
+	PriceData *OrderUpdateLineItemPriceDataParams `form:"price_data"`
+	// The ID of a [Product](https://docs.stripe.com/api/products) to add to the Order.
+	//
+	// The Product must have a `default_price` specified. Otherwise, specify the price by passing the `price` or `price_data` parameter.
+	Product *string `form:"product"`
+	// Defines a [Product](https://docs.stripe.com/api/products) inline and adds it to the Order.
+	//
+	// `product_data` is an alternative to the `product` parameter. If you created a Product upfront, use the `product` parameter to refer to the existing Product. But if you prefer not to create Products upfront, pass the `product_data` parameter to define a Product inline as part of configuring the Order.
+	//
+	// `product_data` automatically creates a Product, just as if you had manually created the Product. If a Product with the same ID already exists, then `product_data` re-uses it to avoid duplicates.
+	ProductData *OrderUpdateLineItemProductDataParams `form:"product_data"`
+	// The quantity of the line item.
+	Quantity *int64 `form:"quantity"`
+	// The tax rates applied to this line item.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// Additional fields for Mandate creation
+type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	// A URL for custom mandate text to render during confirmation step.
+	// The URL will be rendered with additional GET parameters `payment_intent` and `payment_intent_client_secret` when confirming a Payment Intent,
+	// or `setup_intent` and `setup_intent_client_secret` when confirming a Setup Intent.
+	CustomMandateURL *string `form:"custom_mandate_url"`
+	// Description of the mandate interval. Only required if 'payment_schedule' parameter is 'interval' or 'combined'.
+	IntervalDescription *string `form:"interval_description"`
+	// Payment schedule for the mandate.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// Transaction type of the mandate.
+	TransactionType *string `form:"transaction_type"`
+}
+
+// If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
+	// Bank account verification method.
+	VerificationMethod *string `form:"verification_method"`
+}
+
+// If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+	// An internal identifier or reference this payment corresponds to. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
+	Reference *string `form:"reference"`
+	// Indicates that you intend to make future payments with the payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams struct {
+	// Preferred language of the Bancontact authorization page that the customer is redirected to.
+	PreferredLanguage *string `form:"preferred_language"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+	// Indicates that you intend to make future payments with the payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order's Customer, if present, after the order's PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// Configuration for the eu_bank_transfer funding type.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
+	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
+	Country *string `form:"country"`
+}
+
+// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// Configuration for the eu_bank_transfer funding type.
+	EUBankTransfer *OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams `form:"eu_bank_transfer"`
+	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
+	//
+	// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
+	RequestedAddressTypes []*string `form:"requested_address_types"`
+	// The list of bank transfer types that this PaymentIntent is allowed to use for funding Permitted values include: `eu_bank_transfer`, `gb_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type *string `form:"type"`
+}
+
+// If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
+	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+	BankTransfer *OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+	FundingType *string `form:"funding_type"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+	// Preferred language of the Klarna authorization page that the customer is redirected to
+	PreferredLocale *string `form:"preferred_locale"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+	// [Deprecated] This is a legacy parameter that no longer has any function.
+	// Deprecated:
+	PersistentToken *string `form:"persistent_token"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsOXXOParams struct {
+	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsP24Params struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Confirm that the payer has accepted the P24 terms and conditions.
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
+}
+
+// The tax information for the line item.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams struct {
+	// The tax for a single unit of the line item in minor units. Cannot be a negative number.
+	Amount *int64 `form:"amount"`
+	// The tax behavior for the line item.
+	Behavior *string `form:"behavior"`
+}
+
+// The line items purchased by the customer.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// Descriptive name of the line item.
+	Name *string `form:"name"`
+	// Quantity of the line item. Must be a positive number.
+	Quantity *int64 `form:"quantity"`
+	// Client facing stock keeping unit, article number or similar.
+	SKU *string `form:"sku"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+	// The tax information for the line item.
+	Tax *OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemTaxParams `form:"tax"`
+	// Price for a single unit of the line item in minor units. Cannot be a negative number.
+	UnitAmount *int64 `form:"unit_amount"`
+}
+
+// If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod *string `form:"capture_method"`
+	// The line items purchased by the customer.
+	LineItems []*OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalLineItemParams `form:"line_items"`
+	// [Preferred locale](https://stripe.com/docs/payments/paypal/supported-locales) of the PayPal checkout page that the customer is redirected to.
+	PreferredLocale *string `form:"preferred_locale"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	Reference *string `form:"reference"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	ReferenceID *string `form:"reference_id"`
+	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
+	RiskCorrelationID *string `form:"risk_correlation_id"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
+	Subsellers []*string `form:"subsellers"`
+}
+
+// Additional fields for Mandate creation
+type OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
+	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
+	ReferencePrefix *string `form:"reference_prefix"`
+}
+
+// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitMandateOptionsParams `form:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Controls when Stripe will attempt to debit the funds from the customer's account. The date must be a string in YYYY-MM-DD format. The date must be in the future and between 3 and 15 calendar days from now.
+	TargetDate *string `form:"target_date"`
+}
+
+// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams struct {
+	// Language shown to the payer on redirect.
+	PreferredLanguage *string `form:"preferred_language"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams struct {
+	// The app ID registered with WeChat Pay. Only required when client is ios or android.
+	AppID *string `form:"app_id"`
+	// The client type that the end customer will pay from
+	Client *string `form:"client"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// PaymentMethod-specific configuration to provide to the order's PaymentIntent.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsParams struct {
+	// If paying by `acss_debit`, this sub-hash contains details about the ACSS Debit payment method options to pass to the order's PaymentIntent.
+	ACSSDebit *OrderUpdatePaymentSettingsPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	// If paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order's PaymentIntent.
+	AfterpayClearpay *OrderUpdatePaymentSettingsPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
+	// If paying by `alipay`, this sub-hash contains details about the Alipay payment method options to pass to the order's PaymentIntent.
+	Alipay *OrderUpdatePaymentSettingsPaymentMethodOptionsAlipayParams `form:"alipay"`
+	// If paying by `bancontact`, this sub-hash contains details about the Bancontact payment method options to pass to the order's PaymentIntent.
+	Bancontact *OrderUpdatePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order's PaymentIntent.
+	Card *OrderUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	// If paying by `customer_balance`, this sub-hash contains details about the Customer Balance payment method options to pass to the order's PaymentIntent.
+	CustomerBalance *OrderUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	// If paying by `ideal`, this sub-hash contains details about the iDEAL payment method options to pass to the order's PaymentIntent.
+	IDEAL *OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams `form:"ideal"`
+	// If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
+	Klarna *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	// If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
+	Link *OrderUpdatePaymentSettingsPaymentMethodOptionsLinkParams `form:"link"`
+	// If paying by `oxxo`, this sub-hash contains details about the OXXO payment method options to pass to the order's PaymentIntent.
+	OXXO *OrderUpdatePaymentSettingsPaymentMethodOptionsOXXOParams `form:"oxxo"`
+	// If paying by `p24`, this sub-hash contains details about the P24 payment method options to pass to the order's PaymentIntent.
+	P24 *OrderUpdatePaymentSettingsPaymentMethodOptionsP24Params `form:"p24"`
+	// If paying by `paypal`, this sub-hash contains details about the PayPal payment method options to pass to the order's PaymentIntent.
+	Paypal *OrderUpdatePaymentSettingsPaymentMethodOptionsPaypalParams `form:"paypal"`
+	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Debit payment method options to pass to the order's PaymentIntent.
+	SEPADebit *OrderUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	// If paying by `sofort`, this sub-hash contains details about the Sofort payment method options to pass to the order's PaymentIntent.
+	Sofort *OrderUpdatePaymentSettingsPaymentMethodOptionsSofortParams `form:"sofort"`
+	// If paying by `wechat_pay`, this sub-hash contains details about the WeChat Pay payment method options to pass to the order's PaymentIntent.
+	WeChatPay *OrderUpdatePaymentSettingsPaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
+}
+
+// Provides configuration for completing a transfer for the order after it is paid.
+type OrderUpdatePaymentSettingsTransferDataParams struct {
+	// The amount that will be transferred automatically when the order is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.
+	Amount *int64 `form:"amount"`
+	// ID of the Connected account receiving the transfer.
+	Destination *string `form:"destination"`
+}
+
+// Settings describing how the order should configure generated PaymentIntents.
+type OrderUpdatePaymentSettingsParams struct {
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account.
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// PaymentMethod-specific configuration to provide to the order's PaymentIntent.
+	PaymentMethodOptions *OrderUpdatePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	// The list of [payment method types](https://stripe.com/docs/payments/payment-methods/overview) to provide to the order's PaymentIntent. Do not include this attribute if you prefer to manage your payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	PaymentMethodTypes []*string `form:"payment_method_types"`
+	// The URL to redirect the customer to after they authenticate their payment.
+	ReturnURL *string `form:"return_url"`
+	// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+	StatementDescriptorSuffix *string `form:"statement_descriptor_suffix"`
+	// Provides configuration for completing a transfer for the order after it is paid.
+	TransferData *OrderUpdatePaymentSettingsTransferDataParams `form:"transfer_data"`
+}
+
+// Payment information associated with the order, including payment settings.
+type OrderUpdatePaymentParams struct {
+	// Settings describing how the order should configure generated PaymentIntents.
+	Settings *OrderUpdatePaymentSettingsParams `form:"settings"`
+}
+
+// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+type OrderUpdateShippingCostShippingRateDataDeliveryEstimateMaximumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The lower bound of the estimated range. If empty, represents no lower bound.
+type OrderUpdateShippingCostShippingRateDataDeliveryEstimateMinimumParams struct {
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
+}
+
+// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+type OrderUpdateShippingCostShippingRateDataDeliveryEstimateParams struct {
+	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+	Maximum *OrderUpdateShippingCostShippingRateDataDeliveryEstimateMaximumParams `form:"maximum"`
+	// The lower bound of the estimated range. If empty, represents no lower bound.
+	Minimum *OrderUpdateShippingCostShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
+}
+
+// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+type OrderUpdateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+}
+
+// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+type OrderUpdateShippingCostShippingRateDataFixedAmountParams struct {
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Shipping rates defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
+	CurrencyOptions map[string]*OrderUpdateShippingCostShippingRateDataFixedAmountCurrencyOptionsParams `form:"currency_options"`
+}
+
+// Parameters to create a new ad-hoc shipping rate for this order.
+type OrderUpdateShippingCostShippingRateDataParams struct {
+	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DeliveryEstimate *OrderUpdateShippingCostShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
+	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DisplayName *string `form:"display_name"`
+	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+	FixedAmount *OrderUpdateShippingCostShippingRateDataFixedAmountParams `form:"fixed_amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
+	TaxCode *string `form:"tax_code"`
+	// The type of calculation to use on the shipping rate.
+	Type *string `form:"type"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *OrderUpdateShippingCostShippingRateDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Settings for the customer cost of shipping for this order.
+type OrderUpdateShippingCostParams struct {
+	// The ID of the shipping rate to use for this order.
+	ShippingRate *string `form:"shipping_rate"`
+	// Parameters to create a new ad-hoc shipping rate for this order.
+	ShippingRateData *OrderUpdateShippingCostShippingRateDataParams `form:"shipping_rate_data"`
+}
+
+// Shipping details for the order.
+type OrderUpdateShippingDetailsParams struct {
+	// The shipping address for the order.
+	Address *AddressParams `form:"address"`
+	// The name of the recipient of the order.
+	Name *string `form:"name"`
+	// The phone number (including extension) for the recipient of the order.
+	Phone *string `form:"phone"`
+}
+
+// The purchaser's tax IDs to be used for this order.
+type OrderUpdateTaxDetailsTaxIDParams struct {
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `ba_tin`, `bb_tin`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kh_tin`, `kr_brn`, `kz_bin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	Type *string `form:"type"`
+	// Value of the tax ID.
+	Value *string `form:"value"`
+}
+
+// Additional tax details about the purchaser to be used for this order.
+type OrderUpdateTaxDetailsParams struct {
+	// The purchaser's tax exemption status. One of `none`, `exempt`, or `reverse`.
+	TaxExempt *string `form:"tax_exempt"`
+	// The purchaser's tax IDs to be used for this order.
+	TaxIDs []*OrderUpdateTaxDetailsTaxIDParams `form:"tax_ids"`
+}
+
+// Updates the specific order by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+type OrderUpdateParams struct {
+	Params `form:"*"`
+	// Settings for automatic tax calculation for this order.
+	AutomaticTax *OrderUpdateAutomaticTaxParams `form:"automatic_tax"`
+	// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
+	BillingDetails *OrderUpdateBillingDetailsParams `form:"billing_details"`
+	// The credits to apply to the order, only `gift_card` currently supported. Pass the empty string `""` to unset this field.
+	Credits []*OrderUpdateCreditParams `form:"credits"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The customer associated with this order.
+	Customer *string `form:"customer"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// The coupons, promotion codes, and/or discounts to apply to the order. Pass the empty string `""` to unset this field.
+	Discounts []*OrderUpdateDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The IP address of the purchaser for this order.
+	IPAddress *string `form:"ip_address"`
+	// A list of line items the customer is ordering. Each line item includes information about the product, the quantity, and the resulting cost.
+	LineItems []*OrderUpdateLineItemParams `form:"line_items"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Payment information associated with the order, including payment settings.
+	Payment *OrderUpdatePaymentParams `form:"payment"`
+	// Settings for the customer cost of shipping for this order.
+	ShippingCost *OrderUpdateShippingCostParams `form:"shipping_cost"`
+	// Shipping details for the order.
+	ShippingDetails *OrderUpdateShippingDetailsParams `form:"shipping_details"`
+	// Additional tax details about the purchaser to be used for this order.
+	TaxDetails *OrderUpdateTaxDetailsParams `form:"tax_details"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *OrderUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *OrderUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 type OrderAutomaticTax struct {
 	// Whether Stripe automatically computes tax on this Order.
 	Enabled bool `json:"enabled"`

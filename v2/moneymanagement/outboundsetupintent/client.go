@@ -55,9 +55,9 @@ func (c Client) Cancel(id string, params *stripe.V2MoneyManagementOutboundSetupI
 }
 
 // List the OutboundSetupIntent objects.
-func (c Client) All(listParams *stripe.V2MoneyManagementOutboundSetupIntentListParams) stripe.Seq2[stripe.V2MoneyManagementOutboundSetupIntent, error] {
-	return stripe.NewV2List("/v2/money_management/outbound_setup_intents", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2MoneyManagementOutboundSetupIntent], error) {
-		page := &stripe.V2Page[stripe.V2MoneyManagementOutboundSetupIntent]{}
+func (c Client) All(listParams *stripe.V2MoneyManagementOutboundSetupIntentListParams) stripe.Seq2[*stripe.V2MoneyManagementOutboundSetupIntent, error] {
+	return stripe.NewV2List("/v2/money_management/outbound_setup_intents", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementOutboundSetupIntent], error) {
+		page := &stripe.V2Page[*stripe.V2MoneyManagementOutboundSetupIntent]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

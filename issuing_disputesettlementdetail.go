@@ -53,6 +53,18 @@ func (p *IssuingDisputeSettlementDetailParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves an Issuing DisputeSettlementDetail object.
+type IssuingDisputeSettlementDetailRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingDisputeSettlementDetailRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Details about the transaction, such as processing dates, set by the card network.
 type IssuingDisputeSettlementDetailNetworkData struct {
 	// The date the transaction was processed by the card network. This can be different from the date the seller recorded the transaction depending on when the acquirer submits the transaction to the network.

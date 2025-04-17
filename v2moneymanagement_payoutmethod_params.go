@@ -38,3 +38,8 @@ type V2MoneyManagementPayoutMethodParams struct {
 type V2MoneyManagementPayoutMethodUnarchiveParams struct {
 	Params `form:"*"`
 }
+
+// Retrieve a PayoutMethod object.
+type V2MoneyManagementPayoutMethodRetrieveParams struct {
+	Params `form:"*"`
+}

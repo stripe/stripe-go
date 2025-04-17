@@ -33,6 +33,18 @@ func (p *CountrySpecParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Returns a Country Spec for a given Country code.
+type CountrySpecRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CountrySpecRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // VerificationFieldsList lists the fields needed for an account verification.
 // For more details see https://stripe.com/docs/api#country_spec_object-verification_fields.
 type VerificationFieldsList struct {

@@ -17,3 +17,8 @@ type V2MoneyManagementReceivedDebitListParams struct {
 type V2MoneyManagementReceivedDebitParams struct {
 	Params `form:"*"`
 }
+
+// Retrieves a single ReceivedDebit by ID.
+type V2MoneyManagementReceivedDebitRetrieveParams struct {
+	Params `form:"*"`
+}

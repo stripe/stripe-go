@@ -34,6 +34,40 @@ func (p *ProductFeatureListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Deletes the feature attachment to a product
+type ProductFeatureDeleteParams struct {
+	Params  `form:"*"`
+	Product *string `form:"-"` // Included in URL
+}
+
+// Retrieves a product_feature, which represents a feature attachment to a product
+type ProductFeatureRetrieveParams struct {
+	Params  `form:"*"`
+	Product *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductFeatureRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Creates a product_feature, which represents a feature attachment to a product
+type ProductFeatureCreateParams struct {
+	Params  `form:"*"`
+	Product *string `form:"-"` // Included in URL
+	// The ID of the [Feature](https://stripe.com/docs/api/entitlements/feature) object attached to this product.
+	EntitlementFeature *string `form:"entitlement_feature"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *ProductFeatureCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A product_feature represents an attachment between a feature and a product.
 // When a product is purchased that has a feature attached, Stripe will create an entitlement to the feature for the purchasing customer.
 type ProductFeature struct {

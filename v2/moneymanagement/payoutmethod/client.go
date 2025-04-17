@@ -47,9 +47,9 @@ func (c Client) Unarchive(id string, params *stripe.V2MoneyManagementPayoutMetho
 }
 
 // List objects that adhere to the PayoutMethod interface.
-func (c Client) All(listParams *stripe.V2MoneyManagementPayoutMethodListParams) stripe.Seq2[stripe.V2MoneyManagementPayoutMethod, error] {
-	return stripe.NewV2List("/v2/money_management/payout_methods", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2MoneyManagementPayoutMethod], error) {
-		page := &stripe.V2Page[stripe.V2MoneyManagementPayoutMethod]{}
+func (c Client) All(listParams *stripe.V2MoneyManagementPayoutMethodListParams) stripe.Seq2[*stripe.V2MoneyManagementPayoutMethod, error] {
+	return stripe.NewV2List("/v2/money_management/payout_methods", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementPayoutMethod], error) {
+		page := &stripe.V2Page[*stripe.V2MoneyManagementPayoutMethod]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()
