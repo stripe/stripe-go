@@ -63,6 +63,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -547,6 +549,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams str
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.

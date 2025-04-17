@@ -413,6 +413,8 @@ type SetupIntentPaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -1206,6 +1208,8 @@ type SetupIntentConfirmPaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -1728,6 +1732,8 @@ type SetupIntentCreatePaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -2521,6 +2527,8 @@ type SetupIntentUpdatePaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.

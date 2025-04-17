@@ -472,6 +472,8 @@ type PaymentMethodBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -974,6 +976,8 @@ type PaymentMethodCreateBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -1400,6 +1404,8 @@ type PaymentMethodUpdateBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // Contains information about card networks used to process the payment.
@@ -1523,6 +1529,8 @@ type PaymentMethodBillingDetails struct {
 	Name string `json:"name"`
 	// Billing phone number (including extension).
 	Phone string `json:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID string `json:"tax_id"`
 }
 type PaymentMethodBLIK struct{}
 type PaymentMethodBoleto struct {

@@ -18,6 +18,16 @@ const (
 	CouponDurationRepeating CouponDuration = "repeating"
 )
 
+// One of `amount_off`, `percent_off`, or `script`. Describes the type of coupon logic used to calculate the discount.
+type CouponType string
+
+// List of values that CouponType can take
+const (
+	CouponTypeAmountOff  CouponType = "amount_off"
+	CouponTypePercentOff CouponType = "percent_off"
+	CouponTypeScript     CouponType = "script"
+)
+
 // You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
 type CouponParams struct {
 	Params `form:"*"`
@@ -47,6 +57,8 @@ type CouponParams struct {
 	PercentOff *float64 `form:"percent_off"`
 	// Unix timestamp specifying the last time at which the coupon can be redeemed. After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by"`
+	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
+	Script *CouponScriptParams `form:"script"`
 }
 
 // AddExpand appends a new field to expand.
@@ -89,6 +101,17 @@ func (p *CouponListParams) AddExpand(f string) {
 type CouponAppliesToParams struct {
 	// An array of Product IDs that this Coupon will apply to.
 	Products []*string `form:"products"`
+}
+
+// The configuration values of the script. The keys and values are specific to the script implementation.
+type CouponScriptConfigurationParams struct{}
+
+// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
+type CouponScriptParams struct {
+	// The configuration values of the script. The keys and values are specific to the script implementation.
+	Configuration *CouponScriptConfigurationParams `form:"configuration"`
+	// The script implementation ID for this coupon.
+	ID *string `form:"id"`
 }
 
 // You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
@@ -153,6 +176,17 @@ type CouponCreateCurrencyOptionsParams struct {
 	AmountOff *int64 `form:"amount_off"`
 }
 
+// The configuration values of the script. The keys and values are specific to the script implementation.
+type CouponCreateScriptConfigurationParams struct{}
+
+// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
+type CouponCreateScriptParams struct {
+	// The configuration values of the script. The keys and values are specific to the script implementation.
+	Configuration *CouponCreateScriptConfigurationParams `form:"configuration"`
+	// The script implementation ID for this coupon.
+	ID *string `form:"id"`
+}
+
 // You can create coupons easily via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. Coupon creation is also accessible via the API if you need to create coupons on the fly.
 //
 // A coupon has either a percent_off or an amount_off and currency. If you set an amount_off, that amount will be subtracted from any invoice's subtotal. For example, an invoice with a subtotal of 100 will have a final total of 0 if a coupon with an amount_off of 200 is applied to it and an invoice with a subtotal of 300 will have a final total of 100 if a coupon with an amount_off of 200 is applied to it.
@@ -184,6 +218,8 @@ type CouponCreateParams struct {
 	PercentOff *float64 `form:"percent_off"`
 	// Unix timestamp specifying the last time at which the coupon can be redeemed. After the redeem_by date, the coupon can no longer be applied to new customers.
 	RedeemBy *int64 `form:"redeem_by"`
+	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
+	Script *CouponCreateScriptParams `form:"script"`
 }
 
 // AddExpand appends a new field to expand.
@@ -209,6 +245,19 @@ type CouponAppliesTo struct {
 type CouponCurrencyOptions struct {
 	// Amount (in the `currency` specified) that will be taken off the subtotal of any invoices for this customer.
 	AmountOff int64 `json:"amount_off"`
+}
+
+// The configuration values of the script. The keys and values are specific to the script implementation.
+type CouponScriptConfiguration struct{}
+
+// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
+type CouponScript struct {
+	// The configuration values of the script. The keys and values are specific to the script implementation.
+	Configuration *CouponScriptConfiguration `json:"configuration"`
+	// The name of the script used to calculate the discount.
+	DisplayName string `json:"display_name"`
+	// The script implementation ID for this coupon.
+	ID string `json:"id"`
 }
 
 // A coupon contains information about a percent-off or amount-off discount you
@@ -246,8 +295,12 @@ type Coupon struct {
 	PercentOff float64 `json:"percent_off"`
 	// Date after which the coupon can no longer be redeemed.
 	RedeemBy int64 `json:"redeem_by"`
+	// Configuration of the [script](https://docs.stripe.com/billing/subscriptions/script-coupons) used to calculate the discount.
+	Script *CouponScript `json:"script"`
 	// Number of times this coupon has been applied to a customer.
 	TimesRedeemed int64 `json:"times_redeemed"`
+	// One of `amount_off`, `percent_off`, or `script`. Describes the type of coupon logic used to calculate the discount.
+	Type CouponType `json:"type"`
 	// Taking account of the above properties, whether this coupon can still be applied to a customer.
 	Valid bool `json:"valid"`
 }

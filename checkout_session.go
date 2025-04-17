@@ -1645,7 +1645,7 @@ type CheckoutSessionLineItemParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
-	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionLineItemPriceDataParams `form:"price_data"`
 	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity"`
@@ -2481,7 +2481,7 @@ type CheckoutSessionPermissionsUpdateParams struct {
 	ShippingDetails *string `form:"shipping_details"`
 }
 
-// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
+// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object. Can only be set when creating `embedded` or `custom` sessions.
 //
 // For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 type CheckoutSessionPermissionsParams struct {
@@ -2740,7 +2740,7 @@ type CheckoutSessionParams struct {
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// session with your internal systems.
 	ClientReferenceID *string `form:"client_reference_id"`
-	// Information about the customer collected within the Checkout Session.
+	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
 	CollectedInformation *CheckoutSessionCollectedInformationParams `form:"collected_information"`
 	// Configure fields for the Checkout Session to gather active consent from customers.
 	ConsentCollection *CheckoutSessionConsentCollectionParams `form:"consent_collection"`
@@ -2845,7 +2845,7 @@ type CheckoutSessionParams struct {
 	// prioritize the most relevant payment methods based on the customer's location and
 	// other characteristics.
 	PaymentMethodTypes []*string `form:"payment_method_types"`
-	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
+	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object. Can only be set when creating `embedded` or `custom` sessions.
 	//
 	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 	Permissions *CheckoutSessionPermissionsParams `form:"permissions"`
@@ -2911,7 +2911,7 @@ type CheckoutSessionCollectedInformationShippingDetailsParams struct {
 	Name *string `form:"name"`
 }
 
-// Information about the customer collected within the Checkout Session.
+// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
 type CheckoutSessionCollectedInformationParams struct {
 	// The shipping details to apply to this Session.
 	ShippingDetails *CheckoutSessionCollectedInformationShippingDetailsParams `form:"shipping_details"`
@@ -4088,7 +4088,7 @@ type CheckoutSessionCreatePermissionsUpdateParams struct {
 	ShippingDetails *string `form:"shipping_details"`
 }
 
-// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
+// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object. Can only be set when creating `embedded` or `custom` sessions.
 //
 // For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 type CheckoutSessionCreatePermissionsParams struct {
@@ -4442,7 +4442,7 @@ type CheckoutSessionCreateParams struct {
 	// prioritize the most relevant payment methods based on the customer's location and
 	// other characteristics.
 	PaymentMethodTypes []*string `form:"payment_method_types"`
-	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
+	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object. Can only be set when creating `embedded` or `custom` sessions.
 	//
 	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 	Permissions *CheckoutSessionCreatePermissionsParams `form:"permissions"`
@@ -4520,7 +4520,7 @@ type CheckoutSessionUpdateCollectedInformationShippingDetailsParams struct {
 	Name *string `form:"name"`
 }
 
-// Information about the customer collected within the Checkout Session.
+// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
 type CheckoutSessionUpdateCollectedInformationParams struct {
 	// The shipping details to apply to this Session.
 	ShippingDetails *CheckoutSessionUpdateCollectedInformationShippingDetailsParams `form:"shipping_details"`
@@ -4534,6 +4534,55 @@ type CheckoutSessionUpdateLineItemAdjustableQuantityParams struct {
 	Maximum *int64 `form:"maximum"`
 	// The minimum quantity the customer must purchase for the Checkout Session. By default this value is 0.
 	Minimum *int64 `form:"minimum"`
+}
+
+// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+type CheckoutSessionUpdateLineItemPriceDataProductDataParams struct {
+	// The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
+	Description *string `form:"description"`
+	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
+	Images []*string `form:"images"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionUpdateLineItemPriceDataProductDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type CheckoutSessionUpdateLineItemPriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+type CheckoutSessionUpdateLineItemPriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to. One of `product` or `product_data` is required.
+	Product *string `form:"product"`
+	// Data used to generate a new [Product](https://docs.stripe.com/api/products) object inline. One of `product` or `product_data` is required.
+	ProductData *CheckoutSessionUpdateLineItemPriceDataProductDataParams `form:"product_data"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *CheckoutSessionUpdateLineItemPriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A non-negative integer in cents (or local equivalent) representing how much to charge. One of `unit_amount` or `unit_amount_decimal` is required.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
 // A list of items the customer is purchasing.
@@ -4556,8 +4605,10 @@ type CheckoutSessionUpdateLineItemParams struct {
 	ID *string `form:"id"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The ID of the [Price](https://stripe.com/docs/api/prices).
+	// The ID of the [Price](https://stripe.com/docs/api/prices). One of `price` or `price_data` is required when creating a new line item.
 	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
+	PriceData *CheckoutSessionUpdateLineItemPriceDataParams `form:"price_data"`
 	// The quantity of the line item being purchased.
 	Quantity *int64 `form:"quantity"`
 	// The [tax rates](https://stripe.com/docs/api/tax_rates) which apply to this line item.
@@ -4653,7 +4704,7 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 // Updates a Checkout Session object.
 type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
-	// Information about the customer collected within the Checkout Session.
+	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
 	CollectedInformation *CheckoutSessionUpdateCollectedInformationParams `form:"collected_information"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
