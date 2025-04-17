@@ -51,6 +51,8 @@ type TransferParams struct {
 	Destination *string `form:"destination"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The FX rate in the quote is validated and used to convert the transfer amount to the destination currency.
+	FxQuote *string `form:"fx_quote"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-availability) for details.
@@ -88,6 +90,8 @@ type TransferCreateParams struct {
 	Destination *string `form:"destination"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The FX rate in the quote is validated and used to convert the transfer amount to the destination currency.
+	FxQuote *string `form:"fx_quote"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-availability) for details.
@@ -179,6 +183,8 @@ type Transfer struct {
 	Destination *Account `json:"destination"`
 	// If the destination is a Stripe account, this will be the ID of the payment that the destination account received for the transfer.
 	DestinationPayment *Charge `json:"destination_payment"`
+	// The FX Quote used for the transfer.
+	FxQuote string `json:"fx_quote"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

@@ -1765,12 +1765,16 @@ type PaymentIntentPaymentDetailsSubscriptionParams struct {
 type PaymentIntentPaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentPaymentDetailsCarRentalParams `form:"car_rental"`
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentPaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentPaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentPaymentDetailsLodgingParams `form:"lodging"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentPaymentDetailsSubscriptionParams `form:"subscription"`
 }
@@ -1785,6 +1789,8 @@ type PaymentIntentPaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -3286,6 +3292,8 @@ type PaymentIntentParams struct {
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
+	FxQuote *string `form:"fx_quote"`
 	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -3736,12 +3744,16 @@ type PaymentIntentCapturePaymentDetailsSubscriptionParams struct {
 type PaymentIntentCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentCapturePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentCapturePaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentCapturePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentCapturePaymentDetailsLodgingParams `form:"lodging"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentCapturePaymentDetailsSubscriptionParams `form:"subscription"`
 }
@@ -4110,12 +4122,16 @@ type PaymentIntentConfirmPaymentDetailsSubscriptionParams struct {
 type PaymentIntentConfirmPaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentConfirmPaymentDetailsCarRentalParams `form:"car_rental"`
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentConfirmPaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentConfirmPaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentConfirmPaymentDetailsLodgingParams `form:"lodging"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentConfirmPaymentDetailsSubscriptionParams `form:"subscription"`
 }
@@ -4167,6 +4183,8 @@ type PaymentIntentConfirmParams struct {
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
+	FxQuote *string `form:"fx_quote"`
 	// ID of the mandate that's used for this payment.
 	Mandate     *string                         `form:"mandate"`
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
@@ -4780,12 +4798,16 @@ type PaymentIntentCreatePaymentDetailsSubscriptionParams struct {
 type PaymentIntentCreatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentCreatePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentCreatePaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentCreatePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentCreatePaymentDetailsLodgingParams `form:"lodging"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentCreatePaymentDetailsSubscriptionParams `form:"subscription"`
 }
@@ -4800,6 +4822,8 @@ type PaymentIntentCreatePaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -6301,6 +6325,8 @@ type PaymentIntentCreateParams struct {
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
+	FxQuote *string `form:"fx_quote"`
 	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -6732,12 +6758,16 @@ type PaymentIntentUpdatePaymentDetailsSubscriptionParams struct {
 type PaymentIntentUpdatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *PaymentIntentUpdatePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *PaymentIntentUpdatePaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *PaymentIntentUpdatePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *PaymentIntentUpdatePaymentDetailsLodgingParams `form:"lodging"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *PaymentIntentUpdatePaymentDetailsSubscriptionParams `form:"subscription"`
 }
@@ -6752,6 +6782,8 @@ type PaymentIntentUpdatePaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -8220,6 +8252,8 @@ type PaymentIntentUpdateParams struct {
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
+	FxQuote *string `form:"fx_quote"`
 	// This hash contains details about the Mandate to create.
 	MandateData *PaymentIntentUpdateMandateDataParams `form:"mandate_data"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -8277,12 +8311,30 @@ func (p *PaymentIntentUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+type PaymentIntentAmountDetailsShipping struct {
+	// Portion of the amount that is for shipping.
+	Amount int64 `json:"amount"`
+	// The postal code that represents the shipping source.
+	FromPostalCode string `json:"from_postal_code"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode string `json:"to_postal_code"`
+}
+type PaymentIntentAmountDetailsTax struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount int64 `json:"total_tax_amount"`
+}
 type PaymentIntentAmountDetailsTip struct {
 	// Portion of the amount that corresponds to a tip.
 	Amount int64 `json:"amount"`
 }
 type PaymentIntentAmountDetails struct {
-	Tip *PaymentIntentAmountDetailsTip `json:"tip"`
+	// The amount an item was discounted for.
+	DiscountAmount int64 `json:"discount_amount"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems *PaymentIntentAmountDetailsLineItemList `json:"line_items"`
+	Shipping  *PaymentIntentAmountDetailsShipping     `json:"shipping"`
+	Tax       *PaymentIntentAmountDetailsTax          `json:"tax"`
+	Tip       *PaymentIntentAmountDetailsTip          `json:"tip"`
 }
 type PaymentIntentAsyncWorkflowsInputsTax struct {
 	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
@@ -8777,9 +8829,13 @@ type PaymentIntentPaymentDetailsSubscription struct {
 	StartsAt int64 `json:"starts_at"`
 }
 type PaymentIntentPaymentDetails struct {
-	CarRental    *PaymentIntentPaymentDetailsCarRental    `json:"car_rental"`
-	EventDetails *PaymentIntentPaymentDetailsEventDetails `json:"event_details"`
-	Subscription *PaymentIntentPaymentDetailsSubscription `json:"subscription"`
+	CarRental *PaymentIntentPaymentDetailsCarRental `json:"car_rental"`
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference string                                   `json:"customer_reference"`
+	EventDetails      *PaymentIntentPaymentDetailsEventDetails `json:"event_details"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference string                                   `json:"order_reference"`
+	Subscription   *PaymentIntentPaymentDetailsSubscription `json:"subscription"`
 }
 
 // Information about the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) used for this PaymentIntent.
@@ -9724,6 +9780,8 @@ type PaymentIntent struct {
 	CustomerAccount string `json:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
+	// The FX Quote used for the PaymentIntent.
+	FxQuote string `json:"fx_quote"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.

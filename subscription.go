@@ -204,6 +204,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeACHCreditTransfer  SubscriptionPaymentSettingsPaymentMethodType = "ach_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeACHDebit           SubscriptionPaymentSettingsPaymentMethodType = "ach_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeACSSDebit          SubscriptionPaymentSettingsPaymentMethodType = "acss_debit"
+	SubscriptionPaymentSettingsPaymentMethodTypeAffirm             SubscriptionPaymentSettingsPaymentMethodType = "affirm"
 	SubscriptionPaymentSettingsPaymentMethodTypeAmazonPay          SubscriptionPaymentSettingsPaymentMethodType = "amazon_pay"
 	SubscriptionPaymentSettingsPaymentMethodTypeAUBECSDebit        SubscriptionPaymentSettingsPaymentMethodType = "au_becs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBACSDebit          SubscriptionPaymentSettingsPaymentMethodType = "bacs_debit"

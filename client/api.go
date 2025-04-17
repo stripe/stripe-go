@@ -64,6 +64,7 @@ import (
 	financialconnectionssession "github.com/stripe/stripe-go/v82/financialconnections/session"
 	financialconnectionstransaction "github.com/stripe/stripe-go/v82/financialconnections/transaction"
 	forwardingrequest "github.com/stripe/stripe-go/v82/forwarding/request"
+	"github.com/stripe/stripe-go/v82/fxquote"
 	giftcardscard "github.com/stripe/stripe-go/v82/giftcards/card"
 	giftcardstransaction "github.com/stripe/stripe-go/v82/giftcards/transaction"
 	identityverificationreport "github.com/stripe/stripe-go/v82/identity/verificationreport"
@@ -71,7 +72,6 @@ import (
 	"github.com/stripe/stripe-go/v82/invoice"
 	"github.com/stripe/stripe-go/v82/invoiceitem"
 	"github.com/stripe/stripe-go/v82/invoicelineitem"
-	"github.com/stripe/stripe-go/v82/invoicepayment"
 	"github.com/stripe/stripe-go/v82/invoicerenderingtemplate"
 	issuingauthorization "github.com/stripe/stripe-go/v82/issuing/authorization"
 	issuingcard "github.com/stripe/stripe-go/v82/issuing/card"
@@ -91,6 +91,7 @@ import (
 	"github.com/stripe/stripe-go/v82/order"
 	"github.com/stripe/stripe-go/v82/paymentattemptrecord"
 	"github.com/stripe/stripe-go/v82/paymentintent"
+	"github.com/stripe/stripe-go/v82/paymentintentamountdetailslineitem"
 	"github.com/stripe/stripe-go/v82/paymentlink"
 	"github.com/stripe/stripe-go/v82/paymentmethod"
 	"github.com/stripe/stripe-go/v82/paymentmethodconfiguration"
@@ -308,6 +309,8 @@ type API struct {
 	FinancialConnectionsTransactions *financialconnectionstransaction.Client
 	// ForwardingRequests is the client used to invoke /v1/forwarding/requests APIs.
 	ForwardingRequests *forwardingrequest.Client
+	// FxQuotes is the client used to invoke /v1/fx_quotes APIs.
+	FxQuotes *fxquote.Client
 	// GiftCardsCards is the client used to invoke /v1/gift_cards/cards APIs.
 	GiftCardsCards *giftcardscard.Client
 	// GiftCardsTransactions is the client used to invoke /v1/gift_cards/transactions APIs.
@@ -320,8 +323,6 @@ type API struct {
 	InvoiceItems *invoiceitem.Client
 	// InvoiceLineItems is the client used to invoke /v1/invoices/{invoice}/lines APIs.
 	InvoiceLineItems *invoicelineitem.Client
-	// InvoicePayments is the client used to invoke /v1/invoices/{invoice}/payments APIs.
-	InvoicePayments *invoicepayment.Client
 	// InvoiceRenderingTemplates is the client used to invoke /v1/invoice_rendering_templates APIs.
 	InvoiceRenderingTemplates *invoicerenderingtemplate.Client
 	// Invoices is the client used to invoke /v1/invoices APIs.
@@ -360,6 +361,8 @@ type API struct {
 	Orders *order.Client
 	// PaymentAttemptRecords is the client used to invoke /v1/payment_attempt_records APIs.
 	PaymentAttemptRecords *paymentattemptrecord.Client
+	// PaymentIntentAmountDetailsLineItems is the client used to invoke /v1/payment_intents/{intent}/amount_details_line_items APIs.
+	PaymentIntentAmountDetailsLineItems *paymentintentamountdetailslineitem.Client
 	// PaymentIntents is the client used to invoke /v1/payment_intents APIs.
 	PaymentIntents *paymentintent.Client
 	// PaymentLinks is the client used to invoke /v1/payment_links APIs.
@@ -636,13 +639,13 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.FinancialConnectionsSessions = &financialconnectionssession.Client{B: backends.API, Key: key}
 	a.FinancialConnectionsTransactions = &financialconnectionstransaction.Client{B: backends.API, Key: key}
 	a.ForwardingRequests = &forwardingrequest.Client{B: backends.API, Key: key}
+	a.FxQuotes = &fxquote.Client{B: backends.API, Key: key}
 	a.GiftCardsCards = &giftcardscard.Client{B: backends.API, Key: key}
 	a.GiftCardsTransactions = &giftcardstransaction.Client{B: backends.API, Key: key}
 	a.IdentityVerificationReports = &identityverificationreport.Client{B: backends.API, Key: key}
 	a.IdentityVerificationSessions = &identityverificationsession.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
 	a.InvoiceLineItems = &invoicelineitem.Client{B: backends.API, Key: key}
-	a.InvoicePayments = &invoicepayment.Client{B: backends.API, Key: key}
 	a.InvoiceRenderingTemplates = &invoicerenderingtemplate.Client{B: backends.API, Key: key}
 	a.Invoices = &invoice.Client{B: backends.API, Key: key}
 	a.IssuingAuthorizations = &issuingauthorization.Client{B: backends.API, Key: key}
@@ -662,6 +665,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.OAuth = &oauth.Client{B: backends.Connect, Key: key}
 	a.Orders = &order.Client{B: backends.API, Key: key}
 	a.PaymentAttemptRecords = &paymentattemptrecord.Client{B: backends.API, Key: key}
+	a.PaymentIntentAmountDetailsLineItems = &paymentintentamountdetailslineitem.Client{B: backends.API, Key: key}
 	a.PaymentIntents = &paymentintent.Client{B: backends.API, Key: key}
 	a.PaymentLinks = &paymentlink.Client{B: backends.API, Key: key}
 	a.PaymentMethodConfigurations = &paymentmethodconfiguration.Client{B: backends.API, Key: key}

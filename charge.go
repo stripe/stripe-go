@@ -864,12 +864,16 @@ type ChargePaymentDetailsSubscriptionParams struct {
 type ChargePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *ChargePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *ChargePaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *ChargePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *ChargePaymentDetailsLodgingParams `form:"lodging"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargePaymentDetailsSubscriptionParams `form:"subscription"`
 }
@@ -1191,12 +1195,16 @@ type ChargeCapturePaymentDetailsSubscriptionParams struct {
 type ChargeCapturePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *ChargeCapturePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *ChargeCapturePaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *ChargeCapturePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *ChargeCapturePaymentDetailsLodgingParams `form:"lodging"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargeCapturePaymentDetailsSubscriptionParams `form:"subscription"`
 }
@@ -1660,12 +1668,16 @@ type ChargeUpdatePaymentDetailsSubscriptionParams struct {
 type ChargeUpdatePaymentDetailsParams struct {
 	// Car rental details for this PaymentIntent.
 	CarRental *ChargeUpdatePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference *string `form:"customer_reference"`
 	// Event details for this PaymentIntent
 	EventDetails *ChargeUpdatePaymentDetailsEventDetailsParams `form:"event_details"`
 	// Flight reservation details for this PaymentIntent
 	Flight *ChargeUpdatePaymentDetailsFlightParams `form:"flight"`
 	// Lodging reservation details for this PaymentIntent
 	Lodging *ChargeUpdatePaymentDetailsLodgingParams `form:"lodging"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference *string `form:"order_reference"`
 	// Subscription details for this PaymentIntent
 	Subscription *ChargeUpdatePaymentDetailsSubscriptionParams `form:"subscription"`
 }
@@ -1716,6 +1728,8 @@ type ChargeBillingDetails struct {
 	Name string `json:"name"`
 	// Billing phone number (including extension).
 	Phone string `json:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID string `json:"tax_id"`
 }
 
 // Information on fraud assessments for the charge.
