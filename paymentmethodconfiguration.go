@@ -729,6 +729,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationPixDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationPixDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationPixDisplayPreferencePreferenceNone PaymentMethodConfigurationPixDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationPixDisplayPreferencePreferenceOff  PaymentMethodConfigurationPixDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationPixDisplayPreferencePreferenceOn   PaymentMethodConfigurationPixDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationPixDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationPixDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationPixDisplayPreferenceValueOff PaymentMethodConfigurationPixDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationPixDisplayPreferenceValueOn  PaymentMethodConfigurationPixDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationPromptPayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationPromptPayDisplayPreferencePreference can take
@@ -1439,6 +1458,18 @@ type PaymentMethodConfigurationPaytoParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationPixDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+type PaymentMethodConfigurationPixParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationPixDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1671,6 +1702,8 @@ type PaymentMethodConfigurationParams struct {
 	Paypal *PaymentMethodConfigurationPaypalParams `form:"paypal"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 	Payto *PaymentMethodConfigurationPaytoParams `form:"payto"`
+	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+	Pix *PaymentMethodConfigurationPixParams `form:"pix"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay"`
 	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
@@ -2171,6 +2204,18 @@ type PaymentMethodConfigurationCreatePaytoParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreatePixDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+type PaymentMethodConfigurationCreatePixParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreatePixDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2401,6 +2446,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Paypal *PaymentMethodConfigurationCreatePaypalParams `form:"paypal"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 	Payto *PaymentMethodConfigurationCreatePaytoParams `form:"payto"`
+	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+	Pix *PaymentMethodConfigurationCreatePixParams `form:"pix"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationCreatePromptPayParams `form:"promptpay"`
 	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
@@ -2913,6 +2960,18 @@ type PaymentMethodConfigurationUpdatePaytoParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdatePixDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+type PaymentMethodConfigurationUpdatePixParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdatePixDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -3143,6 +3202,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Paypal *PaymentMethodConfigurationUpdatePaypalParams `form:"paypal"`
 	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
 	Payto *PaymentMethodConfigurationUpdatePaytoParams `form:"payto"`
+	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+	Pix *PaymentMethodConfigurationUpdatePixParams `form:"pix"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationUpdatePromptPayParams `form:"promptpay"`
 	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
@@ -3668,6 +3729,19 @@ type PaymentMethodConfigurationPayto struct {
 	Available         bool                                              `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationPaytoDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationPixDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationPixDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationPixDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationPix struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                            `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationPixDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationPromptPayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -3895,6 +3969,7 @@ type PaymentMethodConfiguration struct {
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
 	Payto         *PaymentMethodConfigurationPayto         `json:"payto"`
+	Pix           *PaymentMethodConfigurationPix           `json:"pix"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
 	Qris          *PaymentMethodConfigurationQris          `json:"qris"`
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
