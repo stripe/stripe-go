@@ -1033,30 +1033,6 @@ func (p *InvoiceAttachPaymentParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Attaches a PaymentIntent to the invoice, adding it to the list of payments.
-// When the PaymentIntent's status changes to succeeded, the payment is credited
-// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
-// invoice's status becomes paid.
-//
-// If the PaymentIntent's status is already succeeded when it is attached, it is
-// credited to the invoice immediately.
-//
-// Related guide: [Create an invoice payment](https://stripe.com/docs/invoicing/payments/create)
-type InvoiceAttachPaymentIntentParams struct {
-	Params `form:"*"`
-	// The portion of the PaymentIntent's `amount` that should be applied to thisinvoice. Defaults to the entire amount.
-	AmountRequested *int64 `form:"amount_requested"`
-	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
-	// The ID of the PaymentIntent to attach to the invoice.
-	PaymentIntent *string `form:"payment_intent"`
-}
-
-// AddExpand appends a new field to expand.
-func (p *InvoiceAttachPaymentIntentParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, &f)
-}
-
 // Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
 type InvoiceFinalizeInvoiceParams struct {
 	Params `form:"*"`

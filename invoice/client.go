@@ -131,35 +131,6 @@ func (c Client) AttachPayment(id string, params *stripe.InvoiceAttachPaymentPara
 	return invoice, err
 }
 
-// Attaches a PaymentIntent to the invoice, adding it to the list of payments.
-// When the PaymentIntent's status changes to succeeded, the payment is credited
-// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
-// invoice's status becomes paid.
-//
-// If the PaymentIntent's status is already succeeded when it is attached, it is
-// credited to the invoice immediately.
-//
-// Related guide: [Create an invoice payment](https://stripe.com/docs/invoicing/payments/create)
-func AttachPaymentIntent(id string, params *stripe.InvoiceAttachPaymentIntentParams) (*stripe.Invoice, error) {
-	return getC().AttachPaymentIntent(id, params)
-}
-
-// Attaches a PaymentIntent to the invoice, adding it to the list of payments.
-// When the PaymentIntent's status changes to succeeded, the payment is credited
-// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
-// invoice's status becomes paid.
-//
-// If the PaymentIntent's status is already succeeded when it is attached, it is
-// credited to the invoice immediately.
-//
-// Related guide: [Create an invoice payment](https://stripe.com/docs/invoicing/payments/create)
-func (c Client) AttachPaymentIntent(id string, params *stripe.InvoiceAttachPaymentIntentParams) (*stripe.Invoice, error) {
-	path := stripe.FormatURLPath("/v1/invoices/%s/attach_payment_intent", id)
-	invoice := &stripe.Invoice{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
-	return invoice, err
-}
-
 // At any time, you can preview the upcoming invoice for a subscription or subscription schedule. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
 //
 // Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
