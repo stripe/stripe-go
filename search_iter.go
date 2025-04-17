@@ -123,3 +123,98 @@ func GetSearchIter(container SearchParamsContainer, query SearchQuery) *SearchIt
 
 	return iter
 }
+
+// SearchIter provides a convenient interface
+// for iterating over the elements
+// returned from paginated search API calls.
+// Successive calls to the Next method
+// will step through each item in the search results,
+// fetching pages of items as needed.
+// Iterators are not thread-safe, so they should not be consumed
+// across multiple goroutines.
+type v1SearchList[T any] struct {
+	cur             *T
+	err             error
+	formValues      *form.Values
+	searchContainer SearchContainer
+	searchParams    SearchParams
+	meta            *SearchMeta
+	query           v1SearchQuery[T]
+	values          []*T
+}
+
+func (it *v1SearchList[T]) All() Seq2[*T, error] {
+	return func(yield func(*T, error) bool) {
+		for it.next() {
+			if !yield(it.cur, nil) {
+				return
+			}
+		}
+		if it.err != nil {
+			if !yield(nil, it.err) {
+				return
+			}
+		}
+	}
+}
+
+// Next advances the SearchIter to the next item in the search results,
+// which will then be available
+// through the Current method.
+// It returns false when the iterator stops
+// at the end of the search results.
+func (it *v1SearchList[T]) next() bool {
+	if len(it.values) == 0 && it.meta.HasMore && !it.searchParams.Single {
+		if it.meta.NextPage != nil {
+			it.formValues.Set(Page, *it.meta.NextPage)
+			it.getPage()
+		}
+	}
+	if len(it.values) == 0 {
+		return false
+	}
+	it.cur = it.values[0]
+	it.values = it.values[1:]
+	return true
+}
+
+func (it *v1SearchList[T]) getPage() {
+	it.values, it.searchContainer, it.err = it.query(it.searchParams.GetParams(), it.formValues)
+	it.meta = it.searchContainer.GetSearchMeta()
+}
+
+// SearchQuery is the function used to get search results.
+type v1SearchQuery[T any] func(*Params, *form.Values) ([]*T, SearchContainer, error)
+
+//
+// Public functions
+//
+
+// GetSearchIter returns a new SearchIter for a given query and its options.
+func newV1SearchList[T any](container SearchParamsContainer, query v1SearchQuery[T]) *v1SearchList[T] {
+	var searchParams *SearchParams
+	formValues := &form.Values{}
+
+	if container != nil {
+		reflectValue := reflect.ValueOf(container)
+
+		// See the comment on Call in stripe.go.
+		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
+			searchParams = container.GetSearchParams()
+			form.AppendTo(formValues, container)
+		}
+	}
+
+	if searchParams == nil {
+		searchParams = &SearchParams{}
+	}
+	iter := &v1SearchList[T]{
+		formValues:   formValues,
+		searchParams: *searchParams,
+		query:        query,
+	}
+
+	iter.getPage()
+
+	return iter
+}
