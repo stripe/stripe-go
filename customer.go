@@ -282,6 +282,270 @@ func (p *CustomerCreateFundingInstructionsParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Permanently deletes a customer. It cannot be undone. Also immediately cancels any active subscriptions on the customer.
+type CustomerDeleteParams struct {
+	Params `form:"*"`
+}
+
+// Retrieves a Customer object.
+type CustomerRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Settings controlling the behavior of the customer's cash balance,
+// such as reconciliation of funds received.
+type CustomerUpdateCashBalanceSettingsParams struct {
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	ReconciliationMode *string `form:"reconciliation_mode"`
+}
+
+// Balance information and default balance settings for this customer.
+type CustomerUpdateCashBalanceParams struct {
+	// Settings controlling the behavior of the customer's cash balance,
+	// such as reconciliation of funds received.
+	Settings *CustomerUpdateCashBalanceSettingsParams `form:"settings"`
+}
+
+// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
+type CustomerUpdateInvoiceSettingsCustomFieldParams struct {
+	// The name of the custom field. This may be up to 40 characters.
+	Name *string `form:"name"`
+	// The value of the custom field. This may be up to 140 characters.
+	Value *string `form:"value"`
+}
+
+// Default options for invoice PDF rendering for this customer.
+type CustomerUpdateInvoiceSettingsRenderingOptionsParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for future invoices.
+	Template *string `form:"template"`
+}
+
+// Default invoice settings for this customer.
+type CustomerUpdateInvoiceSettingsParams struct {
+	// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
+	CustomFields []*CustomerUpdateInvoiceSettingsCustomFieldParams `form:"custom_fields"`
+	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices.
+	DefaultPaymentMethod *string `form:"default_payment_method"`
+	// Default footer to be displayed on invoices for this customer.
+	Footer *string `form:"footer"`
+	// Default options for invoice PDF rendering for this customer.
+	RenderingOptions *CustomerUpdateInvoiceSettingsRenderingOptionsParams `form:"rendering_options"`
+}
+
+// The customer's shipping information. Appears on invoices emailed to this customer.
+type CustomerUpdateShippingParams struct {
+	// Customer shipping address.
+	Address *AddressParams `form:"address"`
+	// Customer name.
+	Name *string `form:"name"`
+	// Customer phone (including extension).
+	Phone *string `form:"phone"`
+}
+
+// Tax details about the customer.
+type CustomerUpdateTaxParams struct {
+	// A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
+	IPAddress *string `form:"ip_address"`
+	// A flag that indicates when Stripe should validate the customer tax location. Defaults to `auto`.
+	ValidateLocation *string `form:"validate_location"`
+}
+
+// Updates the specified customer by setting the values of the parameters passed. Any parameters not provided will be left unchanged. For example, if you pass the source parameter, that becomes the customer's active source (e.g., a card) to be used for all charges in the future. When you update a customer to a new valid card source by passing the source parameter: for each of the customer's current subscriptions, if the subscription bills automatically and is in the past_due state, then the latest open invoice for the subscription with automatic collection enabled will be retried. This retry will not count as an automatic retry, and will not affect the next regularly scheduled payment for the invoice. Changing the default_source for a customer will not trigger this behavior.
+//
+// This request accepts mostly the same arguments as the customer creation call.
+type CustomerUpdateParams struct {
+	Params `form:"*"`
+	// The customer's address.
+	Address *AddressParams `form:"address"`
+	// An integer amount in cents (or local equivalent) that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
+	Balance *int64 `form:"balance"`
+	// Balance information and default balance settings for this customer.
+	CashBalance *CustomerUpdateCashBalanceParams `form:"cash_balance"`
+	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method) parameter.
+	//
+	// Provide the ID of a payment source already attached to this customer to make it this customer's default payment source.
+	//
+	// If you want to add a new payment source and make it the default, see the [source](https://stripe.com/docs/api/customers/update#update_customer-source) property.
+	DefaultSource *string `form:"default_source"`
+	// An arbitrary string that you can attach to a customer object. It is displayed alongside the customer in the dashboard.
+	Description *string `form:"description"`
+	// Customer's email address. It's displayed alongside the customer in your dashboard and can be useful for searching and tracking. This may be up to *512 characters*.
+	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	InvoicePrefix *string `form:"invoice_prefix"`
+	// Default invoice settings for this customer.
+	InvoiceSettings *CustomerUpdateInvoiceSettingsParams `form:"invoice_settings"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The customer's full name or business name.
+	Name *string `form:"name"`
+	// The sequence to be used on the customer's next invoice. Defaults to 1.
+	NextInvoiceSequence *int64 `form:"next_invoice_sequence"`
+	// The customer's phone number.
+	Phone *string `form:"phone"`
+	// Customer's preferred languages, ordered by preference.
+	PreferredLocales []*string `form:"preferred_locales"`
+	// The customer's shipping information. Appears on invoices emailed to this customer.
+	Shipping *CustomerUpdateShippingParams `form:"shipping"`
+	Source   *string                       `form:"source"`
+	// Tax details about the customer.
+	Tax *CustomerUpdateTaxParams `form:"tax"`
+	// The customer's tax exemption. One of `none`, `exempt`, or `reverse`.
+	TaxExempt *string `form:"tax_exempt"`
+	Validate  *bool   `form:"validate"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CustomerUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Settings controlling the behavior of the customer's cash balance,
+// such as reconciliation of funds received.
+type CustomerCreateCashBalanceSettingsParams struct {
+	// Controls how funds transferred by the customer are applied to payment intents and invoices. Valid options are `automatic`, `manual`, or `merchant_default`. For more information about these reconciliation modes, see [Reconciliation](https://stripe.com/docs/payments/customer-balance/reconciliation).
+	ReconciliationMode *string `form:"reconciliation_mode"`
+}
+
+// Balance information and default balance settings for this customer.
+type CustomerCreateCashBalanceParams struct {
+	// Settings controlling the behavior of the customer's cash balance,
+	// such as reconciliation of funds received.
+	Settings *CustomerCreateCashBalanceSettingsParams `form:"settings"`
+}
+
+// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
+type CustomerCreateInvoiceSettingsCustomFieldParams struct {
+	// The name of the custom field. This may be up to 40 characters.
+	Name *string `form:"name"`
+	// The value of the custom field. This may be up to 140 characters.
+	Value *string `form:"value"`
+}
+
+// Default options for invoice PDF rendering for this customer.
+type CustomerCreateInvoiceSettingsRenderingOptionsParams struct {
+	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
+	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for future invoices.
+	Template *string `form:"template"`
+}
+
+// Default invoice settings for this customer.
+type CustomerCreateInvoiceSettingsParams struct {
+	// The list of up to 4 default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
+	CustomFields []*CustomerCreateInvoiceSettingsCustomFieldParams `form:"custom_fields"`
+	// ID of a payment method that's attached to the customer, to be used as the customer's default payment method for subscriptions and invoices.
+	DefaultPaymentMethod *string `form:"default_payment_method"`
+	// Default footer to be displayed on invoices for this customer.
+	Footer *string `form:"footer"`
+	// Default options for invoice PDF rendering for this customer.
+	RenderingOptions *CustomerCreateInvoiceSettingsRenderingOptionsParams `form:"rendering_options"`
+}
+
+// The customer's shipping information. Appears on invoices emailed to this customer.
+type CustomerCreateShippingParams struct {
+	// Customer shipping address.
+	Address *AddressParams `form:"address"`
+	// Customer name.
+	Name *string `form:"name"`
+	// Customer phone (including extension).
+	Phone *string `form:"phone"`
+}
+
+// Tax details about the customer.
+type CustomerCreateTaxParams struct {
+	// A recent IP address of the customer used for tax reporting and tax location inference. Stripe recommends updating the IP address when a new PaymentMethod is attached or the address field on the customer is updated. We recommend against updating this field more frequently since it could result in unexpected tax location/reporting outcomes.
+	IPAddress *string `form:"ip_address"`
+	// A flag that indicates when Stripe should validate the customer tax location. Defaults to `deferred`.
+	ValidateLocation *string `form:"validate_location"`
+}
+
+// The customer's tax IDs.
+type CustomerCreateTaxIDDatumParams struct {
+	// Type of the tax ID, one of `ad_nrt`, `ae_trn`, `al_tin`, `am_tin`, `ao_tin`, `ar_cuit`, `au_abn`, `au_arn`, `ba_tin`, `bb_tin`, `bg_uic`, `bh_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `bs_tin`, `by_tin`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `cd_nif`, `ch_uid`, `ch_vat`, `cl_tin`, `cn_tin`, `co_nit`, `cr_tin`, `de_stn`, `do_rcn`, `ec_ruc`, `eg_tin`, `es_cif`, `eu_oss_vat`, `eu_vat`, `gb_vat`, `ge_vat`, `gn_nif`, `hk_br`, `hr_oib`, `hu_tin`, `id_npwp`, `il_vat`, `in_gst`, `is_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `ke_pin`, `kh_tin`, `kr_brn`, `kz_bin`, `li_uid`, `li_vat`, `ma_vat`, `md_vat`, `me_pib`, `mk_vat`, `mr_nif`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `ng_tin`, `no_vat`, `no_voec`, `np_pan`, `nz_gst`, `om_vat`, `pe_ruc`, `ph_tin`, `ro_tin`, `rs_pib`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `si_tin`, `sn_ninea`, `sr_fin`, `sv_nit`, `th_vat`, `tj_tin`, `tr_tin`, `tw_vat`, `tz_vat`, `ua_vat`, `ug_tin`, `us_ein`, `uy_ruc`, `uz_tin`, `uz_vat`, `ve_rif`, `vn_tin`, `za_vat`, `zm_tin`, or `zw_tin`
+	Type *string `form:"type"`
+	// Value of the tax ID.
+	Value *string `form:"value"`
+}
+
+// Creates a new customer object.
+type CustomerCreateParams struct {
+	Params `form:"*"`
+	// The customer's address.
+	Address *AddressParams `form:"address"`
+	// An integer amount in cents (or local equivalent) that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
+	Balance *int64 `form:"balance"`
+	// Balance information and default balance settings for this customer.
+	CashBalance *CustomerCreateCashBalanceParams `form:"cash_balance"`
+	// An arbitrary string that you can attach to a customer object. It is displayed alongside the customer in the dashboard.
+	Description *string `form:"description"`
+	// Customer's email address. It's displayed alongside the customer in your dashboard and can be useful for searching and tracking. This may be up to *512 characters*.
+	Email *string `form:"email"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
+	InvoicePrefix *string `form:"invoice_prefix"`
+	// Default invoice settings for this customer.
+	InvoiceSettings *CustomerCreateInvoiceSettingsParams `form:"invoice_settings"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The customer's full name or business name.
+	Name *string `form:"name"`
+	// The sequence to be used on the customer's next invoice. Defaults to 1.
+	NextInvoiceSequence *int64  `form:"next_invoice_sequence"`
+	PaymentMethod       *string `form:"payment_method"`
+	// The customer's phone number.
+	Phone *string `form:"phone"`
+	// Customer's preferred languages, ordered by preference.
+	PreferredLocales []*string `form:"preferred_locales"`
+	// The customer's shipping information. Appears on invoices emailed to this customer.
+	Shipping *CustomerCreateShippingParams `form:"shipping"`
+	Source   *string                       `form:"source"`
+	// Tax details about the customer.
+	Tax *CustomerCreateTaxParams `form:"tax"`
+	// The customer's tax exemption. One of `none`, `exempt`, or `reverse`.
+	TaxExempt *string `form:"tax_exempt"`
+	// The customer's tax IDs.
+	TaxIDData []*CustomerCreateTaxIDDatumParams `form:"tax_id_data"`
+	// ID of the test clock to attach to the customer.
+	TestClock *string `form:"test_clock"`
+	Validate  *bool   `form:"validate"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CustomerCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Default custom fields to be displayed on invoices for this customer.
 type CustomerInvoiceSettingsCustomField struct {
 	// The name of the custom field.

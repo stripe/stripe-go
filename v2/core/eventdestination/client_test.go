@@ -260,7 +260,7 @@ func TestEventDestinationList_SinglePage(t *testing.T) {
 	})
 	defer testServer.Close()
 	cnt := 1
-	sc.V2CoreEventDestinations.All(params)(func(dest stripe.V2EventDestination, err error) bool {
+	sc.V2CoreEventDestinations.All(params)(func(dest *stripe.V2EventDestination, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, dest)
 		assert.Equal(t, dest.Description, fmt.Sprintf("Event destination %d", cnt))
@@ -323,7 +323,7 @@ func TestEventDestinationList_MultiplePages(t *testing.T) {
 	)
 	sc := client.New(TestAPIKey, backends)
 
-	sc.V2CoreEventDestinations.All(params)(func(dest stripe.V2EventDestination, err error) bool {
+	sc.V2CoreEventDestinations.All(params)(func(dest *stripe.V2EventDestination, err error) bool {
 		assert.Nil(t, err)
 		assert.NotNil(t, dest)
 		assert.Equal(t, dest.Description, fmt.Sprintf("Event destination %d", cnt))

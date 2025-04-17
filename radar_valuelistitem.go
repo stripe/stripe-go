@@ -42,6 +42,39 @@ func (p *RadarValueListItemListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Deletes a ValueListItem object, removing it from its parent value list.
+type RadarValueListItemDeleteParams struct {
+	Params `form:"*"`
+}
+
+// Retrieves a ValueListItem object.
+type RadarValueListItemRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RadarValueListItemRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Creates a new ValueListItem object, which is added to the specified parent value list.
+type RadarValueListItemCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The value of the item (whose type must match the type of the parent value list).
+	Value *string `form:"value"`
+	// The identifier of the value list which the created item will be added to.
+	ValueList *string `form:"value_list"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *RadarValueListItemCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Value list items allow you to add specific values to a given Radar value list, which can then be used in rules.
 //
 // Related guide: [Managing list items](https://stripe.com/docs/radar/lists#managing-list-items)

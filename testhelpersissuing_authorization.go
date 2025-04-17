@@ -475,3 +475,179 @@ type TestHelpersIssuingAuthorizationReverseParams struct {
 func (p *TestHelpersIssuingAuthorizationReverseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
+
+// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+type TestHelpersIssuingAuthorizationCreateAmountDetailsParams struct {
+	// The ATM withdrawal fee.
+	ATMFee *int64 `form:"atm_fee"`
+	// The amount of cash requested by the cardholder.
+	CashbackAmount *int64 `form:"cashback_amount"`
+}
+
+// Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry.
+type TestHelpersIssuingAuthorizationCreateFleetCardholderPromptDataParams struct {
+	// Driver ID.
+	DriverID *string `form:"driver_id"`
+	// Odometer reading.
+	Odometer *int64 `form:"odometer"`
+	// An alphanumeric ID. This field is used when a vehicle ID, driver ID, or generic ID is entered by the cardholder, but the merchant or card network did not specify the prompt type.
+	UnspecifiedID *string `form:"unspecified_id"`
+	// User ID.
+	UserID *string `form:"user_id"`
+	// Vehicle number.
+	VehicleNumber *string `form:"vehicle_number"`
+}
+
+// Breakdown of fuel portion of the purchase.
+type TestHelpersIssuingAuthorizationCreateFleetReportedBreakdownFuelParams struct {
+	// Gross fuel amount that should equal Fuel Volume multipled by Fuel Unit Cost, inclusive of taxes.
+	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision"`
+}
+
+// Breakdown of non-fuel portion of the purchase.
+type TestHelpersIssuingAuthorizationCreateFleetReportedBreakdownNonFuelParams struct {
+	// Gross non-fuel amount that should equal the sum of the line items, inclusive of taxes.
+	GrossAmountDecimal *float64 `form:"gross_amount_decimal,high_precision"`
+}
+
+// Information about tax included in this transaction.
+type TestHelpersIssuingAuthorizationCreateFleetReportedBreakdownTaxParams struct {
+	// Amount of state or provincial Sales Tax included in the transaction amount. Null if not reported by merchant or not subject to tax.
+	LocalAmountDecimal *float64 `form:"local_amount_decimal,high_precision"`
+	// Amount of national Sales Tax or VAT included in the transaction amount. Null if not reported by merchant or not subject to tax.
+	NationalAmountDecimal *float64 `form:"national_amount_decimal,high_precision"`
+}
+
+// More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
+type TestHelpersIssuingAuthorizationCreateFleetReportedBreakdownParams struct {
+	// Breakdown of fuel portion of the purchase.
+	Fuel *TestHelpersIssuingAuthorizationCreateFleetReportedBreakdownFuelParams `form:"fuel"`
+	// Breakdown of non-fuel portion of the purchase.
+	NonFuel *TestHelpersIssuingAuthorizationCreateFleetReportedBreakdownNonFuelParams `form:"non_fuel"`
+	// Information about tax included in this transaction.
+	Tax *TestHelpersIssuingAuthorizationCreateFleetReportedBreakdownTaxParams `form:"tax"`
+}
+
+// Fleet-specific information for authorizations using Fleet cards.
+type TestHelpersIssuingAuthorizationCreateFleetParams struct {
+	// Answers to prompts presented to the cardholder at the point of sale. Prompted fields vary depending on the configuration of your physical fleet cards. Typical points of sale support only numeric entry.
+	CardholderPromptData *TestHelpersIssuingAuthorizationCreateFleetCardholderPromptDataParams `form:"cardholder_prompt_data"`
+	// The type of purchase. One of `fuel_purchase`, `non_fuel_purchase`, or `fuel_and_non_fuel_purchase`.
+	PurchaseType *string `form:"purchase_type"`
+	// More information about the total amount. This information is not guaranteed to be accurate as some merchants may provide unreliable data.
+	ReportedBreakdown *TestHelpersIssuingAuthorizationCreateFleetReportedBreakdownParams `form:"reported_breakdown"`
+	// The type of fuel service. One of `non_fuel_transaction`, `full_service`, or `self_service`.
+	ServiceType *string `form:"service_type"`
+}
+
+// Information about fuel that was purchased with this transaction.
+type TestHelpersIssuingAuthorizationCreateFuelParams struct {
+	// [Conexxus Payment System Product Code](https://www.conexxus.org/conexxus-payment-system-product-codes) identifying the primary fuel product purchased.
+	IndustryProductCode *string `form:"industry_product_code"`
+	// The quantity of `unit`s of fuel that was dispensed, represented as a decimal string with at most 12 decimal places.
+	QuantityDecimal *float64 `form:"quantity_decimal,high_precision"`
+	// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
+	Type *string `form:"type"`
+	// The units for `quantity_decimal`. One of `charging_minute`, `imperial_gallon`, `kilogram`, `kilowatt_hour`, `liter`, `pound`, `us_gallon`, or `other`.
+	Unit *string `form:"unit"`
+	// The cost in cents per each unit of fuel, represented as a decimal string with at most 12 decimal places.
+	UnitCostDecimal *float64 `form:"unit_cost_decimal,high_precision"`
+}
+
+// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
+type TestHelpersIssuingAuthorizationCreateMerchantDataParams struct {
+	// A categorization of the seller's type of business. See our [merchant categories guide](https://stripe.com/docs/issuing/merchant-categories) for a list of possible values.
+	Category *string `form:"category"`
+	// City where the seller is located
+	City *string `form:"city"`
+	// Country where the seller is located
+	Country *string `form:"country"`
+	// Name of the seller
+	Name *string `form:"name"`
+	// Identifier assigned to the seller by the card network. Different card networks may assign different network_id fields to the same merchant.
+	NetworkID *string `form:"network_id"`
+	// Postal code where the seller is located
+	PostalCode *string `form:"postal_code"`
+	// State where the seller is located
+	State *string `form:"state"`
+	// An ID assigned by the seller to the location of the sale.
+	TerminalID *string `form:"terminal_id"`
+	// URL provided by the merchant on a 3DS request
+	URL *string `form:"url"`
+}
+
+// Details about the authorization, such as identifiers, set by the card network.
+type TestHelpersIssuingAuthorizationCreateNetworkDataParams struct {
+	// Identifier assigned to the acquirer by the card network.
+	AcquiringInstitutionID *string `form:"acquiring_institution_id"`
+}
+
+// The exemption applied to this authorization.
+type TestHelpersIssuingAuthorizationCreateVerificationDataAuthenticationExemptionParams struct {
+	// The entity that requested the exemption, either the acquiring merchant or the Issuing user.
+	ClaimedBy *string `form:"claimed_by"`
+	// The specific exemption claimed for this authorization.
+	Type *string `form:"type"`
+}
+
+// 3D Secure details.
+type TestHelpersIssuingAuthorizationCreateVerificationDataThreeDSecureParams struct {
+	// The outcome of the 3D Secure authentication request.
+	Result *string `form:"result"`
+}
+
+// Verifications that Stripe performed on information that the cardholder provided to the merchant.
+type TestHelpersIssuingAuthorizationCreateVerificationDataParams struct {
+	// Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
+	AddressLine1Check *string `form:"address_line1_check"`
+	// Whether the cardholder provided a postal code and if it matched the cardholder's `billing.address.postal_code`.
+	AddressPostalCodeCheck *string `form:"address_postal_code_check"`
+	// The exemption applied to this authorization.
+	AuthenticationExemption *TestHelpersIssuingAuthorizationCreateVerificationDataAuthenticationExemptionParams `form:"authentication_exemption"`
+	// Whether the cardholder provided a CVC and if it matched Stripe's record.
+	CVCCheck *string `form:"cvc_check"`
+	// Whether the cardholder provided an expiry date and if it matched Stripe's record.
+	ExpiryCheck *string `form:"expiry_check"`
+	// 3D Secure details.
+	ThreeDSecure *TestHelpersIssuingAuthorizationCreateVerificationDataThreeDSecureParams `form:"three_d_secure"`
+}
+
+// Create a test-mode authorization.
+type TestHelpersIssuingAuthorizationCreateParams struct {
+	Params `form:"*"`
+	// The total amount to attempt to authorize. This amount is in the provided currency, or defaults to the card's currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount *int64 `form:"amount"`
+	// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	AmountDetails *TestHelpersIssuingAuthorizationCreateAmountDetailsParams `form:"amount_details"`
+	// How the card details were provided. Defaults to online.
+	AuthorizationMethod *string `form:"authorization_method"`
+	// Card associated with this authorization.
+	Card *string `form:"card"`
+	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Fleet-specific information for authorizations using Fleet cards.
+	Fleet *TestHelpersIssuingAuthorizationCreateFleetParams `form:"fleet"`
+	// Information about fuel that was purchased with this transaction.
+	Fuel *TestHelpersIssuingAuthorizationCreateFuelParams `form:"fuel"`
+	// If set `true`, you may provide [amount](https://stripe.com/docs/api/issuing/authorizations/approve#approve_issuing_authorization-amount) to control how much to hold for the authorization.
+	IsAmountControllable *bool `form:"is_amount_controllable"`
+	// The total amount to attempt to authorize. This amount is in the provided merchant currency, and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	MerchantAmount *int64 `form:"merchant_amount"`
+	// The currency of the authorization. If not provided, defaults to the currency of the card. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	MerchantCurrency *string `form:"merchant_currency"`
+	// Details about the seller (grocery store, e-commerce website, etc.) where the card authorization happened.
+	MerchantData *TestHelpersIssuingAuthorizationCreateMerchantDataParams `form:"merchant_data"`
+	// Details about the authorization, such as identifiers, set by the card network.
+	NetworkData *TestHelpersIssuingAuthorizationCreateNetworkDataParams `form:"network_data"`
+	// Verifications that Stripe performed on information that the cardholder provided to the merchant.
+	VerificationData *TestHelpersIssuingAuthorizationCreateVerificationDataParams `form:"verification_data"`
+	// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`. Will populate as `null` when no digital wallet was utilized.
+	Wallet *string `form:"wallet"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersIssuingAuthorizationCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}

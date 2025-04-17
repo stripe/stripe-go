@@ -176,6 +176,18 @@ func (p *IdentityVerificationReportParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves an existing VerificationReport
+type IdentityVerificationReportRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IdentityVerificationReportRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Date of birth as it appears in the document.
 type IdentityVerificationReportDocumentDOB struct {
 	// Numerical day between 1 and 31.

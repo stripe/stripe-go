@@ -156,6 +156,121 @@ func (p *PaymentSourceVerifyParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// When you create a new credit card, you must specify a customer or recipient on which to create it.
+//
+// If the card's owner has no default card, then the new card will become the default.
+// However, if the owner already has a default, then it will not change.
+// To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new default_source.
+type PaymentSourceCreateParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Please refer to full [documentation](https://stripe.com/docs/api) instead.
+	Source   *string `form:"source"`
+	Validate *bool   `form:"validate"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentSourceCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieve a specified source for a given customer.
+type PaymentSourceRetrieveParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+type PaymentSourceUpdateOwnerParams struct {
+	// Owner's address.
+	Address *AddressParams `form:"address"`
+	// Owner's email address.
+	Email *string `form:"email"`
+	// Owner's full name.
+	Name *string `form:"name"`
+	// Owner's phone number.
+	Phone *string `form:"phone"`
+}
+
+// Update a specified source for a given customer.
+type PaymentSourceUpdateParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// The name of the person or business that owns the bank account.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The type of entity that holds the account. This can be either `individual` or `company`.
+	AccountHolderType *string `form:"account_holder_type"`
+	// City/District/Suburb/Town/Village.
+	AddressCity *string `form:"address_city"`
+	// Billing address country, if provided when creating card.
+	AddressCountry *string `form:"address_country"`
+	// Address line 1 (Street address/PO Box/Company name).
+	AddressLine1 *string `form:"address_line1"`
+	// Address line 2 (Apartment/Suite/Unit/Building).
+	AddressLine2 *string `form:"address_line2"`
+	// State/County/Province/Region.
+	AddressState *string `form:"address_state"`
+	// ZIP or postal code.
+	AddressZip *string `form:"address_zip"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Two digit number representing the card's expiration month.
+	ExpMonth *string `form:"exp_month"`
+	// Four digit number representing the card's expiration year.
+	ExpYear *string `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Cardholder name.
+	Name  *string                         `form:"name"`
+	Owner *PaymentSourceUpdateOwnerParams `form:"owner"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PaymentSourceUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Delete a specified source for a given customer.
+type PaymentSourceDeleteParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentSourceDeleteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type PaymentSource struct {
 	APIResource
 	BankAccount *BankAccount      `json:"-"`

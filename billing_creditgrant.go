@@ -151,6 +151,118 @@ func (p *BillingCreditGrantVoidGrantParams) AddExpand(f string) {
 }
 
 // The monetary amount.
+type BillingCreditGrantCreateAmountMonetaryParams struct {
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
+	Currency *string `form:"currency"`
+	// A positive integer representing the amount of the credit grant.
+	Value *int64 `form:"value"`
+}
+
+// Amount of this credit grant.
+type BillingCreditGrantCreateAmountParams struct {
+	// The monetary amount.
+	Monetary *BillingCreditGrantCreateAmountMonetaryParams `form:"monetary"`
+	// Specify the type of this amount. We currently only support `monetary` billing credits.
+	Type *string `form:"type"`
+}
+
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+type BillingCreditGrantCreateApplicabilityConfigScopePriceParams struct {
+	// The price ID this credit grant should apply to.
+	ID *string `form:"id"`
+}
+
+// Specify the scope of this applicability config.
+type BillingCreditGrantCreateApplicabilityConfigScopeParams struct {
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+	Prices []*BillingCreditGrantCreateApplicabilityConfigScopePriceParams `form:"prices"`
+	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
+	PriceType *string `form:"price_type"`
+}
+
+// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+type BillingCreditGrantCreateApplicabilityConfigParams struct {
+	// Specify the scope of this applicability config.
+	Scope *BillingCreditGrantCreateApplicabilityConfigScopeParams `form:"scope"`
+}
+
+// Creates a credit grant.
+type BillingCreditGrantCreateParams struct {
+	Params `form:"*"`
+	// Amount of this credit grant.
+	Amount *BillingCreditGrantCreateAmountParams `form:"amount"`
+	// Configuration specifying what this credit grant applies to. We currently only support `metered` prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them.
+	ApplicabilityConfig *BillingCreditGrantCreateApplicabilityConfigParams `form:"applicability_config"`
+	// The category of this credit grant.
+	Category *string `form:"category"`
+	// ID of the customer to receive the billing credits.
+	Customer *string `form:"customer"`
+	// The time when the billing credits become effective-when they're eligible for use. It defaults to the current timestamp if not specified.
+	EffectiveAt *int64 `form:"effective_at"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The time when the billing credits expire. If not specified, the billing credits don't expire.
+	ExpiresAt *int64 `form:"expires_at"`
+	// Set of key-value pairs that you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format.
+	Metadata map[string]string `form:"metadata"`
+	// A descriptive name shown in the Dashboard.
+	Name *string `form:"name"`
+	// The desired priority for applying this credit grant. If not specified, it will be set to the default value of 50. The highest priority is 0 and the lowest is 100.
+	Priority *int64 `form:"priority"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingCreditGrantCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *BillingCreditGrantCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves a credit grant.
+type BillingCreditGrantRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingCreditGrantRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates a credit grant.
+type BillingCreditGrantUpdateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The time when the billing credits created by this credit grant expire. If set to empty, the billing credits never expire.
+	ExpiresAt *int64 `form:"expires_at"`
+	// Set of key-value pairs you can attach to an object. You can use this to store additional information about the object (for example, cost basis) in a structured format.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingCreditGrantUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *BillingCreditGrantUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// The monetary amount.
 type BillingCreditGrantAmountMonetary struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`

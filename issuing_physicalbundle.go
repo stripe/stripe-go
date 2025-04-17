@@ -85,6 +85,18 @@ func (p *IssuingPhysicalBundleParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves a physical bundle object.
+type IssuingPhysicalBundleRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingPhysicalBundleRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type IssuingPhysicalBundleFeatures struct {
 	// The policy for how to use card logo images in a card design with this physical bundle.
 	CardLogo IssuingPhysicalBundleFeaturesCardLogo `json:"card_logo"`

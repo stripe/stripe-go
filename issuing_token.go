@@ -147,6 +147,32 @@ func (p *IssuingTokenParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves an Issuing Token object.
+type IssuingTokenRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingTokenRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Attempts to update the specified Issuing Token object to the status specified.
+type IssuingTokenUpdateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Specifies which status the token should be updated to.
+	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingTokenUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type IssuingTokenNetworkDataDevice struct {
 	// An obfuscated ID derived from the device ID.
 	DeviceFingerprint string `json:"device_fingerprint"`

@@ -293,6 +293,98 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+// Delete a specified source for a given customer.
+type CardDeleteParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CardDeleteParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+type CardUpdateOwnerParams struct {
+	// Owner's address.
+	Address *AddressParams `form:"address"`
+	// Owner's email address.
+	Email *string `form:"email"`
+	// Owner's full name.
+	Name *string `form:"name"`
+	// Owner's phone number.
+	Phone *string `form:"phone"`
+}
+
+// Update a specified source for a given customer.
+type CardUpdateParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// The name of the person or business that owns the bank account.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The type of entity that holds the account. This can be either `individual` or `company`.
+	AccountHolderType *string `form:"account_holder_type"`
+	// City/District/Suburb/Town/Village.
+	AddressCity *string `form:"address_city"`
+	// Billing address country, if provided when creating card.
+	AddressCountry *string `form:"address_country"`
+	// Address line 1 (Street address/PO Box/Company name).
+	AddressLine1 *string `form:"address_line1"`
+	// Address line 2 (Apartment/Suite/Unit/Building).
+	AddressLine2 *string `form:"address_line2"`
+	// State/County/Province/Region.
+	AddressState *string `form:"address_state"`
+	// ZIP or postal code.
+	AddressZip *string `form:"address_zip"`
+	// Required when adding a card to an account (not applicable to customers or recipients). The card (which must be a debit card) can be used as a transfer destination for funds in this currency.
+	Currency *string `form:"currency"`
+	// Card security code. Highly recommended to always include this value, but it's required only for accounts based in European countries.
+	CVC *string `form:"cvc"`
+	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
+	DefaultForCurrency *bool `form:"default_for_currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Two digit number representing the card's expiration month.
+	ExpMonth *string `form:"exp_month"`
+	// Four digit number representing the card's expiration year.
+	ExpYear *string `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Cardholder name.
+	Name *string `form:"name"`
+	// The card number, as a string without any separators.
+	Number *string                `form:"number"`
+	Owner  *CardUpdateOwnerParams `form:"owner"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CardUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CardUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// New creates a new card
+type CardCreateParams struct {
+	Params   `form:"*"`
+	Account  *string `form:"-"` // Included in URL
+	Customer *string `form:"-"` // Included in URL
+	Token    *string `form:"-"` // Included in URL
+}
+
+// Get returns the details of a card.
+type CardRetrieveParams struct {
+	Params  `form:"*"`
+	Account *string `form:"-"` // Included in URL
+}
 type CardNetworks struct {
 	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
 	Preferred string `json:"preferred"`

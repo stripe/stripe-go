@@ -63,6 +63,78 @@ func (p *FileLinkParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+// Creates a new file link object.
+type FileLinkCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The link isn't usable after this future timestamp.
+	ExpiresAt *int64 `form:"expires_at"`
+	// The ID of the file. The file's `purpose` must be one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `finance_report_run`, `financial_account_statement`, `identity_document_downloadable`, `issuing_regulatory_reporting`, `pci_document`, `selfie`, `sigma_scheduled_query`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
+	File *string `form:"file"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileLinkCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *FileLinkCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the file link with the given ID.
+type FileLinkRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileLinkRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates an existing file link object. Expired links can no longer be updated.
+type FileLinkUpdateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A future timestamp after which the link will no longer be usable, or `now` to expire the link immediately.
+	ExpiresAt    *int64 `form:"expires_at"`
+	ExpiresAtNow *bool  `form:"-"` // See custom AppendTo
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FileLinkUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *FileLinkUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// AppendTo implements custom encoding logic for FileLinkUpdateParams.
+func (p *FileLinkUpdateParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.ExpiresAtNow) {
+		body.Add(form.FormatKey(append(keyParts, "expires_at")), "now")
+	}
+}
+
 // To share the contents of a `File` object with non-Stripe users, you can
 // create a `FileLink`. `FileLink`s contain a URL that you can use to
 // retrieve the contents of the file without authentication.

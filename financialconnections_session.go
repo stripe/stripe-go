@@ -131,6 +131,60 @@ type FinancialConnectionsSessionManualEntryParams struct {
 	Mode *string `form:"mode"`
 }
 
+// Retrieves the details of a Financial Connections Session
+type FinancialConnectionsSessionRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsSessionRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// The account holder to link accounts for.
+type FinancialConnectionsSessionCreateAccountHolderParams struct {
+	// The ID of the Stripe account whose accounts will be retrieved. Should only be present if `type` is `account`.
+	Account *string `form:"account"`
+	// The ID of the Stripe customer whose accounts will be retrieved. Should only be present if `type` is `customer`.
+	Customer *string `form:"customer"`
+	// Type of account holder to collect accounts for.
+	Type *string `form:"type"`
+}
+
+// Filters to restrict the kinds of accounts to collect.
+type FinancialConnectionsSessionCreateFiltersParams struct {
+	// Restricts the Session to subcategories of accounts that can be linked. Valid subcategories are: `checking`, `savings`, `mortgage`, `line_of_credit`, `credit_card`.
+	AccountSubcategories []*string `form:"account_subcategories"`
+	// List of countries from which to collect accounts.
+	Countries []*string `form:"countries"`
+}
+
+// To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
+type FinancialConnectionsSessionCreateParams struct {
+	Params `form:"*"`
+	// The account holder to link accounts for.
+	AccountHolder *FinancialConnectionsSessionCreateAccountHolderParams `form:"account_holder"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Filters to restrict the kinds of accounts to collect.
+	Filters *FinancialConnectionsSessionCreateFiltersParams `form:"filters"`
+	// List of data features that you would like to request access to.
+	//
+	// Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.
+	Permissions []*string `form:"permissions"`
+	// List of data features that you would like to retrieve upon account creation.
+	Prefetch []*string `form:"prefetch"`
+	// For webview integrations only. Upon completing OAuth login in the native browser, the user will be redirected to this URL to return to your app.
+	ReturnURL *string `form:"return_url"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsSessionCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The account holder for whom accounts are collected in this session.
 type FinancialConnectionsSessionAccountHolder struct {
 	// The ID of the Stripe account this account belongs to. Should only be present if `account_holder.type` is `account`.
