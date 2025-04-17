@@ -342,6 +342,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeACHCreditTransfer  QuotePreviewInvoicePaymentSettingsPaymentMethodType = "ach_credit_transfer"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeACHDebit           QuotePreviewInvoicePaymentSettingsPaymentMethodType = "ach_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeACSSDebit          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "acss_debit"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeAffirm             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "affirm"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeAmazonPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "amazon_pay"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        QuotePreviewInvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBACSDebit          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "bacs_debit"

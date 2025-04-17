@@ -196,6 +196,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeACHCreditTransfer  InvoicePaymentSettingsPaymentMethodType = "ach_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeACHDebit           InvoicePaymentSettingsPaymentMethodType = "ach_debit"
 	InvoicePaymentSettingsPaymentMethodTypeACSSDebit          InvoicePaymentSettingsPaymentMethodType = "acss_debit"
+	InvoicePaymentSettingsPaymentMethodTypeAffirm             InvoicePaymentSettingsPaymentMethodType = "affirm"
 	InvoicePaymentSettingsPaymentMethodTypeAmazonPay          InvoicePaymentSettingsPaymentMethodType = "amazon_pay"
 	InvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        InvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
 	InvoicePaymentSettingsPaymentMethodTypeBACSDebit          InvoicePaymentSettingsPaymentMethodType = "bacs_debit"
