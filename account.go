@@ -1023,6 +1023,14 @@ type AccountCompanyOwnershipDeclarationParams struct {
 	// The user agent of the browser from which the beneficial owner attestation was made.
 	UserAgent *string `form:"user_agent"`
 }
+type AccountCompanyRegistrationDateParams struct {
+	// The day of registration, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of registration, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of registration.
+	Year *int64 `form:"year"`
+}
 
 // A document verifying the business.
 type AccountCompanyVerificationDocumentParams struct {
@@ -1071,7 +1079,8 @@ type AccountCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
-	Phone *string `form:"phone"`
+	Phone            *string                               `form:"phone"`
+	RegistrationDate *AccountCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
@@ -2179,6 +2188,14 @@ type AccountUpdateCompanyOwnershipDeclarationParams struct {
 	// The user agent of the browser from which the beneficial owner attestation was made.
 	UserAgent *string `form:"user_agent"`
 }
+type AccountUpdateCompanyRegistrationDateParams struct {
+	// The day of registration, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of registration, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of registration.
+	Year *int64 `form:"year"`
+}
 
 // A document verifying the business.
 type AccountUpdateCompanyVerificationDocumentParams struct {
@@ -2225,7 +2242,8 @@ type AccountUpdateCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
-	Phone *string `form:"phone"`
+	Phone            *string                                     `form:"phone"`
+	RegistrationDate *AccountUpdateCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
@@ -3306,6 +3324,14 @@ type AccountCreateCompanyOwnershipDeclarationParams struct {
 	// The user agent of the browser from which the beneficial owner attestation was made.
 	UserAgent *string `form:"user_agent"`
 }
+type AccountCreateCompanyRegistrationDateParams struct {
+	// The day of registration, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of registration, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of registration.
+	Year *int64 `form:"year"`
+}
 
 // A document verifying the business.
 type AccountCreateCompanyVerificationDocumentParams struct {
@@ -3353,7 +3379,8 @@ type AccountCreateCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
-	Phone *string `form:"phone"`
+	Phone            *string                                     `form:"phone"`
+	RegistrationDate *AccountCreateCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
 	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
@@ -4043,6 +4070,14 @@ type AccountCompanyOwnershipDeclaration struct {
 	// The user-agent string from the browser where the beneficial owner attestation was made.
 	UserAgent string `json:"user_agent"`
 }
+type AccountCompanyRegistrationDate struct {
+	// The day of registration, between 1 and 31.
+	Day int64 `json:"day"`
+	// The month of registration, between 1 and 12.
+	Month int64 `json:"month"`
+	// The four-digit year of registration.
+	Year int64 `json:"year"`
+}
 type AccountCompanyVerificationDocument struct {
 	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `additional_verification`.
 	Back *File `json:"back"`
@@ -4087,7 +4122,8 @@ type AccountCompany struct {
 	// Whether the company's owners have been provided. This Boolean will be `true` if you've manually indicated that all owners are provided via [the `owners_provided` parameter](https://stripe.com/docs/api/accounts/update#update_account-company-owners_provided), or if Stripe determined that sufficient owners were provided. Stripe determines ownership requirements using both the number of owners provided and their total percent ownership (calculated by adding the `percent_ownership` of each owner together).
 	OwnersProvided bool `json:"owners_provided"`
 	// The company's phone number (used for verification).
-	Phone string `json:"phone"`
+	Phone            string                          `json:"phone"`
+	RegistrationDate *AccountCompanyRegistrationDate `json:"registration_date"`
 	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 	Structure AccountCompanyStructure `json:"structure"`
 	// Whether the company's business ID number was provided.
