@@ -56,11 +56,11 @@ func (c Client) Del(id string, params *stripe.V2CoreAccountsPersonParams) (*stri
 }
 
 // Returns a list of Persons associated with an Account.
-func (c Client) All(listParams *stripe.V2CoreAccountsPersonListParams) stripe.Seq2[stripe.V2CorePerson, error] {
+func (c Client) All(listParams *stripe.V2CoreAccountsPersonListParams) stripe.Seq2[*stripe.V2CorePerson, error] {
 	path := stripe.FormatURLPath(
 		"/v2/core/accounts/%s/persons", stripe.StringValue(listParams.AccountID))
-	return stripe.NewV2List(path, listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2CorePerson], error) {
-		page := &stripe.V2Page[stripe.V2CorePerson]{}
+	return stripe.NewV2List(path, listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2CorePerson], error) {
+		page := &stripe.V2Page[*stripe.V2CorePerson]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

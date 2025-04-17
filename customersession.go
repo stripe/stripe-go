@@ -193,6 +193,8 @@ type CustomerSessionCreateParams struct {
 	Components *CustomerSessionCreateComponentsParams `form:"components"`
 	// The ID of an existing customer for which to create the Customer Session.
 	Customer *string `form:"customer"`
+	// The ID of an existing Account for which to create the Customer Session.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }

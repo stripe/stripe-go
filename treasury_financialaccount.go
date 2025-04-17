@@ -445,6 +445,8 @@ type TreasuryFinancialAccountCreateFeaturesDepositInsuranceParams struct {
 
 // Adds an ABA FinancialAddress to the FinancialAccount.
 type TreasuryFinancialAccountCreateFeaturesFinancialAddressesABAParams struct {
+	// Requested bank partner
+	Bank *string `form:"bank"`
 	// Whether the FinancialAccount should have the Feature.
 	Requested *bool `form:"requested"`
 }
@@ -542,6 +544,8 @@ type TreasuryFinancialAccountCreatePlatformRestrictionsParams struct {
 // Creates a new FinancialAccount. Each connected account can have up to three FinancialAccounts by default.
 type TreasuryFinancialAccountCreateParams struct {
 	Params `form:"*"`
+	// The display name for the FinancialAccount. Use this field to customize the names of the FinancialAccounts for your connected accounts. Unlike the `nickname` field, `display_name` is not internal metadata and will be exposed to connected accounts.
+	DisplayName *string `form:"display_name"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Encodes whether a FinancialAccount has access to a particular feature. Stripe or the platform can control features via the requested field.
@@ -603,6 +607,8 @@ type TreasuryFinancialAccountUpdatePlatformRestrictionsParams struct {
 // Updates the details of a FinancialAccount.
 type TreasuryFinancialAccountUpdateParams struct {
 	Params `form:"*"`
+	// The display name for the FinancialAccount. Use this field to customize the names of the FinancialAccounts for your connected accounts. Unlike the `nickname` field, `display_name` is not internal metadata and will be exposed to connected accounts.
+	DisplayName *string `form:"display_name"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Encodes whether a FinancialAccount has access to a particular feature, with a status enum and associated `status_details`. Stripe or the platform may control features via the requested field.

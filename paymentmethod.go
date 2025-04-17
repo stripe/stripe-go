@@ -961,7 +961,7 @@ type PaymentMethodCreateBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type PaymentMethodCreateBancontactParams struct{}
 
-// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 type PaymentMethodCreateBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -1030,8 +1030,17 @@ type PaymentMethodCreateFPXParams struct {
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type PaymentMethodCreateGiropayParams struct{}
 
+// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+type PaymentMethodCreateGopayParams struct{}
+
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type PaymentMethodCreateGrabpayParams struct{}
+
+// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+type PaymentMethodCreateIDBankTransferParams struct {
+	// Bank where the account is held.
+	Bank *string `form:"bank"`
+}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type PaymentMethodCreateIDEALParams struct {
@@ -1069,6 +1078,9 @@ type PaymentMethodCreateKrCardParams struct{}
 
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type PaymentMethodCreateLinkParams struct{}
+
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type PaymentMethodCreateMbWayParams struct{}
 
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type PaymentMethodCreateMobilepayParams struct{}
@@ -1118,11 +1130,24 @@ type PaymentMethodCreatePayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type PaymentMethodCreatePaypalParams struct{}
 
+// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+type PaymentMethodCreatePaytoParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+	// The PayID alias for the bank account.
+	PayID *string `form:"pay_id"`
+}
+
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type PaymentMethodCreatePixParams struct{}
 
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 type PaymentMethodCreatePromptPayParams struct{}
+
+// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+type PaymentMethodCreateQrisParams struct{}
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type PaymentMethodCreateRadarOptionsParams struct {
@@ -1130,13 +1155,29 @@ type PaymentMethodCreateRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
-// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+// Customer's date of birth
+type PaymentMethodCreateRechnungDOBParams struct {
+	// The day of birth, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of birth, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of birth.
+	Year *int64 `form:"year"`
+}
+
+// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
+type PaymentMethodCreateRechnungParams struct {
+	// Customer's date of birth
+	DOB *PaymentMethodCreateRechnungDOBParams `form:"dob"`
+}
+
+// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type PaymentMethodCreateRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type PaymentMethodCreateSamsungPayParams struct{}
 
-// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type PaymentMethodCreateSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -1145,10 +1186,21 @@ type PaymentMethodCreateSEPADebitParams struct {
 	IBAN *string `form:"iban"`
 }
 
+// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+type PaymentMethodCreateShopeepayParams struct{}
+
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type PaymentMethodCreateSofortParams struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country *string `form:"country"`
+}
+
+// This hash contains details about the Stripe balance payment method.
+type PaymentMethodCreateStripeBalanceParams struct {
+	// The connected account ID whose Stripe balance to use as the source of payment
+	Account *string `form:"account"`
+	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+	SourceType *string `form:"source_type"`
 }
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -1202,7 +1254,7 @@ type PaymentMethodCreateParams struct {
 	BACSDebit *PaymentMethodCreateBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodCreateBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *PaymentMethodCreateBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentMethodCreateBillingDetailsParams `form:"billing_details"`
@@ -1226,8 +1278,12 @@ type PaymentMethodCreateParams struct {
 	FPX *PaymentMethodCreateFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *PaymentMethodCreateGiropayParams `form:"giropay"`
+	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+	Gopay *PaymentMethodCreateGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *PaymentMethodCreateGrabpayParams `form:"grabpay"`
+	// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+	IDBankTransfer *PaymentMethodCreateIDBankTransferParams `form:"id_bank_transfer"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 	IDEAL *PaymentMethodCreateIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
@@ -1242,6 +1298,8 @@ type PaymentMethodCreateParams struct {
 	KrCard *PaymentMethodCreateKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *PaymentMethodCreateLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *PaymentMethodCreateMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -1266,22 +1324,32 @@ type PaymentMethodCreateParams struct {
 	PayNow *PaymentMethodCreatePayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *PaymentMethodCreatePaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+	Payto *PaymentMethodCreatePaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *PaymentMethodCreatePixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *PaymentMethodCreatePromptPayParams `form:"promptpay"`
+	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+	Qris *PaymentMethodCreateQrisParams `form:"qris"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentMethodCreateRadarOptionsParams `form:"radar_options"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
+	Rechnung *PaymentMethodCreateRechnungParams `form:"rechnung"`
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodCreateRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *PaymentMethodCreateSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodCreateSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodCreateSEPADebitParams `form:"sepa_debit"`
+	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+	Shopeepay *PaymentMethodCreateShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodCreateSofortParams `form:"sofort"`
+	// This hash contains details about the Stripe balance payment method.
+	StripeBalance *PaymentMethodCreateStripeBalanceParams `form:"stripe_balance"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *PaymentMethodCreateSwishParams `form:"swish"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -1356,6 +1424,16 @@ type PaymentMethodUpdateLinkParams struct{}
 // If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
 type PaymentMethodUpdatePayByBankParams struct{}
 
+// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+type PaymentMethodUpdatePaytoParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+	// The PayID alias for the bank account.
+	PayID *string `form:"pay_id"`
+}
+
 // If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 type PaymentMethodUpdateUSBankAccountParams struct {
 	// Bank account holder type.
@@ -1381,6 +1459,8 @@ type PaymentMethodUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `pay_by_bank` PaymentMethod, this hash contains details about the PayByBank payment method.
 	PayByBank *PaymentMethodUpdatePayByBankParams `form:"pay_by_bank"`
+	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+	Payto *PaymentMethodUpdatePaytoParams `form:"payto"`
 	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
 	USBankAccount *PaymentMethodUpdateUSBankAccountParams `form:"us_bank_account"`
 }

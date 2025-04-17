@@ -795,6 +795,18 @@ func (p *PaymentRecordReportPaymentParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
+// Retrieves a Payment Record with the given ID
+type PaymentRecordRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PaymentRecordRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // A representation of an amount of money, consisting of an amount and a currency.
 type PaymentRecordAmountCanceled struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

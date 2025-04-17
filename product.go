@@ -469,6 +469,23 @@ type ProductCreatePackageDimensionsParams struct {
 	// Width, in inches. Maximum precision is 2 decimal places.
 	Width *float64 `form:"width"`
 }
+type ProductCreateProvisioningGiftCardFixedAmountParams struct {
+	// The initial amount with which the provisioned gift card will be created.
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+type ProductCreateProvisioningGiftCardParams struct {
+	FixedAmount *ProductCreateProvisioningGiftCardFixedAmountParams `form:"fixed_amount"`
+	// The specific type of gift_card provisioning, only `fixed_amount` currently supported.
+	Type *string `form:"type"`
+}
+
+// Provisioning configuration for this product.
+type ProductCreateProvisioningParams struct {
+	GiftCard *ProductCreateProvisioningGiftCardParams `form:"gift_card"`
+	// The type of provisioning, only `gift_card` currently supported.
+	Type *string `form:"type"`
+}
 
 // Creates a new product object.
 type ProductCreateParams struct {
@@ -493,6 +510,8 @@ type ProductCreateParams struct {
 	Name *string `form:"name"`
 	// The dimensions of this product for shipping purposes.
 	PackageDimensions *ProductCreatePackageDimensionsParams `form:"package_dimensions"`
+	// Provisioning configuration for this product.
+	Provisioning *ProductCreateProvisioningParams `form:"provisioning"`
 	// Whether this product is shipped (i.e., physical goods).
 	Shippable *bool `form:"shippable"`
 	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.

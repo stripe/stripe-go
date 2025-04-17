@@ -197,6 +197,8 @@ type BillingCreditGrantCreateParams struct {
 	Category *string `form:"category"`
 	// ID of the customer to receive the billing credits.
 	Customer *string `form:"customer"`
+	// ID of the account to receive the billing credits.
+	CustomerAccount *string `form:"customer_account"`
 	// The time when the billing credits become effective-when they're eligible for use. It defaults to the current timestamp if not specified.
 	EffectiveAt *int64 `form:"effective_at"`
 	// Specifies which fields in the response should be expanded.

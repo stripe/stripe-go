@@ -149,6 +149,8 @@ type FinancialConnectionsSessionCreateAccountHolderParams struct {
 	Account *string `form:"account"`
 	// The ID of the Stripe customer whose accounts will be retrieved. Should only be present if `type` is `customer`.
 	Customer *string `form:"customer"`
+	// The ID of the Stripe customer Account whose accounts will be retrieved. Should only be present if `type` is `customer`.
+	CustomerAccount *string `form:"customer_account"`
 	// Type of account holder to collect accounts for.
 	Type *string `form:"type"`
 }
@@ -159,6 +161,20 @@ type FinancialConnectionsSessionCreateFiltersParams struct {
 	AccountSubcategories []*string `form:"account_subcategories"`
 	// List of countries from which to collect accounts.
 	Countries []*string `form:"countries"`
+	// Stripe ID of the institution with which the customer should be directed to log in.
+	Institution *string `form:"institution"`
+}
+
+// Settings for configuring Session-specific limits.
+type FinancialConnectionsSessionCreateLimitsParams struct {
+	// The number of accounts that can be linked in this Session.
+	Accounts *int64 `form:"accounts"`
+}
+
+// Customize manual entry behavior
+type FinancialConnectionsSessionCreateManualEntryParams struct {
+	// Whether manual entry will be handled by Stripe during the Session.
+	Mode *string `form:"mode"`
 }
 
 // To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
@@ -170,6 +186,10 @@ type FinancialConnectionsSessionCreateParams struct {
 	Expand []*string `form:"expand"`
 	// Filters to restrict the kinds of accounts to collect.
 	Filters *FinancialConnectionsSessionCreateFiltersParams `form:"filters"`
+	// Settings for configuring Session-specific limits.
+	Limits *FinancialConnectionsSessionCreateLimitsParams `form:"limits"`
+	// Customize manual entry behavior
+	ManualEntry *FinancialConnectionsSessionCreateManualEntryParams `form:"manual_entry"`
 	// List of data features that you would like to request access to.
 	//
 	// Possible values are `balances`, `transactions`, `ownership`, and `payment_method`.

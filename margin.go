@@ -51,6 +51,74 @@ func (p *MarginParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Create a margin object to be used with invoices, invoice items, and invoice line items for a customer to represent a partner discount. A margin has a percent_off which is the percent that will be taken off the subtotal after all items and other discounts and promotions) of any invoices for a customer. Calculation of prorations do not include any partner margins applied on the original invoice item.
+type MarginCreateParams struct {
+	Params `form:"*"`
+	// Whether the margin can be applied to invoices, invoice items, or invoice line items or not. Defaults to `true`.
+	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Name of the margin, which is displayed to customers, such as on invoices.
+	Name *string `form:"name"`
+	// Percent that will be taken off the subtotal before tax (after all other discounts and promotions) of any invoice to which the margin is applied.
+	PercentOff *float64 `form:"percent_off"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *MarginCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *MarginCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieve a margin object with the given ID.
+type MarginRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *MarginRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Update the specified margin object. Certain fields of the margin object are not editable.
+type MarginUpdateParams struct {
+	Params `form:"*"`
+	// Whether the margin can be applied to invoices, invoice items, or invoice line items or not.
+	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Name of the margin, which is displayed to customers, such as on invoices.
+	Name *string `form:"name"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *MarginUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *MarginUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // A (partner) margin represents a specific discount distributed in partner reseller programs to business partners who
 // resell products and services and earn a discount (margin) for doing so.
 type Margin struct {

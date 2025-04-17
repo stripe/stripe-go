@@ -82,6 +82,20 @@ type TestHelpersTreasuryReceivedCreditCreateInitiatingPaymentMethodDetailsParams
 	USBankAccount *TestHelpersTreasuryReceivedCreditCreateInitiatingPaymentMethodDetailsUSBankAccountParams `form:"us_bank_account"`
 }
 
+// Optional fields for `ach`.
+type TestHelpersTreasuryReceivedCreditCreateNetworkDetailsACHParams struct {
+	// ACH Addenda record
+	Addenda *string `form:"addenda"`
+}
+
+// Details about the network used for the ReceivedCredit.
+type TestHelpersTreasuryReceivedCreditCreateNetworkDetailsParams struct {
+	// Optional fields for `ach`.
+	ACH *TestHelpersTreasuryReceivedCreditCreateNetworkDetailsACHParams `form:"ach"`
+	// The type of flow that originated the ReceivedCredit.
+	Type *string `form:"type"`
+}
+
 // Use this endpoint to simulate a test mode ReceivedCredit initiated by a third party. In live mode, you can't directly create ReceivedCredits initiated by third parties.
 type TestHelpersTreasuryReceivedCreditCreateParams struct {
 	Params `form:"*"`
@@ -99,6 +113,8 @@ type TestHelpersTreasuryReceivedCreditCreateParams struct {
 	InitiatingPaymentMethodDetails *TestHelpersTreasuryReceivedCreditCreateInitiatingPaymentMethodDetailsParams `form:"initiating_payment_method_details"`
 	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
 	Network *string `form:"network"`
+	// Details about the network used for the ReceivedCredit.
+	NetworkDetails *TestHelpersTreasuryReceivedCreditCreateNetworkDetailsParams `form:"network_details"`
 }
 
 // AddExpand appends a new field to expand.

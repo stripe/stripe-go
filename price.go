@@ -602,6 +602,16 @@ type PriceUpdateCurrencyOptionsParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// If specified, subscriptions using this price will be updated to use the new referenced price.
+type PriceUpdateMigrateToParams struct {
+	// The behavior controlling the point in the subscription lifecycle after which to migrate the price. Currently must be `at_cycle_end`.
+	Behavior *string `form:"behavior"`
+	// The time after which subscriptions should start using the new price.
+	EffectiveAfter *int64 `form:"effective_after"`
+	// The ID of the price object.
+	Price *string `form:"price"`
+}
+
 // Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.
 type PriceUpdateParams struct {
 	Params `form:"*"`
@@ -615,6 +625,8 @@ type PriceUpdateParams struct {
 	LookupKey *string `form:"lookup_key"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// If specified, subscriptions using this price will be updated to use the new referenced price.
+	MigrateTo *PriceUpdateMigrateToParams `form:"migrate_to"`
 	// A brief description of the price, hidden from customers.
 	Nickname *string `form:"nickname"`
 	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.

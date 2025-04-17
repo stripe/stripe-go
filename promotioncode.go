@@ -124,6 +124,8 @@ type PromotionCodeCreateParams struct {
 	Coupon *string `form:"coupon"`
 	// The customer that this promotion code can be used by. If not set, the promotion code can be used by all customers.
 	Customer *string `form:"customer"`
+	// The account that this promotion code can be used by. If not set, the promotion code can be used by all accounts.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The timestamp at which this promotion code will expire. If the coupon has specified a `redeems_by`, then this value cannot be after the coupon's `redeems_by`.

@@ -36,9 +36,9 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementInboundTransferPa
 }
 
 // Retrieves a list of InboundTransfers.
-func (c Client) All(listParams *stripe.V2MoneyManagementInboundTransferListParams) stripe.Seq2[stripe.V2MoneyManagementInboundTransfer, error] {
-	return stripe.NewV2List("/v2/money_management/inbound_transfers", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2MoneyManagementInboundTransfer], error) {
-		page := &stripe.V2Page[stripe.V2MoneyManagementInboundTransfer]{}
+func (c Client) All(listParams *stripe.V2MoneyManagementInboundTransferListParams) stripe.Seq2[*stripe.V2MoneyManagementInboundTransfer, error] {
+	return stripe.NewV2List("/v2/money_management/inbound_transfers", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementInboundTransfer], error) {
+		page := &stripe.V2Page[*stripe.V2MoneyManagementInboundTransfer]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

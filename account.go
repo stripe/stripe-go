@@ -1525,6 +1525,8 @@ type AccountUpdateBusinessProfileParams struct {
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
 	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
+	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
+	MinorityOwnedBusinessDesignation []*string `form:"minority_owned_business_designation"`
 	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 	MonthlyEstimatedRevenue *AccountUpdateBusinessProfileMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue"`
 	// The customer-facing business name.
@@ -1575,6 +1577,12 @@ type AccountUpdateCapabilitiesAmazonPayPaymentsParams struct {
 
 // The au_becs_debit_payments capability.
 type AccountUpdateCapabilitiesAUBECSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The automatic_indirect_tax capability.
+type AccountUpdateCapabilitiesAutomaticIndirectTaxParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -1663,8 +1671,26 @@ type AccountUpdateCapabilitiesGiropayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The gopay_payments capability.
+type AccountUpdateCapabilitiesGopayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The grabpay_payments capability.
 type AccountUpdateCapabilitiesGrabpayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The id_bank_transfer_payments capability.
+type AccountUpdateCapabilitiesIDBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The id_bank_transfer_payments_bca capability.
+type AccountUpdateCapabilitiesIDBankTransferPaymentsBcaParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -1729,6 +1755,12 @@ type AccountUpdateCapabilitiesLinkPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The mb_way_payments capability.
+type AccountUpdateCapabilitiesMbWayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The mobilepay_payments capability.
 type AccountUpdateCapabilitiesMobilepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -1789,8 +1821,32 @@ type AccountUpdateCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paypal_payments capability.
+type AccountUpdateCapabilitiesPaypalPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The payto_payments capability.
+type AccountUpdateCapabilitiesPaytoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountUpdateCapabilitiesPromptPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The qris_payments capability.
+type AccountUpdateCapabilitiesQrisPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The rechnung_payments capability.
+type AccountUpdateCapabilitiesRechnungPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -1825,8 +1881,20 @@ type AccountUpdateCapabilitiesSEPADebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The shopeepay_payments capability.
+type AccountUpdateCapabilitiesShopeepayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The sofort_payments capability.
 type AccountUpdateCapabilitiesSofortPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The stripe_balance_payments capability.
+type AccountUpdateCapabilitiesStripeBalancePaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -1857,6 +1925,24 @@ type AccountUpdateCapabilitiesTransfersParams struct {
 
 // The treasury capability.
 type AccountUpdateCapabilitiesTreasuryParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury_evolve capability.
+type AccountUpdateCapabilitiesTreasuryEvolveParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury_fifth_third capability.
+type AccountUpdateCapabilitiesTreasuryFifthThirdParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury_goldman_sachs capability.
+type AccountUpdateCapabilitiesTreasuryGoldmanSachsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -1906,6 +1992,8 @@ type AccountUpdateCapabilitiesParams struct {
 	AmazonPayPayments *AccountUpdateCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments"`
 	// The au_becs_debit_payments capability.
 	AUBECSDebitPayments *AccountUpdateCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments"`
+	// The automatic_indirect_tax capability.
+	AutomaticIndirectTax *AccountUpdateCapabilitiesAutomaticIndirectTaxParams `form:"automatic_indirect_tax"`
 	// The bacs_debit_payments capability.
 	BACSDebitPayments *AccountUpdateCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments"`
 	// The bancontact_payments capability.
@@ -1934,8 +2022,14 @@ type AccountUpdateCapabilitiesParams struct {
 	GBBankTransferPayments *AccountUpdateCapabilitiesGBBankTransferPaymentsParams `form:"gb_bank_transfer_payments"`
 	// The giropay_payments capability.
 	GiropayPayments *AccountUpdateCapabilitiesGiropayPaymentsParams `form:"giropay_payments"`
+	// The gopay_payments capability.
+	GopayPayments *AccountUpdateCapabilitiesGopayPaymentsParams `form:"gopay_payments"`
 	// The grabpay_payments capability.
 	GrabpayPayments *AccountUpdateCapabilitiesGrabpayPaymentsParams `form:"grabpay_payments"`
+	// The id_bank_transfer_payments capability.
+	IDBankTransferPayments *AccountUpdateCapabilitiesIDBankTransferPaymentsParams `form:"id_bank_transfer_payments"`
+	// The id_bank_transfer_payments_bca capability.
+	IDBankTransferPaymentsBca *AccountUpdateCapabilitiesIDBankTransferPaymentsBcaParams `form:"id_bank_transfer_payments_bca"`
 	// The ideal_payments capability.
 	IDEALPayments *AccountUpdateCapabilitiesIDEALPaymentsParams `form:"ideal_payments"`
 	// The india_international_payments capability.
@@ -1956,6 +2050,8 @@ type AccountUpdateCapabilitiesParams struct {
 	LegacyPayments *AccountUpdateCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The link_payments capability.
 	LinkPayments *AccountUpdateCapabilitiesLinkPaymentsParams `form:"link_payments"`
+	// The mb_way_payments capability.
+	MbWayPayments *AccountUpdateCapabilitiesMbWayPaymentsParams `form:"mb_way_payments"`
 	// The mobilepay_payments capability.
 	MobilepayPayments *AccountUpdateCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
 	// The multibanco_payments capability.
@@ -1976,8 +2072,16 @@ type AccountUpdateCapabilitiesParams struct {
 	PaycoPayments *AccountUpdateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountUpdateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The paypal_payments capability.
+	PaypalPayments *AccountUpdateCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The payto_payments capability.
+	PaytoPayments *AccountUpdateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountUpdateCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
+	// The qris_payments capability.
+	QrisPayments *AccountUpdateCapabilitiesQrisPaymentsParams `form:"qris_payments"`
+	// The rechnung_payments capability.
+	RechnungPayments *AccountUpdateCapabilitiesRechnungPaymentsParams `form:"rechnung_payments"`
 	// The revolut_pay_payments capability.
 	RevolutPayPayments *AccountUpdateCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments"`
 	// The samsung_pay_payments capability.
@@ -1988,8 +2092,12 @@ type AccountUpdateCapabilitiesParams struct {
 	SEPABankTransferPayments *AccountUpdateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountUpdateCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
+	// The shopeepay_payments capability.
+	ShopeepayPayments *AccountUpdateCapabilitiesShopeepayPaymentsParams `form:"shopeepay_payments"`
 	// The sofort_payments capability.
 	SofortPayments *AccountUpdateCapabilitiesSofortPaymentsParams `form:"sofort_payments"`
+	// The stripe_balance_payments capability.
+	StripeBalancePayments *AccountUpdateCapabilitiesStripeBalancePaymentsParams `form:"stripe_balance_payments"`
 	// The swish_payments capability.
 	SwishPayments *AccountUpdateCapabilitiesSwishPaymentsParams `form:"swish_payments"`
 	// The tax_reporting_us_1099_k capability.
@@ -2000,6 +2108,12 @@ type AccountUpdateCapabilitiesParams struct {
 	Transfers *AccountUpdateCapabilitiesTransfersParams `form:"transfers"`
 	// The treasury capability.
 	Treasury *AccountUpdateCapabilitiesTreasuryParams `form:"treasury"`
+	// The treasury_evolve capability.
+	TreasuryEvolve *AccountUpdateCapabilitiesTreasuryEvolveParams `form:"treasury_evolve"`
+	// The treasury_fifth_third capability.
+	TreasuryFifthThird *AccountUpdateCapabilitiesTreasuryFifthThirdParams `form:"treasury_fifth_third"`
+	// The treasury_goldman_sachs capability.
+	TreasuryGoldmanSachs *AccountUpdateCapabilitiesTreasuryGoldmanSachsParams `form:"treasury_goldman_sachs"`
 	// The twint_payments capability.
 	TWINTPayments *AccountUpdateCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
 	// The us_bank_account_ach_payments capability.
@@ -2243,10 +2357,40 @@ type AccountUpdateGroupsParams struct {
 	PaymentsPricing *string `form:"payments_pricing"`
 }
 
+// Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+type AccountUpdateRiskControlsChargesParams struct {
+	// To request to pause a risk control, pass `true`. To request to unpause a risk control, pass `false`.
+	// There can be a delay before the risk control is paused or unpaused.
+	PauseRequested *bool `form:"pause_requested"`
+}
+
+// Represents the risk control status of payouts. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+type AccountUpdateRiskControlsPayoutsParams struct {
+	// To request to pause a risk control, pass `true`. To request to unpause a risk control, pass `false`.
+	// There can be a delay before the risk control is paused or unpaused.
+	PauseRequested *bool `form:"pause_requested"`
+}
+
+// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+type AccountUpdateRiskControlsParams struct {
+	// Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+	Charges *AccountUpdateRiskControlsChargesParams `form:"charges"`
+	// Represents the risk control status of payouts. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+	Payouts *AccountUpdateRiskControlsPayoutsParams `form:"payouts"`
+}
+
 // Settings specific to Bacs Direct Debit payments.
 type AccountUpdateSettingsBACSDebitPaymentsParams struct {
 	// The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
 	DisplayName *string `form:"display_name"`
+}
+
+// Settings specific to bank BCA onboarding for Indonesia bank transfers payments method.
+type AccountUpdateSettingsBankBcaOnboardingParams struct {
+	// Bank BCA business account holder name
+	AccountHolderName *string `form:"account_holder_name"`
+	// Bank BCA business account number
+	BusinessAccountNumber *string `form:"business_account_number"`
 }
 
 // Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
@@ -2259,6 +2403,14 @@ type AccountUpdateSettingsBrandingParams struct {
 	PrimaryColor *string `form:"primary_color"`
 	// A CSS hex color value representing the secondary branding color for this account.
 	SecondaryColor *string `form:"secondary_color"`
+}
+
+// Settings specific to the account's use of the Capital product.
+type AccountUpdateSettingsCapitalParams struct {
+	// Per-currency mapping of user-selected destination accounts used to pay out loans.
+	PayoutDestination map[string]string `form:"payout_destination"`
+	// Per-currency mapping of all destination accounts eligible to receive Capital financing payouts.
+	PayoutDestinationSelector map[string][]*string `form:"payout_destination_selector"`
 }
 
 // Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
@@ -2345,6 +2497,12 @@ type AccountUpdateSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Settings specific to the account's tax forms.
+type AccountUpdateSettingsTaxFormsParams struct {
+	// Whether the account opted out of receiving their tax forms by postal delivery.
+	ConsentedToPaperlessDelivery *bool `form:"consented_to_paperless_delivery"`
+}
+
 // Details on the account's acceptance of the Stripe Treasury Services Agreement.
 type AccountUpdateSettingsTreasuryTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
@@ -2365,8 +2523,12 @@ type AccountUpdateSettingsTreasuryParams struct {
 type AccountUpdateSettingsParams struct {
 	// Settings specific to Bacs Direct Debit payments.
 	BACSDebitPayments *AccountUpdateSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	// Settings specific to bank BCA onboarding for Indonesia bank transfers payments method.
+	BankBcaOnboarding *AccountUpdateSettingsBankBcaOnboardingParams `form:"bank_bca_onboarding"`
 	// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 	Branding *AccountUpdateSettingsBrandingParams `form:"branding"`
+	// Settings specific to the account's use of the Capital product.
+	Capital *AccountUpdateSettingsCapitalParams `form:"capital"`
 	// Settings specific to the account's use of the Card Issuing product.
 	CardIssuing *AccountUpdateSettingsCardIssuingParams `form:"card_issuing"`
 	// Settings specific to card charging on the account.
@@ -2377,6 +2539,8 @@ type AccountUpdateSettingsParams struct {
 	Payments *AccountUpdateSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
 	Payouts *AccountUpdateSettingsPayoutsParams `form:"payouts"`
+	// Settings specific to the account's tax forms.
+	TaxForms *AccountUpdateSettingsTaxFormsParams `form:"tax_forms"`
 	// Settings specific to the account's Treasury FinancialAccounts.
 	Treasury *AccountUpdateSettingsTreasuryParams `form:"treasury"`
 }
@@ -2440,6 +2604,8 @@ type AccountUpdateParams struct {
 	Individual *PersonParams `form:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+	RiskControls *AccountUpdateRiskControlsParams `form:"risk_controls"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountUpdateSettingsParams `form:"settings"`
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
@@ -2486,6 +2652,8 @@ type AccountCreateBusinessProfileParams struct {
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
 	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
+	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
+	MinorityOwnedBusinessDesignation []*string `form:"minority_owned_business_designation"`
 	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 	MonthlyEstimatedRevenue *AccountCreateBusinessProfileMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue"`
 	// The customer-facing business name.
@@ -2536,6 +2704,12 @@ type AccountCreateCapabilitiesAmazonPayPaymentsParams struct {
 
 // The au_becs_debit_payments capability.
 type AccountCreateCapabilitiesAUBECSDebitPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The automatic_indirect_tax capability.
+type AccountCreateCapabilitiesAutomaticIndirectTaxParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -2624,8 +2798,26 @@ type AccountCreateCapabilitiesGiropayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The gopay_payments capability.
+type AccountCreateCapabilitiesGopayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The grabpay_payments capability.
 type AccountCreateCapabilitiesGrabpayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The id_bank_transfer_payments capability.
+type AccountCreateCapabilitiesIDBankTransferPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The id_bank_transfer_payments_bca capability.
+type AccountCreateCapabilitiesIDBankTransferPaymentsBcaParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -2690,6 +2882,12 @@ type AccountCreateCapabilitiesLinkPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The mb_way_payments capability.
+type AccountCreateCapabilitiesMbWayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The mobilepay_payments capability.
 type AccountCreateCapabilitiesMobilepayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2750,8 +2948,32 @@ type AccountCreateCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paypal_payments capability.
+type AccountCreateCapabilitiesPaypalPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The payto_payments capability.
+type AccountCreateCapabilitiesPaytoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountCreateCapabilitiesPromptPayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The qris_payments capability.
+type AccountCreateCapabilitiesQrisPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The rechnung_payments capability.
+type AccountCreateCapabilitiesRechnungPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -2786,8 +3008,20 @@ type AccountCreateCapabilitiesSEPADebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The shopeepay_payments capability.
+type AccountCreateCapabilitiesShopeepayPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The sofort_payments capability.
 type AccountCreateCapabilitiesSofortPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The stripe_balance_payments capability.
+type AccountCreateCapabilitiesStripeBalancePaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -2818,6 +3052,24 @@ type AccountCreateCapabilitiesTransfersParams struct {
 
 // The treasury capability.
 type AccountCreateCapabilitiesTreasuryParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury_evolve capability.
+type AccountCreateCapabilitiesTreasuryEvolveParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury_fifth_third capability.
+type AccountCreateCapabilitiesTreasuryFifthThirdParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The treasury_goldman_sachs capability.
+type AccountCreateCapabilitiesTreasuryGoldmanSachsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -2867,6 +3119,8 @@ type AccountCreateCapabilitiesParams struct {
 	AmazonPayPayments *AccountCreateCapabilitiesAmazonPayPaymentsParams `form:"amazon_pay_payments"`
 	// The au_becs_debit_payments capability.
 	AUBECSDebitPayments *AccountCreateCapabilitiesAUBECSDebitPaymentsParams `form:"au_becs_debit_payments"`
+	// The automatic_indirect_tax capability.
+	AutomaticIndirectTax *AccountCreateCapabilitiesAutomaticIndirectTaxParams `form:"automatic_indirect_tax"`
 	// The bacs_debit_payments capability.
 	BACSDebitPayments *AccountCreateCapabilitiesBACSDebitPaymentsParams `form:"bacs_debit_payments"`
 	// The bancontact_payments capability.
@@ -2895,8 +3149,14 @@ type AccountCreateCapabilitiesParams struct {
 	GBBankTransferPayments *AccountCreateCapabilitiesGBBankTransferPaymentsParams `form:"gb_bank_transfer_payments"`
 	// The giropay_payments capability.
 	GiropayPayments *AccountCreateCapabilitiesGiropayPaymentsParams `form:"giropay_payments"`
+	// The gopay_payments capability.
+	GopayPayments *AccountCreateCapabilitiesGopayPaymentsParams `form:"gopay_payments"`
 	// The grabpay_payments capability.
 	GrabpayPayments *AccountCreateCapabilitiesGrabpayPaymentsParams `form:"grabpay_payments"`
+	// The id_bank_transfer_payments capability.
+	IDBankTransferPayments *AccountCreateCapabilitiesIDBankTransferPaymentsParams `form:"id_bank_transfer_payments"`
+	// The id_bank_transfer_payments_bca capability.
+	IDBankTransferPaymentsBca *AccountCreateCapabilitiesIDBankTransferPaymentsBcaParams `form:"id_bank_transfer_payments_bca"`
 	// The ideal_payments capability.
 	IDEALPayments *AccountCreateCapabilitiesIDEALPaymentsParams `form:"ideal_payments"`
 	// The india_international_payments capability.
@@ -2917,6 +3177,8 @@ type AccountCreateCapabilitiesParams struct {
 	LegacyPayments *AccountCreateCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The link_payments capability.
 	LinkPayments *AccountCreateCapabilitiesLinkPaymentsParams `form:"link_payments"`
+	// The mb_way_payments capability.
+	MbWayPayments *AccountCreateCapabilitiesMbWayPaymentsParams `form:"mb_way_payments"`
 	// The mobilepay_payments capability.
 	MobilepayPayments *AccountCreateCapabilitiesMobilepayPaymentsParams `form:"mobilepay_payments"`
 	// The multibanco_payments capability.
@@ -2937,8 +3199,16 @@ type AccountCreateCapabilitiesParams struct {
 	PaycoPayments *AccountCreateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCreateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The paypal_payments capability.
+	PaypalPayments *AccountCreateCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
+	// The payto_payments capability.
+	PaytoPayments *AccountCreateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCreateCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
+	// The qris_payments capability.
+	QrisPayments *AccountCreateCapabilitiesQrisPaymentsParams `form:"qris_payments"`
+	// The rechnung_payments capability.
+	RechnungPayments *AccountCreateCapabilitiesRechnungPaymentsParams `form:"rechnung_payments"`
 	// The revolut_pay_payments capability.
 	RevolutPayPayments *AccountCreateCapabilitiesRevolutPayPaymentsParams `form:"revolut_pay_payments"`
 	// The samsung_pay_payments capability.
@@ -2949,8 +3219,12 @@ type AccountCreateCapabilitiesParams struct {
 	SEPABankTransferPayments *AccountCreateCapabilitiesSEPABankTransferPaymentsParams `form:"sepa_bank_transfer_payments"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountCreateCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
+	// The shopeepay_payments capability.
+	ShopeepayPayments *AccountCreateCapabilitiesShopeepayPaymentsParams `form:"shopeepay_payments"`
 	// The sofort_payments capability.
 	SofortPayments *AccountCreateCapabilitiesSofortPaymentsParams `form:"sofort_payments"`
+	// The stripe_balance_payments capability.
+	StripeBalancePayments *AccountCreateCapabilitiesStripeBalancePaymentsParams `form:"stripe_balance_payments"`
 	// The swish_payments capability.
 	SwishPayments *AccountCreateCapabilitiesSwishPaymentsParams `form:"swish_payments"`
 	// The tax_reporting_us_1099_k capability.
@@ -2961,6 +3235,12 @@ type AccountCreateCapabilitiesParams struct {
 	Transfers *AccountCreateCapabilitiesTransfersParams `form:"transfers"`
 	// The treasury capability.
 	Treasury *AccountCreateCapabilitiesTreasuryParams `form:"treasury"`
+	// The treasury_evolve capability.
+	TreasuryEvolve *AccountCreateCapabilitiesTreasuryEvolveParams `form:"treasury_evolve"`
+	// The treasury_fifth_third capability.
+	TreasuryFifthThird *AccountCreateCapabilitiesTreasuryFifthThirdParams `form:"treasury_fifth_third"`
+	// The treasury_goldman_sachs capability.
+	TreasuryGoldmanSachs *AccountCreateCapabilitiesTreasuryGoldmanSachsParams `form:"treasury_goldman_sachs"`
 	// The twint_payments capability.
 	TWINTPayments *AccountCreateCapabilitiesTWINTPaymentsParams `form:"twint_payments"`
 	// The us_bank_account_ach_payments capability.
@@ -3088,6 +3368,22 @@ type AccountCreateCompanyParams struct {
 	Verification *AccountCreateCompanyVerificationParams `form:"verification"`
 }
 
+// A hash of configuration describing the Connect application that controls the account.
+type AccountCreateControllerApplicationParams struct {
+	// Whether the controller is liable for losses on this account. For details, see [Understanding Connect Account Balances](https://stripe.com/docs/connect/account-balances).
+	LossLiable *bool `form:"loss_liable"`
+	// Whether the controller owns onboarding for this account.
+	OnboardingOwner *bool `form:"onboarding_owner"`
+	// Whether the controller has pricing controls for this account.
+	PricingControls *bool `form:"pricing_controls"`
+}
+
+// Properties of the account's dashboard.
+type AccountCreateControllerDashboardParams struct {
+	// Whether this account should have access to the full Stripe Dashboard (`full`), to the Express Dashboard (`express`), or to no Stripe-hosted dashboard (`none`). Defaults to `full`.
+	Type *string `form:"type"`
+}
+
 // A hash of configuration for who pays Stripe fees for product usage on this account.
 type AccountCreateControllerFeesParams struct {
 	// A value indicating the responsible payer of Stripe fees on this account. Defaults to `account`. Learn more about [fee behavior on connected accounts](https://docs.stripe.com/connect/direct-charges-fee-payer-behavior).
@@ -3108,6 +3404,10 @@ type AccountCreateControllerStripeDashboardParams struct {
 
 // A hash of configuration describing the account controller's attributes.
 type AccountCreateControllerParams struct {
+	// A hash of configuration describing the Connect application that controls the account.
+	Application *AccountCreateControllerApplicationParams `form:"application"`
+	// Properties of the account's dashboard.
+	Dashboard *AccountCreateControllerDashboardParams `form:"dashboard"`
 	// A hash of configuration for who pays Stripe fees for product usage on this account.
 	Fees *AccountCreateControllerFeesParams `form:"fees"`
 	// A hash of configuration for products that have negative balance liability, and whether Stripe or a Connect application is responsible for them.
@@ -3235,10 +3535,40 @@ type AccountCreateGroupsParams struct {
 	PaymentsPricing *string `form:"payments_pricing"`
 }
 
+// Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+type AccountCreateRiskControlsChargesParams struct {
+	// To request to pause a risk control, pass `true`. To request to unpause a risk control, pass `false`.
+	// There can be a delay before the risk control is paused or unpaused.
+	PauseRequested *bool `form:"pause_requested"`
+}
+
+// Represents the risk control status of payouts. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+type AccountCreateRiskControlsPayoutsParams struct {
+	// To request to pause a risk control, pass `true`. To request to unpause a risk control, pass `false`.
+	// There can be a delay before the risk control is paused or unpaused.
+	PauseRequested *bool `form:"pause_requested"`
+}
+
+// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+type AccountCreateRiskControlsParams struct {
+	// Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+	Charges *AccountCreateRiskControlsChargesParams `form:"charges"`
+	// Represents the risk control status of payouts. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
+	Payouts *AccountCreateRiskControlsPayoutsParams `form:"payouts"`
+}
+
 // Settings specific to Bacs Direct Debit.
 type AccountCreateSettingsBACSDebitPaymentsParams struct {
 	// The Bacs Direct Debit Display Name for this account. For payments made with Bacs Direct Debit, this name appears on the mandate as the statement descriptor. Mobile banking apps display it as the name of the business. To use custom branding, set the Bacs Direct Debit Display Name during or right after creation. Custom branding incurs an additional monthly fee for the platform. If you don't set the display name before requesting Bacs capability, it's automatically set as "Stripe" and the account is onboarded to Stripe branding, which is free.
 	DisplayName *string `form:"display_name"`
+}
+
+// Settings specific to bank BCA onboarding for Indonesia bank transfers payments method.
+type AccountCreateSettingsBankBcaOnboardingParams struct {
+	// Bank BCA business account holder name
+	AccountHolderName *string `form:"account_holder_name"`
+	// Bank BCA business account number
+	BusinessAccountNumber *string `form:"business_account_number"`
 }
 
 // Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
@@ -3251,6 +3581,14 @@ type AccountCreateSettingsBrandingParams struct {
 	PrimaryColor *string `form:"primary_color"`
 	// A CSS hex color value representing the secondary branding color for this account.
 	SecondaryColor *string `form:"secondary_color"`
+}
+
+// Settings specific to the account's use of the Capital product.
+type AccountCreateSettingsCapitalParams struct {
+	// Per-currency mapping of user-selected destination accounts used to pay out loans.
+	PayoutDestination map[string]string `form:"payout_destination"`
+	// Per-currency mapping of all destination accounts eligible to receive Capital financing payouts.
+	PayoutDestinationSelector map[string][]*string `form:"payout_destination_selector"`
 }
 
 // Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
@@ -3335,6 +3673,12 @@ type AccountCreateSettingsPayoutsParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
+// Settings specific to the account's tax forms.
+type AccountCreateSettingsTaxFormsParams struct {
+	// Whether the account opted out of receiving their tax forms by postal delivery.
+	ConsentedToPaperlessDelivery *bool `form:"consented_to_paperless_delivery"`
+}
+
 // Details on the account's acceptance of the Stripe Treasury Services Agreement.
 type AccountCreateSettingsTreasuryTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
@@ -3355,8 +3699,12 @@ type AccountCreateSettingsTreasuryParams struct {
 type AccountCreateSettingsParams struct {
 	// Settings specific to Bacs Direct Debit.
 	BACSDebitPayments *AccountCreateSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	// Settings specific to bank BCA onboarding for Indonesia bank transfers payments method.
+	BankBcaOnboarding *AccountCreateSettingsBankBcaOnboardingParams `form:"bank_bca_onboarding"`
 	// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 	Branding *AccountCreateSettingsBrandingParams `form:"branding"`
+	// Settings specific to the account's use of the Capital product.
+	Capital *AccountCreateSettingsCapitalParams `form:"capital"`
 	// Settings specific to the account's use of the Card Issuing product.
 	CardIssuing *AccountCreateSettingsCardIssuingParams `form:"card_issuing"`
 	// Settings specific to card charging on the account.
@@ -3367,6 +3715,8 @@ type AccountCreateSettingsParams struct {
 	Payments *AccountCreateSettingsPaymentsParams `form:"payments"`
 	// Settings specific to the account's payouts.
 	Payouts *AccountCreateSettingsPayoutsParams `form:"payouts"`
+	// Settings specific to the account's tax forms.
+	TaxForms *AccountCreateSettingsTaxFormsParams `form:"tax_forms"`
 	// Settings specific to the account's Treasury FinancialAccounts.
 	Treasury *AccountCreateSettingsTreasuryParams `form:"treasury"`
 }
@@ -3427,6 +3777,8 @@ type AccountCreateParams struct {
 	Individual *PersonParams `form:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+	RiskControls *AccountCreateRiskControlsParams `form:"risk_controls"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountCreateSettingsParams `form:"settings"`
 	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.

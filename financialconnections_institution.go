@@ -40,6 +40,18 @@ func (p *FinancialConnectionsInstitutionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves the details of a Financial Connections Institution.
+type FinancialConnectionsInstitutionRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *FinancialConnectionsInstitutionRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type FinancialConnectionsInstitutionFeaturesBalances struct {
 	// Whether the given feature is supported by this institution.
 	Supported bool `json:"supported"`

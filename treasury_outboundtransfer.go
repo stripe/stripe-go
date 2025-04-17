@@ -219,6 +219,20 @@ type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams struct 
 	USBankAccount *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
+// Optional fields for `ach`.
+type TreasuryOutboundTransferCreateNetworkDetailsACHParams struct {
+	// Addenda record data associated with this OutboundTransfer.
+	Addenda *string `form:"addenda"`
+}
+
+// Details about the network used for the OutboundTransfer.
+type TreasuryOutboundTransferCreateNetworkDetailsParams struct {
+	// Optional fields for `ach`.
+	ACH *TreasuryOutboundTransferCreateNetworkDetailsACHParams `form:"ach"`
+	// The type of flow that originated the OutboundTransfer.
+	Type *string `form:"type"`
+}
+
 // Creates an OutboundTransfer.
 type TreasuryOutboundTransferCreateParams struct {
 	Params `form:"*"`
@@ -240,6 +254,8 @@ type TreasuryOutboundTransferCreateParams struct {
 	FinancialAccount *string `form:"financial_account"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// Details about the network used for the OutboundTransfer.
+	NetworkDetails *TreasuryOutboundTransferCreateNetworkDetailsParams `form:"network_details"`
 	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `us_domestic_wire` transfers. The default value is "transfer".
 	StatementDescriptor *string `form:"statement_descriptor"`
 }

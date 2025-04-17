@@ -2408,6 +2408,12 @@ type TaxRegistrationCreateCountryOptionsIeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in IN.
+type TaxRegistrationCreateCountryOptionsInParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in IS.
 type TaxRegistrationCreateCountryOptionsIsParams struct {
 	// Type of registration to be created in `country`.
@@ -2908,6 +2914,8 @@ type TaxRegistrationCreateCountryOptionsParams struct {
 	ID *TaxRegistrationCreateCountryOptionsIDParams `form:"id"`
 	// Options for the registration in IE.
 	Ie *TaxRegistrationCreateCountryOptionsIeParams `form:"ie"`
+	// Options for the registration in IN.
+	In *TaxRegistrationCreateCountryOptionsInParams `form:"in"`
 	// Options for the registration in IS.
 	Is *TaxRegistrationCreateCountryOptionsIsParams `form:"is"`
 	// Options for the registration in IT.

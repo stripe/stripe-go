@@ -43,7 +43,8 @@ func (p *InvoicePaymentParams) AddExpand(f string) {
 
 // Retrieves the invoice payment with the given ID.
 type InvoicePaymentRetrieveParams struct {
-	Params `form:"*"`
+	Params  `form:"*"`
+	Invoice *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }

@@ -1967,6 +1967,18 @@ type PaymentMethodConfigurationCreateGooglePayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateGopayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// GoPay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
+type PaymentMethodConfigurationCreateGopayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateGopayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateGrabpayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1976,6 +1988,18 @@ type PaymentMethodConfigurationCreateGrabpayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateGrabpayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateGrabpayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateIDBankTransferDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
+type PaymentMethodConfigurationCreateIDBankTransferParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateIDBankTransferDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2135,6 +2159,18 @@ type PaymentMethodConfigurationCreatePaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreatePaytoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
+type PaymentMethodConfigurationCreatePaytoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreatePaytoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2144,6 +2180,18 @@ type PaymentMethodConfigurationCreatePromptPayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreatePromptPayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreatePromptPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateQrisDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
+type PaymentMethodConfigurationCreateQrisParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateQrisDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2180,6 +2228,18 @@ type PaymentMethodConfigurationCreateSEPADebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateSEPADebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateSEPADebitDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateShopeepayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// ShopeePay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
+type PaymentMethodConfigurationCreateShopeepayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateShopeepayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2303,8 +2363,12 @@ type PaymentMethodConfigurationCreateParams struct {
 	Giropay *PaymentMethodConfigurationCreateGiropayParams `form:"giropay"`
 	// Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://stripe.com/docs/google-pay) for more details.
 	GooglePay *PaymentMethodConfigurationCreateGooglePayParams `form:"google_pay"`
+	// GoPay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
+	Gopay *PaymentMethodConfigurationCreateGopayParams `form:"gopay"`
 	// GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://stripe.com/docs/payments/grabpay) for more details.
 	Grabpay *PaymentMethodConfigurationCreateGrabpayParams `form:"grabpay"`
+	// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
+	IDBankTransfer *PaymentMethodConfigurationCreateIDBankTransferParams `form:"id_bank_transfer"`
 	// iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://stripe.com/docs/payments/ideal) for more details.
 	IDEAL *PaymentMethodConfigurationCreateIDEALParams `form:"ideal"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
@@ -2335,14 +2399,20 @@ type PaymentMethodConfigurationCreateParams struct {
 	PayNow *PaymentMethodConfigurationCreatePayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationCreatePaypalParams `form:"paypal"`
+	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
+	Payto *PaymentMethodConfigurationCreatePaytoParams `form:"payto"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationCreatePromptPayParams `form:"promptpay"`
+	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
+	Qris *PaymentMethodConfigurationCreateQrisParams `form:"qris"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationCreateRevolutPayParams `form:"revolut_pay"`
 	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationCreateSatispayParams `form:"satispay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationCreateSEPADebitParams `form:"sepa_debit"`
+	// ShopeePay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
+	Shopeepay *PaymentMethodConfigurationCreateShopeepayParams `form:"shopeepay"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://stripe.com/docs/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationCreateSofortParams `form:"sofort"`
 	// Swish is a [real-time](https://stripe.com/docs/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://stripe.com/docs/payments/swish) for more details.
@@ -2639,6 +2709,18 @@ type PaymentMethodConfigurationUpdateGooglePayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateGopayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// GoPay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
+type PaymentMethodConfigurationUpdateGopayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateGopayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateGrabpayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2648,6 +2730,18 @@ type PaymentMethodConfigurationUpdateGrabpayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateGrabpayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateGrabpayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateIDBankTransferDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
+type PaymentMethodConfigurationUpdateIDBankTransferParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateIDBankTransferDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2807,6 +2901,18 @@ type PaymentMethodConfigurationUpdatePaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdatePaytoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
+type PaymentMethodConfigurationUpdatePaytoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdatePaytoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2816,6 +2922,18 @@ type PaymentMethodConfigurationUpdatePromptPayDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdatePromptPayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdatePromptPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateQrisDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
+type PaymentMethodConfigurationUpdateQrisParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateQrisDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2852,6 +2970,18 @@ type PaymentMethodConfigurationUpdateSEPADebitDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateSEPADebitParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateSEPADebitDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateShopeepayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// ShopeePay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
+type PaymentMethodConfigurationUpdateShopeepayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateShopeepayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2977,8 +3107,12 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Giropay *PaymentMethodConfigurationUpdateGiropayParams `form:"giropay"`
 	// Google Pay allows customers to make payments in your app or website using any credit or debit card saved to their Google Account, including those from Google Play, YouTube, Chrome, or an Android device. Use the Google Pay API to request any credit or debit card stored in your customer's Google account. Check this [page](https://stripe.com/docs/google-pay) for more details.
 	GooglePay *PaymentMethodConfigurationUpdateGooglePayParams `form:"google_pay"`
+	// GoPay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Gojek app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Gojek app to confirm payment.
+	Gopay *PaymentMethodConfigurationUpdateGopayParams `form:"gopay"`
 	// GrabPay is a payment method developed by [Grab](https://www.grab.com/sg/consumer/finance/pay/). GrabPay is a digital wallet - customers maintain a balance in their wallets that they pay out with. Check this [page](https://stripe.com/docs/payments/grabpay) for more details.
 	Grabpay *PaymentMethodConfigurationUpdateGrabpayParams `form:"grabpay"`
+	// Stripe users in Indonesia can receive bank transfers from customers in Indonesia. Bank transfers are a popular B2C and B2B payment method in Indonesia.
+	IDBankTransfer *PaymentMethodConfigurationUpdateIDBankTransferParams `form:"id_bank_transfer"`
 	// iDEAL is a Netherlands-based payment method that allows customers to complete transactions online using their bank credentials. All major Dutch banks are members of Currence, the scheme that operates iDEAL, making it the most popular online payment method in the Netherlands with a share of online transactions close to 55%. Check this [page](https://stripe.com/docs/payments/ideal) for more details.
 	IDEAL *PaymentMethodConfigurationUpdateIDEALParams `form:"ideal"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
@@ -3007,14 +3141,20 @@ type PaymentMethodConfigurationUpdateParams struct {
 	PayNow *PaymentMethodConfigurationUpdatePayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationUpdatePaypalParams `form:"paypal"`
+	// PayTo is a [real-time](https://docs.stripe.com/payments/real-time) payment method that enables customers in Australia to pay by providing their bank account details. Customers must accept a mandate authorizing you to debit their account. Check this [page](https://docs.stripe.com/payments/payto) for more details.
+	Payto *PaymentMethodConfigurationUpdatePaytoParams `form:"payto"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationUpdatePromptPayParams `form:"promptpay"`
+	// QRIS is a [real-time](https://docs.stripe.com/payments/real-time) payment method popular in Indonesia. When paying with QRIS, customers authenticate and approve payments by scanning a QR code in their preferred digital wallet app.
+	Qris *PaymentMethodConfigurationUpdateQrisParams `form:"qris"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationUpdateRevolutPayParams `form:"revolut_pay"`
 	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationUpdateSatispayParams `form:"satispay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationUpdateSEPADebitParams `form:"sepa_debit"`
+	// ShopeePay is a [single use](https://stripe.com/docs/payments/payment-methods#usage) digital wallet payment method popular in Indonesia. When paying with GoPay, customers authenticate and approve payments using the Shopee app. Desktop checkout is performed by scanning a QR code. When checking out on mobile, customers are redirected to the Shopee app to confirm payment.
+	Shopeepay *PaymentMethodConfigurationUpdateShopeepayParams `form:"shopeepay"`
 	// Stripe users in Europe and the United States can use the [Payment Intents API](https://stripe.com/docs/payments/payment-intents)—a single integration path for creating payments using any supported method—to accept [Sofort](https://www.sofort.com/) payments from customers. Check this [page](https://stripe.com/docs/payments/sofort) for more details.
 	Sofort *PaymentMethodConfigurationUpdateSofortParams `form:"sofort"`
 	// Swish is a [real-time](https://stripe.com/docs/payments/real-time) payment method popular in Sweden. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the Swish mobile app and the Swedish BankID mobile app. Check this [page](https://stripe.com/docs/payments/swish) for more details.

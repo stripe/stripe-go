@@ -3248,6 +3248,8 @@ type CheckoutSessionCreateLineItemParams struct {
 	AdjustableQuantity *CheckoutSessionCreateLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
 	// The [tax rates](https://stripe.com/docs/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU.
 	DynamicTaxRates []*string `form:"dynamic_tax_rates"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -3256,6 +3258,15 @@ type CheckoutSessionCreateLineItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The [tax rates](https://stripe.com/docs/api/tax_rates) which apply to this line item.
 	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCreateLineItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // When set, provides configuration for the customer to adjust the quantity of the line item created when a customer chooses to add this optional item to their order.
@@ -3526,6 +3537,8 @@ type CheckoutSessionCreatePaymentMethodOptionsCardRestrictionsParams struct {
 type CheckoutSessionCreatePaymentMethodOptionsCardParams struct {
 	// Installment options for card payments
 	Installments *CheckoutSessionCreatePaymentMethodOptionsCardInstallmentsParams `form:"installments"`
+	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
+	RequestDecrementalAuthorization *string `form:"request_decremental_authorization"`
 	// Request ability to [capture beyond the standard authorization validity window](https://stripe.com/payments/extended-authorization) for this CheckoutSession.
 	RequestExtendedAuthorization *string `form:"request_extended_authorization"`
 	// Request ability to [increment the authorization](https://stripe.com/payments/incremental-authorization) for this CheckoutSession.
@@ -3819,6 +3832,8 @@ type CheckoutSessionCreatePaymentMethodOptionsPaypalParams struct {
 	PreferredLocale *string `form:"preferred_locale"`
 	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
 	Reference *string `form:"reference"`
+	// A reference of the PayPal transaction visible to customer which is mapped to PayPal's invoice ID. This must be a globally unique ID if you have configured in your PayPal settings to block multiple payments per invoice ID.
+	ReferenceID *string `form:"reference_id"`
 	// The risk correlation ID for an on-session payment using a saved PayPal payment method.
 	RiskCorrelationID *string `form:"risk_correlation_id"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3830,6 +3845,40 @@ type CheckoutSessionCreatePaymentMethodOptionsPaypalParams struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+	// The Stripe connected account IDs of the sellers on the platform for this transaction (optional). Only allowed when [separate charges and transfers](https://stripe.com/docs/connect/separate-charges-and-transfers) are used.
+	Subsellers []*string `form:"subsellers"`
+}
+
+// Additional fields for Mandate creation
+type CheckoutSessionCreatePaymentMethodOptionsPaytoMandateOptionsParams struct {
+	// Amount that will be collected. It is required when `amount_type` is `fixed`.
+	Amount *int64 `form:"amount"`
+	// The type of amount that will be collected. The amount charged must be exact or up to the value of `amount` param for `fixed` or `maximum` type respectively.
+	AmountType *string `form:"amount_type"`
+	// Date, in YYYY-MM-DD format, after which payments will not be collected. Defaults to no end date.
+	EndDate *string `form:"end_date"`
+	// The periodicity at which payments will be collected.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// The number of payments that will be made during a payment period. Defaults to 1 except for when `payment_schedule` is `adhoc`. In that case, it defaults to no limit.
+	PaymentsPerPeriod *int64 `form:"payments_per_period"`
+	// The purpose for which payments are made. Defaults to retail.
+	Purpose *string `form:"purpose"`
+	// Date, in YYYY-MM-DD format, from which payments will be collected. Defaults to confirmation time.
+	StartDate *string `form:"start_date"`
+}
+
+// contains details about the PayTo payment method options.
+type CheckoutSessionCreatePaymentMethodOptionsPaytoParams struct {
+	// Additional fields for Mandate creation
+	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsPaytoMandateOptionsParams `form:"mandate_options"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
@@ -4003,6 +4052,8 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	PayNow *CheckoutSessionCreatePaymentMethodOptionsPayNowParams `form:"paynow"`
 	// contains details about the PayPal payment method options.
 	Paypal *CheckoutSessionCreatePaymentMethodOptionsPaypalParams `form:"paypal"`
+	// contains details about the PayTo payment method options.
+	Payto *CheckoutSessionCreatePaymentMethodOptionsPaytoParams `form:"payto"`
 	// contains details about the Pix payment method options.
 	Pix *CheckoutSessionCreatePaymentMethodOptionsPixParams `form:"pix"`
 	// contains details about the RevolutPay payment method options.
@@ -4021,10 +4072,34 @@ type CheckoutSessionCreatePaymentMethodOptionsParams struct {
 	WeChatPay *CheckoutSessionCreatePaymentMethodOptionsWeChatPayParams `form:"wechat_pay"`
 }
 
+// Permissions for updating the Checkout Session.
+type CheckoutSessionCreatePermissionsUpdateParams struct {
+	// Determines which entity is allowed to update the line items.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the line items. If set to `server_only`, only your server is allowed to update the line items.
+	//
+	// When set to `server_only`, you must add the onLineItemsChange event handler when initializing the Stripe Checkout client and manually update the line items from your server using the Stripe API.
+	LineItems *string `form:"line_items"`
+	// Determines which entity is allowed to update the shipping details.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
+	//
+	// When set to `server_only`, you must add the onShippingDetailsChange event handler when initializing the Stripe Checkout client and manually update the shipping details from your server using the Stripe API.
+	ShippingDetails *string `form:"shipping_details"`
+}
+
 // This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
 //
-// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 type CheckoutSessionCreatePermissionsParams struct {
+	// Permissions for updating the Checkout Session.
+	Update *CheckoutSessionCreatePermissionsUpdateParams `form:"update"`
+	// Determines which entity is allowed to update the line items.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically update the line items. If set to `server_only`, only your server is allowed to update the line items.
+	//
+	// When set to `server_only`, you must add the onLineItemsChange event handler when initializing the Stripe Checkout client and manually update the line items from your server using the Stripe API.
+	UpdateLineItems *string `form:"update_line_items"`
 	// Determines which entity is allowed to update the shipping details.
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the shipping details. If set to `server_only`, only your server is allowed to update the shipping details.
@@ -4241,6 +4316,18 @@ type CheckoutSessionCreateTaxIDCollectionParams struct {
 	Required *string `form:"required"`
 }
 
+// contains details about the Link wallet options.
+type CheckoutSessionCreateWalletOptionsLinkParams struct {
+	// Specifies whether Checkout should display Link as a payment option. By default, Checkout will display all the supported wallets that the Checkout Session was created with. This is the `auto` behavior, and it is the default choice.
+	Display *string `form:"display"`
+}
+
+// Wallet-specific configuration.
+type CheckoutSessionCreateWalletOptionsParams struct {
+	// contains details about the Link wallet options.
+	Link *CheckoutSessionCreateWalletOptionsLinkParams `form:"link"`
+}
+
 // Creates a Checkout Session object.
 type CheckoutSessionCreateParams struct {
 	Params `form:"*"`
@@ -4276,6 +4363,8 @@ type CheckoutSessionCreateParams struct {
 	//
 	// You can set [`payment_intent_data.setup_future_usage`](https://stripe.com/docs/api/checkout/sessions/create#create_checkout_session-payment_intent_data-setup_future_usage) to have Checkout automatically attach the payment method to the Customer you pass in for future reuse.
 	Customer *string `form:"customer"`
+	// ID of an existing Account, if one exists. Has the same behavior as `customer`.
+	CustomerAccount *string `form:"customer_account"`
 	// Configure whether a Checkout Session creates a [Customer](https://stripe.com/docs/api/customers) during Session confirmation.
 	//
 	// When a Customer is not created, you can still retrieve email, address, and other customer data entered in Checkout
@@ -4355,7 +4444,7 @@ type CheckoutSessionCreateParams struct {
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// This property is used to set up permissions for various actions (e.g., update) on the CheckoutSession object.
 	//
-	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update.shipping_details`.
+	// For specific permissions, please refer to their dedicated subsections, such as `permissions.update_shipping_details`.
 	Permissions *CheckoutSessionCreatePermissionsParams `form:"permissions"`
 	// Controls phone number collection settings for the session.
 	//
@@ -4393,6 +4482,8 @@ type CheckoutSessionCreateParams struct {
 	TaxIDCollection *CheckoutSessionCreateTaxIDCollectionParams `form:"tax_id_collection"`
 	// The UI mode of the Session. Defaults to `hosted`.
 	UIMode *string `form:"ui_mode"`
+	// Wallet-specific configuration.
+	WalletOptions *CheckoutSessionCreateWalletOptionsParams `form:"wallet_options"`
 }
 
 // AddExpand appends a new field to expand.
@@ -4433,6 +4524,53 @@ type CheckoutSessionUpdateCollectedInformationShippingDetailsParams struct {
 type CheckoutSessionUpdateCollectedInformationParams struct {
 	// The shipping details to apply to this Session.
 	ShippingDetails *CheckoutSessionUpdateCollectedInformationShippingDetailsParams `form:"shipping_details"`
+}
+
+// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+type CheckoutSessionUpdateLineItemAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any positive integer. Setting to false will remove any previously specified constraints on quantity.
+	Enabled *bool `form:"enabled"`
+	// The maximum quantity the customer can purchase for the Checkout Session. By default this value is 99. You can specify a value up to 999999.
+	Maximum *int64 `form:"maximum"`
+	// The minimum quantity the customer must purchase for the Checkout Session. By default this value is 0.
+	Minimum *int64 `form:"minimum"`
+}
+
+// A list of items the customer is purchasing.
+//
+// When updating line items, you must retransmit the entire array of line items.
+//
+// To retain an existing line item, specify its `id`.
+//
+// To update an existing line item, specify its `id` along with the new values of the fields to update.
+//
+// To add a new line item, specify a `price` and `quantity`.
+//
+// To remove an existing line item, omit the line item's ID from the retransmitted array.
+//
+// To reorder a line item, specify it at the desired position in the retransmitted array.
+type CheckoutSessionUpdateLineItemParams struct {
+	// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+	AdjustableQuantity *CheckoutSessionUpdateLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
+	// ID of an existing line item.
+	ID *string `form:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The ID of the [Price](https://stripe.com/docs/api/prices).
+	Price *string `form:"price"`
+	// The quantity of the line item being purchased.
+	Quantity *int64 `form:"quantity"`
+	// The [tax rates](https://stripe.com/docs/api/tax_rates) which apply to this line item.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionUpdateLineItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
@@ -4519,6 +4657,20 @@ type CheckoutSessionUpdateParams struct {
 	CollectedInformation *CheckoutSessionUpdateCollectedInformationParams `form:"collected_information"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// A list of items the customer is purchasing.
+	//
+	// When updating line items, you must retransmit the entire array of line items.
+	//
+	// To retain an existing line item, specify its `id`.
+	//
+	// To update an existing line item, specify its `id` along with the new values of the fields to update.
+	//
+	// To add a new line item, specify a `price` and `quantity`.
+	//
+	// To remove an existing line item, omit the line item's ID from the retransmitted array.
+	//
+	// To reorder a line item, specify it at the desired position in the retransmitted array.
+	LineItems []*CheckoutSessionUpdateLineItemParams `form:"line_items"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The shipping rate options to apply to this Session. Up to a maximum of 5.

@@ -93,6 +93,8 @@ type BillingCreditBalanceSummaryRetrieveParams struct {
 	Params `form:"*"`
 	// The customer for which to fetch credit balance summary.
 	Customer *string `form:"customer"`
+	// The account for which to fetch credit balance summary.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The filter criteria for the credit balance summary.

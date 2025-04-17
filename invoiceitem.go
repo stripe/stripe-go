@@ -180,12 +180,32 @@ func (p *InvoiceItemRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Time span for the redeemed discount.
+type InvoiceItemUpdateDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceItemUpdateDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceItemUpdateDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons, promotion codes & existing discounts which apply to the invoice item or invoice line item. Item discounts are applied before invoice discounts. Pass an empty string to remove previously-defined discounts.
 type InvoiceItemUpdateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceItemUpdateDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -231,6 +251,8 @@ type InvoiceItemUpdateParams struct {
 	Discounts []*InvoiceItemUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
+	Margins []*string `form:"margins"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.
@@ -265,12 +287,32 @@ func (p *InvoiceItemUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Time span for the redeemed discount.
+type InvoiceItemCreateDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type InvoiceItemCreateDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *InvoiceItemCreateDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons and promotion codes to redeem into discounts for the invoice item or invoice line item.
 type InvoiceItemCreateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *InvoiceItemCreateDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -312,6 +354,8 @@ type InvoiceItemCreateParams struct {
 	Currency *string `form:"currency"`
 	// The ID of the customer who will be billed when this invoice item is billed.
 	Customer *string `form:"customer"`
+	// The ID of the account who will be billed when this invoice item is billed.
+	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string which you can attach to the invoice item. The description is displayed in the invoice for easy tracking.
 	Description *string `form:"description"`
 	// Controls whether discounts apply to this invoice item. Defaults to false for prorations or negative invoice items, and true for all other invoice items.
@@ -322,6 +366,8 @@ type InvoiceItemCreateParams struct {
 	Expand []*string `form:"expand"`
 	// The ID of an existing invoice to add this invoice item to. When left blank, the invoice item will be added to the next upcoming scheduled invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice"`
+	// The ids of the margins to apply to the invoice item. When set, the `default_margins` on the invoice do not apply to this invoice item.
+	Margins []*string `form:"margins"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice. If you have [Stripe Revenue Recognition](https://stripe.com/docs/revenue-recognition) enabled, the period will be used to recognize and defer revenue. See the [Revenue Recognition documentation](https://stripe.com/docs/revenue-recognition/methodology/subscriptions-and-invoicing) for details.

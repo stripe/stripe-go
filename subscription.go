@@ -889,12 +889,32 @@ func (p *SubscriptionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Time span for the redeemed discount.
+type SubscriptionUpdateAddInvoiceItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionUpdateAddInvoiceItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionUpdateAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the item.
 type SubscriptionUpdateAddInvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionUpdateAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -937,12 +957,32 @@ type SubscriptionUpdateCancellationDetailsParams struct {
 	Feedback *string `form:"feedback"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionUpdateDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionUpdateDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionUpdateDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 type SubscriptionUpdateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionUpdateDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -963,12 +1003,32 @@ type SubscriptionUpdateInvoiceSettingsParams struct {
 	Issuer *SubscriptionUpdateInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionUpdateItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionUpdateItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionUpdateItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionUpdateItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionUpdateItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -1100,6 +1160,9 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams 
 	FundingType *string `form:"funding_type"`
 }
 
+// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsIDBankTransferParams struct{}
+
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
@@ -1110,6 +1173,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []*string `form:"account_subcategories"`
+	// ID of the institution to use to filter for selectable accounts.
+	Institution *string `form:"institution"`
 }
 
 // Additional fields for Financial Connections Session creation
@@ -1140,6 +1205,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	Card *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+	IDBankTransfer *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsIDBankTransferParams `form:"id_bank_transfer"`
 	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
@@ -1164,6 +1231,14 @@ type SubscriptionUpdatePendingInvoiceItemIntervalParams struct {
 	Interval *string `form:"interval"`
 	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
 	IntervalCount *int64 `form:"interval_count"`
+}
+
+// If specified, the invoicing for the given billing cycle iterations will be processed now.
+type SubscriptionUpdatePrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period. The default value is `reset`.
+	UpdateBehavior *string `form:"update_behavior"`
 }
 
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
@@ -1263,6 +1338,8 @@ type SubscriptionUpdateParams struct {
 	PaymentSettings *SubscriptionUpdatePaymentSettingsParams `form:"payment_settings"`
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://stripe.com/docs/api#create_invoice) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionUpdatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
+	// If specified, the invoicing for the given billing cycle iterations will be processed now.
+	Prebilling *SubscriptionUpdatePrebillingParams `form:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#upcoming_invoice) endpoint. It can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
@@ -1305,12 +1382,32 @@ func (p *SubscriptionUpdateParams) AppendTo(body *form.Values, keyParts []string
 	}
 }
 
+// Time span for the redeemed discount.
+type SubscriptionCreateAddInvoiceItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionCreateAddInvoiceItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionCreateAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the item.
 type SubscriptionCreateAddInvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionCreateAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -1359,12 +1456,32 @@ type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 	Second *int64 `form:"second"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionCreateDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionCreateDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionCreateDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription. If not specified or empty, inherits the discount from the subscription's customer.
 type SubscriptionCreateDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionCreateDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -1385,12 +1502,32 @@ type SubscriptionCreateInvoiceSettingsParams struct {
 	Issuer *SubscriptionCreateInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionCreateItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionCreateItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionCreateItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionCreateItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionCreateItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -1419,6 +1556,14 @@ type SubscriptionCreateItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
+// Define options to configure the trial on the subscription item.
+type SubscriptionCreateItemTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
+	ConvertsTo []*string `form:"converts_to"`
+	// Determines the type of trial for this item.
+	Type *string `form:"type"`
+}
+
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionCreateItemParams struct {
 	// The coupons to redeem into discounts for the subscription item.
@@ -1435,6 +1580,8 @@ type SubscriptionCreateItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
+	// Define options to configure the trial on the subscription item.
+	Trial *SubscriptionCreateItemTrialParams `form:"trial"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1508,6 +1655,9 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams 
 	FundingType *string `form:"funding_type"`
 }
 
+// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsIDBankTransferParams struct{}
+
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
@@ -1518,6 +1668,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []*string `form:"account_subcategories"`
+	// ID of the institution to use to filter for selectable accounts.
+	Institution *string `form:"institution"`
 }
 
 // Additional fields for Financial Connections Session creation
@@ -1548,6 +1700,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	Card *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
 	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
 	CustomerBalance *SubscriptionCreatePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
+	// This sub-hash contains details about the Indonesia bank transfer payment method options to pass to the invoice's PaymentIntent.
+	IDBankTransfer *SubscriptionCreatePaymentSettingsPaymentMethodOptionsIDBankTransferParams `form:"id_bank_transfer"`
 	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *SubscriptionCreatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
@@ -1572,6 +1726,14 @@ type SubscriptionCreatePendingInvoiceItemIntervalParams struct {
 	Interval *string `form:"interval"`
 	// The number of intervals between invoices. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
 	IntervalCount *int64 `form:"interval_count"`
+}
+
+// If specified, the invoicing for the given billing cycle iterations will be processed now.
+type SubscriptionCreatePrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period. The default value is `reset`.
+	UpdateBehavior *string `form:"update_behavior"`
 }
 
 // If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
@@ -1627,6 +1789,8 @@ type SubscriptionCreateParams struct {
 	Currency *string `form:"currency"`
 	// The identifier of the customer to subscribe.
 	Customer *string `form:"customer"`
+	// The identifier of the account to subscribe.
+	CustomerAccount *string `form:"customer_account"`
 	// Number of days a customer has to pay invoices generated by this subscription. Valid only for subscriptions where `collection_method` is set to `send_invoice`.
 	DaysUntilDue *int64 `form:"days_until_due"`
 	// ID of the default payment method for the subscription. It must belong to the customer associated with the subscription. This takes precedence over `default_source`. If neither are set, invoices will use the customer's [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/object#customer_object-invoice_settings-default_payment_method) or [default_source](https://stripe.com/docs/api/customers/object#customer_object-default_source).
@@ -1667,6 +1831,8 @@ type SubscriptionCreateParams struct {
 	PaymentSettings *SubscriptionCreatePaymentSettingsParams `form:"payment_settings"`
 	// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://stripe.com/docs/api#create_invoice) for the given subscription at the specified interval.
 	PendingInvoiceItemInterval *SubscriptionCreatePendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
+	// If specified, the invoicing for the given billing cycle iterations will be processed now.
+	Prebilling *SubscriptionCreatePrebillingParams `form:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) resulting from the `billing_cycle_anchor`. If no value is passed, the default is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.

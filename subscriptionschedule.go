@@ -1030,12 +1030,32 @@ type SubscriptionScheduleCreateDefaultSettingsParams struct {
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the item.
 type SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionScheduleCreatePhaseAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -1070,12 +1090,32 @@ type SubscriptionScheduleCreatePhaseAutomaticTaxParams struct {
 	Liability *SubscriptionScheduleCreatePhaseAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionScheduleCreatePhaseDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionScheduleCreatePhaseDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionScheduleCreatePhaseDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 type SubscriptionScheduleCreatePhaseDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionScheduleCreatePhaseDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -1098,14 +1138,42 @@ type SubscriptionScheduleCreatePhaseInvoiceSettingsParams struct {
 	Issuer *SubscriptionScheduleCreatePhaseInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionScheduleCreatePhaseItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionScheduleCreatePhaseItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionScheduleCreatePhaseItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionScheduleCreatePhaseItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionScheduleCreatePhaseItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+}
+
+// Options that configure the trial on the subscription item.
+type SubscriptionScheduleCreatePhaseItemTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
+	ConvertsTo []*string `form:"converts_to"`
+	// Determines the type of trial for this item.
+	Type *string `form:"type"`
 }
 
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
@@ -1124,6 +1192,8 @@ type SubscriptionScheduleCreatePhaseItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
+	// Options that configure the trial on the subscription item.
+	Trial *SubscriptionScheduleCreatePhaseItemTrialParams `form:"trial"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1133,6 +1203,24 @@ func (p *SubscriptionScheduleCreatePhaseItemParams) AddMetadata(key string, valu
 	}
 
 	p.Metadata[key] = value
+}
+
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+type SubscriptionScheduleCreatePhasePauseCollectionParams struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior *string `form:"behavior"`
+}
+
+// Defines how the subscription should behave when a trial ends.
+type SubscriptionScheduleCreatePhaseTrialSettingsEndBehaviorParams struct {
+	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
+	ProrateUpFront *string `form:"prorate_up_front"`
+}
+
+// Settings related to subscription trials.
+type SubscriptionScheduleCreatePhaseTrialSettingsParams struct {
+	// Defines how the subscription should behave when a trial ends.
+	EndBehavior *SubscriptionScheduleCreatePhaseTrialSettingsEndBehaviorParams `form:"end_behavior"`
 }
 
 // List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
@@ -1169,14 +1257,20 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	PauseCollection *SubscriptionScheduleCreatePhasePauseCollectionParams `form:"pause_collection"`
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
 	Trial *bool `form:"trial"`
+	// Specify trial behavior when crossing phase boundaries
+	TrialContinuation *string `form:"trial_continuation"`
 	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
 	TrialEnd *int64 `form:"trial_end"`
+	// Settings related to subscription trials.
+	TrialSettings *SubscriptionScheduleCreatePhaseTrialSettingsParams `form:"trial_settings"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1188,11 +1282,23 @@ func (p *SubscriptionScheduleCreatePhaseParams) AddMetadata(key string, value st
 	p.Metadata[key] = value
 }
 
+// If specified, the invoicing for the given billing cycle iterations will be processed now.
+type SubscriptionScheduleCreatePrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period. The default value is `reset`.
+	UpdateBehavior *string `form:"update_behavior"`
+}
+
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionScheduleCreateParams struct {
 	Params `form:"*"`
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior *string `form:"billing_behavior"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
+	// The identifier of the account to create the subscription schedule for.
+	CustomerAccount *string `form:"customer_account"`
 	// Object representing the subscription schedule's default settings.
 	DefaultSettings *SubscriptionScheduleCreateDefaultSettingsParams `form:"default_settings"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
@@ -1205,6 +1311,8 @@ type SubscriptionScheduleCreateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 	Phases []*SubscriptionScheduleCreatePhaseParams `form:"phases"`
+	// If specified, the invoicing for the given billing cycle iterations will be processed now.
+	Prebilling *SubscriptionScheduleCreatePrebillingParams `form:"prebilling"`
 	// When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
 	StartDate    *int64 `form:"start_date"`
 	StartDateNow *bool  `form:"-"` // See custom AppendTo
@@ -1283,12 +1391,32 @@ type SubscriptionScheduleUpdateDefaultSettingsParams struct {
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the item.
 type SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionScheduleUpdatePhaseAddInvoiceItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -1323,12 +1451,32 @@ type SubscriptionScheduleUpdatePhaseAutomaticTaxParams struct {
 	Liability *SubscriptionScheduleUpdatePhaseAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionScheduleUpdatePhaseDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionScheduleUpdatePhaseDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionScheduleUpdatePhaseDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 type SubscriptionScheduleUpdatePhaseDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionScheduleUpdatePhaseDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -1351,14 +1499,42 @@ type SubscriptionScheduleUpdatePhaseInvoiceSettingsParams struct {
 	Issuer *SubscriptionScheduleUpdatePhaseInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Time span for the redeemed discount.
+type SubscriptionScheduleUpdatePhaseItemDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionScheduleUpdatePhaseItemDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionScheduleUpdatePhaseItemDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
 // The coupons to redeem into discounts for the subscription item.
 type SubscriptionScheduleUpdatePhaseItemDiscountParams struct {
 	// ID of the coupon to create a new discount for.
 	Coupon *string `form:"coupon"`
 	// ID of an existing discount on the object (or one of its ancestors) to reuse.
 	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionScheduleUpdatePhaseItemDiscountDiscountEndParams `form:"discount_end"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+}
+
+// Options that configure the trial on the subscription item.
+type SubscriptionScheduleUpdatePhaseItemTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
+	ConvertsTo []*string `form:"converts_to"`
+	// Determines the type of trial for this item.
+	Type *string `form:"type"`
 }
 
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
@@ -1377,6 +1553,8 @@ type SubscriptionScheduleUpdatePhaseItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 	TaxRates []*string `form:"tax_rates"`
+	// Options that configure the trial on the subscription item.
+	Trial *SubscriptionScheduleUpdatePhaseItemTrialParams `form:"trial"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1386,6 +1564,24 @@ func (p *SubscriptionScheduleUpdatePhaseItemParams) AddMetadata(key string, valu
 	}
 
 	p.Metadata[key] = value
+}
+
+// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+type SubscriptionScheduleUpdatePhasePauseCollectionParams struct {
+	// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
+	Behavior *string `form:"behavior"`
+}
+
+// Defines how the subscription should behave when a trial ends.
+type SubscriptionScheduleUpdatePhaseTrialSettingsEndBehaviorParams struct {
+	// Configure how an opt-in following a paid trial is billed when using `billing_behavior: prorate_up_front`.
+	ProrateUpFront *string `form:"prorate_up_front"`
+}
+
+// Settings related to subscription trials.
+type SubscriptionScheduleUpdatePhaseTrialSettingsParams struct {
+	// Defines how the subscription should behave when a trial ends.
+	EndBehavior *SubscriptionScheduleUpdatePhaseTrialSettingsEndBehaviorParams `form:"end_behavior"`
 }
 
 // List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
@@ -1423,6 +1619,8 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The account on behalf of which to charge, for each of the associated subscription's invoices.
 	OnBehalfOf *string `form:"on_behalf_of"`
+	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
+	PauseCollection *SubscriptionScheduleUpdatePhasePauseCollectionParams `form:"pause_collection"`
 	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
@@ -1432,9 +1630,13 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
 	// If set to true the entire phase is counted as a trial and the customer will not be charged for any fees.
 	Trial *bool `form:"trial"`
+	// Specify trial behavior when crossing phase boundaries
+	TrialContinuation *string `form:"trial_continuation"`
 	// Sets the phase to trialing from the start date to this date. Must be before the phase end date, can not be combined with `trial`
 	TrialEnd    *int64 `form:"trial_end"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
+	// Settings related to subscription trials.
+	TrialSettings *SubscriptionScheduleUpdatePhaseTrialSettingsParams `form:"trial_settings"`
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -1459,9 +1661,19 @@ func (p *SubscriptionScheduleUpdatePhaseParams) AppendTo(body *form.Values, keyP
 	}
 }
 
+// If specified, the invoicing for the given billing cycle iterations will be processed now.
+type SubscriptionScheduleUpdatePrebillingParams struct {
+	// This is used to determine the number of billing cycles to prebill.
+	Iterations *int64 `form:"iterations"`
+	// Whether to cancel or preserve `prebilling` if the subscription is updated during the prebilled period. The default value is `reset`.
+	UpdateBehavior *string `form:"update_behavior"`
+}
+
 // Updates an existing subscription schedule.
 type SubscriptionScheduleUpdateParams struct {
 	Params `form:"*"`
+	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
+	BillingBehavior *string `form:"billing_behavior"`
 	// Object representing the subscription schedule's default settings.
 	DefaultSettings *SubscriptionScheduleUpdateDefaultSettingsParams `form:"default_settings"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
@@ -1472,6 +1684,8 @@ type SubscriptionScheduleUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase. Note that past phases can be omitted.
 	Phases []*SubscriptionScheduleUpdatePhaseParams `form:"phases"`
+	// If specified, the invoicing for the given billing cycle iterations will be processed now.
+	Prebilling *SubscriptionScheduleUpdatePrebillingParams `form:"prebilling"`
 	// If the update changes the current phase, indicates whether the changes should be prorated. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 }

@@ -4452,11 +4452,11 @@ func TestQuotesPreviewInvoicesLinesGet(t *testing.T) {
 }
 
 func TestQuotesPreviewInvoicesLinesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.QuoteListPreviewInvoiceLinesParams{
 		Quote:          stripe.String("qt_xyz"),
 		PreviewInvoice: stripe.String("in_xyz"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Quotes.ListPreviewInvoiceLines(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
@@ -5691,8 +5691,8 @@ func TestTaxFormsPdfGet(t *testing.T) {
 }
 
 func TestTaxFormsPdfGetService(t *testing.T) {
-	params := &stripe.TaxFormPDFParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxFormPDFParams{}
 	result, err := sc.TaxForms.PDF("form_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)

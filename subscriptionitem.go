@@ -147,6 +147,245 @@ type SubscriptionItemTrialParams struct {
 	Type *string `form:"type"`
 }
 
+// Deletes an item from the subscription. Removing a subscription item from a subscription will not cancel the subscription.
+type SubscriptionItemDeleteParams struct {
+	Params `form:"*"`
+	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
+	ClearUsage *bool `form:"clear_usage"`
+	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
+	ProrationDate *int64 `form:"proration_date"`
+}
+
+// Retrieves the subscription item with the given ID.
+type SubscriptionItemRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionItemRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Time span for the redeemed discount.
+type SubscriptionItemUpdateDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionItemUpdateDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionItemUpdateDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the subscription item.
+type SubscriptionItemUpdateDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionItemUpdateDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type SubscriptionItemUpdatePriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+type SubscriptionItemUpdatePriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
+	Product *string `form:"product"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *SubscriptionItemUpdatePriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// Updates the plan or quantity of an item on a current subscription.
+type SubscriptionItemUpdateParams struct {
+	Params `form:"*"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*SubscriptionItemUpdateDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Indicates if a customer is on or off-session while an invoice payment is attempted. Defaults to `false` (on-session).
+	OffSession *bool `form:"off_session"`
+	// Use `allow_incomplete` to transition the subscription to `status=past_due` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://stripe.com/docs/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
+	//
+	// Use `default_incomplete` to transition the subscription to `status=past_due` when payment is required and await explicit confirmation of the invoice's payment intent. This allows simpler management of scenarios where additional user actions are needed to pay a subscription's invoice. Such as failed payments, [SCA regulation](https://stripe.com/docs/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method.
+	//
+	// Use `pending_if_incomplete` to update the subscription using [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates). When you use `pending_if_incomplete` you can only pass the parameters [supported by pending updates](https://stripe.com/docs/billing/pending-updates-reference#supported-attributes).
+	//
+	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://stripe.com/docs/upgrades#2019-03-14) to learn more.
+	PaymentBehavior *string `form:"payment_behavior"`
+	// The identifier of the new plan for this subscription item.
+	Plan *string `form:"plan"`
+	// The ID of the price object. One of `price` or `price_data` is required. When changing a subscription item's price, `quantity` is set to 1 unless a `quantity` parameter is provided.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+	PriceData *SubscriptionItemUpdatePriceDataParams `form:"price_data"`
+	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
+	ProrationDate *int64 `form:"proration_date"`
+	// The quantity you'd like to apply to the subscription item you're creating.
+	Quantity *int64 `form:"quantity"`
+	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionItemUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionItemUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Time span for the redeemed discount.
+type SubscriptionItemCreateDiscountDiscountEndDurationParams struct {
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Details to determine how long the discount should be applied for.
+type SubscriptionItemCreateDiscountDiscountEndParams struct {
+	// Time span for the redeemed discount.
+	Duration *SubscriptionItemCreateDiscountDiscountEndDurationParams `form:"duration"`
+	// A precise Unix timestamp for the discount to end. Must be in the future.
+	Timestamp *int64 `form:"timestamp"`
+	// The type of calculation made to determine when the discount ends.
+	Type *string `form:"type"`
+}
+
+// The coupons to redeem into discounts for the subscription item.
+type SubscriptionItemCreateDiscountParams struct {
+	// ID of the coupon to create a new discount for.
+	Coupon *string `form:"coupon"`
+	// ID of an existing discount on the object (or one of its ancestors) to reuse.
+	Discount *string `form:"discount"`
+	// Details to determine how long the discount should be applied for.
+	DiscountEnd *SubscriptionItemCreateDiscountDiscountEndParams `form:"discount_end"`
+	// ID of the promotion code to create a new discount for.
+	PromotionCode *string `form:"promotion_code"`
+}
+
+// The recurring components of a price such as `interval` and `interval_count`.
+type SubscriptionItemCreatePriceDataRecurringParams struct {
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+type SubscriptionItemCreatePriceDataParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The ID of the [Product](https://docs.stripe.com/api/products) that this [Price](https://docs.stripe.com/api/prices) will belong to.
+	Product *string `form:"product"`
+	// The recurring components of a price such as `interval` and `interval_count`.
+	Recurring *SubscriptionItemCreatePriceDataRecurringParams `form:"recurring"`
+	// Only required if a [default tax behavior](https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)) was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free price) representing how much to charge.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// Options that configure the trial on the subscription item.
+type SubscriptionItemCreateTrialParams struct {
+	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial. Currently only supports at most 1 price ID.
+	ConvertsTo []*string `form:"converts_to"`
+	// Determines the type of trial for this item.
+	Type *string `form:"type"`
+}
+
+// Adds a new item to an existing subscription. No existing items will be changed or replaced.
+type SubscriptionItemCreateParams struct {
+	Params `form:"*"`
+	// The coupons to redeem into discounts for the subscription item.
+	Discounts []*SubscriptionItemCreateDiscountParams `form:"discounts"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Use `allow_incomplete` to transition the subscription to `status=past_due` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https://stripe.com/docs/billing/migration/strong-customer-authentication) for Billing to learn more. This is the default behavior.
+	//
+	// Use `default_incomplete` to transition the subscription to `status=past_due` when payment is required and await explicit confirmation of the invoice's payment intent. This allows simpler management of scenarios where additional user actions are needed to pay a subscription's invoice. Such as failed payments, [SCA regulation](https://stripe.com/docs/billing/migration/strong-customer-authentication), or collecting a mandate for a bank debit payment method.
+	//
+	// Use `pending_if_incomplete` to update the subscription using [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates). When you use `pending_if_incomplete` you can only pass the parameters [supported by pending updates](https://stripe.com/docs/billing/pending-updates-reference#supported-attributes).
+	//
+	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://stripe.com/docs/upgrades#2019-03-14) to learn more.
+	PaymentBehavior *string `form:"payment_behavior"`
+	// The identifier of the plan to add to the subscription.
+	Plan *string `form:"plan"`
+	// The ID of the price object.
+	Price *string `form:"price"`
+	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
+	PriceData *SubscriptionItemCreatePriceDataParams `form:"price_data"`
+	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
+	ProrationBehavior *string `form:"proration_behavior"`
+	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
+	ProrationDate *int64 `form:"proration_date"`
+	// The quantity you'd like to apply to the subscription item you're creating.
+	Quantity *int64 `form:"quantity"`
+	// The identifier of the subscription to modify.
+	Subscription *string `form:"subscription"`
+	// A list of [Tax Rate](https://stripe.com/docs/api/tax_rates) ids. These Tax Rates will override the [`default_tax_rates`](https://stripe.com/docs/api/subscriptions/create#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
+	TaxRates []*string `form:"tax_rates"`
+	// Options that configure the trial on the subscription item.
+	Trial *SubscriptionItemCreateTrialParams `form:"trial"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionItemCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionItemCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Options that configure the trial on the subscription item.
 type SubscriptionItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.

@@ -534,7 +534,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataBancontactParams struct{}
 
-// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -581,8 +581,17 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataFPXParams struct {
 // If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataGiropayParams struct{}
 
+// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataGopayParams struct{}
+
 // If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataGrabpayParams struct{}
+
+// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataIDBankTransferParams struct {
+	// Bank where the account is held.
+	Bank *string `form:"bank"`
+}
 
 // If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataIDEALParams struct {
@@ -620,6 +629,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataKrCardParams struct{}
 
 // If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataLinkParams struct{}
+
+// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataMbWayParams struct{}
 
 // If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataMobilepayParams struct{}
@@ -669,11 +681,24 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataPayNowParams struct{}
 // If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataPaypalParams struct{}
 
+// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataPaytoParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+	// The PayID alias for the bank account.
+	PayID *string `form:"pay_id"`
+}
+
 // If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataPixParams struct{}
 
 // If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataPromptPayParams struct{}
+
+// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataQrisParams struct{}
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataRadarOptionsParams struct {
@@ -681,13 +706,29 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataRadarOptionsParams struc
 	Session *string `form:"session"`
 }
 
-// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+// Customer's date of birth
+type TestHelpersConfirmationTokenCreatePaymentMethodDataRechnungDOBParams struct {
+	// The day of birth, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of birth, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of birth.
+	Year *int64 `form:"year"`
+}
+
+// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataRechnungParams struct {
+	// Customer's date of birth
+	DOB *TestHelpersConfirmationTokenCreatePaymentMethodDataRechnungDOBParams `form:"dob"`
+}
+
+// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSamsungPayParams struct{}
 
-// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -696,10 +737,21 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams struct {
 	IBAN *string `form:"iban"`
 }
 
+// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataShopeepayParams struct{}
+
 // If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSofortParams struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country *string `form:"country"`
+}
+
+// This hash contains details about the Stripe balance payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataStripeBalanceParams struct {
+	// The connected account ID whose Stripe balance to use as the source of payment
+	Account *string `form:"account"`
+	// The [source_type](https://docs.stripe.com/api/balance/balance_object#balance_object-available-source_types) of the balance
+	SourceType *string `form:"source_type"`
 }
 
 // If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
@@ -750,7 +802,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	BACSDebit *TestHelpersConfirmationTokenCreatePaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *TestHelpersConfirmationTokenCreatePaymentMethodDataBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *TestHelpersConfirmationTokenCreatePaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams `form:"billing_details"`
@@ -768,8 +820,12 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	FPX *TestHelpersConfirmationTokenCreatePaymentMethodDataFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
 	Giropay *TestHelpersConfirmationTokenCreatePaymentMethodDataGiropayParams `form:"giropay"`
+	// If this is a Gopay PaymentMethod, this hash contains details about the Gopay payment method.
+	Gopay *TestHelpersConfirmationTokenCreatePaymentMethodDataGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
 	Grabpay *TestHelpersConfirmationTokenCreatePaymentMethodDataGrabpayParams `form:"grabpay"`
+	// If this is an `IdBankTransfer` PaymentMethod, this hash contains details about the IdBankTransfer payment method.
+	IDBankTransfer *TestHelpersConfirmationTokenCreatePaymentMethodDataIDBankTransferParams `form:"id_bank_transfer"`
 	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
 	IDEAL *TestHelpersConfirmationTokenCreatePaymentMethodDataIDEALParams `form:"ideal"`
 	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
@@ -784,6 +840,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	KrCard *TestHelpersConfirmationTokenCreatePaymentMethodDataKrCardParams `form:"kr_card"`
 	// If this is an `Link` PaymentMethod, this hash contains details about the Link payment method.
 	Link *TestHelpersConfirmationTokenCreatePaymentMethodDataLinkParams `form:"link"`
+	// If this is a MB WAY PaymentMethod, this hash contains details about the MB WAY payment method.
+	MbWay *TestHelpersConfirmationTokenCreatePaymentMethodDataMbWayParams `form:"mb_way"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is a `mobilepay` PaymentMethod, this hash contains details about the MobilePay payment method.
@@ -806,22 +864,32 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	PayNow *TestHelpersConfirmationTokenCreatePaymentMethodDataPayNowParams `form:"paynow"`
 	// If this is a `paypal` PaymentMethod, this hash contains details about the PayPal payment method.
 	Paypal *TestHelpersConfirmationTokenCreatePaymentMethodDataPaypalParams `form:"paypal"`
+	// If this is a `payto` PaymentMethod, this hash contains details about the PayTo payment method.
+	Payto *TestHelpersConfirmationTokenCreatePaymentMethodDataPaytoParams `form:"payto"`
 	// If this is a `pix` PaymentMethod, this hash contains details about the Pix payment method.
 	Pix *TestHelpersConfirmationTokenCreatePaymentMethodDataPixParams `form:"pix"`
 	// If this is a `promptpay` PaymentMethod, this hash contains details about the PromptPay payment method.
 	PromptPay *TestHelpersConfirmationTokenCreatePaymentMethodDataPromptPayParams `form:"promptpay"`
+	// If this is a `qris` PaymentMethod, this hash contains details about the QRIS payment method.
+	Qris *TestHelpersConfirmationTokenCreatePaymentMethodDataQrisParams `form:"qris"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *TestHelpersConfirmationTokenCreatePaymentMethodDataRadarOptionsParams `form:"radar_options"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `rechnung` PaymentMethod, this hash contains details about the Rechnung payment method.
+	Rechnung *TestHelpersConfirmationTokenCreatePaymentMethodDataRechnungParams `form:"rechnung"`
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *TestHelpersConfirmationTokenCreatePaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *TestHelpersConfirmationTokenCreatePaymentMethodDataSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *TestHelpersConfirmationTokenCreatePaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit"`
+	// If this is a Shopeepay PaymentMethod, this hash contains details about the Shopeepay payment method.
+	Shopeepay *TestHelpersConfirmationTokenCreatePaymentMethodDataShopeepayParams `form:"shopeepay"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *TestHelpersConfirmationTokenCreatePaymentMethodDataSofortParams `form:"sofort"`
+	// This hash contains details about the Stripe balance payment method.
+	StripeBalance *TestHelpersConfirmationTokenCreatePaymentMethodDataStripeBalanceParams `form:"stripe_balance"`
 	// If this is a `swish` PaymentMethod, this hash contains details about the Swish payment method.
 	Swish *TestHelpersConfirmationTokenCreatePaymentMethodDataSwishParams `form:"swish"`
 	// If this is a TWINT PaymentMethod, this hash contains details about the TWINT payment method.
@@ -845,6 +913,32 @@ func (p *TestHelpersConfirmationTokenCreatePaymentMethodDataParams) AddMetadata(
 	p.Metadata[key] = value
 }
 
+// The selected installment plan to use for this payment attempt.
+// This parameter can only be provided during confirmation.
+type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsPlanParams struct {
+	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
+	Count *int64 `form:"count"`
+	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
+	// One of `month`.
+	Interval *string `form:"interval"`
+	// Type of installment plan, one of `fixed_count`.
+	Type *string `form:"type"`
+}
+
+// Installment configuration for payments attempted on this PaymentIntent.
+type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsParams struct {
+	// The selected installment plan to use for this payment attempt.
+	// This parameter can only be provided during confirmation.
+	Plan *TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
+}
+type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardParams struct {
+	// Installment configuration for payments attempted on this PaymentIntent.
+	Installments *TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsParams `form:"installments"`
+}
+type TestHelpersConfirmationTokenCreatePaymentMethodOptionsParams struct {
+	Card *TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardParams `form:"card"`
+}
+
 // Shipping information for this ConfirmationToken.
 type TestHelpersConfirmationTokenCreateShippingParams struct {
 	// Shipping address
@@ -863,7 +957,8 @@ type TestHelpersConfirmationTokenCreateParams struct {
 	// ID of an existing PaymentMethod.
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod.
-	PaymentMethodData *TestHelpersConfirmationTokenCreatePaymentMethodDataParams `form:"payment_method_data"`
+	PaymentMethodData    *TestHelpersConfirmationTokenCreatePaymentMethodDataParams    `form:"payment_method_data"`
+	PaymentMethodOptions *TestHelpersConfirmationTokenCreatePaymentMethodOptionsParams `form:"payment_method_options"`
 	// Return URL used to confirm the Intent.
 	ReturnURL *string `form:"return_url"`
 	// Indicates that you intend to make future payments with this ConfirmationToken's payment method.

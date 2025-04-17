@@ -88,6 +88,64 @@ func (p *PrivacyRedactionJobValidateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The objects at the root level that are subject to redaction.
+type PrivacyRedactionJobCreateObjectsParams struct {
+	Charges                      []*string `form:"charges"`
+	CheckoutSessions             []*string `form:"checkout_sessions"`
+	Customers                    []*string `form:"customers"`
+	IdentityVerificationSessions []*string `form:"identity_verification_sessions"`
+	Invoices                     []*string `form:"invoices"`
+	IssuingCardholders           []*string `form:"issuing_cardholders"`
+	IssuingCards                 []*string `form:"issuing_cards"`
+	PaymentIntents               []*string `form:"payment_intents"`
+	RadarValueListItems          []*string `form:"radar_value_list_items"`
+	SetupIntents                 []*string `form:"setup_intents"`
+}
+
+// Create redaction job method
+type PrivacyRedactionJobCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The objects at the root level that are subject to redaction.
+	Objects *PrivacyRedactionJobCreateObjectsParams `form:"objects"`
+	// Default is "error". If "error", we will make sure all objects in the graph are
+	// redactable in the 1st traversal, otherwise error. If "fix", where possible, we will
+	// auto-fix any validation errors (e.g. by auto-transitioning objects to a terminal
+	// state, etc.) in the 2nd traversal before redacting
+	ValidationBehavior *string `form:"validation_behavior"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PrivacyRedactionJobCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieve redaction job method
+type PrivacyRedactionJobRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PrivacyRedactionJobRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Update redaction job method
+type PrivacyRedactionJobUpdateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand             []*string `form:"expand"`
+	ValidationBehavior *string   `form:"validation_behavior"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PrivacyRedactionJobUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Redaction Jobs store the status of a redaction request. They are created
 // when a redaction request is made and track the redaction validation and execution.
 type PrivacyRedactionJob struct {

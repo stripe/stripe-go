@@ -64,6 +64,18 @@ func (p *CapitalFinancingTransactionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves a financing transaction for a financing offer.
+type CapitalFinancingTransactionRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CapitalFinancingTransactionRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // This is an object representing a linked transaction on a Capital Financing Transaction.
 type CapitalFinancingTransactionDetailsTransaction struct {
 	// The linked payment ID.

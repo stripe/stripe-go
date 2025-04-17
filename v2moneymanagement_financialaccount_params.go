@@ -17,3 +17,8 @@ type V2MoneyManagementFinancialAccountListParams struct {
 type V2MoneyManagementFinancialAccountParams struct {
 	Params `form:"*"`
 }
+
+// Retrieves the details of an existing FinancialAccount.
+type V2MoneyManagementFinancialAccountRetrieveParams struct {
+	Params `form:"*"`
+}

@@ -37,9 +37,9 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementFinancialAddressP
 }
 
 // List all FinancialAddresses for a FinancialAccount.
-func (c Client) All(listParams *stripe.V2MoneyManagementFinancialAddressListParams) stripe.Seq2[stripe.V2MoneyManagementFinancialAddress, error] {
-	return stripe.NewV2List("/v2/money_management/financial_addresses", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2MoneyManagementFinancialAddress], error) {
-		page := &stripe.V2Page[stripe.V2MoneyManagementFinancialAddress]{}
+func (c Client) All(listParams *stripe.V2MoneyManagementFinancialAddressListParams) stripe.Seq2[*stripe.V2MoneyManagementFinancialAddress, error] {
+	return stripe.NewV2List("/v2/money_management/financial_addresses", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementFinancialAddress], error) {
+		page := &stripe.V2Page[*stripe.V2MoneyManagementFinancialAddress]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

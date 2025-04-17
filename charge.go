@@ -1360,6 +1360,316 @@ type ChargeUpdateFraudDetailsParams struct {
 	UserReport *string `form:"user_report"`
 }
 
+// Affiliate details for this purchase.
+type ChargeUpdatePaymentDetailsCarRentalAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Details of the recipient.
+type ChargeUpdatePaymentDetailsCarRentalDeliveryRecipientParams struct {
+	// The email of the recipient the ticket is delivered to.
+	Email *string `form:"email"`
+	// The name of the recipient the ticket is delivered to.
+	Name *string `form:"name"`
+	// The phone number of the recipient the ticket is delivered to.
+	Phone *string `form:"phone"`
+}
+
+// Delivery details for this purchase.
+type ChargeUpdatePaymentDetailsCarRentalDeliveryParams struct {
+	// The delivery method for the payment
+	Mode *string `form:"mode"`
+	// Details of the recipient.
+	Recipient *ChargeUpdatePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
+}
+
+// The details of the passengers in the travel reservation
+type ChargeUpdatePaymentDetailsCarRentalDriverParams struct {
+	// Full name of the person or entity on the car reservation.
+	Name *string `form:"name"`
+}
+
+// Car rental details for this PaymentIntent.
+type ChargeUpdatePaymentDetailsCarRentalParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *ChargeUpdatePaymentDetailsCarRentalAffiliateParams `form:"affiliate"`
+	// The booking number associated with the car rental.
+	BookingNumber *string `form:"booking_number"`
+	// Class code of the car.
+	CarClassCode *string `form:"car_class_code"`
+	// Make of the car.
+	CarMake *string `form:"car_make"`
+	// Model of the car.
+	CarModel *string `form:"car_model"`
+	// The name of the rental car company.
+	Company *string `form:"company"`
+	// The customer service phone number of the car rental company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// Number of days the car is being rented.
+	DaysRented *int64 `form:"days_rented"`
+	// Delivery details for this purchase.
+	Delivery *ChargeUpdatePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the passengers in the travel reservation
+	Drivers []*ChargeUpdatePaymentDetailsCarRentalDriverParams `form:"drivers"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates if the customer did not keep nor cancel their booking.
+	NoShow *bool `form:"no_show"`
+	// Car pick-up address.
+	PickupAddress *AddressParams `form:"pickup_address"`
+	// Car pick-up time. Measured in seconds since the Unix epoch.
+	PickupAt *int64 `form:"pickup_at"`
+	// Rental rate.
+	RateAmount *int64 `form:"rate_amount"`
+	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
+	RateInterval *string `form:"rate_interval"`
+	// The name of the person or entity renting the car.
+	RenterName *string `form:"renter_name"`
+	// Car return address.
+	ReturnAddress *AddressParams `form:"return_address"`
+	// Car return time. Measured in seconds since the Unix epoch.
+	ReturnAt *int64 `form:"return_at"`
+	// Indicates whether the goods or services are tax-exempt or tax is not collected.
+	TaxExempt *bool `form:"tax_exempt"`
+}
+
+// Affiliate details for this purchase.
+type ChargeUpdatePaymentDetailsEventDetailsAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Details of the recipient.
+type ChargeUpdatePaymentDetailsEventDetailsDeliveryRecipientParams struct {
+	// The email of the recipient the ticket is delivered to.
+	Email *string `form:"email"`
+	// The name of the recipient the ticket is delivered to.
+	Name *string `form:"name"`
+	// The phone number of the recipient the ticket is delivered to.
+	Phone *string `form:"phone"`
+}
+
+// Delivery details for this purchase.
+type ChargeUpdatePaymentDetailsEventDetailsDeliveryParams struct {
+	// The delivery method for the payment
+	Mode *string `form:"mode"`
+	// Details of the recipient.
+	Recipient *ChargeUpdatePaymentDetailsEventDetailsDeliveryRecipientParams `form:"recipient"`
+}
+
+// Event details for this PaymentIntent
+type ChargeUpdatePaymentDetailsEventDetailsParams struct {
+	// Indicates if the tickets are digitally checked when entering the venue.
+	AccessControlledVenue *bool `form:"access_controlled_venue"`
+	// The event location's address.
+	Address *AddressParams `form:"address"`
+	// Affiliate details for this purchase.
+	Affiliate *ChargeUpdatePaymentDetailsEventDetailsAffiliateParams `form:"affiliate"`
+	// The name of the company
+	Company *string `form:"company"`
+	// Delivery details for this purchase.
+	Delivery *ChargeUpdatePaymentDetailsEventDetailsDeliveryParams `form:"delivery"`
+	// Event end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at"`
+	// Type of the event entertainment (concert, sports event etc)
+	Genre *string `form:"genre"`
+	// The name of the event.
+	Name *string `form:"name"`
+	// Event start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at"`
+}
+
+// Affiliate details for this purchase.
+type ChargeUpdatePaymentDetailsFlightAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Details of the recipient.
+type ChargeUpdatePaymentDetailsFlightDeliveryRecipientParams struct {
+	// The email of the recipient the ticket is delivered to.
+	Email *string `form:"email"`
+	// The name of the recipient the ticket is delivered to.
+	Name *string `form:"name"`
+	// The phone number of the recipient the ticket is delivered to.
+	Phone *string `form:"phone"`
+}
+
+// Delivery details for this purchase.
+type ChargeUpdatePaymentDetailsFlightDeliveryParams struct {
+	// The delivery method for the payment
+	Mode *string `form:"mode"`
+	// Details of the recipient.
+	Recipient *ChargeUpdatePaymentDetailsFlightDeliveryRecipientParams `form:"recipient"`
+}
+
+// The details of the passengers in the travel reservation.
+type ChargeUpdatePaymentDetailsFlightPassengerParams struct {
+	// Full name of the person or entity on the flight reservation.
+	Name *string `form:"name"`
+}
+
+// The individual flight segments associated with the trip.
+type ChargeUpdatePaymentDetailsFlightSegmentParams struct {
+	// The flight segment amount.
+	Amount *int64 `form:"amount"`
+	// The International Air Transport Association (IATA) airport code for the arrival airport.
+	ArrivalAirport *string `form:"arrival_airport"`
+	// The arrival time for the flight segment. Measured in seconds since the Unix epoch.
+	ArrivesAt *int64 `form:"arrives_at"`
+	// The International Air Transport Association (IATA) carrier code of the carrier operating the flight segment.
+	Carrier *string `form:"carrier"`
+	// The departure time for the flight segment. Measured in seconds since the Unix epoch.
+	DepartsAt *int64 `form:"departs_at"`
+	// The International Air Transport Association (IATA) airport code for the departure airport.
+	DepartureAirport *string `form:"departure_airport"`
+	// The flight number associated with the segment
+	FlightNumber *string `form:"flight_number"`
+	// The fare class for the segment.
+	ServiceClass *string `form:"service_class"`
+}
+
+// Flight reservation details for this PaymentIntent
+type ChargeUpdatePaymentDetailsFlightParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *ChargeUpdatePaymentDetailsFlightAffiliateParams `form:"affiliate"`
+	// The agency number (i.e. International Air Transport Association (IATA) agency number) of the travel agency that made the booking.
+	AgencyNumber *string `form:"agency_number"`
+	// The International Air Transport Association (IATA) carrier code of the carrier that issued the ticket.
+	Carrier *string `form:"carrier"`
+	// Delivery details for this purchase.
+	Delivery *ChargeUpdatePaymentDetailsFlightDeliveryParams `form:"delivery"`
+	// The name of the person or entity on the reservation.
+	PassengerName *string `form:"passenger_name"`
+	// The details of the passengers in the travel reservation.
+	Passengers []*ChargeUpdatePaymentDetailsFlightPassengerParams `form:"passengers"`
+	// The individual flight segments associated with the trip.
+	Segments []*ChargeUpdatePaymentDetailsFlightSegmentParams `form:"segments"`
+	// The ticket number associated with the travel reservation.
+	TicketNumber *string `form:"ticket_number"`
+}
+
+// Affiliate details for this purchase.
+type ChargeUpdatePaymentDetailsLodgingAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Details of the recipient.
+type ChargeUpdatePaymentDetailsLodgingDeliveryRecipientParams struct {
+	// The email of the recipient the ticket is delivered to.
+	Email *string `form:"email"`
+	// The name of the recipient the ticket is delivered to.
+	Name *string `form:"name"`
+	// The phone number of the recipient the ticket is delivered to.
+	Phone *string `form:"phone"`
+}
+
+// Delivery details for this purchase.
+type ChargeUpdatePaymentDetailsLodgingDeliveryParams struct {
+	// The delivery method for the payment
+	Mode *string `form:"mode"`
+	// Details of the recipient.
+	Recipient *ChargeUpdatePaymentDetailsLodgingDeliveryRecipientParams `form:"recipient"`
+}
+
+// The details of the passengers in the travel reservation
+type ChargeUpdatePaymentDetailsLodgingPassengerParams struct {
+	// Full name of the person or entity on the lodging reservation.
+	Name *string `form:"name"`
+}
+
+// Lodging reservation details for this PaymentIntent
+type ChargeUpdatePaymentDetailsLodgingParams struct {
+	// The lodging location's address.
+	Address *AddressParams `form:"address"`
+	// The number of adults on the booking
+	Adults *int64 `form:"adults"`
+	// Affiliate details for this purchase.
+	Affiliate *ChargeUpdatePaymentDetailsLodgingAffiliateParams `form:"affiliate"`
+	// The booking number associated with the lodging reservation.
+	BookingNumber *string `form:"booking_number"`
+	// The lodging category
+	Category *string `form:"category"`
+	// Loding check-in time. Measured in seconds since the Unix epoch.
+	CheckinAt *int64 `form:"checkin_at"`
+	// Lodging check-out time. Measured in seconds since the Unix epoch.
+	CheckoutAt *int64 `form:"checkout_at"`
+	// The customer service phone number of the lodging company.
+	CustomerServicePhoneNumber *string `form:"customer_service_phone_number"`
+	// The daily lodging room rate.
+	DailyRoomRateAmount *int64 `form:"daily_room_rate_amount"`
+	// Delivery details for this purchase.
+	Delivery *ChargeUpdatePaymentDetailsLodgingDeliveryParams `form:"delivery"`
+	// List of additional charges being billed.
+	ExtraCharges []*string `form:"extra_charges"`
+	// Indicates whether the lodging location is compliant with the Fire Safety Act.
+	FireSafetyActCompliance *bool `form:"fire_safety_act_compliance"`
+	// The name of the lodging location.
+	Name *string `form:"name"`
+	// Indicates if the customer did not keep their booking while failing to cancel the reservation.
+	NoShow *bool `form:"no_show"`
+	// The number of rooms on the booking
+	NumberOfRooms *int64 `form:"number_of_rooms"`
+	// The details of the passengers in the travel reservation
+	Passengers []*ChargeUpdatePaymentDetailsLodgingPassengerParams `form:"passengers"`
+	// The phone number of the lodging location.
+	PropertyPhoneNumber *string `form:"property_phone_number"`
+	// The room class for this purchase.
+	RoomClass *string `form:"room_class"`
+	// The number of room nights
+	RoomNights *int64 `form:"room_nights"`
+	// The total tax amount associating with the room reservation.
+	TotalRoomTaxAmount *int64 `form:"total_room_tax_amount"`
+	// The total tax amount
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Affiliate details for this purchase.
+type ChargeUpdatePaymentDetailsSubscriptionAffiliateParams struct {
+	// The name of the affiliate that originated the purchase.
+	Name *string `form:"name"`
+}
+
+// Subscription billing details for this purchase.
+type ChargeUpdatePaymentDetailsSubscriptionBillingIntervalParams struct {
+	// The number of intervals, as an whole number greater than 0. Stripe multiplies this by the interval type to get the overall duration.
+	Count *int64 `form:"count"`
+	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+}
+
+// Subscription details for this PaymentIntent
+type ChargeUpdatePaymentDetailsSubscriptionParams struct {
+	// Affiliate details for this purchase.
+	Affiliate *ChargeUpdatePaymentDetailsSubscriptionAffiliateParams `form:"affiliate"`
+	// Info whether the subscription will be auto renewed upon expiry.
+	AutoRenewal *bool `form:"auto_renewal"`
+	// Subscription billing details for this purchase.
+	BillingInterval *ChargeUpdatePaymentDetailsSubscriptionBillingIntervalParams `form:"billing_interval"`
+	// Subscription end time. Measured in seconds since the Unix epoch.
+	EndsAt *int64 `form:"ends_at"`
+	// Name of the product on subscription. e.g. Apple Music Subscription
+	Name *string `form:"name"`
+	// Subscription start time. Measured in seconds since the Unix epoch.
+	StartsAt *int64 `form:"starts_at"`
+}
+
+// Provides industry-specific information about the charge.
+type ChargeUpdatePaymentDetailsParams struct {
+	// Car rental details for this PaymentIntent.
+	CarRental *ChargeUpdatePaymentDetailsCarRentalParams `form:"car_rental"`
+	// Event details for this PaymentIntent
+	EventDetails *ChargeUpdatePaymentDetailsEventDetailsParams `form:"event_details"`
+	// Flight reservation details for this PaymentIntent
+	Flight *ChargeUpdatePaymentDetailsFlightParams `form:"flight"`
+	// Lodging reservation details for this PaymentIntent
+	Lodging *ChargeUpdatePaymentDetailsLodgingParams `form:"lodging"`
+	// Subscription details for this PaymentIntent
+	Subscription *ChargeUpdatePaymentDetailsSubscriptionParams `form:"subscription"`
+}
+
 // Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 type ChargeUpdateParams struct {
 	Params `form:"*"`
@@ -1373,6 +1683,8 @@ type ChargeUpdateParams struct {
 	FraudDetails *ChargeUpdateFraudDetailsParams `form:"fraud_details"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// Provides industry-specific information about the charge.
+	PaymentDetails *ChargeUpdatePaymentDetailsParams `form:"payment_details"`
 	// This is the email address that the receipt for this charge will be sent to. If this field is updated, then a new email receipt will be sent to the updated address.
 	ReceiptEmail *string `form:"receipt_email"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.

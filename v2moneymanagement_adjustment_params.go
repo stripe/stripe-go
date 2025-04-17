@@ -36,3 +36,8 @@ type V2MoneyManagementAdjustmentListParams struct {
 type V2MoneyManagementAdjustmentParams struct {
 	Params `form:"*"`
 }
+
+// Retrieves the details of an Adjustment by ID.
+type V2MoneyManagementAdjustmentRetrieveParams struct {
+	Params `form:"*"`
+}

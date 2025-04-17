@@ -623,6 +623,18 @@ func (p *IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) AddMeta
 	p.Metadata[key] = value
 }
 
+// Retrieves a CreditUnderwritingRecord object.
+type IssuingCreditUnderwritingRecordRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *IssuingCreditUnderwritingRecordRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // For decisions triggered by an application, details about the submission.
 type IssuingCreditUnderwritingRecordApplication struct {
 	// The channel through which the applicant has submitted their application.

@@ -523,6 +523,34 @@ type AccountSessionCreateComponentsAccountOnboardingParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsAppInstallFeaturesParams struct {
+	// List of apps allowed to be enabled for this account session.
+	AllowedApps []*string `form:"allowed_apps"`
+}
+
+// Configuration for the app install component.
+type AccountSessionCreateComponentsAppInstallParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsAppInstallFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsAppViewportFeaturesParams struct {
+	// List of apps allowed to be enabled for this account session.
+	AllowedApps []*string `form:"allowed_apps"`
+}
+
+// Configuration for the app viewport component.
+type AccountSessionCreateComponentsAppViewportParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsAppViewportFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsBalancesFeaturesParams struct {
 	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
@@ -545,6 +573,50 @@ type AccountSessionCreateComponentsBalancesParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsCapitalFinancingFeaturesParams struct{}
+
+// Configuration for the capital financing embedded component.
+type AccountSessionCreateComponentsCapitalFinancingParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsCapitalFinancingFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsCapitalFinancingApplicationFeaturesParams struct{}
+
+// Configuration for the capital financing application embedded component.
+type AccountSessionCreateComponentsCapitalFinancingApplicationParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsCapitalFinancingApplicationFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsCapitalFinancingPromotionFeaturesParams struct{}
+
+// Configuration for the capital financing promotion embedded component.
+type AccountSessionCreateComponentsCapitalFinancingPromotionParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsCapitalFinancingPromotionFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsCapitalOverviewFeaturesParams struct{}
+
+// Configuration for the capital overview embedded component.
+type AccountSessionCreateComponentsCapitalOverviewParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsCapitalOverviewFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsDocumentsFeaturesParams struct{}
 
 // Configuration for the documents embedded component.
@@ -553,6 +625,17 @@ type AccountSessionCreateComponentsDocumentsParams struct {
 	Enabled *bool `form:"enabled"`
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionCreateComponentsDocumentsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsExportTaxTransactionsFeaturesParams struct{}
+
+// Configuration for the export tax transactions embedded component.
+type AccountSessionCreateComponentsExportTaxTransactionsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsExportTaxTransactionsFeaturesParams `form:"features"`
 }
 
 // The list of features enabled in the embedded component.
@@ -668,6 +751,35 @@ type AccountSessionCreateComponentsPaymentDetailsParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsPaymentDisputesFeaturesParams struct {
+	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement *bool `form:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement *bool `form:"refund_management"`
+}
+
+// Configuration for the payment disputes embedded component.
+type AccountSessionCreateComponentsPaymentDisputesParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsPaymentDisputesFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsPaymentMethodSettingsFeaturesParams struct{}
+
+// Configuration for the payment method settings embedded component.
+type AccountSessionCreateComponentsPaymentMethodSettingsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsPaymentMethodSettingsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsPaymentsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
@@ -721,6 +833,39 @@ type AccountSessionCreateComponentsPayoutsListParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsProductTaxCodeSelectorFeaturesParams struct{}
+
+// Configuration for the product tax code selector embedded component.
+type AccountSessionCreateComponentsProductTaxCodeSelectorParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsProductTaxCodeSelectorFeaturesParams `form:"features"`
+}
+type AccountSessionCreateComponentsRecipientsFeaturesParams struct {
+	// Whether to allow sending money.
+	SendMoney *bool `form:"send_money"`
+}
+
+// Configuration for the recipients component.
+type AccountSessionCreateComponentsRecipientsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled  *bool                                                   `form:"enabled"`
+	Features *AccountSessionCreateComponentsRecipientsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsReportingChartFeaturesParams struct{}
+
+// Configuration for the reporting chart embedded component.
+type AccountSessionCreateComponentsReportingChartParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsReportingChartFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsTaxRegistrationsFeaturesParams struct{}
 
 // Configuration for the tax registrations embedded component.
@@ -742,16 +887,41 @@ type AccountSessionCreateComponentsTaxSettingsParams struct {
 	Features *AccountSessionCreateComponentsTaxSettingsFeaturesParams `form:"features"`
 }
 
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsTaxThresholdMonitoringFeaturesParams struct{}
+
+// Configuration for the tax threshold monitoring embedded component.
+type AccountSessionCreateComponentsTaxThresholdMonitoringParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsTaxThresholdMonitoringFeaturesParams `form:"features"`
+}
+
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionCreateComponentsParams struct {
 	// Configuration for the account management embedded component.
 	AccountManagement *AccountSessionCreateComponentsAccountManagementParams `form:"account_management"`
 	// Configuration for the account onboarding embedded component.
 	AccountOnboarding *AccountSessionCreateComponentsAccountOnboardingParams `form:"account_onboarding"`
+	// Configuration for the app install component.
+	AppInstall *AccountSessionCreateComponentsAppInstallParams `form:"app_install"`
+	// Configuration for the app viewport component.
+	AppViewport *AccountSessionCreateComponentsAppViewportParams `form:"app_viewport"`
 	// Configuration for the balances embedded component.
 	Balances *AccountSessionCreateComponentsBalancesParams `form:"balances"`
+	// Configuration for the capital financing embedded component.
+	CapitalFinancing *AccountSessionCreateComponentsCapitalFinancingParams `form:"capital_financing"`
+	// Configuration for the capital financing application embedded component.
+	CapitalFinancingApplication *AccountSessionCreateComponentsCapitalFinancingApplicationParams `form:"capital_financing_application"`
+	// Configuration for the capital financing promotion embedded component.
+	CapitalFinancingPromotion *AccountSessionCreateComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
+	// Configuration for the capital overview embedded component.
+	CapitalOverview *AccountSessionCreateComponentsCapitalOverviewParams `form:"capital_overview"`
 	// Configuration for the documents embedded component.
 	Documents *AccountSessionCreateComponentsDocumentsParams `form:"documents"`
+	// Configuration for the export tax transactions embedded component.
+	ExportTaxTransactions *AccountSessionCreateComponentsExportTaxTransactionsParams `form:"export_tax_transactions"`
 	// Configuration for the financial account embedded component.
 	FinancialAccount *AccountSessionCreateComponentsFinancialAccountParams `form:"financial_account"`
 	// Configuration for the financial account transactions embedded component.
@@ -764,16 +934,28 @@ type AccountSessionCreateComponentsParams struct {
 	NotificationBanner *AccountSessionCreateComponentsNotificationBannerParams `form:"notification_banner"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionCreateComponentsPaymentDetailsParams `form:"payment_details"`
+	// Configuration for the payment disputes embedded component.
+	PaymentDisputes *AccountSessionCreateComponentsPaymentDisputesParams `form:"payment_disputes"`
+	// Configuration for the payment method settings embedded component.
+	PaymentMethodSettings *AccountSessionCreateComponentsPaymentMethodSettingsParams `form:"payment_method_settings"`
 	// Configuration for the payments embedded component.
 	Payments *AccountSessionCreateComponentsPaymentsParams `form:"payments"`
 	// Configuration for the payouts embedded component.
 	Payouts *AccountSessionCreateComponentsPayoutsParams `form:"payouts"`
 	// Configuration for the payouts list embedded component.
 	PayoutsList *AccountSessionCreateComponentsPayoutsListParams `form:"payouts_list"`
+	// Configuration for the product tax code selector embedded component.
+	ProductTaxCodeSelector *AccountSessionCreateComponentsProductTaxCodeSelectorParams `form:"product_tax_code_selector"`
+	// Configuration for the recipients component.
+	Recipients *AccountSessionCreateComponentsRecipientsParams `form:"recipients"`
+	// Configuration for the reporting chart embedded component.
+	ReportingChart *AccountSessionCreateComponentsReportingChartParams `form:"reporting_chart"`
 	// Configuration for the tax registrations embedded component.
 	TaxRegistrations *AccountSessionCreateComponentsTaxRegistrationsParams `form:"tax_registrations"`
 	// Configuration for the tax settings embedded component.
 	TaxSettings *AccountSessionCreateComponentsTaxSettingsParams `form:"tax_settings"`
+	// Configuration for the tax threshold monitoring embedded component.
+	TaxThresholdMonitoring *AccountSessionCreateComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring"`
 }
 
 // Creates a AccountSession object that includes a single-use token that the platform can use on their front-end to grant client-side API access.

@@ -252,6 +252,8 @@ type BillingPortalSessionCreateParams struct {
 	Configuration *string `form:"configuration"`
 	// The ID of an existing customer.
 	Customer *string `form:"customer"`
+	// The ID of an existing account.
+	CustomerAccount *string `form:"customer_account"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Information about a specific flow for the customer to go through. See the [docs](https://stripe.com/docs/customer-management/portal-deep-links) to learn more about using customer portal deep links and flows.

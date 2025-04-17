@@ -28,9 +28,9 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementAdjustmentParams)
 }
 
 // Returns a list of Adjustments that match the provided filters.
-func (c Client) All(listParams *stripe.V2MoneyManagementAdjustmentListParams) stripe.Seq2[stripe.V2MoneyManagementAdjustment, error] {
-	return stripe.NewV2List("/v2/money_management/adjustments", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2MoneyManagementAdjustment], error) {
-		page := &stripe.V2Page[stripe.V2MoneyManagementAdjustment]{}
+func (c Client) All(listParams *stripe.V2MoneyManagementAdjustmentListParams) stripe.Seq2[*stripe.V2MoneyManagementAdjustment, error] {
+	return stripe.NewV2List("/v2/money_management/adjustments", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementAdjustment], error) {
+		page := &stripe.V2Page[*stripe.V2MoneyManagementAdjustment]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

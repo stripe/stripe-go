@@ -79,9 +79,9 @@ func (c Client) Ping(id string, params *stripe.V2CoreEventDestinationPingParams)
 }
 
 // Lists all event destinations.
-func (c Client) All(listParams *stripe.V2CoreEventDestinationListParams) stripe.Seq2[stripe.V2EventDestination, error] {
-	return stripe.NewV2List("/v2/core/event_destinations", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[stripe.V2EventDestination], error) {
-		page := &stripe.V2Page[stripe.V2EventDestination]{}
+func (c Client) All(listParams *stripe.V2CoreEventDestinationListParams) stripe.Seq2[*stripe.V2EventDestination, error] {
+	return stripe.NewV2List("/v2/core/event_destinations", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2EventDestination], error) {
+		page := &stripe.V2Page[*stripe.V2EventDestination]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)
 		return page, err
 	}).All()

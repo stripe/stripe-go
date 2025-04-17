@@ -32,6 +32,19 @@ func (p *PrivacyRedactionJobValidationErrorParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieve validation error method
+type PrivacyRedactionJobValidationErrorRetrieveParams struct {
+	Params `form:"*"`
+	Job    *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PrivacyRedactionJobValidationErrorRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Validation errors
 type PrivacyRedactionJobValidationError struct {
 	APIResource

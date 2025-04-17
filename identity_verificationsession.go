@@ -266,6 +266,8 @@ type IdentityVerificationSessionCreateParams struct {
 	ProvidedDetails *IdentityVerificationSessionCreateProvidedDetailsParams `form:"provided_details"`
 	// Customer ID
 	RelatedCustomer *string `form:"related_customer"`
+	// Token referencing a Customer Account resource.
+	RelatedCustomerAccount *string `form:"related_customer_account"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
