@@ -1551,9 +1551,10 @@ func SetHTTPClient(client *http.Client) {
 	httpClient = client
 }
 
-// String returns a pointer to the string value passed in.
-func String(v string) *string {
-	return &v
+// String returns a pointer to the string value or enum passed in.
+func String[T ~string](v T) *string {
+	result := string(v)
+	return &result
 }
 
 // StringValue returns the value of the string pointer passed in or
@@ -1572,6 +1573,20 @@ func StringSlice(v []string) []*string {
 		out[i] = &v[i]
 	}
 	return out
+}
+
+// Time returns a pointer to the time.Time value passed in.
+func Time(v time.Time) *time.Time {
+	return &v
+}
+
+// TimeValue returns the value of the time.Time pointer passed in or
+// time.Time{} if the pointer is nil.
+func TimeValue(v *time.Time) time.Time {
+	if v != nil {
+		return *v
+	}
+	return time.Time{}
 }
 
 // AddBetaVersion adds or updates a beta version for a given beta feature in the API version string.
