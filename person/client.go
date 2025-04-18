@@ -4,7 +4,7 @@
 //
 //
 
-// Package person provides the /accounts/{account}/persons APIs
+// Package person provides the /v1/accounts/{account}/persons APIs
 package person
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /accounts/{account}/persons APIs.
+// Client is used to invoke /v1/accounts/{account}/persons APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -4,7 +4,7 @@
 //
 //
 
-// Package transferreversal provides the /transfers/{id}/reversals APIs
+// Package transferreversal provides the /v1/transfers/{id}/reversals APIs
 package transferreversal
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /transfers/{id}/reversals APIs.
+// Client is used to invoke /v1/transfers/{id}/reversals APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -52,7 +52,7 @@ func Get(id string, params *stripe.TransferReversalParams) (*stripe.TransferReve
 func (c Client) Get(id string, params *stripe.TransferReversalParams) (*stripe.TransferReversal, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
-			"params cannnot be nil, and params.Transfer must be set")
+			"params cannot be nil, and params.Transfer must be set")
 	}
 	path := stripe.FormatURLPath(
 		"/v1/transfers/%s/reversals/%s", stripe.StringValue(params.ID), id)

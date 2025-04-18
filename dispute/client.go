@@ -4,7 +4,7 @@
 //
 //
 
-// Package dispute provides the /disputes APIs
+// Package dispute provides the /v1/disputes APIs
 package dispute
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /disputes APIs.
+// Client is used to invoke /v1/disputes APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

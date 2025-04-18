@@ -4,7 +4,7 @@
 //
 //
 
-// Package subscriptionschedule provides the /subscription_schedules APIs
+// Package subscriptionschedule provides the /v1/subscription_schedules APIs
 package subscriptionschedule
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /subscription_schedules APIs.
+// Client is used to invoke /v1/subscription_schedules APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

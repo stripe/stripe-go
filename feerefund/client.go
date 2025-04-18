@@ -4,7 +4,7 @@
 //
 //
 
-// Package feerefund provides the /application_fees/{id}/refunds APIs
+// Package feerefund provides the /v1/application_fees/{id}/refunds APIs
 package feerefund
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /application_fees/{id}/refunds APIs.
+// Client is used to invoke /v1/application_fees/{id}/refunds APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

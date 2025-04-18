@@ -4,7 +4,7 @@
 //
 //
 
-// Package payout provides the /payouts APIs
+// Package payout provides the /v1/payouts APIs
 package payout
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /payouts APIs.
+// Client is used to invoke /v1/payouts APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

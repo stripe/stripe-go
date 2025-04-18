@@ -4,7 +4,7 @@
 //
 //
 
-// Package paymentsource provides the /customers/{customer}/sources APIs
+// Package paymentsource provides the /v1/customers/{customer}/sources APIs
 package paymentsource
 
 import (
@@ -15,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /customers/{customer}/sources APIs.
+// Client is used to invoke /v1/customers/{customer}/sources APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

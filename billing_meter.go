@@ -126,6 +126,76 @@ func (p *BillingMeterReactivateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Fields that specify how to map a meter event to a customer.
+type BillingMeterCreateCustomerMappingParams struct {
+	// The key in the meter event payload to use for mapping the event to a customer.
+	EventPayloadKey *string `form:"event_payload_key"`
+	// The method for mapping a meter event to a customer. Must be `by_id`.
+	Type *string `form:"type"`
+}
+
+// The default settings to aggregate a meter's events with.
+type BillingMeterCreateDefaultAggregationParams struct {
+	// Specifies how events are aggregated. Allowed values are `count` to count the number of events, `sum` to sum each event's value and `last` to take the last event's value in the window.
+	Formula *string `form:"formula"`
+}
+
+// Fields that specify how to calculate a meter event's value.
+type BillingMeterCreateValueSettingsParams struct {
+	// The key in the usage event payload to use as the value for this meter. For example, if the event payload contains usage on a `bytes_used` field, then set the event_payload_key to "bytes_used".
+	EventPayloadKey *string `form:"event_payload_key"`
+}
+
+// Creates a billing meter.
+type BillingMeterCreateParams struct {
+	Params `form:"*"`
+	// Fields that specify how to map a meter event to a customer.
+	CustomerMapping *BillingMeterCreateCustomerMappingParams `form:"customer_mapping"`
+	// The default settings to aggregate a meter's events with.
+	DefaultAggregation *BillingMeterCreateDefaultAggregationParams `form:"default_aggregation"`
+	// The meter's name. Not visible to the customer.
+	DisplayName *string `form:"display_name"`
+	// The name of the meter event to record usage for. Corresponds with the `event_name` field on meter events.
+	EventName *string `form:"event_name"`
+	// The time window to pre-aggregate meter events for, if any.
+	EventTimeWindow *string `form:"event_time_window"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Fields that specify how to calculate a meter event's value.
+	ValueSettings *BillingMeterCreateValueSettingsParams `form:"value_settings"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingMeterCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Retrieves a billing meter given an ID.
+type BillingMeterRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingMeterRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates a billing meter.
+type BillingMeterUpdateParams struct {
+	Params `form:"*"`
+	// The meter's name. Not visible to the customer.
+	DisplayName *string `form:"display_name"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingMeterUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type BillingMeterCustomerMapping struct {
 	// The key in the meter event payload to use for mapping the event to a customer.
 	EventPayloadKey string `json:"event_payload_key"`

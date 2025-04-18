@@ -4,7 +4,7 @@
 //
 //
 
-// Package filelink provides the /file_links APIs
+// Package filelink provides the /v1/file_links APIs
 package filelink
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /file_links APIs.
+// Client is used to invoke /v1/file_links APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

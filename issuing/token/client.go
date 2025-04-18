@@ -4,7 +4,7 @@
 //
 //
 
-// Package token provides the /issuing/tokens APIs
+// Package token provides the /v1/issuing/tokens APIs
 package token
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /issuing/tokens APIs.
+// Client is used to invoke /v1/issuing/tokens APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

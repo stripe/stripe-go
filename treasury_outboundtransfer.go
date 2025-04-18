@@ -175,6 +175,77 @@ func (p *TreasuryOutboundTransferCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Hash used to generate the PaymentMethod to be used for this OutboundTransfer. Exclusive with `destination_payment_method`.
+type TreasuryOutboundTransferCreateDestinationPaymentMethodDataParams struct {
+	// Required if type is set to `financial_account`. The FinancialAccount ID to send funds to.
+	FinancialAccount *string `form:"financial_account"`
+	// The type of the destination.
+	Type *string `form:"type"`
+}
+
+// Optional fields for `us_bank_account`.
+type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountParams struct {
+	// Specifies the network rails to be used. If not set, will default to the PaymentMethod's preferred network. See the [docs](https://stripe.com/docs/treasury/money-movement/timelines) to learn more about money movement timelines for each network type.
+	Network *string `form:"network"`
+}
+
+// Hash describing payment method configuration details.
+type TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams struct {
+	// Optional fields for `us_bank_account`.
+	USBankAccount *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
+}
+
+// Creates an OutboundTransfer.
+type TreasuryOutboundTransferCreateParams struct {
+	Params `form:"*"`
+	// Amount (in cents) to be transferred.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// The PaymentMethod to use as the payment instrument for the OutboundTransfer.
+	DestinationPaymentMethod *string `form:"destination_payment_method"`
+	// Hash used to generate the PaymentMethod to be used for this OutboundTransfer. Exclusive with `destination_payment_method`.
+	DestinationPaymentMethodData *TreasuryOutboundTransferCreateDestinationPaymentMethodDataParams `form:"destination_payment_method_data"`
+	// Hash describing payment method configuration details.
+	DestinationPaymentMethodOptions *TreasuryOutboundTransferCreateDestinationPaymentMethodOptionsParams `form:"destination_payment_method_options"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The FinancialAccount to pull funds from.
+	FinancialAccount *string `form:"financial_account"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Statement descriptor to be shown on the receiving end of an OutboundTransfer. Maximum 10 characters for `ach` transfers or 140 characters for `us_domestic_wire` transfers. The default value is "transfer".
+	StatementDescriptor *string `form:"statement_descriptor"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundTransferCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TreasuryOutboundTransferCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the details of an existing OutboundTransfer by passing the unique OutboundTransfer ID from either the OutboundTransfer creation request or OutboundTransfer list.
+type TreasuryOutboundTransferRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryOutboundTransferRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TreasuryOutboundTransferDestinationPaymentMethodDetailsBillingDetails struct {
 	Address *Address `json:"address"`
 	// Email address.

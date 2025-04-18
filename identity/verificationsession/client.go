@@ -4,7 +4,7 @@
 //
 //
 
-// Package verificationsession provides the /identity/verification_sessions APIs
+// Package verificationsession provides the /v1/identity/verification_sessions APIs
 package verificationsession
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /identity/verification_sessions APIs.
+// Client is used to invoke /v1/identity/verification_sessions APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

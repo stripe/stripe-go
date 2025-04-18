@@ -4,7 +4,7 @@
 //
 //
 
-// Package plan provides the /plans APIs
+// Package plan provides the /v1/plans APIs
 package plan
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /plans APIs.
+// Client is used to invoke /v1/plans APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

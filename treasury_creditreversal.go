@@ -68,6 +68,43 @@ func (p *TreasuryCreditReversalParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Reverses a ReceivedCredit and creates a CreditReversal object.
+type TreasuryCreditReversalCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The ReceivedCredit to reverse.
+	ReceivedCredit *string `form:"received_credit"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryCreditReversalCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TreasuryCreditReversalCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the details of an existing CreditReversal by passing the unique CreditReversal ID from either the CreditReversal creation request or CreditReversal list
+type TreasuryCreditReversalRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TreasuryCreditReversalRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type TreasuryCreditReversalStatusTransitions struct {
 	// Timestamp describing when the CreditReversal changed status to `posted`
 	PostedAt int64 `json:"posted_at"`

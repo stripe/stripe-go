@@ -4,7 +4,7 @@
 //
 //
 
-// Package price provides the /prices APIs
+// Package price provides the /v1/prices APIs
 package price
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /prices APIs.
+// Client is used to invoke /v1/prices APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

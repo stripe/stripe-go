@@ -4,7 +4,7 @@
 //
 //
 
-// Package connectiontoken provides the /terminal/connection_tokens APIs
+// Package connectiontoken provides the /v1/terminal/connection_tokens APIs
 package connectiontoken
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v82"
 )
 
-// Client is used to invoke /terminal/connection_tokens APIs.
+// Client is used to invoke /v1/terminal/connection_tokens APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

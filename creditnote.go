@@ -371,7 +371,7 @@ type CreditNotePreviewLinesShippingCostParams struct {
 	ShippingRate *string `form:"shipping_rate"`
 }
 
-// When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
+// Line items that make up the credit note.
 type CreditNotePreviewLinesParams struct {
 	ListParams `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
@@ -441,6 +441,147 @@ type CreditNoteListLinesParams struct {
 // AddExpand appends a new field to expand.
 func (p *CreditNoteListLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+type CreditNoteCreateLineTaxAmountParams struct {
+	// The amount, in cents (or local equivalent), of the tax.
+	Amount *int64 `form:"amount"`
+	// The amount on which tax is calculated, in cents (or local equivalent).
+	TaxableAmount *int64 `form:"taxable_amount"`
+	// The id of the tax rate for this tax amount. The tax rate must have been automatically created by Stripe.
+	TaxRate *string `form:"tax_rate"`
+}
+
+// Line items that make up the credit note.
+type CreditNoteCreateLineParams struct {
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
+	Amount *int64 `form:"amount"`
+	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
+	Description *string `form:"description"`
+	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
+	InvoiceLineItem *string `form:"invoice_line_item"`
+	// The line item quantity to credit.
+	Quantity *int64 `form:"quantity"`
+	// A list of up to 10 tax amounts for the credit note line item. Cannot be mixed with `tax_rates`.
+	TaxAmounts []*CreditNoteCreateLineTaxAmountParams `form:"tax_amounts"`
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item` and cannot be mixed with `tax_amounts`.
+	TaxRates []*string `form:"tax_rates"`
+	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
+	Type *string `form:"type"`
+	// The integer unit amount in cents (or local equivalent) of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// Refunds to link to this credit note.
+type CreditNoteCreateRefundParams struct {
+	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
+	AmountRefunded *int64 `form:"amount_refunded"`
+	// ID of an existing refund to link this credit note to.
+	Refund *string `form:"refund"`
+}
+
+// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+type CreditNoteCreateShippingCostParams struct {
+	// The ID of the shipping rate to use for this order.
+	ShippingRate *string `form:"shipping_rate"`
+}
+
+// Issue a credit note to adjust the amount of a finalized invoice. For a status=open invoice, a credit note reduces
+// its amount_due. For a status=paid invoice, a credit note does not affect its amount_due. Instead, it can result
+// in any combination of the following:
+//
+// Refund: create a new refund (using refund_amount) or link an existing refund (using refund).
+// Customer balance credit: credit the customer's balance (using credit_amount) which will be automatically applied to their next invoice when it's finalized.
+// Outside of Stripe credit: record the amount that is or will be credited outside of Stripe (using out_of_band_amount).
+//
+// For post-payment credit notes the sum of the refund, credit and outside of Stripe amounts must equal the credit note total.
+//
+// You may issue multiple credit notes for an invoice. Each credit note will increment the invoice's pre_payment_credit_notes_amount
+// or post_payment_credit_notes_amount depending on its status at the time of credit note creation.
+type CreditNoteCreateParams struct {
+	Params `form:"*"`
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
+	Amount *int64 `form:"amount"`
+	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
+	CreditAmount *int64 `form:"credit_amount"`
+	// The date when this credit note is in effect. Same as `created` unless overwritten. When defined, this value replaces the system-generated 'Date of issue' printed on the credit note PDF.
+	EffectiveAt *int64 `form:"effective_at"`
+	// Type of email to send to the customer, one of `credit_note` or `none` and the default is `credit_note`.
+	EmailType *string `form:"email_type"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// ID of the invoice.
+	Invoice *string `form:"invoice"`
+	// Line items that make up the credit note.
+	Lines []*CreditNoteCreateLineParams `form:"lines"`
+	// The credit note's memo appears on the credit note PDF.
+	Memo *string `form:"memo"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The integer amount in cents (or local equivalent) representing the amount that is credited outside of Stripe.
+	OutOfBandAmount *int64 `form:"out_of_band_amount"`
+	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
+	Reason *string `form:"reason"`
+	// The integer amount in cents (or local equivalent) representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
+	RefundAmount *int64 `form:"refund_amount"`
+	// Refunds to link to this credit note.
+	Refunds []*CreditNoteCreateRefundParams `form:"refunds"`
+	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+	ShippingCost *CreditNoteCreateShippingCostParams `form:"shipping_cost"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CreditNoteCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CreditNoteCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves the credit note object with the given identifier.
+type CreditNoteRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CreditNoteRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates an existing credit note.
+type CreditNoteUpdateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Credit note memo.
+	Memo *string `form:"memo"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CreditNoteUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CreditNoteUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The integer amount in cents (or local equivalent) representing the total amount of discount that was credited.

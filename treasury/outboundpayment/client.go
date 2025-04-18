@@ -4,7 +4,7 @@
 //
 //
 
-// Package outboundpayment provides the /treasury/outbound_payments APIs
+// Package outboundpayment provides the /v1/treasury/outbound_payments APIs
 package outboundpayment
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /treasury/outbound_payments APIs.
+// Client is used to invoke /v1/treasury/outbound_payments APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

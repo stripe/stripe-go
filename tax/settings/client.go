@@ -4,7 +4,7 @@
 //
 //
 
-// Package settings provides the /tax/settings APIs
+// Package settings provides the /v1/tax/settings APIs
 package settings
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v82"
 )
 
-// Client is used to invoke /tax/settings APIs.
+// Client is used to invoke /v1/tax/settings APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

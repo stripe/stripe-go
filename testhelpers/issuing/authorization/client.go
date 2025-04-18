@@ -4,7 +4,7 @@
 //
 //
 
-// Package authorization provides the /issuing/authorizations APIs
+// Package authorization provides the /v1/issuing/authorizations APIs
 package authorization
 
 import (
@@ -13,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v82"
 )
 
-// Client is used to invoke /issuing/authorizations APIs.
+// Client is used to invoke /v1/issuing/authorizations APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

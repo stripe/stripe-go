@@ -62,6 +62,46 @@ func (p *BillingCreditBalanceSummaryParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams struct {
+	// The price ID this credit grant should apply to.
+	ID *string `form:"id"`
+}
+
+// The billing credit applicability scope for which to fetch credit balance summary.
+type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeParams struct {
+	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
+	Prices []*BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams `form:"prices"`
+	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
+	PriceType *string `form:"price_type"`
+}
+
+// The filter criteria for the credit balance summary.
+type BillingCreditBalanceSummaryRetrieveFilterParams struct {
+	// The billing credit applicability scope for which to fetch credit balance summary.
+	ApplicabilityScope *BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeParams `form:"applicability_scope"`
+	// The credit grant for which to fetch credit balance summary.
+	CreditGrant *string `form:"credit_grant"`
+	// Specify the type of this filter.
+	Type *string `form:"type"`
+}
+
+// Retrieves the credit balance summary for a customer.
+type BillingCreditBalanceSummaryRetrieveParams struct {
+	Params `form:"*"`
+	// The customer for which to fetch credit balance summary.
+	Customer *string `form:"customer"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The filter criteria for the credit balance summary.
+	Filter *BillingCreditBalanceSummaryRetrieveFilterParams `form:"filter"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *BillingCreditBalanceSummaryRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // The monetary amount.
 type BillingCreditBalanceSummaryBalanceAvailableBalanceMonetary struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

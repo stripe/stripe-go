@@ -143,6 +143,97 @@ func TestIterListAndMeta(t *testing.T) {
 	assert.Equal(t, listMeta, it.Meta())
 }
 
+func TestV1ListEmpty(t *testing.T) {
+	tq := testV1Query[*int]{{nil, &ListMeta{}, nil}}
+	g, gerr := collectList(newV1List(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, 0, len(g))
+	assert.NoError(t, gerr)
+}
+
+func TestV1ListEmptyErr(t *testing.T) {
+	tq := testV1Query[*int]{{nil, &ListMeta{}, errTest}}
+	g, gerr := collectList(newV1List(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, 0, len(g))
+	assert.Equal(t, errTest, gerr)
+}
+
+func TestV1ListOne(t *testing.T) {
+	tq := testV1Query[*int]{{[]*int{intPtr(1)}, &ListMeta{}, nil}}
+	want := []*int{intPtr(1)}
+	g, gerr := collectList(newV1List(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.NoError(t, gerr)
+}
+
+func TestV1ListOneErr(t *testing.T) {
+	tq := testV1Query[*int]{{[]*int{intPtr(1)}, &ListMeta{}, errTest}}
+	want := []*int{intPtr(1)}
+	g, gerr := collectList(newV1List(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.Equal(t, errTest, gerr)
+}
+
+func TestV1ListPage2EmptyErr(t *testing.T) {
+	tq := testV1Query[*item]{
+		{[]*item{{"x"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
+		{nil, &ListMeta{}, errTest},
+	}
+	want := []*item{{"x"}}
+	g, gerr := collectList(newV1List(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.Equal(t, errTest, gerr)
+}
+
+func TestV1ListTwoPages(t *testing.T) {
+	tq := testV1Query[*item]{
+		{[]*item{{"x"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
+		{[]*item{{"y"}}, &ListMeta{}, nil},
+	}
+	want := []*item{{"x"}, {"y"}}
+	g, gerr := collectList(newV1List(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.NoError(t, gerr)
+}
+
+func TestV1ListTwoPagesErr(t *testing.T) {
+	tq := testV1Query[*item]{
+		{[]*item{{"x"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
+		{[]*item{{"y"}}, &ListMeta{}, errTest},
+	}
+	want := []*item{{"x"}, {"y"}}
+	g, gerr := collectList(newV1List(nil, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.Equal(t, errTest, gerr)
+}
+
+func TestV1ListReversed(t *testing.T) {
+	tq := testV1Query[*int]{{[]*int{intPtr(1), intPtr(2)}, &ListMeta{}, nil}}
+	want := []*int{intPtr(2), intPtr(1)}
+	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.NoError(t, gerr)
+}
+
+func TestV1ListReversedTwoPages(t *testing.T) {
+	tq := testV1Query[*item]{
+		{[]*item{{"3"}, {"4"}}, &ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
+		{[]*item{{"1"}, {"2"}}, &ListMeta{}, nil},
+	}
+	want := []*item{{"4"}, {"3"}, {"2"}, {"1"}}
+	g, gerr := collectList(newV1List(&ListParams{EndingBefore: String("x")}, tq.query))
+	assert.Equal(t, 0, len(tq))
+	assert.Equal(t, want, g)
+	assert.NoError(t, gerr)
+}
+
 //
 // ---
 //
@@ -163,6 +254,38 @@ func (tq *testQuery) query(*Params, *form.Values) ([]interface{}, ListContainer,
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
 	return x.v, x.m, x.e
+}
+
+type testV1Query[T any] []struct {
+	v []T
+	m ListContainer
+	e error
+}
+
+func (tq *testV1Query[T]) query(*Params, *form.Values) ([]T, ListContainer, error) {
+	x := (*tq)[0]
+	*tq = (*tq)[1:]
+	return x.v, x.m, x.e
+}
+
+func collectList[T any](it *v1List[T]) ([]*T, error) {
+	var tt []*T
+	var err error
+	it.All()(func(t *T, e error) bool {
+		if e != nil {
+			err = e
+			return false
+		}
+		tt = append(tt, t)
+		return true
+	})
+	return tt, err
+}
+
+func intPtr(i int) *int {
+	intPtr := new(int)
+	*intPtr = i
+	return intPtr
 }
 
 type collectable interface {

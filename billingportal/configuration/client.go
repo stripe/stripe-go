@@ -4,7 +4,7 @@
 //
 //
 
-// Package configuration provides the /billing_portal/configurations APIs
+// Package configuration provides the /v1/billing_portal/configurations APIs
 package configuration
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /billing_portal/configurations APIs.
+// Client is used to invoke /v1/billing_portal/configurations APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

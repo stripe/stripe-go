@@ -4,7 +4,7 @@
 //
 //
 
-// Package financialaccount provides the /treasury/financial_accounts APIs
+// Package financialaccount provides the /v1/treasury/financial_accounts APIs
 package financialaccount
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /treasury/financial_accounts APIs.
+// Client is used to invoke /v1/treasury/financial_accounts APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

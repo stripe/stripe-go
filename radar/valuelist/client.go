@@ -4,7 +4,7 @@
 //
 //
 
-// Package valuelist provides the /radar/value_lists APIs
+// Package valuelist provides the /v1/radar/value_lists APIs
 package valuelist
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /radar/value_lists APIs.
+// Client is used to invoke /v1/radar/value_lists APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

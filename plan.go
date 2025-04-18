@@ -199,6 +199,167 @@ type PlanTransformUsageParams struct {
 	Round *string `form:"round"`
 }
 
+// Deleting plans means new subscribers can't be added. Existing subscribers aren't affected.
+type PlanDeleteParams struct {
+	Params `form:"*"`
+}
+
+// Retrieves the plan with the given ID.
+type PlanRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PlanRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates the specified plan by setting the values of the parameters passed. Any parameters not provided are left unchanged. By design, you cannot change a plan's ID, amount, currency, or billing cycle.
+type PlanUpdateParams struct {
+	Params `form:"*"`
+	// Whether the plan is currently available for new subscriptions.
+	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// A brief description of the plan, hidden from customers.
+	Nickname *string `form:"nickname"`
+	// The product the plan belongs to. This cannot be changed once it has been used in a subscription or subscription schedule.
+	Product *string `form:"product"`
+	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
+	TrialPeriodDays *int64 `form:"trial_period_days"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PlanUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PlanUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+type PlanCreateProductParams struct {
+	// Whether the product is currently available for purchase. Defaults to `true`.
+	Active *bool `form:"active"`
+	// The identifier for the product. Must be unique. If not provided, an identifier will be randomly generated.
+	ID *string `form:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The product's name, meant to be displayable to the customer.
+	Name *string `form:"name"`
+	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
+	//
+	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
+	StatementDescriptor *string `form:"statement_descriptor"`
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
+	TaxCode *string `form:"tax_code"`
+	// A label that represents units of this product. When set, this will be included in customers' receipts, invoices, Checkout, and the customer portal.
+	UnitLabel *string `form:"unit_label"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PlanCreateProductParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+type PlanCreateTierParams struct {
+	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
+	FlatAmount *int64 `form:"flat_amount"`
+	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	// The per unit billing amount for each individual unit for which this tier applies.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
+	UpTo    *int64 `form:"up_to"`
+	UpToInf *bool  `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for PlanCreateTierParams.
+func (p *PlanCreateTierParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.UpToInf) {
+		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
+	}
+}
+
+// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
+type PlanCreateTransformUsageParams struct {
+	// Divide usage by this number.
+	DivideBy *int64 `form:"divide_by"`
+	// After division, either round the result `up` or `down`.
+	Round *string `form:"round"`
+}
+
+// You can now model subscriptions more flexibly using the [Prices API](https://stripe.com/docs/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
+type PlanCreateParams struct {
+	Params `form:"*"`
+	// Whether the plan is currently available for new subscriptions. Defaults to `true`.
+	Active *bool `form:"active"`
+	// A positive integer in cents (or local equivalent) (or 0 for a free plan) representing how much to charge on a recurring basis.
+	Amount *int64 `form:"amount"`
+	// Same as `amount`, but accepts a decimal value with at most 12 decimal places. Only one of `amount` and `amount_decimal` can be set.
+	AmountDecimal *float64 `form:"amount_decimal,high_precision"`
+	// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `amount`) will be charged per unit in `quantity` (for plans with `usage_type=licensed`), or per unit of total usage (for plans with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
+	BillingScheme *string `form:"billing_scheme"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// An identifier randomly generated by Stripe. Used to identify this plan when subscribing a customer. You can optionally override this ID, but the ID must be unique across all plans in your Stripe account. You can, however, use the same plan ID in both live and test modes.
+	ID *string `form:"id"`
+	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The number of intervals between subscription billings. For example, `interval=month` and `interval_count=3` bills every 3 months. Maximum of three years interval allowed (3 years, 36 months, or 156 weeks).
+	IntervalCount *int64 `form:"interval_count"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The meter tracking the usage of a metered price
+	Meter *string `form:"meter"`
+	// A brief description of the plan, hidden from customers.
+	Nickname  *string                  `form:"nickname"`
+	Product   *PlanCreateProductParams `form:"product"`
+	ProductID *string                  `form:"product"`
+	// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
+	Tiers []*PlanCreateTierParams `form:"tiers"`
+	// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price, in `graduated` tiering pricing can successively change as the quantity grows.
+	TiersMode *string `form:"tiers_mode"`
+	// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
+	TransformUsage *PlanCreateTransformUsageParams `form:"transform_usage"`
+	// Default number of trial days when subscribing a customer to this plan using [`trial_from_plan=true`](https://stripe.com/docs/api#create_subscription-trial_from_plan).
+	TrialPeriodDays *int64 `form:"trial_period_days"`
+	// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
+	UsageType *string `form:"usage_type"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PlanCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *PlanCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 type PlanTier struct {
 	// Price for the entire tier.

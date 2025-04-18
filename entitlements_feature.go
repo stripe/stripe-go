@@ -53,6 +53,72 @@ func (p *EntitlementsFeatureParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Creates a feature
+type EntitlementsFeatureCreateParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// A unique key you provide as your own system identifier. This may be up to 80 characters.
+	LookupKey *string `form:"lookup_key"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata"`
+	// The feature's name, for your own purpose, not meant to be displayable to the customer.
+	Name *string `form:"name"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *EntitlementsFeatureCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *EntitlementsFeatureCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Retrieves a feature
+type EntitlementsFeatureRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *EntitlementsFeatureRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Update a feature's metadata or permanently deactivate it.
+type EntitlementsFeatureUpdateParams struct {
+	Params `form:"*"`
+	// Inactive features cannot be attached to new products and will not be returned from the features list endpoint.
+	Active *bool `form:"active"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata"`
+	// The feature's name, for your own purpose, not meant to be displayable to the customer.
+	Name *string `form:"name"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *EntitlementsFeatureUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *EntitlementsFeatureUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // A feature represents a monetizable ability or functionality in your system.
 // Features can be assigned to products, and when those products are purchased, Stripe will create an entitlement to the feature for the purchasing customer.
 type EntitlementsFeature struct {

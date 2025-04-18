@@ -4,7 +4,7 @@
 //
 //
 
-// Package earlyfraudwarning provides the /radar/early_fraud_warnings APIs
+// Package earlyfraudwarning provides the /v1/radar/early_fraud_warnings APIs
 package earlyfraudwarning
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Client is used to invoke /radar/early_fraud_warnings APIs.
+// Client is used to invoke /v1/radar/early_fraud_warnings APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

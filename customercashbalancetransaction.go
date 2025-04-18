@@ -72,6 +72,19 @@ func (p *CustomerCashBalanceTransactionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+type CustomerCashBalanceTransactionRetrieveParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *CustomerCashBalanceTransactionRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 type CustomerCashBalanceTransactionAdjustedForOverdraft struct {
 	// The [Balance Transaction](https://stripe.com/docs/api/balance_transactions/object) that corresponds to funds taken out of your Stripe balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`

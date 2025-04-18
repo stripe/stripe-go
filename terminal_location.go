@@ -49,6 +49,82 @@ func (p *TerminalLocationListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Deletes a Location object.
+type TerminalLocationDeleteParams struct {
+	Params `form:"*"`
+}
+
+// Retrieves a Location object.
+type TerminalLocationRetrieveParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalLocationRetrieveParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Updates a Location object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+type TerminalLocationUpdateParams struct {
+	Params `form:"*"`
+	// The full address of the location. You can't change the location's `country`. If you need to modify the `country` field, create a new `Location` object and re-register any existing readers to that location.
+	Address *AddressParams `form:"address"`
+	// The ID of a configuration that will be used to customize all readers in this location.
+	ConfigurationOverrides *string `form:"configuration_overrides"`
+	// A name for the location.
+	DisplayName *string `form:"display_name"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalLocationUpdateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TerminalLocationUpdateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// Creates a new Location object.
+// For further details, including which address fields are required in each country, see the [Manage locations](https://stripe.com/docs/terminal/fleet/locations) guide.
+type TerminalLocationCreateParams struct {
+	Params `form:"*"`
+	// The full address of the location.
+	Address *AddressParams `form:"address"`
+	// The ID of a configuration that will be used to customize all readers in this location.
+	ConfigurationOverrides *string `form:"configuration_overrides"`
+	// A name for the location. Maximum length is 1000 characters.
+	DisplayName *string `form:"display_name"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalLocationCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TerminalLocationCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // A Location represents a grouping of readers.
 //
 // Related guide: [Fleet management](https://stripe.com/docs/terminal/fleet/locations)
