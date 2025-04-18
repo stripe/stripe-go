@@ -443,17 +443,22 @@ type TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanParams 
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this PaymentIntent.
+// Installment configuration for payments confirmed using this ConfirmationToken.
 type TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsParams struct {
 	// The selected installment plan to use for this payment attempt.
 	// This parameter can only be provided during confirmation.
 	Plan *TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
 }
+
+// Configuration for any card payments confirmed using this ConfirmationToken.
 type TestHelpersConfirmationTokenPaymentMethodOptionsCardParams struct {
-	// Installment configuration for payments attempted on this PaymentIntent.
+	// Installment configuration for payments confirmed using this ConfirmationToken.
 	Installments *TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 }
+
+// Payment-method-specific configuration for this ConfirmationToken.
 type TestHelpersConfirmationTokenPaymentMethodOptionsParams struct {
+	// Configuration for any card payments confirmed using this ConfirmationToken.
 	Card *TestHelpersConfirmationTokenPaymentMethodOptionsCardParams `form:"card"`
 }
 
@@ -475,7 +480,8 @@ type TestHelpersConfirmationTokenParams struct {
 	// ID of an existing PaymentMethod.
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod.
-	PaymentMethodData    *TestHelpersConfirmationTokenPaymentMethodDataParams    `form:"payment_method_data"`
+	PaymentMethodData *TestHelpersConfirmationTokenPaymentMethodDataParams `form:"payment_method_data"`
+	// Payment-method-specific configuration for this ConfirmationToken.
 	PaymentMethodOptions *TestHelpersConfirmationTokenPaymentMethodOptionsParams `form:"payment_method_options"`
 	// Return URL used to confirm the Intent.
 	ReturnURL *string `form:"return_url"`
@@ -929,17 +935,22 @@ type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsPlanP
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this PaymentIntent.
+// Installment configuration for payments confirmed using this ConfirmationToken.
 type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsParams struct {
 	// The selected installment plan to use for this payment attempt.
 	// This parameter can only be provided during confirmation.
 	Plan *TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
 }
+
+// Configuration for any card payments confirmed using this ConfirmationToken.
 type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardParams struct {
-	// Installment configuration for payments attempted on this PaymentIntent.
+	// Installment configuration for payments confirmed using this ConfirmationToken.
 	Installments *TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 }
+
+// Payment-method-specific configuration for this ConfirmationToken.
 type TestHelpersConfirmationTokenCreatePaymentMethodOptionsParams struct {
+	// Configuration for any card payments confirmed using this ConfirmationToken.
 	Card *TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardParams `form:"card"`
 }
 
@@ -961,7 +972,8 @@ type TestHelpersConfirmationTokenCreateParams struct {
 	// ID of an existing PaymentMethod.
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod.
-	PaymentMethodData    *TestHelpersConfirmationTokenCreatePaymentMethodDataParams    `form:"payment_method_data"`
+	PaymentMethodData *TestHelpersConfirmationTokenCreatePaymentMethodDataParams `form:"payment_method_data"`
+	// Payment-method-specific configuration for this ConfirmationToken.
 	PaymentMethodOptions *TestHelpersConfirmationTokenCreatePaymentMethodOptionsParams `form:"payment_method_options"`
 	// Return URL used to confirm the Intent.
 	ReturnURL *string `form:"return_url"`
