@@ -144,7 +144,7 @@ func (it *v1List[T]) All() Seq2[*T, error] {
 			}
 		}
 		if it.err != nil {
-			if !yield(new(T), it.err) {
+			if !yield(nil, it.err) {
 				return
 			}
 		}
