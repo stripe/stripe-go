@@ -324,9 +324,7 @@ func (c TestServer) Search(ctx context.Context, params *SearchParams) Seq2[*Test
 		list := &TestSearchResult{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/something/search", c.Key, []byte(b.Encode()), p, list)
 		ret := make([]*TestEntity, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+		copy(ret, list.Data)
 		return ret, list, err
 	}).All()
 }
