@@ -28,6 +28,15 @@ const (
 	SubscriptionAutomaticTaxLiabilityTypeSelf    SubscriptionAutomaticTaxLiabilityType = "self"
 )
 
+// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+type SubscriptionBillingMode string
+
+// List of values that SubscriptionBillingMode can take
+const (
+	SubscriptionBillingModeCreditsAttributedToDebits SubscriptionBillingMode = "credits_attributed_to_debits"
+	SubscriptionBillingModeLegacyProrations          SubscriptionBillingMode = "legacy_prorations"
+)
+
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 type SubscriptionCancellationDetailsFeedback string
 
@@ -2136,6 +2145,8 @@ type Subscription struct {
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The fixed values used to calculate the `billing_cycle_anchor`.
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
+	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	BillingMode SubscriptionBillingMode `json:"billing_mode"`
 	// A date in the future at which the subscription will automatically get canceled
 	CancelAt int64 `json:"cancel_at"`
 	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period.

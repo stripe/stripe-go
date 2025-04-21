@@ -217,6 +217,15 @@ const (
 	QuoteSubscriptionDataBillingCycleAnchorReset QuoteSubscriptionDataBillingCycleAnchor = "reset"
 )
 
+// The [billing mode](https://stripe.com/api/subscriptions/create#create_subscription-billing_mode) that will be set on the subscription once the quote is accepted.
+type QuoteSubscriptionDataBillingMode string
+
+// List of values that QuoteSubscriptionDataBillingMode can take
+const (
+	QuoteSubscriptionDataBillingModeCreditsAttributedToDebits QuoteSubscriptionDataBillingMode = "credits_attributed_to_debits"
+	QuoteSubscriptionDataBillingModeLegacyProrations          QuoteSubscriptionDataBillingMode = "legacy_prorations"
+)
+
 // Behavior of the subscription schedule and underlying subscription when it ends.
 type QuoteSubscriptionDataEndBehavior string
 
@@ -2997,6 +3006,8 @@ type QuoteSubscriptionData struct {
 	BillingBehavior QuoteSubscriptionDataBillingBehavior `json:"billing_behavior"`
 	// Whether the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor QuoteSubscriptionDataBillingCycleAnchor `json:"billing_cycle_anchor"`
+	// The [billing mode](https://stripe.com/api/subscriptions/create#create_subscription-billing_mode) that will be set on the subscription once the quote is accepted.
+	BillingMode QuoteSubscriptionDataBillingMode `json:"billing_mode"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptance `json:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.

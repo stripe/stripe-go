@@ -24,6 +24,15 @@ const (
 	QuotePreviewSubscriptionScheduleBillingBehaviorProrateUpFront     QuotePreviewSubscriptionScheduleBillingBehavior = "prorate_up_front"
 )
 
+// The [billing mode](https://stripe.com/api/subscriptions/create#create_subscription-billing_mode) that will be used to process all future operations for the subscription schedule.
+type QuotePreviewSubscriptionScheduleBillingMode string
+
+// List of values that QuotePreviewSubscriptionScheduleBillingMode can take
+const (
+	QuotePreviewSubscriptionScheduleBillingModeCreditsAttributedToDebits QuotePreviewSubscriptionScheduleBillingMode = "credits_attributed_to_debits"
+	QuotePreviewSubscriptionScheduleBillingModeLegacyProrations          QuotePreviewSubscriptionScheduleBillingMode = "legacy_prorations"
+)
+
 // If Stripe disabled automatic tax, this enum describes why.
 type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxDisabledReason string
 
@@ -548,6 +557,8 @@ type QuotePreviewSubscriptionSchedule struct {
 	AppliesTo   *QuotePreviewSubscriptionScheduleAppliesTo `json:"applies_to"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior QuotePreviewSubscriptionScheduleBillingBehavior `json:"billing_behavior"`
+	// The [billing mode](https://stripe.com/api/subscriptions/create#create_subscription-billing_mode) that will be used to process all future operations for the subscription schedule.
+	BillingMode QuotePreviewSubscriptionScheduleBillingMode `json:"billing_mode"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
 	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.
