@@ -561,6 +561,8 @@ type ConfirmationTokenPaymentMethodOptions struct {
 	Card *ConfirmationTokenPaymentMethodOptionsCard `json:"card"`
 }
 type ConfirmationTokenPaymentMethodPreviewACSSDebit struct {
+	// Account number of the bank account.
+	AccountNumber string `json:"account_number"`
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.

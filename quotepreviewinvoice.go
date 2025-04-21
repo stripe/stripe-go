@@ -96,7 +96,7 @@ const (
 	QuotePreviewInvoiceCustomerTaxExemptReverse QuotePreviewInvoiceCustomerTaxExempt = "reverse"
 )
 
-// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or `unknown`
+// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 type QuotePreviewInvoiceCustomerTaxIDType string
 
 // List of values that QuotePreviewInvoiceCustomerTaxIDType can take
@@ -109,10 +109,15 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeARCUIT   QuotePreviewInvoiceCustomerTaxIDType = "ar_cuit"
 	QuotePreviewInvoiceCustomerTaxIDTypeAUABN    QuotePreviewInvoiceCustomerTaxIDType = "au_abn"
 	QuotePreviewInvoiceCustomerTaxIDTypeAUARN    QuotePreviewInvoiceCustomerTaxIDType = "au_arn"
+	QuotePreviewInvoiceCustomerTaxIDTypeAwTin    QuotePreviewInvoiceCustomerTaxIDType = "aw_tin"
+	QuotePreviewInvoiceCustomerTaxIDTypeAzTin    QuotePreviewInvoiceCustomerTaxIDType = "az_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeBaTin    QuotePreviewInvoiceCustomerTaxIDType = "ba_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeBbTin    QuotePreviewInvoiceCustomerTaxIDType = "bb_tin"
+	QuotePreviewInvoiceCustomerTaxIDTypeBdBin    QuotePreviewInvoiceCustomerTaxIDType = "bd_bin"
+	QuotePreviewInvoiceCustomerTaxIDTypeBfIfu    QuotePreviewInvoiceCustomerTaxIDType = "bf_ifu"
 	QuotePreviewInvoiceCustomerTaxIDTypeBGUIC    QuotePreviewInvoiceCustomerTaxIDType = "bg_uic"
 	QuotePreviewInvoiceCustomerTaxIDTypeBhVAT    QuotePreviewInvoiceCustomerTaxIDType = "bh_vat"
+	QuotePreviewInvoiceCustomerTaxIDTypeBjIfu    QuotePreviewInvoiceCustomerTaxIDType = "bj_ifu"
 	QuotePreviewInvoiceCustomerTaxIDTypeBOTIN    QuotePreviewInvoiceCustomerTaxIDType = "bo_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeBRCNPJ   QuotePreviewInvoiceCustomerTaxIDType = "br_cnpj"
 	QuotePreviewInvoiceCustomerTaxIDTypeBRCPF    QuotePreviewInvoiceCustomerTaxIDType = "br_cpf"
@@ -128,14 +133,17 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeCHUID    QuotePreviewInvoiceCustomerTaxIDType = "ch_uid"
 	QuotePreviewInvoiceCustomerTaxIDTypeCHVAT    QuotePreviewInvoiceCustomerTaxIDType = "ch_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeCLTIN    QuotePreviewInvoiceCustomerTaxIDType = "cl_tin"
+	QuotePreviewInvoiceCustomerTaxIDTypeCmNiu    QuotePreviewInvoiceCustomerTaxIDType = "cm_niu"
 	QuotePreviewInvoiceCustomerTaxIDTypeCNTIN    QuotePreviewInvoiceCustomerTaxIDType = "cn_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeCONIT    QuotePreviewInvoiceCustomerTaxIDType = "co_nit"
 	QuotePreviewInvoiceCustomerTaxIDTypeCRTIN    QuotePreviewInvoiceCustomerTaxIDType = "cr_tin"
+	QuotePreviewInvoiceCustomerTaxIDTypeCvNif    QuotePreviewInvoiceCustomerTaxIDType = "cv_nif"
 	QuotePreviewInvoiceCustomerTaxIDTypeDEStn    QuotePreviewInvoiceCustomerTaxIDType = "de_stn"
 	QuotePreviewInvoiceCustomerTaxIDTypeDORCN    QuotePreviewInvoiceCustomerTaxIDType = "do_rcn"
 	QuotePreviewInvoiceCustomerTaxIDTypeECRUC    QuotePreviewInvoiceCustomerTaxIDType = "ec_ruc"
 	QuotePreviewInvoiceCustomerTaxIDTypeEGTIN    QuotePreviewInvoiceCustomerTaxIDType = "eg_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeESCIF    QuotePreviewInvoiceCustomerTaxIDType = "es_cif"
+	QuotePreviewInvoiceCustomerTaxIDTypeETTin    QuotePreviewInvoiceCustomerTaxIDType = "et_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeEUOSSVAT QuotePreviewInvoiceCustomerTaxIDType = "eu_oss_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeEUVAT    QuotePreviewInvoiceCustomerTaxIDType = "eu_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeGBVAT    QuotePreviewInvoiceCustomerTaxIDType = "gb_vat"
@@ -152,9 +160,11 @@ const (
 	QuotePreviewInvoiceCustomerTaxIDTypeJPRN     QuotePreviewInvoiceCustomerTaxIDType = "jp_rn"
 	QuotePreviewInvoiceCustomerTaxIDTypeJPTRN    QuotePreviewInvoiceCustomerTaxIDType = "jp_trn"
 	QuotePreviewInvoiceCustomerTaxIDTypeKEPIN    QuotePreviewInvoiceCustomerTaxIDType = "ke_pin"
+	QuotePreviewInvoiceCustomerTaxIDTypeKgTin    QuotePreviewInvoiceCustomerTaxIDType = "kg_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeKhTin    QuotePreviewInvoiceCustomerTaxIDType = "kh_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeKRBRN    QuotePreviewInvoiceCustomerTaxIDType = "kr_brn"
 	QuotePreviewInvoiceCustomerTaxIDTypeKzBin    QuotePreviewInvoiceCustomerTaxIDType = "kz_bin"
+	QuotePreviewInvoiceCustomerTaxIDTypeLaTin    QuotePreviewInvoiceCustomerTaxIDType = "la_tin"
 	QuotePreviewInvoiceCustomerTaxIDTypeLIUID    QuotePreviewInvoiceCustomerTaxIDType = "li_uid"
 	QuotePreviewInvoiceCustomerTaxIDTypeLiVAT    QuotePreviewInvoiceCustomerTaxIDType = "li_vat"
 	QuotePreviewInvoiceCustomerTaxIDTypeMaVAT    QuotePreviewInvoiceCustomerTaxIDType = "ma_vat"
@@ -555,7 +565,7 @@ type QuotePreviewInvoiceCustomField struct {
 
 // The customer's tax IDs. Until the invoice is finalized, this field will contain the same tax IDs as `customer.tax_ids`. Once the invoice is finalized, this field will no longer be updated.
 type QuotePreviewInvoiceCustomerTaxID struct {
-	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, or `unknown`
+	// The type of the tax ID, one of `ad_nrt`, `ar_cuit`, `eu_vat`, `bo_tin`, `br_cnpj`, `br_cpf`, `cn_tin`, `co_nit`, `cr_tin`, `do_rcn`, `ec_ruc`, `eu_oss_vat`, `hr_oib`, `pe_ruc`, `ro_tin`, `rs_pib`, `sv_nit`, `uy_ruc`, `ve_rif`, `vn_tin`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `no_voec`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `jp_trn`, `li_uid`, `li_vat`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, `is_vat`, `bg_uic`, `hu_tin`, `si_tin`, `ke_pin`, `tr_tin`, `eg_tin`, `ph_tin`, `al_tin`, `bh_vat`, `kz_bin`, `ng_tin`, `om_vat`, `de_stn`, `ch_uid`, `tz_vat`, `uz_vat`, `uz_tin`, `md_vat`, `ma_vat`, `by_tin`, `ao_tin`, `bs_tin`, `bb_tin`, `cd_nif`, `mr_nif`, `me_pib`, `zw_tin`, `ba_tin`, `gn_nif`, `mk_vat`, `sr_fin`, `sn_ninea`, `am_tin`, `np_pan`, `tj_tin`, `ug_tin`, `zm_tin`, `kh_tin`, `aw_tin`, `az_tin`, `bd_bin`, `bj_ifu`, `et_tin`, `kg_tin`, `la_tin`, `cm_niu`, `cv_nif`, `bf_ifu`, or `unknown`
 	Type QuotePreviewInvoiceCustomerTaxIDType `json:"type"`
 	// The value of the tax ID.
 	Value string `json:"value"`

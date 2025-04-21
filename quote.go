@@ -887,6 +887,8 @@ type QuoteSubscriptionDataParams struct {
 	BillingBehavior *string `form:"billing_behavior"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// The billing mode to create the quote with. Once a quote that creates a subscription or subscription schedule is accepted,all future operations on the subscription or subscription schedule will be processed based on this billing_mode.
+	BillingMode *string `form:"billing_mode"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -1756,6 +1758,8 @@ type QuoteCreateSubscriptionDataParams struct {
 	BillingBehavior *string `form:"billing_behavior"`
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// The billing mode to create the quote with. Once a quote that creates a subscription or subscription schedule is accepted,all future operations on the subscription or subscription schedule will be processed based on this billing_mode.
+	BillingMode *string `form:"billing_mode"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteCreateSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.

@@ -525,6 +525,8 @@ type SubscriptionScheduleParams struct {
 	Params `form:"*"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
+	// The billing mode that will be used to create the subscription schedule. When the schedule creates a subscription, the subscription's `billing_mode` will be set to the same value as the schedule's `billing_mode`.
+	BillingMode *string `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.
@@ -1295,6 +1297,8 @@ type SubscriptionScheduleCreateParams struct {
 	Params `form:"*"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
+	// The billing mode that will be used to create the subscription schedule. When the schedule creates a subscription, the subscription's `billing_mode` will be set to the same value as the schedule's `billing_mode`.
+	BillingMode *string `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.

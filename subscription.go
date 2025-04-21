@@ -318,7 +318,7 @@ type SubscriptionCancelCancellationDetailsParams struct {
 
 // Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, you can no longer update the subscription or its [metadata](https://stripe.com/metadata).
 //
-// Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://stripe.com/docs/api#delete_invoiceitem). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed.
+// Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://stripe.com/docs/api#delete_invoiceitem). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
 //
 // By default, upon subscription cancellation, Stripe stops automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
 type SubscriptionCancelParams struct {
@@ -355,6 +355,8 @@ type SubscriptionParams struct {
 	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
+	// The billing mode to create the subscription with. Once a subscription has been created with a billing_mode, all future operations on the subscription will be processed based on the billing_mode unless the subscription is migrated to a different version.
+	BillingMode *string `form:"billing_mode"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
@@ -1780,6 +1782,8 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorConfig    *SubscriptionCreateBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                             `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
+	// The billing mode to create the subscription with. Once a subscription has been created with a billing_mode, all future operations on the subscription will be processed based on the billing_mode unless the subscription is migrated to a different version.
+	BillingMode *string `form:"billing_mode"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
