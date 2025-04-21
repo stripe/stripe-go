@@ -195,6 +195,7 @@ const (
 	ErrorCodeStripeTaxInactive                                           ErrorCode = "stripe_tax_inactive"
 	ErrorCodeTLSVersionUnsupported                                       ErrorCode = "tls_version_unsupported"
 	ErrorCodeTaxIDInvalid                                                ErrorCode = "tax_id_invalid"
+	ErrorCodeTaxIDProhibited                                             ErrorCode = "tax_id_prohibited"
 	ErrorCodeTaxesCalculationFailed                                      ErrorCode = "taxes_calculation_failed"
 	ErrorCodeTerminalLocationCountryUnsupported                          ErrorCode = "terminal_location_country_unsupported"
 	ErrorCodeTerminalReaderBusy                                          ErrorCode = "terminal_reader_busy"

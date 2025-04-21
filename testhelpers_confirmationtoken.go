@@ -50,7 +50,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataBancontactParams struct{}
 
-// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -63,6 +63,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -197,13 +199,13 @@ type TestHelpersConfirmationTokenPaymentMethodDataRadarOptionsParams struct {
 	Session *string `form:"session"`
 }
 
-// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams struct{}
 
-// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -266,7 +268,7 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	BACSDebit *TestHelpersConfirmationTokenPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *TestHelpersConfirmationTokenPaymentMethodDataBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *TestHelpersConfirmationTokenPaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams `form:"billing_details"`
@@ -328,11 +330,11 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	PromptPay *TestHelpersConfirmationTokenPaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *TestHelpersConfirmationTokenPaymentMethodDataRadarOptionsParams `form:"radar_options"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *TestHelpersConfirmationTokenPaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *TestHelpersConfirmationTokenPaymentMethodDataSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *TestHelpersConfirmationTokenPaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenPaymentMethodDataSEPADebitParams `form:"sepa_debit"`
@@ -361,6 +363,37 @@ func (p *TestHelpersConfirmationTokenPaymentMethodDataParams) AddMetadata(key st
 	p.Metadata[key] = value
 }
 
+// The selected installment plan to use for this payment attempt.
+// This parameter can only be provided during confirmation.
+type TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanParams struct {
+	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
+	Count *int64 `form:"count"`
+	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
+	// One of `month`.
+	Interval *string `form:"interval"`
+	// Type of installment plan, one of `fixed_count`.
+	Type *string `form:"type"`
+}
+
+// Installment configuration for payments confirmed using this ConfirmationToken.
+type TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsParams struct {
+	// The selected installment plan to use for this payment attempt.
+	// This parameter can only be provided during confirmation.
+	Plan *TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
+}
+
+// Configuration for any card payments confirmed using this ConfirmationToken.
+type TestHelpersConfirmationTokenPaymentMethodOptionsCardParams struct {
+	// Installment configuration for payments confirmed using this ConfirmationToken.
+	Installments *TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
+}
+
+// Payment-method-specific configuration for this ConfirmationToken.
+type TestHelpersConfirmationTokenPaymentMethodOptionsParams struct {
+	// Configuration for any card payments confirmed using this ConfirmationToken.
+	Card *TestHelpersConfirmationTokenPaymentMethodOptionsCardParams `form:"card"`
+}
+
 // Shipping information for this ConfirmationToken.
 type TestHelpersConfirmationTokenShippingParams struct {
 	// Shipping address
@@ -380,6 +413,8 @@ type TestHelpersConfirmationTokenParams struct {
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod.
 	PaymentMethodData *TestHelpersConfirmationTokenPaymentMethodDataParams `form:"payment_method_data"`
+	// Payment-method-specific configuration for this ConfirmationToken.
+	PaymentMethodOptions *TestHelpersConfirmationTokenPaymentMethodOptionsParams `form:"payment_method_options"`
 	// Return URL used to confirm the Intent.
 	ReturnURL *string `form:"return_url"`
 	// Indicates that you intend to make future payments with this ConfirmationToken's payment method.
@@ -439,7 +474,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataBACSDebitParams struct {
 // If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataBancontactParams struct{}
 
-// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataBillieParams struct{}
 
 // Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
@@ -452,6 +487,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams str
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // If this is a `blik` PaymentMethod, this hash contains details about the BLIK payment method.
@@ -586,13 +623,13 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataRadarOptionsParams struc
 	Session *string `form:"session"`
 }
 
-// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataRevolutPayParams struct{}
 
 // If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSamsungPayParams struct{}
 
-// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataSatispayParams struct{}
 
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -655,7 +692,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	BACSDebit *TestHelpersConfirmationTokenCreatePaymentMethodDataBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *TestHelpersConfirmationTokenCreatePaymentMethodDataBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *TestHelpersConfirmationTokenCreatePaymentMethodDataBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *TestHelpersConfirmationTokenCreatePaymentMethodDataBillingDetailsParams `form:"billing_details"`
@@ -717,11 +754,11 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	PromptPay *TestHelpersConfirmationTokenCreatePaymentMethodDataPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *TestHelpersConfirmationTokenCreatePaymentMethodDataRadarOptionsParams `form:"radar_options"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *TestHelpersConfirmationTokenCreatePaymentMethodDataRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *TestHelpersConfirmationTokenCreatePaymentMethodDataSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *TestHelpersConfirmationTokenCreatePaymentMethodDataSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *TestHelpersConfirmationTokenCreatePaymentMethodDataSEPADebitParams `form:"sepa_debit"`
@@ -750,6 +787,37 @@ func (p *TestHelpersConfirmationTokenCreatePaymentMethodDataParams) AddMetadata(
 	p.Metadata[key] = value
 }
 
+// The selected installment plan to use for this payment attempt.
+// This parameter can only be provided during confirmation.
+type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsPlanParams struct {
+	// For `fixed_count` installment plans, this is required. It represents the number of installment payments your customer will make to their credit card.
+	Count *int64 `form:"count"`
+	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
+	// One of `month`.
+	Interval *string `form:"interval"`
+	// Type of installment plan, one of `fixed_count`.
+	Type *string `form:"type"`
+}
+
+// Installment configuration for payments confirmed using this ConfirmationToken.
+type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsParams struct {
+	// The selected installment plan to use for this payment attempt.
+	// This parameter can only be provided during confirmation.
+	Plan *TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
+}
+
+// Configuration for any card payments confirmed using this ConfirmationToken.
+type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardParams struct {
+	// Installment configuration for payments confirmed using this ConfirmationToken.
+	Installments *TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsParams `form:"installments"`
+}
+
+// Payment-method-specific configuration for this ConfirmationToken.
+type TestHelpersConfirmationTokenCreatePaymentMethodOptionsParams struct {
+	// Configuration for any card payments confirmed using this ConfirmationToken.
+	Card *TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardParams `form:"card"`
+}
+
 // Shipping information for this ConfirmationToken.
 type TestHelpersConfirmationTokenCreateShippingParams struct {
 	// Shipping address
@@ -769,6 +837,8 @@ type TestHelpersConfirmationTokenCreateParams struct {
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod.
 	PaymentMethodData *TestHelpersConfirmationTokenCreatePaymentMethodDataParams `form:"payment_method_data"`
+	// Payment-method-specific configuration for this ConfirmationToken.
+	PaymentMethodOptions *TestHelpersConfirmationTokenCreatePaymentMethodOptionsParams `form:"payment_method_options"`
 	// Return URL used to confirm the Intent.
 	ReturnURL *string `form:"return_url"`
 	// Indicates that you intend to make future payments with this ConfirmationToken's payment method.

@@ -1202,6 +1202,8 @@ type PaymentIntentPaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -1234,7 +1236,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *PaymentMethodBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentIntentPaymentMethodDataBillingDetailsParams `form:"billing_details"`
@@ -1296,11 +1298,11 @@ type PaymentIntentPaymentMethodDataParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentPaymentMethodDataRadarOptionsParams `form:"radar_options"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
@@ -1504,6 +1506,16 @@ type PaymentIntentPaymentMethodOptionsBancontactParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
+type PaymentIntentPaymentMethodOptionsBillieParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 }
 
 // If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
@@ -2326,6 +2338,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	BACSDebit *PaymentIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
+	Billie *PaymentIntentPaymentMethodOptionsBillieParams `form:"billie"`
 	// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
 	BLIK *PaymentIntentPaymentMethodOptionsBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -2856,6 +2870,8 @@ type PaymentIntentCreatePaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -2888,7 +2904,7 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *PaymentMethodBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentIntentCreatePaymentMethodDataBillingDetailsParams `form:"billing_details"`
@@ -2950,11 +2966,11 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentCreatePaymentMethodDataRadarOptionsParams `form:"radar_options"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
@@ -3158,6 +3174,16 @@ type PaymentIntentCreatePaymentMethodOptionsBancontactParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
+type PaymentIntentCreatePaymentMethodOptionsBillieParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 }
 
 // If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
@@ -3980,6 +4006,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	BACSDebit *PaymentIntentCreatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
 	Bancontact *PaymentIntentCreatePaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
+	Billie *PaymentIntentCreatePaymentMethodOptionsBillieParams `form:"billie"`
 	// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
 	BLIK *PaymentIntentCreatePaymentMethodOptionsBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -4221,6 +4249,8 @@ type PaymentIntentUpdatePaymentMethodDataBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
@@ -4253,7 +4283,7 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	BACSDebit *PaymentMethodBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
 	Bancontact *PaymentMethodBancontactParams `form:"bancontact"`
-	// If this is a `billie` PaymentMethod, this hash contains details about the billie payment method.
+	// If this is a `billie` PaymentMethod, this hash contains details about the Billie payment method.
 	Billie *PaymentMethodBillieParams `form:"billie"`
 	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
 	BillingDetails *PaymentIntentUpdatePaymentMethodDataBillingDetailsParams `form:"billing_details"`
@@ -4315,11 +4345,11 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	PromptPay *PaymentMethodPromptPayParams `form:"promptpay"`
 	// Options to configure Radar. See [Radar Session](https://stripe.com/docs/radar/radar-session) for more information.
 	RadarOptions *PaymentIntentUpdatePaymentMethodDataRadarOptionsParams `form:"radar_options"`
-	// If this is a `Revolut Pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
+	// If this is a `revolut_pay` PaymentMethod, this hash contains details about the Revolut Pay payment method.
 	RevolutPay *PaymentMethodRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this hash contains details about the SamsungPay payment method.
 	SamsungPay *PaymentMethodSamsungPayParams `form:"samsung_pay"`
-	// If this is a `satispay` PaymentMethod, this hash contains details about the satispay payment method.
+	// If this is a `satispay` PaymentMethod, this hash contains details about the Satispay payment method.
 	Satispay *PaymentMethodSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 	SEPADebit *PaymentMethodSEPADebitParams `form:"sepa_debit"`
@@ -4523,6 +4553,16 @@ type PaymentIntentUpdatePaymentMethodOptionsBancontactParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsBillieParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
 }
 
 // If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
@@ -5345,6 +5385,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	BACSDebit *PaymentIntentUpdatePaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
 	Bancontact *PaymentIntentUpdatePaymentMethodOptionsBancontactParams `form:"bancontact"`
+	// If this is a `billie` PaymentMethod, this sub-hash contains details about the Billie payment method options.
+	Billie *PaymentIntentUpdatePaymentMethodOptionsBillieParams `form:"billie"`
 	// If this is a `blik` PaymentMethod, this sub-hash contains details about the BLIK payment method options.
 	BLIK *PaymentIntentUpdatePaymentMethodOptionsBLIKParams `form:"blik"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -6011,6 +6053,7 @@ type PaymentIntentPaymentMethodOptionsBancontact struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsBillie struct{}
 type PaymentIntentPaymentMethodOptionsBLIK struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -6546,6 +6589,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	AUBECSDebit      *PaymentIntentPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
 	BACSDebit        *PaymentIntentPaymentMethodOptionsBACSDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
+	Billie           *PaymentIntentPaymentMethodOptionsBillie           `json:"billie"`
 	BLIK             *PaymentIntentPaymentMethodOptionsBLIK             `json:"blik"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`

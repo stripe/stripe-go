@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// One of `forever`, `once`, and `repeating`. Describes how long a customer who applies this coupon will get the discount.
+// One of `forever`, `once`, or `repeating`. Describes how long a customer who applies this coupon will get the discount.
 type CouponDuration string
 
 // List of values that CouponDuration can take
@@ -226,7 +226,7 @@ type Coupon struct {
 	// Coupons defined in each available currency option. Each key must be a three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html) and a [supported currency](https://stripe.com/docs/currencies).
 	CurrencyOptions map[string]*CouponCurrencyOptions `json:"currency_options"`
 	Deleted         bool                              `json:"deleted"`
-	// One of `forever`, `once`, and `repeating`. Describes how long a customer who applies this coupon will get the discount.
+	// One of `forever`, `once`, or `repeating`. Describes how long a customer who applies this coupon will get the discount.
 	Duration CouponDuration `json:"duration"`
 	// If `duration` is `repeating`, the number of months the coupon applies. Null if coupon `duration` is `forever` or `once`.
 	DurationInMonths int64 `json:"duration_in_months"`

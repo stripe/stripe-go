@@ -120,6 +120,8 @@ type TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams str
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // Required hash if type is set to `us_bank_account`.
@@ -244,6 +246,8 @@ type TreasuryOutboundPaymentCreateDestinationPaymentMethodDataBillingDetailsPara
 	Name *string `form:"name"`
 	// Billing phone number (including extension).
 	Phone *string `form:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID *string `form:"tax_id"`
 }
 
 // Required hash if type is set to `us_bank_account`.
