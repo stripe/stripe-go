@@ -167,11 +167,13 @@ type V2MoneyManagementOutboundTransfer struct {
 	From *V2MoneyManagementOutboundTransferFrom `json:"from"`
 	// Unique identifier for the OutboundTransfer.
 	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// A hosted transaction receipt URL that is provided when money movement is considered regulated under Stripe's money transmission licenses.
+	// A link to the Stripe-hosted receipt for this OutboundTransfer. The receipt link remains active for 60 days from the OutboundTransfer creation date. After this period, the link will expire and the receipt url value will be null.
 	ReceiptURL string `json:"receipt_url"`
 	// The description that appears on the receiving end for an OutboundTransfer (for example, bank statement for external bank transfer).
 	StatementDescriptor string `json:"statement_descriptor"`

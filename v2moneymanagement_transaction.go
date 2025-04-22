@@ -28,14 +28,13 @@ type V2MoneyManagementTransactionFlowType string
 
 // List of values that V2MoneyManagementTransactionFlowType can take
 const (
-	V2MoneyManagementTransactionFlowTypeAdjustment         V2MoneyManagementTransactionFlowType = "adjustment"
-	V2MoneyManagementTransactionFlowTypeCurrencyConversion V2MoneyManagementTransactionFlowType = "currency_conversion"
-	V2MoneyManagementTransactionFlowTypeFeeTransaction     V2MoneyManagementTransactionFlowType = "fee_transaction"
-	V2MoneyManagementTransactionFlowTypeInboundTransfer    V2MoneyManagementTransactionFlowType = "inbound_transfer"
-	V2MoneyManagementTransactionFlowTypeOutboundPayment    V2MoneyManagementTransactionFlowType = "outbound_payment"
-	V2MoneyManagementTransactionFlowTypeOutboundTransfer   V2MoneyManagementTransactionFlowType = "outbound_transfer"
-	V2MoneyManagementTransactionFlowTypeReceivedCredit     V2MoneyManagementTransactionFlowType = "received_credit"
-	V2MoneyManagementTransactionFlowTypeReceivedDebit      V2MoneyManagementTransactionFlowType = "received_debit"
+	V2MoneyManagementTransactionFlowTypeAdjustment       V2MoneyManagementTransactionFlowType = "adjustment"
+	V2MoneyManagementTransactionFlowTypeFeeTransaction   V2MoneyManagementTransactionFlowType = "fee_transaction"
+	V2MoneyManagementTransactionFlowTypeInboundTransfer  V2MoneyManagementTransactionFlowType = "inbound_transfer"
+	V2MoneyManagementTransactionFlowTypeOutboundPayment  V2MoneyManagementTransactionFlowType = "outbound_payment"
+	V2MoneyManagementTransactionFlowTypeOutboundTransfer V2MoneyManagementTransactionFlowType = "outbound_transfer"
+	V2MoneyManagementTransactionFlowTypeReceivedCredit   V2MoneyManagementTransactionFlowType = "received_credit"
+	V2MoneyManagementTransactionFlowTypeReceivedDebit    V2MoneyManagementTransactionFlowType = "received_debit"
 )
 
 // Closed Enum. Current status of the Transaction.
@@ -109,6 +108,8 @@ type V2MoneyManagementTransaction struct {
 	Flow *V2MoneyManagementTransactionFlow `json:"flow"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// Closed Enum. Current status of the Transaction.

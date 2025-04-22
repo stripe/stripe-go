@@ -48,7 +48,7 @@ type V2MoneyManagementOutboundTransferParams struct {
 	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// Delivery options to be used to send the OutboundTransfer.
 	DeliveryOptions *V2MoneyManagementOutboundTransferDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
-	// An arbitrary string attached to the OutboundTransfer. Often useful for displaying to users.
+	// An arbitrary string attached to the OutboundTransfer. Often useful for displaying to users. The description can not be longer than 100 characters and can only contain basic Latin characters and spaces. The following special characters are not allowed: <>\'"* .
 	Description *string `form:"description" json:"description,omitempty"`
 	// The FinancialAccount to pull funds from.
 	From *V2MoneyManagementOutboundTransferFromParams `form:"from" json:"from,omitempty"`
@@ -126,7 +126,7 @@ type V2MoneyManagementOutboundTransferCreateParams struct {
 	Amount *Amount `form:"amount" json:"amount"`
 	// Delivery options to be used to send the OutboundTransfer.
 	DeliveryOptions *V2MoneyManagementOutboundTransferCreateDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
-	// An arbitrary string attached to the OutboundTransfer. Often useful for displaying to users.
+	// An arbitrary string attached to the OutboundTransfer. Often useful for displaying to users. The description can not be longer than 100 characters and can only contain basic Latin characters and spaces. The following special characters are not allowed: <>\'"* .
 	Description *string `form:"description" json:"description,omitempty"`
 	// The FinancialAccount to pull funds from.
 	From *V2MoneyManagementOutboundTransferCreateFromParams `form:"from" json:"from"`

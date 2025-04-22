@@ -6,9 +6,17 @@
 
 package stripe
 
+// Properties needed to create a FinancialAddress for an FA with USDC currency.
+type V2MoneyManagementFinancialAddressCryptoPropertiesParams struct {
+	// The blockchain network of the crypto wallet.
+	Network *string `form:"network" json:"network"`
+}
+
 // Create a new FinancialAddress for a FinancialAccount.
 type V2MoneyManagementFinancialAddressParams struct {
 	Params `form:"*"`
+	// Properties needed to create a FinancialAddress for an FA with USDC currency.
+	CryptoProperties *V2MoneyManagementFinancialAddressCryptoPropertiesParams `form:"crypto_properties" json:"crypto_properties,omitempty"`
 	// Open Enum. The currency the FinancialAddress should support. Currently, only the `usd` and `gbp` values are supported.
 	Currency *string `form:"currency" json:"currency,omitempty"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.
@@ -28,9 +36,17 @@ type V2MoneyManagementFinancialAddressListParams struct {
 	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
+// Properties needed to create a FinancialAddress for an FA with USDC currency.
+type V2MoneyManagementFinancialAddressCreateCryptoPropertiesParams struct {
+	// The blockchain network of the crypto wallet.
+	Network *string `form:"network" json:"network"`
+}
+
 // Create a new FinancialAddress for a FinancialAccount.
 type V2MoneyManagementFinancialAddressCreateParams struct {
 	Params `form:"*"`
+	// Properties needed to create a FinancialAddress for an FA with USDC currency.
+	CryptoProperties *V2MoneyManagementFinancialAddressCreateCryptoPropertiesParams `form:"crypto_properties" json:"crypto_properties,omitempty"`
 	// Open Enum. The currency the FinancialAddress should support. Currently, only the `usd` and `gbp` values are supported.
 	Currency *string `form:"currency" json:"currency"`
 	// The ID of the FinancialAccount the new FinancialAddress should be associated with.

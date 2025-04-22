@@ -117,6 +117,8 @@ type V2CoreVaultGBBankAccount struct {
 	ID string `json:"id"`
 	// The last 4 digits of the account number or IBAN.
 	Last4 string `json:"last4"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The Sort Code of the bank account.

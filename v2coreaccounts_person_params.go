@@ -164,6 +164,8 @@ type V2CoreAccountsPersonIDNumberParams struct {
 
 // The relationship that this person has with the Account's business or legal entity.
 type V2CoreAccountsPersonRelationshipParams struct {
+	// Whether the individual is an authorizer of the Account's legal entity.
+	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// Indicates whether the person is a director of the associated legal entity.
 	Director *bool `form:"director" json:"director,omitempty"`
 	// Indicates whether the person is an executive of the associated legal entity.
@@ -465,6 +467,8 @@ type V2CoreAccountsPersonCreateIDNumberParams struct {
 
 // The relationship that this person has with the Account's business or legal entity.
 type V2CoreAccountsPersonCreateRelationshipParams struct {
+	// Whether the individual is an authorizer of the Account's legal entity.
+	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// Indicates whether the person is a director of the associated legal entity.
 	Director *bool `form:"director" json:"director,omitempty"`
 	// Indicates whether the person is an executive of the associated legal entity.
@@ -771,6 +775,8 @@ type V2CoreAccountsPersonUpdateIDNumberParams struct {
 
 // The relationship that this person has with the Account's business or legal entity.
 type V2CoreAccountsPersonUpdateRelationshipParams struct {
+	// Whether the individual is an authorizer of the Account's legal entity.
+	Authorizer *bool `form:"authorizer" json:"authorizer,omitempty"`
 	// Indicates whether the person is a director of the associated legal entity.
 	Director *bool `form:"director" json:"director,omitempty"`
 	// Indicates whether the person is an executive of the associated legal entity.

@@ -76,6 +76,7 @@ const (
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityP24Payments              V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "p24_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPaycoPayments            V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "payco_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayNowPayments           V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "paynow_payments"
+	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalancePayouts     V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.payouts"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPayByBankPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "pay_by_bank_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityPromptPayPayments        V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "promptpay_payments"
 	V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapabilityRevolutPayPayments       V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventDataUpdatedCapability = "revolut_pay_payments"
@@ -96,6 +97,7 @@ const (
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsLocal            V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.local"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityBankAccountsWire             V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "bank_accounts.wire"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityCards                        V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "cards"
+	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalancePayouts         V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.payouts"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeBalanceStripeTransfers V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe_balance.stripe_transfers"
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeTransfers              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe.transfers"
 )
@@ -165,6 +167,58 @@ func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V
 type V2CoreAccountLinkCompletedEvent struct {
 	V2RawEvent
 	Data V2CoreAccountLinkCompletedEventData
+}
+
+// V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
+// This event occurs when an account is closed.
+type V2CoreAccountClosedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountClosedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountCreatedEvent is the Go struct for the "v2.core.account.created" event.
+// This event occurs when an account is created.
+type V2CoreAccountCreatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountCreatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountUpdatedEvent is the Go struct for the "v2.core.account.updated" event.
+// This event occurs when an account is updated.
+type V2CoreAccountUpdatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
+// This event occurs when account defaults are created or updated.
+type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
 }
 
 // V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
@@ -303,6 +357,19 @@ func (e V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedOb
 	return e.fetchRelatedObject()
 }
 
+// V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
+// Occurs when an Adjustment is created.
+type V2MoneyManagementAdjustmentCreatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2MoneyManagementAdjustment, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementAdjustment object for the event.
+func (e V2MoneyManagementAdjustmentCreatedEvent) FetchRelatedObject() (*V2MoneyManagementAdjustment, error) {
+	return e.fetchRelatedObject()
+}
+
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
 // This event occurs when there are invalid async usage events for a given meter.
 type V1BillingMeterErrorReportTriggeredEvent struct {
@@ -325,7 +392,7 @@ type V1BillingMeterNoMeterFoundEvent struct {
 }
 
 // V2MoneyManagementFinancialAccountCreatedEvent is the Go struct for the "v2.money_management.financial_account.created" event.
-// Occurs when a financial account is created.
+// Occurs when a FinancialAccount is created.
 type V2MoneyManagementFinancialAccountCreatedEvent struct {
 	V2RawEvent
 	RelatedObject      RelatedObject
@@ -334,6 +401,19 @@ type V2MoneyManagementFinancialAccountCreatedEvent struct {
 
 // FetchRelatedObject fetches the related V2MoneyManagementFinancialAccount object for the event.
 func (e V2MoneyManagementFinancialAccountCreatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementFinancialAccountUpdatedEvent is the Go struct for the "v2.money_management.financial_account.updated" event.
+// Occurs when a FinancialAccount is updated.
+type V2MoneyManagementFinancialAccountUpdatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementFinancialAccount object for the event.
+func (e V2MoneyManagementFinancialAccountUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementFinancialAccount, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -442,6 +522,19 @@ func (e V2MoneyManagementInboundTransferBankDebitSucceededEvent) FetchRelatedObj
 	return e.fetchRelatedObject()
 }
 
+// V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
+// A ping event used to test the connection to an event destination.
+type V2CoreEventDestinationPingEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2EventDestination, error)
+}
+
+// FetchRelatedObject fetches the related V2EventDestination object for the event.
+func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2MoneyManagementOutboundPaymentCanceledEvent is the Go struct for the "v2.money_management.outbound_payment.canceled" event.
 // An OutboundPayment has transitioned into the canceled state.
 type V2MoneyManagementOutboundPaymentCanceledEvent struct {
@@ -507,6 +600,19 @@ func (e V2MoneyManagementOutboundPaymentReturnedEvent) FetchRelatedObject() (*V2
 	return e.fetchRelatedObject()
 }
 
+// V2MoneyManagementOutboundPaymentUpdatedEvent is the Go struct for the "v2.money_management.outbound_payment.updated" event.
+// Event that is emitted every time an Outbound Payment is updated.
+type V2MoneyManagementOutboundPaymentUpdatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundPayment object for the event.
+func (e V2MoneyManagementOutboundPaymentUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundPayment, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2MoneyManagementOutboundTransferCanceledEvent is the Go struct for the "v2.money_management.outbound_transfer.canceled" event.
 // An OutboundTransfer has transitioned into the canceled state.
 type V2MoneyManagementOutboundTransferCanceledEvent struct {
@@ -569,6 +675,19 @@ type V2MoneyManagementOutboundTransferReturnedEvent struct {
 
 // FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
 func (e V2MoneyManagementOutboundTransferReturnedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementOutboundTransferUpdatedEvent is the Go struct for the "v2.money_management.outbound_transfer.updated" event.
+// Event that is emitted every time an Outbound Transfer is updated.
+type V2MoneyManagementOutboundTransferUpdatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementOutboundTransfer object for the event.
+func (e V2MoneyManagementOutboundTransferUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementOutboundTransfer, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -687,6 +806,32 @@ type V2MoneyManagementReceivedDebitUpdatedEvent struct {
 
 // FetchRelatedObject fetches the related V2MoneyManagementReceivedDebit object for the event.
 func (e V2MoneyManagementReceivedDebitUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementReceivedDebit, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementTransactionCreatedEvent is the Go struct for the "v2.money_management.transaction.created" event.
+// Occurs when a Transaction is created.
+type V2MoneyManagementTransactionCreatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementTransaction object for the event.
+func (e V2MoneyManagementTransactionCreatedEvent) FetchRelatedObject() (*V2MoneyManagementTransaction, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2MoneyManagementTransactionUpdatedEvent is the Go struct for the "v2.money_management.transaction.updated" event.
+// Occurs when a Transaction is updated.
+type V2MoneyManagementTransactionUpdatedEvent struct {
+	V2RawEvent
+	RelatedObject      RelatedObject
+	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementTransaction object for the event.
+func (e V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementTransaction, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -860,6 +1005,58 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return nil, err
 		}
 		return result, nil
+	case "v2.core.account.closed":
+		result := &V2CoreAccountClosedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account.created":
+		result := &V2CoreAccountCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account.updated":
+		result := &V2CoreAccountUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account[defaults].updated":
+		result := &V2CoreAccountIncludingDefaultsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.core.account[configuration.customer].capability_status_updated":
 		result := &V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -990,6 +1187,19 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return nil, err
 		}
 		return result, nil
+	case "v2.money_management.adjustment.created":
+		result := &V2MoneyManagementAdjustmentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementAdjustment, error) {
+			v := &V2MoneyManagementAdjustment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v1.billing.meter.error_report_triggered":
 		result := &V1BillingMeterErrorReportTriggeredEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -1012,6 +1222,19 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		return result, nil
 	case "v2.money_management.financial_account.created":
 		result := &V2MoneyManagementFinancialAccountCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
+			v := &V2MoneyManagementFinancialAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.money_management.financial_account.updated":
+		result := &V2MoneyManagementFinancialAccountUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementFinancialAccount, error) {
@@ -1127,6 +1350,19 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return nil, err
 		}
 		return result, nil
+	case "v2.core.event_destination.ping":
+		result := &V2CoreEventDestinationPingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2EventDestination, error) {
+			v := &V2EventDestination{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.money_management.outbound_payment.canceled":
 		result := &V2MoneyManagementOutboundPaymentCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -1192,6 +1428,19 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return nil, err
 		}
 		return result, nil
+	case "v2.money_management.outbound_payment.updated":
+		result := &V2MoneyManagementOutboundPaymentUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundPayment, error) {
+			v := &V2MoneyManagementOutboundPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.money_management.outbound_transfer.canceled":
 		result := &V2MoneyManagementOutboundTransferCanceledEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -1246,6 +1495,19 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		return result, nil
 	case "v2.money_management.outbound_transfer.returned":
 		result := &V2MoneyManagementOutboundTransferReturnedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
+			v := &V2MoneyManagementOutboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.money_management.outbound_transfer.updated":
+		result := &V2MoneyManagementOutboundTransferUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
@@ -1367,6 +1629,32 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.money_management.transaction.created":
+		result := &V2MoneyManagementTransactionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
+			v := &V2MoneyManagementTransaction{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, result); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.money_management.transaction.updated":
+		result := &V2MoneyManagementTransactionUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementTransaction, error) {
+			v := &V2MoneyManagementTransaction{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}

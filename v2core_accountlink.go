@@ -72,6 +72,8 @@ type V2CoreAccountLink struct {
 	Created time.Time `json:"created"`
 	// The timestamp at which this AccountLink will expire.
 	ExpiresAt time.Time `json:"expires_at"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The URL for the AccountLink.

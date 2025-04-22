@@ -28,7 +28,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExemptReverse V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt = "reverse"
 )
 
-// The customer's country as identified by Stripe Tax.
+// The identified tax country of the customer.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry can take
@@ -285,7 +285,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountryZw V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry = "zw"
 )
 
-// The data source used by Stripe Tax to identify the customer's location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource can take
@@ -1699,6 +1699,40 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatus string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatus can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusActive      V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatus = "active"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusPending     V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatus = "pending"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusRestricted  V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatus = "restricted"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusUnsupported V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_country"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolutionContactStripe V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatus string
 
 // List of values that V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatus can take
@@ -2194,6 +2228,40 @@ const (
 )
 
 // The status of the Capability.
+type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusActive      V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus = "active"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusPending     V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus = "pending"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusRestricted  V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus = "restricted"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusUnsupported V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus = "unsupported"
+)
+
+// Machine-readable code explaining the reason for the Capability to be in its current status.
+type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeDeterminingStatus               V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "determining_status"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeRequirementsPastDue             V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "requirements_past_due"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeRequirementsPendingVerification V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "requirements_pending_verification"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "restricted_other"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_business"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_country"
+)
+
+// Machine-readable code explaining how to make the Capability active.
+type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolution string
+
+// List of values that V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolution can take
+const (
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolutionContactStripe V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolution = "contact_stripe"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolutionNoResolution  V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolution = "no_resolution"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolutionProvideInfo   V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolution = "provide_info"
+)
+
+// The status of the Capability.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatus string
 
 // List of values that V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatus can take
@@ -2243,6 +2311,7 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ca_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeChBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ch_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCiBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ci_bank_account"
+	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCryptoWallet  V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "crypto_wallet"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCyBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cy_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDEBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "de_bank_account"
@@ -2466,6 +2535,7 @@ const (
 	V2CoreAccountDefaultsCurrencyUah  V2CoreAccountDefaultsCurrency = "uah"
 	V2CoreAccountDefaultsCurrencyUgx  V2CoreAccountDefaultsCurrency = "ugx"
 	V2CoreAccountDefaultsCurrencyUSD  V2CoreAccountDefaultsCurrency = "usd"
+	V2CoreAccountDefaultsCurrencyUsdb V2CoreAccountDefaultsCurrency = "usdb"
 	V2CoreAccountDefaultsCurrencyUsdc V2CoreAccountDefaultsCurrency = "usdc"
 	V2CoreAccountDefaultsCurrencyUsn  V2CoreAccountDefaultsCurrency = "usn"
 	V2CoreAccountDefaultsCurrencyUyi  V2CoreAccountDefaultsCurrency = "uyi"
@@ -5275,6 +5345,7 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilitySamsungPayPayments           V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "samsung_pay_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilitySEPABankTransferPayments     V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "sepa_bank_transfer_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilitySEPADebitPayments            V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "sepa_debit_payments"
+	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityStripeBalancePayouts         V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "stripe_balance.payouts"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityStripeBalanceStripeTransfers V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "stripe_balance.stripe_transfers"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilitySwishPayments                V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "swish_payments"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapabilityTWINTPayments                V2CoreAccountRequirementsEntryImpactRestrictsCapabilityCapability = "twint_payments"
@@ -5300,16 +5371,6 @@ const (
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityDeadlineStatusCurrentlyDue  V2CoreAccountRequirementsEntryImpactRestrictsCapabilityDeadlineStatus = "currently_due"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityDeadlineStatusEventuallyDue V2CoreAccountRequirementsEntryImpactRestrictsCapabilityDeadlineStatus = "eventually_due"
 	V2CoreAccountRequirementsEntryImpactRestrictsCapabilityDeadlineStatusPastDue       V2CoreAccountRequirementsEntryImpactRestrictsCapabilityDeadlineStatus = "past_due"
-)
-
-// The current status of the requirement's impact.
-type V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadlineStatus string
-
-// List of values that V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadlineStatus can take
-const (
-	V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadlineStatusCurrentlyDue  V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadlineStatus = "currently_due"
-	V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadlineStatusEventuallyDue V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadlineStatus = "eventually_due"
-	V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadlineStatusPastDue       V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadlineStatus = "past_due"
 )
 
 // The current status of the requirement's impact.
@@ -5351,11 +5412,11 @@ const (
 	V2CoreAccountRequirementsSummaryMinimumDeadlineStatusPastDue       V2CoreAccountRequirementsSummaryMinimumDeadlineStatus = "past_due"
 )
 
-// The customer's location as identified by Stripe Tax - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+// The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation struct {
-	// The customer's country as identified by Stripe Tax.
+	// The identified tax country of the customer.
 	Country V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry `json:"country"`
-	// The customer's state, county, province, or region as identified by Stripe Tax.
+	// The identified tax state, county, province, or region of the customer.
 	State string `json:"state"`
 }
 
@@ -5365,9 +5426,9 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTax struct {
 	Exempt V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt `json:"exempt"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress string `json:"ip_address"`
-	// The customer's location as identified by Stripe Tax - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+	// The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 	Location *V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation `json:"location"`
-	// The data source used by Stripe Tax to identify the customer's location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource `json:"location_source"`
 }
 
@@ -6198,6 +6259,30 @@ type V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPayments struct {
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailResolution `json:"resolution"`
+}
+
+// Allows the account to do payouts using their Stripe Balance (/v1/balance).
+type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayouts struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetail `json:"status_details"`
+}
+
+// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
+type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalance struct {
+	// Allows the account to do payouts using their Stripe Balance (/v1/balance).
+	Payouts *V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayouts `json:"payouts"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
 type V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCode `json:"code"`
@@ -6351,6 +6436,8 @@ type V2CoreAccountConfigurationMerchantCapabilities struct {
 	SEPABankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPayments `json:"sepa_bank_transfer_payments"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPayments `json:"sepa_debit_payments"`
+	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
+	StripeBalance *V2CoreAccountConfigurationMerchantCapabilitiesStripeBalance `json:"stripe_balance"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountConfigurationMerchantCapabilitiesSwishPayments `json:"swish_payments"`
 	// Allow the merchant to process TWINT payments.
@@ -6502,6 +6589,24 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCards struct {
 }
 
 // Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetail struct {
+	// Machine-readable code explaining the reason for the Capability to be in its current status.
+	Code V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode `json:"code"`
+	// Machine-readable code explaining how to make the Capability active.
+	Resolution V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailResolution `json:"resolution"`
+}
+
+// Allows the account to do payouts using their Stripe Balance (/v1/balance).
+type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayouts struct {
+	// Whether the Capability has been requested.
+	Requested bool `json:"requested"`
+	// The status of the Capability.
+	Status V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatus `json:"status"`
+	// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
+	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetail `json:"status_details"`
+}
+
+// Additional details regarding the status of the Capability. `status_details` will be empty if the Capability's status is `active`.
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetail struct {
 	// Machine-readable code explaining the reason for the Capability to be in its current status.
 	Code V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCode `json:"code"`
@@ -6509,7 +6614,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers
 	Resolution V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailResolution `json:"resolution"`
 }
 
-// Allows the recipient to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers struct {
 	// Whether the Capability has been requested.
 	Requested bool `json:"requested"`
@@ -6519,9 +6624,11 @@ type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers
 	StatusDetails []*V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetail `json:"status_details"`
 }
 
-// Capabilities that enable the recipient to receive money into their Stripe Balance (/v1/balance).
+// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance struct {
-	// Allows the recipient to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Allows the account to do payouts using their Stripe Balance (/v1/balance).
+	Payouts *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayouts `json:"payouts"`
+	// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 	StripeTransfers *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfers `json:"stripe_transfers"`
 }
 
@@ -6531,7 +6638,7 @@ type V2CoreAccountConfigurationRecipientCapabilities struct {
 	BankAccounts *V2CoreAccountConfigurationRecipientCapabilitiesBankAccounts `json:"bank_accounts"`
 	// Capability that enable OutboundPayments to a debit card linked to this Account.
 	Cards *V2CoreAccountConfigurationRecipientCapabilitiesCards `json:"cards"`
-	// Capabilities that enable the recipient to receive money into their Stripe Balance (/v1/balance).
+	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalance `json:"stripe_balance"`
 }
 
@@ -7031,6 +7138,8 @@ type V2CoreAccountIdentityIndividualIDNumber struct {
 
 // The relationship that this individual has with the Account's identity.
 type V2CoreAccountIdentityIndividualRelationship struct {
+	// Whether the individual is an authorizer of the Account's legal entity.
+	Authorizer bool `json:"authorizer"`
 	// Whether the individual is a director of the Account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
 	Director bool `json:"director"`
 	// Whether the individual has significant responsibility to control, manage, or direct the organization.
@@ -7203,24 +7312,10 @@ type V2CoreAccountRequirementsEntryImpactRestrictsCapability struct {
 	Deadline *V2CoreAccountRequirementsEntryImpactRestrictsCapabilityDeadline `json:"deadline"`
 }
 
-// Details about when in the Account's lifecycle the requirement must be collected by the avoid the earliest specified impact.
-type V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadline struct {
-	// The current status of the requirement's impact.
-	Status V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadlineStatus `json:"status"`
-}
-
-// Details about payouts restrictions that will be enforced if the requirement is not collected and satisfactory to Stripe.
-type V2CoreAccountRequirementsEntryImpactRestrictsPayouts struct {
-	// Details about when in the Account's lifecycle the requirement must be collected by the avoid the earliest specified impact.
-	Deadline *V2CoreAccountRequirementsEntryImpactRestrictsPayoutsDeadline `json:"deadline"`
-}
-
 // A hash describing the impact of not collecting the requirement, or Stripe not being able to verify the collected information.
 type V2CoreAccountRequirementsEntryImpact struct {
 	// The Capabilities that will be restricted if the requirement is not collected and satisfactory to Stripe.
 	RestrictsCapabilities []*V2CoreAccountRequirementsEntryImpactRestrictsCapability `json:"restricts_capabilities"`
-	// Details about payouts restrictions that will be enforced if the requirement is not collected and satisfactory to Stripe.
-	RestrictsPayouts *V2CoreAccountRequirementsEntryImpactRestrictsPayouts `json:"restricts_payouts"`
 }
 
 // The soonest point when the account will be impacted by not providing the requirement.
@@ -7308,6 +7403,8 @@ type V2CoreAccount struct {
 	ID string `json:"id"`
 	// Information about the company, individual, and business represented by the Account.
 	Identity *V2CoreAccountIdentity `json:"identity"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.

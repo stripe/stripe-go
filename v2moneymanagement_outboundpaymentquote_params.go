@@ -40,13 +40,13 @@ type V2MoneyManagementOutboundPaymentQuoteToParams struct {
 type V2MoneyManagementOutboundPaymentQuoteParams struct {
 	Params `form:"*"`
 	// The "presentment amount" to be sent to the recipient.
-	Amount *Amount `form:"amount" json:"amount"`
+	Amount *Amount `form:"amount" json:"amount,omitempty"`
 	// Method to be used to send the OutboundPayment.
 	DeliveryOptions *V2MoneyManagementOutboundPaymentQuoteDeliveryOptionsParams `form:"delivery_options" json:"delivery_options,omitempty"`
 	// Request details about the sender of an OutboundPaymentQuote.
-	From *V2MoneyManagementOutboundPaymentQuoteFromParams `form:"from" json:"from"`
+	From *V2MoneyManagementOutboundPaymentQuoteFromParams `form:"from" json:"from,omitempty"`
 	// Request details about the recipient of an OutboundPaymentQuote.
-	To *V2MoneyManagementOutboundPaymentQuoteToParams `form:"to" json:"to"`
+	To *V2MoneyManagementOutboundPaymentQuoteToParams `form:"to" json:"to,omitempty"`
 }
 
 // Method to be used to send the OutboundPayment.
@@ -90,4 +90,9 @@ type V2MoneyManagementOutboundPaymentQuoteCreateParams struct {
 	From *V2MoneyManagementOutboundPaymentQuoteCreateFromParams `form:"from" json:"from"`
 	// Request details about the recipient of an OutboundPaymentQuote.
 	To *V2MoneyManagementOutboundPaymentQuoteCreateToParams `form:"to" json:"to"`
+}
+
+// Retrieves the details of an existing OutboundPaymentQuote by passing the unique OutboundPaymentQuote ID.
+type V2MoneyManagementOutboundPaymentQuoteRetrieveParams struct {
+	Params `form:"*"`
 }
