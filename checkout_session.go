@@ -5894,7 +5894,7 @@ type CheckoutSession struct {
 	// relevant text on the page, such as the submit button. `submit_type` can only be
 	// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
 	SubmitType CheckoutSessionSubmitType `json:"submit_type"`
-	// The ID of the subscription for Checkout Sessions in `subscription` mode.
+	// The ID of the [Subscription](https://stripe.com/docs/api/subscriptions) for Checkout Sessions in `subscription` mode.
 	Subscription *Subscription `json:"subscription"`
 	// The URL the customer will be directed to after the payment or
 	// subscription creation is successful.
