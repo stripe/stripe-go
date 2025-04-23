@@ -994,14 +994,11 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.core.account_link.completed":
 		result := &V2CoreAccountLinkCompletedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1014,9 +1011,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.core.account.created":
 		result := &V2CoreAccountCreatedEvent{}
@@ -1026,9 +1020,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2CoreAccount{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.core.account.updated":
@@ -1040,9 +1031,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.core.account[defaults].updated":
 		result := &V2CoreAccountIncludingDefaultsUpdatedEvent{}
@@ -1052,9 +1040,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2CoreAccount{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.core.account[configuration.customer].capability_status_updated":
@@ -1066,7 +1051,7 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1079,9 +1064,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.core.account[identity].updated":
 		result := &V2CoreAccountIncludingIdentityUpdatedEvent{}
@@ -1091,9 +1073,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2CoreAccount{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.core.account_person.created":
@@ -1105,7 +1084,7 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1118,7 +1097,7 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1131,7 +1110,7 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1144,7 +1123,7 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1157,9 +1136,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.core.account[configuration.recipient].capability_status_updated":
 		result := &V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent{}
@@ -1170,7 +1146,7 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1183,9 +1159,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.adjustment.created":
 		result := &V2MoneyManagementAdjustmentCreatedEvent{}
@@ -1195,9 +1168,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementAdjustment{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v1.billing.meter.error_report_triggered":
@@ -1209,14 +1179,14 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
 	case "v1.billing.meter.no_meter_found":
 		result := &V1BillingMeterNoMeterFoundEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1229,9 +1199,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.financial_account.updated":
 		result := &V2MoneyManagementFinancialAccountUpdatedEvent{}
@@ -1241,9 +1208,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementFinancialAccount{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.financial_address.activated":
@@ -1255,9 +1219,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.financial_address.failed":
 		result := &V2MoneyManagementFinancialAddressFailedEvent{}
@@ -1267,9 +1228,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementFinancialAddress{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.inbound_transfer.available":
@@ -1281,7 +1239,7 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1294,9 +1252,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.inbound_transfer.bank_debit_processing":
 		result := &V2MoneyManagementInboundTransferBankDebitProcessingEvent{}
@@ -1306,9 +1261,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementInboundTransfer{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.inbound_transfer.bank_debit_queued":
@@ -1320,9 +1272,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.inbound_transfer.bank_debit_returned":
 		result := &V2MoneyManagementInboundTransferBankDebitReturnedEvent{}
@@ -1332,9 +1281,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementInboundTransfer{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.inbound_transfer.bank_debit_succeeded":
@@ -1346,9 +1292,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.core.event_destination.ping":
 		result := &V2CoreEventDestinationPingEvent{}
@@ -1358,9 +1301,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2EventDestination{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.outbound_payment.canceled":
@@ -1372,9 +1312,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.outbound_payment.created":
 		result := &V2MoneyManagementOutboundPaymentCreatedEvent{}
@@ -1384,9 +1321,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementOutboundPayment{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.outbound_payment.failed":
@@ -1398,9 +1332,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.outbound_payment.posted":
 		result := &V2MoneyManagementOutboundPaymentPostedEvent{}
@@ -1410,9 +1341,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementOutboundPayment{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.outbound_payment.returned":
@@ -1424,9 +1352,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.outbound_payment.updated":
 		result := &V2MoneyManagementOutboundPaymentUpdatedEvent{}
@@ -1436,9 +1361,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementOutboundPayment{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.outbound_transfer.canceled":
@@ -1450,9 +1372,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.outbound_transfer.created":
 		result := &V2MoneyManagementOutboundTransferCreatedEvent{}
@@ -1462,9 +1381,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementOutboundTransfer{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.outbound_transfer.failed":
@@ -1476,9 +1392,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.outbound_transfer.posted":
 		result := &V2MoneyManagementOutboundTransferPostedEvent{}
@@ -1488,9 +1401,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementOutboundTransfer{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.outbound_transfer.returned":
@@ -1502,9 +1412,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.outbound_transfer.updated":
 		result := &V2MoneyManagementOutboundTransferUpdatedEvent{}
@@ -1514,9 +1421,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementOutboundTransfer{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.received_credit.available":
@@ -1528,7 +1432,7 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -1541,9 +1445,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.received_credit.returned":
 		result := &V2MoneyManagementReceivedCreditReturnedEvent{}
@@ -1553,9 +1454,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementReceivedCredit{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.received_credit.succeeded":
@@ -1567,9 +1465,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.received_debit.canceled":
 		result := &V2MoneyManagementReceivedDebitCanceledEvent{}
@@ -1579,9 +1474,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementReceivedDebit{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.received_debit.failed":
@@ -1593,9 +1485,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.received_debit.pending":
 		result := &V2MoneyManagementReceivedDebitPendingEvent{}
@@ -1605,9 +1494,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementReceivedDebit{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.received_debit.succeeded":
@@ -1619,9 +1505,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.received_debit.updated":
 		result := &V2MoneyManagementReceivedDebitUpdatedEvent{}
@@ -1631,9 +1514,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementReceivedDebit{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	case "v2.money_management.transaction.created":
@@ -1645,9 +1525,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
-		}
 		return result, nil
 	case "v2.money_management.transaction.updated":
 		result := &V2MoneyManagementTransactionUpdatedEvent{}
@@ -1657,9 +1534,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2MoneyManagementTransaction{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	default:
