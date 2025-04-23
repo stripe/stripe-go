@@ -63,8 +63,8 @@ type V2RawEvent struct {
 // This event occurs when there are invalid async usage events for a given meter.
 type V1BillingMeterErrorReportTriggeredEvent struct {
 	V2BaseEvent
-	Data               V1BillingMeterErrorReportTriggeredEventData
-	RelatedObject      RelatedObject
+	Data               V1BillingMeterErrorReportTriggeredEventData `json:"data"`
+	RelatedObject      RelatedObject                               `json:"related_object"`
 	fetchRelatedObject func() (*BillingMeter, error)
 }
 
@@ -77,14 +77,14 @@ func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingM
 // This event occurs when async usage events have missing or invalid meter ids.
 type V1BillingMeterNoMeterFoundEvent struct {
 	V2BaseEvent
-	Data V1BillingMeterNoMeterFoundEventData
+	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
 }
 
 // V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
 // A ping event used to test the connection to an event destination.
 type V2CoreEventDestinationPingEvent struct {
 	V2BaseEvent
-	RelatedObject      RelatedObject
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2EventDestination, error)
 }
 
@@ -194,14 +194,14 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
 	case "v1.billing.meter.no_meter_found":
 		result := &V1BillingMeterNoMeterFoundEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
@@ -213,9 +213,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			v := &V2EventDestination{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
-		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
-			return nil, err
 		}
 		return result, nil
 	default:
