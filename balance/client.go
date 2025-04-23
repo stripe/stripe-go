@@ -10,7 +10,7 @@ package balance
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v82"
+	stripe "github.com/max-cape/stripe-go-test"
 )
 
 // Client is used to invoke /v1/balance APIs.

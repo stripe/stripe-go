@@ -3,10 +3,10 @@ package account_test
 import (
 	"testing"
 
+	stripe "github.com/max-cape/stripe-go-test"
+	"github.com/max-cape/stripe-go-test/client"
+	. "github.com/max-cape/stripe-go-test/testing"
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/client"
-	. "github.com/stripe/stripe-go/v82/testing"
 )
 
 func TestAccountDel(t *testing.T) {

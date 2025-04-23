@@ -7,8 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/max-cape/stripe-go-test/form"
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v82/form"
 )
 
 var nextPageTestToken = "next_page_test_token"

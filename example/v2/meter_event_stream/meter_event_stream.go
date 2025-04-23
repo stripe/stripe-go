@@ -18,8 +18,8 @@ import (
 	"os"
 	"time"
 
-	stripe "github.com/stripe/stripe-go/v82"
-	rawrequest "github.com/stripe/stripe-go/v82/rawrequest"
+	stripe "github.com/max-cape/stripe-go-test"
+	rawrequest "github.com/max-cape/stripe-go-test/rawrequest"
 )
 
 var sessionAuthToken string = ""

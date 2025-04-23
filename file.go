@@ -9,7 +9,7 @@ package stripe
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/max-cape/stripe-go-test/form"
 	"io"
 	"mime/multipart"
 	"net/url"

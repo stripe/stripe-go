@@ -7,10 +7,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/max-cape/stripe-go-test"
+	"github.com/max-cape/stripe-go-test/client"
+	. "github.com/max-cape/stripe-go-test/testing"
 	"github.com/stretchr/testify/assert"
-	"github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/client"
-	. "github.com/stripe/stripe-go/v82/testing"
 )
 
 type Assertion func(*testing.T, *http.Request)

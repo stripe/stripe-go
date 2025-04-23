@@ -3,7 +3,7 @@ package stripe
 import (
 	"reflect"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/max-cape/stripe-go-test/form"
 )
 
 // Iter provides a convenient interface

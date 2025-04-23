@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stripe/stripe-go/v82"
+	"github.com/max-cape/stripe-go-test"
 )
 
 var testPayload = []byte(fmt.Sprintf(`{

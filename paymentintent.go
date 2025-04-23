@@ -2720,6 +2720,8 @@ type PaymentIntentConfirmParams struct {
 	Shipping *ShippingDetailsParams `form:"shipping"`
 	// Set to `true` when confirming server-side and using Stripe.js, iOS, or Android client-side SDKs to handle the next actions.
 	UseStripeSDK *bool `form:"use_stripe_sdk"`
+
+	ClientSecret *string `form:"client_secret"`
 }
 
 // AddExpand appends a new field to expand.

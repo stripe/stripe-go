@@ -10,8 +10,8 @@ package countryspec
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/form"
+	stripe "github.com/max-cape/stripe-go-test"
+	"github.com/max-cape/stripe-go-test/form"
 )
 
 // Client is used to invoke /v1/country_specs APIs.

@@ -16,9 +16,9 @@ import (
 	"os"
 	"testing"
 
+	stripe "github.com/max-cape/stripe-go-test"
+	_ "github.com/max-cape/stripe-go-test/testing"
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	_ "github.com/stripe/stripe-go/v82/testing"
 )
 
 const (

@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/max-cape/stripe-go-test/form"
 )
 
 //

@@ -9,11 +9,11 @@ import (
 
 	"fmt"
 
+	stripe "github.com/max-cape/stripe-go-test"
+	"github.com/max-cape/stripe-go-test/client"
+	"github.com/max-cape/stripe-go-test/mock"
+	. "github.com/max-cape/stripe-go-test/testing"
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/client"
-	"github.com/stripe/stripe-go/v82/mock"
-	. "github.com/stripe/stripe-go/v82/testing"
 )
 
 func TestEventDestinationNew(t *testing.T) {

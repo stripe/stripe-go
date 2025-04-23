@@ -8,7 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v82/form"
+	"github.com/max-cape/stripe-go-test/form"
 )
 
 // If Stripe disabled automatic tax, this enum describes why.

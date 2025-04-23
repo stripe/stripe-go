@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
+	stripe "github.com/max-cape/stripe-go-test"
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v82"
 )
 
 type APIResource = stripe.APIResource

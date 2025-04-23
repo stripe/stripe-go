@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
+	"github.com/max-cape/stripe-go-test/form"
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v82/form"
 )
 
 func TestSubscriptionScheduleParams_AppendTo(t *testing.T) {

@@ -12,9 +12,9 @@ import (
 	"strings"
 	"testing"
 
+	stripe "github.com/max-cape/stripe-go-test"
+	"github.com/max-cape/stripe-go-test/form"
 	"github.com/stretchr/testify/assert"
-	stripe "github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/form"
 	"golang.org/x/net/http2"
 )
 

@@ -3,8 +3,8 @@ package stripe
 import (
 	"testing"
 
+	"github.com/max-cape/stripe-go-test/form"
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/v82/form"
 )
 
 func TestFileLinkParams_AppendTo(t *testing.T) {
