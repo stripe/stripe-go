@@ -212,12 +212,17 @@ func TestEventDestinationEnable(t *testing.T) {
 func TestEventDestinationPing(t *testing.T) {
 	timeNow := time.Now()
 	testServer, sc := mock.Server(t, string(http.MethodPost), "/v2/core/event_destinations/evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92/ping", nil, func(p *stripe.V2CoreEventDestinationParams) []byte {
-		data, err := json.Marshal(stripe.V2RawEvent{V2BaseEvent: stripe.V2BaseEvent{
-			ID:      "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92",
-			Created: timeNow,
-			Object:  "v2.core.event",
-			Type:    "v2.core.event_destination.ping",
-		}})
+		data, err := json.Marshal(stripe.V2RawEvent{
+			V2BaseEvent: stripe.V2BaseEvent{
+				ID:      "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92",
+				Created: timeNow,
+				Object:  "v2.core.event",
+				Type:    "v2.core.event_destination.ping",
+			},
+			RelatedObject: &stripe.RelatedObject{
+				ID: "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92",
+			},
+		})
 		assert.NoError(t, err)
 		return data
 	})
