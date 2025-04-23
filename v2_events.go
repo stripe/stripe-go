@@ -181,14 +181,14 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
 	case "v1.billing.meter.no_meter_found":
 		result := &V1BillingMeterNoMeterFoundEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
-		if err := json.Unmarshal(*event.Data, result); err != nil {
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
 		}
 		return result, nil
