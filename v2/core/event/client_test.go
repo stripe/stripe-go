@@ -18,15 +18,10 @@ func TestEventGet(t *testing.T) {
 	params := stripe.V2CoreEventParams{}
 	testServer, sc := mock.Server(t, string(http.MethodGet), "/v2/core/events/evt_123", nil, func(p *stripe.V2CoreEventParams) []byte {
 		data, err := json.Marshal(stripe.V1BillingMeterErrorReportTriggeredEvent{
-			V2RawEvent: stripe.V2RawEvent{
-				V2BaseEvent: stripe.V2BaseEvent{
-					Created: timeNow,
-					ID:      "evt_123",
-					Type:    "v1.billing.meter.error_report_triggered",
-				},
-				RelatedObject: &stripe.RelatedObject{
-					ID: "ro_123",
-				},
+			V2BaseEvent: stripe.V2BaseEvent{
+				Created: timeNow,
+				ID:      "evt_123",
+				Type:    "v1.billing.meter.error_report_triggered",
 			},
 			Data: stripe.V1BillingMeterErrorReportTriggeredEventData{
 				DeveloperMessageSummary: "This is a developer message",
@@ -58,15 +53,10 @@ func TestEventAll(t *testing.T) {
 		data, err := json.Marshal(stripe.V2Page[stripe.V2Event]{
 			Data: []stripe.V2Event{
 				&stripe.V1BillingMeterErrorReportTriggeredEvent{
-					V2RawEvent: stripe.V2RawEvent{
-						V2BaseEvent: stripe.V2BaseEvent{
-							Created: timeNow,
-							ID:      "evt_1",
-							Type:    "v1.billing.meter.error_report_triggered",
-						},
-						RelatedObject: &stripe.RelatedObject{
-							ID: "ro_123",
-						},
+					V2BaseEvent: stripe.V2BaseEvent{
+						Created: timeNow,
+						ID:      "evt_1",
+						Type:    "v1.billing.meter.error_report_triggered",
 					},
 					Data: stripe.V1BillingMeterErrorReportTriggeredEventData{
 						DeveloperMessageSummary: "This is a developer message",
@@ -76,24 +66,20 @@ func TestEventAll(t *testing.T) {
 					},
 				},
 				&stripe.V1BillingMeterNoMeterFoundEvent{
-					V2RawEvent: stripe.V2RawEvent{
-						V2BaseEvent: stripe.V2BaseEvent{
-							Created: timeNow,
-							ID:      "evt_2",
-							Type:    "v1.billing.meter.no_meter_found",
-						},
+					V2BaseEvent: stripe.V2BaseEvent{
+						Created: timeNow,
+						ID:      "evt_2",
+						Type:    "v1.billing.meter.no_meter_found",
 					},
 					Data: stripe.V1BillingMeterNoMeterFoundEventData{
 						DeveloperMessageSummary: "This is another developer message",
 					},
 				},
 				&stripe.V1BillingMeterNoMeterFoundEvent{
-					V2RawEvent: stripe.V2RawEvent{
-						V2BaseEvent: stripe.V2BaseEvent{
-							Created: timeNow,
-							ID:      "evt_3",
-							Type:    "v1.billing.meter.no_meter_found",
-						},
+					V2BaseEvent: stripe.V2BaseEvent{
+						Created: timeNow,
+						ID:      "evt_3",
+						Type:    "v1.billing.meter.no_meter_found",
 					},
 					Data: stripe.V1BillingMeterNoMeterFoundEventData{
 						DeveloperMessageSummary: "This is yet another developer message",
