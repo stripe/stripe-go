@@ -152,8 +152,8 @@ type V2RawEvent struct {
 // V2CoreAccountIncludingRequirementsUpdatedEvent is the Go struct for the "v2.core.account[requirements].updated" event.
 // This event occurs when the account's requirements are updated.
 type V2CoreAccountIncludingRequirementsUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -165,15 +165,15 @@ func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V
 // V2CoreAccountLinkCompletedEvent is the Go struct for the "v2.core.account_link.completed" event.
 // The generated account link has been completed.
 type V2CoreAccountLinkCompletedEvent struct {
-	V2RawEvent
-	Data V2CoreAccountLinkCompletedEventData
+	V2BaseEvent
+	Data V2CoreAccountLinkCompletedEventData `json:"data"`
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
 // This event occurs when an account is closed.
 type V2CoreAccountClosedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -185,8 +185,8 @@ func (e V2CoreAccountClosedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
 // V2CoreAccountCreatedEvent is the Go struct for the "v2.core.account.created" event.
 // This event occurs when an account is created.
 type V2CoreAccountCreatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -198,8 +198,8 @@ func (e V2CoreAccountCreatedEvent) FetchRelatedObject() (*V2CoreAccount, error) 
 // V2CoreAccountUpdatedEvent is the Go struct for the "v2.core.account.updated" event.
 // This event occurs when an account is updated.
 type V2CoreAccountUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -211,8 +211,8 @@ func (e V2CoreAccountUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) 
 // V2CoreAccountIncludingDefaultsUpdatedEvent is the Go struct for the "v2.core.account[defaults].updated" event.
 // This event occurs when account defaults are created or updated.
 type V2CoreAccountIncludingDefaultsUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -224,9 +224,9 @@ func (e V2CoreAccountIncludingDefaultsUpdatedEvent) FetchRelatedObject() (*V2Cor
 // V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].capability_status_updated" event.
 // The status of a customer config capability was updated.
 type V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent struct {
-	V2RawEvent
-	Data               V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                               `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -238,8 +238,8 @@ func (e V2CoreAccountIncludingConfigurationCustomerCapabilityStatusUpdatedEvent)
 // V2CoreAccountIncludingConfigurationCustomerUpdatedEvent is the Go struct for the "v2.core.account[configuration.customer].updated" event.
 // A customer config was updated.
 type V2CoreAccountIncludingConfigurationCustomerUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -251,8 +251,8 @@ func (e V2CoreAccountIncludingConfigurationCustomerUpdatedEvent) FetchRelatedObj
 // V2CoreAccountIncludingIdentityUpdatedEvent is the Go struct for the "v2.core.account[identity].updated" event.
 // This event occurs when identity is updated.
 type V2CoreAccountIncludingIdentityUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -264,9 +264,9 @@ func (e V2CoreAccountIncludingIdentityUpdatedEvent) FetchRelatedObject() (*V2Cor
 // V2CoreAccountPersonCreatedEvent is the Go struct for the "v2.core.account_person.created" event.
 // This event occurs when a person is created.
 type V2CoreAccountPersonCreatedEvent struct {
-	V2RawEvent
-	Data               V2CoreAccountPersonCreatedEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V2CoreAccountPersonCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                       `json:"related_object"`
 	fetchRelatedObject func() (*V2CorePerson, error)
 }
 
@@ -278,9 +278,9 @@ func (e V2CoreAccountPersonCreatedEvent) FetchRelatedObject() (*V2CorePerson, er
 // V2CoreAccountPersonDeletedEvent is the Go struct for the "v2.core.account_person.deleted" event.
 // This event occurs when a person is deleted.
 type V2CoreAccountPersonDeletedEvent struct {
-	V2RawEvent
-	Data               V2CoreAccountPersonDeletedEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V2CoreAccountPersonDeletedEventData `json:"data"`
+	RelatedObject      RelatedObject                       `json:"related_object"`
 	fetchRelatedObject func() (*V2CorePerson, error)
 }
 
@@ -292,9 +292,9 @@ func (e V2CoreAccountPersonDeletedEvent) FetchRelatedObject() (*V2CorePerson, er
 // V2CoreAccountPersonUpdatedEvent is the Go struct for the "v2.core.account_person.updated" event.
 // This event occurs when a person is updated.
 type V2CoreAccountPersonUpdatedEvent struct {
-	V2RawEvent
-	Data               V2CoreAccountPersonUpdatedEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V2CoreAccountPersonUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                       `json:"related_object"`
 	fetchRelatedObject func() (*V2CorePerson, error)
 }
 
@@ -306,9 +306,9 @@ func (e V2CoreAccountPersonUpdatedEvent) FetchRelatedObject() (*V2CorePerson, er
 // V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].capability_status_updated" event.
 // The status of a merchant config capability was updated.
 type V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent struct {
-	V2RawEvent
-	Data               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                               `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -320,8 +320,8 @@ func (e V2CoreAccountIncludingConfigurationMerchantCapabilityStatusUpdatedEvent)
 // V2CoreAccountIncludingConfigurationMerchantUpdatedEvent is the Go struct for the "v2.core.account[configuration.merchant].updated" event.
 // A merchant config was updated.
 type V2CoreAccountIncludingConfigurationMerchantUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -333,9 +333,9 @@ func (e V2CoreAccountIncludingConfigurationMerchantUpdatedEvent) FetchRelatedObj
 // V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].capability_status_updated" event.
 // The status of a recipient config capability was updated.
 type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent struct {
-	V2RawEvent
-	Data               V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                                `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -347,8 +347,8 @@ func (e V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEvent
 // V2CoreAccountIncludingConfigurationRecipientUpdatedEvent is the Go struct for the "v2.core.account[configuration.recipient].updated" event.
 // A recipient config was updated.
 type V2CoreAccountIncludingConfigurationRecipientUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2CoreAccount, error)
 }
 
@@ -360,8 +360,8 @@ func (e V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedOb
 // V2MoneyManagementAdjustmentCreatedEvent is the Go struct for the "v2.money_management.adjustment.created" event.
 // Occurs when an Adjustment is created.
 type V2MoneyManagementAdjustmentCreatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementAdjustment, error)
 }
 
@@ -373,9 +373,9 @@ func (e V2MoneyManagementAdjustmentCreatedEvent) FetchRelatedObject() (*V2MoneyM
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
 // This event occurs when there are invalid async usage events for a given meter.
 type V1BillingMeterErrorReportTriggeredEvent struct {
-	V2RawEvent
-	Data               V1BillingMeterErrorReportTriggeredEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V1BillingMeterErrorReportTriggeredEventData `json:"data"`
+	RelatedObject      RelatedObject                               `json:"related_object"`
 	fetchRelatedObject func() (*BillingMeter, error)
 }
 
@@ -387,15 +387,15 @@ func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingM
 // V1BillingMeterNoMeterFoundEvent is the Go struct for the "v1.billing.meter.no_meter_found" event.
 // This event occurs when async usage events have missing or invalid meter ids.
 type V1BillingMeterNoMeterFoundEvent struct {
-	V2RawEvent
-	Data V1BillingMeterNoMeterFoundEventData
+	V2BaseEvent
+	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
 }
 
 // V2MoneyManagementFinancialAccountCreatedEvent is the Go struct for the "v2.money_management.financial_account.created" event.
 // Occurs when a FinancialAccount is created.
 type V2MoneyManagementFinancialAccountCreatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
 }
 
@@ -407,8 +407,8 @@ func (e V2MoneyManagementFinancialAccountCreatedEvent) FetchRelatedObject() (*V2
 // V2MoneyManagementFinancialAccountUpdatedEvent is the Go struct for the "v2.money_management.financial_account.updated" event.
 // Occurs when a FinancialAccount is updated.
 type V2MoneyManagementFinancialAccountUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAccount, error)
 }
 
@@ -420,8 +420,8 @@ func (e V2MoneyManagementFinancialAccountUpdatedEvent) FetchRelatedObject() (*V2
 // V2MoneyManagementFinancialAddressActivatedEvent is the Go struct for the "v2.money_management.financial_address.activated" event.
 // The FinancialAddress is now active and ready to receive funds using the credentials provided.
 type V2MoneyManagementFinancialAddressActivatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
 }
 
@@ -433,8 +433,8 @@ func (e V2MoneyManagementFinancialAddressActivatedEvent) FetchRelatedObject() (*
 // V2MoneyManagementFinancialAddressFailedEvent is the Go struct for the "v2.money_management.financial_address.failed" event.
 // The FinancialAddress could not be activated and can not receive funds.
 type V2MoneyManagementFinancialAddressFailedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementFinancialAddress, error)
 }
 
@@ -446,9 +446,9 @@ func (e V2MoneyManagementFinancialAddressFailedEvent) FetchRelatedObject() (*V2M
 // V2MoneyManagementInboundTransferAvailableEvent is the Go struct for the "v2.money_management.inbound_transfer.available" event.
 // Funds from an InboundTransfer were just made available.
 type V2MoneyManagementInboundTransferAvailableEvent struct {
-	V2RawEvent
-	Data               V2MoneyManagementInboundTransferAvailableEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V2MoneyManagementInboundTransferAvailableEventData `json:"data"`
+	RelatedObject      RelatedObject                                      `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -460,8 +460,8 @@ func (e V2MoneyManagementInboundTransferAvailableEvent) FetchRelatedObject() (*V
 // V2MoneyManagementInboundTransferBankDebitFailedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_failed" event.
 // An InboundTransfer failed.
 type V2MoneyManagementInboundTransferBankDebitFailedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -473,8 +473,8 @@ func (e V2MoneyManagementInboundTransferBankDebitFailedEvent) FetchRelatedObject
 // V2MoneyManagementInboundTransferBankDebitProcessingEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_processing" event.
 // An InboundTransfer is now processing.
 type V2MoneyManagementInboundTransferBankDebitProcessingEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -486,8 +486,8 @@ func (e V2MoneyManagementInboundTransferBankDebitProcessingEvent) FetchRelatedOb
 // V2MoneyManagementInboundTransferBankDebitQueuedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_queued" event.
 // An InboundTransfer has been queued.
 type V2MoneyManagementInboundTransferBankDebitQueuedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -499,8 +499,8 @@ func (e V2MoneyManagementInboundTransferBankDebitQueuedEvent) FetchRelatedObject
 // V2MoneyManagementInboundTransferBankDebitReturnedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_returned" event.
 // An InboundTransfer was returned.
 type V2MoneyManagementInboundTransferBankDebitReturnedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -512,8 +512,8 @@ func (e V2MoneyManagementInboundTransferBankDebitReturnedEvent) FetchRelatedObje
 // V2MoneyManagementInboundTransferBankDebitSucceededEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_succeeded" event.
 // An InboundTransfer succeeded.
 type V2MoneyManagementInboundTransferBankDebitSucceededEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementInboundTransfer, error)
 }
 
@@ -525,8 +525,8 @@ func (e V2MoneyManagementInboundTransferBankDebitSucceededEvent) FetchRelatedObj
 // V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
 // A ping event used to test the connection to an event destination.
 type V2CoreEventDestinationPingEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2EventDestination, error)
 }
 
@@ -538,8 +538,8 @@ func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestinati
 // V2MoneyManagementOutboundPaymentCanceledEvent is the Go struct for the "v2.money_management.outbound_payment.canceled" event.
 // An OutboundPayment has transitioned into the canceled state.
 type V2MoneyManagementOutboundPaymentCanceledEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -551,8 +551,8 @@ func (e V2MoneyManagementOutboundPaymentCanceledEvent) FetchRelatedObject() (*V2
 // V2MoneyManagementOutboundPaymentCreatedEvent is the Go struct for the "v2.money_management.outbound_payment.created" event.
 // A new OutboundPayment has been created.
 type V2MoneyManagementOutboundPaymentCreatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -564,8 +564,8 @@ func (e V2MoneyManagementOutboundPaymentCreatedEvent) FetchRelatedObject() (*V2M
 // V2MoneyManagementOutboundPaymentFailedEvent is the Go struct for the "v2.money_management.outbound_payment.failed" event.
 // An OutboundPayment has transitioned into the failed state.
 type V2MoneyManagementOutboundPaymentFailedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -577,8 +577,8 @@ func (e V2MoneyManagementOutboundPaymentFailedEvent) FetchRelatedObject() (*V2Mo
 // V2MoneyManagementOutboundPaymentPostedEvent is the Go struct for the "v2.money_management.outbound_payment.posted" event.
 // An OutboundPayment has transitioned into the posted state.
 type V2MoneyManagementOutboundPaymentPostedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -590,8 +590,8 @@ func (e V2MoneyManagementOutboundPaymentPostedEvent) FetchRelatedObject() (*V2Mo
 // V2MoneyManagementOutboundPaymentReturnedEvent is the Go struct for the "v2.money_management.outbound_payment.returned" event.
 // An OutboundPayment has transitioned into the returned state.
 type V2MoneyManagementOutboundPaymentReturnedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -603,8 +603,8 @@ func (e V2MoneyManagementOutboundPaymentReturnedEvent) FetchRelatedObject() (*V2
 // V2MoneyManagementOutboundPaymentUpdatedEvent is the Go struct for the "v2.money_management.outbound_payment.updated" event.
 // Event that is emitted every time an Outbound Payment is updated.
 type V2MoneyManagementOutboundPaymentUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundPayment, error)
 }
 
@@ -616,8 +616,8 @@ func (e V2MoneyManagementOutboundPaymentUpdatedEvent) FetchRelatedObject() (*V2M
 // V2MoneyManagementOutboundTransferCanceledEvent is the Go struct for the "v2.money_management.outbound_transfer.canceled" event.
 // An OutboundTransfer has transitioned into the canceled state.
 type V2MoneyManagementOutboundTransferCanceledEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -629,8 +629,8 @@ func (e V2MoneyManagementOutboundTransferCanceledEvent) FetchRelatedObject() (*V
 // V2MoneyManagementOutboundTransferCreatedEvent is the Go struct for the "v2.money_management.outbound_transfer.created" event.
 // A new OutboundTransfer has been created.
 type V2MoneyManagementOutboundTransferCreatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -642,8 +642,8 @@ func (e V2MoneyManagementOutboundTransferCreatedEvent) FetchRelatedObject() (*V2
 // V2MoneyManagementOutboundTransferFailedEvent is the Go struct for the "v2.money_management.outbound_transfer.failed" event.
 // An OutboundTransfer has transitioned into the failed state.
 type V2MoneyManagementOutboundTransferFailedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -655,8 +655,8 @@ func (e V2MoneyManagementOutboundTransferFailedEvent) FetchRelatedObject() (*V2M
 // V2MoneyManagementOutboundTransferPostedEvent is the Go struct for the "v2.money_management.outbound_transfer.posted" event.
 // An OutboundTransfer has transitioned into the posted state.
 type V2MoneyManagementOutboundTransferPostedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -668,8 +668,8 @@ func (e V2MoneyManagementOutboundTransferPostedEvent) FetchRelatedObject() (*V2M
 // V2MoneyManagementOutboundTransferReturnedEvent is the Go struct for the "v2.money_management.outbound_transfer.returned" event.
 // An OutboundTransfer has transitioned into the returned state.
 type V2MoneyManagementOutboundTransferReturnedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -681,8 +681,8 @@ func (e V2MoneyManagementOutboundTransferReturnedEvent) FetchRelatedObject() (*V
 // V2MoneyManagementOutboundTransferUpdatedEvent is the Go struct for the "v2.money_management.outbound_transfer.updated" event.
 // Event that is emitted every time an Outbound Transfer is updated.
 type V2MoneyManagementOutboundTransferUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementOutboundTransfer, error)
 }
 
@@ -694,9 +694,9 @@ func (e V2MoneyManagementOutboundTransferUpdatedEvent) FetchRelatedObject() (*V2
 // V2MoneyManagementReceivedCreditAvailableEvent is the Go struct for the "v2.money_management.received_credit.available" event.
 // The funds related to the received credit are available in your balance.
 type V2MoneyManagementReceivedCreditAvailableEvent struct {
-	V2RawEvent
-	Data               V2MoneyManagementReceivedCreditAvailableEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V2MoneyManagementReceivedCreditAvailableEventData `json:"data"`
+	RelatedObject      RelatedObject                                     `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
@@ -708,8 +708,8 @@ func (e V2MoneyManagementReceivedCreditAvailableEvent) FetchRelatedObject() (*V2
 // V2MoneyManagementReceivedCreditFailedEvent is the Go struct for the "v2.money_management.received_credit.failed" event.
 // A credit was attempted to your balance and was not successful. See the status_details for more information.
 type V2MoneyManagementReceivedCreditFailedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
@@ -721,8 +721,8 @@ func (e V2MoneyManagementReceivedCreditFailedEvent) FetchRelatedObject() (*V2Mon
 // V2MoneyManagementReceivedCreditReturnedEvent is the Go struct for the "v2.money_management.received_credit.returned" event.
 // The previously received credit has been reversed, returned to the originator and deducted from your balance.
 type V2MoneyManagementReceivedCreditReturnedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
@@ -734,8 +734,8 @@ func (e V2MoneyManagementReceivedCreditReturnedEvent) FetchRelatedObject() (*V2M
 // V2MoneyManagementReceivedCreditSucceededEvent is the Go struct for the "v2.money_management.received_credit.succeeded" event.
 // A credit was received successfully and processed by Stripe.
 type V2MoneyManagementReceivedCreditSucceededEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedCredit, error)
 }
 
@@ -747,8 +747,8 @@ func (e V2MoneyManagementReceivedCreditSucceededEvent) FetchRelatedObject() (*V2
 // V2MoneyManagementReceivedDebitCanceledEvent is the Go struct for the "v2.money_management.received_debit.canceled" event.
 // This event is sent when a received debit is canceled.
 type V2MoneyManagementReceivedDebitCanceledEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -760,8 +760,8 @@ func (e V2MoneyManagementReceivedDebitCanceledEvent) FetchRelatedObject() (*V2Mo
 // V2MoneyManagementReceivedDebitFailedEvent is the Go struct for the "v2.money_management.received_debit.failed" event.
 // This event is sent when a received debit fails.
 type V2MoneyManagementReceivedDebitFailedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -773,8 +773,8 @@ func (e V2MoneyManagementReceivedDebitFailedEvent) FetchRelatedObject() (*V2Mone
 // V2MoneyManagementReceivedDebitPendingEvent is the Go struct for the "v2.money_management.received_debit.pending" event.
 // This event is sent when a ReceivedDebit is set to pending.
 type V2MoneyManagementReceivedDebitPendingEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -786,8 +786,8 @@ func (e V2MoneyManagementReceivedDebitPendingEvent) FetchRelatedObject() (*V2Mon
 // V2MoneyManagementReceivedDebitSucceededEvent is the Go struct for the "v2.money_management.received_debit.succeeded" event.
 // This event is sent when a ReceivedDebit succeeds.
 type V2MoneyManagementReceivedDebitSucceededEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -799,8 +799,8 @@ func (e V2MoneyManagementReceivedDebitSucceededEvent) FetchRelatedObject() (*V2M
 // V2MoneyManagementReceivedDebitUpdatedEvent is the Go struct for the "v2.money_management.received_debit.updated" event.
 // This event is sent when a ReceivedDebit is updated.
 type V2MoneyManagementReceivedDebitUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementReceivedDebit, error)
 }
 
@@ -812,8 +812,8 @@ func (e V2MoneyManagementReceivedDebitUpdatedEvent) FetchRelatedObject() (*V2Mon
 // V2MoneyManagementTransactionCreatedEvent is the Go struct for the "v2.money_management.transaction.created" event.
 // Occurs when a Transaction is created.
 type V2MoneyManagementTransactionCreatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
 }
 
@@ -825,8 +825,8 @@ func (e V2MoneyManagementTransactionCreatedEvent) FetchRelatedObject() (*V2Money
 // V2MoneyManagementTransactionUpdatedEvent is the Go struct for the "v2.money_management.transaction.updated" event.
 // Occurs when a Transaction is updated.
 type V2MoneyManagementTransactionUpdatedEvent struct {
-	V2RawEvent
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
 	fetchRelatedObject func() (*V2MoneyManagementTransaction, error)
 }
 
