@@ -62,9 +62,9 @@ type V2RawEvent struct {
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
 // This event occurs when there are invalid async usage events for a given meter.
 type V1BillingMeterErrorReportTriggeredEvent struct {
-	V2RawEvent
-	Data               V1BillingMeterErrorReportTriggeredEventData
-	RelatedObject      RelatedObject
+	V2BaseEvent
+	Data               V1BillingMeterErrorReportTriggeredEventData `json:"data"`
+	RelatedObject      RelatedObject                               `json:"related_object"`
 	fetchRelatedObject func() (*BillingMeter, error)
 }
 
@@ -76,8 +76,21 @@ func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingM
 // V1BillingMeterNoMeterFoundEvent is the Go struct for the "v1.billing.meter.no_meter_found" event.
 // This event occurs when async usage events have missing or invalid meter ids.
 type V1BillingMeterNoMeterFoundEvent struct {
-	V2RawEvent
-	Data V1BillingMeterNoMeterFoundEventData
+	V2BaseEvent
+	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
+}
+
+// V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
+// A ping event used to test the connection to an event destination.
+type V2CoreEventDestinationPingEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2EventDestination, error)
+}
+
+// FetchRelatedObject fetches the related V2EventDestination object for the event.
+func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestination, error) {
+	return e.fetchRelatedObject()
 }
 
 // The request causes the error.
@@ -190,6 +203,16 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
+		}
+		return result, nil
+	case "v2.core.event_destination.ping":
+		result := &V2CoreEventDestinationPingEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2EventDestination, error) {
+			v := &V2EventDestination{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
 		}
 		return result, nil
 	default:
