@@ -47,7 +47,7 @@ func (c Client) AcknowledgeConfirmationOfPayee(id string, params *stripe.V2CoreV
 	return gbbankaccount, err
 }
 
-// Archive a GbBankAccount object. Archived GbBankAccount objects cannot be used as outbound destinations
+// Archive a GBBankAccount object. Archived GBBankAccount objects cannot be used as outbound destinations
 // and will not appear in the outbound destination list.
 func (c Client) Archive(id string, params *stripe.V2CoreVaultGBBankAccountArchiveParams) (*stripe.V2CoreVaultGBBankAccount, error) {
 	path := stripe.FormatURLPath("/v2/core/vault/gb_bank_accounts/%s/archive", id)

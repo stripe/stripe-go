@@ -23,6 +23,8 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxParams struct {
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
+	// A per-request flag that indicates when Stripe should validate the customer tax location - defaults to 'auto'.
+	ValidateLocation *string `form:"validate_location" json:"validate_location,omitempty"`
 }
 
 // The list of up to 4 default custom fields to be displayed on invoices for this customer.
@@ -2481,6 +2483,8 @@ type V2CoreAccountUpdateConfigurationCustomerAutomaticIndirectTaxParams struct {
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
 	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
+	// A per-request flag that indicates when Stripe should validate the customer tax location - defaults to 'auto'.
+	ValidateLocation *string `form:"validate_location" json:"validate_location,omitempty"`
 }
 
 // The list of up to 4 default custom fields to be displayed on invoices for this customer.

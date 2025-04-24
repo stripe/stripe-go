@@ -63,7 +63,7 @@ type V2CoreAccountLinkUseCase struct {
 	Type V2CoreAccountLinkUseCaseType `json:"type"`
 }
 
-// AccountLinks are the means by which a Merchant grants an Account permission to access Stripe-hosted application, such as Recipient Onboarding.
+// AccountLinks are the means by which a Merchant grants an Account permission to access Stripe-hosted applications, such as Recipient Onboarding. This API is only available for users enrolled in the public preview for Global Payouts.
 type V2CoreAccountLink struct {
 	APIResource
 	// The ID of the Account the link was created for.

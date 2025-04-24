@@ -17,10 +17,10 @@ const (
 	V2CoreVaultUSBankAccountBankAccountTypeSavings  V2CoreVaultUSBankAccountBankAccountType = "savings"
 )
 
-// Use the UsBankAccounts API to create and manage US bank accounts objects that you can use to receive funds. Note that these are not interchangeable with v1 Tokens.
+// Use the USBankAccounts API to create and manage US bank accounts objects that you can use to receive funds. Note that these are not interchangeable with v1 Tokens.
 type V2CoreVaultUSBankAccount struct {
 	APIResource
-	// Whether this UsBankAccount object was archived.
+	// Whether this USBankAccount object was archived.
 	Archived bool `json:"archived"`
 	// Closed Enum. The type of bank account (checking or savings).
 	BankAccountType V2CoreVaultUSBankAccountBankAccountType `json:"bank_account_type"`
@@ -30,7 +30,7 @@ type V2CoreVaultUSBankAccount struct {
 	Created time.Time `json:"created"`
 	// The fedwire routing number of the bank account.
 	FedwireRoutingNumber string `json:"fedwire_routing_number"`
-	// The ID of the UsBankAccount object.
+	// The ID of the USBankAccount object.
 	ID string `json:"id"`
 	// The last 4 digits of the account number.
 	Last4 string `json:"last4"`

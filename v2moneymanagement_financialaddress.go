@@ -13,25 +13,8 @@ type V2MoneyManagementFinancialAddressCredentialsType string
 
 // List of values that V2MoneyManagementFinancialAddressCredentialsType can take
 const (
-	V2MoneyManagementFinancialAddressCredentialsTypeCryptoWallet  V2MoneyManagementFinancialAddressCredentialsType = "crypto_wallet"
-	V2MoneyManagementFinancialAddressCredentialsTypeEUBankAccount V2MoneyManagementFinancialAddressCredentialsType = "eu_bank_account"
 	V2MoneyManagementFinancialAddressCredentialsTypeGBBankAccount V2MoneyManagementFinancialAddressCredentialsType = "gb_bank_account"
 	V2MoneyManagementFinancialAddressCredentialsTypeUSBankAccount V2MoneyManagementFinancialAddressCredentialsType = "us_bank_account"
-)
-
-// The blockchain network of the crypto wallet.
-type V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork string
-
-// List of values that V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork can take
-const (
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkArbitrum        V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "arbitrum"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkAvalancheCChain V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "avalanche_c_chain"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkBase            V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "base"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkEthereum        V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "ethereum"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkOptimism        V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "optimism"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkPolygon         V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "polygon"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkSolana          V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "solana"
-	V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetworkStellar         V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork = "stellar"
 )
 
 // Open Enum. The currency the FinancialAddress supports.
@@ -221,193 +204,6 @@ const (
 	V2MoneyManagementFinancialAddressCurrencyZwl  V2MoneyManagementFinancialAddressCurrency = "zwl"
 )
 
-// Open Enum. The currency the FinancialAddress settles into the FinancialAccount.
-type V2MoneyManagementFinancialAddressSettlementCurrency string
-
-// List of values that V2MoneyManagementFinancialAddressSettlementCurrency can take
-const (
-	V2MoneyManagementFinancialAddressSettlementCurrencyAed  V2MoneyManagementFinancialAddressSettlementCurrency = "aed"
-	V2MoneyManagementFinancialAddressSettlementCurrencyAfn  V2MoneyManagementFinancialAddressSettlementCurrency = "afn"
-	V2MoneyManagementFinancialAddressSettlementCurrencyAll  V2MoneyManagementFinancialAddressSettlementCurrency = "all"
-	V2MoneyManagementFinancialAddressSettlementCurrencyAmd  V2MoneyManagementFinancialAddressSettlementCurrency = "amd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyAng  V2MoneyManagementFinancialAddressSettlementCurrency = "ang"
-	V2MoneyManagementFinancialAddressSettlementCurrencyAoa  V2MoneyManagementFinancialAddressSettlementCurrency = "aoa"
-	V2MoneyManagementFinancialAddressSettlementCurrencyArs  V2MoneyManagementFinancialAddressSettlementCurrency = "ars"
-	V2MoneyManagementFinancialAddressSettlementCurrencyAUD  V2MoneyManagementFinancialAddressSettlementCurrency = "aud"
-	V2MoneyManagementFinancialAddressSettlementCurrencyAwg  V2MoneyManagementFinancialAddressSettlementCurrency = "awg"
-	V2MoneyManagementFinancialAddressSettlementCurrencyAzn  V2MoneyManagementFinancialAddressSettlementCurrency = "azn"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBam  V2MoneyManagementFinancialAddressSettlementCurrency = "bam"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBbd  V2MoneyManagementFinancialAddressSettlementCurrency = "bbd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBdt  V2MoneyManagementFinancialAddressSettlementCurrency = "bdt"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBgn  V2MoneyManagementFinancialAddressSettlementCurrency = "bgn"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBhd  V2MoneyManagementFinancialAddressSettlementCurrency = "bhd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBif  V2MoneyManagementFinancialAddressSettlementCurrency = "bif"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBmd  V2MoneyManagementFinancialAddressSettlementCurrency = "bmd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBnd  V2MoneyManagementFinancialAddressSettlementCurrency = "bnd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBob  V2MoneyManagementFinancialAddressSettlementCurrency = "bob"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBov  V2MoneyManagementFinancialAddressSettlementCurrency = "bov"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBrl  V2MoneyManagementFinancialAddressSettlementCurrency = "brl"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBsd  V2MoneyManagementFinancialAddressSettlementCurrency = "bsd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBtn  V2MoneyManagementFinancialAddressSettlementCurrency = "btn"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBwp  V2MoneyManagementFinancialAddressSettlementCurrency = "bwp"
-	V2MoneyManagementFinancialAddressSettlementCurrencyByn  V2MoneyManagementFinancialAddressSettlementCurrency = "byn"
-	V2MoneyManagementFinancialAddressSettlementCurrencyByr  V2MoneyManagementFinancialAddressSettlementCurrency = "byr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyBzd  V2MoneyManagementFinancialAddressSettlementCurrency = "bzd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCAD  V2MoneyManagementFinancialAddressSettlementCurrency = "cad"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCdf  V2MoneyManagementFinancialAddressSettlementCurrency = "cdf"
-	V2MoneyManagementFinancialAddressSettlementCurrencyChe  V2MoneyManagementFinancialAddressSettlementCurrency = "che"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCHF  V2MoneyManagementFinancialAddressSettlementCurrency = "chf"
-	V2MoneyManagementFinancialAddressSettlementCurrencyChw  V2MoneyManagementFinancialAddressSettlementCurrency = "chw"
-	V2MoneyManagementFinancialAddressSettlementCurrencyClf  V2MoneyManagementFinancialAddressSettlementCurrency = "clf"
-	V2MoneyManagementFinancialAddressSettlementCurrencyClp  V2MoneyManagementFinancialAddressSettlementCurrency = "clp"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCny  V2MoneyManagementFinancialAddressSettlementCurrency = "cny"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCop  V2MoneyManagementFinancialAddressSettlementCurrency = "cop"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCou  V2MoneyManagementFinancialAddressSettlementCurrency = "cou"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCrc  V2MoneyManagementFinancialAddressSettlementCurrency = "crc"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCuc  V2MoneyManagementFinancialAddressSettlementCurrency = "cuc"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCup  V2MoneyManagementFinancialAddressSettlementCurrency = "cup"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCve  V2MoneyManagementFinancialAddressSettlementCurrency = "cve"
-	V2MoneyManagementFinancialAddressSettlementCurrencyCZK  V2MoneyManagementFinancialAddressSettlementCurrency = "czk"
-	V2MoneyManagementFinancialAddressSettlementCurrencyDjf  V2MoneyManagementFinancialAddressSettlementCurrency = "djf"
-	V2MoneyManagementFinancialAddressSettlementCurrencyDKK  V2MoneyManagementFinancialAddressSettlementCurrency = "dkk"
-	V2MoneyManagementFinancialAddressSettlementCurrencyDop  V2MoneyManagementFinancialAddressSettlementCurrency = "dop"
-	V2MoneyManagementFinancialAddressSettlementCurrencyDzd  V2MoneyManagementFinancialAddressSettlementCurrency = "dzd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyEek  V2MoneyManagementFinancialAddressSettlementCurrency = "eek"
-	V2MoneyManagementFinancialAddressSettlementCurrencyEgp  V2MoneyManagementFinancialAddressSettlementCurrency = "egp"
-	V2MoneyManagementFinancialAddressSettlementCurrencyErn  V2MoneyManagementFinancialAddressSettlementCurrency = "ern"
-	V2MoneyManagementFinancialAddressSettlementCurrencyEtb  V2MoneyManagementFinancialAddressSettlementCurrency = "etb"
-	V2MoneyManagementFinancialAddressSettlementCurrencyEUR  V2MoneyManagementFinancialAddressSettlementCurrency = "eur"
-	V2MoneyManagementFinancialAddressSettlementCurrencyFjd  V2MoneyManagementFinancialAddressSettlementCurrency = "fjd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyFkp  V2MoneyManagementFinancialAddressSettlementCurrency = "fkp"
-	V2MoneyManagementFinancialAddressSettlementCurrencyGBP  V2MoneyManagementFinancialAddressSettlementCurrency = "gbp"
-	V2MoneyManagementFinancialAddressSettlementCurrencyGel  V2MoneyManagementFinancialAddressSettlementCurrency = "gel"
-	V2MoneyManagementFinancialAddressSettlementCurrencyGhc  V2MoneyManagementFinancialAddressSettlementCurrency = "ghc"
-	V2MoneyManagementFinancialAddressSettlementCurrencyGhs  V2MoneyManagementFinancialAddressSettlementCurrency = "ghs"
-	V2MoneyManagementFinancialAddressSettlementCurrencyGip  V2MoneyManagementFinancialAddressSettlementCurrency = "gip"
-	V2MoneyManagementFinancialAddressSettlementCurrencyGmd  V2MoneyManagementFinancialAddressSettlementCurrency = "gmd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyGnf  V2MoneyManagementFinancialAddressSettlementCurrency = "gnf"
-	V2MoneyManagementFinancialAddressSettlementCurrencyGtq  V2MoneyManagementFinancialAddressSettlementCurrency = "gtq"
-	V2MoneyManagementFinancialAddressSettlementCurrencyGyd  V2MoneyManagementFinancialAddressSettlementCurrency = "gyd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyHKD  V2MoneyManagementFinancialAddressSettlementCurrency = "hkd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyHnl  V2MoneyManagementFinancialAddressSettlementCurrency = "hnl"
-	V2MoneyManagementFinancialAddressSettlementCurrencyHrk  V2MoneyManagementFinancialAddressSettlementCurrency = "hrk"
-	V2MoneyManagementFinancialAddressSettlementCurrencyHtg  V2MoneyManagementFinancialAddressSettlementCurrency = "htg"
-	V2MoneyManagementFinancialAddressSettlementCurrencyHuf  V2MoneyManagementFinancialAddressSettlementCurrency = "huf"
-	V2MoneyManagementFinancialAddressSettlementCurrencyIdr  V2MoneyManagementFinancialAddressSettlementCurrency = "idr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyIls  V2MoneyManagementFinancialAddressSettlementCurrency = "ils"
-	V2MoneyManagementFinancialAddressSettlementCurrencyInr  V2MoneyManagementFinancialAddressSettlementCurrency = "inr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyIqd  V2MoneyManagementFinancialAddressSettlementCurrency = "iqd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyIrr  V2MoneyManagementFinancialAddressSettlementCurrency = "irr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyIsk  V2MoneyManagementFinancialAddressSettlementCurrency = "isk"
-	V2MoneyManagementFinancialAddressSettlementCurrencyJmd  V2MoneyManagementFinancialAddressSettlementCurrency = "jmd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyJod  V2MoneyManagementFinancialAddressSettlementCurrency = "jod"
-	V2MoneyManagementFinancialAddressSettlementCurrencyJPY  V2MoneyManagementFinancialAddressSettlementCurrency = "jpy"
-	V2MoneyManagementFinancialAddressSettlementCurrencyKes  V2MoneyManagementFinancialAddressSettlementCurrency = "kes"
-	V2MoneyManagementFinancialAddressSettlementCurrencyKgs  V2MoneyManagementFinancialAddressSettlementCurrency = "kgs"
-	V2MoneyManagementFinancialAddressSettlementCurrencyKhr  V2MoneyManagementFinancialAddressSettlementCurrency = "khr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyKmf  V2MoneyManagementFinancialAddressSettlementCurrency = "kmf"
-	V2MoneyManagementFinancialAddressSettlementCurrencyKpw  V2MoneyManagementFinancialAddressSettlementCurrency = "kpw"
-	V2MoneyManagementFinancialAddressSettlementCurrencyKrw  V2MoneyManagementFinancialAddressSettlementCurrency = "krw"
-	V2MoneyManagementFinancialAddressSettlementCurrencyKwd  V2MoneyManagementFinancialAddressSettlementCurrency = "kwd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyKyd  V2MoneyManagementFinancialAddressSettlementCurrency = "kyd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyKzt  V2MoneyManagementFinancialAddressSettlementCurrency = "kzt"
-	V2MoneyManagementFinancialAddressSettlementCurrencyLak  V2MoneyManagementFinancialAddressSettlementCurrency = "lak"
-	V2MoneyManagementFinancialAddressSettlementCurrencyLbp  V2MoneyManagementFinancialAddressSettlementCurrency = "lbp"
-	V2MoneyManagementFinancialAddressSettlementCurrencyLkr  V2MoneyManagementFinancialAddressSettlementCurrency = "lkr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyLrd  V2MoneyManagementFinancialAddressSettlementCurrency = "lrd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyLsl  V2MoneyManagementFinancialAddressSettlementCurrency = "lsl"
-	V2MoneyManagementFinancialAddressSettlementCurrencyLtl  V2MoneyManagementFinancialAddressSettlementCurrency = "ltl"
-	V2MoneyManagementFinancialAddressSettlementCurrencyLvl  V2MoneyManagementFinancialAddressSettlementCurrency = "lvl"
-	V2MoneyManagementFinancialAddressSettlementCurrencyLyd  V2MoneyManagementFinancialAddressSettlementCurrency = "lyd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMad  V2MoneyManagementFinancialAddressSettlementCurrency = "mad"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMdl  V2MoneyManagementFinancialAddressSettlementCurrency = "mdl"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMga  V2MoneyManagementFinancialAddressSettlementCurrency = "mga"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMkd  V2MoneyManagementFinancialAddressSettlementCurrency = "mkd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMmk  V2MoneyManagementFinancialAddressSettlementCurrency = "mmk"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMnt  V2MoneyManagementFinancialAddressSettlementCurrency = "mnt"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMop  V2MoneyManagementFinancialAddressSettlementCurrency = "mop"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMro  V2MoneyManagementFinancialAddressSettlementCurrency = "mro"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMru  V2MoneyManagementFinancialAddressSettlementCurrency = "mru"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMur  V2MoneyManagementFinancialAddressSettlementCurrency = "mur"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMvr  V2MoneyManagementFinancialAddressSettlementCurrency = "mvr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMwk  V2MoneyManagementFinancialAddressSettlementCurrency = "mwk"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMxn  V2MoneyManagementFinancialAddressSettlementCurrency = "mxn"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMxv  V2MoneyManagementFinancialAddressSettlementCurrency = "mxv"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMYR  V2MoneyManagementFinancialAddressSettlementCurrency = "myr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyMzn  V2MoneyManagementFinancialAddressSettlementCurrency = "mzn"
-	V2MoneyManagementFinancialAddressSettlementCurrencyNad  V2MoneyManagementFinancialAddressSettlementCurrency = "nad"
-	V2MoneyManagementFinancialAddressSettlementCurrencyNgn  V2MoneyManagementFinancialAddressSettlementCurrency = "ngn"
-	V2MoneyManagementFinancialAddressSettlementCurrencyNio  V2MoneyManagementFinancialAddressSettlementCurrency = "nio"
-	V2MoneyManagementFinancialAddressSettlementCurrencyNOK  V2MoneyManagementFinancialAddressSettlementCurrency = "nok"
-	V2MoneyManagementFinancialAddressSettlementCurrencyNpr  V2MoneyManagementFinancialAddressSettlementCurrency = "npr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyNZD  V2MoneyManagementFinancialAddressSettlementCurrency = "nzd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyOmr  V2MoneyManagementFinancialAddressSettlementCurrency = "omr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyPab  V2MoneyManagementFinancialAddressSettlementCurrency = "pab"
-	V2MoneyManagementFinancialAddressSettlementCurrencyPen  V2MoneyManagementFinancialAddressSettlementCurrency = "pen"
-	V2MoneyManagementFinancialAddressSettlementCurrencyPgk  V2MoneyManagementFinancialAddressSettlementCurrency = "pgk"
-	V2MoneyManagementFinancialAddressSettlementCurrencyPhp  V2MoneyManagementFinancialAddressSettlementCurrency = "php"
-	V2MoneyManagementFinancialAddressSettlementCurrencyPkr  V2MoneyManagementFinancialAddressSettlementCurrency = "pkr"
-	V2MoneyManagementFinancialAddressSettlementCurrencyPLN  V2MoneyManagementFinancialAddressSettlementCurrency = "pln"
-	V2MoneyManagementFinancialAddressSettlementCurrencyPyg  V2MoneyManagementFinancialAddressSettlementCurrency = "pyg"
-	V2MoneyManagementFinancialAddressSettlementCurrencyQar  V2MoneyManagementFinancialAddressSettlementCurrency = "qar"
-	V2MoneyManagementFinancialAddressSettlementCurrencyRon  V2MoneyManagementFinancialAddressSettlementCurrency = "ron"
-	V2MoneyManagementFinancialAddressSettlementCurrencyRsd  V2MoneyManagementFinancialAddressSettlementCurrency = "rsd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyRub  V2MoneyManagementFinancialAddressSettlementCurrency = "rub"
-	V2MoneyManagementFinancialAddressSettlementCurrencyRwf  V2MoneyManagementFinancialAddressSettlementCurrency = "rwf"
-	V2MoneyManagementFinancialAddressSettlementCurrencySar  V2MoneyManagementFinancialAddressSettlementCurrency = "sar"
-	V2MoneyManagementFinancialAddressSettlementCurrencySbd  V2MoneyManagementFinancialAddressSettlementCurrency = "sbd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyScr  V2MoneyManagementFinancialAddressSettlementCurrency = "scr"
-	V2MoneyManagementFinancialAddressSettlementCurrencySdg  V2MoneyManagementFinancialAddressSettlementCurrency = "sdg"
-	V2MoneyManagementFinancialAddressSettlementCurrencySEK  V2MoneyManagementFinancialAddressSettlementCurrency = "sek"
-	V2MoneyManagementFinancialAddressSettlementCurrencySGD  V2MoneyManagementFinancialAddressSettlementCurrency = "sgd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyShp  V2MoneyManagementFinancialAddressSettlementCurrency = "shp"
-	V2MoneyManagementFinancialAddressSettlementCurrencySle  V2MoneyManagementFinancialAddressSettlementCurrency = "sle"
-	V2MoneyManagementFinancialAddressSettlementCurrencySll  V2MoneyManagementFinancialAddressSettlementCurrency = "sll"
-	V2MoneyManagementFinancialAddressSettlementCurrencySos  V2MoneyManagementFinancialAddressSettlementCurrency = "sos"
-	V2MoneyManagementFinancialAddressSettlementCurrencySrd  V2MoneyManagementFinancialAddressSettlementCurrency = "srd"
-	V2MoneyManagementFinancialAddressSettlementCurrencySsp  V2MoneyManagementFinancialAddressSettlementCurrency = "ssp"
-	V2MoneyManagementFinancialAddressSettlementCurrencyStd  V2MoneyManagementFinancialAddressSettlementCurrency = "std"
-	V2MoneyManagementFinancialAddressSettlementCurrencyStn  V2MoneyManagementFinancialAddressSettlementCurrency = "stn"
-	V2MoneyManagementFinancialAddressSettlementCurrencySvc  V2MoneyManagementFinancialAddressSettlementCurrency = "svc"
-	V2MoneyManagementFinancialAddressSettlementCurrencySyp  V2MoneyManagementFinancialAddressSettlementCurrency = "syp"
-	V2MoneyManagementFinancialAddressSettlementCurrencySzl  V2MoneyManagementFinancialAddressSettlementCurrency = "szl"
-	V2MoneyManagementFinancialAddressSettlementCurrencyThb  V2MoneyManagementFinancialAddressSettlementCurrency = "thb"
-	V2MoneyManagementFinancialAddressSettlementCurrencyTjs  V2MoneyManagementFinancialAddressSettlementCurrency = "tjs"
-	V2MoneyManagementFinancialAddressSettlementCurrencyTmt  V2MoneyManagementFinancialAddressSettlementCurrency = "tmt"
-	V2MoneyManagementFinancialAddressSettlementCurrencyTnd  V2MoneyManagementFinancialAddressSettlementCurrency = "tnd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyTop  V2MoneyManagementFinancialAddressSettlementCurrency = "top"
-	V2MoneyManagementFinancialAddressSettlementCurrencyTry  V2MoneyManagementFinancialAddressSettlementCurrency = "try"
-	V2MoneyManagementFinancialAddressSettlementCurrencyTtd  V2MoneyManagementFinancialAddressSettlementCurrency = "ttd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyTwd  V2MoneyManagementFinancialAddressSettlementCurrency = "twd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyTzs  V2MoneyManagementFinancialAddressSettlementCurrency = "tzs"
-	V2MoneyManagementFinancialAddressSettlementCurrencyUah  V2MoneyManagementFinancialAddressSettlementCurrency = "uah"
-	V2MoneyManagementFinancialAddressSettlementCurrencyUgx  V2MoneyManagementFinancialAddressSettlementCurrency = "ugx"
-	V2MoneyManagementFinancialAddressSettlementCurrencyUSD  V2MoneyManagementFinancialAddressSettlementCurrency = "usd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyUsdb V2MoneyManagementFinancialAddressSettlementCurrency = "usdb"
-	V2MoneyManagementFinancialAddressSettlementCurrencyUsdc V2MoneyManagementFinancialAddressSettlementCurrency = "usdc"
-	V2MoneyManagementFinancialAddressSettlementCurrencyUsn  V2MoneyManagementFinancialAddressSettlementCurrency = "usn"
-	V2MoneyManagementFinancialAddressSettlementCurrencyUyi  V2MoneyManagementFinancialAddressSettlementCurrency = "uyi"
-	V2MoneyManagementFinancialAddressSettlementCurrencyUyu  V2MoneyManagementFinancialAddressSettlementCurrency = "uyu"
-	V2MoneyManagementFinancialAddressSettlementCurrencyUzs  V2MoneyManagementFinancialAddressSettlementCurrency = "uzs"
-	V2MoneyManagementFinancialAddressSettlementCurrencyVef  V2MoneyManagementFinancialAddressSettlementCurrency = "vef"
-	V2MoneyManagementFinancialAddressSettlementCurrencyVes  V2MoneyManagementFinancialAddressSettlementCurrency = "ves"
-	V2MoneyManagementFinancialAddressSettlementCurrencyVnd  V2MoneyManagementFinancialAddressSettlementCurrency = "vnd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyVuv  V2MoneyManagementFinancialAddressSettlementCurrency = "vuv"
-	V2MoneyManagementFinancialAddressSettlementCurrencyWst  V2MoneyManagementFinancialAddressSettlementCurrency = "wst"
-	V2MoneyManagementFinancialAddressSettlementCurrencyXaf  V2MoneyManagementFinancialAddressSettlementCurrency = "xaf"
-	V2MoneyManagementFinancialAddressSettlementCurrencyXcd  V2MoneyManagementFinancialAddressSettlementCurrency = "xcd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyXcg  V2MoneyManagementFinancialAddressSettlementCurrency = "xcg"
-	V2MoneyManagementFinancialAddressSettlementCurrencyXof  V2MoneyManagementFinancialAddressSettlementCurrency = "xof"
-	V2MoneyManagementFinancialAddressSettlementCurrencyXpf  V2MoneyManagementFinancialAddressSettlementCurrency = "xpf"
-	V2MoneyManagementFinancialAddressSettlementCurrencyYer  V2MoneyManagementFinancialAddressSettlementCurrency = "yer"
-	V2MoneyManagementFinancialAddressSettlementCurrencyZar  V2MoneyManagementFinancialAddressSettlementCurrency = "zar"
-	V2MoneyManagementFinancialAddressSettlementCurrencyZmk  V2MoneyManagementFinancialAddressSettlementCurrency = "zmk"
-	V2MoneyManagementFinancialAddressSettlementCurrencyZmw  V2MoneyManagementFinancialAddressSettlementCurrency = "zmw"
-	V2MoneyManagementFinancialAddressSettlementCurrencyZwd  V2MoneyManagementFinancialAddressSettlementCurrency = "zwd"
-	V2MoneyManagementFinancialAddressSettlementCurrencyZwg  V2MoneyManagementFinancialAddressSettlementCurrency = "zwg"
-	V2MoneyManagementFinancialAddressSettlementCurrencyZwl  V2MoneyManagementFinancialAddressSettlementCurrency = "zwl"
-)
-
 // Closed Enum. An enum representing the status of the FinancialAddress. This indicates whether or not the FinancialAddress can be used for any money movement flows.
 type V2MoneyManagementFinancialAddressStatus string
 
@@ -418,31 +214,6 @@ const (
 	V2MoneyManagementFinancialAddressStatusFailed   V2MoneyManagementFinancialAddressStatus = "failed"
 	V2MoneyManagementFinancialAddressStatusPending  V2MoneyManagementFinancialAddressStatus = "pending"
 )
-
-// The credentials of the crypto wallet for the Financial Address. This contains unique details such as the blockchain network, wallet address, and memo of a crypto wallet.
-type V2MoneyManagementFinancialAddressCredentialsCryptoWallet struct {
-	// The blockchain address of the crypto wallet.
-	Address string `json:"address"`
-	// Required if the network supports memos (e.g. Stellar).
-	Memo string `json:"memo"`
-	// The blockchain network of the crypto wallet.
-	Network V2MoneyManagementFinancialAddressCredentialsCryptoWalletNetwork `json:"network"`
-}
-
-// The credentials of the EU Bank Account for the FinancialAddress. This contains unique banking details such as the IBAN, BIC, etc. of a EU bank account.
-type V2MoneyManagementFinancialAddressCredentialsEUBankAccount struct {
-	// The account holder name to be used during bank transfers.
-	AccountHolderName string `json:"account_holder_name"`
-	// The account number of the EU Bank Account.
-	AccountNumber string `json:"account_number"`
-	// The name of the Bank.
-	BankName string `json:"bank_name"`
-	// The BIC of the EU Bank Account.
-	BIC string `json:"bic"`
-	// The last four digits of the EU Bank Account number. This will always be returned.
-	// To view the full account number when retrieving or listing FinancialAddresses, use the `include` request parameter.
-	Last4 string `json:"last4"`
-}
 
 // The credentials of the UK Bank Account for the FinancialAddress. This contains unique banking details such as the sort code, account number, etc. of a UK bank account.
 type V2MoneyManagementFinancialAddressCredentialsGBBankAccount struct {
@@ -476,10 +247,6 @@ type V2MoneyManagementFinancialAddressCredentialsUSBankAccount struct {
 // It contains all necessary banking details with which to perform money movements with the FinancialAddress.
 // This field is only available for FinancialAddresses with an active status.
 type V2MoneyManagementFinancialAddressCredentials struct {
-	// The credentials of the crypto wallet for the Financial Address. This contains unique details such as the blockchain network, wallet address, and memo of a crypto wallet.
-	CryptoWallet *V2MoneyManagementFinancialAddressCredentialsCryptoWallet `json:"crypto_wallet"`
-	// The credentials of the EU Bank Account for the FinancialAddress. This contains unique banking details such as the IBAN, BIC, etc. of a EU bank account.
-	EUBankAccount *V2MoneyManagementFinancialAddressCredentialsEUBankAccount `json:"eu_bank_account"`
 	// The credentials of the UK Bank Account for the FinancialAddress. This contains unique banking details such as the sort code, account number, etc. of a UK bank account.
 	GBBankAccount *V2MoneyManagementFinancialAddressCredentialsGBBankAccount `json:"gb_bank_account"`
 	// Open Enum. The type of Credentials that are provisioned for the FinancialAddress.
@@ -507,8 +274,6 @@ type V2MoneyManagementFinancialAddress struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
-	// Open Enum. The currency the FinancialAddress settles into the FinancialAccount.
-	SettlementCurrency V2MoneyManagementFinancialAddressSettlementCurrency `json:"settlement_currency"`
 	// Closed Enum. An enum representing the status of the FinancialAddress. This indicates whether or not the FinancialAddress can be used for any money movement flows.
 	Status V2MoneyManagementFinancialAddressStatus `json:"status"`
 }

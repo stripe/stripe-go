@@ -28,7 +28,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExemptReverse V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt = "reverse"
 )
 
-// The identified tax country of the customer.
+// The customer's country as identified by Stripe Tax.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry can take
@@ -285,7 +285,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountryZw V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry = "zw"
 )
 
-// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+// The data source used by Stripe Tax to identify the customer's location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource can take
@@ -2311,7 +2311,6 @@ const (
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCaBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ca_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeChBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ch_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCiBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "ci_bank_account"
-	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCryptoWallet  V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "crypto_wallet"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCyBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cy_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeCzBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "cz_bank_account"
 	V2CoreAccountConfigurationRecipientDefaultOutboundDestinationTypeDEBankAccount V2CoreAccountConfigurationRecipientDefaultOutboundDestinationType = "de_bank_account"
@@ -3501,12 +3500,15 @@ type V2CoreAccountIdentityBusinessDetailsStructure string
 
 // List of values that V2CoreAccountIdentityBusinessDetailsStructure can take
 const (
+	V2CoreAccountIdentityBusinessDetailsStructureCooperative                        V2CoreAccountIdentityBusinessDetailsStructure = "cooperative"
 	V2CoreAccountIdentityBusinessDetailsStructureFreeZoneEstablishment              V2CoreAccountIdentityBusinessDetailsStructure = "free_zone_establishment"
 	V2CoreAccountIdentityBusinessDetailsStructureFreeZoneLLC                        V2CoreAccountIdentityBusinessDetailsStructure = "free_zone_llc"
 	V2CoreAccountIdentityBusinessDetailsStructureGovernmentalUnit                   V2CoreAccountIdentityBusinessDetailsStructure = "governmental_unit"
 	V2CoreAccountIdentityBusinessDetailsStructureGovernmentInstrumentality          V2CoreAccountIdentityBusinessDetailsStructure = "government_instrumentality"
+	V2CoreAccountIdentityBusinessDetailsStructureIncorporatedAssociation            V2CoreAccountIdentityBusinessDetailsStructure = "incorporated_association"
 	V2CoreAccountIdentityBusinessDetailsStructureIncorporatedNonProfit              V2CoreAccountIdentityBusinessDetailsStructure = "incorporated_non_profit"
 	V2CoreAccountIdentityBusinessDetailsStructureIncorporatedPartnership            V2CoreAccountIdentityBusinessDetailsStructure = "incorporated_partnership"
+	V2CoreAccountIdentityBusinessDetailsStructureLimitedLiabilityPartnership        V2CoreAccountIdentityBusinessDetailsStructure = "limited_liability_partnership"
 	V2CoreAccountIdentityBusinessDetailsStructureLLC                                V2CoreAccountIdentityBusinessDetailsStructure = "llc"
 	V2CoreAccountIdentityBusinessDetailsStructureMultiMemberLLC                     V2CoreAccountIdentityBusinessDetailsStructure = "multi_member_llc"
 	V2CoreAccountIdentityBusinessDetailsStructurePrivateCompany                     V2CoreAccountIdentityBusinessDetailsStructure = "private_company"
@@ -3514,12 +3516,14 @@ const (
 	V2CoreAccountIdentityBusinessDetailsStructurePrivatePartnership                 V2CoreAccountIdentityBusinessDetailsStructure = "private_partnership"
 	V2CoreAccountIdentityBusinessDetailsStructurePublicCompany                      V2CoreAccountIdentityBusinessDetailsStructure = "public_company"
 	V2CoreAccountIdentityBusinessDetailsStructurePublicCorporation                  V2CoreAccountIdentityBusinessDetailsStructure = "public_corporation"
+	V2CoreAccountIdentityBusinessDetailsStructurePublicListedCorporation            V2CoreAccountIdentityBusinessDetailsStructure = "public_listed_corporation"
 	V2CoreAccountIdentityBusinessDetailsStructurePublicPartnership                  V2CoreAccountIdentityBusinessDetailsStructure = "public_partnership"
 	V2CoreAccountIdentityBusinessDetailsStructureRegisteredCharity                  V2CoreAccountIdentityBusinessDetailsStructure = "registered_charity"
 	V2CoreAccountIdentityBusinessDetailsStructureSingleMemberLLC                    V2CoreAccountIdentityBusinessDetailsStructure = "single_member_llc"
 	V2CoreAccountIdentityBusinessDetailsStructureSoleEstablishment                  V2CoreAccountIdentityBusinessDetailsStructure = "sole_establishment"
 	V2CoreAccountIdentityBusinessDetailsStructureSoleProprietorship                 V2CoreAccountIdentityBusinessDetailsStructure = "sole_proprietorship"
 	V2CoreAccountIdentityBusinessDetailsStructureTaxExemptGovernmentInstrumentality V2CoreAccountIdentityBusinessDetailsStructure = "tax_exempt_government_instrumentality"
+	V2CoreAccountIdentityBusinessDetailsStructureTrust                              V2CoreAccountIdentityBusinessDetailsStructure = "trust"
 	V2CoreAccountIdentityBusinessDetailsStructureUnincorporatedAssociation          V2CoreAccountIdentityBusinessDetailsStructure = "unincorporated_association"
 	V2CoreAccountIdentityBusinessDetailsStructureUnincorporatedNonProfit            V2CoreAccountIdentityBusinessDetailsStructure = "unincorporated_non_profit"
 	V2CoreAccountIdentityBusinessDetailsStructureUnincorporatedPartnership          V2CoreAccountIdentityBusinessDetailsStructure = "unincorporated_partnership"
@@ -5412,11 +5416,11 @@ const (
 	V2CoreAccountRequirementsSummaryMinimumDeadlineStatusPastDue       V2CoreAccountRequirementsSummaryMinimumDeadlineStatus = "past_due"
 )
 
-// The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+// The customer's location as identified by Stripe Tax - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation struct {
-	// The identified tax country of the customer.
+	// The customer's country as identified by Stripe Tax.
 	Country V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry `json:"country"`
-	// The identified tax state, county, province, or region of the customer.
+	// The customer's state, county, province, or region as identified by Stripe Tax.
 	State string `json:"state"`
 }
 
@@ -5426,9 +5430,9 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTax struct {
 	Exempt V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt `json:"exempt"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress string `json:"ip_address"`
-	// The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+	// The customer's location as identified by Stripe Tax - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 	Location *V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation `json:"location"`
-	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used by Stripe Tax to identify the customer's location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource `json:"location_source"`
 }
 

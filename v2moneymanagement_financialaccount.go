@@ -270,9 +270,8 @@ type V2MoneyManagementFinancialAccountStatus string
 
 // List of values that V2MoneyManagementFinancialAccountStatus can take
 const (
-	V2MoneyManagementFinancialAccountStatusClosed  V2MoneyManagementFinancialAccountStatus = "closed"
-	V2MoneyManagementFinancialAccountStatusOpen    V2MoneyManagementFinancialAccountStatus = "open"
-	V2MoneyManagementFinancialAccountStatusPending V2MoneyManagementFinancialAccountStatus = "pending"
+	V2MoneyManagementFinancialAccountStatusClosed V2MoneyManagementFinancialAccountStatus = "closed"
+	V2MoneyManagementFinancialAccountStatusOpen   V2MoneyManagementFinancialAccountStatus = "open"
 )
 
 // The currencies that this FinancialAccount can hold.
