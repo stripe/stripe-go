@@ -19,7 +19,7 @@ type Client struct {
 	Key string
 }
 
-// Create a UsBankAccount object.
+// Create a USBankAccount object.
 func (c Client) New(params *stripe.V2CoreVaultUSBankAccountParams) (*stripe.V2CoreVaultUSBankAccount, error) {
 	usbankaccount := &stripe.V2CoreVaultUSBankAccount{}
 	err := c.B.Call(
@@ -27,7 +27,7 @@ func (c Client) New(params *stripe.V2CoreVaultUSBankAccountParams) (*stripe.V2Co
 	return usbankaccount, err
 }
 
-// Retrieve a UsBankAccount object.
+// Retrieve a USBankAccount object.
 func (c Client) Get(id string, params *stripe.V2CoreVaultUSBankAccountParams) (*stripe.V2CoreVaultUSBankAccount, error) {
 	path := stripe.FormatURLPath("/v2/core/vault/us_bank_accounts/%s", id)
 	usbankaccount := &stripe.V2CoreVaultUSBankAccount{}
@@ -35,7 +35,7 @@ func (c Client) Get(id string, params *stripe.V2CoreVaultUSBankAccountParams) (*
 	return usbankaccount, err
 }
 
-// Update a UsBankAccount object. This is limited to supplying a previously empty routing_number field.
+// Update a USBankAccount object. This is limited to supplying a previously empty routing_number field.
 func (c Client) Update(id string, params *stripe.V2CoreVaultUSBankAccountParams) (*stripe.V2CoreVaultUSBankAccount, error) {
 	path := stripe.FormatURLPath("/v2/core/vault/us_bank_accounts/%s", id)
 	usbankaccount := &stripe.V2CoreVaultUSBankAccount{}
@@ -43,8 +43,8 @@ func (c Client) Update(id string, params *stripe.V2CoreVaultUSBankAccountParams)
 	return usbankaccount, err
 }
 
-// Archive a UsBankAccount object. UsBankAccount objects will not be automatically archived by Stripe.
-// Archived UsBankAccount objects cannot be used as outbound destinations
+// Archive a USBankAccount object. USBankAccount objects will not be automatically archived by Stripe.
+// Archived USBankAccount objects cannot be used as outbound destinations
 // and will not appear in the outbound destination list.
 func (c Client) Archive(id string, params *stripe.V2CoreVaultUSBankAccountArchiveParams) (*stripe.V2CoreVaultUSBankAccount, error) {
 	path := stripe.FormatURLPath("/v2/core/vault/us_bank_accounts/%s/archive", id)

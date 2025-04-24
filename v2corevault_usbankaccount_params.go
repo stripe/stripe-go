@@ -6,14 +6,14 @@
 
 package stripe
 
-// Archive a UsBankAccount object. UsBankAccount objects will not be automatically archived by Stripe.
-// Archived UsBankAccount objects cannot be used as outbound destinations
+// Archive a USBankAccount object. USBankAccount objects will not be automatically archived by Stripe.
+// Archived USBankAccount objects cannot be used as outbound destinations
 // and will not appear in the outbound destination list.
 type V2CoreVaultUSBankAccountArchiveParams struct {
 	Params `form:"*"`
 }
 
-// Create a UsBankAccount object.
+// Create a USBankAccount object.
 type V2CoreVaultUSBankAccountParams struct {
 	Params `form:"*"`
 	// The account number of the bank account.
@@ -26,7 +26,7 @@ type V2CoreVaultUSBankAccountParams struct {
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
-// Create a UsBankAccount object.
+// Create a USBankAccount object.
 type V2CoreVaultUSBankAccountCreateParams struct {
 	Params `form:"*"`
 	// The account number of the bank account.
@@ -39,12 +39,12 @@ type V2CoreVaultUSBankAccountCreateParams struct {
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
 }
 
-// Retrieve a UsBankAccount object.
+// Retrieve a USBankAccount object.
 type V2CoreVaultUSBankAccountRetrieveParams struct {
 	Params `form:"*"`
 }
 
-// Update a UsBankAccount object. This is limited to supplying a previously empty routing_number field.
+// Update a USBankAccount object. This is limited to supplying a previously empty routing_number field.
 type V2CoreVaultUSBankAccountUpdateParams struct {
 	Params `form:"*"`
 	// The bank account's fedwire routing number can be provided for update it was were empty previously.

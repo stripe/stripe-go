@@ -97,7 +97,7 @@ type V2CoreVaultGBBankAccountConfirmationOfPayee struct {
 	Status V2CoreVaultGBBankAccountConfirmationOfPayeeStatus `json:"status"`
 }
 
-// Use the GbBankAccounts API to create and manage GB bank account objects
+// Use the GBBankAccounts API to create and manage GB bank account objects
 type V2CoreVaultGBBankAccount struct {
 	APIResource
 	// Whether this bank account object was archived. Bank account objects can be archived through
@@ -113,7 +113,7 @@ type V2CoreVaultGBBankAccount struct {
 	ConfirmationOfPayee *V2CoreVaultGBBankAccountConfirmationOfPayee `json:"confirmation_of_payee"`
 	// Creation time.
 	Created time.Time `json:"created"`
-	// The ID of the GbBankAccount object.
+	// The ID of the GBBankAccount object.
 	ID string `json:"id"`
 	// The last 4 digits of the account number or IBAN.
 	Last4 string `json:"last4"`
