@@ -15,6 +15,51 @@ const (
 	PersonPoliticalExposureNone     PersonPoliticalExposure = "none"
 )
 
+// The persons ethnicity
+type PersonUSCfpbDataEthnicityDetailsEthnicity string
+
+// List of values that PersonUSCfpbDataEthnicityDetailsEthnicity can take
+const (
+	PersonUSCfpbDataEthnicityDetailsEthnicityCuban                 PersonUSCfpbDataEthnicityDetailsEthnicity = "cuban"
+	PersonUSCfpbDataEthnicityDetailsEthnicityHispanicOrLatino      PersonUSCfpbDataEthnicityDetailsEthnicity = "hispanic_or_latino"
+	PersonUSCfpbDataEthnicityDetailsEthnicityMexican               PersonUSCfpbDataEthnicityDetailsEthnicity = "mexican"
+	PersonUSCfpbDataEthnicityDetailsEthnicityNotHispanicOrLatino   PersonUSCfpbDataEthnicityDetailsEthnicity = "not_hispanic_or_latino"
+	PersonUSCfpbDataEthnicityDetailsEthnicityOtherHispanicOrLatino PersonUSCfpbDataEthnicityDetailsEthnicity = "other_hispanic_or_latino"
+	PersonUSCfpbDataEthnicityDetailsEthnicityPreferNotToAnswer     PersonUSCfpbDataEthnicityDetailsEthnicity = "prefer_not_to_answer"
+	PersonUSCfpbDataEthnicityDetailsEthnicityPuertoRican           PersonUSCfpbDataEthnicityDetailsEthnicity = "puerto_rican"
+)
+
+// The persons race.
+type PersonUSCfpbDataRaceDetailsRace string
+
+// List of values that PersonUSCfpbDataRaceDetailsRace can take
+const (
+	PersonUSCfpbDataRaceDetailsRaceAfricanAmerican                      PersonUSCfpbDataRaceDetailsRace = "african_american"
+	PersonUSCfpbDataRaceDetailsRaceAmericanIndianOrAlaskaNative         PersonUSCfpbDataRaceDetailsRace = "american_indian_or_alaska_native"
+	PersonUSCfpbDataRaceDetailsRaceAsian                                PersonUSCfpbDataRaceDetailsRace = "asian"
+	PersonUSCfpbDataRaceDetailsRaceAsianIndian                          PersonUSCfpbDataRaceDetailsRace = "asian_indian"
+	PersonUSCfpbDataRaceDetailsRaceBlackOrAfricanAmerican               PersonUSCfpbDataRaceDetailsRace = "black_or_african_american"
+	PersonUSCfpbDataRaceDetailsRaceChinese                              PersonUSCfpbDataRaceDetailsRace = "chinese"
+	PersonUSCfpbDataRaceDetailsRaceEthiopian                            PersonUSCfpbDataRaceDetailsRace = "ethiopian"
+	PersonUSCfpbDataRaceDetailsRaceFilipino                             PersonUSCfpbDataRaceDetailsRace = "filipino"
+	PersonUSCfpbDataRaceDetailsRaceGuamanianOrChamorro                  PersonUSCfpbDataRaceDetailsRace = "guamanian_or_chamorro"
+	PersonUSCfpbDataRaceDetailsRaceHaitian                              PersonUSCfpbDataRaceDetailsRace = "haitian"
+	PersonUSCfpbDataRaceDetailsRaceJamaican                             PersonUSCfpbDataRaceDetailsRace = "jamaican"
+	PersonUSCfpbDataRaceDetailsRaceJapanese                             PersonUSCfpbDataRaceDetailsRace = "japanese"
+	PersonUSCfpbDataRaceDetailsRaceKorean                               PersonUSCfpbDataRaceDetailsRace = "korean"
+	PersonUSCfpbDataRaceDetailsRaceNativeHawaiian                       PersonUSCfpbDataRaceDetailsRace = "native_hawaiian"
+	PersonUSCfpbDataRaceDetailsRaceNativeHawaiianOrOtherPacificIslander PersonUSCfpbDataRaceDetailsRace = "native_hawaiian_or_other_pacific_islander"
+	PersonUSCfpbDataRaceDetailsRaceNigerian                             PersonUSCfpbDataRaceDetailsRace = "nigerian"
+	PersonUSCfpbDataRaceDetailsRaceOtherAsian                           PersonUSCfpbDataRaceDetailsRace = "other_asian"
+	PersonUSCfpbDataRaceDetailsRaceOtherBlackOrAfricanAmerican          PersonUSCfpbDataRaceDetailsRace = "other_black_or_african_american"
+	PersonUSCfpbDataRaceDetailsRaceOtherPacificIslander                 PersonUSCfpbDataRaceDetailsRace = "other_pacific_islander"
+	PersonUSCfpbDataRaceDetailsRacePreferNotToAnswer                    PersonUSCfpbDataRaceDetailsRace = "prefer_not_to_answer"
+	PersonUSCfpbDataRaceDetailsRaceSamoan                               PersonUSCfpbDataRaceDetailsRace = "samoan"
+	PersonUSCfpbDataRaceDetailsRaceSomali                               PersonUSCfpbDataRaceDetailsRace = "somali"
+	PersonUSCfpbDataRaceDetailsRaceVietnamese                           PersonUSCfpbDataRaceDetailsRace = "vietnamese"
+	PersonUSCfpbDataRaceDetailsRaceWhite                                PersonUSCfpbDataRaceDetailsRace = "white"
+)
+
 // One of `document_corrupt`, `document_country_not_supported`, `document_expired`, `document_failed_copy`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_failed_greyscale`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_missing_back`, `document_missing_front`, `document_not_readable`, `document_not_uploaded`, `document_photo_mismatch`, `document_too_large`, or `document_type_not_supported`. A machine-readable code specifying the verification state for this document.
 type PersonVerificationDocumentDetailsCode string
 
@@ -58,7 +103,7 @@ const (
 	PersonVerificationDetailsCodeDocumentNationalityMismatch PersonVerificationDetailsCode = "document_nationality_mismatch"
 )
 
-// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`.
+// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`. Please refer [guide](https://stripe.com/docs/connect/handling-api-verification) to handle verification updates.
 type PersonVerificationStatus string
 
 // List of values that PersonVerificationStatus can take
@@ -126,6 +171,8 @@ type PersonParams struct {
 	Relationship *PersonRelationshipParams `form:"relationship"`
 	// The last four digits of the person's Social Security number (U.S. only).
 	SSNLast4 *string `form:"ssn_last_4"`
+	// Demographic data related to the person.
+	USCfpbData *PersonUSCfpbDataParams `form:"us_cfpb_data"`
 	// The person's verification status.
 	Verification *PersonVerificationParams `form:"verification"`
 }
@@ -252,6 +299,32 @@ type PersonRelationshipParams struct {
 	Representative *bool `form:"representative"`
 	// The person's title (e.g., CEO, Support Engineer).
 	Title *string `form:"title"`
+}
+
+// The persons ethnicity details
+type PersonUSCfpbDataEthnicityDetailsParams struct {
+	// The persons ethnicity
+	Ethnicity []*string `form:"ethnicity"`
+	// Please specify your origin, when other is selected.
+	EthnicityOther *string `form:"ethnicity_other"`
+}
+
+// The persons race details
+type PersonUSCfpbDataRaceDetailsParams struct {
+	// The persons race.
+	Race []*string `form:"race"`
+	// Please specify your race, when other is selected.
+	RaceOther *string `form:"race_other"`
+}
+
+// Demographic data related to the person.
+type PersonUSCfpbDataParams struct {
+	// The persons ethnicity details
+	EthnicityDetails *PersonUSCfpbDataEthnicityDetailsParams `form:"ethnicity_details"`
+	// The persons race details
+	RaceDetails *PersonUSCfpbDataRaceDetailsParams `form:"race_details"`
+	// The persons self-identified gender
+	SelfIdentifiedGender *string `form:"self_identified_gender"`
 }
 
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
@@ -430,6 +503,32 @@ type PersonUpdateRelationshipParams struct {
 	Title *string `form:"title"`
 }
 
+// The persons ethnicity details
+type PersonUpdateUSCfpbDataEthnicityDetailsParams struct {
+	// The persons ethnicity
+	Ethnicity []*string `form:"ethnicity"`
+	// Please specify your origin, when other is selected.
+	EthnicityOther *string `form:"ethnicity_other"`
+}
+
+// The persons race details
+type PersonUpdateUSCfpbDataRaceDetailsParams struct {
+	// The persons race.
+	Race []*string `form:"race"`
+	// Please specify your race, when other is selected.
+	RaceOther *string `form:"race_other"`
+}
+
+// Demographic data related to the person.
+type PersonUpdateUSCfpbDataParams struct {
+	// The persons ethnicity details
+	EthnicityDetails *PersonUpdateUSCfpbDataEthnicityDetailsParams `form:"ethnicity_details"`
+	// The persons race details
+	RaceDetails *PersonUpdateUSCfpbDataRaceDetailsParams `form:"race_details"`
+	// The persons self-identified gender
+	SelfIdentifiedGender *string `form:"self_identified_gender"`
+}
+
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonUpdateVerificationAdditionalDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -512,6 +611,8 @@ type PersonUpdateParams struct {
 	Relationship *PersonUpdateRelationshipParams `form:"relationship"`
 	// The last four digits of the person's Social Security number (U.S. only).
 	SSNLast4 *string `form:"ssn_last_4"`
+	// Demographic data related to the person.
+	USCfpbData *PersonUpdateUSCfpbDataParams `form:"us_cfpb_data"`
 	// The person's verification status.
 	Verification *PersonUpdateVerificationParams `form:"verification"`
 }
@@ -640,6 +741,32 @@ type PersonCreateRelationshipParams struct {
 	Title *string `form:"title"`
 }
 
+// The persons ethnicity details
+type PersonCreateUSCfpbDataEthnicityDetailsParams struct {
+	// The persons ethnicity
+	Ethnicity []*string `form:"ethnicity"`
+	// Please specify your origin, when other is selected.
+	EthnicityOther *string `form:"ethnicity_other"`
+}
+
+// The persons race details
+type PersonCreateUSCfpbDataRaceDetailsParams struct {
+	// The persons race.
+	Race []*string `form:"race"`
+	// Please specify your race, when other is selected.
+	RaceOther *string `form:"race_other"`
+}
+
+// Demographic data related to the person.
+type PersonCreateUSCfpbDataParams struct {
+	// The persons ethnicity details
+	EthnicityDetails *PersonCreateUSCfpbDataEthnicityDetailsParams `form:"ethnicity_details"`
+	// The persons race details
+	RaceDetails *PersonCreateUSCfpbDataRaceDetailsParams `form:"race_details"`
+	// The persons self-identified gender
+	SelfIdentifiedGender *string `form:"self_identified_gender"`
+}
+
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonCreateVerificationAdditionalDocumentParams struct {
 	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`. The uploaded file needs to be a color image (smaller than 8,000px by 8,000px), in JPG, PNG, or PDF format, and less than 10 MB in size.
@@ -722,6 +849,8 @@ type PersonCreateParams struct {
 	Relationship *PersonCreateRelationshipParams `form:"relationship"`
 	// The last four digits of the person's Social Security number (U.S. only).
 	SSNLast4 *string `form:"ssn_last_4"`
+	// Demographic data related to the person.
+	USCfpbData *PersonCreateUSCfpbDataParams `form:"us_cfpb_data"`
 	// The person's verification status.
 	Verification *PersonCreateVerificationParams `form:"verification"`
 }
@@ -874,6 +1003,32 @@ type PersonRequirements struct {
 	PendingVerification []string `json:"pending_verification"`
 }
 
+// The persons ethnicity details
+type PersonUSCfpbDataEthnicityDetails struct {
+	// The persons ethnicity
+	Ethnicity []PersonUSCfpbDataEthnicityDetailsEthnicity `json:"ethnicity"`
+	// Please specify your origin, when other is selected.
+	EthnicityOther string `json:"ethnicity_other"`
+}
+
+// The persons race details
+type PersonUSCfpbDataRaceDetails struct {
+	// The persons race.
+	Race []PersonUSCfpbDataRaceDetailsRace `json:"race"`
+	// Please specify your race, when other is selected.
+	RaceOther string `json:"race_other"`
+}
+
+// Demographic data related to the person.
+type PersonUSCfpbData struct {
+	// The persons ethnicity details
+	EthnicityDetails *PersonUSCfpbDataEthnicityDetails `json:"ethnicity_details"`
+	// The persons race details
+	RaceDetails *PersonUSCfpbDataRaceDetails `json:"race_details"`
+	// The persons self-identified gender
+	SelfIdentifiedGender string `json:"self_identified_gender"`
+}
+
 // A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonVerificationDocument struct {
 	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
@@ -893,7 +1048,7 @@ type PersonVerification struct {
 	// One of `document_address_mismatch`, `document_dob_mismatch`, `document_duplicate_type`, `document_id_number_mismatch`, `document_name_mismatch`, `document_nationality_mismatch`, `failed_keyed_identity`, or `failed_other`. A machine-readable code specifying the verification state for the person.
 	DetailsCode PersonVerificationDetailsCode `json:"details_code"`
 	Document    *PersonVerificationDocument   `json:"document"`
-	// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`.
+	// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`. Please refer [guide](https://stripe.com/docs/connect/handling-api-verification) to handle verification updates.
 	Status PersonVerificationStatus `json:"status"`
 }
 
@@ -959,8 +1114,10 @@ type Person struct {
 	// Information about the requirements for this person, including what information needs to be collected, and by when.
 	Requirements *PersonRequirements `json:"requirements"`
 	// Whether the last four digits of the person's Social Security number have been provided (U.S. only).
-	SSNLast4Provided bool                `json:"ssn_last_4_provided"`
-	Verification     *PersonVerification `json:"verification"`
+	SSNLast4Provided bool `json:"ssn_last_4_provided"`
+	// Demographic data related to the person.
+	USCfpbData   *PersonUSCfpbData   `json:"us_cfpb_data"`
+	Verification *PersonVerification `json:"verification"`
 }
 
 // PersonList is a list of Persons as retrieved from a list endpoint.

@@ -738,6 +738,8 @@ type ChargeBillingDetails struct {
 	Name string `json:"name"`
 	// Billing phone number (including extension).
 	Phone string `json:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID string `json:"tax_id"`
 }
 
 // Information on fraud assessments for the charge.

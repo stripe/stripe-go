@@ -6,6 +6,23 @@
 
 package stripe
 
+// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
+// One of `month`.
+type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval string
+
+// List of values that ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval can take
+const (
+	ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanIntervalMonth ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval = "month"
+)
+
+// Type of installment plan, one of `fixed_count`.
+type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType string
+
+// List of values that ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType can take
+const (
+	ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanTypeFixedCount ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType = "fixed_count"
+)
+
 // This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
 type ConfirmationTokenPaymentMethodPreviewAllowRedisplay string
 
@@ -486,11 +503,27 @@ type ConfirmationTokenMandateData struct {
 	// This hash contains details about the customer acceptance of the Mandate.
 	CustomerAcceptance *ConfirmationTokenMandateDataCustomerAcceptance `json:"customer_acceptance"`
 }
+type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlan struct {
+	// For `fixed_count` installment plans, this is the number of installment payments your customer will make to their credit card.
+	Count int64 `json:"count"`
+	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
+	// One of `month`.
+	Interval ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval `json:"interval"`
+	// Type of installment plan, one of `fixed_count`.
+	Type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType `json:"type"`
+}
+
+// Installment configuration for payments.
+type ConfirmationTokenPaymentMethodOptionsCardInstallments struct {
+	Plan *ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlan `json:"plan"`
+}
 
 // This hash contains the card payment method options.
 type ConfirmationTokenPaymentMethodOptionsCard struct {
 	// The `cvc_update` Token collected from the Payment Element.
 	CVCToken string `json:"cvc_token"`
+	// Installment configuration for payments.
+	Installments *ConfirmationTokenPaymentMethodOptionsCardInstallments `json:"installments"`
 }
 
 // Payment-method-specific configuration for this ConfirmationToken.
@@ -542,6 +575,8 @@ type ConfirmationTokenPaymentMethodPreviewBillingDetails struct {
 	Name string `json:"name"`
 	// Billing phone number (including extension).
 	Phone string `json:"phone"`
+	// Taxpayer identification number. Used only for transactions between LATAM buyers and non-LATAM sellers.
+	TaxID string `json:"tax_id"`
 }
 type ConfirmationTokenPaymentMethodPreviewBLIK struct{}
 type ConfirmationTokenPaymentMethodPreviewBoleto struct {

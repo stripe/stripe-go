@@ -60,7 +60,7 @@ type V2RawEvent struct {
 }
 
 // V1BillingMeterErrorReportTriggeredEvent is the Go struct for the "v1.billing.meter.error_report_triggered" event.
-// This event occurs when there are invalid async usage events for a given meter.
+// Occurs when a Meter has invalid async usage events.
 type V1BillingMeterErrorReportTriggeredEvent struct {
 	V2BaseEvent
 	Data               V1BillingMeterErrorReportTriggeredEventData `json:"data"`
@@ -74,7 +74,7 @@ func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingM
 }
 
 // V1BillingMeterNoMeterFoundEvent is the Go struct for the "v1.billing.meter.no_meter_found" event.
-// This event occurs when async usage events have missing or invalid meter ids.
+// Occurs when a Meter's id is missing or invalid in async usage events.
 type V1BillingMeterNoMeterFoundEvent struct {
 	V2BaseEvent
 	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
@@ -125,7 +125,7 @@ type V1BillingMeterErrorReportTriggeredEventDataReason struct {
 	ErrorTypes []*V1BillingMeterErrorReportTriggeredEventDataReasonErrorType `json:"error_types"`
 }
 
-// This event occurs when there are invalid async usage events for a given meter.
+// Occurs when a Meter has invalid async usage events.
 type V1BillingMeterErrorReportTriggeredEventData struct {
 	// Extra field included in the event's `data` when fetched from /v2/events.
 	DeveloperMessageSummary string `json:"developer_message_summary"`
@@ -169,7 +169,7 @@ type V1BillingMeterNoMeterFoundEventDataReason struct {
 	ErrorTypes []*V1BillingMeterNoMeterFoundEventDataReasonErrorType `json:"error_types"`
 }
 
-// This event occurs when async usage events have missing or invalid meter ids.
+// Occurs when a Meter's id is missing or invalid in async usage events.
 type V1BillingMeterNoMeterFoundEventData struct {
 	// Extra field included in the event's `data` when fetched from /v2/events.
 	DeveloperMessageSummary string `json:"developer_message_summary"`

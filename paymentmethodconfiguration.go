@@ -672,6 +672,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationPixDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationPixDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationPixDisplayPreferencePreferenceNone PaymentMethodConfigurationPixDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationPixDisplayPreferencePreferenceOff  PaymentMethodConfigurationPixDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationPixDisplayPreferencePreferenceOn   PaymentMethodConfigurationPixDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationPixDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationPixDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationPixDisplayPreferenceValueOff PaymentMethodConfigurationPixDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationPixDisplayPreferenceValueOn  PaymentMethodConfigurationPixDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationPromptPayDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationPromptPayDisplayPreferencePreference can take
@@ -1308,6 +1327,18 @@ type PaymentMethodConfigurationPaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationPixDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+type PaymentMethodConfigurationPixParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationPixDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationPromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1510,6 +1541,8 @@ type PaymentMethodConfigurationParams struct {
 	PayNow *PaymentMethodConfigurationPayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationPaypalParams `form:"paypal"`
+	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+	Pix *PaymentMethodConfigurationPixParams `form:"pix"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationPromptPayParams `form:"promptpay"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
@@ -1970,6 +2003,18 @@ type PaymentMethodConfigurationCreatePaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreatePixDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+type PaymentMethodConfigurationCreatePixParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreatePixDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreatePromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2170,6 +2215,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	PayNow *PaymentMethodConfigurationCreatePayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationCreatePaypalParams `form:"paypal"`
+	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+	Pix *PaymentMethodConfigurationCreatePixParams `form:"pix"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationCreatePromptPayParams `form:"promptpay"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
@@ -2642,6 +2689,18 @@ type PaymentMethodConfigurationUpdatePaypalParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdatePixDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+type PaymentMethodConfigurationUpdatePixParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdatePixDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdatePromptPayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2842,6 +2901,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	PayNow *PaymentMethodConfigurationUpdatePayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
 	Paypal *PaymentMethodConfigurationUpdatePaypalParams `form:"paypal"`
+	// Pix is a payment method popular in Brazil. When paying with Pix, customers authenticate and approve payments by scanning a QR code in their preferred banking app. Check this [page](https://docs.stripe.com/payments/pix) for more details.
+	Pix *PaymentMethodConfigurationUpdatePixParams `form:"pix"`
 	// PromptPay is a Thailand-based payment method that allows customers to make a payment using their preferred app from participating banks. Check this [page](https://stripe.com/docs/payments/promptpay) for more details.
 	PromptPay *PaymentMethodConfigurationUpdatePromptPayParams `form:"promptpay"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
@@ -3324,6 +3385,19 @@ type PaymentMethodConfigurationPaypal struct {
 	Available         bool                                               `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationPaypalDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationPixDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationPixDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationPixDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationPix struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                            `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationPixDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationPromptPayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -3522,6 +3596,7 @@ type PaymentMethodConfiguration struct {
 	PayByBank     *PaymentMethodConfigurationPayByBank     `json:"pay_by_bank"`
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
+	Pix           *PaymentMethodConfigurationPix           `json:"pix"`
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
 	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay"`
