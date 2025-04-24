@@ -1,4 +1,4 @@
 {
   // Show the repo name in the top window bar.
-  "window.title": "${rootName}${separator}${activeEditorMedium}"
+  "window.title": "${rootName}${separator}${activeEditorMedium}",
 }
