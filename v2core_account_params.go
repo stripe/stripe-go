@@ -21,7 +21,7 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxParams struct {
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
-	// The data source used by Stripe Tax to identify the customer's location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
 }
 
@@ -569,15 +569,15 @@ type V2CoreAccountConfigurationRecipientCapabilitiesCardsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Allows the recipient to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Capabilities that enable the recipient to receive money into their Stripe Balance (/v1/balance).
+// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Allows the recipient to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 	StripeTransfers *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -587,7 +587,7 @@ type V2CoreAccountConfigurationRecipientCapabilitiesParams struct {
 	BankAccounts *V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Capability that enable OutboundPayments to a debit card linked to this Account.
 	Cards *V2CoreAccountConfigurationRecipientCapabilitiesCardsParams `form:"cards" json:"cards,omitempty"`
-	// Capabilities that enable the recipient to receive money into their Stripe Balance (/v1/balance).
+	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
@@ -1253,7 +1253,7 @@ type V2CoreAccountCreateConfigurationCustomerAutomaticIndirectTaxParams struct {
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
-	// The data source used by Stripe Tax to identify the customer's location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
 }
 
@@ -1799,15 +1799,15 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesCardsParams struct {
 	Requested *bool `form:"requested" json:"requested"`
 }
 
-// Allows the recipient to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested"`
 }
 
-// Capabilities that enable the recipient to receive money into their Stripe Balance (/v1/balance).
+// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Allows the recipient to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 	StripeTransfers *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -1817,7 +1817,7 @@ type V2CoreAccountCreateConfigurationRecipientCapabilitiesParams struct {
 	BankAccounts *V2CoreAccountCreateConfigurationRecipientCapabilitiesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Capabilities that enable OutboundPayments to a card linked to this Account.
 	Cards *V2CoreAccountCreateConfigurationRecipientCapabilitiesCardsParams `form:"cards" json:"cards,omitempty"`
-	// Capabilities that enable the recipient to receive money into their Stripe Balance (/v1/balance).
+	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountCreateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 
@@ -2479,7 +2479,7 @@ type V2CoreAccountUpdateConfigurationCustomerAutomaticIndirectTaxParams struct {
 	Exempt *string `form:"exempt" json:"exempt,omitempty"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress *string `form:"ip_address" json:"ip_address,omitempty"`
-	// The data source used by Stripe Tax to identify the customer's location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource *string `form:"location_source" json:"location_source,omitempty"`
 }
 
@@ -3027,15 +3027,15 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesCardsParams struct {
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Allows the recipient to receive /v1/transfers into their Stripe Balance (/v1/balance).
+// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams struct {
 	// To request a new Capability for an account, pass true. There can be a delay before the requested Capability becomes active.
 	Requested *bool `form:"requested" json:"requested,omitempty"`
 }
 
-// Capabilities that enable the recipient to receive money into their Stripe Balance (/v1/balance).
+// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams struct {
-	// Allows the recipient to receive /v1/transfers into their Stripe Balance (/v1/balance).
+	// Allows the account to receive /v1/transfers into their Stripe Balance (/v1/balance).
 	StripeTransfers *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersParams `form:"stripe_transfers" json:"stripe_transfers,omitempty"`
 }
 
@@ -3045,7 +3045,7 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams struct {
 	BankAccounts *V2CoreAccountUpdateConfigurationRecipientCapabilitiesBankAccountsParams `form:"bank_accounts" json:"bank_accounts,omitempty"`
 	// Capability that enable OutboundPayments to a debit card linked to this Account.
 	Cards *V2CoreAccountUpdateConfigurationRecipientCapabilitiesCardsParams `form:"cards" json:"cards,omitempty"`
-	// Capabilities that enable the recipient to receive money into their Stripe Balance (/v1/balance).
+	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountUpdateConfigurationRecipientCapabilitiesStripeBalanceParams `form:"stripe_balance" json:"stripe_balance,omitempty"`
 }
 

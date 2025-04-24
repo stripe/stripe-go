@@ -265,13 +265,14 @@ const (
 	V2MoneyManagementFinancialAccountCountryZw V2MoneyManagementFinancialAccountCountry = "zw"
 )
 
-// An enum value that specifies which state the FinancialAccount is in.
+// Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
 type V2MoneyManagementFinancialAccountStatus string
 
 // List of values that V2MoneyManagementFinancialAccountStatus can take
 const (
-	V2MoneyManagementFinancialAccountStatusClosed V2MoneyManagementFinancialAccountStatus = "closed"
-	V2MoneyManagementFinancialAccountStatusOpen   V2MoneyManagementFinancialAccountStatus = "open"
+	V2MoneyManagementFinancialAccountStatusClosed  V2MoneyManagementFinancialAccountStatus = "closed"
+	V2MoneyManagementFinancialAccountStatusOpen    V2MoneyManagementFinancialAccountStatus = "open"
+	V2MoneyManagementFinancialAccountStatusPending V2MoneyManagementFinancialAccountStatus = "pending"
 )
 
 // The currencies that this FinancialAccount can hold.
@@ -436,6 +437,7 @@ const (
 	V2MoneyManagementFinancialAccountStorageHoldsCurrencyUah  V2MoneyManagementFinancialAccountStorageHoldsCurrency = "uah"
 	V2MoneyManagementFinancialAccountStorageHoldsCurrencyUgx  V2MoneyManagementFinancialAccountStorageHoldsCurrency = "ugx"
 	V2MoneyManagementFinancialAccountStorageHoldsCurrencyUSD  V2MoneyManagementFinancialAccountStorageHoldsCurrency = "usd"
+	V2MoneyManagementFinancialAccountStorageHoldsCurrencyUsdb V2MoneyManagementFinancialAccountStorageHoldsCurrency = "usdb"
 	V2MoneyManagementFinancialAccountStorageHoldsCurrencyUsdc V2MoneyManagementFinancialAccountStorageHoldsCurrency = "usdc"
 	V2MoneyManagementFinancialAccountStorageHoldsCurrencyUsn  V2MoneyManagementFinancialAccountStorageHoldsCurrency = "usn"
 	V2MoneyManagementFinancialAccountStorageHoldsCurrencyUyi  V2MoneyManagementFinancialAccountStorageHoldsCurrency = "uyi"
@@ -504,11 +506,13 @@ type V2MoneyManagementFinancialAccount struct {
 	Description string    `json:"description"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.
 	Other *V2MoneyManagementFinancialAccountOther `json:"other"`
-	// An enum value that specifies which state the FinancialAccount is in.
+	// Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
 	Status V2MoneyManagementFinancialAccountStatus `json:"status"`
 	// If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 	Storage *V2MoneyManagementFinancialAccountStorage `json:"storage"`

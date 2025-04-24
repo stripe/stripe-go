@@ -26,7 +26,7 @@ const (
 	V2MoneyManagementPayoutMethodTypeCard        V2MoneyManagementPayoutMethodType = "card"
 )
 
-// Payments status.
+// Payments status - used when sending OutboundPayments (sending funds to recipients).
 type V2MoneyManagementPayoutMethodUsageStatusPayments string
 
 // List of values that V2MoneyManagementPayoutMethodUsageStatusPayments can take
@@ -36,7 +36,7 @@ const (
 	V2MoneyManagementPayoutMethodUsageStatusPaymentsRequiresAction V2MoneyManagementPayoutMethodUsageStatusPayments = "requires_action"
 )
 
-// Transfers status.
+// Transfers status - used when making an OutboundTransfer (sending funds to yourself).
 type V2MoneyManagementPayoutMethodUsageStatusTransfers string
 
 // List of values that V2MoneyManagementPayoutMethodUsageStatusTransfers can take
@@ -48,9 +48,9 @@ const (
 
 // Indicates whether the payout method has met the necessary requirements for outbound money movement.
 type V2MoneyManagementPayoutMethodUsageStatus struct {
-	// Payments status.
+	// Payments status - used when sending OutboundPayments (sending funds to recipients).
 	Payments V2MoneyManagementPayoutMethodUsageStatusPayments `json:"payments"`
-	// Transfers status.
+	// Transfers status - used when making an OutboundTransfer (sending funds to yourself).
 	Transfers V2MoneyManagementPayoutMethodUsageStatusTransfers `json:"transfers"`
 }
 
@@ -103,6 +103,8 @@ type V2MoneyManagementPayoutMethod struct {
 	ID string `json:"id"`
 	// ID of the underlying active OutboundSetupIntent object, if any.
 	LatestOutboundSetupIntent string `json:"latest_outbound_setup_intent"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// Closed Enum. The type of payout method.

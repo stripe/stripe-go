@@ -26,3 +26,12 @@ func (c Client) New(params *stripe.V2MoneyManagementOutboundPaymentQuoteParams) 
 		http.MethodPost, "/v2/money_management/outbound_payment_quotes", c.Key, params, outboundpaymentquote)
 	return outboundpaymentquote, err
 }
+
+// Retrieves the details of an existing OutboundPaymentQuote by passing the unique OutboundPaymentQuote ID.
+func (c Client) Get(id string, params *stripe.V2MoneyManagementOutboundPaymentQuoteParams) (*stripe.V2MoneyManagementOutboundPaymentQuote, error) {
+	path := stripe.FormatURLPath(
+		"/v2/money_management/outbound_payment_quotes/%s", id)
+	outboundpaymentquote := &stripe.V2MoneyManagementOutboundPaymentQuote{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, outboundpaymentquote)
+	return outboundpaymentquote, err
+}

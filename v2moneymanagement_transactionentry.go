@@ -28,14 +28,13 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlowType string
 
 // List of values that V2MoneyManagementTransactionEntryTransactionDetailsFlowType can take
 const (
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeAdjustment         V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "adjustment"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCurrencyConversion V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "currency_conversion"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundPayment    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_payment"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundTransfer   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedCredit     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_credit"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedDebit      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_debit"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeAdjustment       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "adjustment"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer  V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundPayment  V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_payment"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundTransfer V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedCredit   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_credit"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedDebit    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_debit"
 )
 
 // The delta to the FinancialAccount's balance.
@@ -89,6 +88,8 @@ type V2MoneyManagementTransactionEntry struct {
 	EffectiveAt time.Time `json:"effective_at"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// The Transaction that this TransactionEntry belongs to.

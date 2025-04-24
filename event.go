@@ -46,6 +46,7 @@ const (
 	EventTypeApplicationFeeRefundUpdated                          EventType = "application_fee.refund.updated"
 	EventTypeApplicationFeeRefunded                               EventType = "application_fee.refunded"
 	EventTypeBalanceAvailable                                     EventType = "balance.available"
+	EventTypeBalanceSettingsUpdated                               EventType = "balance_settings.updated"
 	EventTypeBillingAlertTriggered                                EventType = "billing.alert.triggered"
 	EventTypeBillingMeterErrorReportTriggered                     EventType = "billing.meter_error_report.triggered"
 	EventTypeBillingPortalConfigurationCreated                    EventType = "billing_portal.configuration.created"
@@ -321,7 +322,6 @@ const (
 	EventTypeBillingMeterDeactivated                              EventType = "billing.meter.deactivated"
 	EventTypeBillingMeterReactivated                              EventType = "billing.meter.reactivated"
 	EventTypeBillingMeterUpdated                                  EventType = "billing.meter.updated"
-	EventTypeBalanceSettingsUpdated                               EventType = "balance_settings.updated"
 )
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).

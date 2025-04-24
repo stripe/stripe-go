@@ -36,7 +36,6 @@ type V2MoneyManagementReceivedDebitType string
 // List of values that V2MoneyManagementReceivedDebitType can take
 const (
 	V2MoneyManagementReceivedDebitTypeBankTransfer  V2MoneyManagementReceivedDebitType = "bank_transfer"
-	V2MoneyManagementReceivedDebitTypeCardSpend     V2MoneyManagementReceivedDebitType = "card_spend"
 	V2MoneyManagementReceivedDebitTypeExternalDebit V2MoneyManagementReceivedDebitType = "external_debit"
 )
 
@@ -105,32 +104,6 @@ type V2MoneyManagementReceivedDebitBankTransfer struct {
 	USBankAccount *V2MoneyManagementReceivedDebitBankTransferUSBankAccount `json:"us_bank_account"`
 }
 
-// The Issuing Authorization for this card_spend. Contains the reference id and the amount.
-type V2MoneyManagementReceivedDebitCardSpendAuthorization struct {
-	// Amount associated with this issuing authorization.
-	Amount Amount `json:"amount"`
-	// The reference to the v1 issuing authorization ID.
-	IssuingAuthorizationV1 string `json:"issuing_authorization_v1"`
-}
-
-// The list of card spend transactions. These contain the transaction reference ID and the amount.
-type V2MoneyManagementReceivedDebitCardSpendCardTransaction struct {
-	// Amount associated with this issuing transaction.
-	Amount Amount `json:"amount"`
-	// The reference to the v1 issuing transaction ID.
-	IssuingTransactionV1 string `json:"issuing_transaction_v1"`
-}
-
-// This object stores details about the issuing transactions that resulted in the ReceivedDebit. Present if `type` field value is `card_spend`.
-type V2MoneyManagementReceivedDebitCardSpend struct {
-	// The Issuing Authorization for this card_spend. Contains the reference id and the amount.
-	Authorization *V2MoneyManagementReceivedDebitCardSpendAuthorization `json:"authorization"`
-	// The list of card spend transactions. These contain the transaction reference ID and the amount.
-	CardTransactions []*V2MoneyManagementReceivedDebitCardSpendCardTransaction `json:"card_transactions"`
-	// The reference to the card object that resulted in the debit.
-	CardV1ID string `json:"card_v1_id"`
-}
-
 // ReceivedDebit resource
 type V2MoneyManagementReceivedDebit struct {
 	APIResource
@@ -138,8 +111,6 @@ type V2MoneyManagementReceivedDebit struct {
 	Amount Amount `json:"amount"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedDebit. Present if `type` field value is `bank_transfer`.
 	BankTransfer *V2MoneyManagementReceivedDebitBankTransfer `json:"bank_transfer"`
-	// This object stores details about the issuing transactions that resulted in the ReceivedDebit. Present if `type` field value is `card_spend`.
-	CardSpend *V2MoneyManagementReceivedDebitCardSpend `json:"card_spend"`
 	// The time at which the ReceivedDebit was created.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: `2022-09-18T13:22:18.123Z`.
 	Created time.Time `json:"created"`
@@ -149,6 +120,8 @@ type V2MoneyManagementReceivedDebit struct {
 	FinancialAccount string `json:"financial_account"`
 	// Unique identifier for the ReceivedDebit.
 	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// A link to the Stripe-hosted receipt for this ReceivedDebit.

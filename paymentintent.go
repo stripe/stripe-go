@@ -1697,7 +1697,7 @@ type PaymentIntentPaymentDetailsLodgingParams struct {
 	BookingNumber *string `form:"booking_number"`
 	// The lodging category
 	Category *string `form:"category"`
-	// Loding check-in time. Measured in seconds since the Unix epoch.
+	// Lodging check-in time. Measured in seconds since the Unix epoch.
 	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
 	CheckoutAt *int64 `form:"checkout_at"`
@@ -3676,7 +3676,7 @@ type PaymentIntentCapturePaymentDetailsLodgingParams struct {
 	BookingNumber *string `form:"booking_number"`
 	// The lodging category
 	Category *string `form:"category"`
-	// Loding check-in time. Measured in seconds since the Unix epoch.
+	// Lodging check-in time. Measured in seconds since the Unix epoch.
 	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
 	CheckoutAt *int64 `form:"checkout_at"`
@@ -4054,7 +4054,7 @@ type PaymentIntentConfirmPaymentDetailsLodgingParams struct {
 	BookingNumber *string `form:"booking_number"`
 	// The lodging category
 	Category *string `form:"category"`
-	// Loding check-in time. Measured in seconds since the Unix epoch.
+	// Lodging check-in time. Measured in seconds since the Unix epoch.
 	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
 	CheckoutAt *int64 `form:"checkout_at"`
@@ -4730,7 +4730,7 @@ type PaymentIntentCreatePaymentDetailsLodgingParams struct {
 	BookingNumber *string `form:"booking_number"`
 	// The lodging category
 	Category *string `form:"category"`
-	// Loding check-in time. Measured in seconds since the Unix epoch.
+	// Lodging check-in time. Measured in seconds since the Unix epoch.
 	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
 	CheckoutAt *int64 `form:"checkout_at"`
@@ -6690,7 +6690,7 @@ type PaymentIntentUpdatePaymentDetailsLodgingParams struct {
 	BookingNumber *string `form:"booking_number"`
 	// The lodging category
 	Category *string `form:"category"`
-	// Loding check-in time. Measured in seconds since the Unix epoch.
+	// Lodging check-in time. Measured in seconds since the Unix epoch.
 	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
 	CheckoutAt *int64 `form:"checkout_at"`

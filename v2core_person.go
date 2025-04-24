@@ -1544,6 +1544,8 @@ type V2CorePersonIDNumber struct {
 
 // The relationship that this person has with the Account's business or legal entity.
 type V2CorePersonRelationship struct {
+	// Whether the individual is an authorizer of the Account's legal entity.
+	Authorizer bool `json:"authorizer"`
 	// Whether the individual is a director of the Account's legal entity. Directors are typically members of the governing board of the company, or responsible for ensuring the company meets its regulatory obligations.
 	Director bool `json:"director"`
 	// Whether the individual has significant responsibility to control, manage, or direct the organization.
@@ -1657,6 +1659,8 @@ type V2CorePerson struct {
 	IDNumbers []*V2CorePersonIDNumber `json:"id_numbers"`
 	// The person's gender (International regulations require either "male" or "female").
 	LegalGender V2CorePersonLegalGender `json:"legal_gender"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
 	// The countries where the person is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).

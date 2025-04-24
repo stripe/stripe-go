@@ -20,6 +20,15 @@ const (
 	SubscriptionScheduleBillingBehaviorProrateUpFront     SubscriptionScheduleBillingBehavior = "prorate_up_front"
 )
 
+// The [billing mode](https://stripe.com/api/subscriptions/create#create_subscription-billing_mode) that will be used to process all future operations for the subscription schedule.
+type SubscriptionScheduleBillingMode string
+
+// List of values that SubscriptionScheduleBillingMode can take
+const (
+	SubscriptionScheduleBillingModeCreditsAttributedToDebits SubscriptionScheduleBillingMode = "credits_attributed_to_debits"
+	SubscriptionScheduleBillingModeLegacyProrations          SubscriptionScheduleBillingMode = "legacy_prorations"
+)
+
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 type SubscriptionScheduleDefaultSettingsBillingCycleAnchor string
 
@@ -525,6 +534,8 @@ type SubscriptionScheduleParams struct {
 	Params `form:"*"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
+	// Configure billing_mode to opt in improved credit proration behavior.When the schedule creates a subscription, the subscription's `billing_mode` will be set to the same value as the schedule's `billing_mode`.
+	BillingMode *string `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.
@@ -1295,6 +1306,8 @@ type SubscriptionScheduleCreateParams struct {
 	Params `form:"*"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
+	// Configure billing_mode to opt in improved credit proration behavior.When the schedule creates a subscription, the subscription's `billing_mode` will be set to the same value as the schedule's `billing_mode`.
+	BillingMode *string `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.
@@ -1963,6 +1976,8 @@ type SubscriptionSchedule struct {
 	Application *Application `json:"application"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior SubscriptionScheduleBillingBehavior `json:"billing_behavior"`
+	// The [billing mode](https://stripe.com/api/subscriptions/create#create_subscription-billing_mode) that will be used to process all future operations for the subscription schedule.
+	BillingMode SubscriptionScheduleBillingMode `json:"billing_mode"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
 	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.

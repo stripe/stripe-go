@@ -796,7 +796,7 @@ type ChargePaymentDetailsLodgingParams struct {
 	BookingNumber *string `form:"booking_number"`
 	// The lodging category
 	Category *string `form:"category"`
-	// Loding check-in time. Measured in seconds since the Unix epoch.
+	// Lodging check-in time. Measured in seconds since the Unix epoch.
 	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
 	CheckoutAt *int64 `form:"checkout_at"`
@@ -1127,7 +1127,7 @@ type ChargeCapturePaymentDetailsLodgingParams struct {
 	BookingNumber *string `form:"booking_number"`
 	// The lodging category
 	Category *string `form:"category"`
-	// Loding check-in time. Measured in seconds since the Unix epoch.
+	// Lodging check-in time. Measured in seconds since the Unix epoch.
 	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
 	CheckoutAt *int64 `form:"checkout_at"`
@@ -1600,7 +1600,7 @@ type ChargeUpdatePaymentDetailsLodgingParams struct {
 	BookingNumber *string `form:"booking_number"`
 	// The lodging category
 	Category *string `form:"category"`
-	// Loding check-in time. Measured in seconds since the Unix epoch.
+	// Lodging check-in time. Measured in seconds since the Unix epoch.
 	CheckinAt *int64 `form:"checkin_at"`
 	// Lodging check-out time. Measured in seconds since the Unix epoch.
 	CheckoutAt *int64 `form:"checkout_at"`
