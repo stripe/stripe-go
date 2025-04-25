@@ -1,0 +1,51 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+package stripe
+
+import (
+	"context"
+	"net/http"
+
+	"github.com/stripe/stripe-go/v82/form"
+)
+
+// v1PrivacyRedactionJobValidationErrorService is used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.
+type v1PrivacyRedactionJobValidationErrorService struct {
+	B   Backend
+	Key string
+}
+
+// Retrieve validation error method
+func (c v1PrivacyRedactionJobValidationErrorService) Retrieve(ctx context.Context, id string, params *PrivacyRedactionJobValidationErrorRetrieveParams) (*PrivacyRedactionJobValidationError, error) {
+	path := FormatURLPath(
+		"/v1/privacy/redaction_jobs/%s/validation_errors/%s", StringValue(
+			params.Job), id)
+	redactionjobvalidationerror := &PrivacyRedactionJobValidationError{}
+	if params == nil {
+		params = &PrivacyRedactionJobValidationErrorRetrieveParams{}
+	}
+	params.Context = ctx
+	err := c.B.Call(
+		http.MethodGet, path, c.Key, params, redactionjobvalidationerror)
+	return redactionjobvalidationerror, err
+}
+
+// List validation errors method
+func (c v1PrivacyRedactionJobValidationErrorService) List(ctx context.Context, listParams *PrivacyRedactionJobValidationErrorListParams) Seq2[*PrivacyRedactionJobValidationError, error] {
+	path := FormatURLPath(
+		"/v1/privacy/redaction_jobs/%s/validation_errors", StringValue(
+			listParams.Job))
+	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PrivacyRedactionJobValidationError, ListContainer, error) {
+		list := &PrivacyRedactionJobValidationErrorList{}
+		if p == nil {
+			p = &Params{}
+		}
+		p.Context = ctx
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, []byte(b.Encode()), p, list)
+		return list.Data, list, err
+	}).All()
+}

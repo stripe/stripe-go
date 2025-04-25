@@ -112,6 +112,18 @@ func (p *TopupCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Cancels a top-up. Only pending top-ups can be canceled.
+type TopupCancelParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TopupCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the details of a top-up that has previously been created. Supply the unique top-up ID that was returned from your previous request, and Stripe will return the corresponding top-up information.
 type TopupRetrieveParams struct {
 	Params `form:"*"`
