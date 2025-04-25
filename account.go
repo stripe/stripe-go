@@ -2355,7 +2355,7 @@ type AccountUpdateExternalAccountParams struct {
 	Name     *string           `form:"name"`
 	Number   *string           `form:"number"`
 	Object   *string           `form:"object"`
-	// The routing number, sort code, or other country-appropriateinstitution number for the bank account. For US bank accounts, this is required and should bethe ACH routing number, not the wire routing number. If you are providing an IBAN for`account_number`, this field is not required.
+	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
 	RoutingNumber *string `form:"routing_number"`
 	Token         *string `form:"token"`
 }
@@ -3545,7 +3545,7 @@ type AccountCreateExternalAccountParams struct {
 	Name     *string           `form:"name"`
 	Number   *string           `form:"number"`
 	Object   *string           `form:"object"`
-	// The routing number, sort code, or other country-appropriateinstitution number for the bank account. For US bank accounts, this is required and should bethe ACH routing number, not the wire routing number. If you are providing an IBAN for`account_number`, this field is not required.
+	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
 	RoutingNumber *string `form:"routing_number"`
 	Token         *string `form:"token"`
 }
