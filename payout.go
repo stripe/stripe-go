@@ -219,6 +219,18 @@ func (p *PayoutCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Cancels a top-up. Only pending top-ups can be canceled.
+type PayoutCancelParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *PayoutCancelParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list. Stripe returns the corresponding payout information.
 type PayoutRetrieveParams struct {
 	Params `form:"*"`

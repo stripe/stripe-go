@@ -37,7 +37,6 @@ func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 		return nil, fmt.Errorf(
 			"params cannot be nil, and params.Purpose and params.File must be set")
 	}
-
 	bodyBuffer, boundary, err := params.GetBody()
 	if err != nil {
 		return nil, err
@@ -45,7 +44,6 @@ func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 
 	file := &stripe.File{}
 	err = c.BUploads.CallMultipart(http.MethodPost, "/v1/files", c.Key, boundary, bodyBuffer, &params.Params, file)
-
 	return file, err
 }
 
