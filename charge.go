@@ -647,9 +647,8 @@ type ChargeCreateParams struct {
 	// The email address to which this charge's [receipt](https://stripe.com/docs/dashboard/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https://stripe.com/docs/api/customers/object), the email address specified here will override the customer's email address. If `receipt_email` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
 	// Shipping information for the charge. Helps prevent fraud on charges for physical goods.
-	Shipping *ShippingDetailsParams `form:"shipping"`
-	// A payment source to be charged. This can be the ID of a [card](https://stripe.com/docs/api#cards) (i.e., credit or debit card), a [bank account](https://stripe.com/docs/api#bank_accounts), a [source](https://stripe.com/docs/api#sources), a [token](https://stripe.com/docs/api#tokens), or a [connected account](https://stripe.com/docs/connect/account-debits#charging-a-connected-account). For certain sources---namely, [cards](https://stripe.com/docs/api#cards), [bank accounts](https://stripe.com/docs/api#bank_accounts), and attached [sources](https://stripe.com/docs/api#sources)---you must also pass the ID of the associated customer.
-	Source *string `form:"source"`
+	Shipping *ShippingDetailsParams     `form:"shipping"`
+	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
 	// For a non-card charge, text that appears on the customer's statement as the statement descriptor. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
 	//
 	// For a card charge, this value is ignored unless you don't specify a `statement_descriptor_suffix`, in which case this value is used as the suffix.
@@ -660,6 +659,14 @@ type ChargeCreateParams struct {
 	TransferData *ChargeCreateTransferDataParams `form:"transfer_data"`
 	// A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options).
 	TransferGroup *string `form:"transfer_group"`
+}
+
+// SetSource adds valid sources to a ChargeCreateParams object,
+// returning an error for unsupported sources.
+func (p *ChargeCreateParams) SetSource(sp interface{}) error {
+	source, err := SourceParamsFor(sp)
+	p.Source = source
+	return err
 }
 
 // AddExpand appends a new field to expand.

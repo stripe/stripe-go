@@ -54,6 +54,7 @@ type EphemeralKeyCreateParams struct {
 	Nonce *string `form:"nonce"`
 	// The ID of the Identity VerificationSession you'd like to access using the resulting ephemeral key
 	VerificationSession *string `form:"verification_session"`
+	StripeVersion       *string `form:"-"` // This goes in the `Stripe-Version` header
 }
 
 // AddExpand appends a new field to expand.

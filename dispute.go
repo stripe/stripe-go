@@ -289,6 +289,20 @@ type DisputeEvidenceParams struct {
 	UncategorizedText *string `form:"uncategorized_text"`
 }
 
+// Closing the dispute for a charge indicates that you do not have any evidence to submit and are essentially dismissing the dispute, acknowledging it as lost.
+//
+// The status of the dispute will change from needs_response to lost. Closing a dispute is irreversible.
+type DisputeCloseParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *DisputeCloseParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves the dispute with the given ID.
 type DisputeRetrieveParams struct {
 	Params `form:"*"`

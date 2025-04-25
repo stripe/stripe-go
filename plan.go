@@ -277,6 +277,7 @@ func (p *PlanCreateProductParams) AddMetadata(key string, value string) {
 
 // Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 type PlanCreateTierParams struct {
+	Params `form:"*"`
 	// The flat billing amount for an entire tier, regardless of the number of units in the tier.
 	FlatAmount *int64 `form:"flat_amount"`
 	// Same as `flat_amount`, but accepts a decimal value representing an integer in the minor units of the currency. Only one of `flat_amount` and `flat_amount_decimal` can be set.
@@ -286,7 +287,7 @@ type PlanCreateTierParams struct {
 	// Same as `unit_amount`, but accepts a decimal value in cents (or local equivalent) with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 	// Specifies the upper bound of this tier. The lower bound of a tier is the upper bound of the previous tier adding one. Use `inf` to define a fallback tier.
-	UpTo    *int64 `form:"up_to"`
+	UpTo    *int64 `form:"-"` // See custom AppendTo
 	UpToInf *bool  `form:"-"` // See custom AppendTo
 }
 
@@ -294,6 +295,10 @@ type PlanCreateTierParams struct {
 func (p *PlanCreateTierParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.UpToInf) {
 		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
+	} else {
+		body.Add(
+			form.FormatKey(append(keyParts, "up_to")), strconv.FormatInt(
+				Int64Value(p.UpTo), 10))
 	}
 }
 

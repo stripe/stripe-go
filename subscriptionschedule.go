@@ -425,7 +425,7 @@ type SubscriptionScheduleCreateDefaultSettingsInvoiceSettingsParams struct {
 // Object representing the subscription schedule's default settings.
 type SubscriptionScheduleCreateDefaultSettingsParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
-	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	ApplicationFeePercent *float64 `form:"application_fee_percent,high_precision"`
 	// Default settings for automatic tax computation.
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
@@ -678,7 +678,7 @@ type SubscriptionScheduleUpdateDefaultSettingsInvoiceSettingsParams struct {
 // Object representing the subscription schedule's default settings.
 type SubscriptionScheduleUpdateDefaultSettingsParams struct {
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
-	ApplicationFeePercent *float64 `form:"application_fee_percent"`
+	ApplicationFeePercent *float64 `form:"application_fee_percent,high_precision"`
 	// Default settings for automatic tax computation.
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
