@@ -23,6 +23,10 @@ type v1SourceTransactionService struct {
 func (c v1SourceTransactionService) List(ctx context.Context, listParams *SourceTransactionListParams) Seq2[*SourceTransaction, error] {
 	path := FormatURLPath(
 		"/v1/sources/%s/source_transactions", StringValue(listParams.Source))
+	if listParams == nil {
+		listParams = &SourceTransactionListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SourceTransaction, ListContainer, error) {
 		list := &SourceTransactionList{}
 		if p == nil {

@@ -53,6 +53,10 @@ func (c v1FileService) Retrieve(ctx context.Context, id string, params *FileRetr
 
 // Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.
 func (c v1FileService) List(ctx context.Context, listParams *FileListParams) Seq2[*File, error] {
+	if listParams == nil {
+		listParams = &FileListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*File, ListContainer, error) {
 		list := &FileList{}
 		if p == nil {

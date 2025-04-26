@@ -45,6 +45,10 @@ func (c v1TreasuryCreditReversalService) Retrieve(ctx context.Context, id string
 
 // Returns a list of CreditReversals.
 func (c v1TreasuryCreditReversalService) List(ctx context.Context, listParams *TreasuryCreditReversalListParams) Seq2[*TreasuryCreditReversal, error] {
+	if listParams == nil {
+		listParams = &TreasuryCreditReversalListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryCreditReversal, ListContainer, error) {
 		list := &TreasuryCreditReversalList{}
 		if p == nil {

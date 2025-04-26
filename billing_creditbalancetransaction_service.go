@@ -33,6 +33,10 @@ func (c v1BillingCreditBalanceTransactionService) Retrieve(ctx context.Context, 
 
 // Retrieve a list of credit balance transactions.
 func (c v1BillingCreditBalanceTransactionService) List(ctx context.Context, listParams *BillingCreditBalanceTransactionListParams) Seq2[*BillingCreditBalanceTransaction, error] {
+	if listParams == nil {
+		listParams = &BillingCreditBalanceTransactionListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingCreditBalanceTransaction, ListContainer, error) {
 		list := &BillingCreditBalanceTransactionList{}
 		if p == nil {

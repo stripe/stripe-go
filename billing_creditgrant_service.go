@@ -81,6 +81,10 @@ func (c v1BillingCreditGrantService) VoidGrant(ctx context.Context, id string, p
 
 // Retrieve a list of credit grants.
 func (c v1BillingCreditGrantService) List(ctx context.Context, listParams *BillingCreditGrantListParams) Seq2[*BillingCreditGrant, error] {
+	if listParams == nil {
+		listParams = &BillingCreditGrantListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingCreditGrant, ListContainer, error) {
 		list := &BillingCreditGrantList{}
 		if p == nil {

@@ -33,6 +33,10 @@ func (c v1ApplicationFeeService) Retrieve(ctx context.Context, id string, params
 
 // Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
 func (c v1ApplicationFeeService) List(ctx context.Context, listParams *ApplicationFeeListParams) Seq2[*ApplicationFee, error] {
+	if listParams == nil {
+		listParams = &ApplicationFeeListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ApplicationFee, ListContainer, error) {
 		list := &ApplicationFeeList{}
 		if p == nil {

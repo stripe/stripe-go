@@ -61,6 +61,10 @@ func (c v1DisputeService) Close(ctx context.Context, id string, params *DisputeC
 
 // Returns a list of your disputes.
 func (c v1DisputeService) List(ctx context.Context, listParams *DisputeListParams) Seq2[*Dispute, error] {
+	if listParams == nil {
+		listParams = &DisputeListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Dispute, ListContainer, error) {
 		list := &DisputeList{}
 		if p == nil {

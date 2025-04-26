@@ -47,6 +47,10 @@ func (c v1TaxCalculationService) Retrieve(ctx context.Context, id string, params
 func (c v1TaxCalculationService) ListLineItems(ctx context.Context, listParams *TaxCalculationListLineItemsParams) Seq2[*TaxCalculationLineItem, error] {
 	path := FormatURLPath(
 		"/v1/tax/calculations/%s/line_items", StringValue(listParams.Calculation))
+	if listParams == nil {
+		listParams = &TaxCalculationListLineItemsParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxCalculationLineItem, ListContainer, error) {
 		list := &TaxCalculationLineItemList{}
 		if p == nil {

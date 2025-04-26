@@ -33,6 +33,10 @@ func (c v1TaxCodeService) Retrieve(ctx context.Context, id string, params *TaxCo
 
 // A list of [all tax codes available](https://stripe.com/docs/tax/tax-categories) to add to Products in order to allow specific tax calculations.
 func (c v1TaxCodeService) List(ctx context.Context, listParams *TaxCodeListParams) Seq2[*TaxCode, error] {
+	if listParams == nil {
+		listParams = &TaxCodeListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxCode, ListContainer, error) {
 		list := &TaxCodeList{}
 		if p == nil {
