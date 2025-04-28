@@ -33,7 +33,7 @@ func (c v2CoreEventService) Retrieve(ctx context.Context, id string, params *V2C
 }
 
 // List events, going back up to 30 days.
-func (c v2CoreEventService) All(ctx context.Context, listParams *V2CoreEventListParams) Seq2[V2Event, error] {
+func (c v2CoreEventService) List(ctx context.Context, listParams *V2CoreEventListParams) Seq2[V2Event, error] {
 	if listParams == nil {
 		listParams = &V2CoreEventListParams{}
 	}
