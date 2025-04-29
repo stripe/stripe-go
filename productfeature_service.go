@@ -61,6 +61,10 @@ func (c v1ProductFeatureService) Delete(ctx context.Context, id string, params *
 func (c v1ProductFeatureService) List(ctx context.Context, listParams *ProductFeatureListParams) Seq2[*ProductFeature, error] {
 	path := FormatURLPath(
 		"/v1/products/%s/features", StringValue(listParams.Product))
+	if listParams == nil {
+		listParams = &ProductFeatureListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ProductFeature, ListContainer, error) {
 		list := &ProductFeatureList{}
 		if p == nil {

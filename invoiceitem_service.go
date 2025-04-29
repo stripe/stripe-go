@@ -69,6 +69,10 @@ func (c v1InvoiceItemService) Delete(ctx context.Context, id string, params *Inv
 
 // Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
 func (c v1InvoiceItemService) List(ctx context.Context, listParams *InvoiceItemListParams) Seq2[*InvoiceItem, error] {
+	if listParams == nil {
+		listParams = &InvoiceItemListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoiceItem, ListContainer, error) {
 		list := &InvoiceItemList{}
 		if p == nil {

@@ -74,6 +74,10 @@ func (c v1ChargeService) Capture(ctx context.Context, id string, params *ChargeC
 
 // Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
 func (c v1ChargeService) List(ctx context.Context, listParams *ChargeListParams) Seq2[*Charge, error] {
+	if listParams == nil {
+		listParams = &ChargeListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Charge, ListContainer, error) {
 		list := &ChargeList{}
 		if p == nil {
@@ -90,6 +94,10 @@ func (c v1ChargeService) List(ctx context.Context, listParams *ChargeListParams)
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 func (c v1ChargeService) Search(ctx context.Context, params *ChargeSearchParams) Seq2[*Charge, error] {
+	if params == nil {
+		params = &ChargeSearchParams{}
+	}
+	params.Context = ctx
 	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Charge, SearchContainer, error) {
 		list := &ChargeSearchResult{}
 		if p == nil {

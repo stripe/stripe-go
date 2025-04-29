@@ -69,6 +69,10 @@ func (c v1SubscriptionItemService) Delete(ctx context.Context, id string, params
 
 // Returns a list of your subscription items for a given subscription.
 func (c v1SubscriptionItemService) List(ctx context.Context, listParams *SubscriptionItemListParams) Seq2[*SubscriptionItem, error] {
+	if listParams == nil {
+		listParams = &SubscriptionItemListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SubscriptionItem, ListContainer, error) {
 		list := &SubscriptionItemList{}
 		if p == nil {

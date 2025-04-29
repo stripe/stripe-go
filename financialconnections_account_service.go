@@ -81,6 +81,10 @@ func (c v1FinancialConnectionsAccountService) Unsubscribe(ctx context.Context, i
 
 // Returns a list of Financial Connections Account objects.
 func (c v1FinancialConnectionsAccountService) List(ctx context.Context, listParams *FinancialConnectionsAccountListParams) Seq2[*FinancialConnectionsAccount, error] {
+	if listParams == nil {
+		listParams = &FinancialConnectionsAccountListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsAccount, ListContainer, error) {
 		list := &FinancialConnectionsAccountList{}
 		if p == nil {
@@ -97,6 +101,10 @@ func (c v1FinancialConnectionsAccountService) ListOwners(ctx context.Context, li
 	path := FormatURLPath(
 		"/v1/financial_connections/accounts/%s/owners", StringValue(
 			listParams.Account))
+	if listParams == nil {
+		listParams = &FinancialConnectionsAccountListOwnersParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsAccountOwner, ListContainer, error) {
 		list := &FinancialConnectionsAccountOwnerList{}
 		if p == nil {

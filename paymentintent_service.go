@@ -203,6 +203,10 @@ func (c v1PaymentIntentService) VerifyMicrodeposits(ctx context.Context, id stri
 
 // Returns a list of PaymentIntents.
 func (c v1PaymentIntentService) List(ctx context.Context, listParams *PaymentIntentListParams) Seq2[*PaymentIntent, error] {
+	if listParams == nil {
+		listParams = &PaymentIntentListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentIntent, ListContainer, error) {
 		list := &PaymentIntentList{}
 		if p == nil {
@@ -219,6 +223,10 @@ func (c v1PaymentIntentService) List(ctx context.Context, listParams *PaymentInt
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 func (c v1PaymentIntentService) Search(ctx context.Context, params *PaymentIntentSearchParams) Seq2[*PaymentIntent, error] {
+	if params == nil {
+		params = &PaymentIntentSearchParams{}
+	}
+	params.Context = ctx
 	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*PaymentIntent, SearchContainer, error) {
 		list := &PaymentIntentSearchResult{}
 		if p == nil {

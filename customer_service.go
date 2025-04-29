@@ -109,6 +109,10 @@ func (c v1CustomerService) RetrievePaymentMethod(ctx context.Context, id string,
 
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
 func (c v1CustomerService) List(ctx context.Context, listParams *CustomerListParams) Seq2[*Customer, error] {
+	if listParams == nil {
+		listParams = &CustomerListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Customer, ListContainer, error) {
 		list := &CustomerList{}
 		if p == nil {
@@ -124,6 +128,10 @@ func (c v1CustomerService) List(ctx context.Context, listParams *CustomerListPar
 func (c v1CustomerService) ListPaymentMethods(ctx context.Context, listParams *CustomerListPaymentMethodsParams) Seq2[*PaymentMethod, error] {
 	path := FormatURLPath(
 		"/v1/customers/%s/payment_methods", StringValue(listParams.Customer))
+	if listParams == nil {
+		listParams = &CustomerListPaymentMethodsParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentMethod, ListContainer, error) {
 		list := &PaymentMethodList{}
 		if p == nil {
@@ -140,6 +148,10 @@ func (c v1CustomerService) ListPaymentMethods(ctx context.Context, listParams *C
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 func (c v1CustomerService) Search(ctx context.Context, params *CustomerSearchParams) Seq2[*Customer, error] {
+	if params == nil {
+		params = &CustomerSearchParams{}
+	}
+	params.Context = ctx
 	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Customer, SearchContainer, error) {
 		list := &CustomerSearchResult{}
 		if p == nil {

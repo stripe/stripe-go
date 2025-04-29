@@ -68,6 +68,10 @@ func (c v1PlanService) Delete(ctx context.Context, id string, params *PlanDelete
 
 // Returns a list of your plans.
 func (c v1PlanService) List(ctx context.Context, listParams *PlanListParams) Seq2[*Plan, error] {
+	if listParams == nil {
+		listParams = &PlanListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Plan, ListContainer, error) {
 		list := &PlanList{}
 		if p == nil {

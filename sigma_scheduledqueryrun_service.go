@@ -33,6 +33,10 @@ func (c v1SigmaScheduledQueryRunService) Retrieve(ctx context.Context, id string
 
 // Returns a list of scheduled query runs.
 func (c v1SigmaScheduledQueryRunService) List(ctx context.Context, listParams *SigmaScheduledQueryRunListParams) Seq2[*SigmaScheduledQueryRun, error] {
+	if listParams == nil {
+		listParams = &SigmaScheduledQueryRunListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SigmaScheduledQueryRun, ListContainer, error) {
 		list := &SigmaScheduledQueryRunList{}
 		if p == nil {

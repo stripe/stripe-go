@@ -33,6 +33,10 @@ func (c v1IssuingPhysicalBundleService) Retrieve(ctx context.Context, id string,
 
 // Returns a list of physical bundle objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1IssuingPhysicalBundleService) List(ctx context.Context, listParams *IssuingPhysicalBundleListParams) Seq2[*IssuingPhysicalBundle, error] {
+	if listParams == nil {
+		listParams = &IssuingPhysicalBundleListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingPhysicalBundle, ListContainer, error) {
 		list := &IssuingPhysicalBundleList{}
 		if p == nil {

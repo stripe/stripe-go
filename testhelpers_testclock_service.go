@@ -69,6 +69,10 @@ func (c v1TestHelpersTestClockService) Advance(ctx context.Context, id string, p
 
 // Returns a list of your test clocks.
 func (c v1TestHelpersTestClockService) List(ctx context.Context, listParams *TestHelpersTestClockListParams) Seq2[*TestHelpersTestClock, error] {
+	if listParams == nil {
+		listParams = &TestHelpersTestClockListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TestHelpersTestClock, ListContainer, error) {
 		list := &TestHelpersTestClockList{}
 		if p == nil {

@@ -49,6 +49,10 @@ func (c v1CapabilityService) Update(ctx context.Context, id string, params *Capa
 func (c v1CapabilityService) List(ctx context.Context, listParams *CapabilityListParams) Seq2[*Capability, error] {
 	path := FormatURLPath(
 		"/v1/accounts/%s/capabilities", StringValue(listParams.Account))
+	if listParams == nil {
+		listParams = &CapabilityListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Capability, ListContainer, error) {
 		list := &CapabilityList{}
 		if p == nil {

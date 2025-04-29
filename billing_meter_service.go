@@ -80,6 +80,10 @@ func (c v1BillingMeterService) Reactivate(ctx context.Context, id string, params
 
 // Retrieve a list of billing meters.
 func (c v1BillingMeterService) List(ctx context.Context, listParams *BillingMeterListParams) Seq2[*BillingMeter, error] {
+	if listParams == nil {
+		listParams = &BillingMeterListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingMeter, ListContainer, error) {
 		list := &BillingMeterList{}
 		if p == nil {

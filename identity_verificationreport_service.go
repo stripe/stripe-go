@@ -33,6 +33,10 @@ func (c v1IdentityVerificationReportService) Retrieve(ctx context.Context, id st
 
 // List all verification reports.
 func (c v1IdentityVerificationReportService) List(ctx context.Context, listParams *IdentityVerificationReportListParams) Seq2[*IdentityVerificationReport, error] {
+	if listParams == nil {
+		listParams = &IdentityVerificationReportListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IdentityVerificationReport, ListContainer, error) {
 		list := &IdentityVerificationReportList{}
 		if p == nil {

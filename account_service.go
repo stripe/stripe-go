@@ -116,6 +116,10 @@ func (c v1AccountService) Reject(ctx context.Context, id string, params *Account
 
 // Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect). If you're not a platform, the list is empty.
 func (c v1AccountService) List(ctx context.Context, listParams *AccountListParams) Seq2[*Account, error] {
+	if listParams == nil {
+		listParams = &AccountListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Account, ListContainer, error) {
 		list := &AccountList{}
 		if p == nil {
