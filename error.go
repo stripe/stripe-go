@@ -215,16 +215,6 @@ const (
 
 // v1ErrorCodes: The end of the section generated from our OpenAPI spec
 
-// V2ErrorCode is the list of allowed values for the V2 error's code.
-type V2ErrorCode string
-
-// v2ErrorCodes: The beginning of the section generated from our OpenAPI spec
-const (
-	ErrorCodeBillingMeterEventSessionExpired V2ErrorCode = "billing_meter_event_session_expired"
-)
-
-// v2ErrorCodes: The end of the section generated from our OpenAPI spec
-
 // List of DeclineCode values.
 // For descriptions see https://stripe.com/docs/declines/codes
 const (
@@ -426,11 +416,11 @@ func (e *IdempotencyError) Error() string {
 // The temporary session token has expired.
 type TemporarySessionExpiredError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
