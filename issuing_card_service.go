@@ -56,10 +56,6 @@ func (c v1IssuingCardService) Update(ctx context.Context, id string, params *Iss
 
 // Returns a list of Issuing Card objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1IssuingCardService) List(ctx context.Context, listParams *IssuingCardListParams) Seq2[*IssuingCard, error] {
-	if listParams == nil {
-		listParams = &IssuingCardListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingCard, ListContainer, error) {
 		list := &IssuingCardList{}
 		if p == nil {

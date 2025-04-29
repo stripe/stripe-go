@@ -73,10 +73,6 @@ func (c v1ClimateOrderService) Cancel(ctx context.Context, id string, params *Cl
 // Lists all Climate order objects. The orders are returned sorted by creation date, with the
 // most recently created orders appearing first.
 func (c v1ClimateOrderService) List(ctx context.Context, listParams *ClimateOrderListParams) Seq2[*ClimateOrder, error] {
-	if listParams == nil {
-		listParams = &ClimateOrderListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ClimateOrder, ListContainer, error) {
 		list := &ClimateOrderList{}
 		if p == nil {

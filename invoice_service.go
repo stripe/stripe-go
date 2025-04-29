@@ -191,10 +191,6 @@ func (c v1InvoiceService) VoidInvoice(ctx context.Context, id string, params *In
 
 // You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
 func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParams) Seq2[*Invoice, error] {
-	if listParams == nil {
-		listParams = &InvoiceListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Invoice, ListContainer, error) {
 		list := &InvoiceList{}
 		if p == nil {
@@ -210,10 +206,6 @@ func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParam
 func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceListLinesParams) Seq2[*InvoiceLineItem, error] {
 	path := FormatURLPath(
 		"/v1/invoices/%s/lines", StringValue(listParams.Invoice))
-	if listParams == nil {
-		listParams = &InvoiceListLinesParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoiceLineItem, ListContainer, error) {
 		list := &InvoiceLineItemList{}
 		if p == nil {
@@ -230,10 +222,6 @@ func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceList
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 func (c v1InvoiceService) Search(ctx context.Context, params *InvoiceSearchParams) Seq2[*Invoice, error] {
-	if params == nil {
-		params = &InvoiceSearchParams{}
-	}
-	params.Context = ctx
 	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Invoice, SearchContainer, error) {
 		list := &InvoiceSearchResult{}
 		if p == nil {

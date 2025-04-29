@@ -69,10 +69,6 @@ func (c v1TerminalConfigurationService) Delete(ctx context.Context, id string, p
 
 // Returns a list of Configuration objects.
 func (c v1TerminalConfigurationService) List(ctx context.Context, listParams *TerminalConfigurationListParams) Seq2[*TerminalConfiguration, error] {
-	if listParams == nil {
-		listParams = &TerminalConfigurationListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TerminalConfiguration, ListContainer, error) {
 		list := &TerminalConfigurationList{}
 		if p == nil {

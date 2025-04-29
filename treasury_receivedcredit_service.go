@@ -33,10 +33,6 @@ func (c v1TreasuryReceivedCreditService) Retrieve(ctx context.Context, id string
 
 // Returns a list of ReceivedCredits.
 func (c v1TreasuryReceivedCreditService) List(ctx context.Context, listParams *TreasuryReceivedCreditListParams) Seq2[*TreasuryReceivedCredit, error] {
-	if listParams == nil {
-		listParams = &TreasuryReceivedCreditListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryReceivedCredit, ListContainer, error) {
 		list := &TreasuryReceivedCreditList{}
 		if p == nil {

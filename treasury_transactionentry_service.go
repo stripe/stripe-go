@@ -33,10 +33,6 @@ func (c v1TreasuryTransactionEntryService) Retrieve(ctx context.Context, id stri
 
 // Retrieves a list of TransactionEntry objects.
 func (c v1TreasuryTransactionEntryService) List(ctx context.Context, listParams *TreasuryTransactionEntryListParams) Seq2[*TreasuryTransactionEntry, error] {
-	if listParams == nil {
-		listParams = &TreasuryTransactionEntryListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryTransactionEntry, ListContainer, error) {
 		list := &TreasuryTransactionEntryList{}
 		if p == nil {

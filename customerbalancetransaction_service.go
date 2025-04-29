@@ -67,10 +67,6 @@ func (c v1CustomerBalanceTransactionService) Update(ctx context.Context, id stri
 func (c v1CustomerBalanceTransactionService) List(ctx context.Context, listParams *CustomerBalanceTransactionListParams) Seq2[*CustomerBalanceTransaction, error] {
 	path := FormatURLPath(
 		"/v1/customers/%s/balance_transactions", StringValue(listParams.Customer))
-	if listParams == nil {
-		listParams = &CustomerBalanceTransactionListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CustomerBalanceTransaction, ListContainer, error) {
 		list := &CustomerBalanceTransactionList{}
 		if p == nil {

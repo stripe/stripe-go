@@ -59,10 +59,6 @@ func (c v1TaxTransactionService) CreateReversal(ctx context.Context, params *Tax
 func (c v1TaxTransactionService) ListLineItems(ctx context.Context, listParams *TaxTransactionListLineItemsParams) Seq2[*TaxTransactionLineItem, error] {
 	path := FormatURLPath(
 		"/v1/tax/transactions/%s/line_items", StringValue(listParams.Transaction))
-	if listParams == nil {
-		listParams = &TaxTransactionListLineItemsParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxTransactionLineItem, ListContainer, error) {
 		list := &TaxTransactionLineItemList{}
 		if p == nil {

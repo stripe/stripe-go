@@ -57,10 +57,6 @@ func (c v1RadarValueListItemService) Delete(ctx context.Context, id string, para
 
 // Returns a list of ValueListItem objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1RadarValueListItemService) List(ctx context.Context, listParams *RadarValueListItemListParams) Seq2[*RadarValueListItem, error] {
-	if listParams == nil {
-		listParams = &RadarValueListItemListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*RadarValueListItem, ListContainer, error) {
 		list := &RadarValueListItemList{}
 		if p == nil {

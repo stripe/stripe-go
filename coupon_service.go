@@ -70,10 +70,6 @@ func (c v1CouponService) Delete(ctx context.Context, id string, params *CouponDe
 
 // Returns a list of your coupons.
 func (c v1CouponService) List(ctx context.Context, listParams *CouponListParams) Seq2[*Coupon, error] {
-	if listParams == nil {
-		listParams = &CouponListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Coupon, ListContainer, error) {
 		list := &CouponList{}
 		if p == nil {

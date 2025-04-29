@@ -45,10 +45,6 @@ func (c v1ReportingReportRunService) Retrieve(ctx context.Context, id string, pa
 
 // Returns a list of Report Runs, with the most recent appearing first.
 func (c v1ReportingReportRunService) List(ctx context.Context, listParams *ReportingReportRunListParams) Seq2[*ReportingReportRun, error] {
-	if listParams == nil {
-		listParams = &ReportingReportRunListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ReportingReportRun, ListContainer, error) {
 		list := &ReportingReportRunList{}
 		if p == nil {

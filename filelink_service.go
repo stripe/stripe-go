@@ -56,10 +56,6 @@ func (c v1FileLinkService) Update(ctx context.Context, id string, params *FileLi
 
 // Returns a list of file links.
 func (c v1FileLinkService) List(ctx context.Context, listParams *FileLinkListParams) Seq2[*FileLink, error] {
-	if listParams == nil {
-		listParams = &FileLinkListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FileLink, ListContainer, error) {
 		list := &FileLinkList{}
 		if p == nil {

@@ -81,10 +81,6 @@ func (c v1SubscriptionScheduleService) Release(ctx context.Context, id string, p
 
 // Retrieves the list of your subscription schedules.
 func (c v1SubscriptionScheduleService) List(ctx context.Context, listParams *SubscriptionScheduleListParams) Seq2[*SubscriptionSchedule, error] {
-	if listParams == nil {
-		listParams = &SubscriptionScheduleListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SubscriptionSchedule, ListContainer, error) {
 		list := &SubscriptionScheduleList{}
 		if p == nil {

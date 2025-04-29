@@ -56,10 +56,6 @@ func (c v1TaxRateService) Update(ctx context.Context, id string, params *TaxRate
 
 // Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
 func (c v1TaxRateService) List(ctx context.Context, listParams *TaxRateListParams) Seq2[*TaxRate, error] {
-	if listParams == nil {
-		listParams = &TaxRateListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxRate, ListContainer, error) {
 		list := &TaxRateList{}
 		if p == nil {

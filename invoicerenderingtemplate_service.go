@@ -59,10 +59,6 @@ func (c v1InvoiceRenderingTemplateService) Unarchive(ctx context.Context, id str
 
 // List all templates, ordered by creation date, with the most recently created template appearing first.
 func (c v1InvoiceRenderingTemplateService) List(ctx context.Context, listParams *InvoiceRenderingTemplateListParams) Seq2[*InvoiceRenderingTemplate, error] {
-	if listParams == nil {
-		listParams = &InvoiceRenderingTemplateListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoiceRenderingTemplate, ListContainer, error) {
 		list := &InvoiceRenderingTemplateList{}
 		if p == nil {

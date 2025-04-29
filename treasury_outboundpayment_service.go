@@ -57,10 +57,6 @@ func (c v1TreasuryOutboundPaymentService) Cancel(ctx context.Context, id string,
 
 // Returns a list of OutboundPayments sent from the specified FinancialAccount.
 func (c v1TreasuryOutboundPaymentService) List(ctx context.Context, listParams *TreasuryOutboundPaymentListParams) Seq2[*TreasuryOutboundPayment, error] {
-	if listParams == nil {
-		listParams = &TreasuryOutboundPaymentListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryOutboundPayment, ListContainer, error) {
 		list := &TreasuryOutboundPaymentList{}
 		if p == nil {

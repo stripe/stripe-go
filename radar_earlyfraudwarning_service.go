@@ -35,10 +35,6 @@ func (c v1RadarEarlyFraudWarningService) Retrieve(ctx context.Context, id string
 
 // Returns a list of early fraud warnings.
 func (c v1RadarEarlyFraudWarningService) List(ctx context.Context, listParams *RadarEarlyFraudWarningListParams) Seq2[*RadarEarlyFraudWarning, error] {
-	if listParams == nil {
-		listParams = &RadarEarlyFraudWarningListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*RadarEarlyFraudWarning, ListContainer, error) {
 		list := &RadarEarlyFraudWarningList{}
 		if p == nil {

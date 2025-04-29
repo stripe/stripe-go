@@ -57,10 +57,6 @@ func (c v1BillingPortalConfigurationService) Update(ctx context.Context, id stri
 
 // Returns a list of configurations that describe the functionality of the customer portal.
 func (c v1BillingPortalConfigurationService) List(ctx context.Context, listParams *BillingPortalConfigurationListParams) Seq2[*BillingPortalConfiguration, error] {
-	if listParams == nil {
-		listParams = &BillingPortalConfigurationListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingPortalConfiguration, ListContainer, error) {
 		list := &BillingPortalConfigurationList{}
 		if p == nil {

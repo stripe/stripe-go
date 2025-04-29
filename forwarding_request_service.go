@@ -45,10 +45,6 @@ func (c v1ForwardingRequestService) Retrieve(ctx context.Context, id string, par
 
 // Lists all ForwardingRequest objects.
 func (c v1ForwardingRequestService) List(ctx context.Context, listParams *ForwardingRequestListParams) Seq2[*ForwardingRequest, error] {
-	if listParams == nil {
-		listParams = &ForwardingRequestListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ForwardingRequest, ListContainer, error) {
 		list := &ForwardingRequestList{}
 		if p == nil {

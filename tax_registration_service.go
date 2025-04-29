@@ -59,10 +59,6 @@ func (c v1TaxRegistrationService) Update(ctx context.Context, id string, params 
 
 // Returns a list of Tax Registration objects.
 func (c v1TaxRegistrationService) List(ctx context.Context, listParams *TaxRegistrationListParams) Seq2[*TaxRegistration, error] {
-	if listParams == nil {
-		listParams = &TaxRegistrationListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxRegistration, ListContainer, error) {
 		list := &TaxRegistrationList{}
 		if p == nil {

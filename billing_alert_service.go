@@ -80,10 +80,6 @@ func (c v1BillingAlertService) Deactivate(ctx context.Context, id string, params
 
 // Lists billing active and inactive alerts
 func (c v1BillingAlertService) List(ctx context.Context, listParams *BillingAlertListParams) Seq2[*BillingAlert, error] {
-	if listParams == nil {
-		listParams = &BillingAlertListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingAlert, ListContainer, error) {
 		list := &BillingAlertList{}
 		if p == nil {

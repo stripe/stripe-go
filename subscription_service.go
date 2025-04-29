@@ -121,10 +121,6 @@ func (c v1SubscriptionService) Resume(ctx context.Context, id string, params *Su
 
 // By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.
 func (c v1SubscriptionService) List(ctx context.Context, listParams *SubscriptionListParams) Seq2[*Subscription, error] {
-	if listParams == nil {
-		listParams = &SubscriptionListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Subscription, ListContainer, error) {
 		list := &SubscriptionList{}
 		if p == nil {
@@ -141,10 +137,6 @@ func (c v1SubscriptionService) List(ctx context.Context, listParams *Subscriptio
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 func (c v1SubscriptionService) Search(ctx context.Context, params *SubscriptionSearchParams) Seq2[*Subscription, error] {
-	if params == nil {
-		params = &SubscriptionSearchParams{}
-	}
-	params.Context = ctx
 	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Subscription, SearchContainer, error) {
 		list := &SubscriptionSearchResult{}
 		if p == nil {

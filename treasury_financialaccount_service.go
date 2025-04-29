@@ -94,10 +94,6 @@ func (c v1TreasuryFinancialAccountService) UpdateFeatures(ctx context.Context, i
 
 // Returns a list of FinancialAccounts.
 func (c v1TreasuryFinancialAccountService) List(ctx context.Context, listParams *TreasuryFinancialAccountListParams) Seq2[*TreasuryFinancialAccount, error] {
-	if listParams == nil {
-		listParams = &TreasuryFinancialAccountListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryFinancialAccount, ListContainer, error) {
 		list := &TreasuryFinancialAccountList{}
 		if p == nil {

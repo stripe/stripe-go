@@ -59,10 +59,6 @@ func (c v1PaymentMethodConfigurationService) Update(ctx context.Context, id stri
 
 // List payment method configurations
 func (c v1PaymentMethodConfigurationService) List(ctx context.Context, listParams *PaymentMethodConfigurationListParams) Seq2[*PaymentMethodConfiguration, error] {
-	if listParams == nil {
-		listParams = &PaymentMethodConfigurationListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentMethodConfiguration, ListContainer, error) {
 		list := &PaymentMethodConfigurationList{}
 		if p == nil {

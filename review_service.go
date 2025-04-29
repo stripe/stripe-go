@@ -45,10 +45,6 @@ func (c v1ReviewService) Approve(ctx context.Context, id string, params *ReviewA
 
 // Returns a list of Review objects that have open set to true. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1ReviewService) List(ctx context.Context, listParams *ReviewListParams) Seq2[*Review, error] {
-	if listParams == nil {
-		listParams = &ReviewListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Review, ListContainer, error) {
 		list := &ReviewList{}
 		if p == nil {

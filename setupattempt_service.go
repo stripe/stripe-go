@@ -21,10 +21,6 @@ type v1SetupAttemptService struct {
 
 // Returns a list of SetupAttempts that associate with a provided SetupIntent.
 func (c v1SetupAttemptService) List(ctx context.Context, listParams *SetupAttemptListParams) Seq2[*SetupAttempt, error] {
-	if listParams == nil {
-		listParams = &SetupAttemptListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SetupAttempt, ListContainer, error) {
 		list := &SetupAttemptList{}
 		if p == nil {

@@ -100,10 +100,6 @@ func (c v1PaymentSourceService) Verify(ctx context.Context, id string, params *P
 func (c v1PaymentSourceService) List(ctx context.Context, listParams *PaymentSourceListParams) Seq2[*PaymentSource, error] {
 	path := FormatURLPath(
 		"/v1/customers/%s/sources", StringValue(listParams.Customer))
-	if listParams == nil {
-		listParams = &PaymentSourceListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentSource, ListContainer, error) {
 		list := &PaymentSourceList{}
 		if p == nil {

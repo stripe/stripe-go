@@ -82,10 +82,6 @@ func (c v1BankAccountService) List(ctx context.Context, listParams *BankAccountL
 	path := FormatURLPath(
 		"/v1/accounts/%s/external_accounts", StringValue(
 			listParams.Account), StringValue(listParams.Customer))
-	if listParams == nil {
-		listParams = &BankAccountListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BankAccount, ListContainer, error) {
 		list := &BankAccountList{}
 		if p == nil {

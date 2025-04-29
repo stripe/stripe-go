@@ -79,10 +79,6 @@ func (c v1FeeRefundService) Update(ctx context.Context, id string, params *FeeRe
 func (c v1FeeRefundService) List(ctx context.Context, listParams *FeeRefundListParams) Seq2[*FeeRefund, error] {
 	path := FormatURLPath(
 		"/v1/application_fees/%s/refunds", StringValue(listParams.ID))
-	if listParams == nil {
-		listParams = &FeeRefundListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FeeRefund, ListContainer, error) {
 		list := &FeeRefundList{}
 		if p == nil {

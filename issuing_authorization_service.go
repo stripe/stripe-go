@@ -73,10 +73,6 @@ func (c v1IssuingAuthorizationService) Decline(ctx context.Context, id string, p
 
 // Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1IssuingAuthorizationService) List(ctx context.Context, listParams *IssuingAuthorizationListParams) Seq2[*IssuingAuthorization, error] {
-	if listParams == nil {
-		listParams = &IssuingAuthorizationListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingAuthorization, ListContainer, error) {
 		list := &IssuingAuthorizationList{}
 		if p == nil {

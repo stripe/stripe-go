@@ -70,10 +70,6 @@ func (c v1TerminalLocationService) Delete(ctx context.Context, id string, params
 
 // Returns a list of Location objects.
 func (c v1TerminalLocationService) List(ctx context.Context, listParams *TerminalLocationListParams) Seq2[*TerminalLocation, error] {
-	if listParams == nil {
-		listParams = &TerminalLocationListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TerminalLocation, ListContainer, error) {
 		list := &TerminalLocationList{}
 		if p == nil {

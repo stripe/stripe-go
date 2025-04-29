@@ -71,10 +71,6 @@ func (c v1CheckoutSessionService) Expire(ctx context.Context, id string, params 
 
 // Returns a list of Checkout Sessions.
 func (c v1CheckoutSessionService) List(ctx context.Context, listParams *CheckoutSessionListParams) Seq2[*CheckoutSession, error] {
-	if listParams == nil {
-		listParams = &CheckoutSessionListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CheckoutSession, ListContainer, error) {
 		list := &CheckoutSessionList{}
 		if p == nil {
@@ -90,10 +86,6 @@ func (c v1CheckoutSessionService) List(ctx context.Context, listParams *Checkout
 func (c v1CheckoutSessionService) ListLineItems(ctx context.Context, listParams *CheckoutSessionListLineItemsParams) Seq2[*LineItem, error] {
 	path := FormatURLPath(
 		"/v1/checkout/sessions/%s/line_items", StringValue(listParams.Session))
-	if listParams == nil {
-		listParams = &CheckoutSessionListLineItemsParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
 		list := &LineItemList{}
 		if p == nil {

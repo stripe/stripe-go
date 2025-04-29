@@ -57,10 +57,6 @@ func (c v1ShippingRateService) Update(ctx context.Context, id string, params *Sh
 
 // Returns a list of your shipping rates.
 func (c v1ShippingRateService) List(ctx context.Context, listParams *ShippingRateListParams) Seq2[*ShippingRate, error] {
-	if listParams == nil {
-		listParams = &ShippingRateListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ShippingRate, ListContainer, error) {
 		list := &ShippingRateList{}
 		if p == nil {

@@ -74,10 +74,6 @@ func (c v1PaymentMethodDomainService) Validate(ctx context.Context, id string, p
 
 // Lists the details of existing payment method domains.
 func (c v1PaymentMethodDomainService) List(ctx context.Context, listParams *PaymentMethodDomainListParams) Seq2[*PaymentMethodDomain, error] {
-	if listParams == nil {
-		listParams = &PaymentMethodDomainListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentMethodDomain, ListContainer, error) {
 		list := &PaymentMethodDomainList{}
 		if p == nil {

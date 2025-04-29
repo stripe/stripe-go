@@ -56,10 +56,6 @@ func (c v1AppsSecretService) Find(ctx context.Context, params *AppsSecretFindPar
 
 // List all secrets stored on the given scope.
 func (c v1AppsSecretService) List(ctx context.Context, listParams *AppsSecretListParams) Seq2[*AppsSecret, error] {
-	if listParams == nil {
-		listParams = &AppsSecretListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*AppsSecret, ListContainer, error) {
 		list := &AppsSecretList{}
 		if p == nil {

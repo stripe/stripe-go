@@ -57,10 +57,6 @@ func (c v1PromotionCodeService) Update(ctx context.Context, id string, params *P
 
 // Returns a list of your promotion codes.
 func (c v1PromotionCodeService) List(ctx context.Context, listParams *PromotionCodeListParams) Seq2[*PromotionCode, error] {
-	if listParams == nil {
-		listParams = &PromotionCodeListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PromotionCode, ListContainer, error) {
 		list := &PromotionCodeList{}
 		if p == nil {

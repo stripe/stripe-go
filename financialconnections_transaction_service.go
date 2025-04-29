@@ -33,10 +33,6 @@ func (c v1FinancialConnectionsTransactionService) Retrieve(ctx context.Context, 
 
 // Returns a list of Financial Connections Transaction objects.
 func (c v1FinancialConnectionsTransactionService) List(ctx context.Context, listParams *FinancialConnectionsTransactionListParams) Seq2[*FinancialConnectionsTransaction, error] {
-	if listParams == nil {
-		listParams = &FinancialConnectionsTransactionListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsTransaction, ListContainer, error) {
 		list := &FinancialConnectionsTransactionList{}
 		if p == nil {

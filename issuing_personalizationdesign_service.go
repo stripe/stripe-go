@@ -57,10 +57,6 @@ func (c v1IssuingPersonalizationDesignService) Update(ctx context.Context, id st
 
 // Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1IssuingPersonalizationDesignService) List(ctx context.Context, listParams *IssuingPersonalizationDesignListParams) Seq2[*IssuingPersonalizationDesign, error] {
-	if listParams == nil {
-		listParams = &IssuingPersonalizationDesignListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingPersonalizationDesign, ListContainer, error) {
 		list := &IssuingPersonalizationDesignList{}
 		if p == nil {

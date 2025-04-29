@@ -33,10 +33,6 @@ func (c v1EntitlementsActiveEntitlementService) Retrieve(ctx context.Context, id
 
 // Retrieve a list of active entitlements for a customer
 func (c v1EntitlementsActiveEntitlementService) List(ctx context.Context, listParams *EntitlementsActiveEntitlementListParams) Seq2[*EntitlementsActiveEntitlement, error] {
-	if listParams == nil {
-		listParams = &EntitlementsActiveEntitlementListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*EntitlementsActiveEntitlement, ListContainer, error) {
 		list := &EntitlementsActiveEntitlementList{}
 		if p == nil {

@@ -113,10 +113,6 @@ func (c v1IdentityVerificationSessionService) Redact(ctx context.Context, id str
 
 // Returns a list of VerificationSessions
 func (c v1IdentityVerificationSessionService) List(ctx context.Context, listParams *IdentityVerificationSessionListParams) Seq2[*IdentityVerificationSession, error] {
-	if listParams == nil {
-		listParams = &IdentityVerificationSessionListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IdentityVerificationSession, ListContainer, error) {
 		list := &IdentityVerificationSessionList{}
 		if p == nil {

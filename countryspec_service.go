@@ -33,10 +33,6 @@ func (c v1CountrySpecService) Retrieve(ctx context.Context, id string, params *C
 
 // Lists all Country Spec objects available in the API.
 func (c v1CountrySpecService) List(ctx context.Context, listParams *CountrySpecListParams) Seq2[*CountrySpec, error] {
-	if listParams == nil {
-		listParams = &CountrySpecListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CountrySpec, ListContainer, error) {
 		list := &CountrySpecList{}
 		if p == nil {

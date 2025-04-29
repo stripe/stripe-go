@@ -75,10 +75,6 @@ func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq
 	path := FormatURLPath(
 		"/v1/accounts/%s/external_accounts", StringValue(
 			listParams.Account), StringValue(listParams.Customer))
-	if listParams == nil {
-		listParams = &CardListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Card, ListContainer, error) {
 		list := &CardList{}
 		if p == nil {

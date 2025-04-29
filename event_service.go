@@ -33,10 +33,6 @@ func (c v1EventService) Retrieve(ctx context.Context, id string, params *EventRe
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
 func (c v1EventService) List(ctx context.Context, listParams *EventListParams) Seq2[*Event, error] {
-	if listParams == nil {
-		listParams = &EventListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Event, ListContainer, error) {
 		list := &EventList{}
 		if p == nil {

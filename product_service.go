@@ -68,10 +68,6 @@ func (c v1ProductService) Delete(ctx context.Context, id string, params *Product
 
 // Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
 func (c v1ProductService) List(ctx context.Context, listParams *ProductListParams) Seq2[*Product, error] {
-	if listParams == nil {
-		listParams = &ProductListParams{}
-	}
-	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Product, ListContainer, error) {
 		list := &ProductList{}
 		if p == nil {
@@ -88,10 +84,6 @@ func (c v1ProductService) List(ctx context.Context, listParams *ProductListParam
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 func (c v1ProductService) Search(ctx context.Context, params *ProductSearchParams) Seq2[*Product, error] {
-	if params == nil {
-		params = &ProductSearchParams{}
-	}
-	params.Context = ctx
 	return newV1SearchList(params, func(p *Params, b *form.Values) ([]*Product, SearchContainer, error) {
 		list := &ProductSearchResult{}
 		if p == nil {
