@@ -81,6 +81,10 @@ func (c v1GiftCardsTransactionService) Confirm(ctx context.Context, id string, p
 
 // List gift card transactions for a gift card
 func (c v1GiftCardsTransactionService) List(ctx context.Context, listParams *GiftCardsTransactionListParams) Seq2[*GiftCardsTransaction, error] {
+	if listParams == nil {
+		listParams = &GiftCardsTransactionListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*GiftCardsTransaction, ListContainer, error) {
 		list := &GiftCardsTransactionList{}
 		if p == nil {

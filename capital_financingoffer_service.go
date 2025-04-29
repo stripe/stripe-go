@@ -46,6 +46,10 @@ func (c v1CapitalFinancingOfferService) MarkDelivered(ctx context.Context, id st
 
 // Retrieves the financing offers available for Connected accounts that belong to your platform.
 func (c v1CapitalFinancingOfferService) List(ctx context.Context, listParams *CapitalFinancingOfferListParams) Seq2[*CapitalFinancingOffer, error] {
+	if listParams == nil {
+		listParams = &CapitalFinancingOfferListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CapitalFinancingOffer, ListContainer, error) {
 		list := &CapitalFinancingOfferList{}
 		if p == nil {

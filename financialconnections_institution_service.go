@@ -33,6 +33,10 @@ func (c v1FinancialConnectionsInstitutionService) Retrieve(ctx context.Context, 
 
 // Returns a list of Financial Connections Institution objects.
 func (c v1FinancialConnectionsInstitutionService) List(ctx context.Context, listParams *FinancialConnectionsInstitutionListParams) Seq2[*FinancialConnectionsInstitution, error] {
+	if listParams == nil {
+		listParams = &FinancialConnectionsInstitutionListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsInstitution, ListContainer, error) {
 		list := &FinancialConnectionsInstitutionList{}
 		if p == nil {

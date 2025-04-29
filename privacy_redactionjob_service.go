@@ -93,6 +93,10 @@ func (c v1PrivacyRedactionJobService) Validate(ctx context.Context, id string, p
 
 // List redaction jobs method...
 func (c v1PrivacyRedactionJobService) List(ctx context.Context, listParams *PrivacyRedactionJobListParams) Seq2[*PrivacyRedactionJob, error] {
+	if listParams == nil {
+		listParams = &PrivacyRedactionJobListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PrivacyRedactionJob, ListContainer, error) {
 		list := &PrivacyRedactionJobList{}
 		if p == nil {

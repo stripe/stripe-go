@@ -31,6 +31,10 @@ func (c v2MoneyManagementReceivedCreditService) Retrieve(ctx context.Context, id
 
 // Retrieves a list of ReceivedCredits.
 func (c v2MoneyManagementReceivedCreditService) List(ctx context.Context, listParams *V2MoneyManagementReceivedCreditListParams) Seq2[*V2MoneyManagementReceivedCredit, error] {
+	if listParams == nil {
+		listParams = &V2MoneyManagementReceivedCreditListParams{}
+	}
+	listParams.Context = ctx
 	return NewV2List("/v2/money_management/received_credits", listParams, func(path string, p ParamsContainer) (*V2Page[*V2MoneyManagementReceivedCredit], error) {
 		page := &V2Page[*V2MoneyManagementReceivedCredit]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)

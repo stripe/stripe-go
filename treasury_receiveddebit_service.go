@@ -33,6 +33,10 @@ func (c v1TreasuryReceivedDebitService) Retrieve(ctx context.Context, id string,
 
 // Returns a list of ReceivedDebits.
 func (c v1TreasuryReceivedDebitService) List(ctx context.Context, listParams *TreasuryReceivedDebitListParams) Seq2[*TreasuryReceivedDebit, error] {
+	if listParams == nil {
+		listParams = &TreasuryReceivedDebitListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryReceivedDebit, ListContainer, error) {
 		list := &TreasuryReceivedDebitList{}
 		if p == nil {

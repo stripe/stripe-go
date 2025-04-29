@@ -73,6 +73,10 @@ func (c v2CoreAccountsPersonService) Delete(ctx context.Context, id string, para
 func (c v2CoreAccountsPersonService) List(ctx context.Context, listParams *V2CoreAccountsPersonListParams) Seq2[*V2CorePerson, error] {
 	path := FormatURLPath(
 		"/v2/core/accounts/%s/persons", StringValue(listParams.AccountID))
+	if listParams == nil {
+		listParams = &V2CoreAccountsPersonListParams{}
+	}
+	listParams.Context = ctx
 	return NewV2List(path, listParams, func(path string, p ParamsContainer) (*V2Page[*V2CorePerson], error) {
 		page := &V2Page[*V2CorePerson]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)

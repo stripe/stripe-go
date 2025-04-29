@@ -39,6 +39,10 @@ func (c v1PrivacyRedactionJobValidationErrorService) List(ctx context.Context, l
 	path := FormatURLPath(
 		"/v1/privacy/redaction_jobs/%s/validation_errors", StringValue(
 			listParams.Job))
+	if listParams == nil {
+		listParams = &PrivacyRedactionJobValidationErrorListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PrivacyRedactionJobValidationError, ListContainer, error) {
 		list := &PrivacyRedactionJobValidationErrorList{}
 		if p == nil {

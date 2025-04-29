@@ -23,6 +23,10 @@ type v1BillingMeterEventSummaryService struct {
 func (c v1BillingMeterEventSummaryService) List(ctx context.Context, listParams *BillingMeterEventSummaryListParams) Seq2[*BillingMeterEventSummary, error] {
 	path := FormatURLPath(
 		"/v1/billing/meters/%s/event_summaries", StringValue(listParams.ID))
+	if listParams == nil {
+		listParams = &BillingMeterEventSummaryListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BillingMeterEventSummary, ListContainer, error) {
 		list := &BillingMeterEventSummaryList{}
 		if p == nil {

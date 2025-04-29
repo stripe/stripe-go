@@ -24,6 +24,10 @@ func (c v1QuotePreviewSubscriptionScheduleService) List(ctx context.Context, lis
 	path := FormatURLPath(
 		"/v1/quotes/%s/preview_subscription_schedules", StringValue(
 			listParams.Quote))
+	if listParams == nil {
+		listParams = &QuotePreviewSubscriptionScheduleListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*QuotePreviewSubscriptionSchedule, ListContainer, error) {
 		list := &QuotePreviewSubscriptionScheduleList{}
 		if p == nil {

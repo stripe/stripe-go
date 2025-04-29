@@ -37,6 +37,10 @@ func (c v1BalanceTransactionService) Retrieve(ctx context.Context, id string, pa
 //
 // Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
 func (c v1BalanceTransactionService) List(ctx context.Context, listParams *BalanceTransactionListParams) Seq2[*BalanceTransaction, error] {
+	if listParams == nil {
+		listParams = &BalanceTransactionListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BalanceTransaction, ListContainer, error) {
 		list := &BalanceTransactionList{}
 		if p == nil {

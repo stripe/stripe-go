@@ -124,6 +124,10 @@ func (c v1ExternalAccountService) UpdateCard(ctx context.Context, id string, par
 
 // List external accounts for an account
 func (c v1ExternalAccountService) ListBankAccount(ctx context.Context, listParams *BankAccountListParams) Seq2[*BankAccount, error] {
+	if listParams == nil {
+		listParams = &BankAccountListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BankAccount, ListContainer, error) {
 		list := &BankAccountList{}
 		if p == nil {
@@ -137,6 +141,10 @@ func (c v1ExternalAccountService) ListBankAccount(ctx context.Context, listParam
 
 // List external accounts for an account
 func (c v1ExternalAccountService) ListCard(ctx context.Context, listParams *CardListParams) Seq2[*Card, error] {
+	if listParams == nil {
+		listParams = &CardListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Card, ListContainer, error) {
 		list := &CardList{}
 		if p == nil {

@@ -66,6 +66,10 @@ func (c v2CoreAccountService) Close(ctx context.Context, id string, params *V2Co
 
 // Returns a list of Accounts.
 func (c v2CoreAccountService) List(ctx context.Context, listParams *V2CoreAccountListParams) Seq2[*V2CoreAccount, error] {
+	if listParams == nil {
+		listParams = &V2CoreAccountListParams{}
+	}
+	listParams.Context = ctx
 	return NewV2List("/v2/core/accounts", listParams, func(path string, p ParamsContainer) (*V2Page[*V2CoreAccount], error) {
 		page := &V2Page[*V2CoreAccount]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)

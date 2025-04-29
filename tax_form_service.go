@@ -46,6 +46,10 @@ func (c v1TaxFormService) PDF(ctx context.Context, id string, params *TaxFormPDF
 
 // Returns a list of tax forms which were previously created. The tax forms are returned in sorted order, with the oldest tax forms appearing first.
 func (c v1TaxFormService) List(ctx context.Context, listParams *TaxFormListParams) Seq2[*TaxForm, error] {
+	if listParams == nil {
+		listParams = &TaxFormListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxForm, ListContainer, error) {
 		list := &TaxFormList{}
 		if p == nil {

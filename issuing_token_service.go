@@ -45,6 +45,10 @@ func (c v1IssuingTokenService) Update(ctx context.Context, id string, params *Is
 
 // Lists all Issuing Token objects for a given card.
 func (c v1IssuingTokenService) List(ctx context.Context, listParams *IssuingTokenListParams) Seq2[*IssuingToken, error] {
+	if listParams == nil {
+		listParams = &IssuingTokenListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingToken, ListContainer, error) {
 		list := &IssuingTokenList{}
 		if p == nil {

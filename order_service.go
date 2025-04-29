@@ -92,6 +92,10 @@ func (c v1OrderService) Submit(ctx context.Context, id string, params *OrderSubm
 
 // Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.
 func (c v1OrderService) List(ctx context.Context, listParams *OrderListParams) Seq2[*Order, error] {
+	if listParams == nil {
+		listParams = &OrderListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Order, ListContainer, error) {
 		list := &OrderList{}
 		if p == nil {
@@ -106,6 +110,10 @@ func (c v1OrderService) List(ctx context.Context, listParams *OrderListParams) S
 // When retrieving an order, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c v1OrderService) ListLineItems(ctx context.Context, listParams *OrderListLineItemsParams) Seq2[*LineItem, error] {
 	path := FormatURLPath("/v1/orders/%s/line_items", StringValue(listParams.ID))
+	if listParams == nil {
+		listParams = &OrderListLineItemsParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
 		list := &LineItemList{}
 		if p == nil {

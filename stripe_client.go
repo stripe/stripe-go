@@ -9,7 +9,7 @@ import (
 type Client struct {
 	backends *Backends
 	// stripeClientStruct: The beginning of the section generated from our OpenAPI spec
-	
+
 	// OAuth is the service used to invoke /oauth APIs
 	OAuth *oauthService
 	// V1AccountLinks is the service used to invoke /v1/account_links APIs.
@@ -407,192 +407,192 @@ func initClient(client *Client, key string, usage []string) {
 	backends := client.backends
 
 	// stripeClientInit: The beginning of the section generated from our OpenAPI spec
-	OAuth: &oauthService{B: backends.Connect,Key: key,},
-	V1AccountLinks: &v1AccountLinkService{B: backends.API,Key: key,},
-	V1AccountNotices: &v1AccountNoticeService{B: backends.API,Key: key,},
-	V1Accounts: &v1AccountService{B: backends.API,Key: key,},
-	V1AccountSessions: &v1AccountSessionService{B: backends.API,Key: key,},
-	V1ApplePayDomains: &v1ApplePayDomainService{B: backends.API,Key: key,},
-	V1ApplicationFees: &v1ApplicationFeeService{B: backends.API,Key: key,},
-	V1AppsSecrets: &v1AppsSecretService{B: backends.API,Key: key,},
-	V1Balance: &v1BalanceService{B: backends.API,Key: key,},
-	V1BalanceSettings: &v1BalanceSettingsService{B: backends.API,Key: key,},
-	V1BalanceTransactions: &v1BalanceTransactionService{B: backends.API,Key: key,},
-	V1BankAccounts: &v1BankAccountService{B: backends.API,Key: key,},
-	V1BillingAlerts: &v1BillingAlertService{B: backends.API,Key: key,},
-	V1BillingCreditBalanceSummary: &v1BillingCreditBalanceSummaryService{B: backends.API,Key: key,},
-	V1BillingCreditBalanceTransactions: &v1BillingCreditBalanceTransactionService{B: backends.API,Key: key,},
-	V1BillingCreditGrants: &v1BillingCreditGrantService{B: backends.API,Key: key,},
-	V1BillingMeterEventAdjustments: &v1BillingMeterEventAdjustmentService{B: backends.API,Key: key,},
-	V1BillingMeterEvents: &v1BillingMeterEventService{B: backends.API,Key: key,},
-	V1BillingMeterEventSummaries: &v1BillingMeterEventSummaryService{B: backends.API,Key: key,},
-	V1BillingMeters: &v1BillingMeterService{B: backends.API,Key: key,},
-	V1BillingPortalConfigurations: &v1BillingPortalConfigurationService{B: backends.API,Key: key,},
-	V1BillingPortalSessions: &v1BillingPortalSessionService{B: backends.API,Key: key,},
-	V1Capabilities: &v1CapabilityService{B: backends.API,Key: key,},
-	V1CapitalFinancingOffers: &v1CapitalFinancingOfferService{B: backends.API,Key: key,},
-	V1CapitalFinancingSummary: &v1CapitalFinancingSummaryService{B: backends.API,Key: key,},
-	V1CapitalFinancingTransactions: &v1CapitalFinancingTransactionService{B: backends.API,Key: key,},
-	V1Cards: &v1CardService{B: backends.API,Key: key,},
-	V1CashBalances: &v1CashBalanceService{B: backends.API,Key: key,},
-	V1Charges: &v1ChargeService{B: backends.API,Key: key,},
-	V1CheckoutSessions: &v1CheckoutSessionService{B: backends.API,Key: key,},
-	V1ClimateOrders: &v1ClimateOrderService{B: backends.API,Key: key,},
-	V1ClimateProducts: &v1ClimateProductService{B: backends.API,Key: key,},
-	V1ClimateSuppliers: &v1ClimateSupplierService{B: backends.API,Key: key,},
-	V1ConfirmationTokens: &v1ConfirmationTokenService{B: backends.API,Key: key,},
-	V1CountrySpecs: &v1CountrySpecService{B: backends.API,Key: key,},
-	V1Coupons: &v1CouponService{B: backends.API,Key: key,},
-	V1CreditNotes: &v1CreditNoteService{B: backends.API,Key: key,},
-	V1CustomerBalanceTransactions: &v1CustomerBalanceTransactionService{B: backends.API,Key: key,},
-	V1CustomerCashBalanceTransactions: &v1CustomerCashBalanceTransactionService{B: backends.API,Key: key,},
-	V1Customers: &v1CustomerService{B: backends.API,Key: key,},
-	V1CustomerSessions: &v1CustomerSessionService{B: backends.API,Key: key,},
-	V1Disputes: &v1DisputeService{B: backends.API,Key: key,},
-	V1EntitlementsActiveEntitlements: &v1EntitlementsActiveEntitlementService{B: backends.API,Key: key,},
-	V1EntitlementsFeatures: &v1EntitlementsFeatureService{B: backends.API,Key: key,},
-	V1EphemeralKeys: &v1EphemeralKeyService{B: backends.API,Key: key,},
-	V1Events: &v1EventService{B: backends.API,Key: key,},
-	V1ExternalAccounts: &v1ExternalAccountService{B: backends.API,Key: key,},
-	V1FeeRefunds: &v1FeeRefundService{B: backends.API,Key: key,},
-	V1FileLinks: &v1FileLinkService{B: backends.API,Key: key,},
-	V1Files: &v1FileService{B: backends.API,BUploads: backends.Uploads,Key: key,},
-	V1FinancialConnectionsAccountInferredBalances: &v1FinancialConnectionsAccountInferredBalanceService{B: backends.API,Key: key,},
-	V1FinancialConnectionsAccounts: &v1FinancialConnectionsAccountService{B: backends.API,Key: key,},
-	V1FinancialConnectionsInstitutions: &v1FinancialConnectionsInstitutionService{B: backends.API,Key: key,},
-	V1FinancialConnectionsSessions: &v1FinancialConnectionsSessionService{B: backends.API,Key: key,},
-	V1FinancialConnectionsTransactions: &v1FinancialConnectionsTransactionService{B: backends.API,Key: key,},
-	V1ForwardingRequests: &v1ForwardingRequestService{B: backends.API,Key: key,},
-	V1FxQuotes: &v1FxQuoteService{B: backends.API,Key: key,},
-	V1GiftCardsCards: &v1GiftCardsCardService{B: backends.API,Key: key,},
-	V1GiftCardsTransactions: &v1GiftCardsTransactionService{B: backends.API,Key: key,},
-	V1IdentityVerificationReports: &v1IdentityVerificationReportService{B: backends.API,Key: key,},
-	V1IdentityVerificationSessions: &v1IdentityVerificationSessionService{B: backends.API,Key: key,},
-	V1InvoiceItems: &v1InvoiceItemService{B: backends.API,Key: key,},
-	V1InvoiceLineItems: &v1InvoiceLineItemService{B: backends.API,Key: key,},
-	V1InvoiceRenderingTemplates: &v1InvoiceRenderingTemplateService{B: backends.API,Key: key,},
-	V1Invoices: &v1InvoiceService{B: backends.API,Key: key,},
-	V1IssuingAuthorizations: &v1IssuingAuthorizationService{B: backends.API,Key: key,},
-	V1IssuingCardholders: &v1IssuingCardholderService{B: backends.API,Key: key,},
-	V1IssuingCards: &v1IssuingCardService{B: backends.API,Key: key,},
-	V1IssuingCreditUnderwritingRecords: &v1IssuingCreditUnderwritingRecordService{B: backends.API,Key: key,},
-	V1IssuingDisputes: &v1IssuingDisputeService{B: backends.API,Key: key,},
-	V1IssuingDisputeSettlementDetails: &v1IssuingDisputeSettlementDetailService{B: backends.API,Key: key,},
-	V1IssuingFraudLiabilityDebits: &v1IssuingFraudLiabilityDebitService{B: backends.API,Key: key,},
-	V1IssuingPersonalizationDesigns: &v1IssuingPersonalizationDesignService{B: backends.API,Key: key,},
-	V1IssuingPhysicalBundles: &v1IssuingPhysicalBundleService{B: backends.API,Key: key,},
-	V1IssuingTokens: &v1IssuingTokenService{B: backends.API,Key: key,},
-	V1IssuingTransactions: &v1IssuingTransactionService{B: backends.API,Key: key,},
-	V1LoginLinks: &v1LoginLinkService{B: backends.API,Key: key,},
-	V1Mandates: &v1MandateService{B: backends.API,Key: key,},
-	V1Margins: &v1MarginService{B: backends.API,Key: key,},
-	V1Orders: &v1OrderService{B: backends.API,Key: key,},
-	V1PaymentAttemptRecords: &v1PaymentAttemptRecordService{B: backends.API,Key: key,},
-	V1PaymentIntentAmountDetailsLineItems: &v1PaymentIntentAmountDetailsLineItemService{B: backends.API,Key: key,},
-	V1PaymentIntents: &v1PaymentIntentService{B: backends.API,Key: key,},
-	V1PaymentLinks: &v1PaymentLinkService{B: backends.API,Key: key,},
-	V1PaymentMethodConfigurations: &v1PaymentMethodConfigurationService{B: backends.API,Key: key,},
-	V1PaymentMethodDomains: &v1PaymentMethodDomainService{B: backends.API,Key: key,},
-	V1PaymentMethods: &v1PaymentMethodService{B: backends.API,Key: key,},
-	V1PaymentRecords: &v1PaymentRecordService{B: backends.API,Key: key,},
-	V1PaymentSources: &v1PaymentSourceService{B: backends.API,Key: key,},
-	V1Payouts: &v1PayoutService{B: backends.API,Key: key,},
-	V1Persons: &v1PersonService{B: backends.API,Key: key,},
-	V1Plans: &v1PlanService{B: backends.API,Key: key,},
-	V1Prices: &v1PriceService{B: backends.API,Key: key,},
-	V1PrivacyRedactionJobs: &v1PrivacyRedactionJobService{B: backends.API,Key: key,},
-	V1PrivacyRedactionJobValidationErrors: &v1PrivacyRedactionJobValidationErrorService{B: backends.API,Key: key,},
-	V1ProductFeatures: &v1ProductFeatureService{B: backends.API,Key: key,},
-	V1Products: &v1ProductService{B: backends.API,Key: key,},
-	V1PromotionCodes: &v1PromotionCodeService{B: backends.API,Key: key,},
-	V1QuotePreviewInvoices: &v1QuotePreviewInvoiceService{B: backends.API,Key: key,},
-	V1QuotePreviewSubscriptionSchedules: &v1QuotePreviewSubscriptionScheduleService{B: backends.API,Key: key,},
-	V1Quotes: &v1QuoteService{B: backends.API,BUploads: backends.Uploads,Key: key,},
-	V1RadarEarlyFraudWarnings: &v1RadarEarlyFraudWarningService{B: backends.API,Key: key,},
-	V1RadarValueListItems: &v1RadarValueListItemService{B: backends.API,Key: key,},
-	V1RadarValueLists: &v1RadarValueListService{B: backends.API,Key: key,},
-	V1Refunds: &v1RefundService{B: backends.API,Key: key,},
-	V1ReportingReportRuns: &v1ReportingReportRunService{B: backends.API,Key: key,},
-	V1ReportingReportTypes: &v1ReportingReportTypeService{B: backends.API,Key: key,},
-	V1Reviews: &v1ReviewService{B: backends.API,Key: key,},
-	V1SetupAttempts: &v1SetupAttemptService{B: backends.API,Key: key,},
-	V1SetupIntents: &v1SetupIntentService{B: backends.API,Key: key,},
-	V1ShippingRates: &v1ShippingRateService{B: backends.API,Key: key,},
-	V1SigmaScheduledQueryRuns: &v1SigmaScheduledQueryRunService{B: backends.API,Key: key,},
-	V1Sources: &v1SourceService{B: backends.API,Key: key,},
-	V1SourceTransactions: &v1SourceTransactionService{B: backends.API,Key: key,},
-	V1SubscriptionItems: &v1SubscriptionItemService{B: backends.API,Key: key,},
-	V1Subscriptions: &v1SubscriptionService{B: backends.API,Key: key,},
-	V1SubscriptionSchedules: &v1SubscriptionScheduleService{B: backends.API,Key: key,},
-	V1TaxAssociations: &v1TaxAssociationService{B: backends.API,Key: key,},
-	V1TaxCalculations: &v1TaxCalculationService{B: backends.API,Key: key,},
-	V1TaxCodes: &v1TaxCodeService{B: backends.API,Key: key,},
-	V1TaxForms: &v1TaxFormService{B: backends.API,BUploads: backends.Uploads,Key: key,},
-	V1TaxIDs: &v1TaxIDService{B: backends.API,Key: key,},
-	V1TaxRates: &v1TaxRateService{B: backends.API,Key: key,},
-	V1TaxRegistrations: &v1TaxRegistrationService{B: backends.API,Key: key,},
-	V1TaxSettings: &v1TaxSettingsService{B: backends.API,Key: key,},
-	V1TaxTransactions: &v1TaxTransactionService{B: backends.API,Key: key,},
-	V1TerminalConfigurations: &v1TerminalConfigurationService{B: backends.API,Key: key,},
-	V1TerminalConnectionTokens: &v1TerminalConnectionTokenService{B: backends.API,Key: key,},
-	V1TerminalLocations: &v1TerminalLocationService{B: backends.API,Key: key,},
-	V1TerminalReaderCollectedData: &v1TerminalReaderCollectedDataService{B: backends.API,Key: key,},
-	V1TerminalReaders: &v1TerminalReaderService{B: backends.API,Key: key,},
-	V1TestHelpersConfirmationTokens: &v1TestHelpersConfirmationTokenService{B: backends.API,Key: key,},
-	V1TestHelpersCustomers: &v1TestHelpersCustomerService{B: backends.API,Key: key,},
-	V1TestHelpersIssuingAuthorizations: &v1TestHelpersIssuingAuthorizationService{B: backends.API,Key: key,},
-	V1TestHelpersIssuingCards: &v1TestHelpersIssuingCardService{B: backends.API,Key: key,},
-	V1TestHelpersIssuingPersonalizationDesigns: &v1TestHelpersIssuingPersonalizationDesignService{B: backends.API,Key: key,},
-	V1TestHelpersIssuingTransactions: &v1TestHelpersIssuingTransactionService{B: backends.API,Key: key,},
-	V1TestHelpersRefunds: &v1TestHelpersRefundService{B: backends.API,Key: key,},
-	V1TestHelpersTerminalReaders: &v1TestHelpersTerminalReaderService{B: backends.API,Key: key,},
-	V1TestHelpersTestClocks: &v1TestHelpersTestClockService{B: backends.API,Key: key,},
-	V1TestHelpersTreasuryInboundTransfers: &v1TestHelpersTreasuryInboundTransferService{B: backends.API,Key: key,},
-	V1TestHelpersTreasuryOutboundPayments: &v1TestHelpersTreasuryOutboundPaymentService{B: backends.API,Key: key,},
-	V1TestHelpersTreasuryOutboundTransfers: &v1TestHelpersTreasuryOutboundTransferService{B: backends.API,Key: key,},
-	V1TestHelpersTreasuryReceivedCredits: &v1TestHelpersTreasuryReceivedCreditService{B: backends.API,Key: key,},
-	V1TestHelpersTreasuryReceivedDebits: &v1TestHelpersTreasuryReceivedDebitService{B: backends.API,Key: key,},
-	V1Tokens: &v1TokenService{B: backends.API,Key: key,},
-	V1Topups: &v1TopupService{B: backends.API,Key: key,},
-	V1TransferReversals: &v1TransferReversalService{B: backends.API,Key: key,},
-	V1Transfers: &v1TransferService{B: backends.API,Key: key,},
-	V1TreasuryCreditReversals: &v1TreasuryCreditReversalService{B: backends.API,Key: key,},
-	V1TreasuryDebitReversals: &v1TreasuryDebitReversalService{B: backends.API,Key: key,},
-	V1TreasuryFinancialAccounts: &v1TreasuryFinancialAccountService{B: backends.API,Key: key,},
-	V1TreasuryInboundTransfers: &v1TreasuryInboundTransferService{B: backends.API,Key: key,},
-	V1TreasuryOutboundPayments: &v1TreasuryOutboundPaymentService{B: backends.API,Key: key,},
-	V1TreasuryOutboundTransfers: &v1TreasuryOutboundTransferService{B: backends.API,Key: key,},
-	V1TreasuryReceivedCredits: &v1TreasuryReceivedCreditService{B: backends.API,Key: key,},
-	V1TreasuryReceivedDebits: &v1TreasuryReceivedDebitService{B: backends.API,Key: key,},
-	V1TreasuryTransactionEntries: &v1TreasuryTransactionEntryService{B: backends.API,Key: key,},
-	V1TreasuryTransactions: &v1TreasuryTransactionService{B: backends.API,Key: key,},
-	V1WebhookEndpoints: &v1WebhookEndpointService{B: backends.API,Key: key,},
-	V2BillingMeterEventAdjustments: &v2BillingMeterEventAdjustmentService{B: backends.API,Key: key,},
-	V2BillingMeterEvents: &v2BillingMeterEventService{B: backends.API,Key: key,},
-	V2BillingMeterEventSessions: &v2BillingMeterEventSessionService{B: backends.API,Key: key,},
-	V2BillingMeterEventStreams: &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents,Key: key,},
-	V2CoreAccountLinks: &v2CoreAccountLinkService{B: backends.API,Key: key,},
-	V2CoreAccounts: &v2CoreAccountService{B: backends.API,Key: key,},
-	V2CoreAccountsPersons: &v2CoreAccountsPersonService{B: backends.API,Key: key,},
-	V2CoreEventDestinations: &v2CoreEventDestinationService{B: backends.API,Key: key,},
-	V2CoreEvents: &v2CoreEventService{B: backends.API,Key: key,},
-	V2CoreVaultGBBankAccounts: &v2CoreVaultGBBankAccountService{B: backends.API,Key: key,},
-	V2CoreVaultUSBankAccounts: &v2CoreVaultUSBankAccountService{B: backends.API,Key: key,},
-	V2MoneyManagementAdjustments: &v2MoneyManagementAdjustmentService{B: backends.API,Key: key,},
-	V2MoneyManagementFinancialAccounts: &v2MoneyManagementFinancialAccountService{B: backends.API,Key: key,},
-	V2MoneyManagementFinancialAddresses: &v2MoneyManagementFinancialAddressService{B: backends.API,Key: key,},
-	V2MoneyManagementInboundTransfers: &v2MoneyManagementInboundTransferService{B: backends.API,Key: key,},
-	V2MoneyManagementOutboundPaymentQuotes: &v2MoneyManagementOutboundPaymentQuoteService{B: backends.API,Key: key,},
-	V2MoneyManagementOutboundPayments: &v2MoneyManagementOutboundPaymentService{B: backends.API,Key: key,},
-	V2MoneyManagementOutboundSetupIntents: &v2MoneyManagementOutboundSetupIntentService{B: backends.API,Key: key,},
-	V2MoneyManagementOutboundTransfers: &v2MoneyManagementOutboundTransferService{B: backends.API,Key: key,},
-	V2MoneyManagementPayoutMethods: &v2MoneyManagementPayoutMethodService{B: backends.API,Key: key,},
-	V2MoneyManagementPayoutMethodsBankAccountSpecs: &v2MoneyManagementPayoutMethodsBankAccountSpecService{B: backends.API,Key: key,},
-	V2MoneyManagementReceivedCredits: &v2MoneyManagementReceivedCreditService{B: backends.API,Key: key,},
-	V2MoneyManagementReceivedDebits: &v2MoneyManagementReceivedDebitService{B: backends.API,Key: key,},
-	V2MoneyManagementTransactionEntries: &v2MoneyManagementTransactionEntryService{B: backends.API,Key: key,},
-	V2MoneyManagementTransactions: &v2MoneyManagementTransactionService{B: backends.API,Key: key,},
-	V2TestHelpersFinancialAddresses: &v2TestHelpersFinancialAddressService{B: backends.API,Key: key,},
+	client.OAuth = &oauthService{B: backends.Connect, Key: key}
+	client.V1AccountLinks = &v1AccountLinkService{B: backends.API, Key: key}
+	client.V1AccountNotices = &v1AccountNoticeService{B: backends.API, Key: key}
+	client.V1Accounts = &v1AccountService{B: backends.API, Key: key}
+	client.V1AccountSessions = &v1AccountSessionService{B: backends.API, Key: key}
+	client.V1ApplePayDomains = &v1ApplePayDomainService{B: backends.API, Key: key}
+	client.V1ApplicationFees = &v1ApplicationFeeService{B: backends.API, Key: key}
+	client.V1AppsSecrets = &v1AppsSecretService{B: backends.API, Key: key}
+	client.V1Balance = &v1BalanceService{B: backends.API, Key: key}
+	client.V1BalanceSettings = &v1BalanceSettingsService{B: backends.API, Key: key}
+	client.V1BalanceTransactions = &v1BalanceTransactionService{B: backends.API, Key: key}
+	client.V1BankAccounts = &v1BankAccountService{B: backends.API, Key: key}
+	client.V1BillingAlerts = &v1BillingAlertService{B: backends.API, Key: key}
+	client.V1BillingCreditBalanceSummary = &v1BillingCreditBalanceSummaryService{B: backends.API, Key: key}
+	client.V1BillingCreditBalanceTransactions = &v1BillingCreditBalanceTransactionService{B: backends.API, Key: key}
+	client.V1BillingCreditGrants = &v1BillingCreditGrantService{B: backends.API, Key: key}
+	client.V1BillingMeterEventAdjustments = &v1BillingMeterEventAdjustmentService{B: backends.API, Key: key}
+	client.V1BillingMeterEvents = &v1BillingMeterEventService{B: backends.API, Key: key}
+	client.V1BillingMeterEventSummaries = &v1BillingMeterEventSummaryService{B: backends.API, Key: key}
+	client.V1BillingMeters = &v1BillingMeterService{B: backends.API, Key: key}
+	client.V1BillingPortalConfigurations = &v1BillingPortalConfigurationService{B: backends.API, Key: key}
+	client.V1BillingPortalSessions = &v1BillingPortalSessionService{B: backends.API, Key: key}
+	client.V1Capabilities = &v1CapabilityService{B: backends.API, Key: key}
+	client.V1CapitalFinancingOffers = &v1CapitalFinancingOfferService{B: backends.API, Key: key}
+	client.V1CapitalFinancingSummary = &v1CapitalFinancingSummaryService{B: backends.API, Key: key}
+	client.V1CapitalFinancingTransactions = &v1CapitalFinancingTransactionService{B: backends.API, Key: key}
+	client.V1Cards = &v1CardService{B: backends.API, Key: key}
+	client.V1CashBalances = &v1CashBalanceService{B: backends.API, Key: key}
+	client.V1Charges = &v1ChargeService{B: backends.API, Key: key}
+	client.V1CheckoutSessions = &v1CheckoutSessionService{B: backends.API, Key: key}
+	client.V1ClimateOrders = &v1ClimateOrderService{B: backends.API, Key: key}
+	client.V1ClimateProducts = &v1ClimateProductService{B: backends.API, Key: key}
+	client.V1ClimateSuppliers = &v1ClimateSupplierService{B: backends.API, Key: key}
+	client.V1ConfirmationTokens = &v1ConfirmationTokenService{B: backends.API, Key: key}
+	client.V1CountrySpecs = &v1CountrySpecService{B: backends.API, Key: key}
+	client.V1Coupons = &v1CouponService{B: backends.API, Key: key}
+	client.V1CreditNotes = &v1CreditNoteService{B: backends.API, Key: key}
+	client.V1CustomerBalanceTransactions = &v1CustomerBalanceTransactionService{B: backends.API, Key: key}
+	client.V1CustomerCashBalanceTransactions = &v1CustomerCashBalanceTransactionService{B: backends.API, Key: key}
+	client.V1Customers = &v1CustomerService{B: backends.API, Key: key}
+	client.V1CustomerSessions = &v1CustomerSessionService{B: backends.API, Key: key}
+	client.V1Disputes = &v1DisputeService{B: backends.API, Key: key}
+	client.V1EntitlementsActiveEntitlements = &v1EntitlementsActiveEntitlementService{B: backends.API, Key: key}
+	client.V1EntitlementsFeatures = &v1EntitlementsFeatureService{B: backends.API, Key: key}
+	client.V1EphemeralKeys = &v1EphemeralKeyService{B: backends.API, Key: key}
+	client.V1Events = &v1EventService{B: backends.API, Key: key}
+	client.V1ExternalAccounts = &v1ExternalAccountService{B: backends.API, Key: key}
+	client.V1FeeRefunds = &v1FeeRefundService{B: backends.API, Key: key}
+	client.V1FileLinks = &v1FileLinkService{B: backends.API, Key: key}
+	client.V1Files = &v1FileService{B: backends.API, BUploads: backends.Uploads, Key: key}
+	client.V1FinancialConnectionsAccountInferredBalances = &v1FinancialConnectionsAccountInferredBalanceService{B: backends.API, Key: key}
+	client.V1FinancialConnectionsAccounts = &v1FinancialConnectionsAccountService{B: backends.API, Key: key}
+	client.V1FinancialConnectionsInstitutions = &v1FinancialConnectionsInstitutionService{B: backends.API, Key: key}
+	client.V1FinancialConnectionsSessions = &v1FinancialConnectionsSessionService{B: backends.API, Key: key}
+	client.V1FinancialConnectionsTransactions = &v1FinancialConnectionsTransactionService{B: backends.API, Key: key}
+	client.V1ForwardingRequests = &v1ForwardingRequestService{B: backends.API, Key: key}
+	client.V1FxQuotes = &v1FxQuoteService{B: backends.API, Key: key}
+	client.V1GiftCardsCards = &v1GiftCardsCardService{B: backends.API, Key: key}
+	client.V1GiftCardsTransactions = &v1GiftCardsTransactionService{B: backends.API, Key: key}
+	client.V1IdentityVerificationReports = &v1IdentityVerificationReportService{B: backends.API, Key: key}
+	client.V1IdentityVerificationSessions = &v1IdentityVerificationSessionService{B: backends.API, Key: key}
+	client.V1InvoiceItems = &v1InvoiceItemService{B: backends.API, Key: key}
+	client.V1InvoiceLineItems = &v1InvoiceLineItemService{B: backends.API, Key: key}
+	client.V1InvoiceRenderingTemplates = &v1InvoiceRenderingTemplateService{B: backends.API, Key: key}
+	client.V1Invoices = &v1InvoiceService{B: backends.API, Key: key}
+	client.V1IssuingAuthorizations = &v1IssuingAuthorizationService{B: backends.API, Key: key}
+	client.V1IssuingCardholders = &v1IssuingCardholderService{B: backends.API, Key: key}
+	client.V1IssuingCards = &v1IssuingCardService{B: backends.API, Key: key}
+	client.V1IssuingCreditUnderwritingRecords = &v1IssuingCreditUnderwritingRecordService{B: backends.API, Key: key}
+	client.V1IssuingDisputes = &v1IssuingDisputeService{B: backends.API, Key: key}
+	client.V1IssuingDisputeSettlementDetails = &v1IssuingDisputeSettlementDetailService{B: backends.API, Key: key}
+	client.V1IssuingFraudLiabilityDebits = &v1IssuingFraudLiabilityDebitService{B: backends.API, Key: key}
+	client.V1IssuingPersonalizationDesigns = &v1IssuingPersonalizationDesignService{B: backends.API, Key: key}
+	client.V1IssuingPhysicalBundles = &v1IssuingPhysicalBundleService{B: backends.API, Key: key}
+	client.V1IssuingTokens = &v1IssuingTokenService{B: backends.API, Key: key}
+	client.V1IssuingTransactions = &v1IssuingTransactionService{B: backends.API, Key: key}
+	client.V1LoginLinks = &v1LoginLinkService{B: backends.API, Key: key}
+	client.V1Mandates = &v1MandateService{B: backends.API, Key: key}
+	client.V1Margins = &v1MarginService{B: backends.API, Key: key}
+	client.V1Orders = &v1OrderService{B: backends.API, Key: key}
+	client.V1PaymentAttemptRecords = &v1PaymentAttemptRecordService{B: backends.API, Key: key}
+	client.V1PaymentIntentAmountDetailsLineItems = &v1PaymentIntentAmountDetailsLineItemService{B: backends.API, Key: key}
+	client.V1PaymentIntents = &v1PaymentIntentService{B: backends.API, Key: key}
+	client.V1PaymentLinks = &v1PaymentLinkService{B: backends.API, Key: key}
+	client.V1PaymentMethodConfigurations = &v1PaymentMethodConfigurationService{B: backends.API, Key: key}
+	client.V1PaymentMethodDomains = &v1PaymentMethodDomainService{B: backends.API, Key: key}
+	client.V1PaymentMethods = &v1PaymentMethodService{B: backends.API, Key: key}
+	client.V1PaymentRecords = &v1PaymentRecordService{B: backends.API, Key: key}
+	client.V1PaymentSources = &v1PaymentSourceService{B: backends.API, Key: key}
+	client.V1Payouts = &v1PayoutService{B: backends.API, Key: key}
+	client.V1Persons = &v1PersonService{B: backends.API, Key: key}
+	client.V1Plans = &v1PlanService{B: backends.API, Key: key}
+	client.V1Prices = &v1PriceService{B: backends.API, Key: key}
+	client.V1PrivacyRedactionJobs = &v1PrivacyRedactionJobService{B: backends.API, Key: key}
+	client.V1PrivacyRedactionJobValidationErrors = &v1PrivacyRedactionJobValidationErrorService{B: backends.API, Key: key}
+	client.V1ProductFeatures = &v1ProductFeatureService{B: backends.API, Key: key}
+	client.V1Products = &v1ProductService{B: backends.API, Key: key}
+	client.V1PromotionCodes = &v1PromotionCodeService{B: backends.API, Key: key}
+	client.V1QuotePreviewInvoices = &v1QuotePreviewInvoiceService{B: backends.API, Key: key}
+	client.V1QuotePreviewSubscriptionSchedules = &v1QuotePreviewSubscriptionScheduleService{B: backends.API, Key: key}
+	client.V1Quotes = &v1QuoteService{B: backends.API, BUploads: backends.Uploads, Key: key}
+	client.V1RadarEarlyFraudWarnings = &v1RadarEarlyFraudWarningService{B: backends.API, Key: key}
+	client.V1RadarValueListItems = &v1RadarValueListItemService{B: backends.API, Key: key}
+	client.V1RadarValueLists = &v1RadarValueListService{B: backends.API, Key: key}
+	client.V1Refunds = &v1RefundService{B: backends.API, Key: key}
+	client.V1ReportingReportRuns = &v1ReportingReportRunService{B: backends.API, Key: key}
+	client.V1ReportingReportTypes = &v1ReportingReportTypeService{B: backends.API, Key: key}
+	client.V1Reviews = &v1ReviewService{B: backends.API, Key: key}
+	client.V1SetupAttempts = &v1SetupAttemptService{B: backends.API, Key: key}
+	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}
+	client.V1ShippingRates = &v1ShippingRateService{B: backends.API, Key: key}
+	client.V1SigmaScheduledQueryRuns = &v1SigmaScheduledQueryRunService{B: backends.API, Key: key}
+	client.V1Sources = &v1SourceService{B: backends.API, Key: key}
+	client.V1SourceTransactions = &v1SourceTransactionService{B: backends.API, Key: key}
+	client.V1SubscriptionItems = &v1SubscriptionItemService{B: backends.API, Key: key}
+	client.V1Subscriptions = &v1SubscriptionService{B: backends.API, Key: key}
+	client.V1SubscriptionSchedules = &v1SubscriptionScheduleService{B: backends.API, Key: key}
+	client.V1TaxAssociations = &v1TaxAssociationService{B: backends.API, Key: key}
+	client.V1TaxCalculations = &v1TaxCalculationService{B: backends.API, Key: key}
+	client.V1TaxCodes = &v1TaxCodeService{B: backends.API, Key: key}
+	client.V1TaxForms = &v1TaxFormService{B: backends.API, BUploads: backends.Uploads, Key: key}
+	client.V1TaxIDs = &v1TaxIDService{B: backends.API, Key: key}
+	client.V1TaxRates = &v1TaxRateService{B: backends.API, Key: key}
+	client.V1TaxRegistrations = &v1TaxRegistrationService{B: backends.API, Key: key}
+	client.V1TaxSettings = &v1TaxSettingsService{B: backends.API, Key: key}
+	client.V1TaxTransactions = &v1TaxTransactionService{B: backends.API, Key: key}
+	client.V1TerminalConfigurations = &v1TerminalConfigurationService{B: backends.API, Key: key}
+	client.V1TerminalConnectionTokens = &v1TerminalConnectionTokenService{B: backends.API, Key: key}
+	client.V1TerminalLocations = &v1TerminalLocationService{B: backends.API, Key: key}
+	client.V1TerminalReaderCollectedData = &v1TerminalReaderCollectedDataService{B: backends.API, Key: key}
+	client.V1TerminalReaders = &v1TerminalReaderService{B: backends.API, Key: key}
+	client.V1TestHelpersConfirmationTokens = &v1TestHelpersConfirmationTokenService{B: backends.API, Key: key}
+	client.V1TestHelpersCustomers = &v1TestHelpersCustomerService{B: backends.API, Key: key}
+	client.V1TestHelpersIssuingAuthorizations = &v1TestHelpersIssuingAuthorizationService{B: backends.API, Key: key}
+	client.V1TestHelpersIssuingCards = &v1TestHelpersIssuingCardService{B: backends.API, Key: key}
+	client.V1TestHelpersIssuingPersonalizationDesigns = &v1TestHelpersIssuingPersonalizationDesignService{B: backends.API, Key: key}
+	client.V1TestHelpersIssuingTransactions = &v1TestHelpersIssuingTransactionService{B: backends.API, Key: key}
+	client.V1TestHelpersRefunds = &v1TestHelpersRefundService{B: backends.API, Key: key}
+	client.V1TestHelpersTerminalReaders = &v1TestHelpersTerminalReaderService{B: backends.API, Key: key}
+	client.V1TestHelpersTestClocks = &v1TestHelpersTestClockService{B: backends.API, Key: key}
+	client.V1TestHelpersTreasuryInboundTransfers = &v1TestHelpersTreasuryInboundTransferService{B: backends.API, Key: key}
+	client.V1TestHelpersTreasuryOutboundPayments = &v1TestHelpersTreasuryOutboundPaymentService{B: backends.API, Key: key}
+	client.V1TestHelpersTreasuryOutboundTransfers = &v1TestHelpersTreasuryOutboundTransferService{B: backends.API, Key: key}
+	client.V1TestHelpersTreasuryReceivedCredits = &v1TestHelpersTreasuryReceivedCreditService{B: backends.API, Key: key}
+	client.V1TestHelpersTreasuryReceivedDebits = &v1TestHelpersTreasuryReceivedDebitService{B: backends.API, Key: key}
+	client.V1Tokens = &v1TokenService{B: backends.API, Key: key}
+	client.V1Topups = &v1TopupService{B: backends.API, Key: key}
+	client.V1TransferReversals = &v1TransferReversalService{B: backends.API, Key: key}
+	client.V1Transfers = &v1TransferService{B: backends.API, Key: key}
+	client.V1TreasuryCreditReversals = &v1TreasuryCreditReversalService{B: backends.API, Key: key}
+	client.V1TreasuryDebitReversals = &v1TreasuryDebitReversalService{B: backends.API, Key: key}
+	client.V1TreasuryFinancialAccounts = &v1TreasuryFinancialAccountService{B: backends.API, Key: key}
+	client.V1TreasuryInboundTransfers = &v1TreasuryInboundTransferService{B: backends.API, Key: key}
+	client.V1TreasuryOutboundPayments = &v1TreasuryOutboundPaymentService{B: backends.API, Key: key}
+	client.V1TreasuryOutboundTransfers = &v1TreasuryOutboundTransferService{B: backends.API, Key: key}
+	client.V1TreasuryReceivedCredits = &v1TreasuryReceivedCreditService{B: backends.API, Key: key}
+	client.V1TreasuryReceivedDebits = &v1TreasuryReceivedDebitService{B: backends.API, Key: key}
+	client.V1TreasuryTransactionEntries = &v1TreasuryTransactionEntryService{B: backends.API, Key: key}
+	client.V1TreasuryTransactions = &v1TreasuryTransactionService{B: backends.API, Key: key}
+	client.V1WebhookEndpoints = &v1WebhookEndpointService{B: backends.API, Key: key}
+	client.V2BillingMeterEventAdjustments = &v2BillingMeterEventAdjustmentService{B: backends.API, Key: key}
+	client.V2BillingMeterEvents = &v2BillingMeterEventService{B: backends.API, Key: key}
+	client.V2BillingMeterEventSessions = &v2BillingMeterEventSessionService{B: backends.API, Key: key}
+	client.V2BillingMeterEventStreams = &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents, Key: key}
+	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
+	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
+	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
+	client.V2CoreEventDestinations = &v2CoreEventDestinationService{B: backends.API, Key: key}
+	client.V2CoreEvents = &v2CoreEventService{B: backends.API, Key: key}
+	client.V2CoreVaultGBBankAccounts = &v2CoreVaultGBBankAccountService{B: backends.API, Key: key}
+	client.V2CoreVaultUSBankAccounts = &v2CoreVaultUSBankAccountService{B: backends.API, Key: key}
+	client.V2MoneyManagementAdjustments = &v2MoneyManagementAdjustmentService{B: backends.API, Key: key}
+	client.V2MoneyManagementFinancialAccounts = &v2MoneyManagementFinancialAccountService{B: backends.API, Key: key}
+	client.V2MoneyManagementFinancialAddresses = &v2MoneyManagementFinancialAddressService{B: backends.API, Key: key}
+	client.V2MoneyManagementInboundTransfers = &v2MoneyManagementInboundTransferService{B: backends.API, Key: key}
+	client.V2MoneyManagementOutboundPaymentQuotes = &v2MoneyManagementOutboundPaymentQuoteService{B: backends.API, Key: key}
+	client.V2MoneyManagementOutboundPayments = &v2MoneyManagementOutboundPaymentService{B: backends.API, Key: key}
+	client.V2MoneyManagementOutboundSetupIntents = &v2MoneyManagementOutboundSetupIntentService{B: backends.API, Key: key}
+	client.V2MoneyManagementOutboundTransfers = &v2MoneyManagementOutboundTransferService{B: backends.API, Key: key}
+	client.V2MoneyManagementPayoutMethods = &v2MoneyManagementPayoutMethodService{B: backends.API, Key: key}
+	client.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2MoneyManagementPayoutMethodsBankAccountSpecService{B: backends.API, Key: key}
+	client.V2MoneyManagementReceivedCredits = &v2MoneyManagementReceivedCreditService{B: backends.API, Key: key}
+	client.V2MoneyManagementReceivedDebits = &v2MoneyManagementReceivedDebitService{B: backends.API, Key: key}
+	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
+	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
+	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }
 

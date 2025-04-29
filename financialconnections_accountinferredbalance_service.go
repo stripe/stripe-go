@@ -24,6 +24,10 @@ func (c v1FinancialConnectionsAccountInferredBalanceService) List(ctx context.Co
 	path := FormatURLPath(
 		"/v1/financial_connections/accounts/%s/inferred_balances", StringValue(
 			listParams.Account))
+	if listParams == nil {
+		listParams = &FinancialConnectionsAccountInferredBalanceListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsAccountInferredBalance, ListContainer, error) {
 		list := &FinancialConnectionsAccountInferredBalanceList{}
 		if p == nil {

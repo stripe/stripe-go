@@ -69,6 +69,10 @@ func (c v1WebhookEndpointService) Delete(ctx context.Context, id string, params 
 
 // Returns a list of your webhook endpoints.
 func (c v1WebhookEndpointService) List(ctx context.Context, listParams *WebhookEndpointListParams) Seq2[*WebhookEndpoint, error] {
+	if listParams == nil {
+		listParams = &WebhookEndpointListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*WebhookEndpoint, ListContainer, error) {
 		list := &WebhookEndpointList{}
 		if p == nil {

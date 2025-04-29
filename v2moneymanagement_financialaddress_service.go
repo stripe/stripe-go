@@ -43,6 +43,10 @@ func (c v2MoneyManagementFinancialAddressService) Retrieve(ctx context.Context, 
 
 // List all FinancialAddresses for a FinancialAccount.
 func (c v2MoneyManagementFinancialAddressService) List(ctx context.Context, listParams *V2MoneyManagementFinancialAddressListParams) Seq2[*V2MoneyManagementFinancialAddress, error] {
+	if listParams == nil {
+		listParams = &V2MoneyManagementFinancialAddressListParams{}
+	}
+	listParams.Context = ctx
 	return NewV2List("/v2/money_management/financial_addresses", listParams, func(path string, p ParamsContainer) (*V2Page[*V2MoneyManagementFinancialAddress], error) {
 		page := &V2Page[*V2MoneyManagementFinancialAddress]{}
 		err := c.B.Call(http.MethodGet, path, c.Key, p, page)

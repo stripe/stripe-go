@@ -45,6 +45,10 @@ func (c v1AccountNoticeService) Update(ctx context.Context, id string, params *A
 
 // Retrieves a list of AccountNotice objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
 func (c v1AccountNoticeService) List(ctx context.Context, listParams *AccountNoticeListParams) Seq2[*AccountNotice, error] {
+	if listParams == nil {
+		listParams = &AccountNoticeListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*AccountNotice, ListContainer, error) {
 		list := &AccountNoticeList{}
 		if p == nil {

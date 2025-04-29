@@ -33,6 +33,10 @@ func (c v1IssuingDisputeSettlementDetailService) Retrieve(ctx context.Context, i
 
 // Returns a list of Issuing DisputeSettlementDetail objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1IssuingDisputeSettlementDetailService) List(ctx context.Context, listParams *IssuingDisputeSettlementDetailListParams) Seq2[*IssuingDisputeSettlementDetail, error] {
+	if listParams == nil {
+		listParams = &IssuingDisputeSettlementDetailListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingDisputeSettlementDetail, ListContainer, error) {
 		list := &IssuingDisputeSettlementDetailList{}
 		if p == nil {

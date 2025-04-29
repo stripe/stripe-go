@@ -56,6 +56,10 @@ func (c v1MarginService) Update(ctx context.Context, id string, params *MarginUp
 
 // Retrieve a list of your margins.
 func (c v1MarginService) List(ctx context.Context, listParams *MarginListParams) Seq2[*Margin, error] {
+	if listParams == nil {
+		listParams = &MarginListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Margin, ListContainer, error) {
 		list := &MarginList{}
 		if p == nil {

@@ -33,6 +33,10 @@ func (c v1ClimateSupplierService) Retrieve(ctx context.Context, id string, param
 
 // Lists all available Climate supplier objects.
 func (c v1ClimateSupplierService) List(ctx context.Context, listParams *ClimateSupplierListParams) Seq2[*ClimateSupplier, error] {
+	if listParams == nil {
+		listParams = &ClimateSupplierListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ClimateSupplier, ListContainer, error) {
 		list := &ClimateSupplierList{}
 		if p == nil {

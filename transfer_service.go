@@ -58,6 +58,10 @@ func (c v1TransferService) Update(ctx context.Context, id string, params *Transf
 
 // Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
 func (c v1TransferService) List(ctx context.Context, listParams *TransferListParams) Seq2[*Transfer, error] {
+	if listParams == nil {
+		listParams = &TransferListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Transfer, ListContainer, error) {
 		list := &TransferList{}
 		if p == nil {

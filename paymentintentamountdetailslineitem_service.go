@@ -24,6 +24,10 @@ func (c v1PaymentIntentAmountDetailsLineItemService) List(ctx context.Context, l
 	path := FormatURLPath(
 		"/v1/payment_intents/%s/amount_details_line_items", StringValue(
 			listParams.Intent))
+	if listParams == nil {
+		listParams = &PaymentIntentAmountDetailsLineItemListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentIntentAmountDetailsLineItem, ListContainer, error) {
 		list := &PaymentIntentAmountDetailsLineItemList{}
 		if p == nil {

@@ -68,6 +68,10 @@ func (c v1TopupService) Cancel(ctx context.Context, id string, params *TopupCanc
 
 // Returns a list of top-ups.
 func (c v1TopupService) List(ctx context.Context, listParams *TopupListParams) Seq2[*Topup, error] {
+	if listParams == nil {
+		listParams = &TopupListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Topup, ListContainer, error) {
 		list := &TopupList{}
 		if p == nil {

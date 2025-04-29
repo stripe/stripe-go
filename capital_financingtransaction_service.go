@@ -34,6 +34,10 @@ func (c v1CapitalFinancingTransactionService) Retrieve(ctx context.Context, id s
 // Returns a list of financing transactions. The transactions are returned in sorted order,
 // with the most recent transactions appearing first.
 func (c v1CapitalFinancingTransactionService) List(ctx context.Context, listParams *CapitalFinancingTransactionListParams) Seq2[*CapitalFinancingTransaction, error] {
+	if listParams == nil {
+		listParams = &CapitalFinancingTransactionListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CapitalFinancingTransaction, ListContainer, error) {
 		list := &CapitalFinancingTransactionList{}
 		if p == nil {

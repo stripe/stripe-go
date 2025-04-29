@@ -33,6 +33,10 @@ func (c v1PaymentAttemptRecordService) Retrieve(ctx context.Context, id string, 
 
 // List all the Payment Attempt Records attached to the specified Payment Record.
 func (c v1PaymentAttemptRecordService) List(ctx context.Context, listParams *PaymentAttemptRecordListParams) Seq2[*PaymentAttemptRecord, error] {
+	if listParams == nil {
+		listParams = &PaymentAttemptRecordListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentAttemptRecord, ListContainer, error) {
 		list := &PaymentAttemptRecordList{}
 		if p == nil {

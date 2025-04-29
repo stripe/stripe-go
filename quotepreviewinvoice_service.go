@@ -23,6 +23,10 @@ type v1QuotePreviewInvoiceService struct {
 func (c v1QuotePreviewInvoiceService) List(ctx context.Context, listParams *QuotePreviewInvoiceListParams) Seq2[*QuotePreviewInvoice, error] {
 	path := FormatURLPath(
 		"/v1/quotes/%s/preview_invoices", StringValue(listParams.Quote))
+	if listParams == nil {
+		listParams = &QuotePreviewInvoiceListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*QuotePreviewInvoice, ListContainer, error) {
 		list := &QuotePreviewInvoiceList{}
 		if p == nil {

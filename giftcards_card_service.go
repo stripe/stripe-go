@@ -68,6 +68,10 @@ func (c v1GiftCardsCardService) Validate(ctx context.Context, params *GiftCardsC
 
 // List gift cards for an account
 func (c v1GiftCardsCardService) List(ctx context.Context, listParams *GiftCardsCardListParams) Seq2[*GiftCardsCard, error] {
+	if listParams == nil {
+		listParams = &GiftCardsCardListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*GiftCardsCard, ListContainer, error) {
 		list := &GiftCardsCardList{}
 		if p == nil {

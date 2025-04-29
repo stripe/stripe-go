@@ -85,6 +85,10 @@ func (c v1IssuingCreditUnderwritingRecordService) ReportDecision(ctx context.Con
 
 // Retrieves a list of CreditUnderwritingRecord objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
 func (c v1IssuingCreditUnderwritingRecordService) List(ctx context.Context, listParams *IssuingCreditUnderwritingRecordListParams) Seq2[*IssuingCreditUnderwritingRecord, error] {
+	if listParams == nil {
+		listParams = &IssuingCreditUnderwritingRecordListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingCreditUnderwritingRecord, ListContainer, error) {
 		list := &IssuingCreditUnderwritingRecordList{}
 		if p == nil {

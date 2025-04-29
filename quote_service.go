@@ -141,6 +141,10 @@ func (c v1QuoteService) Reestimate(ctx context.Context, id string, params *Quote
 
 // Returns a list of your quotes.
 func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) Seq2[*Quote, error] {
+	if listParams == nil {
+		listParams = &QuoteListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Quote, ListContainer, error) {
 		list := &QuoteList{}
 		if p == nil {
@@ -156,6 +160,10 @@ func (c v1QuoteService) List(ctx context.Context, listParams *QuoteListParams) S
 func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listParams *QuoteListComputedUpfrontLineItemsParams) Seq2[*LineItem, error] {
 	path := FormatURLPath(
 		"/v1/quotes/%s/computed_upfront_line_items", StringValue(listParams.Quote))
+	if listParams == nil {
+		listParams = &QuoteListComputedUpfrontLineItemsParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
 		list := &LineItemList{}
 		if p == nil {
@@ -171,6 +179,10 @@ func (c v1QuoteService) ListComputedUpfrontLineItems(ctx context.Context, listPa
 func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteListLineItemsParams) Seq2[*LineItem, error] {
 	path := FormatURLPath(
 		"/v1/quotes/%s/line_items", StringValue(listParams.Quote))
+	if listParams == nil {
+		listParams = &QuoteListLineItemsParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
 		list := &LineItemList{}
 		if p == nil {
@@ -185,6 +197,10 @@ func (c v1QuoteService) ListLineItems(ctx context.Context, listParams *QuoteList
 // Retrieves a paginated list of lines for a quote. These lines describe changes that will be used to create new subscription schedules or update existing subscription schedules when the quote is accepted.
 func (c v1QuoteService) ListLines(ctx context.Context, listParams *QuoteListLinesParams) Seq2[*QuoteLine, error] {
 	path := FormatURLPath("/v1/quotes/%s/lines", StringValue(listParams.Quote))
+	if listParams == nil {
+		listParams = &QuoteListLinesParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*QuoteLine, ListContainer, error) {
 		list := &QuoteLineList{}
 		if p == nil {
@@ -201,6 +217,10 @@ func (c v1QuoteService) ListPreviewInvoiceLines(ctx context.Context, listParams 
 	path := FormatURLPath(
 		"/v1/quotes/%s/preview_invoices/%s/lines", StringValue(
 			listParams.Quote), StringValue(listParams.PreviewInvoice))
+	if listParams == nil {
+		listParams = &QuoteListPreviewInvoiceLinesParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoiceLineItem, ListContainer, error) {
 		list := &InvoiceLineItemList{}
 		if p == nil {
