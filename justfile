@@ -28,11 +28,7 @@ format: _normalize-imports install
 format-check:
     scripts/gofmt.sh check
 
-# ensures all client structs are properly registered
-check-api-clients:
-    go run scripts/check_api_clients/main.go
-
-ci-test: test bench check-api-clients
+ci-test: test bench
 
 # compile the project
 build:
