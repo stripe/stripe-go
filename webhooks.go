@@ -63,59 +63,17 @@ func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 //
 // This will return an error if the event API version does not match the
 // APIVersion constant.
-func ConstructEvent(payload []byte, header string, secret string) (Event, error) {
-	return ConstructEventWithTolerance(payload, header, secret, WebhookDefaultTolerance)
-}
-
-// ConstructEventIgnoringTolerance initializes an Event object from a JSON webhook
-// payload, validating the Stripe-Signature header using the specified signing secret.
-// Returns an error if the body or Stripe-Signature header provided are unreadable or
-// if the signature doesn't match. Does not check the signature's timestamp.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-// This will return an error if the event API version does not match the
-// APIVersion constant.
-func ConstructEventIgnoringTolerance(payload []byte, header string, secret string) (Event, error) {
-	return constructEvent(payload, header, secret, ConstructEventOptions{IgnoreTolerance: true})
-}
-
-// ConstructEventWithTolerance initializes an Event object from a JSON webhook payload,
-// validating the signature in the Stripe-Signature header using the specified signing
-// secret and tolerance window. Returns an error if the body or Stripe-Signature header
-// provided are unreadable, if the signature doesn't match, or if the timestamp
-// for the signature is older than the specified tolerance.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-// This will return an error if the event API version does not match the
-// APIVersion constant.
-func ConstructEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (Event, error) {
-	return constructEvent(payload, header, secret, ConstructEventOptions{Tolerance: tolerance})
-}
-
-// ConstructEventWithOptions initializes an Event object from a JSON webhook payload,
-// validating the signature in the Stripe-Signature header using the specified signing
-// secret and tolerance window provided by the options, if applicable.
-//
-// See `ConstructEventOptions` for more details on each of the options.
-//
-// Returns an error if the signature doesn't match, or:
-//   - if `IgnoreTolerance` is false and the timestamp embedded in the event
-//     header is not within the tolerance window (similar to `ConstructEventWithTolerance`)
-//   - if `IgnoreAPIVersionMismatch` is false and the webhook event API version
-//     does not match the API version of the stripe-go library, as defined in
-//     `APIVersion`.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-func ConstructEventWithOptions(payload []byte, header string, secret string, options ConstructEventOptions) (Event, error) {
-	return constructEvent(payload, header, secret, options)
+func ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
+	cfg := webhookConfig{
+		Tolerance: WebhookDefaultTolerance,
+	}
+	for _, opt := range opts {
+		if opt == nil {
+			continue
+		}
+		opt(&cfg)
+	}
+	return constructEvent(payload, header, secret, cfg)
 }
 
 // ValidatePayload validates the payload against the Stripe-Signature header
@@ -126,38 +84,43 @@ func ConstructEventWithOptions(payload []byte, header string, secret string, opt
 // NOTE: Stripe will only send Webhook signing headers after you have retrieved
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
-func ValidatePayload(payload []byte, header string, secret string) error {
-	return ValidatePayloadWithTolerance(payload, header, secret, WebhookDefaultTolerance)
+func ValidatePayload(payload []byte, header string, secret string, opts ...WebhookOption) error {
+	cfg := webhookConfig{
+		Tolerance: WebhookDefaultTolerance,
+	}
+	for _, opt := range opts {
+		if opt == nil {
+			continue
+		}
+		opt(&cfg)
+	}
+	return validatePayload(payload, header, secret, cfg)
 }
 
-// ValidatePayloadIgnoringTolerance validates the payload against the Stripe-Signature header
-// using the specified signing secret. Returns an error if the body or
-// Stripe-Signature header provided are unreadable or if the signature doesn't match.
-// Does not check the signature's timestamp.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-func ValidatePayloadIgnoringTolerance(payload []byte, header string, secret string) error {
-	return validatePayload(payload, header, secret, 0*time.Second, false)
+type WebhookOption func(*webhookConfig)
+
+func WithTolerance(tolerance time.Duration) WebhookOption {
+	return func(w *webhookConfig) {
+		w.Tolerance = tolerance
+	}
 }
 
-// ValidatePayloadWithTolerance validates the payload against the Stripe-Signature header
-// using the specified signing secret and tolerance window. Returns an error if the body
-// or Stripe-Signature header provided are unreadable, if the signature doesn't match, or
-// if the timestamp for the signature is older than the specified tolerance.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-func ValidatePayloadWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) error {
-	return validatePayload(payload, header, secret, tolerance, true)
+func WithIgnoreTolerance() WebhookOption {
+	return func(w *webhookConfig) {
+		w.IgnoreTolerance = true
+	}
 }
 
-type ConstructEventOptions struct {
+func WithIgnoreAPIVersionMismatch() WebhookOption {
+	return func(w *webhookConfig) {
+		w.IgnoreAPIVersionMismatch = true
+	}
+}
+
+type webhookConfig struct {
 	// Validates event timestamps using a custom Tolerance window. If this is
 	// not set and `IgnoreTolerance` is false, will default to
-	// `DefaultTolerance`.
+	// `WebhookDefaultTolerance`.
 	Tolerance time.Duration
 
 	// If set to true, will ignore the `tolerance` option entirely and will not
@@ -204,15 +167,10 @@ func isCompatibleAPIVersion(sdkApiVersion, eventApiVersion string) bool {
 	return eventReleaseTrain == currentReleaseTrain
 }
 
-func constructEvent(payload []byte, sigHeader string, secret string, options ConstructEventOptions) (Event, error) {
+func constructEvent(payload []byte, sigHeader string, secret string, cfg webhookConfig) (Event, error) {
 	e := Event{}
 
-	tolerance := options.Tolerance
-	if options.Tolerance == 0 && !options.IgnoreTolerance {
-		tolerance = WebhookDefaultTolerance
-	}
-
-	if err := validatePayload(payload, sigHeader, secret, tolerance, !options.IgnoreTolerance); err != nil {
+	if err := validatePayload(payload, sigHeader, secret, cfg); err != nil {
 		return e, err
 	}
 
@@ -220,7 +178,7 @@ func constructEvent(payload []byte, sigHeader string, secret string, options Con
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
-	if !options.IgnoreAPIVersionMismatch && !isCompatibleAPIVersion(APIVersion, e.APIVersion) {
+	if !cfg.IgnoreAPIVersionMismatch && !isCompatibleAPIVersion(APIVersion, e.APIVersion) {
 		return e, fmt.Errorf("Received event with API version %s, but stripe-go %s expects API version %s. We recommend that you create a WebhookEndpoint with this API version. Otherwise, you can disable this error by using `ConstructEventWithOptions(..., ConstructEventOptions{..., ignoreAPIVersionMismatch: true})`  but be wary that objects may be incorrectly deserialized.", e.APIVersion, ClientVersion, APIVersion)
 	}
 
@@ -271,15 +229,15 @@ func parseSignatureHeader(header string) (*signedHeader, error) {
 	return sh, nil
 }
 
-func validatePayload(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
+func validatePayload(payload []byte, sigHeader string, secret string, cfg webhookConfig) error {
 
 	header, err := parseSignatureHeader(sigHeader)
 	if err != nil {
 		return err
 	}
 
-	expiredTimestamp := time.Since(header.timestamp) > tolerance
-	if enforceTolerance && expiredTimestamp {
+	expiredTimestamp := time.Since(header.timestamp) > cfg.Tolerance
+	if !cfg.IgnoreTolerance && expiredTimestamp {
 		return ErrWebhookTooOld
 	}
 
