@@ -293,6 +293,7 @@ type Client struct {
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
 }
 
+// NewClient creates a new Stripe [Client] with the given API key.
 func NewClient(key string, opts ...ClientOption) *Client {
 	usage := []string{"stripe_client_new"}
 	client := &Client{}
@@ -470,8 +471,12 @@ type clientConfig struct {
 	key      string
 }
 
+// ClientOption allows for functional options to be passed to the NewClient constructor.
 type ClientOption func(*clientConfig)
 
+// WithBackends allows for setting a custom [*Backends] struct when creating a new client.
+// This is useful for testing or when you want to use a different backend constructed
+// from [GetBackendWithConfig].
 func WithBackends(backends *Backends) ClientOption {
 	return func(c *clientConfig) {
 		c.backends = backends
