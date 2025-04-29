@@ -33,8 +33,8 @@ type SubscriptionBillingMode string
 
 // List of values that SubscriptionBillingMode can take
 const (
-	SubscriptionBillingModeCreditsAttributedToDebits SubscriptionBillingMode = "credits_attributed_to_debits"
-	SubscriptionBillingModeLegacyProrations          SubscriptionBillingMode = "legacy_prorations"
+	SubscriptionBillingModeClassic  SubscriptionBillingMode = "classic"
+	SubscriptionBillingModeFlexible SubscriptionBillingMode = "flexible"
 )
 
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
