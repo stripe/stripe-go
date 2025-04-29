@@ -33,6 +33,10 @@ func (c v1ReportingReportTypeService) Retrieve(ctx context.Context, id string, p
 
 // Returns a full list of Report Types.
 func (c v1ReportingReportTypeService) List(ctx context.Context, listParams *ReportingReportTypeListParams) Seq2[*ReportingReportType, error] {
+	if listParams == nil {
+		listParams = &ReportingReportTypeListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ReportingReportType, ListContainer, error) {
 		list := &ReportingReportTypeList{}
 		if p == nil {

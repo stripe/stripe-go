@@ -129,6 +129,10 @@ func (c v1TerminalReaderService) SetReaderDisplay(ctx context.Context, id string
 
 // Returns a list of Reader objects.
 func (c v1TerminalReaderService) List(ctx context.Context, listParams *TerminalReaderListParams) Seq2[*TerminalReader, error] {
+	if listParams == nil {
+		listParams = &TerminalReaderListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TerminalReader, ListContainer, error) {
 		list := &TerminalReaderList{}
 		if p == nil {

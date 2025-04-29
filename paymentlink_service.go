@@ -57,6 +57,10 @@ func (c v1PaymentLinkService) Update(ctx context.Context, id string, params *Pay
 
 // Returns a list of your payment links.
 func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkListParams) Seq2[*PaymentLink, error] {
+	if listParams == nil {
+		listParams = &PaymentLinkListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentLink, ListContainer, error) {
 		list := &PaymentLinkList{}
 		if p == nil {
@@ -72,6 +76,10 @@ func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkL
 func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *PaymentLinkListLineItemsParams) Seq2[*LineItem, error] {
 	path := FormatURLPath(
 		"/v1/payment_links/%s/line_items", StringValue(listParams.PaymentLink))
+	if listParams == nil {
+		listParams = &PaymentLinkListLineItemsParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
 		list := &LineItemList{}
 		if p == nil {

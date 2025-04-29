@@ -69,6 +69,10 @@ func (c v1IssuingDisputeService) Submit(ctx context.Context, id string, params *
 
 // Returns a list of Issuing Dispute objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 func (c v1IssuingDisputeService) List(ctx context.Context, listParams *IssuingDisputeListParams) Seq2[*IssuingDispute, error] {
+	if listParams == nil {
+		listParams = &IssuingDisputeListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*IssuingDispute, ListContainer, error) {
 		list := &IssuingDisputeList{}
 		if p == nil {

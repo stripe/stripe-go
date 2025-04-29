@@ -82,6 +82,10 @@ func (c v1RefundService) Cancel(ctx context.Context, id string, params *RefundCa
 
 // Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first. The 10 most recent refunds are always available by default on the Charge object.
 func (c v1RefundService) List(ctx context.Context, listParams *RefundListParams) Seq2[*Refund, error] {
+	if listParams == nil {
+		listParams = &RefundListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Refund, ListContainer, error) {
 		list := &RefundList{}
 		if p == nil {

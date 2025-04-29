@@ -92,6 +92,10 @@ func (c v1CreditNoteService) VoidCreditNote(ctx context.Context, id string, para
 
 // Returns a list of credit notes.
 func (c v1CreditNoteService) List(ctx context.Context, listParams *CreditNoteListParams) Seq2[*CreditNote, error] {
+	if listParams == nil {
+		listParams = &CreditNoteListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CreditNote, ListContainer, error) {
 		list := &CreditNoteList{}
 		if p == nil {
@@ -107,6 +111,10 @@ func (c v1CreditNoteService) List(ctx context.Context, listParams *CreditNoteLis
 func (c v1CreditNoteService) ListLines(ctx context.Context, listParams *CreditNoteListLinesParams) Seq2[*CreditNoteLineItem, error] {
 	path := FormatURLPath(
 		"/v1/credit_notes/%s/lines", StringValue(listParams.CreditNote))
+	if listParams == nil {
+		listParams = &CreditNoteListLinesParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CreditNoteLineItem, ListContainer, error) {
 		list := &CreditNoteLineItemList{}
 		if p == nil {
@@ -120,6 +128,10 @@ func (c v1CreditNoteService) ListLines(ctx context.Context, listParams *CreditNo
 
 // When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
 func (c v1CreditNoteService) PreviewLines(ctx context.Context, listParams *CreditNotePreviewLinesParams) Seq2[*CreditNoteLineItem, error] {
+	if listParams == nil {
+		listParams = &CreditNotePreviewLinesParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CreditNoteLineItem, ListContainer, error) {
 		list := &CreditNoteLineItemList{}
 		if p == nil {

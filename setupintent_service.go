@@ -115,6 +115,10 @@ func (c v1SetupIntentService) VerifyMicrodeposits(ctx context.Context, id string
 
 // Returns a list of SetupIntents.
 func (c v1SetupIntentService) List(ctx context.Context, listParams *SetupIntentListParams) Seq2[*SetupIntent, error] {
+	if listParams == nil {
+		listParams = &SetupIntentListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*SetupIntent, ListContainer, error) {
 		list := &SetupIntentList{}
 		if p == nil {

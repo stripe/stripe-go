@@ -57,6 +57,10 @@ func (c v1EntitlementsFeatureService) Update(ctx context.Context, id string, par
 
 // Retrieve a list of features
 func (c v1EntitlementsFeatureService) List(ctx context.Context, listParams *EntitlementsFeatureListParams) Seq2[*EntitlementsFeature, error] {
+	if listParams == nil {
+		listParams = &EntitlementsFeatureListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*EntitlementsFeature, ListContainer, error) {
 		list := &EntitlementsFeatureList{}
 		if p == nil {

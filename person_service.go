@@ -74,6 +74,10 @@ func (c v1PersonService) Delete(ctx context.Context, id string, params *PersonDe
 func (c v1PersonService) List(ctx context.Context, listParams *PersonListParams) Seq2[*Person, error] {
 	path := FormatURLPath(
 		"/v1/accounts/%s/persons", StringValue(listParams.Account))
+	if listParams == nil {
+		listParams = &PersonListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Person, ListContainer, error) {
 		list := &PersonList{}
 		if p == nil {

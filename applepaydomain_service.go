@@ -57,6 +57,10 @@ func (c v1ApplePayDomainService) Delete(ctx context.Context, id string, params *
 
 // List apple pay domains.
 func (c v1ApplePayDomainService) List(ctx context.Context, listParams *ApplePayDomainListParams) Seq2[*ApplePayDomain, error] {
+	if listParams == nil {
+		listParams = &ApplePayDomainListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*ApplePayDomain, ListContainer, error) {
 		list := &ApplePayDomainList{}
 		if p == nil {

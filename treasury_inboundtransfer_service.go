@@ -57,6 +57,10 @@ func (c v1TreasuryInboundTransferService) Cancel(ctx context.Context, id string,
 
 // Returns a list of InboundTransfers sent from the specified FinancialAccount.
 func (c v1TreasuryInboundTransferService) List(ctx context.Context, listParams *TreasuryInboundTransferListParams) Seq2[*TreasuryInboundTransfer, error] {
+	if listParams == nil {
+		listParams = &TreasuryInboundTransferListParams{}
+	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TreasuryInboundTransfer, ListContainer, error) {
 		list := &TreasuryInboundTransferList{}
 		if p == nil {
