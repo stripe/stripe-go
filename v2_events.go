@@ -47,7 +47,7 @@ const (
 // V2Event is the interface implemented by V2 Events. To get the underlying Event,
 // use a type switch or type assertion to one of the concrete event types.
 type V2Event interface {
-	GetBaseEvent() *V2BaseEvent
+	getBaseEvent() *V2BaseEvent
 }
 
 // V2RawEvent is the raw event type for V2 events. It is used to unmarshal the
