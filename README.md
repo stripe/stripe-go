@@ -174,13 +174,13 @@ sc := stripe.NewClient("sk_key")
 c, err := sc.V1Customers.Create(context.TODO(), &stripe.CustomerCreateParams{})
 
 // Retrieve
-c, err := sc.V1Customers.Retrieve(context.TODO(), &stripe.CustomerRetrieveParams{})
+c, err := sc.V1Customers.Retrieve(context.TODO(), id, &stripe.CustomerRetrieveParams{})
 
 // Update
-c, err := sc.V1Customers.Update(context.TODO(), &stripe.CustomerUpdateParams{})
+c, err := sc.V1Customers.Update(context.TODO(), id, &stripe.CustomerUpdateParams{})
 
 // Delete
-c, err := sc.V1Customers.Delete(context.TODO(), &stripe.CustomerDeleteParams{})
+c, err := sc.V1Customers.Delete(context.TODO(), id, &stripe.CustomerDeleteParams{})
 
 // List
 for c, err := range sc.Customers.List(context.TODO(), &stripe.CustomerListParams{}) {
@@ -189,9 +189,14 @@ for c, err := range sc.Customers.List(context.TODO(), &stripe.CustomerListParams
 }
 ```
 
+### `stripe.Client` vs legacy `client.API` pattern
+We introduced `stripe.Client` in v82.1 of the Go SDK. The legacy client pattern used prior to that version (using `client.API`) is still available to use but will be marked as deprecated soon. Review the [migration guide to use stripe.Client](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client) to use `stripe.Client` to move from the legacy pattern.
+
+Once the legacy pattern is deprecated, new API endpoints will only be accessible via `stripe.Client`. While there are no current plans to remove the legacy pattern for existing API endpoints, this may change in the future.
+
 ### Without a Client (Legacy)
 
-The legacy pattern to access Stripe APIs is the "resource pattern" shown below. We plan to deprecate this pattern in a future release.
+The legacy pattern to access Stripe APIs is the "resource pattern" shown below. We plan to deprecate this pattern in a future release. Note also that this pattern is not available for Stripe's V2 APIs.
 
 ```go
 import (
@@ -490,7 +495,7 @@ func UseMockedStripeClient(t *testing.T) {
 
 Stripe has features in the beta phase that can be accessed via the beta version of this package.
 We would love for you to try these and share feedback with us before these features reach the stable phase.
-To install a beta version of stripe-go add the following `replace` directive to your `go.mod` file.
+To install a beta version of stripe-go add the following `replace` directive to your `go.mod` file:
 
 ```
 replace github.com/stripe/stripe-go/v82 =>  github.com/stripe/stripe-go/v82@beta
