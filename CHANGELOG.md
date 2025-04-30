@@ -1,4 +1,8 @@
 # Changelog
+## 82.2.0-beta.2 - 2025-04-30
+* [#2059](https://github.com/stripe/stripe-go/pull/2059) Update generated code for beta
+  Release specs are identical.
+
 
 
 ## 82.2.0-beta.1 - 2025-04-30
