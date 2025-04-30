@@ -2,12 +2,10 @@ package stripe
 
 import (
 	"encoding/json"
-	"time"
 )
 
 // Client is the Stripe client. It contains all the different services available.
 type Client struct {
-	backends *Backends
 	// stripeClientStruct: The beginning of the section generated from our OpenAPI spec
 
 	// OAuth is the service used to invoke /oauth APIs
@@ -298,23 +296,28 @@ type Client struct {
 func NewClient(key string, opts ...ClientOption) *Client {
 	usage := []string{"stripe_client_new"}
 	client := &Client{}
+	cfg := clientConfig{key: key, usage: usage}
 	for _, opt := range opts {
-		opt(client)
+		if opt == nil {
+			continue
+		}
+		opt(&cfg)
 	}
-	initClient(client, key, usage)
+	initClient(client, cfg)
 	return client
 }
 
-func initClient(client *Client, key string, usage []string) {
-	if client.backends == nil {
-		client.backends = &Backends{
-			API:         &UsageBackend{B: GetBackend(APIBackend), Usage: usage},
-			Connect:     &UsageBackend{B: GetBackend(ConnectBackend), Usage: usage},
-			Uploads:     &UsageBackend{B: GetBackend(UploadsBackend), Usage: usage},
-			MeterEvents: &UsageBackend{B: GetBackend(MeterEventsBackend), Usage: usage},
+func initClient(client *Client, cfg clientConfig) {
+	if cfg.backends == nil {
+		cfg.backends = &Backends{
+			API:         &UsageBackend{B: GetBackend(APIBackend), Usage: cfg.usage},
+			Connect:     &UsageBackend{B: GetBackend(ConnectBackend), Usage: cfg.usage},
+			Uploads:     &UsageBackend{B: GetBackend(UploadsBackend), Usage: cfg.usage},
+			MeterEvents: &UsageBackend{B: GetBackend(MeterEventsBackend), Usage: cfg.usage},
 		}
 	}
-	backends := client.backends
+	backends := cfg.backends
+	key := cfg.key
 
 	// stripeClientInit: The beginning of the section generated from our OpenAPI spec
 	client.OAuth = &oauthService{B: backends.Connect, Key: key}
@@ -461,24 +464,24 @@ func initClient(client *Client, key string, usage []string) {
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }
 
-type ClientOption func(*Client)
+type clientConfig struct {
+	backends *Backends
+	usage    []string
+	key      string
+}
+
+type ClientOption func(*clientConfig)
 
 func WithBackends(backends *Backends) ClientOption {
-	return func(c *Client) {
+	return func(c *clientConfig) {
 		c.backends = backends
 	}
 }
 
 // ParseThinEvent parses a Stripe event from the payload and verifies its signature.
 // It returns a ThinEvent object and an error if the parsing or verification fails.
-func (c *Client) ParseThinEvent(payload []byte, header string, secret string) (*ThinEvent, error) {
-	return c.ParseThinEventWithTolerance(payload, header, secret, WebhookDefaultTolerance)
-}
-
-// ParseThinEventWithTolerance parses a Stripe event from the payload and verifies its signature with a custom tolerance.
-// Generally, you should use ParseThinEvent, which uses the default tolerance.
-func (c *Client) ParseThinEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (*ThinEvent, error) {
-	if err := ValidatePayloadWithTolerance(payload, header, secret, tolerance); err != nil {
+func (c *Client) ParseThinEvent(payload []byte, header string, secret string, opts ...WebhookOption) (*ThinEvent, error) {
+	if err := ValidatePayload(payload, header, secret, opts...); err != nil {
 		return nil, err
 	}
 	var event ThinEvent
@@ -486,4 +489,20 @@ func (c *Client) ParseThinEventWithTolerance(payload []byte, header string, secr
 		return nil, err
 	}
 	return &event, nil
+}
+
+// ConstructEvent initializes an Event object from a JSON webhook payload, validating
+// the Stripe-Signature header using the specified signing secret. Returns an error
+// if the body or Stripe-Signature header provided are unreadable, if the
+// signature doesn't match, or if the timestamp for the signature is older than
+// WebhookDefaultTolerance.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+// This will return an error if the event API version does not match the
+// APIVersion constant.
+func (c *Client) ConstructEvent(payload []byte, header string, secret string, opts ...WebhookOption) (Event, error) {
+	return ConstructEvent(payload, header, secret, opts...)
 }

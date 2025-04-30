@@ -160,20 +160,20 @@ func TestTokenNew(t *testing.T) {
 	p = newSignedPayload(func(p *SignedPayload) {
 		p.Timestamp = time.Now().Add(-15 * time.Second)
 	})
-	err = ValidatePayloadWithTolerance(p.Payload, p.Header, p.Secret, 10*time.Second)
+	err = ValidatePayload(p.Payload, p.Header, p.Secret, WithTolerance(10*time.Second))
 	if err != ErrWebhookTooOld {
 		t.Errorf("Received %v error when validating timestamp outside of allowed timing window", err)
 	}
-	evt, err = ConstructEventWithTolerance(p.Payload, p.Header, p.Secret, 10*time.Second)
+	evt, err = ConstructEvent(p.Payload, p.Header, p.Secret, WithTolerance(10*time.Second))
 	if err != ErrWebhookTooOld {
 		t.Errorf("Received %v error when validating timestamp outside of allowed timing window", err)
 	}
 
-	err = ValidatePayloadWithTolerance(p.Payload, p.Header, p.Secret, 20*time.Second)
+	err = ValidatePayload(p.Payload, p.Header, p.Secret, WithTolerance(20*time.Second))
 	if err != nil {
 		t.Errorf("Received %v error when validating timestamp inside allowed timing window", err)
 	}
-	evt, err = ConstructEventWithTolerance(p.Payload, p.Header, p.Secret, 20*time.Second)
+	evt, err = ConstructEvent(p.Payload, p.Header, p.Secret, WithTolerance(20*time.Second))
 	if err != nil {
 		t.Errorf("Received %v error when validating timestamp inside allowed timing window", err)
 	}
@@ -181,11 +181,11 @@ func TestTokenNew(t *testing.T) {
 	p = newSignedPayload(func(p *SignedPayload) {
 		p.Timestamp = time.Unix(12345, 0)
 	})
-	err = ValidatePayloadIgnoringTolerance(p.Payload, p.Header, p.Secret)
+	err = ValidatePayload(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
 	if err != nil {
 		t.Errorf("Received %v error when timestamp outside window but no tolerance specified", err)
 	}
-	evt, err = ConstructEventIgnoringTolerance(p.Payload, p.Header, p.Secret)
+	evt, err = ConstructEvent(p.Payload, p.Header, p.Secret, WithIgnoreTolerance())
 	if err != nil {
 		t.Errorf("Received %v error when timestamp outside window but no tolerance specified", err)
 	}
@@ -266,7 +266,7 @@ func TestConstructEventWithOptions_IgnoreAPIVersionMismatch(t *testing.T) {
 		p.Payload = testPayloadWithAPIVersionMismatch
 	})
 
-	evt, err := ConstructEventWithOptions(p.Payload, p.Header, p.Secret, ConstructEventOptions{IgnoreAPIVersionMismatch: true})
+	evt, err := ConstructEvent(p.Payload, p.Header, p.Secret, WithIgnoreAPIVersionMismatch())
 
 	if err != nil {
 		t.Errorf("Expected no error due ignoreAPIVersionMismatch.")
@@ -285,7 +285,7 @@ func TestConstructEventWithOptions_UsesDefaultToleranceWhenNoneProvided(t *testi
 		p.Timestamp = time.Now().Add(-WebhookDefaultTolerance).Add(1 * time.Second)
 	})
 
-	_, err := ConstructEventWithOptions(p.Payload, p.Header, p.Secret, ConstructEventOptions{})
+	_, err := ConstructEvent(p.Payload, p.Header, p.Secret, nil)
 
 	if err != nil {
 		t.Errorf("Expected no error due tolerance, but got %v.", err)
@@ -295,7 +295,7 @@ func TestConstructEventWithOptions_UsesDefaultToleranceWhenNoneProvided(t *testi
 		p.Timestamp = time.Now().Add(-WebhookDefaultTolerance).Add(-1 * time.Millisecond)
 	})
 
-	_, err = ConstructEventWithOptions(p.Payload, p.Header, p.Secret, ConstructEventOptions{})
+	_, err = ConstructEvent(p.Payload, p.Header, p.Secret, nil)
 
 	if err != ErrWebhookTooOld {
 		t.Errorf("Expected error due to being too old, but got %v.", err)
