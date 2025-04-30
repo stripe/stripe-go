@@ -14,6 +14,9 @@ import (
 )
 
 // Client is used to invoke /v1/customers APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -25,6 +28,10 @@ func FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanc
 }
 
 // Create an incoming testmode bank transfer
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) FundCashBalance(id string, params *stripe.TestHelpersCustomerFundCashBalanceParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/customers/%s/fund_cash_balance", id)

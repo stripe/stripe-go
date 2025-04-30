@@ -14,6 +14,9 @@ import (
 )
 
 // Client is used to invoke /v1/treasury/outbound_transfers APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -25,6 +28,10 @@ func Update(id string, params *stripe.TestHelpersTreasuryOutboundTransferParams)
 }
 
 // Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.TestHelpersTreasuryOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/outbound_transfers/%s", id)
@@ -39,6 +46,10 @@ func Fail(id string, params *stripe.TestHelpersTreasuryOutboundTransferFailParam
 }
 
 // Transitions a test mode created OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Fail(id string, params *stripe.TestHelpersTreasuryOutboundTransferFailParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/outbound_transfers/%s/fail", id)
@@ -53,6 +64,10 @@ func Post(id string, params *stripe.TestHelpersTreasuryOutboundTransferPostParam
 }
 
 // Transitions a test mode created OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Post(id string, params *stripe.TestHelpersTreasuryOutboundTransferPostParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/outbound_transfers/%s/post", id)
@@ -67,6 +82,10 @@ func ReturnOutboundTransfer(id string, params *stripe.TestHelpersTreasuryOutboun
 }
 
 // Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ReturnOutboundTransfer(id string, params *stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams) (*stripe.TreasuryOutboundTransfer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/treasury/outbound_transfers/%s/return", id)

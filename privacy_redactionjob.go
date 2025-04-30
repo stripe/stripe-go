@@ -146,6 +146,19 @@ func (p *PrivacyRedactionJobUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The objects at the root level that are subject to redaction.
+type PrivacyRedactionJobObjects struct {
+	Charges                      []string `json:"charges"`
+	CheckoutSessions             []string `json:"checkout_sessions"`
+	Customers                    []string `json:"customers"`
+	IdentityVerificationSessions []string `json:"identity_verification_sessions"`
+	Invoices                     []string `json:"invoices"`
+	IssuingCardholders           []string `json:"issuing_cardholders"`
+	PaymentIntents               []string `json:"payment_intents"`
+	RadarValueListItems          []string `json:"radar_value_list_items"`
+	SetupIntents                 []string `json:"setup_intents"`
+}
+
 // Redaction Jobs store the status of a redaction request. They are created
 // when a redaction request is made and track the redaction validation and execution.
 type PrivacyRedactionJob struct {
@@ -157,7 +170,7 @@ type PrivacyRedactionJob struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The objects at the root level that are subject to redaction.
-	Objects *PrivacyRedactionJobRootObjects `json:"objects"`
+	Objects *PrivacyRedactionJobObjects `json:"objects"`
 	// The status field represents the current state of the redaction job. It can take on any of the following values: VALIDATING, READY, REDACTING, SUCCEEDED, CANCELED, FAILED.
 	Status string `json:"status"`
 	// Default is "error". If "error", we will make sure all objects in the graph are redactable in the 1st traversal, otherwise error. If "fix", where possible, we will auto-fix any validation errors (e.g. by auto-transitioning objects to a terminal state, etc.) in the 2nd traversal before redacting

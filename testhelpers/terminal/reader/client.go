@@ -14,6 +14,9 @@ import (
 )
 
 // Client is used to invoke /v1/terminal/readers APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -25,6 +28,10 @@ func PresentPaymentMethod(id string, params *stripe.TestHelpersTerminalReaderPre
 }
 
 // Presents a payment method on a simulated reader. Can be used to simulate accepting a payment, saving a card or refunding a transaction.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) PresentPaymentMethod(id string, params *stripe.TestHelpersTerminalReaderPresentPaymentMethodParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/terminal/readers/%s/present_payment_method", id)
@@ -39,6 +46,10 @@ func SucceedInputCollection(id string, params *stripe.TestHelpersTerminalReaderS
 }
 
 // Use this endpoint to trigger a successful input collection on a simulated reader.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) SucceedInputCollection(id string, params *stripe.TestHelpersTerminalReaderSucceedInputCollectionParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/terminal/readers/%s/succeed_input_collection", id)
@@ -53,6 +64,10 @@ func TimeoutInputCollection(id string, params *stripe.TestHelpersTerminalReaderT
 }
 
 // Use this endpoint to complete an input collection with a timeout error on a simulated reader.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) TimeoutInputCollection(id string, params *stripe.TestHelpersTerminalReaderTimeoutInputCollectionParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/terminal/readers/%s/timeout_input_collection", id)

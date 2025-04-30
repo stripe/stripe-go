@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/fx_quotes APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.FxQuoteParams) (*stripe.FxQuote, error) {
 }
 
 // Creates an FX Quote object
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.FxQuoteParams) (*stripe.FxQuote, error) {
 	fxquote := &stripe.FxQuote{}
 	err := c.B.Call(http.MethodPost, "/v1/fx_quotes", c.Key, params, fxquote)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.FxQuoteParams) (*stripe.FxQuote, error) {
 }
 
 // Retrieve an FX Quote object
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.FxQuoteParams) (*stripe.FxQuote, error) {
 	path := stripe.FormatURLPath("/v1/fx_quotes/%s", id)
 	fxquote := &stripe.FxQuote{}
@@ -51,6 +62,10 @@ func List(params *stripe.FxQuoteListParams) *Iter {
 }
 
 // Returns a list of FX quotes that have been issued. The FX quotes are returned in sorted order, with the most recent FX quotes appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.FxQuoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

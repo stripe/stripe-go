@@ -14,12 +14,19 @@ import (
 )
 
 // Client is used to invoke financialaddress related APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
 // Simulate crediting a FinancialAddress in a Sandbox environment. This can be used to add virtual funds and increase your balance for testing.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Credit(id string, params *stripe.V2TestHelpersFinancialAddressCreditParams) (*stripe.V2FinancialAddressCreditSimulation, error) {
 	path := stripe.FormatURLPath(
 		"/v2/test_helpers/financial_addresses/%s/credit", id)
@@ -30,6 +37,10 @@ func (c Client) Credit(id string, params *stripe.V2TestHelpersFinancialAddressCr
 }
 
 // Generates microdeposits for a FinancialAddress in a Sandbox environment.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) GenerateMicrodeposits(id string, params *stripe.V2TestHelpersFinancialAddressGenerateMicrodepositsParams) (*stripe.V2FinancialAddressGeneratedMicrodeposits, error) {
 	path := stripe.FormatURLPath(
 		"/v2/test_helpers/financial_addresses/%s/generate_microdeposits", id)

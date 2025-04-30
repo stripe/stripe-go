@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/billing/margins APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.MarginParams) (*stripe.Margin, error) {
 }
 
 // Create a margin object to be used with invoices, invoice items, and invoice line items for a customer to represent a partner discount. A margin has a percent_off which is the percent that will be taken off the subtotal after all items and other discounts and promotions) of any invoices for a customer. Calculation of prorations do not include any partner margins applied on the original invoice item.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.MarginParams) (*stripe.Margin, error) {
 	margin := &stripe.Margin{}
 	err := c.B.Call(http.MethodPost, "/v1/billing/margins", c.Key, params, margin)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 }
 
 // Retrieve a margin object with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 	path := stripe.FormatURLPath("/v1/billing/margins/%s", id)
 	margin := &stripe.Margin{}
@@ -51,6 +62,10 @@ func Update(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 }
 
 // Update the specified margin object. Certain fields of the margin object are not editable.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.MarginParams) (*stripe.Margin, error) {
 	path := stripe.FormatURLPath("/v1/billing/margins/%s", id)
 	margin := &stripe.Margin{}
@@ -64,6 +79,10 @@ func List(params *stripe.MarginListParams) *Iter {
 }
 
 // Retrieve a list of your margins.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.MarginListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

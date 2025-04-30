@@ -14,12 +14,19 @@ import (
 )
 
 // Client is used to invoke gbbankaccount related APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
 // Create a GB bank account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.V2CoreVaultGBBankAccountParams) (*stripe.V2CoreVaultGBBankAccount, error) {
 	gbbankaccount := &stripe.V2CoreVaultGBBankAccount{}
 	err := c.B.Call(
@@ -28,6 +35,10 @@ func (c Client) New(params *stripe.V2CoreVaultGBBankAccountParams) (*stripe.V2Co
 }
 
 // Retrieve a GB bank account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.V2CoreVaultGBBankAccountParams) (*stripe.V2CoreVaultGBBankAccount, error) {
 	path := stripe.FormatURLPath("/v2/core/vault/gb_bank_accounts/%s", id)
 	gbbankaccount := &stripe.V2CoreVaultGBBankAccount{}
@@ -39,6 +50,10 @@ func (c Client) Get(id string, params *stripe.V2CoreVaultGBBankAccountParams) (*
 // proceeding to pay out to this bank account despite the account not matching, partially matching, or the service
 // being unavailable. Once you confirm this, you will be able to send OutboundPayments, but this may lead to
 // funds being sent to the wrong account, which we might not be able to recover.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) AcknowledgeConfirmationOfPayee(id string, params *stripe.V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams) (*stripe.V2CoreVaultGBBankAccount, error) {
 	path := stripe.FormatURLPath(
 		"/v2/core/vault/gb_bank_accounts/%s/acknowledge_confirmation_of_payee", id)
@@ -49,6 +64,10 @@ func (c Client) AcknowledgeConfirmationOfPayee(id string, params *stripe.V2CoreV
 
 // Archive a GBBankAccount object. Archived GBBankAccount objects cannot be used as outbound destinations
 // and will not appear in the outbound destination list.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Archive(id string, params *stripe.V2CoreVaultGBBankAccountArchiveParams) (*stripe.V2CoreVaultGBBankAccount, error) {
 	path := stripe.FormatURLPath("/v2/core/vault/gb_bank_accounts/%s/archive", id)
 	gbbankaccount := &stripe.V2CoreVaultGBBankAccount{}
@@ -60,6 +79,10 @@ func (c Client) Archive(id string, params *stripe.V2CoreVaultGBBankAccountArchiv
 // who you expect. This must be done on all UK bank accounts before sending domestic OutboundPayments. If
 // the result is a partial match or a non match, explicit acknowledgement using AcknowledgeConfirmationOfPayee
 // is required before sending funds.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) InitiateConfirmationOfPayee(id string, params *stripe.V2CoreVaultGBBankAccountInitiateConfirmationOfPayeeParams) (*stripe.V2CoreVaultGBBankAccount, error) {
 	path := stripe.FormatURLPath(
 		"/v2/core/vault/gb_bank_accounts/%s/initiate_confirmation_of_payee", id)

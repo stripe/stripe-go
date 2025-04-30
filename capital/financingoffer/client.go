@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/capital/financing_offers APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func Get(id string, params *stripe.CapitalFinancingOfferParams) (*stripe.Capital
 }
 
 // Get the details of the financing offer
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.CapitalFinancingOfferParams) (*stripe.CapitalFinancingOffer, error) {
 	path := stripe.FormatURLPath("/v1/capital/financing_offers/%s", id)
 	financingoffer := &stripe.CapitalFinancingOffer{}
@@ -41,6 +48,10 @@ func MarkDelivered(id string, params *stripe.CapitalFinancingOfferMarkDeliveredP
 
 // Acknowledges that platform has received and delivered the financing_offer to
 // the intended merchant recipient.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) MarkDelivered(id string, params *stripe.CapitalFinancingOfferMarkDeliveredParams) (*stripe.CapitalFinancingOffer, error) {
 	path := stripe.FormatURLPath(
 		"/v1/capital/financing_offers/%s/mark_delivered", id)
@@ -55,6 +66,10 @@ func List(params *stripe.CapitalFinancingOfferListParams) *Iter {
 }
 
 // Retrieves the financing offers available for Connected accounts that belong to your platform.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CapitalFinancingOfferListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

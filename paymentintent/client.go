@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/payment_intents APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -44,6 +47,10 @@ func New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 // and confirming the PaymentIntent in the same call. You can use any parameters
 // available in the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) when you supply
 // confirm=true.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	paymentintent := &stripe.PaymentIntent{}
 	err := c.B.Call(
@@ -65,6 +72,10 @@ func Get(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, 
 // You can retrieve a PaymentIntent client-side using a publishable key when the client_secret is in the query string.
 //
 // If you retrieve a PaymentIntent with a publishable key, it only returns a subset of properties. Refer to the [payment intent](https://stripe.com/docs/api#payment_intent_object) object reference for more details.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s", id)
 	paymentintent := &stripe.PaymentIntent{}
@@ -90,6 +101,10 @@ func Update(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentInten
 // always requires you to confirm the PaymentIntent again. If you prefer to
 // update and confirm at the same time, we recommend updating properties through
 // the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) instead.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s", id)
 	paymentintent := &stripe.PaymentIntent{}
@@ -103,6 +118,10 @@ func ApplyCustomerBalance(id string, params *stripe.PaymentIntentApplyCustomerBa
 }
 
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ApplyCustomerBalance(id string, params *stripe.PaymentIntentApplyCustomerBalanceParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
 		"/v1/payment_intents/%s/apply_customer_balance", id)
@@ -125,6 +144,10 @@ func Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.Paymen
 // After it's canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable is automatically refunded.
 //
 // You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/cancel", id)
 	paymentintent := &stripe.PaymentIntent{}
@@ -146,6 +169,10 @@ func Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.Paym
 // Uncaptured PaymentIntents are cancelled a set number of days (7 by default) after their creation.
 //
 // Learn more about [separate authorization and capture](https://stripe.com/docs/payments/capture-later).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/capture", id)
 	paymentintent := &stripe.PaymentIntent{}
@@ -207,6 +234,10 @@ func Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.Paym
 // There is a variable upper limit on how many times a PaymentIntent can be confirmed.
 // After this limit is reached, any further calls to this endpoint will
 // transition the PaymentIntent to the canceled state.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/payment_intents/%s/confirm", id)
 	paymentintent := &stripe.PaymentIntent{}
@@ -250,6 +281,10 @@ func DecrementAuthorization(id string, params *stripe.PaymentIntentDecrementAuth
 //
 // Each PaymentIntent can have a maximum of 10 decremental or incremental authorization attempts, including declines.
 // After it's fully captured, a PaymentIntent can no longer be decremented.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) DecrementAuthorization(id string, params *stripe.PaymentIntentDecrementAuthorizationParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
 		"/v1/payment_intents/%s/decrement_authorization", id)
@@ -310,6 +345,10 @@ func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuth
 // After it's captured, a PaymentIntent can no longer be incremented.
 //
 // Learn more about [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
 		"/v1/payment_intents/%s/increment_authorization", id)
@@ -324,6 +363,10 @@ func TriggerAction(id string, params *stripe.PaymentIntentTriggerActionParams) (
 }
 
 // Trigger an external action on a PaymentIntent.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) TriggerAction(id string, params *stripe.PaymentIntentTriggerActionParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/v1/test/payment_intents/%s/trigger_action", id)
 	paymentintent := &stripe.PaymentIntent{}
@@ -337,6 +380,10 @@ func VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepos
 }
 
 // Verifies microdeposits on a PaymentIntent object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepositsParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath(
 		"/v1/payment_intents/%s/verify_microdeposits", id)
@@ -351,6 +398,10 @@ func List(params *stripe.PaymentIntentListParams) *Iter {
 }
 
 // Returns a list of PaymentIntents.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PaymentIntentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -396,6 +447,10 @@ func Search(params *stripe.PaymentIntentSearchParams) *SearchIter {
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Search(params *stripe.PaymentIntentSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {

@@ -16,6 +16,9 @@ import (
 )
 
 // Client is used to invoke bankaccount related APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -27,6 +30,10 @@ func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 }
 
 // New creates a new bank account
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -62,6 +69,10 @@ func Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 // Get returns the details of a bank account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -101,6 +112,10 @@ func Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, e
 //
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -126,6 +141,10 @@ func Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 // Delete a specified external account for a given account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -148,6 +167,9 @@ func List(params *stripe.BankAccountListParams) *Iter {
 	return getC().List(params)
 }
 
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
 	var path string
 	var outerErr error

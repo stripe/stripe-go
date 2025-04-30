@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/identity/verification_sessions APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -38,6 +41,10 @@ func New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVeri
 // If your API key is in test mode, verification checks won't actually process, though everything else will occur as if in live mode.
 //
 // Related guide: [Verify your users' identity documents](https://stripe.com/docs/identity/verify-identity-documents)
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVerificationSession, error) {
 	verificationsession := &stripe.IdentityVerificationSession{}
 	err := c.B.Call(
@@ -57,6 +64,10 @@ func Get(id string, params *stripe.IdentityVerificationSessionParams) (*stripe.I
 //
 // When the session status is requires_input, you can use this method to retrieve a valid
 // client_secret or url to allow re-submission.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVerificationSession, error) {
 	path := stripe.FormatURLPath("/v1/identity/verification_sessions/%s", id)
 	verificationsession := &stripe.IdentityVerificationSession{}
@@ -76,6 +87,10 @@ func Update(id string, params *stripe.IdentityVerificationSessionParams) (*strip
 //
 // When the session status is requires_input, you can use this method to update the
 // verification check and options.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVerificationSession, error) {
 	path := stripe.FormatURLPath("/v1/identity/verification_sessions/%s", id)
 	verificationsession := &stripe.IdentityVerificationSession{}
@@ -93,6 +108,10 @@ func Cancel(id string, params *stripe.IdentityVerificationSessionCancelParams) (
 // A VerificationSession object can be canceled when it is in requires_input [status](https://stripe.com/docs/identity/how-sessions-work).
 //
 // Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://stripe.com/docs/identity/verification-sessions#cancel).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.IdentityVerificationSessionCancelParams) (*stripe.IdentityVerificationSession, error) {
 	path := stripe.FormatURLPath(
 		"/v1/identity/verification_sessions/%s/cancel", id)
@@ -143,6 +162,10 @@ func Redact(id string, params *stripe.IdentityVerificationSessionRedactParams) (
 // used for any purpose.
 //
 // [Learn more](https://stripe.com/docs/identity/verification-sessions#redact).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Redact(id string, params *stripe.IdentityVerificationSessionRedactParams) (*stripe.IdentityVerificationSession, error) {
 	path := stripe.FormatURLPath(
 		"/v1/identity/verification_sessions/%s/redact", id)
@@ -157,6 +180,10 @@ func List(params *stripe.IdentityVerificationSessionListParams) *Iter {
 }
 
 // Returns a list of VerificationSessions
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.IdentityVerificationSessionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

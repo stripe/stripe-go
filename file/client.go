@@ -16,6 +16,9 @@ import (
 )
 
 // Client is used to invoke /v1/files APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B        stripe.Backend
 	BUploads stripe.Backend
@@ -32,6 +35,10 @@ func New(params *stripe.FileParams) (*stripe.File, error) {
 // To upload a file to Stripe, you need to send a request of type multipart/form-data. Include the file you want to upload in the request, and the parameters for creating a file.
 //
 // All of Stripe's officially supported Client libraries support sending multipart/form-data.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.FileParams) (*stripe.File, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
@@ -53,6 +60,10 @@ func Get(id string, params *stripe.FileParams) (*stripe.File, error) {
 }
 
 // Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://stripe.com/docs/file-upload#download-file-contents).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.FileParams) (*stripe.File, error) {
 	path := stripe.FormatURLPath("/v1/files/%s", id)
 	file := &stripe.File{}
@@ -66,6 +77,10 @@ func List(params *stripe.FileListParams) *Iter {
 }
 
 // Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.FileListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

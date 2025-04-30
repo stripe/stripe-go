@@ -222,8 +222,8 @@ type QuoteSubscriptionDataBillingMode string
 
 // List of values that QuoteSubscriptionDataBillingMode can take
 const (
-	QuoteSubscriptionDataBillingModeCreditsAttributedToDebits QuoteSubscriptionDataBillingMode = "credits_attributed_to_debits"
-	QuoteSubscriptionDataBillingModeLegacyProrations          QuoteSubscriptionDataBillingMode = "legacy_prorations"
+	QuoteSubscriptionDataBillingModeClassic  QuoteSubscriptionDataBillingMode = "classic"
+	QuoteSubscriptionDataBillingModeFlexible QuoteSubscriptionDataBillingMode = "flexible"
 )
 
 // Behavior of the subscription schedule and underlying subscription when it ends.

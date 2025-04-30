@@ -15,25 +15,12 @@ import (
 )
 
 // Client is used to invoke /v1/privacy/redaction_jobs/{job}/validation_errors APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
-}
-
-// Retrieve validation error method
-func Get(id string, params *stripe.PrivacyRedactionJobValidationErrorParams) (*stripe.PrivacyRedactionJobValidationError, error) {
-	return getC().Get(id, params)
-}
-
-// Retrieve validation error method
-func (c Client) Get(id string, params *stripe.PrivacyRedactionJobValidationErrorParams) (*stripe.PrivacyRedactionJobValidationError, error) {
-	path := stripe.FormatURLPath(
-		"/v1/privacy/redaction_jobs/%s/validation_errors/%s", stripe.StringValue(
-			params.Job), id)
-	redactionjobvalidationerror := &stripe.PrivacyRedactionJobValidationError{}
-	err := c.B.Call(
-		http.MethodGet, path, c.Key, params, redactionjobvalidationerror)
-	return redactionjobvalidationerror, err
 }
 
 // List validation errors method
@@ -42,6 +29,10 @@ func List(params *stripe.PrivacyRedactionJobValidationErrorListParams) *Iter {
 }
 
 // List validation errors method
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PrivacyRedactionJobValidationErrorListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/privacy/redaction_jobs/%s/validation_errors", stripe.StringValue(

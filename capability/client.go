@@ -16,6 +16,9 @@ import (
 )
 
 // Client is used to invoke /v1/accounts/{account}/capabilities APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -27,6 +30,10 @@ func Get(id string, params *stripe.CapabilityParams) (*stripe.Capability, error)
 }
 
 // Retrieves information about the specified Account Capability.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
@@ -45,6 +52,10 @@ func Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, err
 }
 
 // Updates an existing Account Capability. Request or remove a capability by updating its requested parameter.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/capabilities/%s", stripe.StringValue(params.Account), id)
@@ -59,6 +70,10 @@ func List(params *stripe.CapabilityListParams) *Iter {
 }
 
 // Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CapabilityListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/capabilities", stripe.StringValue(listParams.Account))

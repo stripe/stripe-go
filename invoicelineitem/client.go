@@ -14,6 +14,9 @@ import (
 )
 
 // Client is used to invoke /v1/invoices/{invoice}/lines APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -31,6 +34,10 @@ func Update(id string, params *stripe.InvoiceLineItemParams) (*stripe.InvoiceLin
 // so they can only be updated through this endpoint. Other fields, such as amount, live on both the invoice
 // item and the invoice line item, so updates on this endpoint will propagate to the invoice item as well.
 // Updating an invoice's line item is only possible before the invoice is finalized.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.InvoiceLineItemParams) (*stripe.InvoiceLineItem, error) {
 	path := stripe.FormatURLPath(
 		"/v1/invoices/%s/lines/%s", stripe.StringValue(params.Invoice), id)

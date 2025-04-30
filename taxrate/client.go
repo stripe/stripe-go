@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/tax_rates APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 }
 
 // Creates a new tax rate.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 	taxrate := &stripe.TaxRate{}
 	err := c.B.Call(http.MethodPost, "/v1/tax_rates", c.Key, params, taxrate)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 }
 
 // Retrieves a tax rate with the given ID
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 	path := stripe.FormatURLPath("/v1/tax_rates/%s", id)
 	taxrate := &stripe.TaxRate{}
@@ -51,6 +62,10 @@ func Update(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 }
 
 // Updates an existing tax rate.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.TaxRateParams) (*stripe.TaxRate, error) {
 	path := stripe.FormatURLPath("/v1/tax_rates/%s", id)
 	taxrate := &stripe.TaxRate{}
@@ -64,6 +79,10 @@ func List(params *stripe.TaxRateListParams) *Iter {
 }
 
 // Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TaxRateListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

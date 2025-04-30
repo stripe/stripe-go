@@ -83,6 +83,30 @@ func (c v1InvoiceService) AddLines(ctx context.Context, id string, params *Invoi
 	return invoice, err
 }
 
+// Attaches a PaymentIntent or an Out of Band Payment to the invoice, adding it to the list of payments.
+//
+// For Out of Band Payment, the payment is credited to the invoice immediately, increasing the amount_paid
+// of the invoice and subsequently transitioning the status of the invoice to paid if necessary.
+//
+// For the PaymentIntent, when the PaymentIntent's status changes to succeeded, the payment is credited
+// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
+// invoice's status becomes paid.
+//
+// If the PaymentIntent's status is already succeeded when it's attached, it's
+// credited to the invoice immediately.
+//
+// See: [Create an invoice payment](https://stripe.com/docs/invoicing/payments/create) to learn more.
+func (c v1InvoiceService) AttachPayment(ctx context.Context, id string, params *InvoiceAttachPaymentParams) (*Invoice, error) {
+	path := FormatURLPath("/v1/invoices/%s/attach_payment", id)
+	invoice := &Invoice{}
+	if params == nil {
+		params = &InvoiceAttachPaymentParams{}
+	}
+	params.Context = ctx
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
 // At any time, you can preview the upcoming invoice for a subscription or subscription schedule. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
 //
 // Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.

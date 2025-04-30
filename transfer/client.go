@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/transfers APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 }
 
 // To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	transfer := &stripe.Transfer{}
 	err := c.B.Call(http.MethodPost, "/v1/transfers", c.Key, params, transfer)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 }
 
 // Retrieves the details of an existing transfer. Supply the unique transfer ID from either a transfer creation request or the transfer list, and Stripe will return the corresponding transfer information.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	path := stripe.FormatURLPath("/v1/transfers/%s", id)
 	transfer := &stripe.Transfer{}
@@ -55,6 +66,10 @@ func Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) 
 // Updates the specified transfer by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 //
 // This request accepts only metadata as an argument.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	path := stripe.FormatURLPath("/v1/transfers/%s", id)
 	transfer := &stripe.Transfer{}
@@ -68,6 +83,10 @@ func List(params *stripe.TransferListParams) *Iter {
 }
 
 // Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TransferListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

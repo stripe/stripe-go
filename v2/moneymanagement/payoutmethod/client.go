@@ -14,12 +14,19 @@ import (
 )
 
 // Client is used to invoke payoutmethod related APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
 // Retrieve a PayoutMethod object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.V2MoneyManagementPayoutMethodParams) (*stripe.V2MoneyManagementPayoutMethod, error) {
 	path := stripe.FormatURLPath("/v2/money_management/payout_methods/%s", id)
 	payoutmethod := &stripe.V2MoneyManagementPayoutMethod{}
@@ -29,6 +36,10 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementPayoutMethodParam
 
 // Archive a PayoutMethod object. Archived objects cannot be used as payout methods
 // and will not appear in the payout method list.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Archive(id string, params *stripe.V2MoneyManagementPayoutMethodArchiveParams) (*stripe.V2MoneyManagementPayoutMethod, error) {
 	path := stripe.FormatURLPath(
 		"/v2/money_management/payout_methods/%s/archive", id)
@@ -38,6 +49,10 @@ func (c Client) Archive(id string, params *stripe.V2MoneyManagementPayoutMethodA
 }
 
 // Unarchive an PayoutMethod object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Unarchive(id string, params *stripe.V2MoneyManagementPayoutMethodUnarchiveParams) (*stripe.V2MoneyManagementPayoutMethod, error) {
 	path := stripe.FormatURLPath(
 		"/v2/money_management/payout_methods/%s/unarchive", id)
@@ -47,6 +62,10 @@ func (c Client) Unarchive(id string, params *stripe.V2MoneyManagementPayoutMetho
 }
 
 // List objects that adhere to the PayoutMethod interface.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2MoneyManagementPayoutMethodListParams) stripe.Seq2[*stripe.V2MoneyManagementPayoutMethod, error] {
 	return stripe.NewV2List("/v2/money_management/payout_methods", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementPayoutMethod], error) {
 		page := &stripe.V2Page[*stripe.V2MoneyManagementPayoutMethod]{}

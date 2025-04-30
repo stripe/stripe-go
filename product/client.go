@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/products APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.ProductParams) (*stripe.Product, error) {
 }
 
 // Creates a new product object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 	product := &stripe.Product{}
 	err := c.B.Call(http.MethodPost, "/v1/products", c.Key, params, product)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 }
 
 // Retrieves the details of an existing product. Supply the unique product ID from either a product creation request or the product list, and Stripe will return the corresponding product information.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/v1/products/%s", id)
 	product := &stripe.Product{}
@@ -51,6 +62,10 @@ func Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 }
 
 // Updates the specific product by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/v1/products/%s", id)
 	product := &stripe.Product{}
@@ -64,6 +79,10 @@ func Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 }
 
 // Delete a product. Deleting a product is only possible if it has no prices associated with it. Additionally, deleting a product with type=good is only possible if it has no SKUs associated with it.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/v1/products/%s", id)
 	product := &stripe.Product{}
@@ -77,6 +96,10 @@ func List(params *stripe.ProductListParams) *Iter {
 }
 
 // Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.ProductListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -122,6 +145,10 @@ func Search(params *stripe.ProductSearchParams) *SearchIter {
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Search(params *stripe.ProductSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
