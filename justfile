@@ -15,7 +15,8 @@ test *args="./...":
 # check for potential mistakes (slow)
 lint: install
     go vet ./...
-    staticcheck
+    # TODO(mbroshi) temporarily disabling the unused variable check. Will revert after `stripe.Client` ships
+    staticcheck --checks=-U1000
 
 # don't depend on `install` in this step! Before formatting, our `go` code isn't syntactically valid
 # ⭐ format all files
@@ -27,11 +28,7 @@ format: _normalize-imports install
 format-check:
     scripts/gofmt.sh check
 
-# ensures all client structs are properly registered
-check-api-clients:
-    go run scripts/check_api_clients/main.go
-
-ci-test: test bench check-api-clients
+ci-test: test bench
 
 # compile the project
 build:

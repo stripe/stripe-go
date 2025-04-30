@@ -242,43 +242,6 @@ const (
 
 // v1ErrorCodes: The end of the section generated from our OpenAPI spec
 
-// V2ErrorCode is the list of allowed values for the V2 error's code.
-type V2ErrorCode string
-
-// v2ErrorCodes: The beginning of the section generated from our OpenAPI spec
-const (
-	ErrorCodeArchivedPayoutMethodCard                    V2ErrorCode = "archived_payout_method_card"
-	ErrorCodeBankAccountCannotBeArchived                 V2ErrorCode = "bank_account_cannot_be_archived"
-	ErrorCodeBankAccountCannotBeUnarchived               V2ErrorCode = "bank_account_cannot_be_unarchived"
-	ErrorCodeBillingMeterEventSessionExpired             V2ErrorCode = "billing_meter_event_session_expired"
-	ErrorCodeBlockedPayoutMethodBankAccount              V2ErrorCode = "blocked_payout_method_bank_account"
-	ErrorCodeBlockedPayoutMethodCard                     V2ErrorCode = "blocked_payout_method_card"
-	ErrorCodeBlockedUSBankAccount                        V2ErrorCode = "blocked_us_bank_account"
-	ErrorCodeFinancialAccountNotInOpenStatus             V2ErrorCode = "financial_account_not_in_open_status"
-	ErrorCodeInboundTransferNotAllowed                   V2ErrorCode = "inbound_transfer_not_allowed"
-	ErrorCodeInvalidPayoutMethod                         V2ErrorCode = "invalid_payout_method"
-	ErrorCodeInvalidPayoutMethodBankAccount              V2ErrorCode = "invalid_payout_method_bank_account"
-	ErrorCodeInvalidPayoutMethodCard                     V2ErrorCode = "invalid_payout_method_card"
-	ErrorCodeInvalidUSBankAccount                        V2ErrorCode = "invalid_us_bank_account"
-	ErrorCodeLimitPayoutMethodBankAccount                V2ErrorCode = "limit_payout_method_bank_account"
-	ErrorCodeLimitPayoutMethodCard                       V2ErrorCode = "limit_payout_method_card"
-	ErrorCodeLimitUSBankAccount                          V2ErrorCode = "limit_us_bank_account"
-	ErrorCodeOutboundPaymentAlreadyCanceled              V2ErrorCode = "outbound_payment_already_canceled"
-	ErrorCodeOutboundPaymentInsufficientFunds            V2ErrorCode = "outbound_payment_insufficient_funds"
-	ErrorCodeOutboundPaymentNotCancelable                V2ErrorCode = "outbound_payment_not_cancelable"
-	ErrorCodeOutboundPaymentRecipientAmountLimitExceeded V2ErrorCode = "outbound_payment_recipient_amount_limit_exceeded"
-	ErrorCodeOutboundPaymentRecipientCountLimitExceeded  V2ErrorCode = "outbound_payment_recipient_count_limit_exceeded"
-	ErrorCodeOutboundPaymentRecipientEmailDoesNotExist   V2ErrorCode = "outbound_payment_recipient_email_does_not_exist"
-	ErrorCodeOutboundPaymentRecipientFeatureNotActive    V2ErrorCode = "outbound_payment_recipient_feature_not_active"
-	ErrorCodeOutboundTransferAlreadyCanceled             V2ErrorCode = "outbound_transfer_already_canceled"
-	ErrorCodeOutboundTransferInsufficientFunds           V2ErrorCode = "outbound_transfer_insufficient_funds"
-	ErrorCodeOutboundTransferNotCancelable               V2ErrorCode = "outbound_transfer_not_cancelable"
-	ErrorCodeUSBankAccountCannotBeArchived               V2ErrorCode = "us_bank_account_cannot_be_archived"
-	ErrorCodeUnsupportedPayoutMethodBankAccount          V2ErrorCode = "unsupported_payout_method_bank_account"
-)
-
-// v2ErrorCodes: The end of the section generated from our OpenAPI spec
-
 // List of DeclineCode values.
 // For descriptions see https://stripe.com/docs/declines/codes
 const (
@@ -480,11 +443,11 @@ func (e *IdempotencyError) Error() string {
 // The temporary session token has expired.
 type TemporarySessionExpiredError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -506,11 +469,11 @@ func (e *TemporarySessionExpiredError) canRetry() bool {
 // FinancialAccountNotOpenError is the Go struct corresponding to the error type "financial_account_not_open."
 type FinancialAccountNotOpenError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -533,11 +496,11 @@ func (e *FinancialAccountNotOpenError) canRetry() bool {
 // Returned if an InboundTransfer is not allowed for risk, legal, regulatory or other unforeseen reasons.
 type BlockedByStripeError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -560,11 +523,11 @@ func (e *BlockedByStripeError) canRetry() bool {
 // Error returned when user tries to cancel an OutboundPayment that was already canceled.
 type AlreadyCanceledError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -587,11 +550,11 @@ func (e *AlreadyCanceledError) canRetry() bool {
 // Error returned when user tries to cancel an OutboundPayment that is not cancelable.
 type NotCancelableError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -614,11 +577,11 @@ func (e *NotCancelableError) canRetry() bool {
 // Error returned when the balance of provided financial account and balance type in the OutboundPayment request does not have enough funds.
 type InsufficientFundsError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -641,11 +604,11 @@ func (e *InsufficientFundsError) canRetry() bool {
 // Error returned when the recipient's recent total amount in outbound payments has exceeded its limit.
 type QuotaExceededError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -668,11 +631,11 @@ func (e *QuotaExceededError) canRetry() bool {
 // Error returned when the user enables notifications in the OutboundPayment request, but an email is not set up on the recipient account.
 type RecipientNotNotifiableError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -695,11 +658,11 @@ func (e *RecipientNotNotifiableError) canRetry() bool {
 // Error returned when recipient does not have the active features required to receive funds from this OutboundPayment request.
 type FeatureNotEnabledError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -722,11 +685,11 @@ func (e *FeatureNotEnabledError) canRetry() bool {
 // Returned in cases where the ID provided doesn't correspond to a valid payout method.
 type InvalidPayoutMethodError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -749,11 +712,11 @@ func (e *InvalidPayoutMethodError) canRetry() bool {
 // Returned when the PayoutMethodBankAccount object is controlled by the Stripe Dashboard, and cannot be archived.
 type ControlledByDashboardError struct {
 	APIResource
-	Code        V2ErrorCode `json:"code"`
-	DocURL      *string     `json:"doc_url,omitempty"`
-	Message     string      `json:"message"`
-	Type        ErrorType   `json:"type"`
-	UserMessage *string     `json:"user_message,omitempty"`
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -777,7 +740,7 @@ func (e *ControlledByDashboardError) canRetry() bool {
 // or a routing number that does not correspond to a banking institution).
 type InvalidPaymentMethodError struct {
 	APIResource
-	Code         V2ErrorCode                      `json:"code"`
+	Code         string                           `json:"code"`
 	DocURL       *string                          `json:"doc_url,omitempty"`
 	InvalidParam InvalidPaymentMethodInvalidParam `json:"invalid_param"`
 	Message      string                           `json:"message"`

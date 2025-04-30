@@ -1,15 +1,12 @@
 # NOTE: this file is deprecated and slated for deletion; prefer using the equivalent `just` commands.
 
-all: test bench vet lint check-api-clients check-gofmt ci-test
+all: test bench vet lint check-gofmt ci-test
 
 bench:
 	go test -race -bench . -run "Benchmark" ./form
 
 build:
 	go build ./...
-
-check-api-clients:
-	go run scripts/check_api_clients/main.go
 
 check-gofmt:
 	scripts/gofmt.sh check
@@ -20,7 +17,7 @@ lint:
 test:
 	go run scripts/test_with_stripe_mock/main.go -race ./...
 
-ci-test: test bench check-api-clients
+ci-test: test bench
 vet:
 	go vet ./...
 

@@ -169,8 +169,8 @@ type PaymentSourceCreateParams struct {
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Please refer to full [documentation](https://stripe.com/docs/api) instead.
-	Source   *string `form:"source"`
-	Validate *bool   `form:"validate"`
+	Source   *PaymentSourceSourceParams `form:"*"` // PaymentSourceSourceParams has custom encoding so brought to top level with "*"
+	Validate *bool                      `form:"validate"`
 }
 
 // AddExpand appends a new field to expand.
