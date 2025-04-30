@@ -265,10 +265,7 @@ config := &stripe.BackendConfig{
     MaxNetworkRetries: stripe.Int64(0), // Zero retries
 }
 
-backends := &stripe.Backends{
-    API:     stripe.GetBackendWithConfig(stripe.APIBackend, config),
-    Uploads: stripe.GetBackendWithConfig(stripe.UploadsBackend, config),
-})
+backends := &stripe.NewBackendWithConfig(config)
 sc := stripe.NewClient("sk_key", stripe.WithBackends(backends))
 coupon, err := sc.V1Coupons.Create(...)
 ```
