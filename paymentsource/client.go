@@ -16,6 +16,9 @@ import (
 )
 
 // Client is used to invoke /v1/customers/{customer}/sources APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -35,6 +38,10 @@ func New(params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 // If the card's owner has no default card, then the new card will become the default.
 // However, if the owner already has a default, then it will not change.
 // To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new default_source.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -55,6 +62,10 @@ func Get(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, 
 }
 
 // Retrieve a specified source for a given customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -75,6 +86,10 @@ func Update(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSourc
 }
 
 // Update a specified source for a given customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -95,6 +110,10 @@ func Del(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, 
 }
 
 // Delete a specified source for a given customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -117,6 +136,10 @@ func Verify(id string, params *stripe.PaymentSourceVerifyParams) (*stripe.Paymen
 
 // Verify verifies a source which is used for bank accounts.
 // Verify a specified bank account for a given customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Verify(id string, params *stripe.PaymentSourceVerifyParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -143,6 +166,10 @@ func List(params *stripe.PaymentSourceListParams) *Iter {
 }
 
 // List sources for a specified customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PaymentSourceListParams) *Iter {
 	var outerErr error
 	var path string

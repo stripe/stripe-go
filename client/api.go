@@ -5,6 +5,10 @@
 //
 
 // Package client provides a Stripe client for invoking APIs across all resources
+//
+// Deprecated: This package is deprecated. All functionality of [API] is now available in [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 package client
 
 import (
@@ -153,6 +157,10 @@ import (
 )
 
 // API is the Stripe client. It contains all the different resources available.
+//
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type API struct {
 	// AccountLinks is the client used to invoke /v1/account_links APIs.
 	AccountLinks *accountlink.Client
@@ -438,6 +446,9 @@ type API struct {
 	WebhookEndpoints *webhookendpoint.Client
 }
 
+// Deprecated: Use [stripe.NewClient] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (a *API) Init(key string, backends *stripe.Backends) {
 	usage := []string{"stripe_client"}
 	if backends == nil {
@@ -594,6 +605,10 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 
 // New creates a new Stripe client with the appropriate secret key
 // as well as providing the ability to override the backends as needed.
+//
+// Deprecated: Use [stripe.NewClient] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func New(key string, backends *stripe.Backends) *API {
 	api := API{}
 	api.Init(key, backends)

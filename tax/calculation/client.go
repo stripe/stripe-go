@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/tax/calculations APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 }
 
 // Calculates tax based on the input and returns a Tax Calculation object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	calculation := &stripe.TaxCalculation{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.TaxCalculationParams) (*stripe.TaxCalculation
 }
 
 // Retrieves a Tax Calculation object, if the calculation hasn't expired.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TaxCalculationParams) (*stripe.TaxCalculation, error) {
 	path := stripe.FormatURLPath("/v1/tax/calculations/%s", id)
 	calculation := &stripe.TaxCalculation{}
@@ -52,6 +63,10 @@ func ListLineItems(params *stripe.TaxCalculationListLineItemsParams) *LineItemIt
 }
 
 // Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLineItems(listParams *stripe.TaxCalculationListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/tax/calculations/%s/line_items", stripe.StringValue(

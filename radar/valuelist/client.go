@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/radar/value_lists APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 }
 
 // Creates a new ValueList object, which can then be referenced in rules.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	valuelist := &stripe.RadarValueList{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList
 }
 
 // Retrieves a ValueList object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/v1/radar/value_lists/%s", id)
 	valuelist := &stripe.RadarValueList{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueL
 }
 
 // Updates a ValueList object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Note that item_type is immutable.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/v1/radar/value_lists/%s", id)
 	valuelist := &stripe.RadarValueList{}
@@ -65,6 +80,10 @@ func Del(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList
 }
 
 // Deletes a ValueList object, also deleting any items contained within the value list. To be deleted, a value list must not be referenced in any rules.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/v1/radar/value_lists/%s", id)
 	valuelist := &stripe.RadarValueList{}
@@ -78,6 +97,10 @@ func List(params *stripe.RadarValueListListParams) *Iter {
 }
 
 // Returns a list of ValueList objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.RadarValueListListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

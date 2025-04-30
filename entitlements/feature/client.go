@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/entitlements/features APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature,
 }
 
 // Creates a feature
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	feature := &stripe.EntitlementsFeature{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.EntitlementsFeatureParams) (*stripe.Entitleme
 }
 
 // Retrieves a feature
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	path := stripe.FormatURLPath("/v1/entitlements/features/%s", id)
 	feature := &stripe.EntitlementsFeature{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.EntitlementsFeatureParams) (*stripe.Entitl
 }
 
 // Update a feature's metadata or permanently deactivate it.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.EntitlementsFeatureParams) (*stripe.EntitlementsFeature, error) {
 	path := stripe.FormatURLPath("/v1/entitlements/features/%s", id)
 	feature := &stripe.EntitlementsFeature{}
@@ -65,6 +80,10 @@ func List(params *stripe.EntitlementsFeatureListParams) *Iter {
 }
 
 // Retrieve a list of features
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.EntitlementsFeatureListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

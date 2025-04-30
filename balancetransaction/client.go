@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/balance_transactions APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -30,6 +33,10 @@ func Get(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTra
 // Retrieves the balance transaction with the given ID.
 //
 // Note that this endpoint previously used the path /v1/balance/history/:id.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
 	path := stripe.FormatURLPath("/v1/balance_transactions/%s", id)
 	balancetransaction := &stripe.BalanceTransaction{}
@@ -47,6 +54,10 @@ func List(params *stripe.BalanceTransactionListParams) *Iter {
 // Returns a list of transactions that have contributed to the Stripe account balance (e.g., charges, transfers, and so forth). The transactions are returned in sorted order, with the most recent transactions appearing first.
 //
 // Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.BalanceTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

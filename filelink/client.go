@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/file_links APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 }
 
 // Creates a new file link object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	filelink := &stripe.FileLink{}
 	err := c.B.Call(http.MethodPost, "/v1/file_links", c.Key, params, filelink)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 }
 
 // Retrieves the file link with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	path := stripe.FormatURLPath("/v1/file_links/%s", id)
 	filelink := &stripe.FileLink{}
@@ -51,6 +62,10 @@ func Update(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) 
 }
 
 // Updates an existing file link object. Expired links can no longer be updated.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	path := stripe.FormatURLPath("/v1/file_links/%s", id)
 	filelink := &stripe.FileLink{}
@@ -64,6 +79,10 @@ func List(params *stripe.FileLinkListParams) *Iter {
 }
 
 // Returns a list of file links.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.FileLinkListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

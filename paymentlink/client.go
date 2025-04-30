@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/payment_links APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 }
 
 // Creates a payment link.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	paymentlink := &stripe.PaymentLink{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, erro
 }
 
 // Retrieve a payment link.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	path := stripe.FormatURLPath("/v1/payment_links/%s", id)
 	paymentlink := &stripe.PaymentLink{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, e
 }
 
 // Updates a payment link.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.PaymentLinkParams) (*stripe.PaymentLink, error) {
 	path := stripe.FormatURLPath("/v1/payment_links/%s", id)
 	paymentlink := &stripe.PaymentLink{}
@@ -65,6 +80,10 @@ func List(params *stripe.PaymentLinkListParams) *Iter {
 }
 
 // Returns a list of your payment links.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PaymentLinkListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -104,6 +123,10 @@ func ListLineItems(params *stripe.PaymentLinkListLineItemsParams) *LineItemIter 
 }
 
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLineItems(listParams *stripe.PaymentLinkListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/payment_links/%s/line_items", stripe.StringValue(

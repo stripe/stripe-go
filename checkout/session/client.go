@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/checkout/sessions APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) 
 }
 
 // Creates a Checkout Session object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
 	session := &stripe.CheckoutSession{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.CheckoutSessionParams) (*stripe.CheckoutSessi
 }
 
 // Retrieves a Checkout Session object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
 	path := stripe.FormatURLPath("/v1/checkout/sessions/%s", id)
 	session := &stripe.CheckoutSession{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.CheckoutSessionParams) (*stripe.CheckoutSe
 }
 
 // Updates a Checkout Session object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
 	path := stripe.FormatURLPath("/v1/checkout/sessions/%s", id)
 	session := &stripe.CheckoutSession{}
@@ -69,6 +84,10 @@ func Expire(id string, params *stripe.CheckoutSessionExpireParams) (*stripe.Chec
 // A Checkout Session can be expired when it is in one of these statuses: open
 //
 // After it expires, a customer can't complete a Checkout Session and customers loading the Checkout Session see a message saying the Checkout Session is expired.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Expire(id string, params *stripe.CheckoutSessionExpireParams) (*stripe.CheckoutSession, error) {
 	path := stripe.FormatURLPath("/v1/checkout/sessions/%s/expire", id)
 	session := &stripe.CheckoutSession{}
@@ -82,6 +101,10 @@ func List(params *stripe.CheckoutSessionListParams) *Iter {
 }
 
 // Returns a list of Checkout Sessions.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CheckoutSessionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -121,6 +144,10 @@ func ListLineItems(params *stripe.CheckoutSessionListLineItemsParams) *LineItemI
 }
 
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLineItems(listParams *stripe.CheckoutSessionListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/checkout/sessions/%s/line_items", stripe.StringValue(

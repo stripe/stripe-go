@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/treasury/outbound_payments APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.TreasuryOutboundPaymentParams) (*stripe.TreasuryOutbound
 }
 
 // Creates an OutboundPayment.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.TreasuryOutboundPaymentParams) (*stripe.Treas
 }
 
 // Retrieves the details of an existing OutboundPayment by passing the unique OutboundPayment ID from either the OutboundPayment creation request or OutboundPayment list.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TreasuryOutboundPaymentParams) (*stripe.TreasuryOutboundPayment, error) {
 	path := stripe.FormatURLPath("/v1/treasury/outbound_payments/%s", id)
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
@@ -52,6 +63,10 @@ func Cancel(id string, params *stripe.TreasuryOutboundPaymentCancelParams) (*str
 }
 
 // Cancel an OutboundPayment.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.TreasuryOutboundPaymentCancelParams) (*stripe.TreasuryOutboundPayment, error) {
 	path := stripe.FormatURLPath("/v1/treasury/outbound_payments/%s/cancel", id)
 	outboundpayment := &stripe.TreasuryOutboundPayment{}
@@ -65,6 +80,10 @@ func List(params *stripe.TreasuryOutboundPaymentListParams) *Iter {
 }
 
 // Returns a list of OutboundPayments sent from the specified FinancialAccount.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TreasuryOutboundPaymentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

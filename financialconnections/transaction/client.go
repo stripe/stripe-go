@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/financial_connections/transactions APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func Get(id string, params *stripe.FinancialConnectionsTransactionParams) (*stri
 }
 
 // Retrieves the details of a Financial Connections Transaction
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.FinancialConnectionsTransactionParams) (*stripe.FinancialConnectionsTransaction, error) {
 	path := stripe.FormatURLPath("/v1/financial_connections/transactions/%s", id)
 	transaction := &stripe.FinancialConnectionsTransaction{}
@@ -39,6 +46,10 @@ func List(params *stripe.FinancialConnectionsTransactionListParams) *Iter {
 }
 
 // Returns a list of Financial Connections Transaction objects.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.FinancialConnectionsTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
