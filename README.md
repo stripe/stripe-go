@@ -133,8 +133,8 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	c := appengine.NewContext(r)
-	httpClient := urlfetch.Client(c)
+	ctx := appengine.NewContext(r)
+	httpClient := urlfetch.Client(ctx)
 
 	backends := stripe.NewBackends(httpClient)
 	sc := stripe.NewClient("sk_test_123", stripe.WithBackends(backends))
@@ -143,7 +143,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Description: stripe.String("Stripe Developer"),
 		Email:       stripe.String("gostripe@stripe.com"),
 	}
-	customer, err := sc.V1Customers.Create(context.TODO(), params)
+	customer, err := sc.V1Customers.Create(ctx, params)
 	if err != nil {
 		fmt.Fprintf(w, "Could not create customer: %v", err)
 		return
