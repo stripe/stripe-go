@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/external_accounts APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func DeleteBankAccount(id string, params *stripe.BankAccountParams) (*stripe.Ban
 }
 
 // Delete a specified external account for a given account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) DeleteBankAccount(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	path := stripe.FormatURLPath("/v1/external_accounts/%s", id)
 	bankaccount := &stripe.BankAccount{}
@@ -39,6 +46,10 @@ func DeleteCard(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 // Delete a specified external account for a given account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) DeleteCard(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	path := stripe.FormatURLPath("/v1/external_accounts/%s", id)
 	card := &stripe.Card{}
@@ -52,6 +63,10 @@ func GetBankAccount(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 }
 
 // Retrieve a specified external account for a given account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) GetBankAccount(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	path := stripe.FormatURLPath("/v1/external_accounts/%s", id)
 	bankaccount := &stripe.BankAccount{}
@@ -65,6 +80,10 @@ func GetCard(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 // Retrieve a specified external account for a given account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) GetCard(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	path := stripe.FormatURLPath("/v1/external_accounts/%s", id)
 	card := &stripe.Card{}
@@ -78,6 +97,10 @@ func NewBankAccount(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 // Create an external account for a given connected account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) NewBankAccount(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	body := &form.Values{}
 	params.AppendToAsSourceOrExternalAccount(body)
@@ -92,6 +115,10 @@ func NewCard(params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 // Create an external account for a given connected account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) NewCard(params *stripe.CardParams) (*stripe.Card, error) {
 	body := &form.Values{}
 	params.AppendToAsCardSourceOrExternalAccount(body, nil)
@@ -120,6 +147,10 @@ func UpdateBankAccount(id string, params *stripe.BankAccountParams) (*stripe.Ban
 //
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) UpdateBankAccount(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	path := stripe.FormatURLPath("/v1/external_accounts/%s", id)
 	bankaccount := &stripe.BankAccount{}
@@ -147,6 +178,10 @@ func UpdateCard(id string, params *stripe.CardParams) (*stripe.Card, error) {
 //
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) UpdateCard(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	path := stripe.FormatURLPath("/v1/external_accounts/%s", id)
 	card := &stripe.Card{}
@@ -160,6 +195,10 @@ func ListBankAccount(params *stripe.BankAccountListParams) *Iter {
 }
 
 // List external accounts for an account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListBankAccount(listParams *stripe.BankAccountListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -207,6 +246,10 @@ func ListCard(params *stripe.CardListParams) *Iter {
 }
 
 // List external accounts for an account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListCard(listParams *stripe.CardListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

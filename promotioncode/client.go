@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/promotion_codes APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 }
 
 // A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	promotioncode := &stripe.PromotionCode{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, 
 }
 
 // Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	path := stripe.FormatURLPath("/v1/promotion_codes/%s", id)
 	promotioncode := &stripe.PromotionCode{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCod
 }
 
 // Updates the specified promotion code by setting the values of the parameters passed. Most fields are, by design, not editable.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	path := stripe.FormatURLPath("/v1/promotion_codes/%s", id)
 	promotioncode := &stripe.PromotionCode{}
@@ -65,6 +80,10 @@ func List(params *stripe.PromotionCodeListParams) *Iter {
 }
 
 // Returns a list of your promotion codes.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PromotionCodeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/treasury/debit_reversals APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitRever
 }
 
 // Reverses a ReceivedDebit and creates a DebitReversal object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitReversal, error) {
 	debitreversal := &stripe.TreasuryDebitReversal{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.TreasuryDebitReversalParams) (*stripe.Treasur
 }
 
 // Retrieves a DebitReversal object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TreasuryDebitReversalParams) (*stripe.TreasuryDebitReversal, error) {
 	path := stripe.FormatURLPath("/v1/treasury/debit_reversals/%s", id)
 	debitreversal := &stripe.TreasuryDebitReversal{}
@@ -52,6 +63,10 @@ func List(params *stripe.TreasuryDebitReversalListParams) *Iter {
 }
 
 // Returns a list of DebitReversals.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TreasuryDebitReversalListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

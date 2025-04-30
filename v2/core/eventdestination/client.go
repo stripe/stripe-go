@@ -14,12 +14,19 @@ import (
 )
 
 // Client is used to invoke eventdestination related APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
 // Create a new event destination.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.V2CoreEventDestinationParams) (*stripe.V2EventDestination, error) {
 	eventdestination := &stripe.V2EventDestination{}
 	err := c.B.Call(
@@ -28,6 +35,10 @@ func (c Client) New(params *stripe.V2CoreEventDestinationParams) (*stripe.V2Even
 }
 
 // Retrieves the details of an event destination.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.V2CoreEventDestinationParams) (*stripe.V2EventDestination, error) {
 	path := stripe.FormatURLPath("/v2/core/event_destinations/%s", id)
 	eventdestination := &stripe.V2EventDestination{}
@@ -36,6 +47,10 @@ func (c Client) Get(id string, params *stripe.V2CoreEventDestinationParams) (*st
 }
 
 // Update the details of an event destination.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.V2CoreEventDestinationParams) (*stripe.V2EventDestination, error) {
 	path := stripe.FormatURLPath("/v2/core/event_destinations/%s", id)
 	eventdestination := &stripe.V2EventDestination{}
@@ -44,6 +59,10 @@ func (c Client) Update(id string, params *stripe.V2CoreEventDestinationParams) (
 }
 
 // Delete an event destination.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.V2CoreEventDestinationParams) (*stripe.V2EventDestination, error) {
 	path := stripe.FormatURLPath("/v2/core/event_destinations/%s", id)
 	eventdestination := &stripe.V2EventDestination{}
@@ -52,6 +71,10 @@ func (c Client) Del(id string, params *stripe.V2CoreEventDestinationParams) (*st
 }
 
 // Disable an event destination.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Disable(id string, params *stripe.V2CoreEventDestinationDisableParams) (*stripe.V2EventDestination, error) {
 	path := stripe.FormatURLPath("/v2/core/event_destinations/%s/disable", id)
 	eventdestination := &stripe.V2EventDestination{}
@@ -60,6 +83,10 @@ func (c Client) Disable(id string, params *stripe.V2CoreEventDestinationDisableP
 }
 
 // Enable an event destination.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Enable(id string, params *stripe.V2CoreEventDestinationEnableParams) (*stripe.V2EventDestination, error) {
 	path := stripe.FormatURLPath("/v2/core/event_destinations/%s/enable", id)
 	eventdestination := &stripe.V2EventDestination{}
@@ -68,6 +95,10 @@ func (c Client) Enable(id string, params *stripe.V2CoreEventDestinationEnablePar
 }
 
 // Send a `ping` event to an event destination.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Ping(id string, params *stripe.V2CoreEventDestinationPingParams) (stripe.V2Event, error) {
 	path := stripe.FormatURLPath("/v2/core/event_destinations/%s/ping", id)
 	raw := &stripe.V2RawEvent{}
@@ -79,6 +110,10 @@ func (c Client) Ping(id string, params *stripe.V2CoreEventDestinationPingParams)
 }
 
 // Lists all event destinations.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2CoreEventDestinationListParams) stripe.Seq2[*stripe.V2EventDestination, error] {
 	return stripe.NewV2List("/v2/core/event_destinations", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2EventDestination], error) {
 		page := &stripe.V2Page[*stripe.V2EventDestination]{}

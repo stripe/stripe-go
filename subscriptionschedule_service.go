@@ -55,6 +55,18 @@ func (c v1SubscriptionScheduleService) Update(ctx context.Context, id string, pa
 	return subscriptionschedule, err
 }
 
+// Amends an existing subscription schedule.
+func (c v1SubscriptionScheduleService) Amend(ctx context.Context, id string, params *SubscriptionScheduleAmendParams) (*SubscriptionSchedule, error) {
+	path := FormatURLPath("/v1/subscription_schedules/%s/amend", id)
+	subscriptionschedule := &SubscriptionSchedule{}
+	if params == nil {
+		params = &SubscriptionScheduleAmendParams{}
+	}
+	params.Context = ctx
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionschedule)
+	return subscriptionschedule, err
+}
+
 // Cancels a subscription schedule and its associated subscription immediately (if the subscription schedule has an active subscription). A subscription schedule can only be canceled if its status is not_started or active.
 func (c v1SubscriptionScheduleService) Cancel(ctx context.Context, id string, params *SubscriptionScheduleCancelParams) (*SubscriptionSchedule, error) {
 	path := FormatURLPath("/v1/subscription_schedules/%s/cancel", id)

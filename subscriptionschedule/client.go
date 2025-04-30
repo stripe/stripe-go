@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/subscription_schedules APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedul
 }
 
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.SubscriptionScheduleParams) (*stripe.Subscrip
 }
 
 // Retrieves the details of an existing subscription schedule. You only need to supply the unique subscription schedule identifier that was returned upon subscription schedule creation.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.SubscriptionScheduleParams) (*stripe.Subsc
 }
 
 // Updates an existing subscription schedule.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
@@ -65,6 +80,10 @@ func Amend(id string, params *stripe.SubscriptionScheduleAmendParams) (*stripe.S
 }
 
 // Amends an existing subscription schedule.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Amend(id string, params *stripe.SubscriptionScheduleAmendParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/amend", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
@@ -78,6 +97,10 @@ func Cancel(id string, params *stripe.SubscriptionScheduleCancelParams) (*stripe
 }
 
 // Cancels a subscription schedule and its associated subscription immediately (if the subscription schedule has an active subscription). A subscription schedule can only be canceled if its status is not_started or active.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.SubscriptionScheduleCancelParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/cancel", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
@@ -91,6 +114,10 @@ func Release(id string, params *stripe.SubscriptionScheduleReleaseParams) (*stri
 }
 
 // Releases the subscription schedule immediately, which will stop scheduling of its phases, but leave any existing subscription in place. A schedule can only be released if its status is not_started or active. If the subscription schedule is currently associated with a subscription, releasing it will remove its subscription property and set the subscription's ID to the released_subscription property.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Release(id string, params *stripe.SubscriptionScheduleReleaseParams) (*stripe.SubscriptionSchedule, error) {
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/release", id)
 	subscriptionschedule := &stripe.SubscriptionSchedule{}
@@ -104,6 +131,10 @@ func List(params *stripe.SubscriptionScheduleListParams) *Iter {
 }
 
 // Retrieves the list of your subscription schedules.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.SubscriptionScheduleListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

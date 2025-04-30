@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/identity/verification_reports APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func Get(id string, params *stripe.IdentityVerificationReportParams) (*stripe.Id
 }
 
 // Retrieves an existing VerificationReport
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.IdentityVerificationReportParams) (*stripe.IdentityVerificationReport, error) {
 	path := stripe.FormatURLPath("/v1/identity/verification_reports/%s", id)
 	verificationreport := &stripe.IdentityVerificationReport{}
@@ -39,6 +46,10 @@ func List(params *stripe.IdentityVerificationReportListParams) *Iter {
 }
 
 // List all verification reports.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.IdentityVerificationReportListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/privacy/redaction_jobs APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.PrivacyRedactionJobParams) (*stripe.PrivacyRedactionJob,
 }
 
 // Create redaction job method
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.PrivacyRedactionJobParams) (*stripe.PrivacyRedactionJob, error) {
 	redactionjob := &stripe.PrivacyRedactionJob{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.PrivacyRedactionJobParams) (*stripe.PrivacyRe
 }
 
 // Retrieve redaction job method
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.PrivacyRedactionJobParams) (*stripe.PrivacyRedactionJob, error) {
 	path := stripe.FormatURLPath("/v1/privacy/redaction_jobs/%s", id)
 	redactionjob := &stripe.PrivacyRedactionJob{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.PrivacyRedactionJobParams) (*stripe.Privac
 }
 
 // Update redaction job method
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.PrivacyRedactionJobParams) (*stripe.PrivacyRedactionJob, error) {
 	path := stripe.FormatURLPath("/v1/privacy/redaction_jobs/%s", id)
 	redactionjob := &stripe.PrivacyRedactionJob{}
@@ -65,6 +80,10 @@ func Cancel(id string, params *stripe.PrivacyRedactionJobCancelParams) (*stripe.
 }
 
 // Cancel redaction job method
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.PrivacyRedactionJobCancelParams) (*stripe.PrivacyRedactionJob, error) {
 	path := stripe.FormatURLPath("/v1/privacy/redaction_jobs/%s/cancel", id)
 	redactionjob := &stripe.PrivacyRedactionJob{}
@@ -78,6 +97,10 @@ func Run(id string, params *stripe.PrivacyRedactionJobRunParams) (*stripe.Privac
 }
 
 // Run redaction job method
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Run(id string, params *stripe.PrivacyRedactionJobRunParams) (*stripe.PrivacyRedactionJob, error) {
 	path := stripe.FormatURLPath("/v1/privacy/redaction_jobs/%s/run", id)
 	redactionjob := &stripe.PrivacyRedactionJob{}
@@ -91,6 +114,10 @@ func Validate(id string, params *stripe.PrivacyRedactionJobValidateParams) (*str
 }
 
 // Validate redaction job method
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Validate(id string, params *stripe.PrivacyRedactionJobValidateParams) (*stripe.PrivacyRedactionJob, error) {
 	path := stripe.FormatURLPath("/v1/privacy/redaction_jobs/%s/validate", id)
 	redactionjob := &stripe.PrivacyRedactionJob{}
@@ -104,6 +131,10 @@ func List(params *stripe.PrivacyRedactionJobListParams) *Iter {
 }
 
 // List redaction jobs method...
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PrivacyRedactionJobListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

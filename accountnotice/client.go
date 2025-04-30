@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/account_notices APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func Get(id string, params *stripe.AccountNoticeParams) (*stripe.AccountNotice, 
 }
 
 // Retrieves an AccountNotice object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.AccountNoticeParams) (*stripe.AccountNotice, error) {
 	path := stripe.FormatURLPath("/v1/account_notices/%s", id)
 	accountnotice := &stripe.AccountNotice{}
@@ -39,6 +46,10 @@ func Update(id string, params *stripe.AccountNoticeParams) (*stripe.AccountNotic
 }
 
 // Updates an AccountNotice object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.AccountNoticeParams) (*stripe.AccountNotice, error) {
 	path := stripe.FormatURLPath("/v1/account_notices/%s", id)
 	accountnotice := &stripe.AccountNotice{}
@@ -52,6 +63,10 @@ func List(params *stripe.AccountNoticeListParams) *Iter {
 }
 
 // Retrieves a list of AccountNotice objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.AccountNoticeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

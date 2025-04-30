@@ -16,6 +16,9 @@ import (
 )
 
 // Client is used to invoke /v1/issuing/cardholders APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -27,6 +30,10 @@ func New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, err
 }
 
 // Creates a new Issuing Cardholder object that can be issued cards.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	cardholder := &stripe.IssuingCardholder{}
 	err := c.B.Call(
@@ -40,6 +47,10 @@ func Get(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCard
 }
 
 // Retrieves an Issuing Cardholder object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cardholders/%s", id)
 	cardholder := &stripe.IssuingCardholder{}
@@ -53,6 +64,10 @@ func Update(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingC
 }
 
 // Updates the specified Issuing Cardholder object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cardholders/%s", id)
 	cardholder := &stripe.IssuingCardholder{}
@@ -66,6 +81,10 @@ func List(params *stripe.IssuingCardholderListParams) *Iter {
 }
 
 // Returns a list of Issuing Cardholder objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.IssuingCardholderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/plans APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 // You can now model subscriptions more flexibly using the [Prices API](https://stripe.com/docs/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	plan := &stripe.Plan{}
 	err := c.B.Call(http.MethodPost, "/v1/plans", c.Key, params, plan)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 // Retrieves the plan with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
@@ -51,6 +62,10 @@ func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 // Updates the specified plan by setting the values of the parameters passed. Any parameters not provided are left unchanged. By design, you cannot change a plan's ID, amount, currency, or billing cycle.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
@@ -64,6 +79,10 @@ func Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 // Deleting plans means new subscribers can't be added. Existing subscribers aren't affected.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
@@ -77,6 +96,10 @@ func List(params *stripe.PlanListParams) *Iter {
 }
 
 // Returns a list of your plans.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PlanListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

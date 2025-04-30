@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/financial_connections/accounts/{account}/inferred_balances APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func List(params *stripe.FinancialConnectionsAccountInferredBalanceListParams) *
 }
 
 // Lists the recorded inferred balances for a Financial Connections Account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.FinancialConnectionsAccountInferredBalanceListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/financial_connections/accounts/%s/inferred_balances", stripe.StringValue(

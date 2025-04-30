@@ -14,12 +14,19 @@ import (
 )
 
 // Client is used to invoke outboundpayment related APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
 // Creates an OutboundPayment.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.V2MoneyManagementOutboundPaymentParams) (*stripe.V2MoneyManagementOutboundPayment, error) {
 	outboundpayment := &stripe.V2MoneyManagementOutboundPayment{}
 	err := c.B.Call(
@@ -28,6 +35,10 @@ func (c Client) New(params *stripe.V2MoneyManagementOutboundPaymentParams) (*str
 }
 
 // Retrieves the details of an existing OutboundPayment by passing the unique OutboundPayment ID from either the OutboundPayment create or list response.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.V2MoneyManagementOutboundPaymentParams) (*stripe.V2MoneyManagementOutboundPayment, error) {
 	path := stripe.FormatURLPath("/v2/money_management/outbound_payments/%s", id)
 	outboundpayment := &stripe.V2MoneyManagementOutboundPayment{}
@@ -36,6 +47,10 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementOutboundPaymentPa
 }
 
 // Cancels an OutboundPayment. Only processing OutboundPayments can be canceled.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.V2MoneyManagementOutboundPaymentCancelParams) (*stripe.V2MoneyManagementOutboundPayment, error) {
 	path := stripe.FormatURLPath(
 		"/v2/money_management/outbound_payments/%s/cancel", id)
@@ -45,6 +60,10 @@ func (c Client) Cancel(id string, params *stripe.V2MoneyManagementOutboundPaymen
 }
 
 // Returns a list of OutboundPayments that match the provided filters.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) All(listParams *stripe.V2MoneyManagementOutboundPaymentListParams) stripe.Seq2[*stripe.V2MoneyManagementOutboundPayment, error] {
 	return stripe.NewV2List("/v2/money_management/outbound_payments", listParams, func(path string, p stripe.ParamsContainer) (*stripe.V2Page[*stripe.V2MoneyManagementOutboundPayment], error) {
 		page := &stripe.V2Page[*stripe.V2MoneyManagementOutboundPayment]{}

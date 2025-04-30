@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/gift_cards/cards APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 }
 
 // Creates a new gift card object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	card := &stripe.GiftCardsCard{}
 	err := c.B.Call(http.MethodPost, "/v1/gift_cards/cards", c.Key, params, card)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, 
 }
 
 // Retrieve a gift card by id
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/cards/%s", id)
 	card := &stripe.GiftCardsCard{}
@@ -51,6 +62,10 @@ func Update(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCar
 }
 
 // Update a gift card
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.GiftCardsCardParams) (*stripe.GiftCardsCard, error) {
 	path := stripe.FormatURLPath("/v1/gift_cards/cards/%s", id)
 	card := &stripe.GiftCardsCard{}
@@ -64,6 +79,10 @@ func Validate(params *stripe.GiftCardsCardValidateParams) (*stripe.GiftCardsCard
 }
 
 // Validates a gift card code, returning the matching gift card object if it exists.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Validate(params *stripe.GiftCardsCardValidateParams) (*stripe.GiftCardsCard, error) {
 	card := &stripe.GiftCardsCard{}
 	err := c.B.Call(
@@ -77,6 +96,10 @@ func List(params *stripe.GiftCardsCardListParams) *Iter {
 }
 
 // List gift cards for an account
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.GiftCardsCardListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

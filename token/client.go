@@ -14,6 +14,9 @@ import (
 )
 
 // Client is used to invoke /v1/tokens APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -27,6 +30,10 @@ func New(params *stripe.TokenParams) (*stripe.Token, error) {
 
 // Creates a single-use token that represents a bank account's details.
 // You can use this token with any v1 API method in place of a bank account dictionary. You can only use this token once. To do so, attach it to a [connected account](https://stripe.com/docs/api#accounts) where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is application, which includes Custom accounts.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 	token := &stripe.Token{}
 	err := c.B.Call(http.MethodPost, "/v1/tokens", c.Key, params, token)
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 }
 
 // Retrieves the token with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 	path := stripe.FormatURLPath("/v1/tokens/%s", id)
 	token := &stripe.Token{}

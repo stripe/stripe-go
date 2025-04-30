@@ -6784,6 +6784,15 @@ func TestQuotesPost2Service(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestQuotesPost2Client(t *testing.T) {
+	params := &stripe.QuoteUpdateParams{}
+	params.AddMetadata("order_id", "6735")
+	sc := stripe.NewClient(TestAPIKey)
+	result, err := sc.V1Quotes.Update(context.TODO(), "qt_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestQuotesPreviewInvoicesLinesGet(t *testing.T) {
 	params := &stripe.QuoteListPreviewInvoiceLinesParams{
 		Quote:          stripe.String("qt_xyz"),
@@ -6803,6 +6812,16 @@ func TestQuotesPreviewInvoicesLinesGetService(t *testing.T) {
 	result := sc.Quotes.ListPreviewInvoiceLines(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
+}
+
+func TestQuotesPreviewInvoicesLinesGetClient(t *testing.T) {
+	params := &stripe.QuoteListPreviewInvoiceLinesParams{
+		Quote:          stripe.String("qt_xyz"),
+		PreviewInvoice: stripe.String("in_xyz"),
+	}
+	sc := stripe.NewClient(TestAPIKey)
+	result := sc.V1Quotes.ListPreviewInvoiceLines(context.TODO(), params)
+	assert.NotNil(t, result)
 }
 
 func TestRadarEarlyFraudWarningsGet(t *testing.T) {
@@ -8678,6 +8697,15 @@ func TestTaxCodesGet2Service(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestTaxCodesGet2Client(t *testing.T) {
+	params := &stripe.TaxCodeRetrieveParams{}
+	sc := stripe.NewClient(TestAPIKey)
+	result, err := sc.V1TaxCodes.Retrieve(
+		context.TODO(), "txcd_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestTaxFormsPdfGet(t *testing.T) {
 	params := &stripe.TaxFormPDFParams{}
 	result, err := tax_form.PDF("form_xxxxxxxxxxxxx", params)
@@ -8689,6 +8717,15 @@ func TestTaxFormsPdfGetService(t *testing.T) {
 	params := &stripe.TaxFormPDFParams{}
 	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TaxForms.PDF("form_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestTaxFormsPdfGetClient(t *testing.T) {
+	params := &stripe.TaxFormPDFParams{}
+	sc := stripe.NewClient(TestAPIKey)
+	result, err := sc.V1TaxForms.PDF(
+		context.TODO(), "form_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }

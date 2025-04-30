@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/tax/registrations APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) 
 }
 
 // Creates a new Tax Registration object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) {
 	registration := &stripe.TaxRegistration{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.TaxRegistrationParams) (*stripe.TaxRegistrati
 }
 
 // Returns a Tax Registration object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) {
 	path := stripe.FormatURLPath("/v1/tax/registrations/%s", id)
 	registration := &stripe.TaxRegistration{}
@@ -56,6 +67,10 @@ func Update(id string, params *stripe.TaxRegistrationParams) (*stripe.TaxRegistr
 // Updates an existing Tax Registration object.
 //
 // A registration cannot be deleted after it has been created. If you wish to end a registration you may do so by setting expires_at.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.TaxRegistrationParams) (*stripe.TaxRegistration, error) {
 	path := stripe.FormatURLPath("/v1/tax/registrations/%s", id)
 	registration := &stripe.TaxRegistration{}
@@ -69,6 +84,10 @@ func List(params *stripe.TaxRegistrationListParams) *Iter {
 }
 
 // Returns a list of Tax Registration objects.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TaxRegistrationListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

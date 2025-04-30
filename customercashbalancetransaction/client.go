@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/customers/{customer}/cash_balance_transactions APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func Get(id string, params *stripe.CustomerCashBalanceTransactionParams) (*strip
 }
 
 // Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.CustomerCashBalanceTransactionParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/cash_balance_transactions/%s", stripe.StringValue(
@@ -42,6 +49,10 @@ func List(params *stripe.CustomerCashBalanceTransactionListParams) *Iter {
 }
 
 // Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CustomerCashBalanceTransactionListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/cash_balance_transactions", stripe.StringValue(

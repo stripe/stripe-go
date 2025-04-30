@@ -1,5 +1,55 @@
 # Changelog
 
+## 82.1.0 - 2025-04-30
+
+This release changes the pinned API version to `2025-04-30.basil`.
+
+  ### 🎉 Introducing new Stripe Client
+Starting with v82.1, the new `stripe.Client` type is replacing `client.API` to provide a more ergonomic, consistent, and less error-prone experience. You create the former using `stripe.NewClient(stripeKey)`. It’s almost a drop-in replacement, except for the differences listed below.  
+
+1. Service method names now align with Stripe API docs. The `stripe.Client` uses `Create`, `Retrieve`, `Update`, and `Delete` (instead of `New`, `Get`, `Update`, and `Del`).  
+2. The first argument of each service method is a `context.Context`.  
+3. Parameter objects are now method-specific. For example, `CustomerCreateParams` and `CustomerDeleteParams` instead of simply `CustomerParams`. This allows us to put the right fields in the right methods at compile time.  
+4. Services are all version-namespaced for symmetry. E.g. `stripeClient.V1Accounts` and `stripeClient.V2Accounts`.  
+5. `List` methods return an `iter.Seq2`, so they can be ranged over without explicit calls to `Next`, `Current`, and `Err`. 
+
+  ### 🎉 Native support in Go for V2 APIs
+```go
+params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("mtr_123")}
+for event, err := range sc.V2CoreEvents.List(context.TODO(), params) {
+  // handle err
+  // process event object
+}
+```
+* All V2 APIs are now supported natively through the `stripe.Client`
+
+More details can be found at https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+
+* [#2029](https://github.com/stripe/stripe-go/pull/2029) Update generated code
+  * Add support for `MinorityOwnedBusinessDesignation` on `AccountBusinessProfileParams` and `AccountBusinessProfile`
+  * Add support for `RegistrationDate` on `AccountCompanyParams`, `AccountCompany`, and `TokenAccountCompanyParams`
+  * Add support for `USCfpbData` on `AccountParams`, `PersonParams`, `Person`, and `TokenPersonParams`
+  * Add support for new value `tax_id_prohibited` on enums `InvoiceLastFinalizationError.Code`, `PaymentIntentLastPaymentError.Code`, `SetupAttemptSetupError.Code`, `SetupIntentLastSetupError.Code`, and `StripeError.Code`
+  * Add support for new value `verification_legal_entity_structure_mismatch` on enums `BankAccountFutureRequirementsErrors.Code` and `BankAccountRequirementsErrors.Code`
+  * Add support for `TaxID` on `ChargeBillingDetails`, `ConfirmationTokenPaymentMethodDataBillingDetailsParams`, `ConfirmationTokenPaymentMethodPreviewBillingDetails`, `PaymentIntentConfirmPaymentMethodDataBillingDetailsParams`, `PaymentIntentPaymentMethodDataBillingDetailsParams`, `PaymentMethodBillingDetailsParams`, `PaymentMethodBillingDetails`, `SetupIntentConfirmPaymentMethodDataBillingDetailsParams`, `SetupIntentPaymentMethodDataBillingDetailsParams`, `TestHelpersConfirmationTokenPaymentMethodDataBillingDetailsParams`, and `TreasuryOutboundPaymentDestinationPaymentMethodDataBillingDetailsParams`
+  * Add support for `WalletOptions` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Provider` on `CheckoutSessionAutomaticTax`, `InvoiceAutomaticTax`, and `QuoteAutomaticTax`
+  * Add support for new values `aw_tin`, `az_tin`, `bd_bin`, `bf_ifu`, `bj_ifu`, `cm_niu`, `cv_nif`, `et_tin`, `kg_tin`, and `la_tin` on enums `CheckoutSessionCustomerDetailsTaxIds.Type`, `TaxCalculationCustomerDetailsTaxId.Type`, `TaxId.Type`, and `TaxTransactionCustomerDetailsTaxId.Type`
+  * Add support for `PaymentMethodOptions` on `ConfirmationTokenParams` and `TestHelpersConfirmationTokenParams`
+  * Add support for `Installments` on `ConfirmationTokenPaymentMethodOptionsCard`
+  * Add support for `Context` on `Event`
+  * Add support for new value `affirm` on enums `InvoicePaymentSettings.PaymentMethodTypes` and `SubscriptionPaymentSettings.PaymentMethodTypes`
+  * Add support for `Billie` on `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+  * Add support for `Pix` on `PaymentMethodConfigurationParams` and `PaymentMethodConfiguration`
+  * Add support for `Klarna` on `PaymentMethodDomain`
+  * Add support for `PendingReason` on `Refund`
+  * Add support for `Aw`, `Az`, `Bd`, `Bf`, `Bj`, `Cm`, `Cv`, `ET`, `In`, `Kg`, `La`, and `Ph` on `TaxRegistrationCountryOptionsParams` and `TaxRegistrationCountryOptions`
+* [#2022](https://github.com/stripe/stripe-go/pull/2022) Improved handling for enums in params
+  * You can now pass `string` enums into `stripe.String`. For example, `stripe.String(stripe.CurrencyUSD)` instead of `stripe.String(string(stripe.CurrencyUSD))`
+* [#1916](https://github.com/stripe/stripe-go/pull/1916) perf: do not computing signature when timestamp is not valid
+* [#1860](https://github.com/stripe/stripe-go/pull/1860) fix: typo in error
+* [#2018](https://github.com/stripe/stripe-go/pull/2018) Backport beta fixes
+
 ## 82.1.0-beta.3 - 2025-04-17
 * [#2023](https://github.com/stripe/stripe-go/pull/2023) Update generated code for beta
   * Add support for new resources `FxQuote` and `PaymentIntentAmountDetailsLineItem`
@@ -135,7 +185,7 @@ See [SaaS platform payments with subscription billing using Accounts v2](https:/
 
 * [#2002](https://github.com/stripe/stripe-go/pull/2002) Update behavior of AddBetaHeader
   - AddBetaVersion will use the highest version number used for a beta feature instead of return an `error` on a conflict as it had done previously.
-  
+
 ## 82.0.0 - 2025-04-01
 * [#1992](https://github.com/stripe/stripe-go/pull/1992) Support for APIs in the new API version 2025-03-31.basil
   

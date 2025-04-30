@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/capital/financing_transactions APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func Get(id string, params *stripe.CapitalFinancingTransactionParams) (*stripe.C
 }
 
 // Retrieves a financing transaction for a financing offer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.CapitalFinancingTransactionParams) (*stripe.CapitalFinancingTransaction, error) {
 	path := stripe.FormatURLPath("/v1/capital/financing_transactions/%s", id)
 	financingtransaction := &stripe.CapitalFinancingTransaction{}
@@ -41,6 +48,10 @@ func List(params *stripe.CapitalFinancingTransactionListParams) *Iter {
 
 // Returns a list of financing transactions. The transactions are returned in sorted order,
 // with the most recent transactions appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CapitalFinancingTransactionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

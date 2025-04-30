@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/reporting/report_runs APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, e
 }
 
 // Creates a new object and begin running the report. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, error) {
 	reportrun := &stripe.ReportingReportRun{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.ReportingReportRunParams) (*stripe.ReportingR
 }
 
 // Retrieves the details of an existing Report Run.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.ReportingReportRunParams) (*stripe.ReportingReportRun, error) {
 	path := stripe.FormatURLPath("/v1/reporting/report_runs/%s", id)
 	reportrun := &stripe.ReportingReportRun{}
@@ -52,6 +63,10 @@ func List(params *stripe.ReportingReportRunListParams) *Iter {
 }
 
 // Returns a list of Report Runs, with the most recent appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.ReportingReportRunListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

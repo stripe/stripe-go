@@ -154,6 +154,33 @@ func (c v1PaymentIntentService) Confirm(ctx context.Context, id string, params *
 	return paymentintent, err
 }
 
+// Perform a decremental authorization on an eligible
+// [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
+// PaymentIntent's status must be requires_capture and
+// [decremental_authorization.status](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card-decremental_authorization)
+// must be available.
+//
+// Decremental authorizations decrease the authorized amount on your customer's card
+// to the new, lower amount provided. A single PaymentIntent can call this endpoint multiple times to further decrease the authorized amount.
+//
+// After decrement, the PaymentIntent object
+// returns with the updated
+// [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
+// The PaymentIntent will now be capturable up to the new authorized amount.
+//
+// Each PaymentIntent can have a maximum of 10 decremental or incremental authorization attempts, including declines.
+// After it's fully captured, a PaymentIntent can no longer be decremented.
+func (c v1PaymentIntentService) DecrementAuthorization(ctx context.Context, id string, params *PaymentIntentDecrementAuthorizationParams) (*PaymentIntent, error) {
+	path := FormatURLPath("/v1/payment_intents/%s/decrement_authorization", id)
+	paymentintent := &PaymentIntent{}
+	if params == nil {
+		params = &PaymentIntentDecrementAuthorizationParams{}
+	}
+	params.Context = ctx
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
 // Perform an incremental authorization on an eligible
 // [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
 // PaymentIntent's status must be requires_capture and
@@ -183,6 +210,18 @@ func (c v1PaymentIntentService) IncrementAuthorization(ctx context.Context, id s
 	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentIncrementAuthorizationParams{}
+	}
+	params.Context = ctx
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
+// Trigger an external action on a PaymentIntent.
+func (c v1PaymentIntentService) TriggerAction(ctx context.Context, id string, params *PaymentIntentTriggerActionParams) (*PaymentIntent, error) {
+	path := FormatURLPath("/v1/test/payment_intents/%s/trigger_action", id)
+	paymentintent := &PaymentIntent{}
+	if params == nil {
+		params = &PaymentIntentTriggerActionParams{}
 	}
 	params.Context = ctx
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)

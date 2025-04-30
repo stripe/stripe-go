@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/webhook_endpoints APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) 
 }
 
 // A webhook endpoint must have a url and a list of enabled_events. You may optionally specify the Boolean connect parameter. If set to true, then a Connect webhook endpoint that notifies the specified url about events from all connected accounts is created; otherwise an account webhook endpoint that notifies the specified url only about events from your account is created. You can also create webhook endpoints in the [webhooks settings](https://dashboard.stripe.com/account/webhooks) section of the Dashboard.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	webhookendpoint := &stripe.WebhookEndpoint{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoi
 }
 
 // Retrieves the webhook endpoint with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	webhookendpoint := &stripe.WebhookEndpoint{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEnd
 }
 
 // Updates the webhook endpoint. You may edit the url, the list of enabled_events, and the status of your endpoint.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	webhookendpoint := &stripe.WebhookEndpoint{}
@@ -65,6 +80,10 @@ func Del(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoi
 }
 
 // You can also delete webhook endpoints via the [webhook endpoint management](https://dashboard.stripe.com/account/webhooks) page of the Stripe dashboard.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	webhookendpoint := &stripe.WebhookEndpoint{}
@@ -78,6 +97,10 @@ func List(params *stripe.WebhookEndpointListParams) *Iter {
 }
 
 // Returns a list of your webhook endpoints.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.WebhookEndpointListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

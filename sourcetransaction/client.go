@@ -27,6 +27,10 @@ func List(params *stripe.SourceTransactionListParams) *Iter {
 }
 
 // List source transactions for a given source.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 	if listParams == nil || listParams.Source == nil {
 		return &Iter{

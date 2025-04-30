@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/payment_intents/{intent}/amount_details_line_items APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func List(params *stripe.PaymentIntentAmountDetailsLineItemListParams) *Iter {
 }
 
 // Lists all LineItems of a given PaymentIntent.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PaymentIntentAmountDetailsLineItemListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/payment_intents/%s/amount_details_line_items", stripe.StringValue(

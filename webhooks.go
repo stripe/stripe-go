@@ -99,18 +99,24 @@ func ValidatePayload(payload []byte, header string, secret string, opts ...Webho
 
 type WebhookOption func(*webhookConfig)
 
+// WithTolerance validates event timestamps using a custom Tolerance window. If this is
+// not set and `IgnoreTolerance` is false, will default to
+// `WebhookDefaultTolerance`.
 func WithTolerance(tolerance time.Duration) WebhookOption {
 	return func(w *webhookConfig) {
 		w.Tolerance = tolerance
 	}
 }
 
+// WithIgnoreTolerance will ignore the the event signature's timestamp.
 func WithIgnoreTolerance() WebhookOption {
 	return func(w *webhookConfig) {
 		w.IgnoreTolerance = true
 	}
 }
 
+// WithIgnoreAPIVersionMismatch will ignore validating whether an event's API version
+// matches the stripe-go API version. This is currently only used for ConstructEvent.
 func WithIgnoreAPIVersionMismatch() WebhookOption {
 	return func(w *webhookConfig) {
 		w.IgnoreAPIVersionMismatch = true
@@ -118,20 +124,8 @@ func WithIgnoreAPIVersionMismatch() WebhookOption {
 }
 
 type webhookConfig struct {
-	// Validates event timestamps using a custom Tolerance window. If this is
-	// not set and `IgnoreTolerance` is false, will default to
-	// `WebhookDefaultTolerance`.
-	Tolerance time.Duration
-
-	// If set to true, will ignore the `tolerance` option entirely and will not
-	// check the event signature's timestamp. Defaults to false. When false,
-	// constructing an event will fail with an error if the timestamp is not
-	// within the `Tolerance` window.
-	IgnoreTolerance bool
-
-	// If set to true, will ignore validating whether an event's API version
-	// matches the stripe-go API version. Defaults to false, returning an error
-	// when there is a mismatch.
+	Tolerance                time.Duration
+	IgnoreTolerance          bool
 	IgnoreAPIVersionMismatch bool
 }
 

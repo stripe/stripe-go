@@ -16,6 +16,9 @@ import (
 )
 
 // Client is used to invoke /v1/sigma/scheduled_query_runs APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -27,6 +30,10 @@ func Get(id string, params *stripe.SigmaScheduledQueryRunParams) (*stripe.SigmaS
 }
 
 // Retrieves the details of an scheduled query run.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.SigmaScheduledQueryRunParams) (*stripe.SigmaScheduledQueryRun, error) {
 	path := stripe.FormatURLPath("/v1/sigma/scheduled_query_runs/%s", id)
 	scheduledqueryrun := &stripe.SigmaScheduledQueryRun{}
@@ -40,6 +47,10 @@ func List(params *stripe.SigmaScheduledQueryRunListParams) *Iter {
 }
 
 // Returns a list of scheduled query runs.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.SigmaScheduledQueryRunListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

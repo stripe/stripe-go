@@ -14,6 +14,9 @@ import (
 )
 
 // Client is used to invoke /v1/confirmation_tokens APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -25,6 +28,10 @@ func New(params *stripe.TestHelpersConfirmationTokenParams) (*stripe.Confirmatio
 }
 
 // Creates a test mode Confirmation Token server side for your integration tests.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TestHelpersConfirmationTokenParams) (*stripe.ConfirmationToken, error) {
 	confirmationtoken := &stripe.ConfirmationToken{}
 	err := c.B.Call(

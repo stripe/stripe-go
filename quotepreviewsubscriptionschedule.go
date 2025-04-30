@@ -29,8 +29,8 @@ type QuotePreviewSubscriptionScheduleBillingMode string
 
 // List of values that QuotePreviewSubscriptionScheduleBillingMode can take
 const (
-	QuotePreviewSubscriptionScheduleBillingModeCreditsAttributedToDebits QuotePreviewSubscriptionScheduleBillingMode = "credits_attributed_to_debits"
-	QuotePreviewSubscriptionScheduleBillingModeLegacyProrations          QuotePreviewSubscriptionScheduleBillingMode = "legacy_prorations"
+	QuotePreviewSubscriptionScheduleBillingModeClassic  QuotePreviewSubscriptionScheduleBillingMode = "classic"
+	QuotePreviewSubscriptionScheduleBillingModeFlexible QuotePreviewSubscriptionScheduleBillingMode = "flexible"
 )
 
 // If Stripe disabled automatic tax, this enum describes why.

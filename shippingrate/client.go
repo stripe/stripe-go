@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/shipping_rates APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 }
 
 // Creates a new shipping rate object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	shippingrate := &stripe.ShippingRate{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, er
 }
 
 // Returns the shipping rate object with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	path := stripe.FormatURLPath("/v1/shipping_rates/%s", id)
 	shippingrate := &stripe.ShippingRate{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate,
 }
 
 // Updates an existing shipping rate object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.ShippingRateParams) (*stripe.ShippingRate, error) {
 	path := stripe.FormatURLPath("/v1/shipping_rates/%s", id)
 	shippingrate := &stripe.ShippingRate{}
@@ -65,6 +80,10 @@ func List(params *stripe.ShippingRateListParams) *Iter {
 }
 
 // Returns a list of your shipping rates.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.ShippingRateListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

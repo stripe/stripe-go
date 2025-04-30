@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/prices APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.PriceParams) (*stripe.Price, error) {
 }
 
 // Creates a new [Price for an existing <a href="https://docs.stripe.com/api/products">Product](https://docs.stripe.com/api/prices). The Price can be recurring or one-time.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.PriceParams) (*stripe.Price, error) {
 	price := &stripe.Price{}
 	err := c.B.Call(http.MethodPost, "/v1/prices", c.Key, params, price)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.PriceParams) (*stripe.Price, error) {
 }
 
 // Retrieves the price with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.PriceParams) (*stripe.Price, error) {
 	path := stripe.FormatURLPath("/v1/prices/%s", id)
 	price := &stripe.Price{}
@@ -51,6 +62,10 @@ func Update(id string, params *stripe.PriceParams) (*stripe.Price, error) {
 }
 
 // Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.PriceParams) (*stripe.Price, error) {
 	path := stripe.FormatURLPath("/v1/prices/%s", id)
 	price := &stripe.Price{}
@@ -64,6 +79,10 @@ func List(params *stripe.PriceListParams) *Iter {
 }
 
 // Returns a list of your active prices, excluding [inline prices](https://stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PriceListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -109,6 +128,10 @@ func Search(params *stripe.PriceSearchParams) *SearchIter {
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Search(params *stripe.PriceSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {

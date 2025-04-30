@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/issuing/credit_underwriting_records APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func Get(id string, params *stripe.IssuingCreditUnderwritingRecordParams) (*stri
 }
 
 // Retrieves a CreditUnderwritingRecord object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.IssuingCreditUnderwritingRecordParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	path := stripe.FormatURLPath("/v1/issuing/credit_underwriting_records/%s", id)
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
@@ -39,6 +46,10 @@ func Correct(id string, params *stripe.IssuingCreditUnderwritingRecordCorrectPar
 }
 
 // Update a CreditUnderwritingRecord object to correct mistakes.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Correct(id string, params *stripe.IssuingCreditUnderwritingRecordCorrectParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	path := stripe.FormatURLPath(
 		"/v1/issuing/credit_underwriting_records/%s/correct", id)
@@ -54,6 +65,10 @@ func CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateF
 }
 
 // Creates a CreditUnderwritingRecord object with information about a credit application submission.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) CreateFromApplication(params *stripe.IssuingCreditUnderwritingRecordCreateFromApplicationParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
@@ -67,6 +82,10 @@ func CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCre
 }
 
 // Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) CreateFromProactiveReview(params *stripe.IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	creditunderwritingrecord := &stripe.IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
@@ -80,6 +99,10 @@ func ReportDecision(id string, params *stripe.IssuingCreditUnderwritingRecordRep
 }
 
 // Update a CreditUnderwritingRecord object from a decision made on a credit application.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ReportDecision(id string, params *stripe.IssuingCreditUnderwritingRecordReportDecisionParams) (*stripe.IssuingCreditUnderwritingRecord, error) {
 	path := stripe.FormatURLPath(
 		"/v1/issuing/credit_underwriting_records/%s/report_decision", id)
@@ -95,6 +118,10 @@ func List(params *stripe.IssuingCreditUnderwritingRecordListParams) *Iter {
 }
 
 // Retrieves a list of CreditUnderwritingRecord objects. The objects are sorted in descending order by creation date, with the most-recently-created object appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.IssuingCreditUnderwritingRecordListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

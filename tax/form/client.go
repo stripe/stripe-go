@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/tax/forms APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B        stripe.Backend
 	BUploads stripe.Backend
@@ -27,6 +30,10 @@ func Get(id string, params *stripe.TaxFormParams) (*stripe.TaxForm, error) {
 }
 
 // Retrieves the details of a tax form that has previously been created. Supply the unique tax form ID that was returned from your previous request, and Stripe will return the corresponding tax form information.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TaxFormParams) (*stripe.TaxForm, error) {
 	path := stripe.FormatURLPath("/v1/tax/forms/%s", id)
 	form := &stripe.TaxForm{}
@@ -40,6 +47,10 @@ func PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStream, error) 
 }
 
 // Download the PDF for a tax form.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) PDF(id string, params *stripe.TaxFormPDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/tax/forms/%s/pdf", id)
 	stream := &stripe.APIStream{}
@@ -53,6 +64,10 @@ func List(params *stripe.TaxFormListParams) *Iter {
 }
 
 // Returns a list of tax forms which were previously created. The tax forms are returned in sorted order, with the oldest tax forms appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TaxFormListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/climate/orders APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -28,6 +31,10 @@ func New(params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 
 // Creates a Climate order object for a given Climate product. The order will be processed immediately
 // after creation and payment will be deducted your Stripe balance.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 	order := &stripe.ClimateOrder{}
 	err := c.B.Call(http.MethodPost, "/v1/climate/orders", c.Key, params, order)
@@ -40,6 +47,10 @@ func Get(id string, params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, er
 }
 
 // Retrieves the details of a Climate order object with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 	path := stripe.FormatURLPath("/v1/climate/orders/%s", id)
 	order := &stripe.ClimateOrder{}
@@ -53,6 +64,10 @@ func Update(id string, params *stripe.ClimateOrderParams) (*stripe.ClimateOrder,
 }
 
 // Updates the specified order by setting the values of the parameters passed.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.ClimateOrderParams) (*stripe.ClimateOrder, error) {
 	path := stripe.FormatURLPath("/v1/climate/orders/%s", id)
 	order := &stripe.ClimateOrder{}
@@ -72,6 +87,10 @@ func Cancel(id string, params *stripe.ClimateOrderCancelParams) (*stripe.Climate
 // reservation amount_subtotal, but not the amount_fees for user-triggered cancellations. Frontier
 // might cancel reservations if suppliers fail to deliver. If Frontier cancels the reservation, Stripe
 // provides 90 days advance notice and refunds the amount_total.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.ClimateOrderCancelParams) (*stripe.ClimateOrder, error) {
 	path := stripe.FormatURLPath("/v1/climate/orders/%s/cancel", id)
 	order := &stripe.ClimateOrder{}
@@ -87,6 +106,10 @@ func List(params *stripe.ClimateOrderListParams) *Iter {
 
 // Lists all Climate order objects. The orders are returned sorted by creation date, with the
 // most recently created orders appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.ClimateOrderListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
