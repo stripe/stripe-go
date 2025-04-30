@@ -145,9 +145,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	customer, err := sc.V1Customers.Create(context.TODO(), params)
 	if err != nil {
-		fmt.Printf(w, "Could not create customer: %v", err)
+		fmt.Fprintf(w, "Could not create customer: %v", err)
+		return
 	}
-	fmt.Printf(w, "Customer created: %v", customer.ID)
+	fmt.Fprintf(w, "Customer created: %v", customer.ID)
 }
 ```
 
@@ -160,10 +161,7 @@ applied throughout the library for a given resource (like `Customer`).
 The recommended pattern to access all Stripe resources is using `stripe.Client`. Below are some examples of how to use it to access the `Customer` resource.
 
 ```go
-import (
-	"github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/client"
-)
+import "github.com/stripe/stripe-go/v82"
 
 // Setup
 sc := stripe.NewClient("sk_key")
@@ -190,13 +188,11 @@ for c, err := range sc.Customers.List(context.TODO(), &stripe.CustomerListParams
 ```
 
 ### `stripe.Client` vs legacy `client.API` pattern
-We introduced `stripe.Client` in v82.1 of the Go SDK. The legacy client pattern used prior to that version (using `client.API`) is still available to use but will be marked as deprecated soon. Review the [migration guide to use stripe.Client](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client) to use `stripe.Client` to move from the legacy pattern.
-
-Once the legacy pattern is deprecated, new API endpoints will only be accessible via `stripe.Client`. While there are no current plans to remove the legacy pattern for existing API endpoints, this may change in the future.
+We introduced `stripe.Client` in v82.1 of the Go SDK. The legacy client pattern used prior to that version (using `client.API`) is still available to use but is marked as deprecated. Review the [migration guide to use stripe.Client](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client) to help you move from the legacy pattern to `stripe.Client`.
 
 ### Without a Client (Legacy)
 
-The legacy pattern to access Stripe APIs is the "resource pattern" shown below. We plan to deprecate this pattern in a future release. Note also that this pattern is not available for Stripe's V2 APIs.
+The legacy pattern to access Stripe APIs is the "resource pattern" shown below. We plan to deprecate this pattern in a future release. Note also that Stripe's V2 APIs are not supported by this pattern.
 
 ```go
 import (
@@ -233,6 +229,7 @@ if err := i.Err(); err != nil {
 	// handle
 }
 ```
+## Other usage patterns
 
 ### Accessing the Last Response
 
