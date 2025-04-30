@@ -229,10 +229,13 @@ func TestEventDestinationPing(t *testing.T) {
 	defer testServer.Close()
 	event, err := sc.V2CoreEventDestinations.Ping("evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92", nil)
 	assert.Nil(t, err)
-	assert.Equal(t, event.GetBaseEvent().ID, "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92")
-	assert.Equal(t, event.GetBaseEvent().Type, "v2.core.event_destination.ping")
-	assert.True(t, event.GetBaseEvent().Created.Equal(timeNow))
-	assert.Equal(t, event.GetBaseEvent().Object, "v2.core.event")
+	ping, ok := event.(*stripe.V2CoreEventDestinationPingEvent)
+	assert.True(t, ok)
+	assert.Equal(t, ping.ID, "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92")
+	assert.Equal(t, ping.Type, "v2.core.event_destination.ping")
+	assert.True(t, ping.Created.Equal(timeNow))
+	assert.Equal(t, ping.Object, "v2.core.event")
+	assert.Equal(t, ping.RelatedObject.ID, "evt_test_65RM8sQH2oXnebF5Rpc16RJyfa2xSQLHJJh1sxm7H0KI92")
 }
 
 func TestEventDestinationList_SinglePage(t *testing.T) {

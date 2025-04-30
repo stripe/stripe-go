@@ -40,7 +40,8 @@ type CashBalanceSettingsParams struct {
 type CashBalanceRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand []*string `form:"expand"`
+	Expand   []*string `form:"expand"`
+	Customer *string   `form:"-"` // Included in URL
 }
 
 // AddExpand appends a new field to expand.
@@ -61,6 +62,7 @@ type CashBalanceUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// A hash of settings for this cash balance.
 	Settings *CashBalanceUpdateSettingsParams `form:"settings"`
+	Customer *string                          `form:"-"` // Included in URL
 }
 
 // AddExpand appends a new field to expand.

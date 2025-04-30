@@ -96,6 +96,57 @@ type FileParams struct {
 	Purpose *string `form:"purpose"`
 }
 
+// GetBody gets an appropriate multipart form payload to use in a request body
+// to create a new file.
+func (p *FileParams) GetBody() (*bytes.Buffer, string, error) {
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+
+	if p.Purpose != nil {
+		err := writer.WriteField("purpose", StringValue(p.Purpose))
+		if err != nil {
+			return nil, "", err
+		}
+	}
+
+	if p.FileReader != nil && p.Filename != nil {
+		part, err := writer.CreateFormFile(
+			"file", filepath.Base(StringValue(p.Filename)))
+
+		if err != nil {
+			return nil, "", err
+		}
+
+		_, err = io.Copy(part, p.FileReader)
+		if err != nil {
+			return nil, "", err
+		}
+	}
+
+	if p.FileLinkData != nil {
+		values := &form.Values{}
+		form.AppendToPrefixed(values, p.FileLinkData, []string{"file_link_data"})
+
+		params, err := url.ParseQuery(values.Encode())
+		if err != nil {
+			return nil, "", err
+		}
+		for key, values := range params {
+			err := writer.WriteField(key, values[0])
+			if err != nil {
+				return nil, "", err
+			}
+		}
+	}
+
+	err := writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+
+	return body, writer.Boundary(), nil
+}
+
 // AddExpand appends a new field to expand.
 func (p *FileParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
@@ -103,6 +154,7 @@ func (p *FileParams) AddExpand(f string) {
 
 // Optional parameters that automatically create a [file link](https://stripe.com/docs/api#file_links) for the newly created file.
 type FileCreateFileLinkDataParams struct {
+	Params `form:"*"`
 	// Set this to `true` to create a file link for the newly created file. Creating a link is only possible when the file's `purpose` is one of the following: `business_icon`, `business_logo`, `customer_signature`, `dispute_evidence`, `issuing_regulatory_reporting`, `pci_document`, `tax_document_user_upload`, or `terminal_reader_splashscreen`.
 	Create *bool `form:"create"`
 	// The link isn't available after this future timestamp.
@@ -136,6 +188,57 @@ type FileCreateParams struct {
 	FileLinkData *FileCreateFileLinkDataParams `form:"file_link_data"`
 	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
 	Purpose *string `form:"purpose"`
+}
+
+// GetBody gets an appropriate multipart form payload to use in a request body
+// to create a new file.
+func (p *FileCreateParams) GetBody() (*bytes.Buffer, string, error) {
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+
+	if p.Purpose != nil {
+		err := writer.WriteField("purpose", StringValue(p.Purpose))
+		if err != nil {
+			return nil, "", err
+		}
+	}
+
+	if p.FileReader != nil && p.Filename != nil {
+		part, err := writer.CreateFormFile(
+			"file", filepath.Base(StringValue(p.Filename)))
+
+		if err != nil {
+			return nil, "", err
+		}
+
+		_, err = io.Copy(part, p.FileReader)
+		if err != nil {
+			return nil, "", err
+		}
+	}
+
+	if p.FileLinkData != nil {
+		values := &form.Values{}
+		form.AppendToPrefixed(values, p.FileLinkData, []string{"file_link_data"})
+
+		params, err := url.ParseQuery(values.Encode())
+		if err != nil {
+			return nil, "", err
+		}
+		for key, values := range params {
+			err := writer.WriteField(key, values[0])
+			if err != nil {
+				return nil, "", err
+			}
+		}
+	}
+
+	err := writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+
+	return body, writer.Boundary(), nil
 }
 
 // AddExpand appends a new field to expand.
@@ -193,57 +296,6 @@ type FileList struct {
 	APIResource
 	ListMeta
 	Data []*File `json:"data"`
-}
-
-// GetBody gets an appropriate multipart form payload to use in a request body
-// to create a new file.
-func (p *FileParams) GetBody() (*bytes.Buffer, string, error) {
-	body := &bytes.Buffer{}
-	writer := multipart.NewWriter(body)
-
-	if p.Purpose != nil {
-		err := writer.WriteField("purpose", StringValue(p.Purpose))
-		if err != nil {
-			return nil, "", err
-		}
-	}
-
-	if p.FileReader != nil && p.Filename != nil {
-		part, err := writer.CreateFormFile(
-			"file", filepath.Base(StringValue(p.Filename)))
-
-		if err != nil {
-			return nil, "", err
-		}
-
-		_, err = io.Copy(part, p.FileReader)
-		if err != nil {
-			return nil, "", err
-		}
-	}
-
-	if p.FileLinkData != nil {
-		values := &form.Values{}
-		form.AppendToPrefixed(values, p.FileLinkData, []string{"file_link_data"})
-
-		params, err := url.ParseQuery(values.Encode())
-		if err != nil {
-			return nil, "", err
-		}
-		for key, values := range params {
-			err := writer.WriteField(key, values[0])
-			if err != nil {
-				return nil, "", err
-			}
-		}
-	}
-
-	err := writer.Close()
-	if err != nil {
-		return nil, "", err
-	}
-
-	return body, writer.Boundary(), nil
 }
 
 // UnmarshalJSON handles deserialization of a File.

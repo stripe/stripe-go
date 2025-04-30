@@ -2355,7 +2355,7 @@ type AccountUpdateExternalAccountParams struct {
 	Name     *string           `form:"name"`
 	Number   *string           `form:"number"`
 	Object   *string           `form:"object"`
-	// The routing number, sort code, or other country-appropriateinstitution number for the bank account. For US bank accounts, this is required and should bethe ACH routing number, not the wire routing number. If you are providing an IBAN for`account_number`, this field is not required.
+	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
 	RoutingNumber *string `form:"routing_number"`
 	Token         *string `form:"token"`
 }
@@ -2615,7 +2615,10 @@ type AccountUpdateParams struct {
 	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// ExternalAccount *[todo({"shape":"primitive","primitive":"string"} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountUpdateExternalAccountParams"}} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountUpdateExternalAccountParams"}} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountUpdateExternalAccountParams"}})] `form:"external_account"`
+	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
+	//
+	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
 	// A hash of account group type to tokens. These are account groups this account should be added to.
 	Groups *AccountUpdateGroupsParams `form:"groups"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
@@ -3542,7 +3545,7 @@ type AccountCreateExternalAccountParams struct {
 	Name     *string           `form:"name"`
 	Number   *string           `form:"number"`
 	Object   *string           `form:"object"`
-	// The routing number, sort code, or other country-appropriateinstitution number for the bank account. For US bank accounts, this is required and should bethe ACH routing number, not the wire routing number. If you are providing an IBAN for`account_number`, this field is not required.
+	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
 	RoutingNumber *string `form:"routing_number"`
 	Token         *string `form:"token"`
 }
@@ -3797,7 +3800,10 @@ type AccountCreateParams struct {
 	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// ExternalAccount *[todo({"shape":"primitive","primitive":"string"} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountCreateExternalAccountParams"}} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountCreateExternalAccountParams"}} | {"shape":"nullable","type":{"shape":"ref","namespaces":[],"ref":"AccountCreateExternalAccountParams"}})] `form:"external_account"`
+	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
+	//
+	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
 	// A hash of account group type to tokens. These are account groups this account should be added to.
 	Groups *AccountCreateGroupsParams `form:"groups"`
 	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
