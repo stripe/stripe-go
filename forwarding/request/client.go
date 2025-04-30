@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/forwarding/requests APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.ForwardingRequestParams) (*stripe.ForwardingRequest, err
 }
 
 // Creates a ForwardingRequest object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.ForwardingRequestParams) (*stripe.ForwardingRequest, error) {
 	request := &stripe.ForwardingRequest{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.ForwardingRequestParams) (*stripe.ForwardingR
 }
 
 // Retrieves a ForwardingRequest object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.ForwardingRequestParams) (*stripe.ForwardingRequest, error) {
 	path := stripe.FormatURLPath("/v1/forwarding/requests/%s", id)
 	request := &stripe.ForwardingRequest{}
@@ -52,6 +63,10 @@ func List(params *stripe.ForwardingRequestListParams) *Iter {
 }
 
 // Lists all ForwardingRequest objects.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.ForwardingRequestListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

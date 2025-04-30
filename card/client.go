@@ -16,6 +16,9 @@ import (
 )
 
 // Client is used to invoke card related APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -27,6 +30,10 @@ func New(params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 // New creates a new card
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -62,6 +69,10 @@ func Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 // Get returns the details of a card.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -87,6 +98,10 @@ func Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 // Update a specified source for a given customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -112,6 +127,10 @@ func Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 // Delete a specified source for a given customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params should not be nil")
@@ -134,6 +153,9 @@ func List(params *stripe.CardListParams) *Iter {
 	return getC().List(params)
 }
 
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CardListParams) *Iter {
 	var path string
 	var outerErr error

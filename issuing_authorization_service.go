@@ -43,9 +43,8 @@ func (c v1IssuingAuthorizationService) Update(ctx context.Context, id string, pa
 	return authorization, err
 }
 
-// [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// Deprecated: [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
 // This method is deprecated. Instead, [respond directly to the webhook request to approve an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
-// Deprecated:
 func (c v1IssuingAuthorizationService) Approve(ctx context.Context, id string, params *IssuingAuthorizationApproveParams) (*IssuingAuthorization, error) {
 	path := FormatURLPath("/v1/issuing/authorizations/%s/approve", id)
 	authorization := &IssuingAuthorization{}
@@ -57,9 +56,8 @@ func (c v1IssuingAuthorizationService) Approve(ctx context.Context, id string, p
 	return authorization, err
 }
 
-// [Deprecated] Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// Deprecated: [Deprecated] Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
 // This method is deprecated. Instead, [respond directly to the webhook request to decline an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
-// Deprecated:
 func (c v1IssuingAuthorizationService) Decline(ctx context.Context, id string, params *IssuingAuthorizationDeclineParams) (*IssuingAuthorization, error) {
 	path := FormatURLPath("/v1/issuing/authorizations/%s/decline", id)
 	authorization := &IssuingAuthorization{}

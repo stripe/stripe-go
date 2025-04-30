@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/accounts APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -36,6 +39,10 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 // If you've already collected information for your connected accounts, you [can prefill that information](https://stripe.com/docs/connect/best-practices#onboarding) when
 // creating the account. Connect Onboarding won't ask for the prefilled information during account onboarding.
 // You can prefill any information on the account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	account := &stripe.Account{}
 	err := c.B.Call(http.MethodPost, "/v1/accounts", c.Key, params, account)
@@ -60,6 +67,10 @@ func GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 // Retrieves the details of an account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	account := &stripe.Account{}
@@ -97,6 +108,10 @@ func Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 //
 // To update your own account, use the [Dashboard](https://dashboard.stripe.com/settings/account). Refer to our
 // [Connect](https://stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	account := &stripe.Account{}
@@ -122,6 +137,10 @@ func Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 // Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://stripe.com/api/balance/balance_object) are zero.
 //
 // If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	account := &stripe.Account{}
@@ -139,6 +158,10 @@ func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, err
 // With [Connect](https://stripe.com/connect), you can reject accounts that you have flagged as suspicious.
 //
 // Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/v1/accounts/%s/reject", id)
 	account := &stripe.Account{}
@@ -152,6 +175,10 @@ func List(params *stripe.AccountListParams) *Iter {
 }
 
 // Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect). If you're not a platform, the list is empty.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.AccountListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

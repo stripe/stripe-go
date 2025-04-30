@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/financial_connections/accounts APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func GetByID(id string, params *stripe.FinancialConnectionsAccountParams) (*stri
 }
 
 // Retrieves the details of an Financial Connections Account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) GetByID(id string, params *stripe.FinancialConnectionsAccountParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath("/v1/financial_connections/accounts/%s", id)
 	account := &stripe.FinancialConnectionsAccount{}
@@ -39,6 +46,10 @@ func Disconnect(id string, params *stripe.FinancialConnectionsAccountDisconnectP
 }
 
 // Disables your access to a Financial Connections Account. You will no longer be able to access data associated with the account (e.g. balances, transactions).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Disconnect(id string, params *stripe.FinancialConnectionsAccountDisconnectParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath(
 		"/v1/financial_connections/accounts/%s/disconnect", id)
@@ -53,6 +64,10 @@ func Refresh(id string, params *stripe.FinancialConnectionsAccountRefreshParams)
 }
 
 // Refreshes the data associated with a Financial Connections Account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Refresh(id string, params *stripe.FinancialConnectionsAccountRefreshParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath(
 		"/v1/financial_connections/accounts/%s/refresh", id)
@@ -67,6 +82,10 @@ func Subscribe(id string, params *stripe.FinancialConnectionsAccountSubscribePar
 }
 
 // Subscribes to periodic refreshes of data associated with a Financial Connections Account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Subscribe(id string, params *stripe.FinancialConnectionsAccountSubscribeParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath(
 		"/v1/financial_connections/accounts/%s/subscribe", id)
@@ -81,6 +100,10 @@ func Unsubscribe(id string, params *stripe.FinancialConnectionsAccountUnsubscrib
 }
 
 // Unsubscribes from periodic refreshes of data associated with a Financial Connections Account.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Unsubscribe(id string, params *stripe.FinancialConnectionsAccountUnsubscribeParams) (*stripe.FinancialConnectionsAccount, error) {
 	path := stripe.FormatURLPath(
 		"/v1/financial_connections/accounts/%s/unsubscribe", id)
@@ -95,6 +118,10 @@ func List(params *stripe.FinancialConnectionsAccountListParams) *Iter {
 }
 
 // Returns a list of Financial Connections Account objects.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.FinancialConnectionsAccountListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -134,6 +161,10 @@ func ListOwners(params *stripe.FinancialConnectionsAccountListOwnersParams) *Own
 }
 
 // Lists all owners for a given Account
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListOwners(listParams *stripe.FinancialConnectionsAccountListOwnersParams) *OwnerIter {
 	path := stripe.FormatURLPath(
 		"/v1/financial_connections/accounts/%s/owners", stripe.StringValue(

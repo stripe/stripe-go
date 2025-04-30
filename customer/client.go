@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/customers APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 }
 
 // Creates a new customer object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 	customer := &stripe.Customer{}
 	err := c.B.Call(http.MethodPost, "/v1/customers", c.Key, params, customer)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 }
 
 // Retrieves a Customer object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/v1/customers/%s", id)
 	customer := &stripe.Customer{}
@@ -55,6 +66,10 @@ func Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) 
 // Updates the specified customer by setting the values of the parameters passed. Any parameters not provided will be left unchanged. For example, if you pass the source parameter, that becomes the customer's active source (e.g., a card) to be used for all charges in the future. When you update a customer to a new valid card source by passing the source parameter: for each of the customer's current subscriptions, if the subscription bills automatically and is in the past_due state, then the latest open invoice for the subscription with automatic collection enabled will be retried. This retry will not count as an automatic retry, and will not affect the next regularly scheduled payment for the invoice. Changing the default_source for a customer will not trigger this behavior.
 //
 // This request accepts mostly the same arguments as the customer creation call.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/v1/customers/%s", id)
 	customer := &stripe.Customer{}
@@ -68,6 +83,10 @@ func Del(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 }
 
 // Permanently deletes a customer. It cannot be undone. Also immediately cancels any active subscriptions on the customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/v1/customers/%s", id)
 	customer := &stripe.Customer{}
@@ -85,6 +104,10 @@ func CreateFundingInstructions(id string, params *stripe.CustomerCreateFundingIn
 // Retrieve funding instructions for a customer cash balance. If funding instructions do not yet exist for the customer, new
 // funding instructions will be created. If funding instructions have already been created for a given customer, the same
 // funding instructions will be retrieved. In other words, we will return the same funding instructions each time.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) CreateFundingInstructions(id string, params *stripe.CustomerCreateFundingInstructionsParams) (*stripe.FundingInstructions, error) {
 	path := stripe.FormatURLPath("/v1/customers/%s/funding_instructions", id)
 	fundinginstructions := &stripe.FundingInstructions{}
@@ -98,6 +121,10 @@ func DeleteDiscount(id string, params *stripe.CustomerDeleteDiscountParams) (*st
 }
 
 // Removes the currently applied discount on a customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) DeleteDiscount(id string, params *stripe.CustomerDeleteDiscountParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/v1/customers/%s/discount", id)
 	customer := &stripe.Customer{}
@@ -111,6 +138,10 @@ func RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMeth
 }
 
 // Retrieves a PaymentMethod object for a given Customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) RetrievePaymentMethod(id string, params *stripe.CustomerRetrievePaymentMethodParams) (*stripe.PaymentMethod, error) {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/payment_methods/%s", stripe.StringValue(
@@ -126,6 +157,10 @@ func List(params *stripe.CustomerListParams) *Iter {
 }
 
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CustomerListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -165,6 +200,10 @@ func ListPaymentMethods(params *stripe.CustomerListPaymentMethodsParams) *Paymen
 }
 
 // Returns a list of PaymentMethods for a given Customer
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListPaymentMethods(listParams *stripe.CustomerListPaymentMethodsParams) *PaymentMethodIter {
 	path := stripe.FormatURLPath(
 		"/v1/customers/%s/payment_methods", stripe.StringValue(listParams.Customer))
@@ -212,6 +251,10 @@ func Search(params *stripe.CustomerSearchParams) *SearchIter {
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Search(params *stripe.CustomerSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {

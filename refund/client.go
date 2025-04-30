@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/refunds APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -46,6 +49,10 @@ func New(params *stripe.RefundParams) (*stripe.Refund, error) {
 // Once entirely refunded, a charge can't be refunded again.
 // This method will raise an error when called on an already-refunded charge,
 // or when trying to refund more money than is left on a charge.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	refund := &stripe.Refund{}
 	err := c.B.Call(http.MethodPost, "/v1/refunds", c.Key, params, refund)
@@ -58,6 +65,10 @@ func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 // Retrieves the details of an existing refund.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/v1/refunds/%s", id)
 	refund := &stripe.Refund{}
@@ -75,6 +86,10 @@ func Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 // Updates the refund that you specify by setting the values of the passed parameters. Any parameters that you don't provide remain unchanged.
 //
 // This request only accepts metadata as an argument.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/v1/refunds/%s", id)
 	refund := &stripe.Refund{}
@@ -92,6 +107,10 @@ func Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Refund, error
 // Cancels a refund with a status of requires_action.
 //
 // You can't cancel refunds in other states. Only refunds for payment methods that require customer action can enter the requires_action state.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/v1/refunds/%s/cancel", id)
 	refund := &stripe.Refund{}
@@ -105,6 +124,10 @@ func List(params *stripe.RefundListParams) *Iter {
 }
 
 // Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first. The 10 most recent refunds are always available by default on the Charge object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.RefundListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

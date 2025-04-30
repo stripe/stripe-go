@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/subscription_items APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error
 }
 
 // Adds a new item to an existing subscription. No existing items will be changed or replaced.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	subscriptionitem := &stripe.SubscriptionItem{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscription
 }
 
 // Retrieves the subscription item with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/v1/subscription_items/%s", id)
 	subscriptionitem := &stripe.SubscriptionItem{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscript
 }
 
 // Updates the plan or quantity of an item on a current subscription.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/v1/subscription_items/%s", id)
 	subscriptionitem := &stripe.SubscriptionItem{}
@@ -65,6 +80,10 @@ func Del(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscription
 }
 
 // Deletes an item from the subscription. Removing a subscription item from a subscription will not cancel the subscription.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/v1/subscription_items/%s", id)
 	subscriptionitem := &stripe.SubscriptionItem{}
@@ -78,6 +97,10 @@ func List(params *stripe.SubscriptionItemListParams) *Iter {
 }
 
 // Returns a list of your subscription items for a given subscription.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.SubscriptionItemListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

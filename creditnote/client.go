@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/credit_notes APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -48,6 +51,10 @@ func New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 //
 // You may issue multiple credit notes for an invoice. Each credit note will increment the invoice's pre_payment_credit_notes_amount
 // or post_payment_credit_notes_amount depending on its status at the time of credit note creation.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
 	err := c.B.Call(
@@ -61,6 +68,10 @@ func Get(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error)
 }
 
 // Retrieves the credit note object with the given identifier.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s", id)
 	creditnote := &stripe.CreditNote{}
@@ -74,6 +85,10 @@ func Update(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, err
 }
 
 // Updates an existing credit note.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.CreditNoteParams) (*stripe.CreditNote, error) {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s", id)
 	creditnote := &stripe.CreditNote{}
@@ -87,6 +102,10 @@ func Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error)
 }
 
 // Get a preview of a credit note without creating it.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
 	creditnote := &stripe.CreditNote{}
 	err := c.B.Call(
@@ -100,6 +119,10 @@ func VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNoteParams) (*
 }
 
 // Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNoteParams) (*stripe.CreditNote, error) {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s/void", id)
 	creditnote := &stripe.CreditNote{}
@@ -113,6 +136,10 @@ func List(params *stripe.CreditNoteListParams) *Iter {
 }
 
 // Returns a list of credit notes.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -152,6 +179,10 @@ func ListLines(params *stripe.CreditNoteListLinesParams) *LineItemIter {
 }
 
 // When retrieving a credit note, you'll get a lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLines(listParams *stripe.CreditNoteListLinesParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/credit_notes/%s/lines", stripe.StringValue(listParams.CreditNote))
@@ -176,6 +207,10 @@ func PreviewLines(params *stripe.CreditNotePreviewLinesParams) *LineItemIter {
 }
 
 // When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) PreviewLines(listParams *stripe.CreditNotePreviewLinesParams) *LineItemIter {
 	return &LineItemIter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/billing/credit_grants APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, e
 }
 
 // Creates a credit grant.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	creditgrant := &stripe.BillingCreditGrant{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.BillingCreditGrantParams) (*stripe.BillingCre
 }
 
 // Retrieves a credit grant.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	path := stripe.FormatURLPath("/v1/billing/credit_grants/%s", id)
 	creditgrant := &stripe.BillingCreditGrant{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.BillingCreditGrantParams) (*stripe.Billing
 }
 
 // Updates a credit grant.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.BillingCreditGrantParams) (*stripe.BillingCreditGrant, error) {
 	path := stripe.FormatURLPath("/v1/billing/credit_grants/%s", id)
 	creditgrant := &stripe.BillingCreditGrant{}
@@ -65,6 +80,10 @@ func Expire(id string, params *stripe.BillingCreditGrantExpireParams) (*stripe.B
 }
 
 // Expires a credit grant.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Expire(id string, params *stripe.BillingCreditGrantExpireParams) (*stripe.BillingCreditGrant, error) {
 	path := stripe.FormatURLPath("/v1/billing/credit_grants/%s/expire", id)
 	creditgrant := &stripe.BillingCreditGrant{}
@@ -78,6 +97,10 @@ func VoidGrant(id string, params *stripe.BillingCreditGrantVoidGrantParams) (*st
 }
 
 // Voids a credit grant.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) VoidGrant(id string, params *stripe.BillingCreditGrantVoidGrantParams) (*stripe.BillingCreditGrant, error) {
 	path := stripe.FormatURLPath("/v1/billing/credit_grants/%s/void", id)
 	creditgrant := &stripe.BillingCreditGrant{}
@@ -91,6 +114,10 @@ func List(params *stripe.BillingCreditGrantListParams) *Iter {
 }
 
 // Retrieve a list of credit grants.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.BillingCreditGrantListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

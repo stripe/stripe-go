@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/apps/secrets APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.AppsSecretParams) (*stripe.AppsSecret, error) {
 }
 
 // Create or replace a secret in the secret store.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.AppsSecretParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	err := c.B.Call(http.MethodPost, "/v1/apps/secrets", c.Key, params, secret)
@@ -38,6 +45,10 @@ func DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret
 }
 
 // Deletes a secret from the secret store by name and scope.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) DeleteWhere(params *stripe.AppsSecretDeleteWhereParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	err := c.B.Call(
@@ -51,6 +62,10 @@ func Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 }
 
 // Finds a secret in the secret store by name and scope.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Find(params *stripe.AppsSecretFindParams) (*stripe.AppsSecret, error) {
 	secret := &stripe.AppsSecret{}
 	err := c.B.Call(
@@ -64,6 +79,10 @@ func List(params *stripe.AppsSecretListParams) *Iter {
 }
 
 // List all secrets stored on the given scope.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.AppsSecretListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

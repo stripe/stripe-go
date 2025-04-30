@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/billing/meters APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 }
 
 // Creates a billing meter.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 	meter := &stripe.BillingMeter{}
 	err := c.B.Call(http.MethodPost, "/v1/billing/meters", c.Key, params, meter)
@@ -38,6 +45,10 @@ func Get(id string, params *stripe.BillingMeterParams) (*stripe.BillingMeter, er
 }
 
 // Retrieves a billing meter given an ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 	path := stripe.FormatURLPath("/v1/billing/meters/%s", id)
 	meter := &stripe.BillingMeter{}
@@ -51,6 +62,10 @@ func Update(id string, params *stripe.BillingMeterParams) (*stripe.BillingMeter,
 }
 
 // Updates a billing meter.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.BillingMeterParams) (*stripe.BillingMeter, error) {
 	path := stripe.FormatURLPath("/v1/billing/meters/%s", id)
 	meter := &stripe.BillingMeter{}
@@ -64,6 +79,10 @@ func Deactivate(id string, params *stripe.BillingMeterDeactivateParams) (*stripe
 }
 
 // When a meter is deactivated, no more meter events will be accepted for this meter. You can't attach a deactivated meter to a price.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Deactivate(id string, params *stripe.BillingMeterDeactivateParams) (*stripe.BillingMeter, error) {
 	path := stripe.FormatURLPath("/v1/billing/meters/%s/deactivate", id)
 	meter := &stripe.BillingMeter{}
@@ -77,6 +96,10 @@ func Reactivate(id string, params *stripe.BillingMeterReactivateParams) (*stripe
 }
 
 // When a meter is reactivated, events for this meter can be accepted and you can attach the meter to a price.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Reactivate(id string, params *stripe.BillingMeterReactivateParams) (*stripe.BillingMeter, error) {
 	path := stripe.FormatURLPath("/v1/billing/meters/%s/reactivate", id)
 	meter := &stripe.BillingMeter{}
@@ -90,6 +113,10 @@ func List(params *stripe.BillingMeterListParams) *Iter {
 }
 
 // Retrieve a list of billing meters.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.BillingMeterListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

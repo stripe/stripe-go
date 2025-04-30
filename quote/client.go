@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/quotes APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B        stripe.Backend
 	BUploads stripe.Backend
@@ -27,6 +30,10 @@ func New(params *stripe.QuoteParams) (*stripe.Quote, error) {
 }
 
 // A quote models prices and services for a customer. Default options for header, description, footer, and expires_at can be set in the dashboard via the [quote template](https://dashboard.stripe.com/settings/billing/quote).
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.QuoteParams) (*stripe.Quote, error) {
 	quote := &stripe.Quote{}
 	err := c.B.Call(http.MethodPost, "/v1/quotes", c.Key, params, quote)
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 }
 
 // Retrieves the quote with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s", id)
 	quote := &stripe.Quote{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 }
 
 // A quote models prices and services for a customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.QuoteParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s", id)
 	quote := &stripe.Quote{}
@@ -65,6 +80,10 @@ func Accept(id string, params *stripe.QuoteAcceptParams) (*stripe.Quote, error) 
 }
 
 // Accepts the specified quote.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Accept(id string, params *stripe.QuoteAcceptParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/accept", id)
 	quote := &stripe.Quote{}
@@ -78,6 +97,10 @@ func Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quote, error) 
 }
 
 // Cancels the quote.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.QuoteCancelParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/cancel", id)
 	quote := &stripe.Quote{}
@@ -91,6 +114,10 @@ func FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams) (*stripe.
 }
 
 // Finalizes the quote.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) FinalizeQuote(id string, params *stripe.QuoteFinalizeQuoteParams) (*stripe.Quote, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/finalize", id)
 	quote := &stripe.Quote{}
@@ -104,6 +131,10 @@ func PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 }
 
 // Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.stripe.com/quotes/overview#quote_pdf)
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/pdf", id)
 	stream := &stripe.APIStream{}
@@ -117,6 +148,10 @@ func List(params *stripe.QuoteListParams) *Iter {
 }
 
 // Returns a list of your quotes.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.QuoteListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -156,6 +191,10 @@ func ListComputedUpfrontLineItems(params *stripe.QuoteListComputedUpfrontLineIte
 }
 
 // When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListComputedUpfrontLineItems(listParams *stripe.QuoteListComputedUpfrontLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/computed_upfront_line_items", stripe.StringValue(
@@ -198,6 +237,10 @@ func ListLineItems(params *stripe.QuoteListLineItemsParams) *LineItemIter {
 }
 
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLineItems(listParams *stripe.QuoteListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/quotes/%s/line_items", stripe.StringValue(listParams.Quote))

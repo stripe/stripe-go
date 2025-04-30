@@ -16,6 +16,9 @@ import (
 )
 
 // Client is used to invoke /v1/accounts/{account}/persons APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -27,6 +30,10 @@ func New(params *stripe.PersonParams) (*stripe.Person, error) {
 }
 
 // Creates a new person.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.PersonParams) (*stripe.Person, error) {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/persons", stripe.StringValue(params.Account))
@@ -41,6 +48,10 @@ func Get(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 }
 
 // Retrieves an existing person.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
@@ -59,6 +70,10 @@ func Update(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 }
 
 // Updates an existing person.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/persons/%s", stripe.StringValue(params.Account), id)
@@ -73,6 +88,10 @@ func Del(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 }
 
 // Deletes an existing person's relationship to the account's legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the account_opener. If your integration is using the executive parameter, you cannot delete the only verified executive on file.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/persons/%s", stripe.StringValue(params.Account), id)
@@ -87,6 +106,10 @@ func List(params *stripe.PersonListParams) *Iter {
 }
 
 // Returns a list of people associated with the account's legal entity. The people are returned sorted by creation date, with the most recent people appearing first.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.PersonListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/accounts/%s/persons", stripe.StringValue(listParams.Account))

@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/coupons APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -30,6 +33,10 @@ func New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 // You can create coupons easily via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. Coupon creation is also accessible via the API if you need to create coupons on the fly.
 //
 // A coupon has either a percent_off or an amount_off and currency. If you set an amount_off, that amount will be subtracted from any invoice's subtotal. For example, an invoice with a subtotal of 100 will have a final total of 0 if a coupon with an amount_off of 200 is applied to it and an invoice with a subtotal of 300 will have a final total of 100 if a coupon with an amount_off of 200 is applied to it.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 	coupon := &stripe.Coupon{}
 	err := c.B.Call(http.MethodPost, "/v1/coupons", c.Key, params, coupon)
@@ -42,6 +49,10 @@ func Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 // Retrieves the coupon with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	path := stripe.FormatURLPath("/v1/coupons/%s", id)
 	coupon := &stripe.Coupon{}
@@ -55,6 +66,10 @@ func Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 // Updates the metadata of a coupon. Other coupon details (currency, duration, amount_off) are, by design, not editable.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	path := stripe.FormatURLPath("/v1/coupons/%s", id)
 	coupon := &stripe.Coupon{}
@@ -68,6 +83,10 @@ func Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 // You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	path := stripe.FormatURLPath("/v1/coupons/%s", id)
 	coupon := &stripe.Coupon{}
@@ -81,6 +100,10 @@ func List(params *stripe.CouponListParams) *Iter {
 }
 
 // Returns a list of your coupons.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.CouponListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

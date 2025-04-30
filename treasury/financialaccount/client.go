@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/treasury/financial_accounts APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinanci
 }
 
 // Creates a new FinancialAccount. Each connected account can have up to three FinancialAccounts by default.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	financialaccount := &stripe.TreasuryFinancialAccount{}
 	err := c.B.Call(
@@ -39,6 +46,10 @@ func Get(id string, params *stripe.TreasuryFinancialAccountParams) (*stripe.Trea
 }
 
 // Retrieves the details of a FinancialAccount.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	path := stripe.FormatURLPath("/v1/treasury/financial_accounts/%s", id)
 	financialaccount := &stripe.TreasuryFinancialAccount{}
@@ -52,6 +63,10 @@ func Update(id string, params *stripe.TreasuryFinancialAccountParams) (*stripe.T
 }
 
 // Updates the details of a FinancialAccount.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.TreasuryFinancialAccountParams) (*stripe.TreasuryFinancialAccount, error) {
 	path := stripe.FormatURLPath("/v1/treasury/financial_accounts/%s", id)
 	financialaccount := &stripe.TreasuryFinancialAccount{}
@@ -65,6 +80,10 @@ func Close(id string, params *stripe.TreasuryFinancialAccountCloseParams) (*stri
 }
 
 // Closes a FinancialAccount. A FinancialAccount can only be closed if it has a zero balance, has no pending InboundTransfers, and has canceled all attached Issuing cards.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Close(id string, params *stripe.TreasuryFinancialAccountCloseParams) (*stripe.TreasuryFinancialAccount, error) {
 	path := stripe.FormatURLPath("/v1/treasury/financial_accounts/%s/close", id)
 	financialaccount := &stripe.TreasuryFinancialAccount{}
@@ -78,6 +97,10 @@ func RetrieveFeatures(id string, params *stripe.TreasuryFinancialAccountRetrieve
 }
 
 // Retrieves Features information associated with the FinancialAccount.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) RetrieveFeatures(id string, params *stripe.TreasuryFinancialAccountRetrieveFeaturesParams) (*stripe.TreasuryFinancialAccountFeatures, error) {
 	path := stripe.FormatURLPath(
 		"/v1/treasury/financial_accounts/%s/features", id)
@@ -92,6 +115,10 @@ func UpdateFeatures(id string, params *stripe.TreasuryFinancialAccountUpdateFeat
 }
 
 // Updates the Features associated with a FinancialAccount.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) UpdateFeatures(id string, params *stripe.TreasuryFinancialAccountUpdateFeaturesParams) (*stripe.TreasuryFinancialAccountFeatures, error) {
 	path := stripe.FormatURLPath(
 		"/v1/treasury/financial_accounts/%s/features", id)
@@ -107,6 +134,10 @@ func List(params *stripe.TreasuryFinancialAccountListParams) *Iter {
 }
 
 // Returns a list of FinancialAccounts.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TreasuryFinancialAccountListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

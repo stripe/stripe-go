@@ -14,6 +14,9 @@ import (
 )
 
 // Client is used to invoke /v1/issuing/transactions APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -25,6 +28,10 @@ func CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceC
 }
 
 // Allows the user to capture an arbitrary amount, also known as a forced capture.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) CreateForceCapture(params *stripe.TestHelpersIssuingTransactionCreateForceCaptureParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
 	err := c.B.Call(
@@ -38,6 +45,10 @@ func CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnli
 }
 
 // Allows the user to refund an arbitrary amount, also known as a unlinked refund.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) CreateUnlinkedRefund(params *stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams) (*stripe.IssuingTransaction, error) {
 	transaction := &stripe.IssuingTransaction{}
 	err := c.B.Call(
@@ -51,6 +62,10 @@ func Refund(id string, params *stripe.TestHelpersIssuingTransactionRefundParams)
 }
 
 // Refund a test-mode Transaction.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Refund(id string, params *stripe.TestHelpersIssuingTransactionRefundParams) (*stripe.IssuingTransaction, error) {
 	path := stripe.FormatURLPath(
 		"/v1/test_helpers/issuing/transactions/%s/refund", id)

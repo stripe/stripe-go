@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/tax_ids APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 }
 
 // Creates a new tax_id object for a customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	path := "/v1/tax_ids"
 	if params.Customer != nil {
@@ -45,6 +52,10 @@ func Get(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 }
 
 // Retrieves the tax_id object with the given identifier.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	path := stripe.FormatURLPath(
 		"/v1/tax_ids/%s",
@@ -68,6 +79,10 @@ func Del(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 }
 
 // Deletes an existing tax_id object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Del(id string, params *stripe.TaxIDParams) (*stripe.TaxID, error) {
 	path := stripe.FormatURLPath(
 		"/v1/tax_ids/%s",
@@ -91,6 +106,10 @@ func List(params *stripe.TaxIDListParams) *Iter {
 }
 
 // Returns a list of tax IDs for a customer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TaxIDListParams) *Iter {
 	path := "/v1/tax_ids"
 	if listParams != nil && listParams.Customer != nil {

@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/invoice_payments APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func Get(id string, params *stripe.InvoicePaymentParams) (*stripe.InvoicePayment
 }
 
 // Retrieves the invoice payment with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.InvoicePaymentParams) (*stripe.InvoicePayment, error) {
 	path := stripe.FormatURLPath("/v1/invoice_payments/%s", id)
 	invoicepayment := &stripe.InvoicePayment{}
@@ -39,6 +46,10 @@ func List(params *stripe.InvoicePaymentListParams) *Iter {
 }
 
 // When retrieving an invoice, there is an includable payments property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of payments.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.InvoicePaymentListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {

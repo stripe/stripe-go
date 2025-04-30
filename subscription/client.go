@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/subscriptions APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -38,6 +41,10 @@ func New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 //
 // To start subscriptions where the first invoice always begins in a draft status, use [subscription schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules#managing) instead.
 // Schedules provide the flexibility to model more complex billing configurations that change over time.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	subscription := &stripe.Subscription{}
 	err := c.B.Call(
@@ -51,6 +58,10 @@ func Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, er
 }
 
 // Retrieves the subscription with the given ID.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
 	subscription := &stripe.Subscription{}
@@ -100,6 +111,10 @@ func Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription,
 // If you don't want to prorate, set the proration_behavior option to none. With this option, the customer is billed 100 on May 1 and 200 on June 1. Similarly, if you set proration_behavior to none when switching between different billing intervals (for example, from monthly to yearly), we don't generate any credits for the old subscription's unused time. We still reset the billing date and bill immediately for the new subscription.
 //
 // Updating the quantity on a subscription many times in an hour may result in [rate limiting. If you need to bill for a frequently changing quantity, consider integrating <a href="/docs/billing/subscriptions/usage-based">usage-based billing](https://stripe.com/docs/rate-limits) instead.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
 	subscription := &stripe.Subscription{}
@@ -121,6 +136,10 @@ func Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscri
 // Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://stripe.com/docs/api#delete_invoiceitem). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.
 //
 // By default, upon subscription cancellation, Stripe stops automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
 	subscription := &stripe.Subscription{}
@@ -134,6 +153,10 @@ func DeleteDiscount(id string, params *stripe.SubscriptionDeleteDiscountParams) 
 }
 
 // Removes the currently applied discount on a subscription.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) DeleteDiscount(id string, params *stripe.SubscriptionDeleteDiscountParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s/discount", id)
 	subscription := &stripe.Subscription{}
@@ -147,6 +170,10 @@ func Resume(id string, params *stripe.SubscriptionResumeParams) (*stripe.Subscri
 }
 
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Resume(id string, params *stripe.SubscriptionResumeParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s/resume", id)
 	subscription := &stripe.Subscription{}
@@ -160,6 +187,10 @@ func List(params *stripe.SubscriptionListParams) *Iter {
 }
 
 // By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.SubscriptionListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -205,6 +236,10 @@ func Search(params *stripe.SubscriptionSearchParams) *SearchIter {
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Search(params *stripe.SubscriptionSearchParams) *SearchIter {
 	return &SearchIter{
 		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {

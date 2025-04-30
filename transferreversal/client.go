@@ -16,6 +16,9 @@ import (
 )
 
 // Client is used to invoke /v1/transfers/{id}/reversals APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -35,6 +38,10 @@ func New(params *stripe.TransferReversalParams) (*stripe.TransferReversal, error
 // When reversing transfers, you can optionally reverse part of the transfer. You can do so as many times as you wish until the entire transfer has been reversed.
 //
 // Once entirely reversed, a transfer can't be reversed again. This method will return an error when called on an already-reversed transfer, or when trying to reverse more money than is left on a transfer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) New(params *stripe.TransferReversalParams) (*stripe.TransferReversal, error) {
 	path := stripe.FormatURLPath(
 		"/v1/transfers/%s/reversals", stripe.StringValue(params.ID))
@@ -49,6 +56,10 @@ func Get(id string, params *stripe.TransferReversalParams) (*stripe.TransferReve
 }
 
 // By default, you can see the 10 most recent reversals stored directly on the transfer object, but you can also retrieve details about a specific reversal stored on the transfer.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TransferReversalParams) (*stripe.TransferReversal, error) {
 	if params == nil {
 		return nil, fmt.Errorf(
@@ -71,6 +82,10 @@ func Update(id string, params *stripe.TransferReversalParams) (*stripe.TransferR
 // Updates the specified reversal by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 //
 // This request only accepts metadata and description as arguments.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Update(id string, params *stripe.TransferReversalParams) (*stripe.TransferReversal, error) {
 	path := stripe.FormatURLPath(
 		"/v1/transfers/%s/reversals/%s", stripe.StringValue(params.ID), id)
@@ -85,6 +100,10 @@ func List(params *stripe.TransferReversalListParams) *Iter {
 }
 
 // You can see a list of the reversals belonging to a specific transfer. Note that the 10 most recent reversals are always available by default on the transfer object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional reversals.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) List(listParams *stripe.TransferReversalListParams) *Iter {
 	path := stripe.FormatURLPath(
 		"/v1/transfers/%s/reversals", stripe.StringValue(listParams.ID))

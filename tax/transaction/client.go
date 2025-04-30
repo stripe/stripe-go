@@ -15,6 +15,9 @@ import (
 )
 
 // Client is used to invoke /v1/tax/transactions APIs.
+// Deprecated: Use [stripe.Client] instead. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -26,6 +29,10 @@ func Get(id string, params *stripe.TaxTransactionParams) (*stripe.TaxTransaction
 }
 
 // Retrieves a Tax Transaction object.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) Get(id string, params *stripe.TaxTransactionParams) (*stripe.TaxTransaction, error) {
 	path := stripe.FormatURLPath("/v1/tax/transactions/%s", id)
 	transaction := &stripe.TaxTransaction{}
@@ -39,6 +46,10 @@ func CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationPar
 }
 
 // Creates a Tax Transaction from a calculation, if that calculation hasn't expired. Calculations expire after 90 days.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) CreateFromCalculation(params *stripe.TaxTransactionCreateFromCalculationParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
 	err := c.B.Call(
@@ -52,6 +63,10 @@ func CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.
 }
 
 // Partially or fully reverses a previously created Transaction.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) CreateReversal(params *stripe.TaxTransactionCreateReversalParams) (*stripe.TaxTransaction, error) {
 	transaction := &stripe.TaxTransaction{}
 	err := c.B.Call(
@@ -65,6 +80,10 @@ func ListLineItems(params *stripe.TaxTransactionListLineItemsParams) *LineItemIt
 }
 
 // Retrieves the line items of a committed standalone transaction as a collection.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
 func (c Client) ListLineItems(listParams *stripe.TaxTransactionListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath(
 		"/v1/tax/transactions/%s/line_items", stripe.StringValue(
