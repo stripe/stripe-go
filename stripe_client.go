@@ -476,7 +476,7 @@ type ClientOption func(*clientConfig)
 
 // WithBackends allows for setting a custom [*Backends] struct when creating a new client.
 // This is useful for testing or when you want to use a different backend constructed
-// from [GetBackendWithConfig].
+// from [NewBackendsWithConfig].
 func WithBackends(backends *Backends) ClientOption {
 	return func(c *clientConfig) {
 		c.backends = backends
