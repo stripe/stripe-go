@@ -526,7 +526,7 @@ type CustomerCreateParams struct {
 	// The customer's tax exemption. One of `none`, `exempt`, or `reverse`.
 	TaxExempt *string `form:"tax_exempt"`
 	// The customer's tax IDs.
-	TaxIDData []*CustomerCreateTaxIDDataParams `form:"tax_id_data"`
+	TaxIDData []*CustomerCreateTaxIDDatumParams `form:"tax_id_data"`
 	// ID of the test clock to attach to the customer.
 	TestClock *string `form:"test_clock"`
 	Validate  *bool   `form:"validate"`
