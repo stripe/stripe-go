@@ -44,6 +44,8 @@ func (c v1CheckoutSessionService) Retrieve(ctx context.Context, id string, param
 }
 
 // Updates a Checkout Session object.
+//
+// Related guide: [Dynamically update Checkout](https://stripe.com/payments/checkout/dynamic-updates)
 func (c v1CheckoutSessionService) Update(ctx context.Context, id string, params *CheckoutSessionUpdateParams) (*CheckoutSession, error) {
 	path := FormatURLPath("/v1/checkout/sessions/%s", id)
 	session := &CheckoutSession{}

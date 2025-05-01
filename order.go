@@ -16,14 +16,6 @@ const (
 	OrderAutomaticTaxStatusRequiresLocationInputs OrderAutomaticTaxStatus = "requires_location_inputs"
 )
 
-// The type of credit to apply to the order, only `gift_card` currently supported.
-type OrderCreditType string
-
-// List of values that OrderCreditType can take
-const (
-	OrderCreditTypeGiftCard OrderCreditType = "gift_card"
-)
-
 // Payment schedule for the mandate.
 type OrderPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
@@ -681,14 +673,6 @@ type OrderBillingDetailsParams struct {
 	Phone *string `form:"phone"`
 }
 
-// The credits to apply to the order, only `gift_card` currently supported.
-type OrderCreditParams struct {
-	// The gift card to apply to the order.
-	GiftCard *string `form:"gift_card"`
-	// The type of credit to apply to the order, only `gift_card` currently supported.
-	Type *string `form:"type"`
-}
-
 // The coupons, promotion codes, and/or discounts to apply to the order.
 type OrderDiscountParams struct {
 	// ID of the coupon to create a new discount for.
@@ -1325,8 +1309,6 @@ type OrderParams struct {
 	AutomaticTax *OrderAutomaticTaxParams `form:"automatic_tax"`
 	// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
 	BillingDetails *OrderBillingDetailsParams `form:"billing_details"`
-	// The credits to apply to the order, only `gift_card` currently supported. Pass the empty string `""` to unset this field.
-	Credits []*OrderCreditParams `form:"credits"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 	// The customer associated with this order.
@@ -1434,14 +1416,6 @@ type OrderCreateBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// The billing phone number provided by the customer.
 	Phone *string `form:"phone"`
-}
-
-// The credits to apply to the order, only `gift_card` currently supported.
-type OrderCreateCreditParams struct {
-	// The gift card to apply to the order.
-	GiftCard *string `form:"gift_card"`
-	// The type of credit to apply to the order, only `gift_card` currently supported.
-	Type *string `form:"type"`
 }
 
 // The coupons, promotion codes, and/or discounts to apply to the order.
@@ -2078,8 +2052,6 @@ type OrderCreateParams struct {
 	AutomaticTax *OrderCreateAutomaticTaxParams `form:"automatic_tax"`
 	// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
 	BillingDetails *OrderCreateBillingDetailsParams `form:"billing_details"`
-	// The credits to apply to the order, only `gift_card` currently supported.
-	Credits []*OrderCreateCreditParams `form:"credits"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 	// The customer associated with this order.
@@ -2148,14 +2120,6 @@ type OrderUpdateBillingDetailsParams struct {
 	Name *string `form:"name"`
 	// The billing phone number provided by the customer.
 	Phone *string `form:"phone"`
-}
-
-// The credits to apply to the order, only `gift_card` currently supported. Pass the empty string `""` to unset this field.
-type OrderUpdateCreditParams struct {
-	// The gift card to apply to the order.
-	GiftCard *string `form:"gift_card"`
-	// The type of credit to apply to the order, only `gift_card` currently supported.
-	Type *string `form:"type"`
 }
 
 // The coupons, promotion codes, and/or discounts to apply to the order. Pass the empty string `""` to unset this field.
@@ -2794,8 +2758,6 @@ type OrderUpdateParams struct {
 	AutomaticTax *OrderUpdateAutomaticTaxParams `form:"automatic_tax"`
 	// Billing details for the customer. If a customer is provided, this will be automatically populated with values from that customer if override values are not provided.
 	BillingDetails *OrderUpdateBillingDetailsParams `form:"billing_details"`
-	// The credits to apply to the order, only `gift_card` currently supported. Pass the empty string `""` to unset this field.
-	Credits []*OrderUpdateCreditParams `form:"credits"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 	// The customer associated with this order.
@@ -2853,24 +2815,6 @@ type OrderBillingDetails struct {
 	Name string `json:"name"`
 	// Billing phone number for the order (including extension).
 	Phone string `json:"phone"`
-}
-
-// Details for a gift card.
-type OrderCreditGiftCard struct {
-	// The token of the gift card applied to the order
-	Card string `json:"card"`
-}
-
-// The credits applied to the Order. At most 10 credits can be applied to an Order.
-type OrderCredit struct {
-	// The amount of this credit to apply to the order.
-	Amount int64 `json:"amount"`
-	// Details for a gift card.
-	GiftCard *OrderCreditGiftCard `json:"gift_card"`
-	// Line items on this order that are ineligible for this credit
-	IneligibleLineItems []string `json:"ineligible_line_items"`
-	// The type of credit to apply to the order, only `gift_card` currently supported.
-	Type OrderCreditType `json:"type"`
 }
 
 // Indicates whether order has been opted into using [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods) to manage payment method types.
@@ -3267,7 +3211,6 @@ type OrderTotalDetailsBreakdown struct {
 	Taxes []*OrderTotalDetailsBreakdownTax `json:"taxes"`
 }
 type OrderTotalDetails struct {
-	AmountCredit int64 `json:"amount_credit"`
 	// This is the sum of all the discounts.
 	AmountDiscount int64 `json:"amount_discount"`
 	// This is the sum of all the shipping amounts.
@@ -3284,7 +3227,6 @@ type OrderTotalDetails struct {
 // Related guide: [Orders overview](https://stripe.com/docs/orders)
 type Order struct {
 	APIResource
-	AmountRemaining int64 `json:"amount_remaining"`
 	// Order cost before any discounts or taxes are applied. A positive integer representing the subtotal of the order in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency).
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// Total order cost after discounts and taxes are applied. A positive integer representing the cost of the order in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). To submit an order, the total must be either 0 or at least $0.50 USD or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts).
@@ -3302,8 +3244,6 @@ type Order struct {
 	ClientSecret string `json:"client_secret"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
-	// The credits applied to the Order. At most 10 credits can be applied to an Order.
-	Credits []*OrderCredit `json:"credits"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 	// The customer which this orders belongs to.

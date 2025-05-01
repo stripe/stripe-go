@@ -28,7 +28,7 @@ const (
 	SubscriptionAutomaticTaxLiabilityTypeSelf    SubscriptionAutomaticTaxLiabilityType = "self"
 )
 
-// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionBillingMode string
 
 // List of values that SubscriptionBillingMode can take
@@ -364,7 +364,7 @@ type SubscriptionParams struct {
 	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
@@ -1791,7 +1791,7 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorConfig    *SubscriptionCreateBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                             `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
@@ -2145,7 +2145,7 @@ type Subscription struct {
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The fixed values used to calculate the `billing_cycle_anchor`.
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode SubscriptionBillingMode `json:"billing_mode"`
 	// A date in the future at which the subscription will automatically get canceled
 	CancelAt int64 `json:"cancel_at"`

@@ -122,10 +122,6 @@ type Client struct {
 	V1ForwardingRequests *v1ForwardingRequestService
 	// V1FxQuotes is the service used to invoke /v1/fx_quotes APIs.
 	V1FxQuotes *v1FxQuoteService
-	// V1GiftCardsCards is the service used to invoke /v1/gift_cards/cards APIs.
-	V1GiftCardsCards *v1GiftCardsCardService
-	// V1GiftCardsTransactions is the service used to invoke /v1/gift_cards/transactions APIs.
-	V1GiftCardsTransactions *v1GiftCardsTransactionService
 	// V1IdentityVerificationReports is the service used to invoke /v1/identity/verification_reports APIs.
 	V1IdentityVerificationReports *v1IdentityVerificationReportService
 	// V1IdentityVerificationSessions is the service used to invoke /v1/identity/verification_sessions APIs.
@@ -468,8 +464,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1FinancialConnectionsTransactions = &v1FinancialConnectionsTransactionService{B: backends.API, Key: key}
 	client.V1ForwardingRequests = &v1ForwardingRequestService{B: backends.API, Key: key}
 	client.V1FxQuotes = &v1FxQuoteService{B: backends.API, Key: key}
-	client.V1GiftCardsCards = &v1GiftCardsCardService{B: backends.API, Key: key}
-	client.V1GiftCardsTransactions = &v1GiftCardsTransactionService{B: backends.API, Key: key}
 	client.V1IdentityVerificationReports = &v1IdentityVerificationReportService{B: backends.API, Key: key}
 	client.V1IdentityVerificationSessions = &v1IdentityVerificationSessionService{B: backends.API, Key: key}
 	client.V1InvoiceItems = &v1InvoiceItemService{B: backends.API, Key: key}

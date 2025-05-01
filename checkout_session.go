@@ -2683,7 +2683,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
@@ -2820,7 +2820,7 @@ type CheckoutSessionParams struct {
 	//
 	// To update an existing line item, specify its `id` along with the new values of the fields to update.
 	//
-	// To add a new line item, specify a `price` and `quantity`.
+	// To add a new line item, specify one of `price` or `price_data` and `quantity`.
 	//
 	// To remove an existing line item, omit the line item's ID from the retransmitted array.
 	//
@@ -4292,7 +4292,7 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
@@ -4617,7 +4617,7 @@ type CheckoutSessionUpdateLineItemPriceDataParams struct {
 //
 // To update an existing line item, specify its `id` along with the new values of the fields to update.
 //
-// To add a new line item, specify a `price` and `quantity`.
+// To add a new line item, specify one of `price` or `price_data` and `quantity`.
 //
 // To remove an existing line item, omit the line item's ID from the retransmitted array.
 //
@@ -4633,7 +4633,7 @@ type CheckoutSessionUpdateLineItemParams struct {
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionUpdateLineItemPriceDataParams `form:"price_data"`
-	// The quantity of the line item being purchased.
+	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity"`
 	// The [tax rates](https://stripe.com/docs/api/tax_rates) which apply to this line item.
 	TaxRates []*string `form:"tax_rates"`
@@ -4726,6 +4726,8 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 }
 
 // Updates a Checkout Session object.
+//
+// Related guide: [Dynamically update Checkout](https://stripe.com/payments/checkout/dynamic-updates)
 type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
 	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
@@ -4740,7 +4742,7 @@ type CheckoutSessionUpdateParams struct {
 	//
 	// To update an existing line item, specify its `id` along with the new values of the fields to update.
 	//
-	// To add a new line item, specify a `price` and `quantity`.
+	// To add a new line item, specify one of `price` or `price_data` and `quantity`.
 	//
 	// To remove an existing line item, omit the line item's ID from the retransmitted array.
 	//

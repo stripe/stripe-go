@@ -6,6 +6,17 @@
 
 package stripe
 
+type PrivacyRedactionJobValidationErrorCode string
+
+// List of values that PrivacyRedactionJobValidationErrorCode can take
+const (
+	PrivacyRedactionJobValidationErrorCodeInvalidCascadingSource PrivacyRedactionJobValidationErrorCode = "invalid_cascading_source"
+	PrivacyRedactionJobValidationErrorCodeInvalidFilePurpose     PrivacyRedactionJobValidationErrorCode = "invalid_file_purpose"
+	PrivacyRedactionJobValidationErrorCodeInvalidState           PrivacyRedactionJobValidationErrorCode = "invalid_state"
+	PrivacyRedactionJobValidationErrorCodeLockedByOtherJob       PrivacyRedactionJobValidationErrorCode = "locked_by_other_job"
+	PrivacyRedactionJobValidationErrorCodeTooManyObjects         PrivacyRedactionJobValidationErrorCode = "too_many_objects"
+)
+
 // List validation errors method
 type PrivacyRedactionJobValidationErrorListParams struct {
 	ListParams `form:"*"`
@@ -21,8 +32,8 @@ func (p *PrivacyRedactionJobValidationErrorListParams) AddExpand(f string) {
 
 // Validation errors
 type PrivacyRedactionJobValidationError struct {
-	Code           string            `json:"code"`
-	ErroringObject map[string]string `json:"erroring_object"`
+	Code           PrivacyRedactionJobValidationErrorCode `json:"code"`
+	ErroringObject map[string]string                      `json:"erroring_object"`
 	// Unique identifier for the object.
 	ID      string `json:"id"`
 	Message string `json:"message"`
