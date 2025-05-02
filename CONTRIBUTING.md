@@ -13,7 +13,7 @@ All contributors must sign the Contributor License Agreement (CLA) before we can
 
 This project has a combination of manually maintained code and code generated from our private code generator. If your contribution involves changes to generated code, please call this out in the issue or pull request as we will likely need to make a change to our code generator before accepting the contribution.
 
-To identify files with purely generated code, look for the comment `File generated from our OpenAPI spec.` at the start of the file. Generated blocks of code within hand-written files will be between comments that say `The beginning of the section generated from our OpenAPI spec` and `The end of the section generated from our OpenAPI spec`.
+To identify files with purely generated code, look for the comment `File generated from our OpenAPI spec.` at the start of the file. Generated blocks of code within hand-written files will be between comments that say `The beginning of the section generated from our OpenAPI spec` and `The end of the section generated from our OpenAPI spec`. 
 
 ## Compatibility with supported language and runtime versions
 
