@@ -963,7 +963,7 @@ type QuotePreviewInvoice struct {
 	Footer string `json:"footer"`
 	// Details of the invoice that was cloned. See the [revision documentation](https://stripe.com/docs/invoicing/invoice-revisions) for more details.
 	FromInvoice *QuotePreviewInvoiceFromInvoice `json:"from_invoice"`
-	// Unique identifier for the object. This property is always present unless the invoice is an upcoming invoice. See [Retrieve an upcoming invoice](https://stripe.com/docs/api/invoices/upcoming) for more details.
+	// Unique identifier for the object. For preview invoices created using the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint, this id will be prefixed with `upcoming_in`.
 	ID     string                     `json:"id"`
 	Issuer *QuotePreviewInvoiceIssuer `json:"issuer"`
 	// The error encountered during the previous attempt to finalize the invoice. This field is cleared when the invoice is successfully finalized.
