@@ -1133,6 +1133,14 @@ const (
 	PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethodManual PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod = "manual"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsSatispayCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsSatispayCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsSatispayCaptureMethodManual PaymentIntentPaymentMethodOptionsSatispayCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -2906,6 +2914,16 @@ type PaymentIntentPaymentMethodOptionsSamsungPayParams struct {
 	CaptureMethod *string `form:"capture_method"`
 }
 
+// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+type PaymentIntentPaymentMethodOptionsSatispayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -3198,6 +3216,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	RevolutPay *PaymentIntentPaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this sub-hash contains details about the Samsung Pay payment method options.
 	SamsungPay *PaymentIntentPaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+	Satispay *PaymentIntentPaymentMethodOptionsSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
@@ -5942,6 +5962,16 @@ type PaymentIntentCreatePaymentMethodOptionsSamsungPayParams struct {
 	CaptureMethod *string `form:"capture_method"`
 }
 
+// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+type PaymentIntentCreatePaymentMethodOptionsSatispayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -6234,6 +6264,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	RevolutPay *PaymentIntentCreatePaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this sub-hash contains details about the Samsung Pay payment method options.
 	SamsungPay *PaymentIntentCreatePaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+	Satispay *PaymentIntentCreatePaymentMethodOptionsSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
@@ -7904,6 +7936,16 @@ type PaymentIntentUpdatePaymentMethodOptionsSamsungPayParams struct {
 	CaptureMethod *string `form:"capture_method"`
 }
 
+// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsSatispayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -8196,6 +8238,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	RevolutPay *PaymentIntentUpdatePaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this sub-hash contains details about the Samsung Pay payment method options.
 	SamsungPay *PaymentIntentUpdatePaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+	Satispay *PaymentIntentUpdatePaymentMethodOptionsSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
@@ -9496,6 +9540,10 @@ type PaymentIntentPaymentMethodOptionsSamsungPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod `json:"capture_method"`
 }
+type PaymentIntentPaymentMethodOptionsSatispay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsSatispayCaptureMethod `json:"capture_method"`
+}
 type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
 	ReferencePrefix string `json:"reference_prefix"`
@@ -9683,6 +9731,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Rechnung         *PaymentIntentPaymentMethodOptionsRechnung         `json:"rechnung"`
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SamsungPay       *PaymentIntentPaymentMethodOptionsSamsungPay       `json:"samsung_pay"`
+	Satispay         *PaymentIntentPaymentMethodOptionsSatispay         `json:"satispay"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Shopeepay        *PaymentIntentPaymentMethodOptionsShopeepay        `json:"shopeepay"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
