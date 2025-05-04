@@ -351,6 +351,14 @@ const (
 	PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage = "off_session"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsBillieCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsBillieCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsBillieCaptureMethodManual PaymentIntentPaymentMethodOptionsBillieCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -9015,7 +9023,10 @@ type PaymentIntentPaymentMethodOptionsBancontact struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage `json:"setup_future_usage"`
 }
-type PaymentIntentPaymentMethodOptionsBillie struct{}
+type PaymentIntentPaymentMethodOptionsBillie struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsBillieCaptureMethod `json:"capture_method"`
+}
 type PaymentIntentPaymentMethodOptionsBLIK struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
