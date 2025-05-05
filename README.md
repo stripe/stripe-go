@@ -485,9 +485,9 @@ func UseMockedStripeClient(t *testing.T) {
 }
 ```
 
-### Beta SDKs
+### Public Preview SDKs
 
-Stripe has features in the beta phase that can be accessed via the beta version of this package.
+Stripe has features in the public preview phase that can be accessed via the beta version of this package.
 We would love for you to try these and share feedback with us before these features reach the stable phase.
 To install a beta version of stripe-go add the following `replace` directive to your `go.mod` file:
 
@@ -498,9 +498,9 @@ replace github.com/stripe/stripe-go/v82 =>  github.com/stripe/stripe-go/v82@beta
 > **Note**
 > There can be breaking changes between beta versions.
 
-We highly recommend keeping an eye on when the beta feature you are interested in goes from beta to stable so that you can move from using a beta version of the SDK to the stable version.
+We highly recommend keeping an eye on when the preview feature you are interested in goes from preview to stable so that you can move from using a beta version of the SDK to the stable version.
 
-If your beta feature requires a `Stripe-Version` header to be sent, set the `stripe.APIVersion` field using the `stripe.AddBetaVersion` function to set it:
+If your preview feature requires a `Stripe-Version` header to be sent, set the `stripe.APIVersion` field using the `stripe.AddBetaVersion` function to set it:
 
 > **Note**
 > The `APIVersion` can only be set in beta versions of the library.
