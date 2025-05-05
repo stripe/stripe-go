@@ -78,7 +78,9 @@ type FinancialConnectionsInstitutionFeatures struct {
 // An institution represents a financial institution to which an end user can connect using the Financial Connections authentication flow.
 type FinancialConnectionsInstitution struct {
 	APIResource
-	Features *FinancialConnectionsInstitutionFeatures `json:"features"`
+	// The list of countries supported by this institution, formatted as ISO country codes.
+	Countries []string                                 `json:"countries"`
+	Features  *FinancialConnectionsInstitutionFeatures `json:"features"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
