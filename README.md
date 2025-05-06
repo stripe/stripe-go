@@ -508,9 +508,8 @@ stripe.AddBetaVersion("feature_beta", "v3")
 
 If you would like to send a request to an API that is:
 
-- not yet supported in stripe-go (like any `/v2/...` endpoints), or
-- undocumented (like a private beta), or
-- public, but you prefer to bypass the method definitions in the library and specify your request details directly
+- undocumented (like a preview feature), or
+- you prefer to bypass the method definitions in the library and specify your request details directly
 
 You can use the `rawrequest` package:
 
