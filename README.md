@@ -489,7 +489,7 @@ func UseMockedStripeClient(t *testing.T) {
 
 Stripe has features in the [public preview phase](https://docs.stripe.com/release-phases) that can be accessed via the beta version of this package.
 We would love for you to try these as we incrementally release new features and improve them based on your feedback.
-To install the public preview SDK, add the following `replace` directive to your `go.mod` file:
+To install the latest public preview SDK, add the following `replace` directive to your `go.mod` file:
 
 ```
 replace github.com/stripe/stripe-go/v82 =>  github.com/stripe/stripe-go/v82@beta
