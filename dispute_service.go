@@ -21,12 +21,12 @@ type v1DisputeService struct {
 
 // Retrieves the dispute with the given ID.
 func (c v1DisputeService) Retrieve(ctx context.Context, id string, params *DisputeRetrieveParams) (*Dispute, error) {
-	path := FormatURLPath("/v1/disputes/%s", id)
-	dispute := &Dispute{}
 	if params == nil {
 		params = &DisputeRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/disputes/%s", id)
+	dispute := &Dispute{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, dispute)
 	return dispute, err
 }
@@ -35,12 +35,12 @@ func (c v1DisputeService) Retrieve(ctx context.Context, id string, params *Dispu
 //
 // Depending on your dispute type, different evidence fields will give you a better chance of winning your dispute. To figure out which evidence fields to provide, see our [guide to dispute types](https://stripe.com/docs/disputes/categories).
 func (c v1DisputeService) Update(ctx context.Context, id string, params *DisputeUpdateParams) (*Dispute, error) {
-	path := FormatURLPath("/v1/disputes/%s", id)
-	dispute := &Dispute{}
 	if params == nil {
 		params = &DisputeUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/disputes/%s", id)
+	dispute := &Dispute{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
 	return dispute, err
 }

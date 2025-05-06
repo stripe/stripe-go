@@ -21,11 +21,11 @@ type v1TerminalConfigurationService struct {
 
 // Creates a new Configuration object.
 func (c v1TerminalConfigurationService) Create(ctx context.Context, params *TerminalConfigurationCreateParams) (*TerminalConfiguration, error) {
-	configuration := &TerminalConfiguration{}
 	if params == nil {
 		params = &TerminalConfigurationCreateParams{}
 	}
 	params.Context = ctx
+	configuration := &TerminalConfiguration{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/terminal/configurations", c.Key, params, configuration)
 	return configuration, err
@@ -33,36 +33,36 @@ func (c v1TerminalConfigurationService) Create(ctx context.Context, params *Term
 
 // Retrieves a Configuration object.
 func (c v1TerminalConfigurationService) Retrieve(ctx context.Context, id string, params *TerminalConfigurationRetrieveParams) (*TerminalConfiguration, error) {
-	path := FormatURLPath("/v1/terminal/configurations/%s", id)
-	configuration := &TerminalConfiguration{}
 	if params == nil {
 		params = &TerminalConfigurationRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/configurations/%s", id)
+	configuration := &TerminalConfiguration{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, configuration)
 	return configuration, err
 }
 
 // Updates a new Configuration object.
 func (c v1TerminalConfigurationService) Update(ctx context.Context, id string, params *TerminalConfigurationUpdateParams) (*TerminalConfiguration, error) {
-	path := FormatURLPath("/v1/terminal/configurations/%s", id)
-	configuration := &TerminalConfiguration{}
 	if params == nil {
 		params = &TerminalConfigurationUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/configurations/%s", id)
+	configuration := &TerminalConfiguration{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, configuration)
 	return configuration, err
 }
 
 // Deletes a Configuration object.
 func (c v1TerminalConfigurationService) Delete(ctx context.Context, id string, params *TerminalConfigurationDeleteParams) (*TerminalConfiguration, error) {
-	path := FormatURLPath("/v1/terminal/configurations/%s", id)
-	configuration := &TerminalConfiguration{}
 	if params == nil {
 		params = &TerminalConfigurationDeleteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/configurations/%s", id)
+	configuration := &TerminalConfiguration{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, configuration)
 	return configuration, err
 }

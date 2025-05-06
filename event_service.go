@@ -21,12 +21,12 @@ type v1EventService struct {
 
 // Retrieves the details of an event if it was created in the last 30 days. Supply the unique identifier of the event, which you might have received in a webhook.
 func (c v1EventService) Retrieve(ctx context.Context, id string, params *EventRetrieveParams) (*Event, error) {
-	path := FormatURLPath("/v1/events/%s", id)
-	event := &Event{}
 	if params == nil {
 		params = &EventRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/events/%s", id)
+	event := &Event{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, event)
 	return event, err
 }

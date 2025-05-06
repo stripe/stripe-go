@@ -21,11 +21,11 @@ type v1ReportingReportRunService struct {
 
 // Creates a new object and begin running the report. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
 func (c v1ReportingReportRunService) Create(ctx context.Context, params *ReportingReportRunCreateParams) (*ReportingReportRun, error) {
-	reportrun := &ReportingReportRun{}
 	if params == nil {
 		params = &ReportingReportRunCreateParams{}
 	}
 	params.Context = ctx
+	reportrun := &ReportingReportRun{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/reporting/report_runs", c.Key, params, reportrun)
 	return reportrun, err
@@ -33,12 +33,12 @@ func (c v1ReportingReportRunService) Create(ctx context.Context, params *Reporti
 
 // Retrieves the details of an existing Report Run.
 func (c v1ReportingReportRunService) Retrieve(ctx context.Context, id string, params *ReportingReportRunRetrieveParams) (*ReportingReportRun, error) {
-	path := FormatURLPath("/v1/reporting/report_runs/%s", id)
-	reportrun := &ReportingReportRun{}
 	if params == nil {
 		params = &ReportingReportRunRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/reporting/report_runs/%s", id)
+	reportrun := &ReportingReportRun{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, reportrun)
 	return reportrun, err
 }

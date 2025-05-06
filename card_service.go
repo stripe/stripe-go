@@ -21,64 +21,64 @@ type v1CardService struct {
 
 // New creates a new card
 func (c v1CardService) Create(ctx context.Context, params *CardCreateParams) (*Card, error) {
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts", StringValue(params.Token), StringValue(
-			params.Customer), StringValue(params.Account))
-	card := &Card{}
 	if params == nil {
 		params = &CardCreateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/accounts/%s/external_accounts", StringValue(params.Token), StringValue(
+			params.Customer), StringValue(params.Account))
+	card := &Card{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
 	return card, err
 }
 
 // Get returns the details of a card.
 func (c v1CardService) Retrieve(ctx context.Context, id string, params *CardRetrieveParams) (*Card, error) {
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
-	card := &Card{}
 	if params == nil {
 		params = &CardRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
+	card := &Card{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, card)
 	return card, err
 }
 
 // Update a specified source for a given customer.
 func (c v1CardService) Update(ctx context.Context, id string, params *CardUpdateParams) (*Card, error) {
-	path := FormatURLPath(
-		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
-	card := &Card{}
 	if params == nil {
 		params = &CardUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
+	card := &Card{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
 	return card, err
 }
 
 // Delete a specified source for a given customer.
 func (c v1CardService) Delete(ctx context.Context, id string, params *CardDeleteParams) (*Card, error) {
-	path := FormatURLPath(
-		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
-	card := &Card{}
 	if params == nil {
 		params = &CardDeleteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
+	card := &Card{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, card)
 	return card, err
 }
 func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq2[*Card, error] {
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts", StringValue(
-			listParams.Account), StringValue(listParams.Customer))
 	if listParams == nil {
 		listParams = &CardListParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/accounts/%s/external_accounts", StringValue(
+			listParams.Account), StringValue(listParams.Customer))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Card, ListContainer, error) {
 		list := &CardList{}
 		if p == nil {

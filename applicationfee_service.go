@@ -21,12 +21,12 @@ type v1ApplicationFeeService struct {
 
 // Retrieves the details of an application fee that your account has collected. The same information is returned when refunding the application fee.
 func (c v1ApplicationFeeService) Retrieve(ctx context.Context, id string, params *ApplicationFeeRetrieveParams) (*ApplicationFee, error) {
-	path := FormatURLPath("/v1/application_fees/%s", id)
-	applicationfee := &ApplicationFee{}
 	if params == nil {
 		params = &ApplicationFeeRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/application_fees/%s", id)
+	applicationfee := &ApplicationFee{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, applicationfee)
 	return applicationfee, err
 }

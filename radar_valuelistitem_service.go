@@ -21,11 +21,11 @@ type v1RadarValueListItemService struct {
 
 // Creates a new ValueListItem object, which is added to the specified parent value list.
 func (c v1RadarValueListItemService) Create(ctx context.Context, params *RadarValueListItemCreateParams) (*RadarValueListItem, error) {
-	valuelistitem := &RadarValueListItem{}
 	if params == nil {
 		params = &RadarValueListItemCreateParams{}
 	}
 	params.Context = ctx
+	valuelistitem := &RadarValueListItem{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/radar/value_list_items", c.Key, params, valuelistitem)
 	return valuelistitem, err
@@ -33,24 +33,24 @@ func (c v1RadarValueListItemService) Create(ctx context.Context, params *RadarVa
 
 // Retrieves a ValueListItem object.
 func (c v1RadarValueListItemService) Retrieve(ctx context.Context, id string, params *RadarValueListItemRetrieveParams) (*RadarValueListItem, error) {
-	path := FormatURLPath("/v1/radar/value_list_items/%s", id)
-	valuelistitem := &RadarValueListItem{}
 	if params == nil {
 		params = &RadarValueListItemRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/radar/value_list_items/%s", id)
+	valuelistitem := &RadarValueListItem{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, valuelistitem)
 	return valuelistitem, err
 }
 
 // Deletes a ValueListItem object, removing it from its parent value list.
 func (c v1RadarValueListItemService) Delete(ctx context.Context, id string, params *RadarValueListItemDeleteParams) (*RadarValueListItem, error) {
-	path := FormatURLPath("/v1/radar/value_list_items/%s", id)
-	valuelistitem := &RadarValueListItem{}
 	if params == nil {
 		params = &RadarValueListItemDeleteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/radar/value_list_items/%s", id)
+	valuelistitem := &RadarValueListItem{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, valuelistitem)
 	return valuelistitem, err
 }

@@ -21,24 +21,24 @@ type v1IssuingTransactionService struct {
 
 // Retrieves an Issuing Transaction object.
 func (c v1IssuingTransactionService) Retrieve(ctx context.Context, id string, params *IssuingTransactionRetrieveParams) (*IssuingTransaction, error) {
-	path := FormatURLPath("/v1/issuing/transactions/%s", id)
-	transaction := &IssuingTransaction{}
 	if params == nil {
 		params = &IssuingTransactionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/transactions/%s", id)
+	transaction := &IssuingTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
 	return transaction, err
 }
 
 // Updates the specified Issuing Transaction object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c v1IssuingTransactionService) Update(ctx context.Context, id string, params *IssuingTransactionUpdateParams) (*IssuingTransaction, error) {
-	path := FormatURLPath("/v1/issuing/transactions/%s", id)
-	transaction := &IssuingTransaction{}
 	if params == nil {
 		params = &IssuingTransactionUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/transactions/%s", id)
+	transaction := &IssuingTransaction{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
 	return transaction, err
 }
