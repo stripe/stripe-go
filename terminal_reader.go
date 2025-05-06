@@ -93,14 +93,15 @@ type TerminalReaderDeviceType string
 
 // List of values that TerminalReaderDeviceType can take
 const (
-	TerminalReaderDeviceTypeBBPOSChipper2X    TerminalReaderDeviceType = "bbpos_chipper2x"
-	TerminalReaderDeviceTypeBBPOSWisePad3     TerminalReaderDeviceType = "bbpos_wisepad3"
-	TerminalReaderDeviceTypeBBPOSWisePOSE     TerminalReaderDeviceType = "bbpos_wisepos_e"
-	TerminalReaderDeviceTypeMobilePhoneReader TerminalReaderDeviceType = "mobile_phone_reader"
-	TerminalReaderDeviceTypeSimulatedWisePOSE TerminalReaderDeviceType = "simulated_wisepos_e"
-	TerminalReaderDeviceTypeStripeM2          TerminalReaderDeviceType = "stripe_m2"
-	TerminalReaderDeviceTypeStripeS700        TerminalReaderDeviceType = "stripe_s700"
-	TerminalReaderDeviceTypeVerifoneP400      TerminalReaderDeviceType = "verifone_P400"
+	TerminalReaderDeviceTypeBBPOSChipper2X      TerminalReaderDeviceType = "bbpos_chipper2x"
+	TerminalReaderDeviceTypeBBPOSWisePad3       TerminalReaderDeviceType = "bbpos_wisepad3"
+	TerminalReaderDeviceTypeBBPOSWisePOSE       TerminalReaderDeviceType = "bbpos_wisepos_e"
+	TerminalReaderDeviceTypeMobilePhoneReader   TerminalReaderDeviceType = "mobile_phone_reader"
+	TerminalReaderDeviceTypeSimulatedStripeS700 TerminalReaderDeviceType = "simulated_stripe_s700"
+	TerminalReaderDeviceTypeSimulatedWisePOSE   TerminalReaderDeviceType = "simulated_wisepos_e"
+	TerminalReaderDeviceTypeStripeM2            TerminalReaderDeviceType = "stripe_m2"
+	TerminalReaderDeviceTypeStripeS700          TerminalReaderDeviceType = "stripe_s700"
+	TerminalReaderDeviceTypeVerifoneP400        TerminalReaderDeviceType = "verifone_P400"
 )
 
 // The networking status of the reader. We do not recommend using this field in flows that may block taking payments.
