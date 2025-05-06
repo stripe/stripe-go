@@ -498,7 +498,7 @@ replace github.com/stripe/stripe-go/v82 =>  github.com/stripe/stripe-go/v82@beta
 > **Note**
 > There can be breaking changes between two versions of the public preview SDKs without a bump in the major version.
 
-If your preview feature requires a `Stripe-Version` header to be sent, set the `stripe.APIVersion` field using the `stripe.AddBetaVersion` function (available only in the public preview SDKs) to set it:
+If your preview feature requires a `Stripe-Version` header to be sent, set the `stripe.APIVersion` field using the `stripe.AddBetaVersion` function (available only in the public preview SDKs):
 
 ```go
 stripe.AddBetaVersion("feature_beta", "v3")
