@@ -492,7 +492,7 @@ We would love for you to try these as we incrementally release new features and 
 To install the latest public preview SDK, add the following `replace` directive to your `go.mod` file:
 
 ```
-replace github.com/stripe/stripe-go/v82 =>  github.com/stripe/stripe-go/v82@beta
+replace github.com/stripe/stripe-go/v82 =>  github.com/stripe/stripe-go/v82 beta
 ```
 
 > **Note**
