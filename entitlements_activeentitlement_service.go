@@ -21,12 +21,12 @@ type v1EntitlementsActiveEntitlementService struct {
 
 // Retrieve an active entitlement
 func (c v1EntitlementsActiveEntitlementService) Retrieve(ctx context.Context, id string, params *EntitlementsActiveEntitlementRetrieveParams) (*EntitlementsActiveEntitlement, error) {
-	path := FormatURLPath("/v1/entitlements/active_entitlements/%s", id)
-	activeentitlement := &EntitlementsActiveEntitlement{}
 	if params == nil {
 		params = &EntitlementsActiveEntitlementRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/entitlements/active_entitlements/%s", id)
+	activeentitlement := &EntitlementsActiveEntitlement{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, activeentitlement)
 	return activeentitlement, err
 }

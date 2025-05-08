@@ -21,11 +21,11 @@ type v1TaxCalculationService struct {
 
 // Calculates tax based on the input and returns a Tax Calculation object.
 func (c v1TaxCalculationService) Create(ctx context.Context, params *TaxCalculationCreateParams) (*TaxCalculation, error) {
-	calculation := &TaxCalculation{}
 	if params == nil {
 		params = &TaxCalculationCreateParams{}
 	}
 	params.Context = ctx
+	calculation := &TaxCalculation{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/tax/calculations", c.Key, params, calculation)
 	return calculation, err
@@ -33,24 +33,24 @@ func (c v1TaxCalculationService) Create(ctx context.Context, params *TaxCalculat
 
 // Retrieves a Tax Calculation object, if the calculation hasn't expired.
 func (c v1TaxCalculationService) Retrieve(ctx context.Context, id string, params *TaxCalculationRetrieveParams) (*TaxCalculation, error) {
-	path := FormatURLPath("/v1/tax/calculations/%s", id)
-	calculation := &TaxCalculation{}
 	if params == nil {
 		params = &TaxCalculationRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/tax/calculations/%s", id)
+	calculation := &TaxCalculation{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, calculation)
 	return calculation, err
 }
 
 // Retrieves the line items of a tax calculation as a collection, if the calculation hasn't expired.
 func (c v1TaxCalculationService) ListLineItems(ctx context.Context, listParams *TaxCalculationListLineItemsParams) Seq2[*TaxCalculationLineItem, error] {
-	path := FormatURLPath(
-		"/v1/tax/calculations/%s/line_items", StringValue(listParams.Calculation))
 	if listParams == nil {
 		listParams = &TaxCalculationListLineItemsParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/tax/calculations/%s/line_items", StringValue(listParams.Calculation))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*TaxCalculationLineItem, ListContainer, error) {
 		list := &TaxCalculationLineItemList{}
 		if p == nil {

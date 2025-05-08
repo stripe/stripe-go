@@ -21,11 +21,11 @@ type v1PaymentLinkService struct {
 
 // Creates a payment link.
 func (c v1PaymentLinkService) Create(ctx context.Context, params *PaymentLinkCreateParams) (*PaymentLink, error) {
-	paymentlink := &PaymentLink{}
 	if params == nil {
 		params = &PaymentLinkCreateParams{}
 	}
 	params.Context = ctx
+	paymentlink := &PaymentLink{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/payment_links", c.Key, params, paymentlink)
 	return paymentlink, err
@@ -33,24 +33,24 @@ func (c v1PaymentLinkService) Create(ctx context.Context, params *PaymentLinkCre
 
 // Retrieve a payment link.
 func (c v1PaymentLinkService) Retrieve(ctx context.Context, id string, params *PaymentLinkRetrieveParams) (*PaymentLink, error) {
-	path := FormatURLPath("/v1/payment_links/%s", id)
-	paymentlink := &PaymentLink{}
 	if params == nil {
 		params = &PaymentLinkRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_links/%s", id)
+	paymentlink := &PaymentLink{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentlink)
 	return paymentlink, err
 }
 
 // Updates a payment link.
 func (c v1PaymentLinkService) Update(ctx context.Context, id string, params *PaymentLinkUpdateParams) (*PaymentLink, error) {
-	path := FormatURLPath("/v1/payment_links/%s", id)
-	paymentlink := &PaymentLink{}
 	if params == nil {
 		params = &PaymentLinkUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_links/%s", id)
+	paymentlink := &PaymentLink{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentlink)
 	return paymentlink, err
 }
@@ -74,12 +74,12 @@ func (c v1PaymentLinkService) List(ctx context.Context, listParams *PaymentLinkL
 
 // When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c v1PaymentLinkService) ListLineItems(ctx context.Context, listParams *PaymentLinkListLineItemsParams) Seq2[*LineItem, error] {
-	path := FormatURLPath(
-		"/v1/payment_links/%s/line_items", StringValue(listParams.PaymentLink))
 	if listParams == nil {
 		listParams = &PaymentLinkListLineItemsParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/payment_links/%s/line_items", StringValue(listParams.PaymentLink))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*LineItem, ListContainer, error) {
 		list := &LineItemList{}
 		if p == nil {

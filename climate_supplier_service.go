@@ -21,12 +21,12 @@ type v1ClimateSupplierService struct {
 
 // Retrieves a Climate supplier object.
 func (c v1ClimateSupplierService) Retrieve(ctx context.Context, id string, params *ClimateSupplierRetrieveParams) (*ClimateSupplier, error) {
-	path := FormatURLPath("/v1/climate/suppliers/%s", id)
-	supplier := &ClimateSupplier{}
 	if params == nil {
 		params = &ClimateSupplierRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/climate/suppliers/%s", id)
+	supplier := &ClimateSupplier{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, supplier)
 	return supplier, err
 }

@@ -21,12 +21,12 @@ type v1InvoicePaymentService struct {
 
 // Retrieves the invoice payment with the given ID.
 func (c v1InvoicePaymentService) Retrieve(ctx context.Context, id string, params *InvoicePaymentRetrieveParams) (*InvoicePayment, error) {
-	path := FormatURLPath("/v1/invoice_payments/%s", id)
-	invoicepayment := &InvoicePayment{}
 	if params == nil {
 		params = &InvoicePaymentRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoice_payments/%s", id)
+	invoicepayment := &InvoicePayment{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, invoicepayment)
 	return invoicepayment, err
 }

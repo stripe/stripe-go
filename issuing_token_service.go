@@ -21,24 +21,24 @@ type v1IssuingTokenService struct {
 
 // Retrieves an Issuing Token object.
 func (c v1IssuingTokenService) Retrieve(ctx context.Context, id string, params *IssuingTokenRetrieveParams) (*IssuingToken, error) {
-	path := FormatURLPath("/v1/issuing/tokens/%s", id)
-	token := &IssuingToken{}
 	if params == nil {
 		params = &IssuingTokenRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/tokens/%s", id)
+	token := &IssuingToken{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, token)
 	return token, err
 }
 
 // Attempts to update the specified Issuing Token object to the status specified.
 func (c v1IssuingTokenService) Update(ctx context.Context, id string, params *IssuingTokenUpdateParams) (*IssuingToken, error) {
-	path := FormatURLPath("/v1/issuing/tokens/%s", id)
-	token := &IssuingToken{}
 	if params == nil {
 		params = &IssuingTokenUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/tokens/%s", id)
+	token := &IssuingToken{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, token)
 	return token, err
 }
