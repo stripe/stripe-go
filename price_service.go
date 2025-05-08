@@ -21,35 +21,35 @@ type v1PriceService struct {
 
 // Creates a new [Price for an existing <a href="https://docs.stripe.com/api/products">Product](https://docs.stripe.com/api/prices). The Price can be recurring or one-time.
 func (c v1PriceService) Create(ctx context.Context, params *PriceCreateParams) (*Price, error) {
-	price := &Price{}
 	if params == nil {
 		params = &PriceCreateParams{}
 	}
 	params.Context = ctx
+	price := &Price{}
 	err := c.B.Call(http.MethodPost, "/v1/prices", c.Key, params, price)
 	return price, err
 }
 
 // Retrieves the price with the given ID.
 func (c v1PriceService) Retrieve(ctx context.Context, id string, params *PriceRetrieveParams) (*Price, error) {
-	path := FormatURLPath("/v1/prices/%s", id)
-	price := &Price{}
 	if params == nil {
 		params = &PriceRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/prices/%s", id)
+	price := &Price{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, price)
 	return price, err
 }
 
 // Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.
 func (c v1PriceService) Update(ctx context.Context, id string, params *PriceUpdateParams) (*Price, error) {
-	path := FormatURLPath("/v1/prices/%s", id)
-	price := &Price{}
 	if params == nil {
 		params = &PriceUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/prices/%s", id)
+	price := &Price{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, price)
 	return price, err
 }

@@ -21,23 +21,23 @@ type v1TransferService struct {
 
 // To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 func (c v1TransferService) Create(ctx context.Context, params *TransferCreateParams) (*Transfer, error) {
-	transfer := &Transfer{}
 	if params == nil {
 		params = &TransferCreateParams{}
 	}
 	params.Context = ctx
+	transfer := &Transfer{}
 	err := c.B.Call(http.MethodPost, "/v1/transfers", c.Key, params, transfer)
 	return transfer, err
 }
 
 // Retrieves the details of an existing transfer. Supply the unique transfer ID from either a transfer creation request or the transfer list, and Stripe will return the corresponding transfer information.
 func (c v1TransferService) Retrieve(ctx context.Context, id string, params *TransferRetrieveParams) (*Transfer, error) {
-	path := FormatURLPath("/v1/transfers/%s", id)
-	transfer := &Transfer{}
 	if params == nil {
 		params = &TransferRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/transfers/%s", id)
+	transfer := &Transfer{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, transfer)
 	return transfer, err
 }
@@ -46,12 +46,12 @@ func (c v1TransferService) Retrieve(ctx context.Context, id string, params *Tran
 //
 // This request accepts only metadata as an argument.
 func (c v1TransferService) Update(ctx context.Context, id string, params *TransferUpdateParams) (*Transfer, error) {
-	path := FormatURLPath("/v1/transfers/%s", id)
-	transfer := &Transfer{}
 	if params == nil {
 		params = &TransferUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/transfers/%s", id)
+	transfer := &Transfer{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, transfer)
 	return transfer, err
 }

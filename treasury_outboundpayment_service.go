@@ -21,11 +21,11 @@ type v1TreasuryOutboundPaymentService struct {
 
 // Creates an OutboundPayment.
 func (c v1TreasuryOutboundPaymentService) Create(ctx context.Context, params *TreasuryOutboundPaymentCreateParams) (*TreasuryOutboundPayment, error) {
-	outboundpayment := &TreasuryOutboundPayment{}
 	if params == nil {
 		params = &TreasuryOutboundPaymentCreateParams{}
 	}
 	params.Context = ctx
+	outboundpayment := &TreasuryOutboundPayment{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/treasury/outbound_payments", c.Key, params, outboundpayment)
 	return outboundpayment, err
@@ -33,24 +33,24 @@ func (c v1TreasuryOutboundPaymentService) Create(ctx context.Context, params *Tr
 
 // Retrieves the details of an existing OutboundPayment by passing the unique OutboundPayment ID from either the OutboundPayment creation request or OutboundPayment list.
 func (c v1TreasuryOutboundPaymentService) Retrieve(ctx context.Context, id string, params *TreasuryOutboundPaymentRetrieveParams) (*TreasuryOutboundPayment, error) {
-	path := FormatURLPath("/v1/treasury/outbound_payments/%s", id)
-	outboundpayment := &TreasuryOutboundPayment{}
 	if params == nil {
 		params = &TreasuryOutboundPaymentRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/treasury/outbound_payments/%s", id)
+	outboundpayment := &TreasuryOutboundPayment{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, outboundpayment)
 	return outboundpayment, err
 }
 
 // Cancel an OutboundPayment.
 func (c v1TreasuryOutboundPaymentService) Cancel(ctx context.Context, id string, params *TreasuryOutboundPaymentCancelParams) (*TreasuryOutboundPayment, error) {
-	path := FormatURLPath("/v1/treasury/outbound_payments/%s/cancel", id)
-	outboundpayment := &TreasuryOutboundPayment{}
 	if params == nil {
 		params = &TreasuryOutboundPaymentCancelParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/treasury/outbound_payments/%s/cancel", id)
+	outboundpayment := &TreasuryOutboundPayment{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, outboundpayment)
 	return outboundpayment, err
 }

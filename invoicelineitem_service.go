@@ -22,13 +22,13 @@ type v1InvoiceLineItemService struct {
 // item and the invoice line item, so updates on this endpoint will propagate to the invoice item as well.
 // Updating an invoice's line item is only possible before the invoice is finalized.
 func (c v1InvoiceLineItemService) Update(ctx context.Context, id string, params *InvoiceLineItemUpdateParams) (*InvoiceLineItem, error) {
-	path := FormatURLPath(
-		"/v1/invoices/%s/lines/%s", StringValue(params.Invoice), id)
-	invoicelineitem := &InvoiceLineItem{}
 	if params == nil {
 		params = &InvoiceLineItemUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/invoices/%s/lines/%s", StringValue(params.Invoice), id)
+	invoicelineitem := &InvoiceLineItem{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoicelineitem)
 	return invoicelineitem, err
 }

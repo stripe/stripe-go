@@ -19,11 +19,11 @@ type v1CustomerSessionService struct {
 
 // Creates a Customer Session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
 func (c v1CustomerSessionService) Create(ctx context.Context, params *CustomerSessionCreateParams) (*CustomerSession, error) {
-	customersession := &CustomerSession{}
 	if params == nil {
 		params = &CustomerSessionCreateParams{}
 	}
 	params.Context = ctx
+	customersession := &CustomerSession{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/customer_sessions", c.Key, params, customersession)
 	return customersession, err

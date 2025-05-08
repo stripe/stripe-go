@@ -19,11 +19,11 @@ type v1BillingCreditBalanceSummaryService struct {
 
 // Retrieves the credit balance summary for a customer.
 func (c v1BillingCreditBalanceSummaryService) Retrieve(ctx context.Context, params *BillingCreditBalanceSummaryRetrieveParams) (*BillingCreditBalanceSummary, error) {
-	creditbalancesummary := &BillingCreditBalanceSummary{}
 	if params == nil {
 		params = &BillingCreditBalanceSummaryRetrieveParams{}
 	}
 	params.Context = ctx
+	creditbalancesummary := &BillingCreditBalanceSummary{}
 	err := c.B.Call(
 		http.MethodGet, "/v1/billing/credit_balance_summary", c.Key, params, creditbalancesummary)
 	return creditbalancesummary, err

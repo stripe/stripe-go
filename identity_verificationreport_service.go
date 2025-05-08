@@ -21,12 +21,12 @@ type v1IdentityVerificationReportService struct {
 
 // Retrieves an existing VerificationReport
 func (c v1IdentityVerificationReportService) Retrieve(ctx context.Context, id string, params *IdentityVerificationReportRetrieveParams) (*IdentityVerificationReport, error) {
-	path := FormatURLPath("/v1/identity/verification_reports/%s", id)
-	verificationreport := &IdentityVerificationReport{}
 	if params == nil {
 		params = &IdentityVerificationReportRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/identity/verification_reports/%s", id)
+	verificationreport := &IdentityVerificationReport{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, verificationreport)
 	return verificationreport, err
 }

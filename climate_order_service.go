@@ -22,35 +22,35 @@ type v1ClimateOrderService struct {
 // Creates a Climate order object for a given Climate product. The order will be processed immediately
 // after creation and payment will be deducted your Stripe balance.
 func (c v1ClimateOrderService) Create(ctx context.Context, params *ClimateOrderCreateParams) (*ClimateOrder, error) {
-	order := &ClimateOrder{}
 	if params == nil {
 		params = &ClimateOrderCreateParams{}
 	}
 	params.Context = ctx
+	order := &ClimateOrder{}
 	err := c.B.Call(http.MethodPost, "/v1/climate/orders", c.Key, params, order)
 	return order, err
 }
 
 // Retrieves the details of a Climate order object with the given ID.
 func (c v1ClimateOrderService) Retrieve(ctx context.Context, id string, params *ClimateOrderRetrieveParams) (*ClimateOrder, error) {
-	path := FormatURLPath("/v1/climate/orders/%s", id)
-	order := &ClimateOrder{}
 	if params == nil {
 		params = &ClimateOrderRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/climate/orders/%s", id)
+	order := &ClimateOrder{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, order)
 	return order, err
 }
 
 // Updates the specified order by setting the values of the parameters passed.
 func (c v1ClimateOrderService) Update(ctx context.Context, id string, params *ClimateOrderUpdateParams) (*ClimateOrder, error) {
-	path := FormatURLPath("/v1/climate/orders/%s", id)
-	order := &ClimateOrder{}
 	if params == nil {
 		params = &ClimateOrderUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/climate/orders/%s", id)
+	order := &ClimateOrder{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, order)
 	return order, err
 }
@@ -60,12 +60,12 @@ func (c v1ClimateOrderService) Update(ctx context.Context, id string, params *Cl
 // might cancel reservations if suppliers fail to deliver. If Frontier cancels the reservation, Stripe
 // provides 90 days advance notice and refunds the amount_total.
 func (c v1ClimateOrderService) Cancel(ctx context.Context, id string, params *ClimateOrderCancelParams) (*ClimateOrder, error) {
-	path := FormatURLPath("/v1/climate/orders/%s/cancel", id)
-	order := &ClimateOrder{}
 	if params == nil {
 		params = &ClimateOrderCancelParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/climate/orders/%s/cancel", id)
+	order := &ClimateOrder{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, order)
 	return order, err
 }

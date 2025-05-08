@@ -21,35 +21,35 @@ type v1TaxRateService struct {
 
 // Creates a new tax rate.
 func (c v1TaxRateService) Create(ctx context.Context, params *TaxRateCreateParams) (*TaxRate, error) {
-	taxrate := &TaxRate{}
 	if params == nil {
 		params = &TaxRateCreateParams{}
 	}
 	params.Context = ctx
+	taxrate := &TaxRate{}
 	err := c.B.Call(http.MethodPost, "/v1/tax_rates", c.Key, params, taxrate)
 	return taxrate, err
 }
 
 // Retrieves a tax rate with the given ID
 func (c v1TaxRateService) Retrieve(ctx context.Context, id string, params *TaxRateRetrieveParams) (*TaxRate, error) {
-	path := FormatURLPath("/v1/tax_rates/%s", id)
-	taxrate := &TaxRate{}
 	if params == nil {
 		params = &TaxRateRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/tax_rates/%s", id)
+	taxrate := &TaxRate{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, taxrate)
 	return taxrate, err
 }
 
 // Updates an existing tax rate.
 func (c v1TaxRateService) Update(ctx context.Context, id string, params *TaxRateUpdateParams) (*TaxRate, error) {
-	path := FormatURLPath("/v1/tax_rates/%s", id)
-	taxrate := &TaxRate{}
 	if params == nil {
 		params = &TaxRateUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/tax_rates/%s", id)
+	taxrate := &TaxRate{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, taxrate)
 	return taxrate, err
 }

@@ -21,11 +21,11 @@ type v1PaymentMethodConfigurationService struct {
 
 // Creates a payment method configuration
 func (c v1PaymentMethodConfigurationService) Create(ctx context.Context, params *PaymentMethodConfigurationCreateParams) (*PaymentMethodConfiguration, error) {
-	paymentmethodconfiguration := &PaymentMethodConfiguration{}
 	if params == nil {
 		params = &PaymentMethodConfigurationCreateParams{}
 	}
 	params.Context = ctx
+	paymentmethodconfiguration := &PaymentMethodConfiguration{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/payment_method_configurations", c.Key, params, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
@@ -33,12 +33,12 @@ func (c v1PaymentMethodConfigurationService) Create(ctx context.Context, params 
 
 // Retrieve payment method configuration
 func (c v1PaymentMethodConfigurationService) Retrieve(ctx context.Context, id string, params *PaymentMethodConfigurationRetrieveParams) (*PaymentMethodConfiguration, error) {
-	path := FormatURLPath("/v1/payment_method_configurations/%s", id)
-	paymentmethodconfiguration := &PaymentMethodConfiguration{}
 	if params == nil {
 		params = &PaymentMethodConfigurationRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_method_configurations/%s", id)
+	paymentmethodconfiguration := &PaymentMethodConfiguration{}
 	err := c.B.Call(
 		http.MethodGet, path, c.Key, params, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err
@@ -46,12 +46,12 @@ func (c v1PaymentMethodConfigurationService) Retrieve(ctx context.Context, id st
 
 // Update payment method configuration
 func (c v1PaymentMethodConfigurationService) Update(ctx context.Context, id string, params *PaymentMethodConfigurationUpdateParams) (*PaymentMethodConfiguration, error) {
-	path := FormatURLPath("/v1/payment_method_configurations/%s", id)
-	paymentmethodconfiguration := &PaymentMethodConfiguration{}
 	if params == nil {
 		params = &PaymentMethodConfigurationUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_method_configurations/%s", id)
+	paymentmethodconfiguration := &PaymentMethodConfiguration{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, paymentmethodconfiguration)
 	return paymentmethodconfiguration, err

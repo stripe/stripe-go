@@ -30,26 +30,26 @@ type v1FeeRefundService struct {
 // This method will raise an error when called on an already-refunded application fee,
 // or when trying to refund more money than is left on an application fee.
 func (c v1FeeRefundService) Create(ctx context.Context, params *FeeRefundCreateParams) (*FeeRefund, error) {
-	path := FormatURLPath(
-		"/v1/application_fees/%s/refunds", StringValue(params.ID))
-	feerefund := &FeeRefund{}
 	if params == nil {
 		params = &FeeRefundCreateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/application_fees/%s/refunds", StringValue(params.ID))
+	feerefund := &FeeRefund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, feerefund)
 	return feerefund, err
 }
 
 // By default, you can see the 10 most recent refunds stored directly on the application fee object, but you can also retrieve details about a specific refund stored on the application fee.
 func (c v1FeeRefundService) Retrieve(ctx context.Context, id string, params *FeeRefundRetrieveParams) (*FeeRefund, error) {
-	path := FormatURLPath(
-		"/v1/application_fees/%s/refunds/%s", StringValue(params.Fee), id)
-	feerefund := &FeeRefund{}
 	if params == nil {
 		params = &FeeRefundRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/application_fees/%s/refunds/%s", StringValue(params.Fee), id)
+	feerefund := &FeeRefund{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, feerefund)
 	return feerefund, err
 }
@@ -64,25 +64,25 @@ func (c v1FeeRefundService) Update(ctx context.Context, id string, params *FeeRe
 	if params.Fee == nil {
 		return nil, fmt.Errorf("params.Fee must be set")
 	}
-	path := FormatURLPath(
-		"/v1/application_fees/%s/refunds/%s", StringValue(params.Fee), id)
-	feerefund := &FeeRefund{}
 	if params == nil {
 		params = &FeeRefundUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/application_fees/%s/refunds/%s", StringValue(params.Fee), id)
+	feerefund := &FeeRefund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, feerefund)
 	return feerefund, err
 }
 
 // You can see a list of the refunds belonging to a specific application fee. Note that the 10 most recent refunds are always available by default on the application fee object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional refunds.
 func (c v1FeeRefundService) List(ctx context.Context, listParams *FeeRefundListParams) Seq2[*FeeRefund, error] {
-	path := FormatURLPath(
-		"/v1/application_fees/%s/refunds", StringValue(listParams.ID))
 	if listParams == nil {
 		listParams = &FeeRefundListParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/application_fees/%s/refunds", StringValue(listParams.ID))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FeeRefund, ListContainer, error) {
 		list := &FeeRefundList{}
 		if p == nil {

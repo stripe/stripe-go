@@ -21,22 +21,22 @@ type v1AppsSecretService struct {
 
 // Create or replace a secret in the secret store.
 func (c v1AppsSecretService) Create(ctx context.Context, params *AppsSecretCreateParams) (*AppsSecret, error) {
-	secret := &AppsSecret{}
 	if params == nil {
 		params = &AppsSecretCreateParams{}
 	}
 	params.Context = ctx
+	secret := &AppsSecret{}
 	err := c.B.Call(http.MethodPost, "/v1/apps/secrets", c.Key, params, secret)
 	return secret, err
 }
 
 // Deletes a secret from the secret store by name and scope.
 func (c v1AppsSecretService) DeleteWhere(ctx context.Context, params *AppsSecretDeleteWhereParams) (*AppsSecret, error) {
-	secret := &AppsSecret{}
 	if params == nil {
 		params = &AppsSecretDeleteWhereParams{}
 	}
 	params.Context = ctx
+	secret := &AppsSecret{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/apps/secrets/delete", c.Key, params, secret)
 	return secret, err
@@ -44,11 +44,11 @@ func (c v1AppsSecretService) DeleteWhere(ctx context.Context, params *AppsSecret
 
 // Finds a secret in the secret store by name and scope.
 func (c v1AppsSecretService) Find(ctx context.Context, params *AppsSecretFindParams) (*AppsSecret, error) {
-	secret := &AppsSecret{}
 	if params == nil {
 		params = &AppsSecretFindParams{}
 	}
 	params.Context = ctx
+	secret := &AppsSecret{}
 	err := c.B.Call(
 		http.MethodGet, "/v1/apps/secrets/find", c.Key, params, secret)
 	return secret, err
