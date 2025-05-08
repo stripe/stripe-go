@@ -19,11 +19,11 @@ type v1CapitalFinancingSummaryService struct {
 
 // Retrieve the financing state for the account that was authenticated in the request.
 func (c v1CapitalFinancingSummaryService) Retrieve(ctx context.Context, params *CapitalFinancingSummaryRetrieveParams) (*CapitalFinancingSummary, error) {
-	financingsummary := &CapitalFinancingSummary{}
 	if params == nil {
 		params = &CapitalFinancingSummaryRetrieveParams{}
 	}
 	params.Context = ctx
+	financingsummary := &CapitalFinancingSummary{}
 	err := c.B.Call(
 		http.MethodGet, "/v1/capital/financing_summary", c.Key, params, financingsummary)
 	return financingsummary, err

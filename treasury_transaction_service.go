@@ -21,12 +21,12 @@ type v1TreasuryTransactionService struct {
 
 // Retrieves the details of an existing Transaction.
 func (c v1TreasuryTransactionService) Retrieve(ctx context.Context, id string, params *TreasuryTransactionRetrieveParams) (*TreasuryTransaction, error) {
-	path := FormatURLPath("/v1/treasury/transactions/%s", id)
-	transaction := &TreasuryTransaction{}
 	if params == nil {
 		params = &TreasuryTransactionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/treasury/transactions/%s", id)
+	transaction := &TreasuryTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
 	return transaction, err
 }

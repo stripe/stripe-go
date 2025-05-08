@@ -31,23 +31,23 @@ type v1RefundService struct {
 // This method will raise an error when called on an already-refunded charge,
 // or when trying to refund more money than is left on a charge.
 func (c v1RefundService) Create(ctx context.Context, params *RefundCreateParams) (*Refund, error) {
-	refund := &Refund{}
 	if params == nil {
 		params = &RefundCreateParams{}
 	}
 	params.Context = ctx
+	refund := &Refund{}
 	err := c.B.Call(http.MethodPost, "/v1/refunds", c.Key, params, refund)
 	return refund, err
 }
 
 // Retrieves the details of an existing refund.
 func (c v1RefundService) Retrieve(ctx context.Context, id string, params *RefundRetrieveParams) (*Refund, error) {
-	path := FormatURLPath("/v1/refunds/%s", id)
-	refund := &Refund{}
 	if params == nil {
 		params = &RefundRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/refunds/%s", id)
+	refund := &Refund{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, refund)
 	return refund, err
 }
@@ -56,12 +56,12 @@ func (c v1RefundService) Retrieve(ctx context.Context, id string, params *Refund
 //
 // This request only accepts metadata as an argument.
 func (c v1RefundService) Update(ctx context.Context, id string, params *RefundUpdateParams) (*Refund, error) {
-	path := FormatURLPath("/v1/refunds/%s", id)
-	refund := &Refund{}
 	if params == nil {
 		params = &RefundUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/refunds/%s", id)
+	refund := &Refund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
 	return refund, err
 }
@@ -70,12 +70,12 @@ func (c v1RefundService) Update(ctx context.Context, id string, params *RefundUp
 //
 // You can't cancel refunds in other states. Only refunds for payment methods that require customer action can enter the requires_action state.
 func (c v1RefundService) Cancel(ctx context.Context, id string, params *RefundCancelParams) (*Refund, error) {
-	path := FormatURLPath("/v1/refunds/%s/cancel", id)
-	refund := &Refund{}
 	if params == nil {
 		params = &RefundCancelParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/refunds/%s/cancel", id)
+	refund := &Refund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
 	return refund, err
 }

@@ -30,11 +30,11 @@ type v1PaymentIntentService struct {
 // available in the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) when you supply
 // confirm=true.
 func (c v1PaymentIntentService) Create(ctx context.Context, params *PaymentIntentCreateParams) (*PaymentIntent, error) {
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentCreateParams{}
 	}
 	params.Context = ctx
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/payment_intents", c.Key, params, paymentintent)
 	return paymentintent, err
@@ -46,12 +46,12 @@ func (c v1PaymentIntentService) Create(ctx context.Context, params *PaymentInten
 //
 // If you retrieve a PaymentIntent with a publishable key, it only returns a subset of properties. Refer to the [payment intent](https://stripe.com/docs/api#payment_intent_object) object reference for more details.
 func (c v1PaymentIntentService) Retrieve(ctx context.Context, id string, params *PaymentIntentRetrieveParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/payment_intents/%s", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }
@@ -64,24 +64,24 @@ func (c v1PaymentIntentService) Retrieve(ctx context.Context, id string, params 
 // update and confirm at the same time, we recommend updating properties through
 // the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) instead.
 func (c v1PaymentIntentService) Update(ctx context.Context, id string, params *PaymentIntentUpdateParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/payment_intents/%s", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }
 
 // Manually reconcile the remaining amount for a customer_balance PaymentIntent.
 func (c v1PaymentIntentService) ApplyCustomerBalance(ctx context.Context, id string, params *PaymentIntentApplyCustomerBalanceParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/payment_intents/%s/apply_customer_balance", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentApplyCustomerBalanceParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s/apply_customer_balance", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }
@@ -92,12 +92,12 @@ func (c v1PaymentIntentService) ApplyCustomerBalance(ctx context.Context, id str
 //
 // You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
 func (c v1PaymentIntentService) Cancel(ctx context.Context, id string, params *PaymentIntentCancelParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/payment_intents/%s/cancel", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentCancelParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s/cancel", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }
@@ -108,12 +108,12 @@ func (c v1PaymentIntentService) Cancel(ctx context.Context, id string, params *P
 //
 // Learn more about [separate authorization and capture](https://stripe.com/docs/payments/capture-later).
 func (c v1PaymentIntentService) Capture(ctx context.Context, id string, params *PaymentIntentCaptureParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/payment_intents/%s/capture", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentCaptureParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s/capture", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }
@@ -144,12 +144,12 @@ func (c v1PaymentIntentService) Capture(ctx context.Context, id string, params *
 // After this limit is reached, any further calls to this endpoint will
 // transition the PaymentIntent to the canceled state.
 func (c v1PaymentIntentService) Confirm(ctx context.Context, id string, params *PaymentIntentConfirmParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/payment_intents/%s/confirm", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentConfirmParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s/confirm", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }
@@ -171,12 +171,12 @@ func (c v1PaymentIntentService) Confirm(ctx context.Context, id string, params *
 // Each PaymentIntent can have a maximum of 10 decremental or incremental authorization attempts, including declines.
 // After it's fully captured, a PaymentIntent can no longer be decremented.
 func (c v1PaymentIntentService) DecrementAuthorization(ctx context.Context, id string, params *PaymentIntentDecrementAuthorizationParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/payment_intents/%s/decrement_authorization", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentDecrementAuthorizationParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s/decrement_authorization", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }
@@ -206,36 +206,36 @@ func (c v1PaymentIntentService) DecrementAuthorization(ctx context.Context, id s
 //
 // Learn more about [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations).
 func (c v1PaymentIntentService) IncrementAuthorization(ctx context.Context, id string, params *PaymentIntentIncrementAuthorizationParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/payment_intents/%s/increment_authorization", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentIncrementAuthorizationParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s/increment_authorization", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }
 
 // Trigger an external action on a PaymentIntent.
 func (c v1PaymentIntentService) TriggerAction(ctx context.Context, id string, params *PaymentIntentTriggerActionParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/test/payment_intents/%s/trigger_action", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentTriggerActionParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/test/payment_intents/%s/trigger_action", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }
 
 // Verifies microdeposits on a PaymentIntent object.
 func (c v1PaymentIntentService) VerifyMicrodeposits(ctx context.Context, id string, params *PaymentIntentVerifyMicrodepositsParams) (*PaymentIntent, error) {
-	path := FormatURLPath("/v1/payment_intents/%s/verify_microdeposits", id)
-	paymentintent := &PaymentIntent{}
 	if params == nil {
 		params = &PaymentIntentVerifyMicrodepositsParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_intents/%s/verify_microdeposits", id)
+	paymentintent := &PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
 	return paymentintent, err
 }

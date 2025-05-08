@@ -21,12 +21,12 @@ type v1CapitalFinancingOfferService struct {
 
 // Get the details of the financing offer
 func (c v1CapitalFinancingOfferService) Retrieve(ctx context.Context, id string, params *CapitalFinancingOfferRetrieveParams) (*CapitalFinancingOffer, error) {
-	path := FormatURLPath("/v1/capital/financing_offers/%s", id)
-	financingoffer := &CapitalFinancingOffer{}
 	if params == nil {
 		params = &CapitalFinancingOfferRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/capital/financing_offers/%s", id)
+	financingoffer := &CapitalFinancingOffer{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, financingoffer)
 	return financingoffer, err
 }
@@ -34,12 +34,12 @@ func (c v1CapitalFinancingOfferService) Retrieve(ctx context.Context, id string,
 // Acknowledges that platform has received and delivered the financing_offer to
 // the intended merchant recipient.
 func (c v1CapitalFinancingOfferService) MarkDelivered(ctx context.Context, id string, params *CapitalFinancingOfferMarkDeliveredParams) (*CapitalFinancingOffer, error) {
-	path := FormatURLPath("/v1/capital/financing_offers/%s/mark_delivered", id)
-	financingoffer := &CapitalFinancingOffer{}
 	if params == nil {
 		params = &CapitalFinancingOfferMarkDeliveredParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/capital/financing_offers/%s/mark_delivered", id)
+	financingoffer := &CapitalFinancingOffer{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, financingoffer)
 	return financingoffer, err
 }

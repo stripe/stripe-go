@@ -21,11 +21,11 @@ type v1SubscriptionItemService struct {
 
 // Adds a new item to an existing subscription. No existing items will be changed or replaced.
 func (c v1SubscriptionItemService) Create(ctx context.Context, params *SubscriptionItemCreateParams) (*SubscriptionItem, error) {
-	subscriptionitem := &SubscriptionItem{}
 	if params == nil {
 		params = &SubscriptionItemCreateParams{}
 	}
 	params.Context = ctx
+	subscriptionitem := &SubscriptionItem{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/subscription_items", c.Key, params, subscriptionitem)
 	return subscriptionitem, err
@@ -33,36 +33,36 @@ func (c v1SubscriptionItemService) Create(ctx context.Context, params *Subscript
 
 // Retrieves the subscription item with the given ID.
 func (c v1SubscriptionItemService) Retrieve(ctx context.Context, id string, params *SubscriptionItemRetrieveParams) (*SubscriptionItem, error) {
-	path := FormatURLPath("/v1/subscription_items/%s", id)
-	subscriptionitem := &SubscriptionItem{}
 	if params == nil {
 		params = &SubscriptionItemRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/subscription_items/%s", id)
+	subscriptionitem := &SubscriptionItem{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, subscriptionitem)
 	return subscriptionitem, err
 }
 
 // Updates the plan or quantity of an item on a current subscription.
 func (c v1SubscriptionItemService) Update(ctx context.Context, id string, params *SubscriptionItemUpdateParams) (*SubscriptionItem, error) {
-	path := FormatURLPath("/v1/subscription_items/%s", id)
-	subscriptionitem := &SubscriptionItem{}
 	if params == nil {
 		params = &SubscriptionItemUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/subscription_items/%s", id)
+	subscriptionitem := &SubscriptionItem{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionitem)
 	return subscriptionitem, err
 }
 
 // Deletes an item from the subscription. Removing a subscription item from a subscription will not cancel the subscription.
 func (c v1SubscriptionItemService) Delete(ctx context.Context, id string, params *SubscriptionItemDeleteParams) (*SubscriptionItem, error) {
-	path := FormatURLPath("/v1/subscription_items/%s", id)
-	subscriptionitem := &SubscriptionItem{}
 	if params == nil {
 		params = &SubscriptionItemDeleteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/subscription_items/%s", id)
+	subscriptionitem := &SubscriptionItem{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, subscriptionitem)
 	return subscriptionitem, err
 }

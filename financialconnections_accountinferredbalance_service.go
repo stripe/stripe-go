@@ -21,13 +21,13 @@ type v1FinancialConnectionsAccountInferredBalanceService struct {
 
 // Lists the recorded inferred balances for a Financial Connections Account.
 func (c v1FinancialConnectionsAccountInferredBalanceService) List(ctx context.Context, listParams *FinancialConnectionsAccountInferredBalanceListParams) Seq2[*FinancialConnectionsAccountInferredBalance, error] {
-	path := FormatURLPath(
-		"/v1/financial_connections/accounts/%s/inferred_balances", StringValue(
-			listParams.Account))
 	if listParams == nil {
 		listParams = &FinancialConnectionsAccountInferredBalanceListParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/financial_connections/accounts/%s/inferred_balances", StringValue(
+			listParams.Account))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*FinancialConnectionsAccountInferredBalance, ListContainer, error) {
 		list := &FinancialConnectionsAccountInferredBalanceList{}
 		if p == nil {

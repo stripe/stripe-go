@@ -19,12 +19,12 @@ type v2MoneyManagementFinancialAccountService struct {
 
 // Retrieves the details of an existing FinancialAccount.
 func (c v2MoneyManagementFinancialAccountService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementFinancialAccountRetrieveParams) (*V2MoneyManagementFinancialAccount, error) {
-	path := FormatURLPath("/v2/money_management/financial_accounts/%s", id)
-	financialaccount := &V2MoneyManagementFinancialAccount{}
 	if params == nil {
 		params = &V2MoneyManagementFinancialAccountRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/financial_accounts/%s", id)
+	financialaccount := &V2MoneyManagementFinancialAccount{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, financialaccount)
 	return financialaccount, err
 }

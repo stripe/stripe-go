@@ -19,11 +19,11 @@ type v2MoneyManagementOutboundPaymentQuoteService struct {
 
 // Creates an OutboundPaymentQuote usable in an OutboundPayment.
 func (c v2MoneyManagementOutboundPaymentQuoteService) Create(ctx context.Context, params *V2MoneyManagementOutboundPaymentQuoteCreateParams) (*V2MoneyManagementOutboundPaymentQuote, error) {
-	outboundpaymentquote := &V2MoneyManagementOutboundPaymentQuote{}
 	if params == nil {
 		params = &V2MoneyManagementOutboundPaymentQuoteCreateParams{}
 	}
 	params.Context = ctx
+	outboundpaymentquote := &V2MoneyManagementOutboundPaymentQuote{}
 	err := c.B.Call(
 		http.MethodPost, "/v2/money_management/outbound_payment_quotes", c.Key, params, outboundpaymentquote)
 	return outboundpaymentquote, err
@@ -31,12 +31,12 @@ func (c v2MoneyManagementOutboundPaymentQuoteService) Create(ctx context.Context
 
 // Retrieves the details of an existing OutboundPaymentQuote by passing the unique OutboundPaymentQuote ID.
 func (c v2MoneyManagementOutboundPaymentQuoteService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementOutboundPaymentQuoteRetrieveParams) (*V2MoneyManagementOutboundPaymentQuote, error) {
-	path := FormatURLPath("/v2/money_management/outbound_payment_quotes/%s", id)
-	outboundpaymentquote := &V2MoneyManagementOutboundPaymentQuote{}
 	if params == nil {
 		params = &V2MoneyManagementOutboundPaymentQuoteRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/outbound_payment_quotes/%s", id)
+	outboundpaymentquote := &V2MoneyManagementOutboundPaymentQuote{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, outboundpaymentquote)
 	return outboundpaymentquote, err
 }

@@ -21,12 +21,12 @@ type v1IssuingPhysicalBundleService struct {
 
 // Retrieves a physical bundle object.
 func (c v1IssuingPhysicalBundleService) Retrieve(ctx context.Context, id string, params *IssuingPhysicalBundleRetrieveParams) (*IssuingPhysicalBundle, error) {
-	path := FormatURLPath("/v1/issuing/physical_bundles/%s", id)
-	physicalbundle := &IssuingPhysicalBundle{}
 	if params == nil {
 		params = &IssuingPhysicalBundleRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/physical_bundles/%s", id)
+	physicalbundle := &IssuingPhysicalBundle{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, physicalbundle)
 	return physicalbundle, err
 }

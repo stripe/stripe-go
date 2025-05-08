@@ -22,24 +22,24 @@ type v1TaxFormService struct {
 
 // Retrieves the details of a tax form that has previously been created. Supply the unique tax form ID that was returned from your previous request, and Stripe will return the corresponding tax form information.
 func (c v1TaxFormService) Retrieve(ctx context.Context, id string, params *TaxFormRetrieveParams) (*TaxForm, error) {
-	path := FormatURLPath("/v1/tax/forms/%s", id)
-	form := &TaxForm{}
 	if params == nil {
 		params = &TaxFormRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/tax/forms/%s", id)
+	form := &TaxForm{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, form)
 	return form, err
 }
 
 // Download the PDF for a tax form.
 func (c v1TaxFormService) PDF(ctx context.Context, id string, params *TaxFormPDFParams) (*APIStream, error) {
-	path := FormatURLPath("/v1/tax/forms/%s/pdf", id)
-	stream := &APIStream{}
 	if params == nil {
 		params = &TaxFormPDFParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/tax/forms/%s/pdf", id)
+	stream := &APIStream{}
 	err := c.BUploads.CallStreaming(http.MethodGet, path, c.Key, params, stream)
 	return stream, err
 }

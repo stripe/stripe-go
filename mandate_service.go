@@ -19,12 +19,12 @@ type v1MandateService struct {
 
 // Retrieves a Mandate object.
 func (c v1MandateService) Retrieve(ctx context.Context, id string, params *MandateRetrieveParams) (*Mandate, error) {
-	path := FormatURLPath("/v1/mandates/%s", id)
-	mandate := &Mandate{}
 	if params == nil {
 		params = &MandateRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/mandates/%s", id)
+	mandate := &Mandate{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, mandate)
 	return mandate, err
 }

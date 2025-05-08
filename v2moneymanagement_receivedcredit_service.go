@@ -19,12 +19,12 @@ type v2MoneyManagementReceivedCreditService struct {
 
 // Retrieve a ReceivedCredit by ID.
 func (c v2MoneyManagementReceivedCreditService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementReceivedCreditRetrieveParams) (*V2MoneyManagementReceivedCredit, error) {
-	path := FormatURLPath("/v2/money_management/received_credits/%s", id)
-	receivedcredit := &V2MoneyManagementReceivedCredit{}
 	if params == nil {
 		params = &V2MoneyManagementReceivedCreditRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/received_credits/%s", id)
+	receivedcredit := &V2MoneyManagementReceivedCredit{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, receivedcredit)
 	return receivedcredit, err
 }

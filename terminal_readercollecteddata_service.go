@@ -19,12 +19,12 @@ type v1TerminalReaderCollectedDataService struct {
 
 // Retrieve data collected using Reader hardware.
 func (c v1TerminalReaderCollectedDataService) Retrieve(ctx context.Context, id string, params *TerminalReaderCollectedDataRetrieveParams) (*TerminalReaderCollectedData, error) {
-	path := FormatURLPath("/v1/terminal/reader_collected_data/%s", id)
-	readercollecteddata := &TerminalReaderCollectedData{}
 	if params == nil {
 		params = &TerminalReaderCollectedDataRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/reader_collected_data/%s", id)
+	readercollecteddata := &TerminalReaderCollectedData{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, readercollecteddata)
 	return readercollecteddata, err
 }
