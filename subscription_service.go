@@ -27,11 +27,11 @@ type v1SubscriptionService struct {
 // To start subscriptions where the first invoice always begins in a draft status, use [subscription schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules#managing) instead.
 // Schedules provide the flexibility to model more complex billing configurations that change over time.
 func (c v1SubscriptionService) Create(ctx context.Context, params *SubscriptionCreateParams) (*Subscription, error) {
-	subscription := &Subscription{}
 	if params == nil {
 		params = &SubscriptionCreateParams{}
 	}
 	params.Context = ctx
+	subscription := &Subscription{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/subscriptions", c.Key, params, subscription)
 	return subscription, err
@@ -39,12 +39,12 @@ func (c v1SubscriptionService) Create(ctx context.Context, params *SubscriptionC
 
 // Retrieves the subscription with the given ID.
 func (c v1SubscriptionService) Retrieve(ctx context.Context, id string, params *SubscriptionRetrieveParams) (*Subscription, error) {
-	path := FormatURLPath("/v1/subscriptions/%s", id)
-	subscription := &Subscription{}
 	if params == nil {
 		params = &SubscriptionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/subscriptions/%s", id)
+	subscription := &Subscription{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, subscription)
 	return subscription, err
 }
@@ -69,12 +69,12 @@ func (c v1SubscriptionService) Retrieve(ctx context.Context, id string, params *
 //
 // Updating the quantity on a subscription many times in an hour may result in [rate limiting. If you need to bill for a frequently changing quantity, consider integrating <a href="/docs/billing/subscriptions/usage-based">usage-based billing](https://stripe.com/docs/rate-limits) instead.
 func (c v1SubscriptionService) Update(ctx context.Context, id string, params *SubscriptionUpdateParams) (*Subscription, error) {
-	path := FormatURLPath("/v1/subscriptions/%s", id)
-	subscription := &Subscription{}
 	if params == nil {
 		params = &SubscriptionUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/subscriptions/%s", id)
+	subscription := &Subscription{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
 	return subscription, err
 }
@@ -85,36 +85,36 @@ func (c v1SubscriptionService) Update(ctx context.Context, id string, params *Su
 //
 // By default, upon subscription cancellation, Stripe stops automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
 func (c v1SubscriptionService) Cancel(ctx context.Context, id string, params *SubscriptionCancelParams) (*Subscription, error) {
-	path := FormatURLPath("/v1/subscriptions/%s", id)
-	subscription := &Subscription{}
 	if params == nil {
 		params = &SubscriptionCancelParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/subscriptions/%s", id)
+	subscription := &Subscription{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, subscription)
 	return subscription, err
 }
 
 // Removes the currently applied discount on a subscription.
 func (c v1SubscriptionService) DeleteDiscount(ctx context.Context, id string, params *SubscriptionDeleteDiscountParams) (*Subscription, error) {
-	path := FormatURLPath("/v1/subscriptions/%s/discount", id)
-	subscription := &Subscription{}
 	if params == nil {
 		params = &SubscriptionDeleteDiscountParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/subscriptions/%s/discount", id)
+	subscription := &Subscription{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, subscription)
 	return subscription, err
 }
 
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
 func (c v1SubscriptionService) Resume(ctx context.Context, id string, params *SubscriptionResumeParams) (*Subscription, error) {
-	path := FormatURLPath("/v1/subscriptions/%s/resume", id)
-	subscription := &Subscription{}
 	if params == nil {
 		params = &SubscriptionResumeParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/subscriptions/%s/resume", id)
+	subscription := &Subscription{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
 	return subscription, err
 }

@@ -21,11 +21,11 @@ type v1ApplePayDomainService struct {
 
 // Create an apple pay domain.
 func (c v1ApplePayDomainService) Create(ctx context.Context, params *ApplePayDomainCreateParams) (*ApplePayDomain, error) {
-	applepaydomain := &ApplePayDomain{}
 	if params == nil {
 		params = &ApplePayDomainCreateParams{}
 	}
 	params.Context = ctx
+	applepaydomain := &ApplePayDomain{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/apple_pay/domains", c.Key, params, applepaydomain)
 	return applepaydomain, err
@@ -33,24 +33,24 @@ func (c v1ApplePayDomainService) Create(ctx context.Context, params *ApplePayDom
 
 // Retrieve an apple pay domain.
 func (c v1ApplePayDomainService) Retrieve(ctx context.Context, id string, params *ApplePayDomainRetrieveParams) (*ApplePayDomain, error) {
-	path := FormatURLPath("/v1/apple_pay/domains/%s", id)
-	applepaydomain := &ApplePayDomain{}
 	if params == nil {
 		params = &ApplePayDomainRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/apple_pay/domains/%s", id)
+	applepaydomain := &ApplePayDomain{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, applepaydomain)
 	return applepaydomain, err
 }
 
 // Delete an apple pay domain.
 func (c v1ApplePayDomainService) Delete(ctx context.Context, id string, params *ApplePayDomainDeleteParams) (*ApplePayDomain, error) {
-	path := FormatURLPath("/v1/apple_pay/domains/%s", id)
-	applepaydomain := &ApplePayDomain{}
 	if params == nil {
 		params = &ApplePayDomainDeleteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/apple_pay/domains/%s", id)
+	applepaydomain := &ApplePayDomain{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, applepaydomain)
 	return applepaydomain, err
 }

@@ -21,11 +21,11 @@ type v1EntitlementsFeatureService struct {
 
 // Creates a feature
 func (c v1EntitlementsFeatureService) Create(ctx context.Context, params *EntitlementsFeatureCreateParams) (*EntitlementsFeature, error) {
-	feature := &EntitlementsFeature{}
 	if params == nil {
 		params = &EntitlementsFeatureCreateParams{}
 	}
 	params.Context = ctx
+	feature := &EntitlementsFeature{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/entitlements/features", c.Key, params, feature)
 	return feature, err
@@ -33,24 +33,24 @@ func (c v1EntitlementsFeatureService) Create(ctx context.Context, params *Entitl
 
 // Retrieves a feature
 func (c v1EntitlementsFeatureService) Retrieve(ctx context.Context, id string, params *EntitlementsFeatureRetrieveParams) (*EntitlementsFeature, error) {
-	path := FormatURLPath("/v1/entitlements/features/%s", id)
-	feature := &EntitlementsFeature{}
 	if params == nil {
 		params = &EntitlementsFeatureRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/entitlements/features/%s", id)
+	feature := &EntitlementsFeature{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, feature)
 	return feature, err
 }
 
 // Update a feature's metadata or permanently deactivate it.
 func (c v1EntitlementsFeatureService) Update(ctx context.Context, id string, params *EntitlementsFeatureUpdateParams) (*EntitlementsFeature, error) {
-	path := FormatURLPath("/v1/entitlements/features/%s", id)
-	feature := &EntitlementsFeature{}
 	if params == nil {
 		params = &EntitlementsFeatureUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/entitlements/features/%s", id)
+	feature := &EntitlementsFeature{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, feature)
 	return feature, err
 }

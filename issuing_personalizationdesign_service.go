@@ -21,11 +21,11 @@ type v1IssuingPersonalizationDesignService struct {
 
 // Creates a personalization design object.
 func (c v1IssuingPersonalizationDesignService) Create(ctx context.Context, params *IssuingPersonalizationDesignCreateParams) (*IssuingPersonalizationDesign, error) {
-	personalizationdesign := &IssuingPersonalizationDesign{}
 	if params == nil {
 		params = &IssuingPersonalizationDesignCreateParams{}
 	}
 	params.Context = ctx
+	personalizationdesign := &IssuingPersonalizationDesign{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/issuing/personalization_designs", c.Key, params, personalizationdesign)
 	return personalizationdesign, err
@@ -33,24 +33,24 @@ func (c v1IssuingPersonalizationDesignService) Create(ctx context.Context, param
 
 // Retrieves a personalization design object.
 func (c v1IssuingPersonalizationDesignService) Retrieve(ctx context.Context, id string, params *IssuingPersonalizationDesignRetrieveParams) (*IssuingPersonalizationDesign, error) {
-	path := FormatURLPath("/v1/issuing/personalization_designs/%s", id)
-	personalizationdesign := &IssuingPersonalizationDesign{}
 	if params == nil {
 		params = &IssuingPersonalizationDesignRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/personalization_designs/%s", id)
+	personalizationdesign := &IssuingPersonalizationDesign{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, personalizationdesign)
 	return personalizationdesign, err
 }
 
 // Updates a card personalization object.
 func (c v1IssuingPersonalizationDesignService) Update(ctx context.Context, id string, params *IssuingPersonalizationDesignUpdateParams) (*IssuingPersonalizationDesign, error) {
-	path := FormatURLPath("/v1/issuing/personalization_designs/%s", id)
-	personalizationdesign := &IssuingPersonalizationDesign{}
 	if params == nil {
 		params = &IssuingPersonalizationDesignUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/personalization_designs/%s", id)
+	personalizationdesign := &IssuingPersonalizationDesign{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, personalizationdesign)
 	return personalizationdesign, err
 }

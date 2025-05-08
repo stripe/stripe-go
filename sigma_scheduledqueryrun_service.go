@@ -21,12 +21,12 @@ type v1SigmaScheduledQueryRunService struct {
 
 // Retrieves the details of an scheduled query run.
 func (c v1SigmaScheduledQueryRunService) Retrieve(ctx context.Context, id string, params *SigmaScheduledQueryRunRetrieveParams) (*SigmaScheduledQueryRun, error) {
-	path := FormatURLPath("/v1/sigma/scheduled_query_runs/%s", id)
-	scheduledqueryrun := &SigmaScheduledQueryRun{}
 	if params == nil {
 		params = &SigmaScheduledQueryRunRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/sigma/scheduled_query_runs/%s", id)
+	scheduledqueryrun := &SigmaScheduledQueryRun{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, scheduledqueryrun)
 	return scheduledqueryrun, err
 }

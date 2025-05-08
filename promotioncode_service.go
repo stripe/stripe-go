@@ -21,11 +21,11 @@ type v1PromotionCodeService struct {
 
 // A promotion code points to a coupon. You can optionally restrict the code to a specific customer, redemption limit, and expiration date.
 func (c v1PromotionCodeService) Create(ctx context.Context, params *PromotionCodeCreateParams) (*PromotionCode, error) {
-	promotioncode := &PromotionCode{}
 	if params == nil {
 		params = &PromotionCodeCreateParams{}
 	}
 	params.Context = ctx
+	promotioncode := &PromotionCode{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/promotion_codes", c.Key, params, promotioncode)
 	return promotioncode, err
@@ -33,24 +33,24 @@ func (c v1PromotionCodeService) Create(ctx context.Context, params *PromotionCod
 
 // Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
 func (c v1PromotionCodeService) Retrieve(ctx context.Context, id string, params *PromotionCodeRetrieveParams) (*PromotionCode, error) {
-	path := FormatURLPath("/v1/promotion_codes/%s", id)
-	promotioncode := &PromotionCode{}
 	if params == nil {
 		params = &PromotionCodeRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/promotion_codes/%s", id)
+	promotioncode := &PromotionCode{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, promotioncode)
 	return promotioncode, err
 }
 
 // Updates the specified promotion code by setting the values of the parameters passed. Most fields are, by design, not editable.
 func (c v1PromotionCodeService) Update(ctx context.Context, id string, params *PromotionCodeUpdateParams) (*PromotionCode, error) {
-	path := FormatURLPath("/v1/promotion_codes/%s", id)
-	promotioncode := &PromotionCode{}
 	if params == nil {
 		params = &PromotionCodeUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/promotion_codes/%s", id)
+	promotioncode := &PromotionCode{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, promotioncode)
 	return promotioncode, err
 }

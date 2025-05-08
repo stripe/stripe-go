@@ -41,12 +41,12 @@ func (c v1FileService) Create(ctx context.Context, params *FileCreateParams) (*F
 
 // Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://stripe.com/docs/file-upload#download-file-contents).
 func (c v1FileService) Retrieve(ctx context.Context, id string, params *FileRetrieveParams) (*File, error) {
-	path := FormatURLPath("/v1/files/%s", id)
-	file := &File{}
 	if params == nil {
 		params = &FileRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/files/%s", id)
+	file := &File{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, file)
 	return file, err
 }

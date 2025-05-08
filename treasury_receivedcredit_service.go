@@ -21,12 +21,12 @@ type v1TreasuryReceivedCreditService struct {
 
 // Retrieves the details of an existing ReceivedCredit by passing the unique ReceivedCredit ID from the ReceivedCredit list.
 func (c v1TreasuryReceivedCreditService) Retrieve(ctx context.Context, id string, params *TreasuryReceivedCreditRetrieveParams) (*TreasuryReceivedCredit, error) {
-	path := FormatURLPath("/v1/treasury/received_credits/%s", id)
-	receivedcredit := &TreasuryReceivedCredit{}
 	if params == nil {
 		params = &TreasuryReceivedCreditRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/treasury/received_credits/%s", id)
+	receivedcredit := &TreasuryReceivedCredit{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, receivedcredit)
 	return receivedcredit, err
 }

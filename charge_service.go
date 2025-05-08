@@ -23,35 +23,35 @@ type v1ChargeService struct {
 // to initiate a new payment instead. Confirmation of the PaymentIntent creates the Charge
 // object used to request payment.
 func (c v1ChargeService) Create(ctx context.Context, params *ChargeCreateParams) (*Charge, error) {
-	charge := &Charge{}
 	if params == nil {
 		params = &ChargeCreateParams{}
 	}
 	params.Context = ctx
+	charge := &Charge{}
 	err := c.B.Call(http.MethodPost, "/v1/charges", c.Key, params, charge)
 	return charge, err
 }
 
 // Retrieves the details of a charge that has previously been created. Supply the unique charge ID that was returned from your previous request, and Stripe will return the corresponding charge information. The same information is returned when creating or refunding the charge.
 func (c v1ChargeService) Retrieve(ctx context.Context, id string, params *ChargeRetrieveParams) (*Charge, error) {
-	path := FormatURLPath("/v1/charges/%s", id)
-	charge := &Charge{}
 	if params == nil {
 		params = &ChargeRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/charges/%s", id)
+	charge := &Charge{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, charge)
 	return charge, err
 }
 
 // Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c v1ChargeService) Update(ctx context.Context, id string, params *ChargeUpdateParams) (*Charge, error) {
-	path := FormatURLPath("/v1/charges/%s", id)
-	charge := &Charge{}
 	if params == nil {
 		params = &ChargeUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/charges/%s", id)
+	charge := &Charge{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, charge)
 	return charge, err
 }
@@ -62,12 +62,12 @@ func (c v1ChargeService) Update(ctx context.Context, id string, params *ChargeUp
 //
 // Don't use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://stripe.com/docs/api/payment_intents/capture).
 func (c v1ChargeService) Capture(ctx context.Context, id string, params *ChargeCaptureParams) (*Charge, error) {
-	path := FormatURLPath("/v1/charges/%s/capture", id)
-	charge := &Charge{}
 	if params == nil {
 		params = &ChargeCaptureParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/charges/%s/capture", id)
+	charge := &Charge{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, charge)
 	return charge, err
 }

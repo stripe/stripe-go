@@ -21,24 +21,24 @@ type v1IssuingAuthorizationService struct {
 
 // Retrieves an Issuing Authorization object.
 func (c v1IssuingAuthorizationService) Retrieve(ctx context.Context, id string, params *IssuingAuthorizationRetrieveParams) (*IssuingAuthorization, error) {
-	path := FormatURLPath("/v1/issuing/authorizations/%s", id)
-	authorization := &IssuingAuthorization{}
 	if params == nil {
 		params = &IssuingAuthorizationRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/authorizations/%s", id)
+	authorization := &IssuingAuthorization{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, authorization)
 	return authorization, err
 }
 
 // Updates the specified Issuing Authorization object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c v1IssuingAuthorizationService) Update(ctx context.Context, id string, params *IssuingAuthorizationUpdateParams) (*IssuingAuthorization, error) {
-	path := FormatURLPath("/v1/issuing/authorizations/%s", id)
-	authorization := &IssuingAuthorization{}
 	if params == nil {
 		params = &IssuingAuthorizationUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/authorizations/%s", id)
+	authorization := &IssuingAuthorization{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
 	return authorization, err
 }
@@ -46,12 +46,12 @@ func (c v1IssuingAuthorizationService) Update(ctx context.Context, id string, pa
 // Deprecated: [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
 // This method is deprecated. Instead, [respond directly to the webhook request to approve an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 func (c v1IssuingAuthorizationService) Approve(ctx context.Context, id string, params *IssuingAuthorizationApproveParams) (*IssuingAuthorization, error) {
-	path := FormatURLPath("/v1/issuing/authorizations/%s/approve", id)
-	authorization := &IssuingAuthorization{}
 	if params == nil {
 		params = &IssuingAuthorizationApproveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/authorizations/%s/approve", id)
+	authorization := &IssuingAuthorization{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
 	return authorization, err
 }
@@ -59,12 +59,12 @@ func (c v1IssuingAuthorizationService) Approve(ctx context.Context, id string, p
 // Deprecated: [Deprecated] Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
 // This method is deprecated. Instead, [respond directly to the webhook request to decline an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 func (c v1IssuingAuthorizationService) Decline(ctx context.Context, id string, params *IssuingAuthorizationDeclineParams) (*IssuingAuthorization, error) {
-	path := FormatURLPath("/v1/issuing/authorizations/%s/decline", id)
-	authorization := &IssuingAuthorization{}
 	if params == nil {
 		params = &IssuingAuthorizationDeclineParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/authorizations/%s/decline", id)
+	authorization := &IssuingAuthorization{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
 	return authorization, err
 }

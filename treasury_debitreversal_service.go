@@ -21,11 +21,11 @@ type v1TreasuryDebitReversalService struct {
 
 // Reverses a ReceivedDebit and creates a DebitReversal object.
 func (c v1TreasuryDebitReversalService) Create(ctx context.Context, params *TreasuryDebitReversalCreateParams) (*TreasuryDebitReversal, error) {
-	debitreversal := &TreasuryDebitReversal{}
 	if params == nil {
 		params = &TreasuryDebitReversalCreateParams{}
 	}
 	params.Context = ctx
+	debitreversal := &TreasuryDebitReversal{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/treasury/debit_reversals", c.Key, params, debitreversal)
 	return debitreversal, err
@@ -33,12 +33,12 @@ func (c v1TreasuryDebitReversalService) Create(ctx context.Context, params *Trea
 
 // Retrieves a DebitReversal object.
 func (c v1TreasuryDebitReversalService) Retrieve(ctx context.Context, id string, params *TreasuryDebitReversalRetrieveParams) (*TreasuryDebitReversal, error) {
-	path := FormatURLPath("/v1/treasury/debit_reversals/%s", id)
-	debitreversal := &TreasuryDebitReversal{}
 	if params == nil {
 		params = &TreasuryDebitReversalRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/treasury/debit_reversals/%s", id)
+	debitreversal := &TreasuryDebitReversal{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, debitreversal)
 	return debitreversal, err
 }

@@ -21,11 +21,11 @@ type v1ForwardingRequestService struct {
 
 // Creates a ForwardingRequest object.
 func (c v1ForwardingRequestService) Create(ctx context.Context, params *ForwardingRequestCreateParams) (*ForwardingRequest, error) {
-	request := &ForwardingRequest{}
 	if params == nil {
 		params = &ForwardingRequestCreateParams{}
 	}
 	params.Context = ctx
+	request := &ForwardingRequest{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/forwarding/requests", c.Key, params, request)
 	return request, err
@@ -33,12 +33,12 @@ func (c v1ForwardingRequestService) Create(ctx context.Context, params *Forwardi
 
 // Retrieves a ForwardingRequest object.
 func (c v1ForwardingRequestService) Retrieve(ctx context.Context, id string, params *ForwardingRequestRetrieveParams) (*ForwardingRequest, error) {
-	path := FormatURLPath("/v1/forwarding/requests/%s", id)
-	request := &ForwardingRequest{}
 	if params == nil {
 		params = &ForwardingRequestRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/forwarding/requests/%s", id)
+	request := &ForwardingRequest{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, request)
 	return request, err
 }

@@ -21,23 +21,23 @@ type v1InvoiceService struct {
 
 // This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](#pay_invoice) or <a href="#send_invoice">send](https://stripe.com/docs/api#finalize_invoice) the invoice to your customers.
 func (c v1InvoiceService) Create(ctx context.Context, params *InvoiceCreateParams) (*Invoice, error) {
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceCreateParams{}
 	}
 	params.Context = ctx
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, "/v1/invoices", c.Key, params, invoice)
 	return invoice, err
 }
 
 // Retrieves the invoice with the given ID.
 func (c v1InvoiceService) Retrieve(ctx context.Context, id string, params *InvoiceRetrieveParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, invoice)
 	return invoice, err
 }
@@ -49,36 +49,36 @@ func (c v1InvoiceService) Retrieve(ctx context.Context, id string, params *Invoi
 // sending reminders for, or [automatically reconciling](https://stripe.com/docs/billing/invoices/reconciliation) invoices, pass
 // auto_advance=false.
 func (c v1InvoiceService) Update(ctx context.Context, id string, params *InvoiceUpdateParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
 // Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://stripe.com/docs/api#void_invoice).
 func (c v1InvoiceService) Delete(ctx context.Context, id string, params *InvoiceDeleteParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceDeleteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, invoice)
 	return invoice, err
 }
 
 // Adds multiple line items to an invoice. This is only possible when an invoice is still a draft.
 func (c v1InvoiceService) AddLines(ctx context.Context, id string, params *InvoiceAddLinesParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s/add_lines", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceAddLinesParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s/add_lines", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
@@ -91,11 +91,11 @@ func (c v1InvoiceService) AddLines(ctx context.Context, id string, params *Invoi
 //
 // Note: Currency conversion calculations use the latest exchange rates. Exchange rates may vary between the time of the preview and the time of the actual invoice creation. [Learn more](https://docs.stripe.com/currencies/conversions)
 func (c v1InvoiceService) CreatePreview(ctx context.Context, params *InvoiceCreatePreviewParams) (*Invoice, error) {
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceCreatePreviewParams{}
 	}
 	params.Context = ctx
+	invoice := &Invoice{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/invoices/create_preview", c.Key, params, invoice)
 	return invoice, err
@@ -103,48 +103,48 @@ func (c v1InvoiceService) CreatePreview(ctx context.Context, params *InvoiceCrea
 
 // Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
 func (c v1InvoiceService) FinalizeInvoice(ctx context.Context, id string, params *InvoiceFinalizeInvoiceParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s/finalize", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceFinalizeInvoiceParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s/finalize", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
 // Marking an invoice as uncollectible is useful for keeping track of bad debts that can be written off for accounting purposes.
 func (c v1InvoiceService) MarkUncollectible(ctx context.Context, id string, params *InvoiceMarkUncollectibleParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s/mark_uncollectible", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceMarkUncollectibleParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s/mark_uncollectible", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
 // Stripe automatically creates and then attempts to collect payment on invoices for customers on subscriptions according to your [subscriptions settings](https://dashboard.stripe.com/account/billing/automatic). However, if you'd like to attempt payment on an invoice out of the normal collection schedule or for some other reason, you can do so.
 func (c v1InvoiceService) Pay(ctx context.Context, id string, params *InvoicePayParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s/pay", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoicePayParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s/pay", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
 // Removes multiple line items from an invoice. This is only possible when an invoice is still a draft.
 func (c v1InvoiceService) RemoveLines(ctx context.Context, id string, params *InvoiceRemoveLinesParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s/remove_lines", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceRemoveLinesParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s/remove_lines", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
@@ -153,24 +153,24 @@ func (c v1InvoiceService) RemoveLines(ctx context.Context, id string, params *In
 //
 // Requests made in test-mode result in no emails being sent, despite sending an invoice.sent event.
 func (c v1InvoiceService) SendInvoice(ctx context.Context, id string, params *InvoiceSendInvoiceParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s/send", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceSendInvoiceParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s/send", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
 // Updates multiple line items on an invoice. This is only possible when an invoice is still a draft.
 func (c v1InvoiceService) UpdateLines(ctx context.Context, id string, params *InvoiceUpdateLinesParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s/update_lines", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceUpdateLinesParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s/update_lines", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
@@ -179,12 +179,12 @@ func (c v1InvoiceService) UpdateLines(ctx context.Context, id string, params *In
 //
 // Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you're doing business in. You might need to [issue another invoice or <a href="#create_credit_note">credit note](https://stripe.com/docs/api#create_invoice) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
 func (c v1InvoiceService) VoidInvoice(ctx context.Context, id string, params *InvoiceVoidInvoiceParams) (*Invoice, error) {
-	path := FormatURLPath("/v1/invoices/%s/void", id)
-	invoice := &Invoice{}
 	if params == nil {
 		params = &InvoiceVoidInvoiceParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/invoices/%s/void", id)
+	invoice := &Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
@@ -208,12 +208,12 @@ func (c v1InvoiceService) List(ctx context.Context, listParams *InvoiceListParam
 
 // When retrieving an invoice, you'll get a lines property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c v1InvoiceService) ListLines(ctx context.Context, listParams *InvoiceListLinesParams) Seq2[*InvoiceLineItem, error] {
-	path := FormatURLPath(
-		"/v1/invoices/%s/lines", StringValue(listParams.Invoice))
 	if listParams == nil {
 		listParams = &InvoiceListLinesParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/invoices/%s/lines", StringValue(listParams.Invoice))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*InvoiceLineItem, ListContainer, error) {
 		list := &InvoiceLineItemList{}
 		if p == nil {
