@@ -485,25 +485,25 @@ func UseMockedStripeClient(t *testing.T) {
 }
 ```
 
-### Beta SDKs
+### Public Preview SDKs
 
-Stripe has features in the beta phase that can be accessed via the beta version of this package.
-We would love for you to try these and share feedback with us before these features reach the stable phase.
-To install a beta version of stripe-go add the following `replace` directive to your `go.mod` file:
+Stripe has features in the [public preview phase](https://docs.stripe.com/release-phases) that can be accessed via the beta version of this package.
+We would love for you to try these as we incrementally release new features and improve them based on your feedback.
+
+The public preview SDKs are a different version of the same package as the stable SDKs. These versions are appended with `-beta.X` such as `v82.2.0-beta.2`. To install, choose the version that includes support for the preview feature you are interested in by reviewing the [releases page](https://github.com/stripe/stripe-go/releases/) and use it in your `go.mod` file:
 
 ```
-replace github.com/stripe/stripe-go/v82 =>  github.com/stripe/stripe-go/v82@beta
+require (
+	...
+	github.com/stripe/stripe-go/v82 <replace-with-the-version-of-your-choice>
+	...
+)
 ```
 
 > **Note**
-> There can be breaking changes between beta versions.
+> There can be breaking changes between two versions of the public preview SDKs without a bump in the major version.
 
-We highly recommend keeping an eye on when the beta feature you are interested in goes from beta to stable so that you can move from using a beta version of the SDK to the stable version.
-
-If your beta feature requires a `Stripe-Version` header to be sent, set the `stripe.APIVersion` field using the `stripe.AddBetaVersion` function to set it:
-
-> **Note**
-> The `APIVersion` can only be set in beta versions of the library.
+If your preview feature requires a `Stripe-Version` header to be sent, set the `stripe.APIVersion` field using the `stripe.AddBetaVersion` function (available only in the public preview SDKs):
 
 ```go
 stripe.AddBetaVersion("feature_beta", "v3")
@@ -513,9 +513,8 @@ stripe.AddBetaVersion("feature_beta", "v3")
 
 If you would like to send a request to an API that is:
 
-- not yet supported in stripe-go (like any `/v2/...` endpoints), or
-- undocumented (like a private beta), or
-- public, but you prefer to bypass the method definitions in the library and specify your request details directly
+- undocumented (like a preview feature), or
+- you prefer to bypass the method definitions in the library and specify your request details directly
 
 You can use the `rawrequest` package:
 
