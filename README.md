@@ -495,8 +495,8 @@ The public preview SDKs are a different version of the same package as the stabl
 ```
 require (
 	...
-    github.com/stripe/stripe-go/v82 <replace-with-the-version-of-your-choice>
-    ...
+	github.com/stripe/stripe-go/v82 <replace-with-the-version-of-your-choice>
+	...
 )
 ```
 
