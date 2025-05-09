@@ -2551,6 +2551,8 @@ type CheckoutSessionPhoneNumberCollectionParams struct {
 type CheckoutSessionSavedPaymentMethodOptionsParams struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters"`
+	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
+	PaymentMethodRemove *string `form:"payment_method_remove"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave *string `form:"payment_method_save"`
 }
@@ -4160,6 +4162,8 @@ type CheckoutSessionCreatePhoneNumberCollectionParams struct {
 type CheckoutSessionCreateSavedPaymentMethodOptionsParams struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters"`
+	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
+	PaymentMethodRemove *string `form:"payment_method_remove"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave *string `form:"payment_method_save"`
 }
