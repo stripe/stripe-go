@@ -588,8 +588,20 @@ type ChargePaymentDetailsCarRentalDeliveryParams struct {
 	Recipient *ChargePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
+// The details of the distance traveled during the rental period.
+type ChargePaymentDetailsCarRentalDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
 // The details of the passengers in the travel reservation
 type ChargePaymentDetailsCarRentalDriverParams struct {
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
 	// Full name of the person or entity on the car reservation.
 	Name *string `form:"name"`
 }
@@ -614,6 +626,8 @@ type ChargePaymentDetailsCarRentalParams struct {
 	DaysRented *int64 `form:"days_rented"`
 	// Delivery details for this purchase.
 	Delivery *ChargePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the distance traveled during the rental period.
+	Distance *ChargePaymentDetailsCarRentalDistanceParams `form:"distance"`
 	// The details of the passengers in the travel reservation
 	Drivers []*ChargePaymentDetailsCarRentalDriverParams `form:"drivers"`
 	// List of additional charges being billed.
@@ -624,6 +638,8 @@ type ChargePaymentDetailsCarRentalParams struct {
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
 	PickupAt *int64 `form:"pickup_at"`
+	// Name of the pickup location.
+	PickupLocationName *string `form:"pickup_location_name"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -634,8 +650,12 @@ type ChargePaymentDetailsCarRentalParams struct {
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
 	ReturnAt *int64 `form:"return_at"`
+	// Name of the return location.
+	ReturnLocationName *string `form:"return_location_name"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
+	// The vehicle identification number.
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
 // Affiliate details for this purchase.
@@ -919,8 +939,20 @@ type ChargeCapturePaymentDetailsCarRentalDeliveryParams struct {
 	Recipient *ChargeCapturePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
+// The details of the distance traveled during the rental period.
+type ChargeCapturePaymentDetailsCarRentalDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
 // The details of the passengers in the travel reservation
 type ChargeCapturePaymentDetailsCarRentalDriverParams struct {
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
 	// Full name of the person or entity on the car reservation.
 	Name *string `form:"name"`
 }
@@ -945,6 +977,8 @@ type ChargeCapturePaymentDetailsCarRentalParams struct {
 	DaysRented *int64 `form:"days_rented"`
 	// Delivery details for this purchase.
 	Delivery *ChargeCapturePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the distance traveled during the rental period.
+	Distance *ChargeCapturePaymentDetailsCarRentalDistanceParams `form:"distance"`
 	// The details of the passengers in the travel reservation
 	Drivers []*ChargeCapturePaymentDetailsCarRentalDriverParams `form:"drivers"`
 	// List of additional charges being billed.
@@ -955,6 +989,8 @@ type ChargeCapturePaymentDetailsCarRentalParams struct {
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
 	PickupAt *int64 `form:"pickup_at"`
+	// Name of the pickup location.
+	PickupLocationName *string `form:"pickup_location_name"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -965,8 +1001,12 @@ type ChargeCapturePaymentDetailsCarRentalParams struct {
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
 	ReturnAt *int64 `form:"return_at"`
+	// Name of the return location.
+	ReturnLocationName *string `form:"return_location_name"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
+	// The vehicle identification number.
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
 // Affiliate details for this purchase.
@@ -1399,8 +1439,20 @@ type ChargeUpdatePaymentDetailsCarRentalDeliveryParams struct {
 	Recipient *ChargeUpdatePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
+// The details of the distance traveled during the rental period.
+type ChargeUpdatePaymentDetailsCarRentalDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
 // The details of the passengers in the travel reservation
 type ChargeUpdatePaymentDetailsCarRentalDriverParams struct {
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
 	// Full name of the person or entity on the car reservation.
 	Name *string `form:"name"`
 }
@@ -1425,6 +1477,8 @@ type ChargeUpdatePaymentDetailsCarRentalParams struct {
 	DaysRented *int64 `form:"days_rented"`
 	// Delivery details for this purchase.
 	Delivery *ChargeUpdatePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the distance traveled during the rental period.
+	Distance *ChargeUpdatePaymentDetailsCarRentalDistanceParams `form:"distance"`
 	// The details of the passengers in the travel reservation
 	Drivers []*ChargeUpdatePaymentDetailsCarRentalDriverParams `form:"drivers"`
 	// List of additional charges being billed.
@@ -1435,6 +1489,8 @@ type ChargeUpdatePaymentDetailsCarRentalParams struct {
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
 	PickupAt *int64 `form:"pickup_at"`
+	// Name of the pickup location.
+	PickupLocationName *string `form:"pickup_location_name"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -1445,8 +1501,12 @@ type ChargeUpdatePaymentDetailsCarRentalParams struct {
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
 	ReturnAt *int64 `form:"return_at"`
+	// Name of the return location.
+	ReturnLocationName *string `form:"return_location_name"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
+	// The vehicle identification number.
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
 // Affiliate details for this purchase.
