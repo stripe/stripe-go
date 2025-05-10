@@ -58,11 +58,15 @@ func (c Client) Get(id string, params *stripe.CheckoutSessionParams) (*stripe.Ch
 }
 
 // Updates a Checkout Session object.
+//
+// Related guide: [Dynamically update Checkout](https://stripe.com/payments/checkout/dynamic-updates)
 func Update(id string, params *stripe.CheckoutSessionParams) (*stripe.CheckoutSession, error) {
 	return getC().Update(id, params)
 }
 
 // Updates a Checkout Session object.
+//
+// Related guide: [Dynamically update Checkout](https://stripe.com/payments/checkout/dynamic-updates)
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

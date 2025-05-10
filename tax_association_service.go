@@ -19,11 +19,11 @@ type v1TaxAssociationService struct {
 
 // Finds a tax association object by PaymentIntent id.
 func (c v1TaxAssociationService) Find(ctx context.Context, params *TaxAssociationFindParams) (*TaxAssociation, error) {
-	association := &TaxAssociation{}
 	if params == nil {
 		params = &TaxAssociationFindParams{}
 	}
 	params.Context = ctx
+	association := &TaxAssociation{}
 	err := c.B.Call(
 		http.MethodGet, "/v1/tax/associations/find", c.Key, params, association)
 	return association, err

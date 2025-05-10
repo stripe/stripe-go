@@ -21,13 +21,13 @@ type v1PaymentIntentAmountDetailsLineItemService struct {
 
 // Lists all LineItems of a given PaymentIntent.
 func (c v1PaymentIntentAmountDetailsLineItemService) List(ctx context.Context, listParams *PaymentIntentAmountDetailsLineItemListParams) Seq2[*PaymentIntentAmountDetailsLineItem, error] {
-	path := FormatURLPath(
-		"/v1/payment_intents/%s/amount_details_line_items", StringValue(
-			listParams.Intent))
 	if listParams == nil {
 		listParams = &PaymentIntentAmountDetailsLineItemListParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/payment_intents/%s/amount_details_line_items", StringValue(
+			listParams.Intent))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PaymentIntentAmountDetailsLineItem, ListContainer, error) {
 		list := &PaymentIntentAmountDetailsLineItemList{}
 		if p == nil {

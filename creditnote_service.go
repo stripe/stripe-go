@@ -32,11 +32,11 @@ type v1CreditNoteService struct {
 // You may issue multiple credit notes for an invoice. Each credit note will increment the invoice's pre_payment_credit_notes_amount
 // or post_payment_credit_notes_amount depending on its status at the time of credit note creation.
 func (c v1CreditNoteService) Create(ctx context.Context, params *CreditNoteCreateParams) (*CreditNote, error) {
-	creditnote := &CreditNote{}
 	if params == nil {
 		params = &CreditNoteCreateParams{}
 	}
 	params.Context = ctx
+	creditnote := &CreditNote{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/credit_notes", c.Key, params, creditnote)
 	return creditnote, err
@@ -44,35 +44,35 @@ func (c v1CreditNoteService) Create(ctx context.Context, params *CreditNoteCreat
 
 // Retrieves the credit note object with the given identifier.
 func (c v1CreditNoteService) Retrieve(ctx context.Context, id string, params *CreditNoteRetrieveParams) (*CreditNote, error) {
-	path := FormatURLPath("/v1/credit_notes/%s", id)
-	creditnote := &CreditNote{}
 	if params == nil {
 		params = &CreditNoteRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/credit_notes/%s", id)
+	creditnote := &CreditNote{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, creditnote)
 	return creditnote, err
 }
 
 // Updates an existing credit note.
 func (c v1CreditNoteService) Update(ctx context.Context, id string, params *CreditNoteUpdateParams) (*CreditNote, error) {
-	path := FormatURLPath("/v1/credit_notes/%s", id)
-	creditnote := &CreditNote{}
 	if params == nil {
 		params = &CreditNoteUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/credit_notes/%s", id)
+	creditnote := &CreditNote{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, creditnote)
 	return creditnote, err
 }
 
 // Get a preview of a credit note without creating it.
 func (c v1CreditNoteService) Preview(ctx context.Context, params *CreditNotePreviewParams) (*CreditNote, error) {
-	creditnote := &CreditNote{}
 	if params == nil {
 		params = &CreditNotePreviewParams{}
 	}
 	params.Context = ctx
+	creditnote := &CreditNote{}
 	err := c.B.Call(
 		http.MethodGet, "/v1/credit_notes/preview", c.Key, params, creditnote)
 	return creditnote, err
@@ -80,12 +80,12 @@ func (c v1CreditNoteService) Preview(ctx context.Context, params *CreditNotePrev
 
 // Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
 func (c v1CreditNoteService) VoidCreditNote(ctx context.Context, id string, params *CreditNoteVoidCreditNoteParams) (*CreditNote, error) {
-	path := FormatURLPath("/v1/credit_notes/%s/void", id)
-	creditnote := &CreditNote{}
 	if params == nil {
 		params = &CreditNoteVoidCreditNoteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/credit_notes/%s/void", id)
+	creditnote := &CreditNote{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, creditnote)
 	return creditnote, err
 }
@@ -109,12 +109,12 @@ func (c v1CreditNoteService) List(ctx context.Context, listParams *CreditNoteLis
 
 // When retrieving a credit note, you'll get a lines property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 func (c v1CreditNoteService) ListLines(ctx context.Context, listParams *CreditNoteListLinesParams) Seq2[*CreditNoteLineItem, error] {
-	path := FormatURLPath(
-		"/v1/credit_notes/%s/lines", StringValue(listParams.CreditNote))
 	if listParams == nil {
 		listParams = &CreditNoteListLinesParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/credit_notes/%s/lines", StringValue(listParams.CreditNote))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CreditNoteLineItem, ListContainer, error) {
 		list := &CreditNoteLineItemList{}
 		if p == nil {

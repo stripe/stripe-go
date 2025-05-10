@@ -21,11 +21,11 @@ type v1TreasuryCreditReversalService struct {
 
 // Reverses a ReceivedCredit and creates a CreditReversal object.
 func (c v1TreasuryCreditReversalService) Create(ctx context.Context, params *TreasuryCreditReversalCreateParams) (*TreasuryCreditReversal, error) {
-	creditreversal := &TreasuryCreditReversal{}
 	if params == nil {
 		params = &TreasuryCreditReversalCreateParams{}
 	}
 	params.Context = ctx
+	creditreversal := &TreasuryCreditReversal{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/treasury/credit_reversals", c.Key, params, creditreversal)
 	return creditreversal, err
@@ -33,12 +33,12 @@ func (c v1TreasuryCreditReversalService) Create(ctx context.Context, params *Tre
 
 // Retrieves the details of an existing CreditReversal by passing the unique CreditReversal ID from either the CreditReversal creation request or CreditReversal list
 func (c v1TreasuryCreditReversalService) Retrieve(ctx context.Context, id string, params *TreasuryCreditReversalRetrieveParams) (*TreasuryCreditReversal, error) {
-	path := FormatURLPath("/v1/treasury/credit_reversals/%s", id)
-	creditreversal := &TreasuryCreditReversal{}
 	if params == nil {
 		params = &TreasuryCreditReversalRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/treasury/credit_reversals/%s", id)
+	creditreversal := &TreasuryCreditReversal{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, creditreversal)
 	return creditreversal, err
 }

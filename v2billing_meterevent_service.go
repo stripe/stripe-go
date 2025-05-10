@@ -19,11 +19,11 @@ type v2BillingMeterEventService struct {
 
 // Creates a meter event. Events are validated synchronously, but are processed asynchronously. Supports up to 1,000 events per second in livemode. For higher rate-limits, please use meter event streams instead.
 func (c v2BillingMeterEventService) Create(ctx context.Context, params *V2BillingMeterEventCreateParams) (*V2BillingMeterEvent, error) {
-	meterevent := &V2BillingMeterEvent{}
 	if params == nil {
 		params = &V2BillingMeterEventCreateParams{}
 	}
 	params.Context = ctx
+	meterevent := &V2BillingMeterEvent{}
 	err := c.B.Call(
 		http.MethodPost, "/v2/billing/meter_events", c.Key, params, meterevent)
 	return meterevent, err

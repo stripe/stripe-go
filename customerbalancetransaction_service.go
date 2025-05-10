@@ -21,13 +21,13 @@ type v1CustomerBalanceTransactionService struct {
 
 // Creates an immutable transaction that updates the customer's credit [balance](https://stripe.com/docs/billing/customer/balance).
 func (c v1CustomerBalanceTransactionService) Create(ctx context.Context, params *CustomerBalanceTransactionCreateParams) (*CustomerBalanceTransaction, error) {
-	path := FormatURLPath(
-		"/v1/customers/%s/balance_transactions", StringValue(params.Customer))
-	customerbalancetransaction := &CustomerBalanceTransaction{}
 	if params == nil {
 		params = &CustomerBalanceTransactionCreateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/customers/%s/balance_transactions", StringValue(params.Customer))
+	customerbalancetransaction := &CustomerBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, customerbalancetransaction)
 	return customerbalancetransaction, err
@@ -35,14 +35,14 @@ func (c v1CustomerBalanceTransactionService) Create(ctx context.Context, params 
 
 // Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 func (c v1CustomerBalanceTransactionService) Retrieve(ctx context.Context, id string, params *CustomerBalanceTransactionRetrieveParams) (*CustomerBalanceTransaction, error) {
-	path := FormatURLPath(
-		"/v1/customers/%s/balance_transactions/%s", StringValue(
-			params.Customer), id)
-	customerbalancetransaction := &CustomerBalanceTransaction{}
 	if params == nil {
 		params = &CustomerBalanceTransactionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/customers/%s/balance_transactions/%s", StringValue(
+			params.Customer), id)
+	customerbalancetransaction := &CustomerBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodGet, path, c.Key, params, customerbalancetransaction)
 	return customerbalancetransaction, err
@@ -50,14 +50,14 @@ func (c v1CustomerBalanceTransactionService) Retrieve(ctx context.Context, id st
 
 // Most credit balance transaction fields are immutable, but you may update its description and metadata.
 func (c v1CustomerBalanceTransactionService) Update(ctx context.Context, id string, params *CustomerBalanceTransactionUpdateParams) (*CustomerBalanceTransaction, error) {
-	path := FormatURLPath(
-		"/v1/customers/%s/balance_transactions/%s", StringValue(
-			params.Customer), id)
-	customerbalancetransaction := &CustomerBalanceTransaction{}
 	if params == nil {
 		params = &CustomerBalanceTransactionUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/customers/%s/balance_transactions/%s", StringValue(
+			params.Customer), id)
+	customerbalancetransaction := &CustomerBalanceTransaction{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, customerbalancetransaction)
 	return customerbalancetransaction, err
@@ -65,12 +65,12 @@ func (c v1CustomerBalanceTransactionService) Update(ctx context.Context, id stri
 
 // Returns a list of transactions that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 func (c v1CustomerBalanceTransactionService) List(ctx context.Context, listParams *CustomerBalanceTransactionListParams) Seq2[*CustomerBalanceTransaction, error] {
-	path := FormatURLPath(
-		"/v1/customers/%s/balance_transactions", StringValue(listParams.Customer))
 	if listParams == nil {
 		listParams = &CustomerBalanceTransactionListParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/customers/%s/balance_transactions", StringValue(listParams.Customer))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*CustomerBalanceTransaction, ListContainer, error) {
 		list := &CustomerBalanceTransactionList{}
 		if p == nil {

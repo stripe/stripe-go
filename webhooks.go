@@ -142,22 +142,22 @@ type signedHeader struct {
 // Private functions
 //
 
-func isCompatibleAPIVersion(sdkApiVersion, eventApiVersion string) bool {
+func isCompatibleAPIVersion(sdkAPIVersion, eventAPIVersion string) bool {
 	// If the event api version is from before we started adding
 	// a release train, there's no way its compatible with this
 	// version
-	if !strings.Contains(eventApiVersion, ".") {
+	if !strings.Contains(eventAPIVersion, ".") {
 		return false
 	}
 
 	// if the SDK is pinned to a preview version, the event's API version must match exactly
-	var currentReleaseTrain = strings.Split(sdkApiVersion, ".")[1]
+	var currentReleaseTrain = strings.Split(sdkAPIVersion, ".")[1]
 	if currentReleaseTrain == "preview" {
-		return sdkApiVersion == eventApiVersion
+		return sdkAPIVersion == eventAPIVersion
 	}
 
 	// versions are yyyy-MM-dd.train
-	var eventReleaseTrain = strings.Split(eventApiVersion, ".")[1]
+	var eventReleaseTrain = strings.Split(eventAPIVersion, ".")[1]
 	return eventReleaseTrain == currentReleaseTrain
 }
 

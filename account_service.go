@@ -26,34 +26,34 @@ type v1AccountService struct {
 // creating the account. Connect Onboarding won't ask for the prefilled information during account onboarding.
 // You can prefill any information on the account.
 func (c v1AccountService) Create(ctx context.Context, params *AccountCreateParams) (*Account, error) {
-	account := &Account{}
 	if params == nil {
 		params = &AccountCreateParams{}
 	}
 	params.Context = ctx
+	account := &Account{}
 	err := c.B.Call(http.MethodPost, "/v1/accounts", c.Key, params, account)
 	return account, err
 }
 
 // Retrieves the details of an account.
 func (c v1AccountService) Retrieve(ctx context.Context, params *AccountRetrieveParams) (*Account, error) {
-	account := &Account{}
 	if params == nil {
 		params = &AccountRetrieveParams{}
 	}
 	params.Context = ctx
+	account := &Account{}
 	err := c.B.Call(http.MethodGet, "/v1/account", c.Key, params, account)
 	return account, err
 }
 
 // Retrieves the details of an account.
 func (c v1AccountService) GetByID(ctx context.Context, id string, params *AccountRetrieveParams) (*Account, error) {
-	path := FormatURLPath("/v1/accounts/%s", id)
-	account := &Account{}
 	if params == nil {
 		params = &AccountRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/accounts/%s", id)
+	account := &Account{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, account)
 	return account, err
 }
@@ -72,12 +72,12 @@ func (c v1AccountService) GetByID(ctx context.Context, id string, params *Accoun
 // To update your own account, use the [Dashboard](https://dashboard.stripe.com/settings/account). Refer to our
 // [Connect](https://stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
 func (c v1AccountService) Update(ctx context.Context, id string, params *AccountUpdateParams) (*Account, error) {
-	path := FormatURLPath("/v1/accounts/%s", id)
-	account := &Account{}
 	if params == nil {
 		params = &AccountUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/accounts/%s", id)
+	account := &Account{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
 	return account, err
 }
@@ -90,12 +90,12 @@ func (c v1AccountService) Update(ctx context.Context, id string, params *Account
 //
 // If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
 func (c v1AccountService) Delete(ctx context.Context, id string, params *AccountDeleteParams) (*Account, error) {
-	path := FormatURLPath("/v1/accounts/%s", id)
-	account := &Account{}
 	if params == nil {
 		params = &AccountDeleteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/accounts/%s", id)
+	account := &Account{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, account)
 	return account, err
 }
@@ -104,12 +104,12 @@ func (c v1AccountService) Delete(ctx context.Context, id string, params *Account
 //
 // Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
 func (c v1AccountService) Reject(ctx context.Context, id string, params *AccountRejectParams) (*Account, error) {
-	path := FormatURLPath("/v1/accounts/%s/reject", id)
-	account := &Account{}
 	if params == nil {
 		params = &AccountRejectParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/accounts/%s/reject", id)
+	account := &Account{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
 	return account, err
 }

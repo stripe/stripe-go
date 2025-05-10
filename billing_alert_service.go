@@ -21,59 +21,59 @@ type v1BillingAlertService struct {
 
 // Creates a billing alert
 func (c v1BillingAlertService) Create(ctx context.Context, params *BillingAlertCreateParams) (*BillingAlert, error) {
-	alert := &BillingAlert{}
 	if params == nil {
 		params = &BillingAlertCreateParams{}
 	}
 	params.Context = ctx
+	alert := &BillingAlert{}
 	err := c.B.Call(http.MethodPost, "/v1/billing/alerts", c.Key, params, alert)
 	return alert, err
 }
 
 // Retrieves a billing alert given an ID
 func (c v1BillingAlertService) Retrieve(ctx context.Context, id string, params *BillingAlertRetrieveParams) (*BillingAlert, error) {
-	path := FormatURLPath("/v1/billing/alerts/%s", id)
-	alert := &BillingAlert{}
 	if params == nil {
 		params = &BillingAlertRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/billing/alerts/%s", id)
+	alert := &BillingAlert{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, alert)
 	return alert, err
 }
 
 // Reactivates this alert, allowing it to trigger again.
 func (c v1BillingAlertService) Activate(ctx context.Context, id string, params *BillingAlertActivateParams) (*BillingAlert, error) {
-	path := FormatURLPath("/v1/billing/alerts/%s/activate", id)
-	alert := &BillingAlert{}
 	if params == nil {
 		params = &BillingAlertActivateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/billing/alerts/%s/activate", id)
+	alert := &BillingAlert{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, alert)
 	return alert, err
 }
 
 // Archives this alert, removing it from the list view and APIs. This is non-reversible.
 func (c v1BillingAlertService) Archive(ctx context.Context, id string, params *BillingAlertArchiveParams) (*BillingAlert, error) {
-	path := FormatURLPath("/v1/billing/alerts/%s/archive", id)
-	alert := &BillingAlert{}
 	if params == nil {
 		params = &BillingAlertArchiveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/billing/alerts/%s/archive", id)
+	alert := &BillingAlert{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, alert)
 	return alert, err
 }
 
 // Deactivates this alert, preventing it from triggering.
 func (c v1BillingAlertService) Deactivate(ctx context.Context, id string, params *BillingAlertDeactivateParams) (*BillingAlert, error) {
-	path := FormatURLPath("/v1/billing/alerts/%s/deactivate", id)
-	alert := &BillingAlert{}
 	if params == nil {
 		params = &BillingAlertDeactivateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/billing/alerts/%s/deactivate", id)
+	alert := &BillingAlert{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, alert)
 	return alert, err
 }

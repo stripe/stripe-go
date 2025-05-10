@@ -32,6 +32,9 @@ func (p *PaymentIntentAmountDetailsLineItemListParams) AddExpand(f string) {
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCard struct {
 	CommodityCode string `json:"commodity_code"`
 }
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresent struct {
+	CommodityCode string `json:"commodity_code"`
+}
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarna struct {
 	ImageURL   string `json:"image_url"`
 	ProductURL string `json:"product_url"`
@@ -47,9 +50,10 @@ type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypal struct {
 
 // Payment method-specific information for line items.
 type PaymentIntentAmountDetailsLineItemPaymentMethodOptions struct {
-	Card   *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCard   `json:"card"`
-	Klarna *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarna `json:"klarna"`
-	Paypal *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypal `json:"paypal"`
+	Card        *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCard        `json:"card"`
+	CardPresent *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresent `json:"card_present"`
+	Klarna      *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarna      `json:"klarna"`
+	Paypal      *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypal      `json:"paypal"`
 }
 
 // Contains information about the tax on the item.

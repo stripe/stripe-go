@@ -19,12 +19,12 @@ type v2MoneyManagementTransactionService struct {
 
 // Retrieves the details of a Transaction by ID.
 func (c v2MoneyManagementTransactionService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementTransactionRetrieveParams) (*V2MoneyManagementTransaction, error) {
-	path := FormatURLPath("/v2/money_management/transactions/%s", id)
-	transaction := &V2MoneyManagementTransaction{}
 	if params == nil {
 		params = &V2MoneyManagementTransactionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/transactions/%s", id)
+	transaction := &V2MoneyManagementTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
 	return transaction, err
 }

@@ -21,13 +21,13 @@ type v1LoginLinkService struct {
 //
 // You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
 func (c v1LoginLinkService) Create(ctx context.Context, params *LoginLinkCreateParams) (*LoginLink, error) {
-	path := FormatURLPath(
-		"/v1/accounts/%s/login_links", StringValue(params.Account))
-	loginlink := &LoginLink{}
 	if params == nil {
 		params = &LoginLinkCreateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/accounts/%s/login_links", StringValue(params.Account))
+	loginlink := &LoginLink{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, loginlink)
 	return loginlink, err
 }

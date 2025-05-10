@@ -19,11 +19,11 @@ type v2CoreVaultGBBankAccountService struct {
 
 // Create a GB bank account.
 func (c v2CoreVaultGBBankAccountService) Create(ctx context.Context, params *V2CoreVaultGBBankAccountCreateParams) (*V2CoreVaultGBBankAccount, error) {
-	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	if params == nil {
 		params = &V2CoreVaultGBBankAccountCreateParams{}
 	}
 	params.Context = ctx
+	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	err := c.B.Call(
 		http.MethodPost, "/v2/core/vault/gb_bank_accounts", c.Key, params, gbbankaccount)
 	return gbbankaccount, err
@@ -31,12 +31,12 @@ func (c v2CoreVaultGBBankAccountService) Create(ctx context.Context, params *V2C
 
 // Retrieve a GB bank account.
 func (c v2CoreVaultGBBankAccountService) Retrieve(ctx context.Context, id string, params *V2CoreVaultGBBankAccountRetrieveParams) (*V2CoreVaultGBBankAccount, error) {
-	path := FormatURLPath("/v2/core/vault/gb_bank_accounts/%s", id)
-	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	if params == nil {
 		params = &V2CoreVaultGBBankAccountRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/core/vault/gb_bank_accounts/%s", id)
+	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, gbbankaccount)
 	return gbbankaccount, err
 }
@@ -46,13 +46,13 @@ func (c v2CoreVaultGBBankAccountService) Retrieve(ctx context.Context, id string
 // being unavailable. Once you confirm this, you will be able to send OutboundPayments, but this may lead to
 // funds being sent to the wrong account, which we might not be able to recover.
 func (c v2CoreVaultGBBankAccountService) AcknowledgeConfirmationOfPayee(ctx context.Context, id string, params *V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams) (*V2CoreVaultGBBankAccount, error) {
-	path := FormatURLPath(
-		"/v2/core/vault/gb_bank_accounts/%s/acknowledge_confirmation_of_payee", id)
-	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	if params == nil {
 		params = &V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/core/vault/gb_bank_accounts/%s/acknowledge_confirmation_of_payee", id)
+	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, gbbankaccount)
 	return gbbankaccount, err
 }
@@ -60,12 +60,12 @@ func (c v2CoreVaultGBBankAccountService) AcknowledgeConfirmationOfPayee(ctx cont
 // Archive a GBBankAccount object. Archived GBBankAccount objects cannot be used as outbound destinations
 // and will not appear in the outbound destination list.
 func (c v2CoreVaultGBBankAccountService) Archive(ctx context.Context, id string, params *V2CoreVaultGBBankAccountArchiveParams) (*V2CoreVaultGBBankAccount, error) {
-	path := FormatURLPath("/v2/core/vault/gb_bank_accounts/%s/archive", id)
-	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	if params == nil {
 		params = &V2CoreVaultGBBankAccountArchiveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/core/vault/gb_bank_accounts/%s/archive", id)
+	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, gbbankaccount)
 	return gbbankaccount, err
 }
@@ -75,13 +75,13 @@ func (c v2CoreVaultGBBankAccountService) Archive(ctx context.Context, id string,
 // the result is a partial match or a non match, explicit acknowledgement using AcknowledgeConfirmationOfPayee
 // is required before sending funds.
 func (c v2CoreVaultGBBankAccountService) InitiateConfirmationOfPayee(ctx context.Context, id string, params *V2CoreVaultGBBankAccountInitiateConfirmationOfPayeeParams) (*V2CoreVaultGBBankAccount, error) {
-	path := FormatURLPath(
-		"/v2/core/vault/gb_bank_accounts/%s/initiate_confirmation_of_payee", id)
-	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	if params == nil {
 		params = &V2CoreVaultGBBankAccountInitiateConfirmationOfPayeeParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/core/vault/gb_bank_accounts/%s/initiate_confirmation_of_payee", id)
+	gbbankaccount := &V2CoreVaultGBBankAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, gbbankaccount)
 	return gbbankaccount, err
 }

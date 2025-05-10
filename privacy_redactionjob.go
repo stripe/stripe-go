@@ -6,6 +6,30 @@
 
 package stripe
 
+// The status field represents the current state of the redaction job. It can take on any of the following values: VALIDATING, READY, REDACTING, SUCCEEDED, CANCELED, FAILED.
+type PrivacyRedactionJobStatus string
+
+// List of values that PrivacyRedactionJobStatus can take
+const (
+	PrivacyRedactionJobStatusCanceled   PrivacyRedactionJobStatus = "canceled"
+	PrivacyRedactionJobStatusCanceling  PrivacyRedactionJobStatus = "canceling"
+	PrivacyRedactionJobStatusCreated    PrivacyRedactionJobStatus = "created"
+	PrivacyRedactionJobStatusFailed     PrivacyRedactionJobStatus = "failed"
+	PrivacyRedactionJobStatusReady      PrivacyRedactionJobStatus = "ready"
+	PrivacyRedactionJobStatusRedacting  PrivacyRedactionJobStatus = "redacting"
+	PrivacyRedactionJobStatusSucceeded  PrivacyRedactionJobStatus = "succeeded"
+	PrivacyRedactionJobStatusValidating PrivacyRedactionJobStatus = "validating"
+)
+
+// Default is "error". If "error", we will make sure all objects in the graph are redactable in the 1st traversal, otherwise error. If "fix", where possible, we will auto-fix any validation errors (e.g. by auto-transitioning objects to a terminal state, etc.) in the 2nd traversal before redacting
+type PrivacyRedactionJobValidationBehavior string
+
+// List of values that PrivacyRedactionJobValidationBehavior can take
+const (
+	PrivacyRedactionJobValidationBehaviorError PrivacyRedactionJobValidationBehavior = "error"
+	PrivacyRedactionJobValidationBehaviorFix   PrivacyRedactionJobValidationBehavior = "fix"
+)
+
 // List redaction jobs method...
 type PrivacyRedactionJobListParams struct {
 	ListParams `form:"*"`
@@ -167,14 +191,16 @@ type PrivacyRedactionJob struct {
 	Created int64 `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The objects at the root level that are subject to redaction.
 	Objects *PrivacyRedactionJobObjects `json:"objects"`
 	// The status field represents the current state of the redaction job. It can take on any of the following values: VALIDATING, READY, REDACTING, SUCCEEDED, CANCELED, FAILED.
-	Status string `json:"status"`
+	Status PrivacyRedactionJobStatus `json:"status"`
 	// Default is "error". If "error", we will make sure all objects in the graph are redactable in the 1st traversal, otherwise error. If "fix", where possible, we will auto-fix any validation errors (e.g. by auto-transitioning objects to a terminal state, etc.) in the 2nd traversal before redacting
-	ValidationBehavior string `json:"validation_behavior"`
+	ValidationBehavior PrivacyRedactionJobValidationBehavior `json:"validation_behavior"`
 }
 
 // PrivacyRedactionJobList is a list of RedactionJobs as retrieved from a list endpoint.
