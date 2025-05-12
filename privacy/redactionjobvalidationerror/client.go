@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// List validation errors method
+// Returns a list of validation errors for the specified redaction job.
 func List(params *stripe.PrivacyRedactionJobValidationErrorListParams) *Iter {
 	return getC().List(params)
 }
 
-// List validation errors method
+// Returns a list of validation errors for the specified redaction job.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

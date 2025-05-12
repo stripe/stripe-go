@@ -6,7 +6,7 @@
 
 package stripe
 
-// The status field represents the current state of the redaction job. It can take on any of the following values: VALIDATING, READY, REDACTING, SUCCEEDED, CANCELED, FAILED.
+// The status of the job.
 type PrivacyRedactionJobStatus string
 
 // List of values that PrivacyRedactionJobStatus can take
@@ -21,7 +21,7 @@ const (
 	PrivacyRedactionJobStatusValidating PrivacyRedactionJobStatus = "validating"
 )
 
-// Default is "error". If "error", we will make sure all objects in the graph are redactable in the 1st traversal, otherwise error. If "fix", where possible, we will auto-fix any validation errors (e.g. by auto-transitioning objects to a terminal state, etc.) in the 2nd traversal before redacting
+// Validation behavior determines how a job validates objects for redaction eligibility. Default is `error`.
 type PrivacyRedactionJobValidationBehavior string
 
 // List of values that PrivacyRedactionJobValidationBehavior can take
@@ -30,7 +30,7 @@ const (
 	PrivacyRedactionJobValidationBehaviorFix   PrivacyRedactionJobValidationBehavior = "fix"
 )
 
-// List redaction jobs method...
+// Returns a list of redaction jobs.
 type PrivacyRedactionJobListParams struct {
 	ListParams `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -43,7 +43,7 @@ func (p *PrivacyRedactionJobListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The objects at the root level that are subject to redaction.
+// The objects to redact. These root objects and their related ones will be validated for redaction.
 type PrivacyRedactionJobObjectsParams struct {
 	Charges                      []*string `form:"charges"`
 	CheckoutSessions             []*string `form:"checkout_sessions"`
@@ -57,17 +57,14 @@ type PrivacyRedactionJobObjectsParams struct {
 	SetupIntents                 []*string `form:"setup_intents"`
 }
 
-// Create redaction job method
+// Creates a redaction job. When a job is created, it will start to validate.
 type PrivacyRedactionJobParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The objects at the root level that are subject to redaction.
+	// The objects to redact. These root objects and their related ones will be validated for redaction.
 	Objects *PrivacyRedactionJobObjectsParams `form:"objects"`
-	// Default is "error". If "error", we will make sure all objects in the graph are
-	// redactable in the 1st traversal, otherwise error. If "fix", where possible, we will
-	// auto-fix any validation errors (e.g. by auto-transitioning objects to a terminal
-	// state, etc.) in the 2nd traversal before redacting
+	// Determines the validation behavior of the job. Default is `error`.
 	ValidationBehavior *string `form:"validation_behavior"`
 }
 
@@ -76,7 +73,9 @@ func (p *PrivacyRedactionJobParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Cancel redaction job method
+// You can cancel a redaction job when it's in one of these statuses: ready, failed.
+//
+// Canceling the redaction job will abandon its attempt to redact the configured objects. A canceled job cannot be used again.
 type PrivacyRedactionJobCancelParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -88,7 +87,11 @@ func (p *PrivacyRedactionJobCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Run redaction job method
+// Run a redaction job in a ready status.
+//
+// When you run a job, the configured objects will be redacted asynchronously. This action is irreversible and cannot be canceled once started.
+//
+// The status of the job will move to redacting. Once all of the objects are redacted, the status will become succeeded. If the job's validation_behavior is set to fix, the automatic fixes will be applied to objects at this step.
 type PrivacyRedactionJobRunParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -100,7 +103,11 @@ func (p *PrivacyRedactionJobRunParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Validate redaction job method
+// Validate a redaction job when it is in a failed status.
+//
+// When a job is created, it automatically begins to validate on the configured objects' eligibility for redaction. Use this to validate the job again after its validation errors are resolved or the job's validation_behavior is changed.
+//
+// The status of the job will move to validating. Once all of the objects are validated, the status of the job will become ready. If there are any validation errors preventing the job from running, the status will become failed.
 type PrivacyRedactionJobValidateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -112,7 +119,7 @@ func (p *PrivacyRedactionJobValidateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The objects at the root level that are subject to redaction.
+// The objects to redact. These root objects and their related ones will be validated for redaction.
 type PrivacyRedactionJobCreateObjectsParams struct {
 	Charges                      []*string `form:"charges"`
 	CheckoutSessions             []*string `form:"checkout_sessions"`
@@ -126,17 +133,14 @@ type PrivacyRedactionJobCreateObjectsParams struct {
 	SetupIntents                 []*string `form:"setup_intents"`
 }
 
-// Create redaction job method
+// Creates a redaction job. When a job is created, it will start to validate.
 type PrivacyRedactionJobCreateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// The objects at the root level that are subject to redaction.
+	// The objects to redact. These root objects and their related ones will be validated for redaction.
 	Objects *PrivacyRedactionJobCreateObjectsParams `form:"objects"`
-	// Default is "error". If "error", we will make sure all objects in the graph are
-	// redactable in the 1st traversal, otherwise error. If "fix", where possible, we will
-	// auto-fix any validation errors (e.g. by auto-transitioning objects to a terminal
-	// state, etc.) in the 2nd traversal before redacting
+	// Determines the validation behavior of the job. Default is `error`.
 	ValidationBehavior *string `form:"validation_behavior"`
 }
 
@@ -145,7 +149,7 @@ func (p *PrivacyRedactionJobCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieve redaction job method
+// Retrieves the details of a previously created redaction job.
 type PrivacyRedactionJobRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -157,12 +161,15 @@ func (p *PrivacyRedactionJobRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Update redaction job method
+// Updates the properties of a redaction job without running or canceling the job.
+//
+// If the job to update is in a failed status, it will not automatically start to validate. Once you applied all of the changes, use the validate API to start validation again.
 type PrivacyRedactionJobUpdateParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
-	Expand             []*string `form:"expand"`
-	ValidationBehavior *string   `form:"validation_behavior"`
+	Expand []*string `form:"expand"`
+	// Determines the validation behavior of the job. Default is `error`.
+	ValidationBehavior *string `form:"validation_behavior"`
 }
 
 // AddExpand appends a new field to expand.
@@ -170,21 +177,32 @@ func (p *PrivacyRedactionJobUpdateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// The objects at the root level that are subject to redaction.
+// The objects to redact in this job.
 type PrivacyRedactionJobObjects struct {
-	Charges                      []string `json:"charges"`
-	CheckoutSessions             []string `json:"checkout_sessions"`
-	Customers                    []string `json:"customers"`
+	// Charge object identifiers usually starting with `ch_`
+	Charges []string `json:"charges"`
+	// CheckoutSession object identifiers starting with `cs_`
+	CheckoutSessions []string `json:"checkout_sessions"`
+	// Customer object identifiers starting with `cus_`
+	Customers []string `json:"customers"`
+	// Identity VerificationSessions object identifiers starting with `vs_`
 	IdentityVerificationSessions []string `json:"identity_verification_sessions"`
-	Invoices                     []string `json:"invoices"`
-	IssuingCardholders           []string `json:"issuing_cardholders"`
-	PaymentIntents               []string `json:"payment_intents"`
-	RadarValueListItems          []string `json:"radar_value_list_items"`
-	SetupIntents                 []string `json:"setup_intents"`
+	// Invoice object identifiers starting with `in_`
+	Invoices []string `json:"invoices"`
+	// Issuing Cardholder object identifiers starting with `ich_`
+	IssuingCardholders []string `json:"issuing_cardholders"`
+	// PaymentIntent object identifiers starting with `pi_`
+	PaymentIntents []string `json:"payment_intents"`
+	// Fraud ValueListItem object identifiers starting with `rsli_`
+	RadarValueListItems []string `json:"radar_value_list_items"`
+	// SetupIntent object identifiers starting with `seti_`
+	SetupIntents []string `json:"setup_intents"`
 }
 
-// Redaction Jobs store the status of a redaction request. They are created
-// when a redaction request is made and track the redaction validation and execution.
+// The Redaction Job object is used to redact Stripe objects. It is used
+// to coordinate the removal of personal information from selected
+// objects, making them permanently inaccessible in the Stripe Dashboard
+// and API.
 type PrivacyRedactionJob struct {
 	APIResource
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -195,11 +213,11 @@ type PrivacyRedactionJob struct {
 	Livemode bool `json:"livemode"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The objects at the root level that are subject to redaction.
+	// The objects to redact in this job.
 	Objects *PrivacyRedactionJobObjects `json:"objects"`
-	// The status field represents the current state of the redaction job. It can take on any of the following values: VALIDATING, READY, REDACTING, SUCCEEDED, CANCELED, FAILED.
+	// The status of the job.
 	Status PrivacyRedactionJobStatus `json:"status"`
-	// Default is "error". If "error", we will make sure all objects in the graph are redactable in the 1st traversal, otherwise error. If "fix", where possible, we will auto-fix any validation errors (e.g. by auto-transitioning objects to a terminal state, etc.) in the 2nd traversal before redacting
+	// Validation behavior determines how a job validates objects for redaction eligibility. Default is `error`.
 	ValidationBehavior PrivacyRedactionJobValidationBehavior `json:"validation_behavior"`
 }
 
