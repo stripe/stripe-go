@@ -2283,7 +2283,7 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	CancelAt             *int64 `form:"cancel_at"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This param will be removed in a future API version. Please use `cancel_at` instead.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
 	CancelNow *bool `form:"cancel_now"`
