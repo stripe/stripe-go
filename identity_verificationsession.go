@@ -82,6 +82,17 @@ const (
 	IdentityVerificationSessionVerifiedOutputsIDNumberTypeUSSSN  IdentityVerificationSessionVerifiedOutputsIDNumberType = "us_ssn"
 )
 
+// The user's verified sex.
+type IdentityVerificationSessionVerifiedOutputsSex string
+
+// List of values that IdentityVerificationSessionVerifiedOutputsSex can take
+const (
+	IdentityVerificationSessionVerifiedOutputsSex        [redacted]IdentityVerificationSessionVerifiedOutputsSex = "[redacted]"
+	IdentityVerificationSessionVerifiedOutputsSexFemale  IdentityVerificationSessionVerifiedOutputsSex           = "female"
+	IdentityVerificationSessionVerifiedOutputsSexMale    IdentityVerificationSessionVerifiedOutputsSex           = "male"
+	IdentityVerificationSessionVerifiedOutputsSexUnknown IdentityVerificationSessionVerifiedOutputsSex           = "unknown"
+)
+
 // Returns a list of VerificationSessions
 type IdentityVerificationSessionListParams struct {
 	ListParams `form:"*"`
@@ -440,6 +451,12 @@ type IdentityVerificationSessionVerifiedOutputs struct {
 	LastName string `json:"last_name"`
 	// The user's verified phone number
 	Phone string `json:"phone"`
+	// The user's verified sex.
+	Sex IdentityVerificationSessionVerifiedOutputsSex `json:"sex"`
+	// The user's verified place of birth as it appears in the document.
+	UnparsedPlaceOfBirth string `json:"unparsed_place_of_birth"`
+	// The user's verified sex as it appears in the document.
+	UnparsedSex string `json:"unparsed_sex"`
 }
 
 // A VerificationSession guides you through the process of collecting and verifying the identities
