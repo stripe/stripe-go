@@ -1003,9 +1003,6 @@ func (p *InvoiceAttachPaymentPaymentRecordDataParams) AddMetadata(key string, va
 
 // Attaches a PaymentIntent or an Out of Band Payment to the invoice, adding it to the list of payments.
 //
-// For Out of Band Payment, the payment is credited to the invoice immediately, increasing the amount_paid
-// of the invoice and subsequently transitioning the status of the invoice to paid if necessary.
-//
 // For the PaymentIntent, when the PaymentIntent's status changes to succeeded, the payment is credited
 // to the invoice, increasing its amount_paid. When the invoice is fully paid, the
 // invoice's status becomes paid.
@@ -1013,7 +1010,7 @@ func (p *InvoiceAttachPaymentPaymentRecordDataParams) AddMetadata(key string, va
 // If the PaymentIntent's status is already succeeded when it's attached, it's
 // credited to the invoice immediately.
 //
-// See: [Create an invoice payment](https://stripe.com/docs/invoicing/payments/create) to learn more.
+// See: [Partial payments](https://stripe.com/docs/invoicing/partial-payments) to learn more.
 type InvoiceAttachPaymentParams struct {
 	Params `form:"*"`
 	// The portion of the `amount` on the PaymentIntent or out of band payment to apply to this invoice. It defaults to the entire amount.

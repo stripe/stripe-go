@@ -104,6 +104,7 @@ type CreditNoteType string
 
 // List of values that CreditNoteType can take
 const (
+	CreditNoteTypeMixed       CreditNoteType = "mixed"
 	CreditNoteTypePostPayment CreditNoteType = "post_payment"
 	CreditNoteTypePrePayment  CreditNoteType = "pre_payment"
 )
@@ -176,18 +177,17 @@ type CreditNoteShippingCostParams struct {
 	ShippingRate *string `form:"shipping_rate"`
 }
 
-// Issue a credit note to adjust the amount of a finalized invoice. For a status=open invoice, a credit note reduces
-// its amount_due. For a status=paid invoice, a credit note does not affect its amount_due. Instead, it can result
-// in any combination of the following:
+// Issue a credit note to adjust the amount of a finalized invoice. A credit note will first reduce the invoice's amount_remaining (and amount_due), but not below zero.
+// This amount is indicated by the credit note's pre_payment_amount. The excess amount is indicated by post_payment_amount, and it can result in any combination of the following:
 //
-// Refund: create a new refund (using refund_amount) or link an existing refund (using refund).
+// Refunds: create a new refund (using refund_amount) or link existing refunds (using refunds).
 // Customer balance credit: credit the customer's balance (using credit_amount) which will be automatically applied to their next invoice when it's finalized.
 // Outside of Stripe credit: record the amount that is or will be credited outside of Stripe (using out_of_band_amount).
 //
-// For post-payment credit notes the sum of the refund, credit and outside of Stripe amounts must equal the credit note total.
+// The sum of refunds, customer balance credits, and outside of Stripe credits must equal the post_payment_amount.
 //
-// You may issue multiple credit notes for an invoice. Each credit note will increment the invoice's pre_payment_credit_notes_amount
-// or post_payment_credit_notes_amount depending on its status at the time of credit note creation.
+// You may issue multiple credit notes for an invoice. Each credit note may increment the invoice's pre_payment_credit_notes_amount,
+// post_payment_credit_notes_amount, or both, depending on the invoice's amount_remaining at the time of credit note creation.
 type CreditNoteParams struct {
 	Params `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
@@ -491,18 +491,17 @@ type CreditNoteCreateShippingCostParams struct {
 	ShippingRate *string `form:"shipping_rate"`
 }
 
-// Issue a credit note to adjust the amount of a finalized invoice. For a status=open invoice, a credit note reduces
-// its amount_due. For a status=paid invoice, a credit note does not affect its amount_due. Instead, it can result
-// in any combination of the following:
+// Issue a credit note to adjust the amount of a finalized invoice. A credit note will first reduce the invoice's amount_remaining (and amount_due), but not below zero.
+// This amount is indicated by the credit note's pre_payment_amount. The excess amount is indicated by post_payment_amount, and it can result in any combination of the following:
 //
-// Refund: create a new refund (using refund_amount) or link an existing refund (using refund).
+// Refunds: create a new refund (using refund_amount) or link existing refunds (using refunds).
 // Customer balance credit: credit the customer's balance (using credit_amount) which will be automatically applied to their next invoice when it's finalized.
 // Outside of Stripe credit: record the amount that is or will be credited outside of Stripe (using out_of_band_amount).
 //
-// For post-payment credit notes the sum of the refund, credit and outside of Stripe amounts must equal the credit note total.
+// The sum of refunds, customer balance credits, and outside of Stripe credits must equal the post_payment_amount.
 //
-// You may issue multiple credit notes for an invoice. Each credit note will increment the invoice's pre_payment_credit_notes_amount
-// or post_payment_credit_notes_amount depending on its status at the time of credit note creation.
+// You may issue multiple credit notes for an invoice. Each credit note may increment the invoice's pre_payment_credit_notes_amount,
+// post_payment_credit_notes_amount, or both, depending on the invoice's amount_remaining at the time of credit note creation.
 type CreditNoteCreateParams struct {
 	Params `form:"*"`
 	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
@@ -707,9 +706,11 @@ type CreditNote struct {
 	// Amount that was credited outside of Stripe.
 	OutOfBandAmount int64 `json:"out_of_band_amount"`
 	// The link to download the PDF of the credit note.
-	PDF               string `json:"pdf"`
-	PostPaymentAmount int64  `json:"post_payment_amount"`
-	PrePaymentAmount  int64  `json:"pre_payment_amount"`
+	PDF string `json:"pdf"`
+	// The amount of the credit note that was refunded to the customer, credited to the customer's balance, credited outside of Stripe, or any combination thereof.
+	PostPaymentAmount int64 `json:"post_payment_amount"`
+	// The amount of the credit note by which the invoice's `amount_remaining` and `amount_due` were reduced.
+	PrePaymentAmount int64 `json:"pre_payment_amount"`
 	// The pretax credit amounts (ex: discount, credit grants, etc) for all line items.
 	PretaxCreditAmounts []*CreditNotePretaxCreditAmount `json:"pretax_credit_amounts"`
 	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
