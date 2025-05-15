@@ -145,6 +145,7 @@ const (
 	EventTypeInvoiceOverpaid                                      EventType = "invoice.overpaid"
 	EventTypeInvoicePaid                                          EventType = "invoice.paid"
 	EventTypeInvoicePaymentOverpaid                               EventType = "invoice.payment.overpaid"
+	EventTypeInvoicePaymentPaid                                   EventType = "invoice.payment.paid"
 	EventTypeInvoicePaymentActionRequired                         EventType = "invoice.payment_action_required"
 	EventTypeInvoicePaymentAttemptRequired                        EventType = "invoice.payment_attempt_required"
 	EventTypeInvoicePaymentFailed                                 EventType = "invoice.payment_failed"
