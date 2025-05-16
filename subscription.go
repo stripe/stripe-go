@@ -879,6 +879,20 @@ func (p *SubscriptionSearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// This endpoint allows merchants to upgrade the billing_mode on their existing subscriptions.
+type SubscriptionMigrateParams struct {
+	Params `form:"*"`
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *string `form:"billing_mode"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionMigrateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
