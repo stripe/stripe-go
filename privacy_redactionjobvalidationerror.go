@@ -31,14 +31,22 @@ func (p *PrivacyRedactionJobValidationErrorListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// If the error is related to a specific object, this field includes the object's identifier and object type.
+type PrivacyRedactionJobValidationErrorErroringObject struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Erroring object type
+	ObjectType string `json:"object_type"`
+}
+
 // The Redaction Job validation error object contains information about
 // errors that affect the ability to redact a specific object in a
 // redaction job.
 type PrivacyRedactionJobValidationError struct {
 	// A code indicating the reason for the error.
 	Code PrivacyRedactionJobValidationErrorCode `json:"code"`
-	// If the error is related to a specific object, this field will include the object's identifier in `id` and object type in `object`.
-	ErroringObject map[string]string `json:"erroring_object"`
+	// If the error is related to a specific object, this field includes the object's identifier and object type.
+	ErroringObject *PrivacyRedactionJobValidationErrorErroringObject `json:"erroring_object"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// A human-readable message providing more details about the error.
