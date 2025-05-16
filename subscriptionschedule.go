@@ -127,7 +127,7 @@ const (
 	SubscriptionSchedulePhasePauseCollectionBehaviorVoid              SubscriptionSchedulePhasePauseCollectionBehavior = "void"
 )
 
-// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
+// When transitioning phases, controls how prorations are handled (if any). Possible values are `create_prorations`, `none`, and `always_invoice`.
 type SubscriptionSchedulePhaseProrationBehavior string
 
 // List of values that SubscriptionSchedulePhaseProrationBehavior can take
@@ -481,7 +481,7 @@ type SubscriptionSchedulePhaseParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionSchedulePhasePauseCollectionParams `form:"pause_collection"`
-	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
+	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
 	StartDate    *int64 `form:"start_date"`
@@ -554,7 +554,7 @@ type SubscriptionScheduleParams struct {
 	Phases []*SubscriptionSchedulePhaseParams `form:"phases"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed now.
 	Prebilling *SubscriptionSchedulePrebillingParams `form:"prebilling"`
-	// If the update changes the current phase, indicates whether the changes should be prorated. The default value is `create_prorations`.
+	// If the update changes the billing configuration (item price, quantity, etc.) of the current phase, indicates how prorations from this change should be handled. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// When the subscription schedule starts. We recommend using `now` so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.
 	StartDate    *int64 `form:"start_date"`
@@ -1270,7 +1270,7 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionScheduleCreatePhasePauseCollectionParams `form:"pause_collection"`
-	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
+	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The data with which to automatically create a Transfer for each of the associated subscription's invoices.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
@@ -1634,7 +1634,7 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionScheduleUpdatePhasePauseCollectionParams `form:"pause_collection"`
-	// Whether the subscription schedule will create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase. The default value is `create_prorations`. This setting controls prorations when a phase is started asynchronously and it is persisted as a field on the phase. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration of the current phase.
+	// Controls whether the subscription schedule should create [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when transitioning to this phase if there is a difference in billing configuration. It's different from the request-level [proration_behavior](https://stripe.com/docs/api/subscription_schedules/update#update_subscription_schedule-proration_behavior) parameter which controls what happens if the update request affects the billing configuration (item price, quantity, etc.) of the current phase.
 	ProrationBehavior *string `form:"proration_behavior"`
 	// The date at which this phase of the subscription schedule starts or `now`. Must be set on the first phase.
 	StartDate    *int64 `form:"start_date"`
@@ -1699,7 +1699,7 @@ type SubscriptionScheduleUpdateParams struct {
 	Phases []*SubscriptionScheduleUpdatePhaseParams `form:"phases"`
 	// If specified, the invoicing for the given billing cycle iterations will be processed now.
 	Prebilling *SubscriptionScheduleUpdatePrebillingParams `form:"prebilling"`
-	// If the update changes the current phase, indicates whether the changes should be prorated. The default value is `create_prorations`.
+	// If the update changes the billing configuration (item price, quantity, etc.) of the current phase, indicates how prorations from this change should be handled. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
@@ -1941,7 +1941,7 @@ type SubscriptionSchedulePhase struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *SubscriptionSchedulePhasePauseCollection `json:"pause_collection"`
-	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
+	// When transitioning phases, controls how prorations are handled (if any). Possible values are `create_prorations`, `none`, and `always_invoice`.
 	ProrationBehavior SubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
 	// The start of this phase of the subscription schedule.
 	StartDate int64 `json:"start_date"`

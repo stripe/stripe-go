@@ -183,7 +183,7 @@ const (
 	QuotePreviewSubscriptionSchedulePhasePauseCollectionBehaviorVoid              QuotePreviewSubscriptionSchedulePhasePauseCollectionBehavior = "void"
 )
 
-// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
+// When transitioning phases, controls how prorations are handled (if any). Possible values are `create_prorations`, `none`, and `always_invoice`.
 type QuotePreviewSubscriptionSchedulePhaseProrationBehavior string
 
 // List of values that QuotePreviewSubscriptionSchedulePhaseProrationBehavior can take
@@ -526,7 +526,7 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// If specified, payment collection for this subscription will be paused. Note that the subscription status will be unchanged and will not be updated to `paused`. Learn more about [pausing collection](https://stripe.com/docs/billing/subscriptions/pause-payment).
 	PauseCollection *QuotePreviewSubscriptionSchedulePhasePauseCollection `json:"pause_collection"`
-	// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
+	// When transitioning phases, controls how prorations are handled (if any). Possible values are `create_prorations`, `none`, and `always_invoice`.
 	ProrationBehavior QuotePreviewSubscriptionSchedulePhaseProrationBehavior `json:"proration_behavior"`
 	// The start of this phase of the subscription schedule.
 	StartDate int64 `json:"start_date"`
