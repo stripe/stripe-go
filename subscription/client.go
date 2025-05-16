@@ -164,12 +164,12 @@ func (c Client) DeleteDiscount(id string, params *stripe.SubscriptionDeleteDisco
 	return subscription, err
 }
 
-// This endpoint allows merchants to upgrade the billing_mode on their existing subscriptions.
+// Upgrade the billing_mode of an existing subscription.
 func Migrate(id string, params *stripe.SubscriptionMigrateParams) (*stripe.Subscription, error) {
 	return getC().Migrate(id, params)
 }
 
-// This endpoint allows merchants to upgrade the billing_mode on their existing subscriptions.
+// Upgrade the billing_mode of an existing subscription.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

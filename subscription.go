@@ -879,7 +879,7 @@ func (p *SubscriptionSearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// This endpoint allows merchants to upgrade the billing_mode on their existing subscriptions.
+// Upgrade the billing_mode of an existing subscription.
 type SubscriptionMigrateParams struct {
 	Params `form:"*"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
@@ -1957,6 +1957,12 @@ type SubscriptionBillingCycleAnchorConfig struct {
 	Second int64 `json:"second"`
 }
 
+// Details about when the current billing_mode was updated.
+type SubscriptionBillingModeDetails struct {
+	// Details on when the current billing_mode was adopted.
+	UpdatedAt int64 `json:"updated_at"`
+}
+
 // Details about why this subscription was cancelled
 type SubscriptionCancellationDetails struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
@@ -2185,6 +2191,8 @@ type Subscription struct {
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode SubscriptionBillingMode `json:"billing_mode"`
+	// Details about when the current billing_mode was updated.
+	BillingModeDetails *SubscriptionBillingModeDetails `json:"billing_mode_details"`
 	// A date in the future at which the subscription will automatically get canceled
 	CancelAt int64 `json:"cancel_at"`
 	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period. This field will be removed in a future API version. Please use `cancel_at` instead.

@@ -107,7 +107,7 @@ func (c v1SubscriptionService) DeleteDiscount(ctx context.Context, id string, pa
 	return subscription, err
 }
 
-// This endpoint allows merchants to upgrade the billing_mode on their existing subscriptions.
+// Upgrade the billing_mode of an existing subscription.
 func (c v1SubscriptionService) Migrate(ctx context.Context, id string, params *SubscriptionMigrateParams) (*Subscription, error) {
 	if params == nil {
 		params = &SubscriptionMigrateParams{}
