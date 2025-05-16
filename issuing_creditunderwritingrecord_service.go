@@ -21,25 +21,25 @@ type v1IssuingCreditUnderwritingRecordService struct {
 
 // Retrieves a CreditUnderwritingRecord object.
 func (c v1IssuingCreditUnderwritingRecordService) Retrieve(ctx context.Context, id string, params *IssuingCreditUnderwritingRecordRetrieveParams) (*IssuingCreditUnderwritingRecord, error) {
-	path := FormatURLPath("/v1/issuing/credit_underwriting_records/%s", id)
-	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	if params == nil {
 		params = &IssuingCreditUnderwritingRecordRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/credit_underwriting_records/%s", id)
+	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, creditunderwritingrecord)
 	return creditunderwritingrecord, err
 }
 
 // Update a CreditUnderwritingRecord object to correct mistakes.
 func (c v1IssuingCreditUnderwritingRecordService) Correct(ctx context.Context, id string, params *IssuingCreditUnderwritingRecordCorrectParams) (*IssuingCreditUnderwritingRecord, error) {
-	path := FormatURLPath(
-		"/v1/issuing/credit_underwriting_records/%s/correct", id)
-	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	if params == nil {
 		params = &IssuingCreditUnderwritingRecordCorrectParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/issuing/credit_underwriting_records/%s/correct", id)
+	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, creditunderwritingrecord)
 	return creditunderwritingrecord, err
@@ -47,11 +47,11 @@ func (c v1IssuingCreditUnderwritingRecordService) Correct(ctx context.Context, i
 
 // Creates a CreditUnderwritingRecord object with information about a credit application submission.
 func (c v1IssuingCreditUnderwritingRecordService) CreateFromApplication(ctx context.Context, params *IssuingCreditUnderwritingRecordCreateFromApplicationParams) (*IssuingCreditUnderwritingRecord, error) {
-	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	if params == nil {
 		params = &IssuingCreditUnderwritingRecordCreateFromApplicationParams{}
 	}
 	params.Context = ctx
+	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/issuing/credit_underwriting_records/create_from_application", c.Key, params, creditunderwritingrecord)
 	return creditunderwritingrecord, err
@@ -59,11 +59,11 @@ func (c v1IssuingCreditUnderwritingRecordService) CreateFromApplication(ctx cont
 
 // Creates a CreditUnderwritingRecord object from an underwriting decision coming from a proactive review of an existing accountholder.
 func (c v1IssuingCreditUnderwritingRecordService) CreateFromProactiveReview(ctx context.Context, params *IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams) (*IssuingCreditUnderwritingRecord, error) {
-	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	if params == nil {
 		params = &IssuingCreditUnderwritingRecordCreateFromProactiveReviewParams{}
 	}
 	params.Context = ctx
+	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/issuing/credit_underwriting_records/create_from_proactive_review", c.Key, params, creditunderwritingrecord)
 	return creditunderwritingrecord, err
@@ -71,13 +71,13 @@ func (c v1IssuingCreditUnderwritingRecordService) CreateFromProactiveReview(ctx 
 
 // Update a CreditUnderwritingRecord object from a decision made on a credit application.
 func (c v1IssuingCreditUnderwritingRecordService) ReportDecision(ctx context.Context, id string, params *IssuingCreditUnderwritingRecordReportDecisionParams) (*IssuingCreditUnderwritingRecord, error) {
-	path := FormatURLPath(
-		"/v1/issuing/credit_underwriting_records/%s/report_decision", id)
-	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	if params == nil {
 		params = &IssuingCreditUnderwritingRecordReportDecisionParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/issuing/credit_underwriting_records/%s/report_decision", id)
+	creditunderwritingrecord := &IssuingCreditUnderwritingRecord{}
 	err := c.B.Call(
 		http.MethodPost, path, c.Key, params, creditunderwritingrecord)
 	return creditunderwritingrecord, err

@@ -19,12 +19,12 @@ type v2MoneyManagementAdjustmentService struct {
 
 // Retrieves the details of an Adjustment by ID.
 func (c v2MoneyManagementAdjustmentService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementAdjustmentRetrieveParams) (*V2MoneyManagementAdjustment, error) {
-	path := FormatURLPath("/v2/money_management/adjustments/%s", id)
-	adjustment := &V2MoneyManagementAdjustment{}
 	if params == nil {
 		params = &V2MoneyManagementAdjustmentRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/adjustments/%s", id)
+	adjustment := &V2MoneyManagementAdjustment{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, adjustment)
 	return adjustment, err
 }

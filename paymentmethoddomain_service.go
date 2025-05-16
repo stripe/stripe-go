@@ -21,11 +21,11 @@ type v1PaymentMethodDomainService struct {
 
 // Creates a payment method domain.
 func (c v1PaymentMethodDomainService) Create(ctx context.Context, params *PaymentMethodDomainCreateParams) (*PaymentMethodDomain, error) {
-	paymentmethoddomain := &PaymentMethodDomain{}
 	if params == nil {
 		params = &PaymentMethodDomainCreateParams{}
 	}
 	params.Context = ctx
+	paymentmethoddomain := &PaymentMethodDomain{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/payment_method_domains", c.Key, params, paymentmethoddomain)
 	return paymentmethoddomain, err
@@ -33,24 +33,24 @@ func (c v1PaymentMethodDomainService) Create(ctx context.Context, params *Paymen
 
 // Retrieves the details of an existing payment method domain.
 func (c v1PaymentMethodDomainService) Retrieve(ctx context.Context, id string, params *PaymentMethodDomainRetrieveParams) (*PaymentMethodDomain, error) {
-	path := FormatURLPath("/v1/payment_method_domains/%s", id)
-	paymentmethoddomain := &PaymentMethodDomain{}
 	if params == nil {
 		params = &PaymentMethodDomainRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_method_domains/%s", id)
+	paymentmethoddomain := &PaymentMethodDomain{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentmethoddomain)
 	return paymentmethoddomain, err
 }
 
 // Updates an existing payment method domain.
 func (c v1PaymentMethodDomainService) Update(ctx context.Context, id string, params *PaymentMethodDomainUpdateParams) (*PaymentMethodDomain, error) {
-	path := FormatURLPath("/v1/payment_method_domains/%s", id)
-	paymentmethoddomain := &PaymentMethodDomain{}
 	if params == nil {
 		params = &PaymentMethodDomainUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_method_domains/%s", id)
+	paymentmethoddomain := &PaymentMethodDomain{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentmethoddomain)
 	return paymentmethoddomain, err
 }
@@ -62,12 +62,12 @@ func (c v1PaymentMethodDomainService) Update(ctx context.Context, id string, par
 //
 // Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
 func (c v1PaymentMethodDomainService) Validate(ctx context.Context, id string, params *PaymentMethodDomainValidateParams) (*PaymentMethodDomain, error) {
-	path := FormatURLPath("/v1/payment_method_domains/%s/validate", id)
-	paymentmethoddomain := &PaymentMethodDomain{}
 	if params == nil {
 		params = &PaymentMethodDomainValidateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_method_domains/%s/validate", id)
+	paymentmethoddomain := &PaymentMethodDomain{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentmethoddomain)
 	return paymentmethoddomain, err
 }

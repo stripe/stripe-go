@@ -28,7 +28,7 @@ const (
 	SubscriptionAutomaticTaxLiabilityTypeSelf    SubscriptionAutomaticTaxLiabilityType = "self"
 )
 
-// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionBillingMode string
 
 // List of values that SubscriptionBillingMode can take
@@ -364,11 +364,13 @@ type SubscriptionParams struct {
 	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt *int64 `form:"cancel_at"`
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
+	CancelAt             *int64 `form:"cancel_at"`
+	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This param will be removed in a future API version. Please use `cancel_at` instead.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Details about why this subscription was cancelled
 	CancellationDetails *SubscriptionCancellationDetailsParams `form:"cancellation_details"`
@@ -426,7 +428,7 @@ type SubscriptionParams struct {
 	Prebilling *SubscriptionPrebillingParams `form:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#upcoming_invoice) endpoint. It can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
+	// If set, prorations will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint. `proration_date` can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
 	ProrationDate *int64 `form:"proration_date"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
@@ -462,6 +464,12 @@ func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.CancelAtMaxPeriodEnd) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_period_end")
+	}
+	if BoolValue(p.CancelAtMinPeriodEnd) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "min_period_end")
 	}
 	if BoolValue(p.TrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
@@ -871,6 +879,20 @@ func (p *SubscriptionSearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Upgrade the billing_mode of an existing subscription.
+type SubscriptionMigrateParams struct {
+	Params `form:"*"`
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *string `form:"billing_mode"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionMigrateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
 type SubscriptionResumeParams struct {
 	Params `form:"*"`
@@ -880,7 +902,7 @@ type SubscriptionResumeParams struct {
 	Expand []*string `form:"expand"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#retrieve_customer_invoice) endpoint.
+	// If set, prorations will be calculated as though the subscription was resumed at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint.
 	ProrationDate *int64 `form:"proration_date"`
 }
 
@@ -1305,8 +1327,10 @@ type SubscriptionUpdateParams struct {
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt *int64 `form:"cancel_at"`
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
+	CancelAt             *int64 `form:"cancel_at"`
+	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This param will be removed in a future API version. Please use `cancel_at` instead.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Details about why this subscription was cancelled
 	CancellationDetails *SubscriptionUpdateCancellationDetailsParams `form:"cancellation_details"`
@@ -1354,7 +1378,7 @@ type SubscriptionUpdateParams struct {
 	Prebilling *SubscriptionUpdatePrebillingParams `form:"prebilling"`
 	// Determines how to handle [prorations](https://stripe.com/docs/billing/subscriptions/prorations) when the billing cycle changes (e.g., when switching plans, resetting `billing_cycle_anchor=now`, or starting a trial), or if an item's `quantity` changes. The default value is `create_prorations`.
 	ProrationBehavior *string `form:"proration_behavior"`
-	// If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same proration that was previewed with [upcoming invoice](https://stripe.com/docs/api#upcoming_invoice) endpoint. It can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
+	// If set, prorations will be calculated as though the subscription was updated at the given time. This can be used to apply exactly the same prorations that were previewed with the [create preview](https://stripe.com/docs/api/invoices/create_preview) endpoint. `proration_date` can also be used to implement custom proration logic, such as prorating by day instead of by second, by providing the time that you wish to use for proration calculations.
 	ProrationDate *int64 `form:"proration_date"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
 	TransferData *SubscriptionUpdateTransferDataParams `form:"transfer_data"`
@@ -1388,6 +1412,12 @@ func (p *SubscriptionUpdateParams) AppendTo(body *form.Values, keyParts []string
 	}
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.CancelAtMaxPeriodEnd) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_period_end")
+	}
+	if BoolValue(p.CancelAtMinPeriodEnd) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "min_period_end")
 	}
 	if BoolValue(p.TrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
@@ -1791,11 +1821,13 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorConfig    *SubscriptionCreateBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                             `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt *int64 `form:"cancel_at"`
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
+	CancelAt             *int64 `form:"cancel_at"`
+	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This param will be removed in a future API version. Please use `cancel_at` instead.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
 	CollectionMethod *string `form:"collection_method"`
@@ -1884,6 +1916,12 @@ func (p *SubscriptionCreateParams) AppendTo(body *form.Values, keyParts []string
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
 	}
+	if BoolValue(p.CancelAtMaxPeriodEnd) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_period_end")
+	}
+	if BoolValue(p.CancelAtMinPeriodEnd) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "min_period_end")
+	}
 	if BoolValue(p.TrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
 	}
@@ -1917,6 +1955,12 @@ type SubscriptionBillingCycleAnchorConfig struct {
 	Month int64 `json:"month"`
 	// The second of the minute of the billing_cycle_anchor.
 	Second int64 `json:"second"`
+}
+
+// Details about when the current billing_mode was updated.
+type SubscriptionBillingModeDetails struct {
+	// Details on when the current billing_mode was adopted.
+	UpdatedAt int64 `json:"updated_at"`
 }
 
 // Details about why this subscription was cancelled
@@ -2145,11 +2189,13 @@ type Subscription struct {
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The fixed values used to calculate the `billing_cycle_anchor`.
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode SubscriptionBillingMode `json:"billing_mode"`
+	// Details about when the current billing_mode was updated.
+	BillingModeDetails *SubscriptionBillingModeDetails `json:"billing_mode_details"`
 	// A date in the future at which the subscription will automatically get canceled
 	CancelAt int64 `json:"cancel_at"`
-	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period.
+	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period. This field will be removed in a future API version. Please use `cancel_at` instead.
 	CancelAtPeriodEnd bool `json:"cancel_at_period_end"`
 	// If the subscription has been canceled, the date of that cancellation. If the subscription was canceled with `cancel_at_period_end`, `canceled_at` will reflect the time of the most recent update request, not the end of the subscription period when the subscription is automatically moved to a canceled state.
 	CanceledAt int64 `json:"canceled_at"`

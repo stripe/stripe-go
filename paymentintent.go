@@ -93,7 +93,7 @@ const (
 	PaymentIntentNextActionDisplayBankTransferInstructionsTypeUSBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "us_bank_transfer"
 )
 
-// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
+// Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 type PaymentIntentNextActionType string
 
 // List of values that PaymentIntentNextActionType can take
@@ -349,6 +349,14 @@ type PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage string
 const (
 	PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage = "off_session"
+)
+
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsBillieCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsBillieCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsBillieCaptureMethodManual PaymentIntentPaymentMethodOptionsBillieCaptureMethod = "manual"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1133,6 +1141,14 @@ const (
 	PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethodManual PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod = "manual"
 )
 
+// Controls when the funds will be captured from the customer's account.
+type PaymentIntentPaymentMethodOptionsSatispayCaptureMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsSatispayCaptureMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsSatispayCaptureMethodManual PaymentIntentPaymentMethodOptionsSatispayCaptureMethod = "manual"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1408,24 +1424,6 @@ func (p *PaymentIntentListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Tax arguments for automations
-type PaymentIntentAsyncWorkflowsInputsTaxParams struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
-	Calculation *string `form:"calculation"`
-}
-
-// Arguments passed in automations
-type PaymentIntentAsyncWorkflowsInputsParams struct {
-	// Tax arguments for automations
-	Tax *PaymentIntentAsyncWorkflowsInputsTaxParams `form:"tax"`
-}
-
-// Automations to be run during the PaymentIntent lifecycle
-type PaymentIntentAsyncWorkflowsParams struct {
-	// Arguments passed in automations
-	Inputs *PaymentIntentAsyncWorkflowsInputsParams `form:"inputs"`
-}
-
 // When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
 type PaymentIntentAutomaticPaymentMethodsParams struct {
 	// Controls whether this PaymentIntent will accept redirect-based payment methods.
@@ -1434,6 +1432,24 @@ type PaymentIntentAutomaticPaymentMethodsParams struct {
 	AllowRedirects *string `form:"allow_redirects"`
 	// Whether this feature is enabled.
 	Enabled *bool `form:"enabled"`
+}
+
+// Tax arguments for automations
+type PaymentIntentHooksInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentHooksInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentHooksInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentHooksParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentHooksInputsParams `form:"inputs"`
 }
 
 // If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
@@ -1489,8 +1505,20 @@ type PaymentIntentPaymentDetailsCarRentalDeliveryParams struct {
 	Recipient *PaymentIntentPaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
+// The details of the distance traveled during the rental period.
+type PaymentIntentPaymentDetailsCarRentalDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
 // The details of the passengers in the travel reservation
 type PaymentIntentPaymentDetailsCarRentalDriverParams struct {
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
 	// Full name of the person or entity on the car reservation.
 	Name *string `form:"name"`
 }
@@ -1515,6 +1543,8 @@ type PaymentIntentPaymentDetailsCarRentalParams struct {
 	DaysRented *int64 `form:"days_rented"`
 	// Delivery details for this purchase.
 	Delivery *PaymentIntentPaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the distance traveled during the rental period.
+	Distance *PaymentIntentPaymentDetailsCarRentalDistanceParams `form:"distance"`
 	// The details of the passengers in the travel reservation
 	Drivers []*PaymentIntentPaymentDetailsCarRentalDriverParams `form:"drivers"`
 	// List of additional charges being billed.
@@ -1525,6 +1555,8 @@ type PaymentIntentPaymentDetailsCarRentalParams struct {
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
 	PickupAt *int64 `form:"pickup_at"`
+	// Name of the pickup location.
+	PickupLocationName *string `form:"pickup_location_name"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -1535,8 +1567,12 @@ type PaymentIntentPaymentDetailsCarRentalParams struct {
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
 	ReturnAt *int64 `form:"return_at"`
+	// Name of the return location.
+	ReturnLocationName *string `form:"return_location_name"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
+	// The vehicle identification number.
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
 // Affiliate details for this purchase.
@@ -2434,7 +2470,7 @@ type PaymentIntentPaymentMethodOptionsGiropayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// If this is a `gopay` PaymentMethod, this sub-hash contains details about the GoPay payment method options.
+// If this is a `gopay` PaymentMethod, this sub-hash contains details about the Gopay payment method options.
 type PaymentIntentPaymentMethodOptionsGopayParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -2906,6 +2942,16 @@ type PaymentIntentPaymentMethodOptionsSamsungPayParams struct {
 	CaptureMethod *string `form:"capture_method"`
 }
 
+// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+type PaymentIntentPaymentMethodOptionsSatispayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -3142,7 +3188,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	FPX *PaymentIntentPaymentMethodOptionsFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 	Giropay *PaymentIntentPaymentMethodOptionsGiropayParams `form:"giropay"`
-	// If this is a `gopay` PaymentMethod, this sub-hash contains details about the GoPay payment method options.
+	// If this is a `gopay` PaymentMethod, this sub-hash contains details about the Gopay payment method options.
 	Gopay *PaymentIntentPaymentMethodOptionsGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
 	Grabpay *PaymentIntentPaymentMethodOptionsGrabpayParams `form:"grabpay"`
@@ -3198,6 +3244,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	RevolutPay *PaymentIntentPaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this sub-hash contains details about the Samsung Pay payment method options.
 	SamsungPay *PaymentIntentPaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+	Satispay *PaymentIntentPaymentMethodOptionsSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
@@ -3258,8 +3306,6 @@ type PaymentIntentParams struct {
 	Amount *int64 `form:"amount"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Automations to be run during the PaymentIntent lifecycle
-	AsyncWorkflows *PaymentIntentAsyncWorkflowsParams `form:"async_workflows"`
 	// When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
 	AutomaticPaymentMethods *PaymentIntentAutomaticPaymentMethodsParams `form:"automatic_payment_methods"`
 	// Controls when the funds will be captured from the customer's account.
@@ -3294,6 +3340,8 @@ type PaymentIntentParams struct {
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
 	FxQuote *string `form:"fx_quote"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentHooksParams `form:"hooks"`
 	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -3307,6 +3355,8 @@ type PaymentIntentParams struct {
 	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
+	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://stripe.com/docs/api#create_payment_intent-customer) parameter of this PaymentIntent.
+	// end
 	PaymentMethod *string `form:"payment_method"`
 	// The ID of the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) to use with this PaymentIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
@@ -3427,21 +3477,21 @@ func (p *PaymentIntentCancelParams) AddExpand(f string) {
 }
 
 // Tax arguments for automations
-type PaymentIntentCaptureAsyncWorkflowsInputsTaxParams struct {
+type PaymentIntentCaptureHooksInputsTaxParams struct {
 	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
 // Arguments passed in automations
-type PaymentIntentCaptureAsyncWorkflowsInputsParams struct {
+type PaymentIntentCaptureHooksInputsParams struct {
 	// Tax arguments for automations
-	Tax *PaymentIntentCaptureAsyncWorkflowsInputsTaxParams `form:"tax"`
+	Tax *PaymentIntentCaptureHooksInputsTaxParams `form:"tax"`
 }
 
 // Automations to be run during the PaymentIntent lifecycle
-type PaymentIntentCaptureAsyncWorkflowsParams struct {
+type PaymentIntentCaptureHooksParams struct {
 	// Arguments passed in automations
-	Inputs *PaymentIntentCaptureAsyncWorkflowsInputsParams `form:"inputs"`
+	Inputs *PaymentIntentCaptureHooksInputsParams `form:"inputs"`
 }
 
 // Affiliate details for this purchase.
@@ -3468,8 +3518,20 @@ type PaymentIntentCapturePaymentDetailsCarRentalDeliveryParams struct {
 	Recipient *PaymentIntentCapturePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
+// The details of the distance traveled during the rental period.
+type PaymentIntentCapturePaymentDetailsCarRentalDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
 // The details of the passengers in the travel reservation
 type PaymentIntentCapturePaymentDetailsCarRentalDriverParams struct {
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
 	// Full name of the person or entity on the car reservation.
 	Name *string `form:"name"`
 }
@@ -3494,6 +3556,8 @@ type PaymentIntentCapturePaymentDetailsCarRentalParams struct {
 	DaysRented *int64 `form:"days_rented"`
 	// Delivery details for this purchase.
 	Delivery *PaymentIntentCapturePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the distance traveled during the rental period.
+	Distance *PaymentIntentCapturePaymentDetailsCarRentalDistanceParams `form:"distance"`
 	// The details of the passengers in the travel reservation
 	Drivers []*PaymentIntentCapturePaymentDetailsCarRentalDriverParams `form:"drivers"`
 	// List of additional charges being billed.
@@ -3504,6 +3568,8 @@ type PaymentIntentCapturePaymentDetailsCarRentalParams struct {
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
 	PickupAt *int64 `form:"pickup_at"`
+	// Name of the pickup location.
+	PickupLocationName *string `form:"pickup_location_name"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -3514,8 +3580,12 @@ type PaymentIntentCapturePaymentDetailsCarRentalParams struct {
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
 	ReturnAt *int64 `form:"return_at"`
+	// Name of the return location.
+	ReturnLocationName *string `form:"return_location_name"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
+	// The vehicle identification number.
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
 // Affiliate details for this purchase.
@@ -3769,12 +3839,12 @@ type PaymentIntentCaptureParams struct {
 	AmountToCapture *int64 `form:"amount_to_capture"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Automations to be run during the PaymentIntent lifecycle
-	AsyncWorkflows *PaymentIntentCaptureAsyncWorkflowsParams `form:"async_workflows"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Defaults to `true`. When capturing a PaymentIntent, setting `final_capture` to `false` notifies Stripe to not release the remaining uncaptured funds to make sure that they're captured in future requests. You can only use this setting when [multicapture](https://stripe.com/docs/payments/multicapture) is available for PaymentIntents.
 	FinalCapture *bool `form:"final_capture"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentCaptureHooksParams `form:"hooks"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Provides industry-specific information about the charge.
@@ -3805,21 +3875,21 @@ func (p *PaymentIntentCaptureParams) AddMetadata(key string, value string) {
 }
 
 // Tax arguments for automations
-type PaymentIntentConfirmAsyncWorkflowsInputsTaxParams struct {
+type PaymentIntentConfirmHooksInputsTaxParams struct {
 	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
 // Arguments passed in automations
-type PaymentIntentConfirmAsyncWorkflowsInputsParams struct {
+type PaymentIntentConfirmHooksInputsParams struct {
 	// Tax arguments for automations
-	Tax *PaymentIntentConfirmAsyncWorkflowsInputsTaxParams `form:"tax"`
+	Tax *PaymentIntentConfirmHooksInputsTaxParams `form:"tax"`
 }
 
 // Automations to be run during the PaymentIntent lifecycle
-type PaymentIntentConfirmAsyncWorkflowsParams struct {
+type PaymentIntentConfirmHooksParams struct {
 	// Arguments passed in automations
-	Inputs *PaymentIntentConfirmAsyncWorkflowsInputsParams `form:"inputs"`
+	Inputs *PaymentIntentConfirmHooksInputsParams `form:"inputs"`
 }
 
 // Affiliate details for this purchase.
@@ -3846,8 +3916,20 @@ type PaymentIntentConfirmPaymentDetailsCarRentalDeliveryParams struct {
 	Recipient *PaymentIntentConfirmPaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
+// The details of the distance traveled during the rental period.
+type PaymentIntentConfirmPaymentDetailsCarRentalDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
 // The details of the passengers in the travel reservation
 type PaymentIntentConfirmPaymentDetailsCarRentalDriverParams struct {
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
 	// Full name of the person or entity on the car reservation.
 	Name *string `form:"name"`
 }
@@ -3872,6 +3954,8 @@ type PaymentIntentConfirmPaymentDetailsCarRentalParams struct {
 	DaysRented *int64 `form:"days_rented"`
 	// Delivery details for this purchase.
 	Delivery *PaymentIntentConfirmPaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the distance traveled during the rental period.
+	Distance *PaymentIntentConfirmPaymentDetailsCarRentalDistanceParams `form:"distance"`
 	// The details of the passengers in the travel reservation
 	Drivers []*PaymentIntentConfirmPaymentDetailsCarRentalDriverParams `form:"drivers"`
 	// List of additional charges being billed.
@@ -3882,6 +3966,8 @@ type PaymentIntentConfirmPaymentDetailsCarRentalParams struct {
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
 	PickupAt *int64 `form:"pickup_at"`
+	// Name of the pickup location.
+	PickupLocationName *string `form:"pickup_location_name"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -3892,8 +3978,12 @@ type PaymentIntentConfirmPaymentDetailsCarRentalParams struct {
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
 	ReturnAt *int64 `form:"return_at"`
+	// Name of the return location.
+	ReturnLocationName *string `form:"return_location_name"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
+	// The vehicle identification number.
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
 // Affiliate details for this purchase.
@@ -4171,8 +4261,6 @@ type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Automations to be run during the PaymentIntent lifecycle
-	AsyncWorkflows *PaymentIntentConfirmAsyncWorkflowsParams `form:"async_workflows"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
 	// ID of the ConfirmationToken used to confirm this PaymentIntent.
@@ -4185,6 +4273,8 @@ type PaymentIntentConfirmParams struct {
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
 	FxQuote *string `form:"fx_quote"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentConfirmHooksParams `form:"hooks"`
 	// ID of the mandate that's used for this payment.
 	Mandate     *string                         `form:"mandate"`
 	MandateData *PaymentIntentMandateDataParams `form:"mandate_data"`
@@ -4193,6 +4283,7 @@ type PaymentIntentConfirmParams struct {
 	// Provides industry-specific information about the charge.
 	PaymentDetails *PaymentIntentConfirmPaymentDetailsParams `form:"payment_details"`
 	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods/transitioning#compatibility) object) to attach to this PaymentIntent.
+	// If the payment method is attached to a Customer, it must match the [customer](https://stripe.com/docs/api#create_payment_intent-customer) that is set on this PaymentIntent.
 	PaymentMethod *string `form:"payment_method"`
 	// If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
 	// in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
@@ -4232,21 +4323,21 @@ func (p *PaymentIntentConfirmParams) AddExpand(f string) {
 }
 
 // Tax arguments for automations
-type PaymentIntentDecrementAuthorizationAsyncWorkflowsInputsTaxParams struct {
+type PaymentIntentDecrementAuthorizationHooksInputsTaxParams struct {
 	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
 // Arguments passed in automations
-type PaymentIntentDecrementAuthorizationAsyncWorkflowsInputsParams struct {
+type PaymentIntentDecrementAuthorizationHooksInputsParams struct {
 	// Tax arguments for automations
-	Tax *PaymentIntentDecrementAuthorizationAsyncWorkflowsInputsTaxParams `form:"tax"`
+	Tax *PaymentIntentDecrementAuthorizationHooksInputsTaxParams `form:"tax"`
 }
 
 // Automations to be run during the PaymentIntent lifecycle
-type PaymentIntentDecrementAuthorizationAsyncWorkflowsParams struct {
+type PaymentIntentDecrementAuthorizationHooksParams struct {
 	// Arguments passed in automations
-	Inputs *PaymentIntentDecrementAuthorizationAsyncWorkflowsInputsParams `form:"inputs"`
+	Inputs *PaymentIntentDecrementAuthorizationHooksInputsParams `form:"inputs"`
 }
 
 // The parameters used to automatically create a transfer after the payment is captured.
@@ -4278,12 +4369,12 @@ type PaymentIntentDecrementAuthorizationParams struct {
 	Amount *int64 `form:"amount"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Automations to be run during the PaymentIntent lifecycle
-	AsyncWorkflows *PaymentIntentDecrementAuthorizationAsyncWorkflowsParams `form:"async_workflows"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentDecrementAuthorizationHooksParams `form:"hooks"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// The parameters used to automatically create a transfer after the payment is captured.
@@ -4306,21 +4397,21 @@ func (p *PaymentIntentDecrementAuthorizationParams) AddMetadata(key string, valu
 }
 
 // Tax arguments for automations
-type PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsTaxParams struct {
+type PaymentIntentIncrementAuthorizationHooksInputsTaxParams struct {
 	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
 // Arguments passed in automations
-type PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsParams struct {
+type PaymentIntentIncrementAuthorizationHooksInputsParams struct {
 	// Tax arguments for automations
-	Tax *PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsTaxParams `form:"tax"`
+	Tax *PaymentIntentIncrementAuthorizationHooksInputsTaxParams `form:"tax"`
 }
 
 // Automations to be run during the PaymentIntent lifecycle
-type PaymentIntentIncrementAuthorizationAsyncWorkflowsParams struct {
+type PaymentIntentIncrementAuthorizationHooksParams struct {
 	// Arguments passed in automations
-	Inputs *PaymentIntentIncrementAuthorizationAsyncWorkflowsInputsParams `form:"inputs"`
+	Inputs *PaymentIntentIncrementAuthorizationHooksInputsParams `form:"inputs"`
 }
 
 // Configuration for any card payments attempted on this PaymentIntent.
@@ -4372,12 +4463,12 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Amount *int64 `form:"amount"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Automations to be run during the PaymentIntent lifecycle
-	AsyncWorkflows *PaymentIntentIncrementAuthorizationAsyncWorkflowsParams `form:"async_workflows"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentIncrementAuthorizationHooksParams `form:"hooks"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// Payment method-specific configuration for this PaymentIntent.
@@ -4441,24 +4532,6 @@ func (p *PaymentIntentTriggerActionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Tax arguments for automations
-type PaymentIntentCreateAsyncWorkflowsInputsTaxParams struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
-	Calculation *string `form:"calculation"`
-}
-
-// Arguments passed in automations
-type PaymentIntentCreateAsyncWorkflowsInputsParams struct {
-	// Tax arguments for automations
-	Tax *PaymentIntentCreateAsyncWorkflowsInputsTaxParams `form:"tax"`
-}
-
-// Automations to be run during the PaymentIntent lifecycle
-type PaymentIntentCreateAsyncWorkflowsParams struct {
-	// Arguments passed in automations
-	Inputs *PaymentIntentCreateAsyncWorkflowsInputsParams `form:"inputs"`
-}
-
 // When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
 type PaymentIntentCreateAutomaticPaymentMethodsParams struct {
 	// Controls whether this PaymentIntent will accept redirect-based payment methods.
@@ -4467,6 +4540,24 @@ type PaymentIntentCreateAutomaticPaymentMethodsParams struct {
 	AllowRedirects *string `form:"allow_redirects"`
 	// Whether this feature is enabled.
 	Enabled *bool `form:"enabled"`
+}
+
+// Tax arguments for automations
+type PaymentIntentCreateHooksInputsTaxParams struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation *string `form:"calculation"`
+}
+
+// Arguments passed in automations
+type PaymentIntentCreateHooksInputsParams struct {
+	// Tax arguments for automations
+	Tax *PaymentIntentCreateHooksInputsTaxParams `form:"tax"`
+}
+
+// Automations to be run during the PaymentIntent lifecycle
+type PaymentIntentCreateHooksParams struct {
+	// Arguments passed in automations
+	Inputs *PaymentIntentCreateHooksInputsParams `form:"inputs"`
 }
 
 // If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
@@ -4522,8 +4613,20 @@ type PaymentIntentCreatePaymentDetailsCarRentalDeliveryParams struct {
 	Recipient *PaymentIntentCreatePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
+// The details of the distance traveled during the rental period.
+type PaymentIntentCreatePaymentDetailsCarRentalDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
 // The details of the passengers in the travel reservation
 type PaymentIntentCreatePaymentDetailsCarRentalDriverParams struct {
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
 	// Full name of the person or entity on the car reservation.
 	Name *string `form:"name"`
 }
@@ -4548,6 +4651,8 @@ type PaymentIntentCreatePaymentDetailsCarRentalParams struct {
 	DaysRented *int64 `form:"days_rented"`
 	// Delivery details for this purchase.
 	Delivery *PaymentIntentCreatePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the distance traveled during the rental period.
+	Distance *PaymentIntentCreatePaymentDetailsCarRentalDistanceParams `form:"distance"`
 	// The details of the passengers in the travel reservation
 	Drivers []*PaymentIntentCreatePaymentDetailsCarRentalDriverParams `form:"drivers"`
 	// List of additional charges being billed.
@@ -4558,6 +4663,8 @@ type PaymentIntentCreatePaymentDetailsCarRentalParams struct {
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
 	PickupAt *int64 `form:"pickup_at"`
+	// Name of the pickup location.
+	PickupLocationName *string `form:"pickup_location_name"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -4568,8 +4675,12 @@ type PaymentIntentCreatePaymentDetailsCarRentalParams struct {
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
 	ReturnAt *int64 `form:"return_at"`
+	// Name of the return location.
+	ReturnLocationName *string `form:"return_location_name"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
+	// The vehicle identification number.
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
 // Affiliate details for this purchase.
@@ -5467,7 +5578,7 @@ type PaymentIntentCreatePaymentMethodOptionsGiropayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// If this is a `gopay` PaymentMethod, this sub-hash contains details about the GoPay payment method options.
+// If this is a `gopay` PaymentMethod, this sub-hash contains details about the Gopay payment method options.
 type PaymentIntentCreatePaymentMethodOptionsGopayParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -5939,6 +6050,16 @@ type PaymentIntentCreatePaymentMethodOptionsSamsungPayParams struct {
 	CaptureMethod *string `form:"capture_method"`
 }
 
+// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+type PaymentIntentCreatePaymentMethodOptionsSatispayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentCreatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -6175,7 +6296,7 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	FPX *PaymentIntentCreatePaymentMethodOptionsFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 	Giropay *PaymentIntentCreatePaymentMethodOptionsGiropayParams `form:"giropay"`
-	// If this is a `gopay` PaymentMethod, this sub-hash contains details about the GoPay payment method options.
+	// If this is a `gopay` PaymentMethod, this sub-hash contains details about the Gopay payment method options.
 	Gopay *PaymentIntentCreatePaymentMethodOptionsGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
 	Grabpay *PaymentIntentCreatePaymentMethodOptionsGrabpayParams `form:"grabpay"`
@@ -6231,6 +6352,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	RevolutPay *PaymentIntentCreatePaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this sub-hash contains details about the Samsung Pay payment method options.
 	SamsungPay *PaymentIntentCreatePaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+	Satispay *PaymentIntentCreatePaymentMethodOptionsSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentCreatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
@@ -6291,8 +6414,6 @@ type PaymentIntentCreateParams struct {
 	Amount *int64 `form:"amount"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Automations to be run during the PaymentIntent lifecycle
-	AsyncWorkflows *PaymentIntentCreateAsyncWorkflowsParams `form:"async_workflows"`
 	// When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
 	AutomaticPaymentMethods *PaymentIntentCreateAutomaticPaymentMethodsParams `form:"automatic_payment_methods"`
 	// Controls when the funds will be captured from the customer's account.
@@ -6327,6 +6448,8 @@ type PaymentIntentCreateParams struct {
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
 	FxQuote *string `form:"fx_quote"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentCreateHooksParams `form:"hooks"`
 	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	Mandate *string `form:"mandate"`
 	// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -6342,6 +6465,8 @@ type PaymentIntentCreateParams struct {
 	// ID of the payment method (a PaymentMethod, Card, or [compatible Source](https://stripe.com/docs/payments/payment-methods#compatibility) object) to attach to this PaymentIntent.
 	//
 	// If you don't provide the `payment_method` parameter or the `source` parameter with `confirm=true`, `source` automatically populates with `customer.default_source` to improve migration for users of the Charges API. We recommend that you explicitly provide the `payment_method` moving forward.
+	// If the payment method is attached to a Customer, you must also provide the ID of that Customer as the [customer](https://stripe.com/docs/api#create_payment_intent-customer) parameter of this PaymentIntent.
+	// end
 	PaymentMethod *string `form:"payment_method"`
 	// The ID of the [payment method configuration](https://stripe.com/docs/api/payment_method_configurations) to use with this PaymentIntent.
 	PaymentMethodConfiguration *string `form:"payment_method_configuration"`
@@ -6419,21 +6544,21 @@ func (p *PaymentIntentRetrieveParams) AddExpand(f string) {
 }
 
 // Tax arguments for automations
-type PaymentIntentUpdateAsyncWorkflowsInputsTaxParams struct {
+type PaymentIntentUpdateHooksInputsTaxParams struct {
 	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
 	Calculation *string `form:"calculation"`
 }
 
 // Arguments passed in automations
-type PaymentIntentUpdateAsyncWorkflowsInputsParams struct {
+type PaymentIntentUpdateHooksInputsParams struct {
 	// Tax arguments for automations
-	Tax *PaymentIntentUpdateAsyncWorkflowsInputsTaxParams `form:"tax"`
+	Tax *PaymentIntentUpdateHooksInputsTaxParams `form:"tax"`
 }
 
 // Automations to be run during the PaymentIntent lifecycle
-type PaymentIntentUpdateAsyncWorkflowsParams struct {
+type PaymentIntentUpdateHooksParams struct {
 	// Arguments passed in automations
-	Inputs *PaymentIntentUpdateAsyncWorkflowsInputsParams `form:"inputs"`
+	Inputs *PaymentIntentUpdateHooksInputsParams `form:"inputs"`
 }
 
 // If this is a Mandate accepted online, this hash contains details about the online acceptance.
@@ -6482,8 +6607,20 @@ type PaymentIntentUpdatePaymentDetailsCarRentalDeliveryParams struct {
 	Recipient *PaymentIntentUpdatePaymentDetailsCarRentalDeliveryRecipientParams `form:"recipient"`
 }
 
+// The details of the distance traveled during the rental period.
+type PaymentIntentUpdatePaymentDetailsCarRentalDistanceParams struct {
+	// Distance traveled.
+	Amount *int64 `form:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`.
+	Unit *string `form:"unit"`
+}
+
 // The details of the passengers in the travel reservation
 type PaymentIntentUpdatePaymentDetailsCarRentalDriverParams struct {
+	// Driver's identification number.
+	DriverIdentificationNumber *string `form:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber *string `form:"driver_tax_number"`
 	// Full name of the person or entity on the car reservation.
 	Name *string `form:"name"`
 }
@@ -6508,6 +6645,8 @@ type PaymentIntentUpdatePaymentDetailsCarRentalParams struct {
 	DaysRented *int64 `form:"days_rented"`
 	// Delivery details for this purchase.
 	Delivery *PaymentIntentUpdatePaymentDetailsCarRentalDeliveryParams `form:"delivery"`
+	// The details of the distance traveled during the rental period.
+	Distance *PaymentIntentUpdatePaymentDetailsCarRentalDistanceParams `form:"distance"`
 	// The details of the passengers in the travel reservation
 	Drivers []*PaymentIntentUpdatePaymentDetailsCarRentalDriverParams `form:"drivers"`
 	// List of additional charges being billed.
@@ -6518,6 +6657,8 @@ type PaymentIntentUpdatePaymentDetailsCarRentalParams struct {
 	PickupAddress *AddressParams `form:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
 	PickupAt *int64 `form:"pickup_at"`
+	// Name of the pickup location.
+	PickupLocationName *string `form:"pickup_location_name"`
 	// Rental rate.
 	RateAmount *int64 `form:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -6528,8 +6669,12 @@ type PaymentIntentUpdatePaymentDetailsCarRentalParams struct {
 	ReturnAddress *AddressParams `form:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
 	ReturnAt *int64 `form:"return_at"`
+	// Name of the return location.
+	ReturnLocationName *string `form:"return_location_name"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt *bool `form:"tax_exempt"`
+	// The vehicle identification number.
+	VehicleIdentificationNumber *string `form:"vehicle_identification_number"`
 }
 
 // Affiliate details for this purchase.
@@ -7427,7 +7572,7 @@ type PaymentIntentUpdatePaymentMethodOptionsGiropayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
-// If this is a `gopay` PaymentMethod, this sub-hash contains details about the GoPay payment method options.
+// If this is a `gopay` PaymentMethod, this sub-hash contains details about the Gopay payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsGopayParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -7899,6 +8044,16 @@ type PaymentIntentUpdatePaymentMethodOptionsSamsungPayParams struct {
 	CaptureMethod *string `form:"capture_method"`
 }
 
+// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsSatispayParams struct {
+	// Controls when the funds are captured from the customer's account.
+	//
+	// If provided, this parameter overrides the behavior of the top-level [capture_method](https://stripe.com/api/payment_intents/update#update_payment_intent-capture_method) for this payment method type when finalizing the payment with this payment method type.
+	//
+	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
+	CaptureMethod *string `form:"capture_method"`
+}
+
 // Additional fields for Mandate creation
 type PaymentIntentUpdatePaymentMethodOptionsSEPADebitMandateOptionsParams struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
@@ -8135,7 +8290,7 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	FPX *PaymentIntentUpdatePaymentMethodOptionsFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 	Giropay *PaymentIntentUpdatePaymentMethodOptionsGiropayParams `form:"giropay"`
-	// If this is a `gopay` PaymentMethod, this sub-hash contains details about the GoPay payment method options.
+	// If this is a `gopay` PaymentMethod, this sub-hash contains details about the Gopay payment method options.
 	Gopay *PaymentIntentUpdatePaymentMethodOptionsGopayParams `form:"gopay"`
 	// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
 	Grabpay *PaymentIntentUpdatePaymentMethodOptionsGrabpayParams `form:"grabpay"`
@@ -8191,6 +8346,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	RevolutPay *PaymentIntentUpdatePaymentMethodOptionsRevolutPayParams `form:"revolut_pay"`
 	// If this is a `samsung_pay` PaymentMethod, this sub-hash contains details about the Samsung Pay payment method options.
 	SamsungPay *PaymentIntentUpdatePaymentMethodOptionsSamsungPayParams `form:"samsung_pay"`
+	// If this is a `satispay` PaymentMethod, this sub-hash contains details about the Satispay payment method options.
+	Satispay *PaymentIntentUpdatePaymentMethodOptionsSatispayParams `form:"satispay"`
 	// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SEPADebit *PaymentIntentUpdatePaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
 	// If this is a `shopeepay` PaymentMethod, this sub-hash contains details about the ShopeePay payment method options.
@@ -8230,8 +8387,6 @@ type PaymentIntentUpdateParams struct {
 	Amount *int64 `form:"amount"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Automations to be run during the PaymentIntent lifecycle
-	AsyncWorkflows *PaymentIntentUpdateAsyncWorkflowsParams `form:"async_workflows"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -8254,6 +8409,8 @@ type PaymentIntentUpdateParams struct {
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
 	FxQuote *string `form:"fx_quote"`
+	// Automations to be run during the PaymentIntent lifecycle
+	Hooks *PaymentIntentUpdateHooksParams `form:"hooks"`
 	// This hash contains details about the Mandate to create.
 	MandateData *PaymentIntentUpdateMandateDataParams `form:"mandate_data"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -8336,16 +8493,6 @@ type PaymentIntentAmountDetails struct {
 	Tax       *PaymentIntentAmountDetailsTax          `json:"tax"`
 	Tip       *PaymentIntentAmountDetailsTip          `json:"tip"`
 }
-type PaymentIntentAsyncWorkflowsInputsTax struct {
-	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
-	Calculation string `json:"calculation"`
-}
-type PaymentIntentAsyncWorkflowsInputs struct {
-	Tax *PaymentIntentAsyncWorkflowsInputsTax `json:"tax"`
-}
-type PaymentIntentAsyncWorkflows struct {
-	Inputs *PaymentIntentAsyncWorkflowsInputs `json:"inputs"`
-}
 
 // Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
 type PaymentIntentAutomaticPaymentMethods struct {
@@ -8355,6 +8502,16 @@ type PaymentIntentAutomaticPaymentMethods struct {
 	AllowRedirects PaymentIntentAutomaticPaymentMethodsAllowRedirects `json:"allow_redirects"`
 	// Automatically calculates compatible payment methods
 	Enabled bool `json:"enabled"`
+}
+type PaymentIntentHooksInputsTax struct {
+	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
+	Calculation string `json:"calculation"`
+}
+type PaymentIntentHooksInputs struct {
+	Tax *PaymentIntentHooksInputsTax `json:"tax"`
+}
+type PaymentIntentHooks struct {
+	Inputs *PaymentIntentHooksInputs `json:"inputs"`
 }
 type PaymentIntentNextActionAlipayHandleRedirect struct {
 	// The native data to be used with Alipay SDK you must redirect your customer to in order to authenticate the payment in an Android App.
@@ -8702,7 +8859,7 @@ type PaymentIntentNextAction struct {
 	PromptPayDisplayQRCode               *PaymentIntentNextActionPromptPayDisplayQRCode               `json:"promptpay_display_qr_code"`
 	RedirectToURL                        *PaymentIntentNextActionRedirectToURL                        `json:"redirect_to_url"`
 	SwishHandleRedirectOrDisplayQRCode   *PaymentIntentNextActionSwishHandleRedirectOrDisplayQRCode   `json:"swish_handle_redirect_or_display_qr_code"`
-	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
+	// Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type PaymentIntentNextActionType `json:"type"`
 	// When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 	UseStripeSDK                  *PaymentIntentNextActionUseStripeSDK                  `json:"use_stripe_sdk"`
@@ -8728,9 +8885,19 @@ type PaymentIntentPaymentDetailsCarRentalDelivery struct {
 	Mode      PaymentIntentPaymentDetailsCarRentalDeliveryMode       `json:"mode"`
 	Recipient *PaymentIntentPaymentDetailsCarRentalDeliveryRecipient `json:"recipient"`
 }
+type PaymentIntentPaymentDetailsCarRentalDistance struct {
+	// Distance traveled.
+	Amount int64 `json:"amount"`
+	// Unit of measurement for the distance traveled. One of `miles` or `kilometers`
+	Unit string `json:"unit"`
+}
 
 // The details of the drivers associated with the trip.
 type PaymentIntentPaymentDetailsCarRentalDriver struct {
+	// Driver's identification number.
+	DriverIdentificationNumber string `json:"driver_identification_number"`
+	// Driver's tax number.
+	DriverTaxNumber string `json:"driver_tax_number"`
 	// Full name of the driver on the reservation.
 	Name string `json:"name"`
 }
@@ -8751,6 +8918,7 @@ type PaymentIntentPaymentDetailsCarRental struct {
 	// Number of days the car is being rented.
 	DaysRented int64                                         `json:"days_rented"`
 	Delivery   *PaymentIntentPaymentDetailsCarRentalDelivery `json:"delivery"`
+	Distance   *PaymentIntentPaymentDetailsCarRentalDistance `json:"distance"`
 	// The details of the drivers associated with the trip.
 	Drivers []*PaymentIntentPaymentDetailsCarRentalDriver `json:"drivers"`
 	// List of additional charges being billed.
@@ -8760,6 +8928,8 @@ type PaymentIntentPaymentDetailsCarRental struct {
 	PickupAddress *Address `json:"pickup_address"`
 	// Car pick-up time. Measured in seconds since the Unix epoch.
 	PickupAt int64 `json:"pickup_at"`
+	// Name of the pickup location.
+	PickupLocationName string `json:"pickup_location_name"`
 	// Rental rate.
 	RateAmount int64 `json:"rate_amount"`
 	// The frequency at which the rate amount is applied. One of `day`, `week` or `month`
@@ -8769,8 +8939,12 @@ type PaymentIntentPaymentDetailsCarRental struct {
 	ReturnAddress *Address `json:"return_address"`
 	// Car return time. Measured in seconds since the Unix epoch.
 	ReturnAt int64 `json:"return_at"`
+	// Name of the return location.
+	ReturnLocationName string `json:"return_location_name"`
 	// Indicates whether the goods or services are tax-exempt or tax is not collected.
 	TaxExempt bool `json:"tax_exempt"`
+	// The vehicle identification number of the car.
+	VehicleIdentificationNumber string `json:"vehicle_identification_number"`
 }
 type PaymentIntentPaymentDetailsEventDetailsAffiliate struct {
 	// The name of the affiliate that originated the purchase.
@@ -8966,7 +9140,10 @@ type PaymentIntentPaymentMethodOptionsBancontact struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsBancontactSetupFutureUsage `json:"setup_future_usage"`
 }
-type PaymentIntentPaymentMethodOptionsBillie struct{}
+type PaymentIntentPaymentMethodOptionsBillie struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsBillieCaptureMethod `json:"capture_method"`
+}
 type PaymentIntentPaymentMethodOptionsBLIK struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
@@ -9491,6 +9668,10 @@ type PaymentIntentPaymentMethodOptionsSamsungPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsSamsungPayCaptureMethod `json:"capture_method"`
 }
+type PaymentIntentPaymentMethodOptionsSatispay struct {
+	// Controls when the funds will be captured from the customer's account.
+	CaptureMethod PaymentIntentPaymentMethodOptionsSatispayCaptureMethod `json:"capture_method"`
+}
 type PaymentIntentPaymentMethodOptionsSEPADebitMandateOptions struct {
 	// Prefix used to generate the Mandate reference. Must be at most 12 characters long. Must consist of only uppercase letters, numbers, spaces, or the following special characters: '/', '_', '-', '&', '.'. Cannot begin with 'STRIPE'.
 	ReferencePrefix string `json:"reference_prefix"`
@@ -9678,6 +9859,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Rechnung         *PaymentIntentPaymentMethodOptionsRechnung         `json:"rechnung"`
 	RevolutPay       *PaymentIntentPaymentMethodOptionsRevolutPay       `json:"revolut_pay"`
 	SamsungPay       *PaymentIntentPaymentMethodOptionsSamsungPay       `json:"samsung_pay"`
+	Satispay         *PaymentIntentPaymentMethodOptionsSatispay         `json:"satispay"`
 	SEPADebit        *PaymentIntentPaymentMethodOptionsSEPADebit        `json:"sepa_debit"`
 	Shopeepay        *PaymentIntentPaymentMethodOptionsShopeepay        `json:"shopeepay"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
@@ -9744,8 +9926,7 @@ type PaymentIntent struct {
 	// ID of the Connect application that created the PaymentIntent.
 	Application *Application `json:"application"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
-	ApplicationFeeAmount int64                        `json:"application_fee_amount"`
-	AsyncWorkflows       *PaymentIntentAsyncWorkflows `json:"async_workflows"`
+	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
 	AutomaticPaymentMethods *PaymentIntentAutomaticPaymentMethods `json:"automatic_payment_methods"`
 	// Populated when `status` is `canceled`, this is the time at which the PaymentIntent was canceled. Measured in seconds since the Unix epoch.
@@ -9781,7 +9962,8 @@ type PaymentIntent struct {
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
 	// The FX Quote used for the PaymentIntent.
-	FxQuote string `json:"fx_quote"`
+	FxQuote string              `json:"fx_quote"`
+	Hooks   *PaymentIntentHooks `json:"hooks"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.

@@ -21,11 +21,11 @@ type v1RadarValueListService struct {
 
 // Creates a new ValueList object, which can then be referenced in rules.
 func (c v1RadarValueListService) Create(ctx context.Context, params *RadarValueListCreateParams) (*RadarValueList, error) {
-	valuelist := &RadarValueList{}
 	if params == nil {
 		params = &RadarValueListCreateParams{}
 	}
 	params.Context = ctx
+	valuelist := &RadarValueList{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/radar/value_lists", c.Key, params, valuelist)
 	return valuelist, err
@@ -33,36 +33,36 @@ func (c v1RadarValueListService) Create(ctx context.Context, params *RadarValueL
 
 // Retrieves a ValueList object.
 func (c v1RadarValueListService) Retrieve(ctx context.Context, id string, params *RadarValueListRetrieveParams) (*RadarValueList, error) {
-	path := FormatURLPath("/v1/radar/value_lists/%s", id)
-	valuelist := &RadarValueList{}
 	if params == nil {
 		params = &RadarValueListRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/radar/value_lists/%s", id)
+	valuelist := &RadarValueList{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, valuelist)
 	return valuelist, err
 }
 
 // Updates a ValueList object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Note that item_type is immutable.
 func (c v1RadarValueListService) Update(ctx context.Context, id string, params *RadarValueListUpdateParams) (*RadarValueList, error) {
-	path := FormatURLPath("/v1/radar/value_lists/%s", id)
-	valuelist := &RadarValueList{}
 	if params == nil {
 		params = &RadarValueListUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/radar/value_lists/%s", id)
+	valuelist := &RadarValueList{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, valuelist)
 	return valuelist, err
 }
 
 // Deletes a ValueList object, also deleting any items contained within the value list. To be deleted, a value list must not be referenced in any rules.
 func (c v1RadarValueListService) Delete(ctx context.Context, id string, params *RadarValueListDeleteParams) (*RadarValueList, error) {
-	path := FormatURLPath("/v1/radar/value_lists/%s", id)
-	valuelist := &RadarValueList{}
 	if params == nil {
 		params = &RadarValueListDeleteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/radar/value_lists/%s", id)
+	valuelist := &RadarValueList{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, valuelist)
 	return valuelist, err
 }

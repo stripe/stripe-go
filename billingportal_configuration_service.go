@@ -21,11 +21,11 @@ type v1BillingPortalConfigurationService struct {
 
 // Creates a configuration that describes the functionality and behavior of a PortalSession
 func (c v1BillingPortalConfigurationService) Create(ctx context.Context, params *BillingPortalConfigurationCreateParams) (*BillingPortalConfiguration, error) {
-	configuration := &BillingPortalConfiguration{}
 	if params == nil {
 		params = &BillingPortalConfigurationCreateParams{}
 	}
 	params.Context = ctx
+	configuration := &BillingPortalConfiguration{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/billing_portal/configurations", c.Key, params, configuration)
 	return configuration, err
@@ -33,24 +33,24 @@ func (c v1BillingPortalConfigurationService) Create(ctx context.Context, params 
 
 // Retrieves a configuration that describes the functionality of the customer portal.
 func (c v1BillingPortalConfigurationService) Retrieve(ctx context.Context, id string, params *BillingPortalConfigurationRetrieveParams) (*BillingPortalConfiguration, error) {
-	path := FormatURLPath("/v1/billing_portal/configurations/%s", id)
-	configuration := &BillingPortalConfiguration{}
 	if params == nil {
 		params = &BillingPortalConfigurationRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/billing_portal/configurations/%s", id)
+	configuration := &BillingPortalConfiguration{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, configuration)
 	return configuration, err
 }
 
 // Updates a configuration that describes the functionality of the customer portal.
 func (c v1BillingPortalConfigurationService) Update(ctx context.Context, id string, params *BillingPortalConfigurationUpdateParams) (*BillingPortalConfiguration, error) {
-	path := FormatURLPath("/v1/billing_portal/configurations/%s", id)
-	configuration := &BillingPortalConfiguration{}
 	if params == nil {
 		params = &BillingPortalConfigurationUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/billing_portal/configurations/%s", id)
+	configuration := &BillingPortalConfiguration{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, configuration)
 	return configuration, err
 }

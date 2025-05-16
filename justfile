@@ -15,8 +15,7 @@ test *args="./...":
 # check for potential mistakes (slow)
 lint: install
     go vet ./...
-    # TODO(mbroshi) temporarily disabling the unused variable check. Will revert after `stripe.Client` ships
-    staticcheck --checks=-U1000
+    staticcheck
 
 # don't depend on `install` in this step! Before formatting, our `go` code isn't syntactically valid
 # ⭐ format all files

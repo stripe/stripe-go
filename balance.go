@@ -75,6 +75,46 @@ type BalanceIssuing struct {
 	// Funds that are available for use.
 	Available []*BalanceAmount `json:"available"`
 }
+type BalanceRefundAndDisputePrefundingAvailableSourceTypes struct {
+	// Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+	BankAccount int64 `json:"bank_account"`
+	// Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+	Card int64 `json:"card"`
+	// Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+	FPX int64 `json:"fpx"`
+}
+
+// Funds that are available for use.
+type BalanceRefundAndDisputePrefundingAvailable struct {
+	// Balance amount.
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency    Currency                                               `json:"currency"`
+	SourceTypes *BalanceRefundAndDisputePrefundingAvailableSourceTypes `json:"source_types"`
+}
+type BalanceRefundAndDisputePrefundingPendingSourceTypes struct {
+	// Amount coming from [legacy US ACH payments](https://docs.stripe.com/ach-deprecated).
+	BankAccount int64 `json:"bank_account"`
+	// Amount coming from most payment methods, including cards as well as [non-legacy bank debits](https://docs.stripe.com/payments/bank-debits).
+	Card int64 `json:"card"`
+	// Amount coming from [FPX](https://docs.stripe.com/payments/fpx), a Malaysian payment method.
+	FPX int64 `json:"fpx"`
+}
+
+// Funds that are pending
+type BalanceRefundAndDisputePrefundingPending struct {
+	// Balance amount.
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency    Currency                                             `json:"currency"`
+	SourceTypes *BalanceRefundAndDisputePrefundingPendingSourceTypes `json:"source_types"`
+}
+type BalanceRefundAndDisputePrefunding struct {
+	// Funds that are available for use.
+	Available []*BalanceRefundAndDisputePrefundingAvailable `json:"available"`
+	// Funds that are pending
+	Pending []*BalanceRefundAndDisputePrefundingPending `json:"pending"`
+}
 
 // This is an object representing your Stripe balance. You can retrieve it to see
 // the balance currently on your Stripe account.
@@ -101,5 +141,6 @@ type Balance struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// Funds that aren't available in the balance yet. You can find the pending balance for each currency and each payment type in the `source_types` property.
-	Pending []*BalanceAmount `json:"pending"`
+	Pending                    []*BalanceAmount                   `json:"pending"`
+	RefundAndDisputePrefunding *BalanceRefundAndDisputePrefunding `json:"refund_and_dispute_prefunding"`
 }

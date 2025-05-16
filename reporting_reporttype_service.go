@@ -21,12 +21,12 @@ type v1ReportingReportTypeService struct {
 
 // Retrieves the details of a Report Type. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
 func (c v1ReportingReportTypeService) Retrieve(ctx context.Context, id string, params *ReportingReportTypeRetrieveParams) (*ReportingReportType, error) {
-	path := FormatURLPath("/v1/reporting/report_types/%s", id)
-	reporttype := &ReportingReportType{}
 	if params == nil {
 		params = &ReportingReportTypeRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/reporting/report_types/%s", id)
+	reporttype := &ReportingReportType{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, reporttype)
 	return reporttype, err
 }

@@ -21,12 +21,12 @@ type v1TreasuryReceivedDebitService struct {
 
 // Retrieves the details of an existing ReceivedDebit by passing the unique ReceivedDebit ID from the ReceivedDebit list
 func (c v1TreasuryReceivedDebitService) Retrieve(ctx context.Context, id string, params *TreasuryReceivedDebitRetrieveParams) (*TreasuryReceivedDebit, error) {
-	path := FormatURLPath("/v1/treasury/received_debits/%s", id)
-	receiveddebit := &TreasuryReceivedDebit{}
 	if params == nil {
 		params = &TreasuryReceivedDebitRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/treasury/received_debits/%s", id)
+	receiveddebit := &TreasuryReceivedDebit{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, receiveddebit)
 	return receiveddebit, err
 }

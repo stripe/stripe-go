@@ -21,12 +21,12 @@ type v1IssuingFraudLiabilityDebitService struct {
 
 // Retrieves an Issuing FraudLiabilityDebit object.
 func (c v1IssuingFraudLiabilityDebitService) Retrieve(ctx context.Context, id string, params *IssuingFraudLiabilityDebitRetrieveParams) (*IssuingFraudLiabilityDebit, error) {
-	path := FormatURLPath("/v1/issuing/fraud_liability_debits/%s", id)
-	fraudliabilitydebit := &IssuingFraudLiabilityDebit{}
 	if params == nil {
 		params = &IssuingFraudLiabilityDebitRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/fraud_liability_debits/%s", id)
+	fraudliabilitydebit := &IssuingFraudLiabilityDebit{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, fraudliabilitydebit)
 	return fraudliabilitydebit, err
 }

@@ -21,11 +21,11 @@ type v1TreasuryInboundTransferService struct {
 
 // Creates an InboundTransfer.
 func (c v1TreasuryInboundTransferService) Create(ctx context.Context, params *TreasuryInboundTransferCreateParams) (*TreasuryInboundTransfer, error) {
-	inboundtransfer := &TreasuryInboundTransfer{}
 	if params == nil {
 		params = &TreasuryInboundTransferCreateParams{}
 	}
 	params.Context = ctx
+	inboundtransfer := &TreasuryInboundTransfer{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/treasury/inbound_transfers", c.Key, params, inboundtransfer)
 	return inboundtransfer, err
@@ -33,24 +33,24 @@ func (c v1TreasuryInboundTransferService) Create(ctx context.Context, params *Tr
 
 // Retrieves the details of an existing InboundTransfer.
 func (c v1TreasuryInboundTransferService) Retrieve(ctx context.Context, id string, params *TreasuryInboundTransferRetrieveParams) (*TreasuryInboundTransfer, error) {
-	path := FormatURLPath("/v1/treasury/inbound_transfers/%s", id)
-	inboundtransfer := &TreasuryInboundTransfer{}
 	if params == nil {
 		params = &TreasuryInboundTransferRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/treasury/inbound_transfers/%s", id)
+	inboundtransfer := &TreasuryInboundTransfer{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, inboundtransfer)
 	return inboundtransfer, err
 }
 
 // Cancels an InboundTransfer.
 func (c v1TreasuryInboundTransferService) Cancel(ctx context.Context, id string, params *TreasuryInboundTransferCancelParams) (*TreasuryInboundTransfer, error) {
-	path := FormatURLPath("/v1/treasury/inbound_transfers/%s/cancel", id)
-	inboundtransfer := &TreasuryInboundTransfer{}
 	if params == nil {
 		params = &TreasuryInboundTransferCancelParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/treasury/inbound_transfers/%s/cancel", id)
+	inboundtransfer := &TreasuryInboundTransfer{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, inboundtransfer)
 	return inboundtransfer, err
 }

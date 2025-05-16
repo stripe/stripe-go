@@ -23,12 +23,12 @@ type v1BalanceTransactionService struct {
 //
 // Note that this endpoint previously used the path /v1/balance/history/:id.
 func (c v1BalanceTransactionService) Retrieve(ctx context.Context, id string, params *BalanceTransactionRetrieveParams) (*BalanceTransaction, error) {
-	path := FormatURLPath("/v1/balance_transactions/%s", id)
-	balancetransaction := &BalanceTransaction{}
 	if params == nil {
 		params = &BalanceTransactionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/balance_transactions/%s", id)
+	balancetransaction := &BalanceTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, balancetransaction)
 	return balancetransaction, err
 }

@@ -677,6 +677,12 @@ type AccountCapabilitiesPaytoPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The pix_payments capability.
+type AccountCapabilitiesPixPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountCapabilitiesPromptPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -920,6 +926,8 @@ type AccountCapabilitiesParams struct {
 	PaypalPayments *AccountCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
 	// The payto_payments capability.
 	PaytoPayments *AccountCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
+	// The pix_payments capability.
+	PixPayments *AccountCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The qris_payments capability.
@@ -1842,6 +1850,12 @@ type AccountUpdateCapabilitiesPaytoPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The pix_payments capability.
+type AccountUpdateCapabilitiesPixPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountUpdateCapabilitiesPromptPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2085,6 +2099,8 @@ type AccountUpdateCapabilitiesParams struct {
 	PaypalPayments *AccountUpdateCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
 	// The payto_payments capability.
 	PaytoPayments *AccountUpdateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
+	// The pix_payments capability.
+	PixPayments *AccountUpdateCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountUpdateCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The qris_payments capability.
@@ -2981,6 +2997,12 @@ type AccountCreateCapabilitiesPaytoPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The pix_payments capability.
+type AccountCreateCapabilitiesPixPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountCreateCapabilitiesPromptPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3224,6 +3246,8 @@ type AccountCreateCapabilitiesParams struct {
 	PaypalPayments *AccountCreateCapabilitiesPaypalPaymentsParams `form:"paypal_payments"`
 	// The payto_payments capability.
 	PaytoPayments *AccountCreateCapabilitiesPaytoPaymentsParams `form:"payto_payments"`
+	// The pix_payments capability.
+	PixPayments *AccountCreateCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCreateCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The qris_payments capability.
@@ -3973,6 +3997,8 @@ type AccountCapabilities struct {
 	PaypalPayments AccountCapabilityStatus `json:"paypal_payments"`
 	// The status of the PayTo capability of the account, or whether the account can directly process PayTo charges.
 	PaytoPayments AccountCapabilityStatus `json:"payto_payments"`
+	// The status of the pix payments capability of the account, or whether the account can directly process pix charges.
+	PixPayments AccountCapabilityStatus `json:"pix_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
 	PromptPayPayments AccountCapabilityStatus `json:"promptpay_payments"`
 	// The status of the Qris capability of the account, or whether the account can directly process Qris payments.

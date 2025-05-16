@@ -21,12 +21,12 @@ type v1TaxCodeService struct {
 
 // Retrieves the details of an existing tax code. Supply the unique tax code ID and Stripe will return the corresponding tax code information.
 func (c v1TaxCodeService) Retrieve(ctx context.Context, id string, params *TaxCodeRetrieveParams) (*TaxCode, error) {
-	path := FormatURLPath("/v1/tax_codes/%s", id)
-	taxcode := &TaxCode{}
 	if params == nil {
 		params = &TaxCodeRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/tax_codes/%s", id)
+	taxcode := &TaxCode{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, taxcode)
 	return taxcode, err
 }

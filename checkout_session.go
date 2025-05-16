@@ -907,6 +907,21 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage = "off_session"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 type CheckoutSessionPaymentMethodOptionsOXXOSetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsOXXOSetupFutureUsage can take
@@ -2536,6 +2551,8 @@ type CheckoutSessionPhoneNumberCollectionParams struct {
 type CheckoutSessionSavedPaymentMethodOptionsParams struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters"`
+	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
+	PaymentMethodRemove *string `form:"payment_method_remove"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave *string `form:"payment_method_save"`
 }
@@ -2683,7 +2700,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
@@ -2820,7 +2837,7 @@ type CheckoutSessionParams struct {
 	//
 	// To update an existing line item, specify its `id` along with the new values of the fields to update.
 	//
-	// To add a new line item, specify a `price` and `quantity`.
+	// To add a new line item, specify one of `price` or `price_data` and `quantity`.
 	//
 	// To remove an existing line item, omit the line item's ID from the retransmitted array.
 	//
@@ -4145,6 +4162,8 @@ type CheckoutSessionCreatePhoneNumberCollectionParams struct {
 type CheckoutSessionCreateSavedPaymentMethodOptionsParams struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters"`
+	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
+	PaymentMethodRemove *string `form:"payment_method_remove"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave *string `form:"payment_method_save"`
 }
@@ -4292,7 +4311,7 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
-	// Configure billing_mode in each subscription to opt in improved credit proration behavior.
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
@@ -4617,7 +4636,7 @@ type CheckoutSessionUpdateLineItemPriceDataParams struct {
 //
 // To update an existing line item, specify its `id` along with the new values of the fields to update.
 //
-// To add a new line item, specify a `price` and `quantity`.
+// To add a new line item, specify one of `price` or `price_data` and `quantity`.
 //
 // To remove an existing line item, omit the line item's ID from the retransmitted array.
 //
@@ -4633,7 +4652,7 @@ type CheckoutSessionUpdateLineItemParams struct {
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required when creating a new line item.
 	PriceData *CheckoutSessionUpdateLineItemPriceDataParams `form:"price_data"`
-	// The quantity of the line item being purchased.
+	// The quantity of the line item being purchased. Quantity should not be defined when `recurring.usage_type=metered`.
 	Quantity *int64 `form:"quantity"`
 	// The [tax rates](https://stripe.com/docs/api/tax_rates) which apply to this line item.
 	TaxRates []*string `form:"tax_rates"`
@@ -4726,6 +4745,8 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 }
 
 // Updates a Checkout Session object.
+//
+// Related guide: [Dynamically update Checkout](https://stripe.com/payments/checkout/dynamic-updates)
 type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
 	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
@@ -4740,7 +4761,7 @@ type CheckoutSessionUpdateParams struct {
 	//
 	// To update an existing line item, specify its `id` along with the new values of the fields to update.
 	//
-	// To add a new line item, specify a `price` and `quantity`.
+	// To add a new line item, specify one of `price` or `price_data` and `quantity`.
 	//
 	// To remove an existing line item, omit the line item's ID from the retransmitted array.
 	//
@@ -5390,6 +5411,14 @@ type CheckoutSessionPaymentMethodOptionsMultibanco struct {
 type CheckoutSessionPaymentMethodOptionsNaverPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod CheckoutSessionPaymentMethodOptionsNaverPayCaptureMethod `json:"capture_method"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.

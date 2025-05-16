@@ -19,11 +19,11 @@ type v1TestHelpersConfirmationTokenService struct {
 
 // Creates a test mode Confirmation Token server side for your integration tests.
 func (c v1TestHelpersConfirmationTokenService) Create(ctx context.Context, params *TestHelpersConfirmationTokenCreateParams) (*ConfirmationToken, error) {
-	confirmationtoken := &ConfirmationToken{}
 	if params == nil {
 		params = &TestHelpersConfirmationTokenCreateParams{}
 	}
 	params.Context = ctx
+	confirmationtoken := &ConfirmationToken{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/test_helpers/confirmation_tokens", c.Key, params, confirmationtoken)
 	return confirmationtoken, err

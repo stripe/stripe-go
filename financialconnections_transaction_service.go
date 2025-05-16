@@ -21,12 +21,12 @@ type v1FinancialConnectionsTransactionService struct {
 
 // Retrieves the details of a Financial Connections Transaction
 func (c v1FinancialConnectionsTransactionService) Retrieve(ctx context.Context, id string, params *FinancialConnectionsTransactionRetrieveParams) (*FinancialConnectionsTransaction, error) {
-	path := FormatURLPath("/v1/financial_connections/transactions/%s", id)
-	transaction := &FinancialConnectionsTransaction{}
 	if params == nil {
 		params = &FinancialConnectionsTransactionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/financial_connections/transactions/%s", id)
+	transaction := &FinancialConnectionsTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
 	return transaction, err
 }

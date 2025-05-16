@@ -164,6 +164,23 @@ func (c Client) DeleteDiscount(id string, params *stripe.SubscriptionDeleteDisco
 	return subscription, err
 }
 
+// Upgrade the billing_mode of an existing subscription.
+func Migrate(id string, params *stripe.SubscriptionMigrateParams) (*stripe.Subscription, error) {
+	return getC().Migrate(id, params)
+}
+
+// Upgrade the billing_mode of an existing subscription.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Migrate(id string, params *stripe.SubscriptionMigrateParams) (*stripe.Subscription, error) {
+	path := stripe.FormatURLPath("/v1/subscriptions/%s/migrate", id)
+	subscription := &stripe.Subscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
+	return subscription, err
+}
+
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
 func Resume(id string, params *stripe.SubscriptionResumeParams) (*stripe.Subscription, error) {
 	return getC().Resume(id, params)

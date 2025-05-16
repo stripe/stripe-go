@@ -24,11 +24,11 @@ type v1SetupIntentService struct {
 // After you create the SetupIntent, attach a payment method and [confirm](https://stripe.com/docs/api/setup_intents/confirm)
 // it to collect any required permissions to charge the payment method later.
 func (c v1SetupIntentService) Create(ctx context.Context, params *SetupIntentCreateParams) (*SetupIntent, error) {
-	setupintent := &SetupIntent{}
 	if params == nil {
 		params = &SetupIntentCreateParams{}
 	}
 	params.Context = ctx
+	setupintent := &SetupIntent{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/setup_intents", c.Key, params, setupintent)
 	return setupintent, err
@@ -40,24 +40,24 @@ func (c v1SetupIntentService) Create(ctx context.Context, params *SetupIntentCre
 //
 // When retrieved with a publishable key, only a subset of properties will be returned. Please refer to the [SetupIntent](https://stripe.com/docs/api#setup_intent_object) object reference for more details.
 func (c v1SetupIntentService) Retrieve(ctx context.Context, id string, params *SetupIntentRetrieveParams) (*SetupIntent, error) {
-	path := FormatURLPath("/v1/setup_intents/%s", id)
-	setupintent := &SetupIntent{}
 	if params == nil {
 		params = &SetupIntentRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/setup_intents/%s", id)
+	setupintent := &SetupIntent{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, setupintent)
 	return setupintent, err
 }
 
 // Updates a SetupIntent object.
 func (c v1SetupIntentService) Update(ctx context.Context, id string, params *SetupIntentUpdateParams) (*SetupIntent, error) {
-	path := FormatURLPath("/v1/setup_intents/%s", id)
-	setupintent := &SetupIntent{}
 	if params == nil {
 		params = &SetupIntentUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/setup_intents/%s", id)
+	setupintent := &SetupIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, setupintent)
 	return setupintent, err
 }
@@ -66,12 +66,12 @@ func (c v1SetupIntentService) Update(ctx context.Context, id string, params *Set
 //
 // After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error. You can't cancel the SetupIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
 func (c v1SetupIntentService) Cancel(ctx context.Context, id string, params *SetupIntentCancelParams) (*SetupIntent, error) {
-	path := FormatURLPath("/v1/setup_intents/%s/cancel", id)
-	setupintent := &SetupIntent{}
 	if params == nil {
 		params = &SetupIntentCancelParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/setup_intents/%s/cancel", id)
+	setupintent := &SetupIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, setupintent)
 	return setupintent, err
 }
@@ -91,24 +91,24 @@ func (c v1SetupIntentService) Cancel(ctx context.Context, id string, params *Set
 // requires_payment_method status or the canceled status if the
 // confirmation limit is reached.
 func (c v1SetupIntentService) Confirm(ctx context.Context, id string, params *SetupIntentConfirmParams) (*SetupIntent, error) {
-	path := FormatURLPath("/v1/setup_intents/%s/confirm", id)
-	setupintent := &SetupIntent{}
 	if params == nil {
 		params = &SetupIntentConfirmParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/setup_intents/%s/confirm", id)
+	setupintent := &SetupIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, setupintent)
 	return setupintent, err
 }
 
 // Verifies microdeposits on a SetupIntent object.
 func (c v1SetupIntentService) VerifyMicrodeposits(ctx context.Context, id string, params *SetupIntentVerifyMicrodepositsParams) (*SetupIntent, error) {
-	path := FormatURLPath("/v1/setup_intents/%s/verify_microdeposits", id)
-	setupintent := &SetupIntent{}
 	if params == nil {
 		params = &SetupIntentVerifyMicrodepositsParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/setup_intents/%s/verify_microdeposits", id)
+	setupintent := &SetupIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, setupintent)
 	return setupintent, err
 }

@@ -21,35 +21,35 @@ type v1FileLinkService struct {
 
 // Creates a new file link object.
 func (c v1FileLinkService) Create(ctx context.Context, params *FileLinkCreateParams) (*FileLink, error) {
-	filelink := &FileLink{}
 	if params == nil {
 		params = &FileLinkCreateParams{}
 	}
 	params.Context = ctx
+	filelink := &FileLink{}
 	err := c.B.Call(http.MethodPost, "/v1/file_links", c.Key, params, filelink)
 	return filelink, err
 }
 
 // Retrieves the file link with the given ID.
 func (c v1FileLinkService) Retrieve(ctx context.Context, id string, params *FileLinkRetrieveParams) (*FileLink, error) {
-	path := FormatURLPath("/v1/file_links/%s", id)
-	filelink := &FileLink{}
 	if params == nil {
 		params = &FileLinkRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/file_links/%s", id)
+	filelink := &FileLink{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, filelink)
 	return filelink, err
 }
 
 // Updates an existing file link object. Expired links can no longer be updated.
 func (c v1FileLinkService) Update(ctx context.Context, id string, params *FileLinkUpdateParams) (*FileLink, error) {
-	path := FormatURLPath("/v1/file_links/%s", id)
-	filelink := &FileLink{}
 	if params == nil {
 		params = &FileLinkUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/file_links/%s", id)
+	filelink := &FileLink{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, filelink)
 	return filelink, err
 }

@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// Create redaction job method
+// Creates a redaction job. When a job is created, it will start to validate.
 func New(params *stripe.PrivacyRedactionJobParams) (*stripe.PrivacyRedactionJob, error) {
 	return getC().New(params)
 }
 
-// Create redaction job method
+// Creates a redaction job. When a job is created, it will start to validate.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -40,12 +40,12 @@ func (c Client) New(params *stripe.PrivacyRedactionJobParams) (*stripe.PrivacyRe
 	return redactionjob, err
 }
 
-// Retrieve redaction job method
+// Retrieves the details of a previously created redaction job.
 func Get(id string, params *stripe.PrivacyRedactionJobParams) (*stripe.PrivacyRedactionJob, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieve redaction job method
+// Retrieves the details of a previously created redaction job.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -57,12 +57,16 @@ func (c Client) Get(id string, params *stripe.PrivacyRedactionJobParams) (*strip
 	return redactionjob, err
 }
 
-// Update redaction job method
+// Updates the properties of a redaction job without running or canceling the job.
+//
+// If the job to update is in a failed status, it will not automatically start to validate. Once you applied all of the changes, use the validate API to start validation again.
 func Update(id string, params *stripe.PrivacyRedactionJobParams) (*stripe.PrivacyRedactionJob, error) {
 	return getC().Update(id, params)
 }
 
-// Update redaction job method
+// Updates the properties of a redaction job without running or canceling the job.
+//
+// If the job to update is in a failed status, it will not automatically start to validate. Once you applied all of the changes, use the validate API to start validation again.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -74,12 +78,16 @@ func (c Client) Update(id string, params *stripe.PrivacyRedactionJobParams) (*st
 	return redactionjob, err
 }
 
-// Cancel redaction job method
+// You can cancel a redaction job when it's in one of these statuses: ready, failed.
+//
+// Canceling the redaction job will abandon its attempt to redact the configured objects. A canceled job cannot be used again.
 func Cancel(id string, params *stripe.PrivacyRedactionJobCancelParams) (*stripe.PrivacyRedactionJob, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel redaction job method
+// You can cancel a redaction job when it's in one of these statuses: ready, failed.
+//
+// Canceling the redaction job will abandon its attempt to redact the configured objects. A canceled job cannot be used again.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -91,12 +99,20 @@ func (c Client) Cancel(id string, params *stripe.PrivacyRedactionJobCancelParams
 	return redactionjob, err
 }
 
-// Run redaction job method
+// Run a redaction job in a ready status.
+//
+// When you run a job, the configured objects will be redacted asynchronously. This action is irreversible and cannot be canceled once started.
+//
+// The status of the job will move to redacting. Once all of the objects are redacted, the status will become succeeded. If the job's validation_behavior is set to fix, the automatic fixes will be applied to objects at this step.
 func Run(id string, params *stripe.PrivacyRedactionJobRunParams) (*stripe.PrivacyRedactionJob, error) {
 	return getC().Run(id, params)
 }
 
-// Run redaction job method
+// Run a redaction job in a ready status.
+//
+// When you run a job, the configured objects will be redacted asynchronously. This action is irreversible and cannot be canceled once started.
+//
+// The status of the job will move to redacting. Once all of the objects are redacted, the status will become succeeded. If the job's validation_behavior is set to fix, the automatic fixes will be applied to objects at this step.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -108,12 +124,20 @@ func (c Client) Run(id string, params *stripe.PrivacyRedactionJobRunParams) (*st
 	return redactionjob, err
 }
 
-// Validate redaction job method
+// Validate a redaction job when it is in a failed status.
+//
+// When a job is created, it automatically begins to validate on the configured objects' eligibility for redaction. Use this to validate the job again after its validation errors are resolved or the job's validation_behavior is changed.
+//
+// The status of the job will move to validating. Once all of the objects are validated, the status of the job will become ready. If there are any validation errors preventing the job from running, the status will become failed.
 func Validate(id string, params *stripe.PrivacyRedactionJobValidateParams) (*stripe.PrivacyRedactionJob, error) {
 	return getC().Validate(id, params)
 }
 
-// Validate redaction job method
+// Validate a redaction job when it is in a failed status.
+//
+// When a job is created, it automatically begins to validate on the configured objects' eligibility for redaction. Use this to validate the job again after its validation errors are resolved or the job's validation_behavior is changed.
+//
+// The status of the job will move to validating. Once all of the objects are validated, the status of the job will become ready. If there are any validation errors preventing the job from running, the status will become failed.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -125,12 +149,12 @@ func (c Client) Validate(id string, params *stripe.PrivacyRedactionJobValidatePa
 	return redactionjob, err
 }
 
-// List redaction jobs method...
+// Returns a list of redaction jobs.
 func List(params *stripe.PrivacyRedactionJobListParams) *Iter {
 	return getC().List(params)
 }
 
-// List redaction jobs method...
+// Returns a list of redaction jobs.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

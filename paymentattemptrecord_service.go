@@ -21,12 +21,12 @@ type v1PaymentAttemptRecordService struct {
 
 // Retrieves a Payment Attempt Record with the given ID
 func (c v1PaymentAttemptRecordService) Retrieve(ctx context.Context, id string, params *PaymentAttemptRecordRetrieveParams) (*PaymentAttemptRecord, error) {
-	path := FormatURLPath("/v1/payment_attempt_records/%s", id)
-	paymentattemptrecord := &PaymentAttemptRecord{}
 	if params == nil {
 		params = &PaymentAttemptRecordRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_attempt_records/%s", id)
+	paymentattemptrecord := &PaymentAttemptRecord{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentattemptrecord)
 	return paymentattemptrecord, err
 }

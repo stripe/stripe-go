@@ -8,6 +8,16 @@ package stripe
 
 import "encoding/json"
 
+// The balance that this transaction impacts.
+type BalanceTransactionBalanceType string
+
+// List of values that BalanceTransactionBalanceType can take
+const (
+	BalanceTransactionBalanceTypeIssuing                    BalanceTransactionBalanceType = "issuing"
+	BalanceTransactionBalanceTypePayments                   BalanceTransactionBalanceType = "payments"
+	BalanceTransactionBalanceTypeRefundAndDisputePrefunding BalanceTransactionBalanceType = "refund_and_dispute_prefunding"
+)
+
 // Learn more about how [reporting categories](https://stripe.com/docs/reports/reporting-categories) can help you understand balance transactions from an accounting perspective.
 type BalanceTransactionReportingCategory string
 
@@ -201,6 +211,8 @@ type BalanceTransaction struct {
 	Amount int64 `json:"amount"`
 	// The date that the transaction's net funds become available in the Stripe balance.
 	AvailableOn int64 `json:"available_on"`
+	// The balance that this transaction impacts.
+	BalanceType BalanceTransactionBalanceType `json:"balance_type"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

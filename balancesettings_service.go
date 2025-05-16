@@ -21,11 +21,11 @@ type v1BalanceSettingsService struct {
 //
 //	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
 func (c v1BalanceSettingsService) Retrieve(ctx context.Context, params *BalanceSettingsRetrieveParams) (*BalanceSettings, error) {
-	balancesettings := &BalanceSettings{}
 	if params == nil {
 		params = &BalanceSettingsRetrieveParams{}
 	}
 	params.Context = ctx
+	balancesettings := &BalanceSettings{}
 	err := c.B.Call(
 		http.MethodGet, "/v1/balance_settings", c.Key, params, balancesettings)
 	return balancesettings, err
@@ -35,11 +35,11 @@ func (c v1BalanceSettingsService) Retrieve(ctx context.Context, params *BalanceS
 //
 //	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
 func (c v1BalanceSettingsService) Update(ctx context.Context, params *BalanceSettingsUpdateParams) (*BalanceSettings, error) {
-	balancesettings := &BalanceSettings{}
 	if params == nil {
 		params = &BalanceSettingsUpdateParams{}
 	}
 	params.Context = ctx
+	balancesettings := &BalanceSettings{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/balance_settings", c.Key, params, balancesettings)
 	return balancesettings, err
