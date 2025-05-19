@@ -780,6 +780,21 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage = "off_session"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
 type CheckoutSessionPaymentMethodOptionsOXXOSetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsOXXOSetupFutureUsage can take
@@ -2250,6 +2265,8 @@ type CheckoutSessionPhoneNumberCollectionParams struct {
 type CheckoutSessionSavedPaymentMethodOptionsParams struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters"`
+	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
+	PaymentMethodRemove *string `form:"payment_method_remove"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave *string `form:"payment_method_save"`
 }
@@ -3772,6 +3789,8 @@ type CheckoutSessionCreatePhoneNumberCollectionParams struct {
 type CheckoutSessionCreateSavedPaymentMethodOptionsParams struct {
 	// Uses the `allow_redisplay` value of each saved payment method to filter the set presented to a returning customer. By default, only saved payment methods with 'allow_redisplay: ‘always' are shown in Checkout.
 	AllowRedisplayFilters []*string `form:"allow_redisplay_filters"`
+	// Enable customers to choose if they wish to remove their saved payment methods. Disabled by default.
+	PaymentMethodRemove *string `form:"payment_method_remove"`
 	// Enable customers to choose if they wish to save their payment method for future use. Disabled by default.
 	PaymentMethodSave *string `form:"payment_method_save"`
 }
@@ -4251,6 +4270,8 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 }
 
 // Updates a Checkout Session object.
+//
+// Related guide: [Dynamically update Checkout](https://stripe.com/payments/checkout/dynamic-updates)
 type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
 	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
@@ -4883,6 +4904,14 @@ type CheckoutSessionPaymentMethodOptionsMultibanco struct {
 type CheckoutSessionPaymentMethodOptionsNaverPay struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod CheckoutSessionPaymentMethodOptionsNaverPayCaptureMethod `json:"capture_method"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsNaverPaySetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
@@ -5324,7 +5353,7 @@ type CheckoutSession struct {
 	// relevant text on the page, such as the submit button. `submit_type` can only be
 	// specified on Checkout Sessions in `payment` mode. If blank or `auto`, `pay` is used.
 	SubmitType CheckoutSessionSubmitType `json:"submit_type"`
-	// The ID of the subscription for Checkout Sessions in `subscription` mode.
+	// The ID of the [Subscription](https://stripe.com/docs/api/subscriptions) for Checkout Sessions in `subscription` mode.
 	Subscription *Subscription `json:"subscription"`
 	// The URL the customer will be directed to after the payment or
 	// subscription creation is successful.

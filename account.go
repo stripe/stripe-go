@@ -607,6 +607,12 @@ type AccountCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The pix_payments capability.
+type AccountCapabilitiesPixPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountCapabilitiesPromptPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -794,6 +800,8 @@ type AccountCapabilitiesParams struct {
 	PaycoPayments *AccountCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The pix_payments capability.
+	PixPayments *AccountCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The revolut_pay_payments capability.
@@ -1590,6 +1598,12 @@ type AccountUpdateCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The pix_payments capability.
+type AccountUpdateCapabilitiesPixPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountUpdateCapabilitiesPromptPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -1777,6 +1791,8 @@ type AccountUpdateCapabilitiesParams struct {
 	PaycoPayments *AccountUpdateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountUpdateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The pix_payments capability.
+	PixPayments *AccountUpdateCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountUpdateCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The revolut_pay_payments capability.
@@ -2565,6 +2581,12 @@ type AccountCreateCapabilitiesPayNowPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The pix_payments capability.
+type AccountCreateCapabilitiesPixPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The promptpay_payments capability.
 type AccountCreateCapabilitiesPromptPayPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2752,6 +2774,8 @@ type AccountCreateCapabilitiesParams struct {
 	PaycoPayments *AccountCreateCapabilitiesPaycoPaymentsParams `form:"payco_payments"`
 	// The paynow_payments capability.
 	PayNowPayments *AccountCreateCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
+	// The pix_payments capability.
+	PixPayments *AccountCreateCapabilitiesPixPaymentsParams `form:"pix_payments"`
 	// The promptpay_payments capability.
 	PromptPayPayments *AccountCreateCapabilitiesPromptPayPaymentsParams `form:"promptpay_payments"`
 	// The revolut_pay_payments capability.
@@ -3401,6 +3425,8 @@ type AccountCapabilities struct {
 	PaycoPayments AccountCapabilityStatus `json:"payco_payments"`
 	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
 	PayNowPayments AccountCapabilityStatus `json:"paynow_payments"`
+	// The status of the pix payments capability of the account, or whether the account can directly process pix charges.
+	PixPayments AccountCapabilityStatus `json:"pix_payments"`
 	// The status of the promptpay payments capability of the account, or whether the account can directly process promptpay charges.
 	PromptPayPayments AccountCapabilityStatus `json:"promptpay_payments"`
 	// The status of the RevolutPay capability of the account, or whether the account can directly process RevolutPay payments.

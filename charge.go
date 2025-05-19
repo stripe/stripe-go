@@ -863,6 +863,10 @@ type ChargePaymentMethodDetailsACSSDebit struct {
 	TransitNumber string `json:"transit_number"`
 }
 type ChargePaymentMethodDetailsAffirm struct {
+	// ID of the [location](https://stripe.com/docs/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
+	// ID of the [reader](https://stripe.com/docs/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// The Affirm transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
@@ -1573,6 +1577,10 @@ type ChargePaymentMethodDetailsWeChat struct{}
 type ChargePaymentMethodDetailsWeChatPay struct {
 	// Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same.
 	Fingerprint string `json:"fingerprint"`
+	// ID of the [location](https://stripe.com/docs/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
+	// ID of the [reader](https://stripe.com/docs/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// Transaction ID of this particular WeChat Pay transaction.
 	TransactionID string `json:"transaction_id"`
 }

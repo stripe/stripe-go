@@ -340,7 +340,7 @@ type InvoiceItemParentSubscriptionDetails struct {
 	SubscriptionItem string `json:"subscription_item"`
 }
 
-// The parent that generated this invoice
+// The parent that generated this invoice item.
 type InvoiceItemParent struct {
 	// Details about the subscription that generated this invoice item
 	SubscriptionDetails *InvoiceItemParentSubscriptionDetails `json:"subscription_details"`
@@ -401,7 +401,7 @@ type InvoiceItem struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The parent that generated this invoice
+	// The parent that generated this invoice item.
 	Parent *InvoiceItemParent `json:"parent"`
 	Period *Period            `json:"period"`
 	// The pricing information of the invoice item.

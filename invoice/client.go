@@ -117,11 +117,46 @@ func (c Client) AddLines(id string, params *stripe.InvoiceAddLinesParams) (*stri
 	return invoice, err
 }
 
+// Attaches a PaymentIntent or an Out of Band Payment to the invoice, adding it to the list of payments.
+//
+// For the PaymentIntent, when the PaymentIntent's status changes to succeeded, the payment is credited
+// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
+// invoice's status becomes paid.
+//
+// If the PaymentIntent's status is already succeeded when it's attached, it's
+// credited to the invoice immediately.
+//
+// See: [Partial payments](https://stripe.com/docs/invoicing/partial-payments) to learn more.
+func AttachPayment(id string, params *stripe.InvoiceAttachPaymentParams) (*stripe.Invoice, error) {
+	return getC().AttachPayment(id, params)
+}
+
+// Attaches a PaymentIntent or an Out of Band Payment to the invoice, adding it to the list of payments.
+//
+// For the PaymentIntent, when the PaymentIntent's status changes to succeeded, the payment is credited
+// to the invoice, increasing its amount_paid. When the invoice is fully paid, the
+// invoice's status becomes paid.
+//
+// If the PaymentIntent's status is already succeeded when it's attached, it's
+// credited to the invoice immediately.
+//
+// See: [Partial payments](https://stripe.com/docs/invoicing/partial-payments) to learn more.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) AttachPayment(id string, params *stripe.InvoiceAttachPaymentParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/v1/invoices/%s/attach_payment", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
 // At any time, you can preview the upcoming invoice for a subscription or subscription schedule. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
 //
-// Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
+// You can also preview the effects of creating or updating a subscription or subscription schedule, including a preview of any prorations that will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_details.proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_details.proration_date value passed in the request.
 //
-// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_details.proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_details.proration_date value passed in the request.
+// Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
 //
 // Note: Currency conversion calculations use the latest exchange rates. Exchange rates may vary between the time of the preview and the time of the actual invoice creation. [Learn more](https://docs.stripe.com/currencies/conversions)
 func CreatePreview(params *stripe.InvoiceCreatePreviewParams) (*stripe.Invoice, error) {
@@ -130,9 +165,9 @@ func CreatePreview(params *stripe.InvoiceCreatePreviewParams) (*stripe.Invoice, 
 
 // At any time, you can preview the upcoming invoice for a subscription or subscription schedule. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
 //
-// Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
+// You can also preview the effects of creating or updating a subscription or subscription schedule, including a preview of any prorations that will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_details.proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_details.proration_date value passed in the request.
 //
-// You can preview the effects of updating a subscription, including a preview of what proration will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_details.proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_details.proration_date value passed in the request.
+// Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
 //
 // Note: Currency conversion calculations use the latest exchange rates. Exchange rates may vary between the time of the preview and the time of the actual invoice creation. [Learn more](https://docs.stripe.com/currencies/conversions)
 //

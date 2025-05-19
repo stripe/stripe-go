@@ -90,6 +90,7 @@ const (
 	ErrorCodeForwardingAPIRetryableUpstreamError                         ErrorCode = "forwarding_api_retryable_upstream_error"
 	ErrorCodeForwardingAPIUpstreamConnectionError                        ErrorCode = "forwarding_api_upstream_connection_error"
 	ErrorCodeForwardingAPIUpstreamConnectionTimeout                      ErrorCode = "forwarding_api_upstream_connection_timeout"
+	ErrorCodeForwardingAPIUpstreamError                                  ErrorCode = "forwarding_api_upstream_error"
 	ErrorCodeIdempotencyKeyInUse                                         ErrorCode = "idempotency_key_in_use"
 	ErrorCodeIncorrectAddress                                            ErrorCode = "incorrect_address"
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
