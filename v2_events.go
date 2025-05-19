@@ -163,7 +163,7 @@ func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V
 }
 
 // V2CoreAccountLinkCompletedEvent is the Go struct for the "v2.core.account_link.completed" event.
-// The generated account link has been completed.
+// Occurs when the generated AccountLink is completed.
 type V2CoreAccountLinkCompletedEvent struct {
 	V2BaseEvent
 	Data V2CoreAccountLinkCompletedEventData `json:"data"`
@@ -458,7 +458,7 @@ func (e V2MoneyManagementInboundTransferAvailableEvent) FetchRelatedObject() (*V
 }
 
 // V2MoneyManagementInboundTransferBankDebitFailedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_failed" event.
-// An InboundTransfer failed.
+// Occurs when an InboundTransfer fails.
 type V2MoneyManagementInboundTransferBankDebitFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -471,7 +471,7 @@ func (e V2MoneyManagementInboundTransferBankDebitFailedEvent) FetchRelatedObject
 }
 
 // V2MoneyManagementInboundTransferBankDebitProcessingEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_processing" event.
-// An InboundTransfer is now processing.
+// Occurs when an InboundTransfer starts processing.
 type V2MoneyManagementInboundTransferBankDebitProcessingEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -484,7 +484,7 @@ func (e V2MoneyManagementInboundTransferBankDebitProcessingEvent) FetchRelatedOb
 }
 
 // V2MoneyManagementInboundTransferBankDebitQueuedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_queued" event.
-// An InboundTransfer has been queued.
+// Occurs when an InboundTransfer is queued.
 type V2MoneyManagementInboundTransferBankDebitQueuedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -497,7 +497,7 @@ func (e V2MoneyManagementInboundTransferBankDebitQueuedEvent) FetchRelatedObject
 }
 
 // V2MoneyManagementInboundTransferBankDebitReturnedEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_returned" event.
-// An InboundTransfer was returned.
+// Occurs when an InboundTransfer is returned.
 type V2MoneyManagementInboundTransferBankDebitReturnedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -510,7 +510,7 @@ func (e V2MoneyManagementInboundTransferBankDebitReturnedEvent) FetchRelatedObje
 }
 
 // V2MoneyManagementInboundTransferBankDebitSucceededEvent is the Go struct for the "v2.money_management.inbound_transfer.bank_debit_succeeded" event.
-// An InboundTransfer succeeded.
+// Occurs when an InboundTransfer succeeds.
 type V2MoneyManagementInboundTransferBankDebitSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -535,8 +535,99 @@ func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestinati
 	return e.fetchRelatedObject()
 }
 
+// V2OffSessionPaymentRequiresCaptureEvent is the Go struct for the "v2.off_session_payment.requires_capture" event.
+// Off session payment requires capture event definition.
+type V2OffSessionPaymentRequiresCaptureEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2OffSessionPaymentRequiresCaptureEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
+// Off session payment authorization attempt failed event definition.
+type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_started" event.
+// Off session payment authorization attempt started event definition.
+type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentCanceledEvent is the Go struct for the "v2.payments.off_session_payment.canceled" event.
+// Off session payment canceled event definition.
+type V2PaymentsOffSessionPaymentCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentCreatedEvent is the Go struct for the "v2.payments.off_session_payment.created" event.
+// Off session payment created event definition.
+type V2PaymentsOffSessionPaymentCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentFailedEvent is the Go struct for the "v2.payments.off_session_payment.failed" event.
+// Off session payment failed event definition.
+type V2PaymentsOffSessionPaymentFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2PaymentsOffSessionPaymentSucceededEvent is the Go struct for the "v2.payments.off_session_payment.succeeded" event.
+// Off session payment succeeded event definition.
+type V2PaymentsOffSessionPaymentSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
+}
+
+// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
+func (e V2PaymentsOffSessionPaymentSucceededEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2MoneyManagementOutboundPaymentCanceledEvent is the Go struct for the "v2.money_management.outbound_payment.canceled" event.
-// An OutboundPayment has transitioned into the canceled state.
+// Occurs when an OutboundPayment transitions into the canceled state.
 type V2MoneyManagementOutboundPaymentCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -562,7 +653,7 @@ func (e V2MoneyManagementOutboundPaymentCreatedEvent) FetchRelatedObject() (*V2M
 }
 
 // V2MoneyManagementOutboundPaymentFailedEvent is the Go struct for the "v2.money_management.outbound_payment.failed" event.
-// An OutboundPayment has transitioned into the failed state.
+// Occurs when an OutboundPayment transitions into the failed state.
 type V2MoneyManagementOutboundPaymentFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -575,7 +666,7 @@ func (e V2MoneyManagementOutboundPaymentFailedEvent) FetchRelatedObject() (*V2Mo
 }
 
 // V2MoneyManagementOutboundPaymentPostedEvent is the Go struct for the "v2.money_management.outbound_payment.posted" event.
-// An OutboundPayment has transitioned into the posted state.
+// Occurs when an OutboundPayment transitions into the posted state.
 type V2MoneyManagementOutboundPaymentPostedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -588,7 +679,7 @@ func (e V2MoneyManagementOutboundPaymentPostedEvent) FetchRelatedObject() (*V2Mo
 }
 
 // V2MoneyManagementOutboundPaymentReturnedEvent is the Go struct for the "v2.money_management.outbound_payment.returned" event.
-// An OutboundPayment has transitioned into the returned state.
+// Occurs when an OutboundPayment transitions into the returned state.
 type V2MoneyManagementOutboundPaymentReturnedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -601,7 +692,7 @@ func (e V2MoneyManagementOutboundPaymentReturnedEvent) FetchRelatedObject() (*V2
 }
 
 // V2MoneyManagementOutboundPaymentUpdatedEvent is the Go struct for the "v2.money_management.outbound_payment.updated" event.
-// Event that is emitted every time an Outbound Payment is updated.
+// Occurs when an OutboundPayment is updated.
 type V2MoneyManagementOutboundPaymentUpdatedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -835,7 +926,7 @@ func (e V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject() (*V2Money
 	return e.fetchRelatedObject()
 }
 
-// The generated account link has been completed.
+// Occurs when the generated AccountLink is completed.
 type V2CoreAccountLinkCompletedEventData struct {
 	// The ID of the v2 account.
 	AccountID string `json:"account_id"`
@@ -1299,6 +1390,76 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2EventDestination, error) {
 			v := &V2EventDestination{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.off_session_payment.requires_capture":
+		result := &V2OffSessionPaymentRequiresCaptureEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.authorization_attempt_failed":
+		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.authorization_attempt_started":
+		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.canceled":
+		result := &V2PaymentsOffSessionPaymentCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.created":
+		result := &V2PaymentsOffSessionPaymentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.failed":
+		result := &V2PaymentsOffSessionPaymentFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.payments.off_session_payment.succeeded":
+		result := &V2PaymentsOffSessionPaymentSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
+			v := &V2PaymentsOffSessionPayment{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}

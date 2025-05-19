@@ -45,7 +45,6 @@ type V2MoneyManagementReceivedCreditType string
 const (
 	V2MoneyManagementReceivedCreditTypeBalanceTransfer V2MoneyManagementReceivedCreditType = "balance_transfer"
 	V2MoneyManagementReceivedCreditTypeBankTransfer    V2MoneyManagementReceivedCreditType = "bank_transfer"
-	V2MoneyManagementReceivedCreditTypeCardSpend       V2MoneyManagementReceivedCreditType = "card_spend"
 	V2MoneyManagementReceivedCreditTypeExternalCredit  V2MoneyManagementReceivedCreditType = "external_credit"
 )
 
@@ -165,28 +164,6 @@ type V2MoneyManagementReceivedCreditBankTransfer struct {
 	USBankAccount *V2MoneyManagementReceivedCreditBankTransferUSBankAccount `json:"us_bank_account"`
 }
 
-// Hash containing information about the Dispute that triggered this credit.
-type V2MoneyManagementReceivedCreditCardSpendDispute struct {
-	// The reference to the v1 issuing dispute ID.
-	IssuingDisputeV1 string `json:"issuing_dispute_v1"`
-}
-
-// Hash containing information about the Refund that triggered this credit.
-type V2MoneyManagementReceivedCreditCardSpendRefund struct {
-	// The reference to the v1 issuing transaction ID.
-	IssuingTransactionV1 string `json:"issuing_transaction_v1"`
-}
-
-// This object stores details about the originating issuing card spend that resulted in the ReceivedCredit. Present if `type` field value is `card_spend`.
-type V2MoneyManagementReceivedCreditCardSpend struct {
-	// The reference to the issuing card object.
-	CardV1ID string `json:"card_v1_id"`
-	// Hash containing information about the Dispute that triggered this credit.
-	Dispute *V2MoneyManagementReceivedCreditCardSpendDispute `json:"dispute"`
-	// Hash containing information about the Refund that triggered this credit.
-	Refund *V2MoneyManagementReceivedCreditCardSpendRefund `json:"refund"`
-}
-
 // Use ReceivedCredits API to retrieve information on when, where, and how funds are sent into your FinancialAccount.
 type V2MoneyManagementReceivedCredit struct {
 	APIResource
@@ -196,8 +173,6 @@ type V2MoneyManagementReceivedCredit struct {
 	BalanceTransfer *V2MoneyManagementReceivedCreditBalanceTransfer `json:"balance_transfer"`
 	// This object stores details about the originating banking transaction that resulted in the ReceivedCredit. Present if `type` field value is `external_credit`.
 	BankTransfer *V2MoneyManagementReceivedCreditBankTransfer `json:"bank_transfer"`
-	// This object stores details about the originating issuing card spend that resulted in the ReceivedCredit. Present if `type` field value is `card_spend`.
-	CardSpend *V2MoneyManagementReceivedCreditCardSpend `json:"card_spend"`
 	// Time at which the ReceivedCredit was created.
 	// Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
 	Created time.Time `json:"created"`
