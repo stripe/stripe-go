@@ -54,7 +54,7 @@ func (c v1PriceService) Update(ctx context.Context, id string, params *PriceUpda
 	return price, err
 }
 
-// Returns a list of your active prices, excluding [inline prices](https://stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
+// Returns a list of your active prices, excluding [inline prices](https://docs.stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
 func (c v1PriceService) List(ctx context.Context, listParams *PriceListParams) Seq2[*Price, error] {
 	if listParams == nil {
 		listParams = &PriceListParams{}
@@ -71,7 +71,7 @@ func (c v1PriceService) List(ctx context.Context, listParams *PriceListParams) S
 	}).All()
 }
 
-// Search for prices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Search for prices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.

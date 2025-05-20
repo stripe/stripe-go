@@ -20,7 +20,7 @@ type v1TerminalLocationService struct {
 }
 
 // Creates a new Location object.
-// For further details, including which address fields are required in each country, see the [Manage locations](https://stripe.com/docs/terminal/fleet/locations) guide.
+// For further details, including which address fields are required in each country, see the [Manage locations](https://docs.stripe.com/docs/terminal/fleet/locations) guide.
 func (c v1TerminalLocationService) Create(ctx context.Context, params *TerminalLocationCreateParams) (*TerminalLocation, error) {
 	if params == nil {
 		params = &TerminalLocationCreateParams{}

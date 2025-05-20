@@ -27,7 +27,7 @@ const (
 	CustomerBalanceTransactionTypeUnspentReceiverCredit                      CustomerBalanceTransactionType = "unspent_receiver_credit"
 )
 
-// Returns a list of transactions that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
+// Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
@@ -40,7 +40,7 @@ func (p *CustomerBalanceTransactionListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Creates an immutable transaction that updates the customer's credit [balance](https://stripe.com/docs/billing/customer/balance).
+// Creates an immutable transaction that updates the customer's credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
@@ -70,7 +70,7 @@ func (p *CustomerBalanceTransactionParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
-// Creates an immutable transaction that updates the customer's credit [balance](https://stripe.com/docs/billing/customer/balance).
+// Creates an immutable transaction that updates the customer's credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionCreateParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
@@ -100,7 +100,7 @@ func (p *CustomerBalanceTransactionCreateParams) AddMetadata(key string, value s
 	p.Metadata[key] = value
 }
 
-// Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
+// Retrieves a specific customer balance transaction that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionRetrieveParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL

@@ -53,7 +53,7 @@ const (
 	AccountCompanyOwnershipExemptionReasonQualifiesAsFinancialInstitution          AccountCompanyOwnershipExemptionReason = "qualifies_as_financial_institution"
 )
 
-// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
 // List of values that AccountCompanyStructure can take
@@ -271,11 +271,11 @@ const (
 	AccountTypeStandard AccountType = "standard"
 )
 
-// With [Connect](https://stripe.com/connect), you can delete accounts you manage.
+// With [Connect](https://docs.stripe.com/connect), you can delete accounts you manage.
 //
 // Test-mode accounts can be deleted at any time.
 //
-// Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://stripe.com/api/balance/balance_object) are zero.
+// Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://docs.stripe.com/api/balance/balance_object) are zero.
 //
 // If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
 type AccountParams struct {
@@ -284,7 +284,7 @@ type AccountParams struct {
 	AccountToken *string `form:"account_token"`
 	// Business information about the account.
 	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
-	// The business type. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// The business type. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	BusinessType *string `form:"business_type"`
 	// Each key of the dictionary represents a capability, and each capability
 	// maps to its settings (for example, whether it has been requested or not). Each
@@ -292,10 +292,10 @@ type AccountParams struct {
 	// requirements and Stripe has verified them. An account might have some
 	// of its requested capabilities be active and some be inactive.
 	//
-	// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+	// Required when [account.controller.stripe_dashboard.type](https://docs.stripe.com/api/accounts/create#create_account-controller-dashboard-type)
 	// is `none`, which includes Custom accounts.
 	Capabilities *AccountCapabilitiesParams `form:"capabilities"`
-	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Company *AccountCompanyParams `form:"company"`
 	// A hash of configuration describing the account controller's attributes.
 	Controller *AccountControllerParams `form:"controller"`
@@ -305,25 +305,25 @@ type AccountParams struct {
 	DefaultCurrency *string `form:"default_currency"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *AccountDocumentsParams `form:"documents"`
-	// The email address of the account holder. This is only to make the account easier to identify to you. If [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, Stripe doesn't email the account without your consent.
+	// The email address of the account holder. This is only to make the account easier to identify to you. If [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, Stripe doesn't email the account without your consent.
 	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
+	// A card or bank account to attach to the account for receiving [payouts](https://docs.stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://docs.stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://docs.stripe.com/api#account_create_bank_account) creation.
 	//
-	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://docs.stripe.com/api#account_create_bank_account) or [card creation](https://docs.stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
 	// A hash of account group type to tokens. These are account groups this account should be added to.
 	Groups *AccountGroupsParams `form:"groups"`
-	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+	// A hash to configure risk controls on the account. Please see [this page for more details](https://docs.stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
 	RiskControls *AccountRiskControlsParams `form:"risk_controls"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountSettingsParams `form:"settings"`
-	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
 	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
 	Type *string `form:"type"`
@@ -345,7 +345,7 @@ func (p *AccountParams) AddMetadata(key string, value string) {
 
 // The applicant's gross annual revenue for its preceding fiscal year.
 type AccountBusinessProfileAnnualRevenueParams struct {
-	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing the amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -355,7 +355,7 @@ type AccountBusinessProfileAnnualRevenueParams struct {
 
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 type AccountBusinessProfileMonthlyEstimatedRevenueParams struct {
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -367,7 +367,7 @@ type AccountBusinessProfileParams struct {
 	AnnualRevenue *AccountBusinessProfileAnnualRevenueParams `form:"annual_revenue"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
-	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
+	// [The merchant category code for the account](https://docs.stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
 	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
 	MinorityOwnedBusinessDesignation []*string `form:"minority_owned_business_designation"`
@@ -827,7 +827,7 @@ type AccountCapabilitiesZipPaymentsParams struct {
 // requirements and Stripe has verified them. An account might have some
 // of its requested capabilities be active and some be inactive.
 //
-// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+// Required when [account.controller.stripe_dashboard.type](https://docs.stripe.com/api/accounts/create#create_account-controller-dashboard-type)
 // is `none`, which includes Custom accounts.
 type AccountCapabilitiesParams struct {
 	// The acss_debit_payments capability.
@@ -1054,7 +1054,7 @@ type AccountCompanyVerificationParams struct {
 	Document *AccountCompanyVerificationDocumentParams `form:"document"`
 }
 
-// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 type AccountCompanyParams struct {
 	// The company's primary address.
 	Address *AddressParams `form:"address"`
@@ -1064,9 +1064,9 @@ type AccountCompanyParams struct {
 	AddressKanji *AccountCompanyAddressKanjiParams `form:"address_kanji"`
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountCompanyDirectorshipDeclarationParams `form:"directorship_declaration"`
-	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
+	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
 	DirectorsProvided *bool `form:"directors_provided"`
-	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
+	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
 	ExecutivesProvided *bool `form:"executives_provided"`
 	// The export license ID number of the company, also referred as Import Export Code (India only).
 	ExportLicenseID *string `form:"export_license_id"`
@@ -1084,14 +1084,14 @@ type AccountCompanyParams struct {
 	OwnershipDeclarationShownAndSigned *bool `form:"ownership_declaration_shown_and_signed"`
 	// This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details.
 	OwnershipExemptionReason *string `form:"ownership_exemption_reason"`
-	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
+	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
 	Phone            *string                               `form:"phone"`
 	RegistrationDate *AccountCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
-	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
+	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
 	TaxID *string `form:"tax_id"`
@@ -1225,7 +1225,7 @@ type AccountRiskControlsPayoutsParams struct {
 	PauseRequested *bool `form:"pause_requested"`
 }
 
-// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+// A hash to configure risk controls on the account. Please see [this page for more details](https://docs.stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
 type AccountRiskControlsParams struct {
 	// Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
 	Charges *AccountRiskControlsChargesParams `form:"charges"`
@@ -1267,7 +1267,7 @@ type AccountSettingsCapitalParams struct {
 	PayoutDestinationSelector map[string][]*string `form:"payout_destination_selector"`
 }
 
-// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
 type AccountSettingsCardIssuingTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
 	Date *int64 `form:"date"`
@@ -1279,7 +1279,7 @@ type AccountSettingsCardIssuingTOSAcceptanceParams struct {
 
 // Settings specific to the account's use of the Card Issuing product.
 type AccountSettingsCardIssuingParams struct {
-	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
 	TOSAcceptance *AccountSettingsCardIssuingTOSAcceptanceParams `form:"tos_acceptance"`
 }
 
@@ -1321,9 +1321,9 @@ type AccountSettingsPaymentsParams struct {
 	StatementDescriptorKanji *string `form:"statement_descriptor_kanji"`
 }
 
-// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 type AccountSettingsPayoutsScheduleParams struct {
-	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://stripe.com/connect/manage-payout-schedule).
+	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
 	DelayDays        *int64 `form:"delay_days"`
 	DelayDaysMinimum *bool  `form:"-"` // See custom AppendTo
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
@@ -1343,9 +1343,9 @@ func (p *AccountSettingsPayoutsScheduleParams) AppendTo(body *form.Values, keyPa
 
 // Settings specific to the account's payouts.
 type AccountSettingsPayoutsParams struct {
-	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://stripe.com/connect/account-balances).
+	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
 	DebitNegativeBalances *bool `form:"debit_negative_balances"`
-	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 	Schedule *AccountSettingsPayoutsScheduleParams `form:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor *string `form:"statement_descriptor"`
@@ -1399,7 +1399,7 @@ type AccountSettingsParams struct {
 	Treasury *AccountSettingsTreasuryParams `form:"treasury"`
 }
 
-// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 type AccountTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted their service agreement.
 	Date *int64 `form:"date"`
@@ -1411,7 +1411,7 @@ type AccountTOSAcceptanceParams struct {
 	UserAgent *string `form:"user_agent"`
 }
 
-// Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect). If you're not a platform, the list is empty.
+// Returns a list of accounts connected to your platform via [Connect](https://docs.stripe.com/docs/connect). If you're not a platform, the list is empty.
 type AccountListParams struct {
 	ListParams `form:"*"`
 	// Only return connected accounts that were created during the given date interval.
@@ -1477,7 +1477,7 @@ type AccountControllerParams struct {
 	StripeDashboard *AccountControllerStripeDashboardParams `form:"stripe_dashboard"`
 }
 
-// With [Connect](https://stripe.com/connect), you can reject accounts that you have flagged as suspicious.
+// With [Connect](https://docs.stripe.com/connect), you can reject accounts that you have flagged as suspicious.
 //
 // Only accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be rejected. Test-mode accounts can be rejected at any time. Live-mode accounts can only be rejected after all balances are zero.
 type AccountRejectParams struct {
@@ -1493,11 +1493,11 @@ func (p *AccountRejectParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// With [Connect](https://stripe.com/connect), you can delete accounts you manage.
+// With [Connect](https://docs.stripe.com/connect), you can delete accounts you manage.
 //
 // Test-mode accounts can be deleted at any time.
 //
-// Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://stripe.com/api/balance/balance_object) are zero.
+// Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://docs.stripe.com/api/balance/balance_object) are zero.
 //
 // If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
 type AccountDeleteParams struct {
@@ -1518,7 +1518,7 @@ func (p *AccountRetrieveParams) AddExpand(f string) {
 
 // The applicant's gross annual revenue for its preceding fiscal year.
 type AccountUpdateBusinessProfileAnnualRevenueParams struct {
-	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing the amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -1528,7 +1528,7 @@ type AccountUpdateBusinessProfileAnnualRevenueParams struct {
 
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 type AccountUpdateBusinessProfileMonthlyEstimatedRevenueParams struct {
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -1540,7 +1540,7 @@ type AccountUpdateBusinessProfileParams struct {
 	AnnualRevenue *AccountUpdateBusinessProfileAnnualRevenueParams `form:"annual_revenue"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
-	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
+	// [The merchant category code for the account](https://docs.stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
 	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
 	MinorityOwnedBusinessDesignation []*string `form:"minority_owned_business_designation"`
@@ -2000,7 +2000,7 @@ type AccountUpdateCapabilitiesZipPaymentsParams struct {
 // requirements and Stripe has verified them. An account might have some
 // of its requested capabilities be active and some be inactive.
 //
-// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+// Required when [account.controller.stripe_dashboard.type](https://docs.stripe.com/api/accounts/create#create_account-controller-dashboard-type)
 // is `none`, which includes Custom accounts.
 type AccountUpdateCapabilitiesParams struct {
 	// The acss_debit_payments capability.
@@ -2227,7 +2227,7 @@ type AccountUpdateCompanyVerificationParams struct {
 	Document *AccountUpdateCompanyVerificationDocumentParams `form:"document"`
 }
 
-// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 type AccountUpdateCompanyParams struct {
 	// The company's primary address.
 	Address *AddressParams `form:"address"`
@@ -2237,9 +2237,9 @@ type AccountUpdateCompanyParams struct {
 	AddressKanji *AccountUpdateCompanyAddressKanjiParams `form:"address_kanji"`
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountUpdateCompanyDirectorshipDeclarationParams `form:"directorship_declaration"`
-	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
+	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
 	DirectorsProvided *bool `form:"directors_provided"`
-	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
+	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
 	ExecutivesProvided *bool `form:"executives_provided"`
 	// The export license ID number of the company, also referred as Import Export Code (India only).
 	ExportLicenseID *string `form:"export_license_id"`
@@ -2255,14 +2255,14 @@ type AccountUpdateCompanyParams struct {
 	OwnershipDeclaration *AccountUpdateCompanyOwnershipDeclarationParams `form:"ownership_declaration"`
 	// This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details.
 	OwnershipExemptionReason *string `form:"ownership_exemption_reason"`
-	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
+	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
 	Phone            *string                                     `form:"phone"`
 	RegistrationDate *AccountUpdateCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
-	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
+	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
 	TaxID *string `form:"tax_id"`
@@ -2342,9 +2342,9 @@ type AccountUpdateDocumentsParams struct {
 	ProofOfUltimateBeneficialOwnership *AccountUpdateDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership"`
 }
 
-// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
+// A card or bank account to attach to the account for receiving [payouts](https://docs.stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://docs.stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://docs.stripe.com/api#account_create_bank_account) creation.
 //
-// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://docs.stripe.com/api#account_create_bank_account) or [card creation](https://docs.stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 type AccountUpdateExternalAccountParams struct {
 	// The name of the person or business that owns the bank account.This field is required when attaching the bank account to a `Customer` object.
 	AccountHolderName *string `form:"account_holder_name"`
@@ -2405,7 +2405,7 @@ type AccountUpdateRiskControlsPayoutsParams struct {
 	PauseRequested *bool `form:"pause_requested"`
 }
 
-// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+// A hash to configure risk controls on the account. Please see [this page for more details](https://docs.stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
 type AccountUpdateRiskControlsParams struct {
 	// Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
 	Charges *AccountUpdateRiskControlsChargesParams `form:"charges"`
@@ -2447,7 +2447,7 @@ type AccountUpdateSettingsCapitalParams struct {
 	PayoutDestinationSelector map[string][]*string `form:"payout_destination_selector"`
 }
 
-// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
 type AccountUpdateSettingsCardIssuingTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
 	Date *int64 `form:"date"`
@@ -2459,7 +2459,7 @@ type AccountUpdateSettingsCardIssuingTOSAcceptanceParams struct {
 
 // Settings specific to the account's use of the Card Issuing product.
 type AccountUpdateSettingsCardIssuingParams struct {
-	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
 	TOSAcceptance *AccountUpdateSettingsCardIssuingTOSAcceptanceParams `form:"tos_acceptance"`
 }
 
@@ -2501,9 +2501,9 @@ type AccountUpdateSettingsPaymentsParams struct {
 	StatementDescriptorKanji *string `form:"statement_descriptor_kanji"`
 }
 
-// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 type AccountUpdateSettingsPayoutsScheduleParams struct {
-	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://stripe.com/connect/manage-payout-schedule).
+	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
 	DelayDays        *int64 `form:"delay_days"`
 	DelayDaysMinimum *bool  `form:"-"` // See custom AppendTo
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
@@ -2523,9 +2523,9 @@ func (p *AccountUpdateSettingsPayoutsScheduleParams) AppendTo(body *form.Values,
 
 // Settings specific to the account's payouts.
 type AccountUpdateSettingsPayoutsParams struct {
-	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://stripe.com/connect/account-balances).
+	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
 	DebitNegativeBalances *bool `form:"debit_negative_balances"`
-	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 	Schedule *AccountUpdateSettingsPayoutsScheduleParams `form:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor *string `form:"statement_descriptor"`
@@ -2579,7 +2579,7 @@ type AccountUpdateSettingsParams struct {
 	Treasury *AccountUpdateSettingsTreasuryParams `form:"treasury"`
 }
 
-// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 type AccountUpdateTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted their service agreement.
 	Date *int64 `form:"date"`
@@ -2591,26 +2591,26 @@ type AccountUpdateTOSAcceptanceParams struct {
 	UserAgent *string `form:"user_agent"`
 }
 
-// Updates a [connected account](https://stripe.com/connect/accounts) by setting the values of the parameters passed. Any parameters not provided are
+// Updates a [connected account](https://docs.stripe.com/connect/accounts) by setting the values of the parameters passed. Any parameters not provided are
 // left unchanged.
 //
-// For accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
+// For accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection)
 // is application, which includes Custom accounts, you can update any information on the account.
 //
-// For accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
+// For accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection)
 // is stripe, which includes Standard and Express accounts, you can update all information until you create
-// an [Account Link or <a href="/api/account_sessions">Account Session](https://stripe.com/api/account_links) to start Connect onboarding,
+// an [Account Link or <a href="/api/account_sessions">Account Session](https://docs.stripe.com/api/account_links) to start Connect onboarding,
 // after which some properties can no longer be updated.
 //
 // To update your own account, use the [Dashboard](https://dashboard.stripe.com/settings/account). Refer to our
-// [Connect](https://stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
+// [Connect](https://docs.stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
 type AccountUpdateParams struct {
 	Params `form:"*"`
 	// An [account token](https://stripe.com/docs/api#create_account_token), used to securely provide details to the account.
 	AccountToken *string `form:"account_token"`
 	// Business information about the account.
 	BusinessProfile *AccountUpdateBusinessProfileParams `form:"business_profile"`
-	// The business type. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// The business type. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	BusinessType *string `form:"business_type"`
 	// Each key of the dictionary represents a capability, and each capability
 	// maps to its settings (for example, whether it has been requested or not). Each
@@ -2618,34 +2618,34 @@ type AccountUpdateParams struct {
 	// requirements and Stripe has verified them. An account might have some
 	// of its requested capabilities be active and some be inactive.
 	//
-	// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+	// Required when [account.controller.stripe_dashboard.type](https://docs.stripe.com/api/accounts/create#create_account-controller-dashboard-type)
 	// is `none`, which includes Custom accounts.
 	Capabilities *AccountUpdateCapabilitiesParams `form:"capabilities"`
-	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Company *AccountUpdateCompanyParams `form:"company"`
 	// Three-letter ISO currency code representing the default currency for the account. This must be a currency that [Stripe supports in the account's country](https://docs.stripe.com/payouts).
 	DefaultCurrency *string `form:"default_currency"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *AccountUpdateDocumentsParams `form:"documents"`
-	// The email address of the account holder. This is only to make the account easier to identify to you. If [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, Stripe doesn't email the account without your consent.
+	// The email address of the account holder. This is only to make the account easier to identify to you. If [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, Stripe doesn't email the account without your consent.
 	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
+	// A card or bank account to attach to the account for receiving [payouts](https://docs.stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://docs.stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://docs.stripe.com/api#account_create_bank_account) creation.
 	//
-	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://docs.stripe.com/api#account_create_bank_account) or [card creation](https://docs.stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
 	// A hash of account group type to tokens. These are account groups this account should be added to.
 	Groups *AccountUpdateGroupsParams `form:"groups"`
-	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+	// A hash to configure risk controls on the account. Please see [this page for more details](https://docs.stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
 	RiskControls *AccountUpdateRiskControlsParams `form:"risk_controls"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountUpdateSettingsParams `form:"settings"`
-	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountUpdateTOSAcceptanceParams `form:"tos_acceptance"`
 }
 
@@ -2665,7 +2665,7 @@ func (p *AccountUpdateParams) AddMetadata(key string, value string) {
 
 // The applicant's gross annual revenue for its preceding fiscal year.
 type AccountCreateBusinessProfileAnnualRevenueParams struct {
-	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing the amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -2675,7 +2675,7 @@ type AccountCreateBusinessProfileAnnualRevenueParams struct {
 
 // An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 type AccountCreateBusinessProfileMonthlyEstimatedRevenueParams struct {
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount *int64 `form:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
@@ -2687,7 +2687,7 @@ type AccountCreateBusinessProfileParams struct {
 	AnnualRevenue *AccountCreateBusinessProfileAnnualRevenueParams `form:"annual_revenue"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
-	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
+	// [The merchant category code for the account](https://docs.stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
 	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
 	MinorityOwnedBusinessDesignation []*string `form:"minority_owned_business_designation"`
@@ -3147,7 +3147,7 @@ type AccountCreateCapabilitiesZipPaymentsParams struct {
 // requirements and Stripe has verified them. An account might have some
 // of its requested capabilities be active and some be inactive.
 //
-// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+// Required when [account.controller.stripe_dashboard.type](https://docs.stripe.com/api/accounts/create#create_account-controller-dashboard-type)
 // is `none`, which includes Custom accounts.
 type AccountCreateCapabilitiesParams struct {
 	// The acss_debit_payments capability.
@@ -3374,7 +3374,7 @@ type AccountCreateCompanyVerificationParams struct {
 	Document *AccountCreateCompanyVerificationDocumentParams `form:"document"`
 }
 
-// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 type AccountCreateCompanyParams struct {
 	// The company's primary address.
 	Address *AddressParams `form:"address"`
@@ -3384,9 +3384,9 @@ type AccountCreateCompanyParams struct {
 	AddressKanji *AccountCreateCompanyAddressKanjiParams `form:"address_kanji"`
 	// This hash is used to attest that the directors information provided to Stripe is both current and correct.
 	DirectorshipDeclaration *AccountCreateCompanyDirectorshipDeclarationParams `form:"directorship_declaration"`
-	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
+	// Whether the company's directors have been provided. Set this Boolean to `true` after creating all the company's directors with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.director` requirement. This value is not automatically set to `true` after creating directors, so it needs to be updated to indicate all directors have been provided.
 	DirectorsProvided *bool `form:"directors_provided"`
-	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
+	// Whether the company's executives have been provided. Set this Boolean to `true` after creating all the company's executives with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.executive` requirement.
 	ExecutivesProvided *bool `form:"executives_provided"`
 	// The export license ID number of the company, also referred as Import Export Code (India only).
 	ExportLicenseID *string `form:"export_license_id"`
@@ -3403,14 +3403,14 @@ type AccountCreateCompanyParams struct {
 	OwnershipDeclarationShownAndSigned *bool                                           `form:"ownership_declaration_shown_and_signed"`
 	// This value is used to determine if a business is exempt from providing ultimate beneficial owners. See [this support article](https://support.stripe.com/questions/exemption-from-providing-ownership-details) and [changelog](https://docs.stripe.com/changelog/acacia/2025-01-27/ownership-exemption-reason-accounts-api) for more details.
 	OwnershipExemptionReason *string `form:"ownership_exemption_reason"`
-	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
+	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
 	Phone            *string                                     `form:"phone"`
 	RegistrationDate *AccountCreateCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
-	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
+	// The category identifying the legal structure of the company or legal entity. See [Business structure](https://docs.stripe.com/connect/identity-verification#business-structure) for more details. Pass an empty string to unset this value.
 	Structure *string `form:"structure"`
 	// The business ID number of the company, as appropriate for the company's country. (Examples are an Employer ID Number in the U.S., a Business Number in Canada, or a Company Number in the UK.)
 	TaxID *string `form:"tax_id"`
@@ -3540,9 +3540,9 @@ type AccountCreateDocumentsParams struct {
 	ProofOfUltimateBeneficialOwnership *AccountCreateDocumentsProofOfUltimateBeneficialOwnershipParams `form:"proof_of_ultimate_beneficial_ownership"`
 }
 
-// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
+// A card or bank account to attach to the account for receiving [payouts](https://docs.stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://docs.stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://docs.stripe.com/api#account_create_bank_account) creation.
 //
-// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://docs.stripe.com/api#account_create_bank_account) or [card creation](https://docs.stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 type AccountCreateExternalAccountParams struct {
 	// The name of the person or business that owns the bank account.This field is required when attaching the bank account to a `Customer` object.
 	AccountHolderName *string `form:"account_holder_name"`
@@ -3603,7 +3603,7 @@ type AccountCreateRiskControlsPayoutsParams struct {
 	PauseRequested *bool `form:"pause_requested"`
 }
 
-// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+// A hash to configure risk controls on the account. Please see [this page for more details](https://docs.stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
 type AccountCreateRiskControlsParams struct {
 	// Represents the risk control status of charges. Please see [this page for more details](https://stripe.com/docs/connect/pausing-payments-or-payouts-on-connected-accounts).
 	Charges *AccountCreateRiskControlsChargesParams `form:"charges"`
@@ -3645,7 +3645,7 @@ type AccountCreateSettingsCapitalParams struct {
 	PayoutDestinationSelector map[string][]*string `form:"payout_destination_selector"`
 }
 
-// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
 type AccountCreateSettingsCardIssuingTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted the service agreement.
 	Date *int64 `form:"date"`
@@ -3657,7 +3657,7 @@ type AccountCreateSettingsCardIssuingTOSAcceptanceParams struct {
 
 // Settings specific to the account's use of the Card Issuing product.
 type AccountCreateSettingsCardIssuingParams struct {
-	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/issuing/connect/tos_acceptance).
+	// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://docs.stripe.com/issuing/connect/tos_acceptance).
 	TOSAcceptance *AccountCreateSettingsCardIssuingTOSAcceptanceParams `form:"tos_acceptance"`
 }
 
@@ -3697,9 +3697,9 @@ type AccountCreateSettingsPaymentsParams struct {
 	StatementDescriptorKanji *string `form:"statement_descriptor_kanji"`
 }
 
-// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 type AccountCreateSettingsPayoutsScheduleParams struct {
-	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://stripe.com/connect/manage-payout-schedule).
+	// The number of days charge funds are held before being paid out. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `interval` is `manual`. [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
 	DelayDays        *int64 `form:"delay_days"`
 	DelayDaysMinimum *bool  `form:"-"` // See custom AppendTo
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
@@ -3719,9 +3719,9 @@ func (p *AccountCreateSettingsPayoutsScheduleParams) AppendTo(body *form.Values,
 
 // Settings specific to the account's payouts.
 type AccountCreateSettingsPayoutsParams struct {
-	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://stripe.com/connect/account-balances).
+	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
 	DebitNegativeBalances *bool `form:"debit_negative_balances"`
-	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/connect/bank-transfers#payout-information) documentation.
+	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
 	Schedule *AccountCreateSettingsPayoutsScheduleParams `form:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor *string `form:"statement_descriptor"`
@@ -3775,7 +3775,7 @@ type AccountCreateSettingsParams struct {
 	Treasury *AccountCreateSettingsTreasuryParams `form:"treasury"`
 }
 
-// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 type AccountCreateTOSAcceptanceParams struct {
 	// The Unix timestamp marking when the account representative accepted their service agreement.
 	Date *int64 `form:"date"`
@@ -3787,10 +3787,10 @@ type AccountCreateTOSAcceptanceParams struct {
 	UserAgent *string `form:"user_agent"`
 }
 
-// With [Connect](https://stripe.com/docs/connect), you can create Stripe accounts for your users.
+// With [Connect](https://docs.stripe.com/docs/connect), you can create Stripe accounts for your users.
 // To do this, you'll first need to [register your platform](https://dashboard.stripe.com/account/applications/settings).
 //
-// If you've already collected information for your connected accounts, you [can prefill that information](https://stripe.com/docs/connect/best-practices#onboarding) when
+// If you've already collected information for your connected accounts, you [can prefill that information](https://docs.stripe.com/docs/connect/best-practices#onboarding) when
 // creating the account. Connect Onboarding won't ask for the prefilled information during account onboarding.
 // You can prefill any information on the account.
 type AccountCreateParams struct {
@@ -3799,7 +3799,7 @@ type AccountCreateParams struct {
 	AccountToken *string `form:"account_token"`
 	// Business information about the account.
 	BusinessProfile *AccountCreateBusinessProfileParams `form:"business_profile"`
-	// The business type. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// The business type. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	BusinessType *string `form:"business_type"`
 	// Each key of the dictionary represents a capability, and each capability
 	// maps to its settings (for example, whether it has been requested or not). Each
@@ -3807,10 +3807,10 @@ type AccountCreateParams struct {
 	// requirements and Stripe has verified them. An account might have some
 	// of its requested capabilities be active and some be inactive.
 	//
-	// Required when [account.controller.stripe_dashboard.type](https://stripe.com/api/accounts/create#create_account-controller-dashboard-type)
+	// Required when [account.controller.stripe_dashboard.type](https://docs.stripe.com/api/accounts/create#create_account-controller-dashboard-type)
 	// is `none`, which includes Custom accounts.
 	Capabilities *AccountCreateCapabilitiesParams `form:"capabilities"`
-	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// Information about the company or business. This field is available for any `business_type`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Company *AccountCreateCompanyParams `form:"company"`
 	// A hash of configuration describing the account controller's attributes.
 	Controller *AccountCreateControllerParams `form:"controller"`
@@ -3820,25 +3820,25 @@ type AccountCreateParams struct {
 	DefaultCurrency *string `form:"default_currency"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *AccountCreateDocumentsParams `form:"documents"`
-	// The email address of the account holder. This is only to make the account easier to identify to you. If [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, Stripe doesn't email the account without your consent.
+	// The email address of the account holder. This is only to make the account easier to identify to you. If [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, Stripe doesn't email the account without your consent.
 	Email *string `form:"email"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// A card or bank account to attach to the account for receiving [payouts](https://stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://stripe.com/api#account_create_bank_account) creation.
+	// A card or bank account to attach to the account for receiving [payouts](https://docs.stripe.com/connect/bank-debit-card-payouts) (you won't be able to use it for top-ups). You can provide either a token, like the ones returned by [Stripe.js](https://docs.stripe.com/js), or a dictionary, as documented in the `external_account` parameter for [bank account](https://docs.stripe.com/api#account_create_bank_account) creation.
 	//
-	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://stripe.com/api#account_create_bank_account) or [card creation](https://stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// By default, providing an external account sets it as the new default external account for its currency, and deletes the old default if one exists. To add additional external accounts without replacing the existing default for the currency, use the [bank account](https://docs.stripe.com/api#account_create_bank_account) or [card creation](https://docs.stripe.com/api#account_create_card) APIs. After you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
 	// A hash of account group type to tokens. These are account groups this account should be added to.
 	Groups *AccountCreateGroupsParams `form:"groups"`
-	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
+	// Information about the person represented by the account. This field is null unless `business_type` is set to `individual`. Once you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions), this property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts.
 	Individual *PersonParams `form:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// A hash to configure risk controls on the account. Please see [this page for more details](https://stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
+	// A hash to configure risk controls on the account. Please see [this page for more details](https://docs.stripe.com/connect/pausing-payments-or-payouts-on-connected-accounts).
 	RiskControls *AccountCreateRiskControlsParams `form:"risk_controls"`
 	// Options for customizing how the account functions within Stripe.
 	Settings *AccountCreateSettingsParams `form:"settings"`
-	// Details on the account's acceptance of the [Stripe Services Agreement](https://stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
+	// Details on the account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance). This property can only be updated for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts. This property defaults to a `full` service agreement when empty.
 	TOSAcceptance *AccountCreateTOSAcceptanceParams `form:"tos_acceptance"`
 	// The type of Stripe account to create. May be one of `custom`, `express` or `standard`.
 	Type *string `form:"type"`
@@ -3860,7 +3860,7 @@ func (p *AccountCreateParams) AddMetadata(key string, value string) {
 
 // The applicant's gross annual revenue for its preceding fiscal year.
 type AccountBusinessProfileAnnualRevenue struct {
-	// A non-negative integer representing the amount in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing the amount in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
@@ -3868,7 +3868,7 @@ type AccountBusinessProfileAnnualRevenue struct {
 	FiscalYearEnd string `json:"fiscal_year_end"`
 }
 type AccountBusinessProfileMonthlyEstimatedRevenue struct {
-	// A non-negative integer representing how much to charge in the [smallest currency unit](https://stripe.com/currencies#zero-decimal).
+	// A non-negative integer representing how much to charge in the [smallest currency unit](https://docs.stripe.com/currencies#zero-decimal).
 	Amount int64 `json:"amount"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
@@ -3880,7 +3880,7 @@ type AccountBusinessProfile struct {
 	AnnualRevenue *AccountBusinessProfileAnnualRevenue `json:"annual_revenue"`
 	// An estimated upper bound of employees, contractors, vendors, etc. currently working for the business.
 	EstimatedWorkerCount int64 `json:"estimated_worker_count"`
-	// [The merchant category code for the account](https://stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
+	// [The merchant category code for the account](https://docs.stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC string `json:"mcc"`
 	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
 	MinorityOwnedBusinessDesignation []AccountBusinessProfileMinorityOwnedBusinessDesignation `json:"minority_owned_business_designation"`
@@ -4141,11 +4141,11 @@ type AccountCompany struct {
 	ExportLicenseID string `json:"export_license_id"`
 	// The purpose code to use for export transactions (India only).
 	ExportPurposeCode string `json:"export_purpose_code"`
-	// The company's legal name. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The company's legal name. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	Name string `json:"name"`
-	// The Kana variation of the company's legal name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The Kana variation of the company's legal name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	NameKana string `json:"name_kana"`
-	// The Kanji variation of the company's legal name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The Kanji variation of the company's legal name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	NameKanji string `json:"name_kanji"`
 	// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 	OwnershipDeclaration *AccountCompanyOwnershipDeclaration `json:"ownership_declaration"`
@@ -4156,7 +4156,7 @@ type AccountCompany struct {
 	// The company's phone number (used for verification).
 	Phone            string                          `json:"phone"`
 	RegistrationDate *AccountCompanyRegistrationDate `json:"registration_date"`
-	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
+	// The category identifying the legal structure of the company or legal entity. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 	Structure AccountCompanyStructure `json:"structure"`
 	// Whether the company's business ID number was provided.
 	TaxIDProvided bool `json:"tax_id_provided"`
@@ -4385,7 +4385,7 @@ type AccountSettingsPayoutsSchedule struct {
 	WeeklyAnchor string `json:"weekly_anchor"`
 }
 type AccountSettingsPayouts struct {
-	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.
+	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://docs.stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.
 	DebitNegativeBalances bool                            `json:"debit_negative_balances"`
 	Schedule              *AccountSettingsPayoutsSchedule `json:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
@@ -4442,14 +4442,14 @@ type AccountTOSAcceptance struct {
 // properties on the account like its current requirements or if the account is
 // enabled to make live charges or receive payouts.
 //
-// For accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
+// For accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection)
 // is `application`, which includes Custom accounts, the properties below are always
 // returned.
 //
-// For accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection)
+// For accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection)
 // is `stripe`, which includes Standard and Express accounts, some properties are only returned
-// until you create an [Account Link](https://stripe.com/api/account_links) or [Account Session](https://stripe.com/api/account_sessions)
-// to start Connect Onboarding. Learn about the [differences between accounts](https://stripe.com/connect/accounts).
+// until you create an [Account Link](https://docs.stripe.com/api/account_links) or [Account Session](https://docs.stripe.com/api/account_sessions)
+// to start Connect Onboarding. Learn about the [differences between accounts](https://docs.stripe.com/connect/accounts).
 type Account struct {
 	APIResource
 	// Business information about the account.
@@ -4468,7 +4468,7 @@ type Account struct {
 	// Three-letter ISO currency code representing the default currency for the account. This must be a currency that [Stripe supports in the account's country](https://stripe.com/docs/payouts).
 	DefaultCurrency Currency `json:"default_currency"`
 	Deleted         bool     `json:"deleted"`
-	// Whether account details have been submitted. Accounts with Stripe Dashboard access, which includes Standard accounts, cannot receive payouts before this is true. Accounts where this is false should be directed to [an onboarding flow](https://stripe.com/connect/onboarding) to finish submitting account details.
+	// Whether account details have been submitted. Accounts with Stripe Dashboard access, which includes Standard accounts, cannot receive payouts before this is true. Accounts where this is false should be directed to [an onboarding flow](https://docs.stripe.com/connect/onboarding) to finish submitting account details.
 	DetailsSubmitted bool `json:"details_submitted"`
 	// An email address associated with the account. It's not used for authentication and Stripe doesn't market to this field without explicit approval from the platform.
 	Email string `json:"email"`
@@ -4481,9 +4481,9 @@ type Account struct {
 	ID string `json:"id"`
 	// This is an object representing a person associated with a Stripe account.
 	//
-	// A platform can only access a subset of data in a person for an account where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
+	// A platform can only access a subset of data in a person for an account where [account.controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
 	//
-	// See the [Standard onboarding](https://stripe.com/connect/standard-accounts) or [Express onboarding](https://stripe.com/connect/express-accounts) documentation for information about prefilling information and account onboarding steps. Learn more about [handling identity verification with the API](https://stripe.com/connect/handling-api-verification#person-information).
+	// See the [Standard onboarding](https://docs.stripe.com/connect/standard-accounts) or [Express onboarding](https://docs.stripe.com/connect/express-accounts) documentation for information about prefilling information and account onboarding steps. Learn more about [handling identity verification with the API](https://docs.stripe.com/connect/handling-api-verification#person-information).
 	Individual *Person `json:"individual"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`

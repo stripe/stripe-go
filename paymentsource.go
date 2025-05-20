@@ -79,7 +79,7 @@ func SourceParamsFor(obj interface{}) (*PaymentSourceSourceParams, error) {
 //
 // If the card's owner has no default card, then the new card will become the default.
 // However, if the owner already has a default, then it will not change.
-// To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new default_source.
+// To change the default, you should [update the customer](https://docs.stripe.com/docs/api#update_customer) to have a new default_source.
 type PaymentSourceParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
@@ -160,7 +160,7 @@ func (p *PaymentSourceVerifyParams) AddExpand(f string) {
 //
 // If the card's owner has no default card, then the new card will become the default.
 // However, if the owner already has a default, then it will not change.
-// To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new default_source.
+// To change the default, you should [update the customer](https://docs.stripe.com/docs/api#update_customer) to have a new default_source.
 type PaymentSourceCreateParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL

@@ -78,7 +78,7 @@ func (c v1OrderService) Reopen(ctx context.Context, id string, params *OrderReop
 	return order, err
 }
 
-// Submitting an Order transitions the status to processing and creates a PaymentIntent object so the order can be paid. If the Order has an amount_total of 0, no PaymentIntent object will be created. Once the order is submitted, its contents cannot be changed, unless the [reopen](https://stripe.com/docs/api#reopen_order) method is called.
+// Submitting an Order transitions the status to processing and creates a PaymentIntent object so the order can be paid. If the Order has an amount_total of 0, no PaymentIntent object will be created. Once the order is submitted, its contents cannot be changed, unless the [reopen](https://docs.stripe.com/api#reopen_order) method is called.
 func (c v1OrderService) Submit(ctx context.Context, id string, params *OrderSubmitParams) (*Order, error) {
 	if params == nil {
 		params = &OrderSubmitParams{}

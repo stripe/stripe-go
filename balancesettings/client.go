@@ -24,14 +24,14 @@ type Client struct {
 
 // Retrieves balance settings for a given connected account.
 //
-//	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
+//	Related guide: [Making API calls for connected accounts](https://docs.stripe.com/connect/authentication)
 func Get(params *stripe.BalanceSettingsParams) (*stripe.BalanceSettings, error) {
 	return getC().Get(params)
 }
 
 // Retrieves balance settings for a given connected account.
 //
-//	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
+//	Related guide: [Making API calls for connected accounts](https://docs.stripe.com/connect/authentication)
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -45,14 +45,14 @@ func (c Client) Get(params *stripe.BalanceSettingsParams) (*stripe.BalanceSettin
 
 // Updates balance settings for a given connected account.
 //
-//	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
+//	Related guide: [Making API calls for connected accounts](https://docs.stripe.com/connect/authentication)
 func Update(params *stripe.BalanceSettingsParams) (*stripe.BalanceSettings, error) {
 	return getC().Update(params)
 }
 
 // Updates balance settings for a given connected account.
 //
-//	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
+//	Related guide: [Making API calls for connected accounts](https://docs.stripe.com/connect/authentication)
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

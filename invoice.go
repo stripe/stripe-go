@@ -330,7 +330,7 @@ const (
 	InvoiceTotalTaxTypeTaxRateDetails InvoiceTotalTaxType = "tax_rate_details"
 )
 
-// Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://stripe.com/docs/api#void_invoice).
+// Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://docs.stripe.com/api#void_invoice).
 type InvoiceParams struct {
 	Params `form:"*"`
 	// The account tax IDs associated with the invoice. Only editable when the invoice is a draft.
@@ -783,7 +783,7 @@ type InvoiceFromInvoiceParams struct {
 	Invoice *string `form:"invoice"`
 }
 
-// Search for invoices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Search for invoices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
@@ -1010,7 +1010,7 @@ func (p *InvoiceAttachPaymentPaymentRecordDataParams) AddMetadata(key string, va
 // If the PaymentIntent's status is already succeeded when it's attached, it's
 // credited to the invoice immediately.
 //
-// See: [Partial payments](https://stripe.com/docs/invoicing/partial-payments) to learn more.
+// See: [Partial payments](https://docs.stripe.com/docs/invoicing/partial-payments) to learn more.
 type InvoiceAttachPaymentParams struct {
 	Params `form:"*"`
 	// The portion of the `amount` on the PaymentIntent or out of band payment to apply to this invoice. It defaults to the entire amount.
@@ -1296,9 +1296,9 @@ func (p *InvoiceUpdateLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://stripe.com/docs/api#delete_invoice), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
+// Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to [deletion](https://docs.stripe.com/api#delete_invoice), however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.
 //
-// Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you're doing business in. You might need to [issue another invoice or <a href="#create_credit_note">credit note](https://stripe.com/docs/api#create_invoice) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
+// Consult with local regulations to determine whether and how an invoice might be amended, canceled, or voided in the jurisdiction you're doing business in. You might need to [issue another invoice or <a href="#create_credit_note">credit note](https://docs.stripe.com/api#create_invoice) instead. Stripe recommends that you consult with your legal counsel for advice specific to your business.
 type InvoiceVoidInvoiceParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -2381,7 +2381,7 @@ func (p *InvoiceListLinesParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://stripe.com/docs/api#void_invoice).
+// Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://docs.stripe.com/api#void_invoice).
 type InvoiceDeleteParams struct {
 	Params `form:"*"`
 }
@@ -2726,11 +2726,11 @@ type InvoiceUpdateTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
-// Draft invoices are fully editable. Once an invoice is [finalized](https://stripe.com/docs/billing/invoices/workflow#finalized),
+// Draft invoices are fully editable. Once an invoice is [finalized](https://docs.stripe.com/docs/billing/invoices/workflow#finalized),
 // monetary values, as well as collection_method, become uneditable.
 //
 // If you would like to stop the Stripe Billing engine from automatically finalizing, reattempting payments on,
-// sending reminders for, or [automatically reconciling](https://stripe.com/docs/billing/invoices/reconciliation) invoices, pass
+// sending reminders for, or [automatically reconciling](https://docs.stripe.com/docs/billing/invoices/reconciliation) invoices, pass
 // auto_advance=false.
 type InvoiceUpdateParams struct {
 	Params `form:"*"`
@@ -3144,7 +3144,7 @@ type InvoiceCreateTransferDataParams struct {
 	Destination *string `form:"destination"`
 }
 
-// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](#pay_invoice) or <a href="#send_invoice">send](https://stripe.com/docs/api#finalize_invoice) the invoice to your customers.
+// This endpoint creates a draft invoice for a given customer. The invoice remains a draft until you [finalize the invoice, which allows you to [pay](#pay_invoice) or <a href="#send_invoice">send](https://docs.stripe.com/api#finalize_invoice) the invoice to your customers.
 type InvoiceCreateParams struct {
 	Params `form:"*"`
 	// The account tax IDs associated with the invoice. Only editable when the invoice is a draft.
@@ -3471,9 +3471,9 @@ type InvoiceRendering struct {
 type InvoiceShippingCostTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
-	// Tax rates can be applied to [invoices](https://stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
+	// Tax rates can be applied to [invoices](https://docs.stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://docs.stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://docs.stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
 	//
-	// Related guide: [Tax rates](https://stripe.com/billing/taxes/tax-rates)
+	// Related guide: [Tax rates](https://docs.stripe.com/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason InvoiceShippingCostTaxTaxabilityReason `json:"taxability_reason"`
@@ -3594,7 +3594,7 @@ type InvoiceTotalTax struct {
 // Stripe applies any customer credit on the account before determining the
 // amount due for the invoice (i.e., the amount that will be actually
 // charged). If the amount due for the invoice is less than Stripe's [minimum allowed charge
-// per currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts), the
+// per currency](https://docs.stripe.com/docs/currencies#minimum-and-maximum-charge-amounts), the
 // invoice is automatically marked paid, and we add the amount due to the
 // customer's credit balance which is applied to the next invoice.
 //
@@ -3724,9 +3724,9 @@ type Invoice struct {
 	// Payments for this invoice
 	Payments        *InvoicePaymentList     `json:"payments"`
 	PaymentSettings *InvoicePaymentSettings `json:"payment_settings"`
-	// End of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
+	// End of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
 	PeriodEnd int64 `json:"period_end"`
-	// Start of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
+	// Start of the usage period during which invoice items were added to this invoice. This looks back one period for a subscription invoice. Use the [line item period](https://docs.stripe.com/api/invoices/line_item#invoice_line_item_object-period) to get the service period for each price.
 	PeriodStart int64 `json:"period_start"`
 	// Total amount of all post-payment credit notes issued for this invoice.
 	PostPaymentCreditNotesAmount int64 `json:"post_payment_credit_notes_amount"`

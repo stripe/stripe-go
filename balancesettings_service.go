@@ -19,7 +19,7 @@ type v1BalanceSettingsService struct {
 
 // Retrieves balance settings for a given connected account.
 //
-//	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
+//	Related guide: [Making API calls for connected accounts](https://docs.stripe.com/connect/authentication)
 func (c v1BalanceSettingsService) Retrieve(ctx context.Context, params *BalanceSettingsRetrieveParams) (*BalanceSettings, error) {
 	if params == nil {
 		params = &BalanceSettingsRetrieveParams{}
@@ -33,7 +33,7 @@ func (c v1BalanceSettingsService) Retrieve(ctx context.Context, params *BalanceS
 
 // Updates balance settings for a given connected account.
 //
-//	Related guide: [Making API calls for connected accounts](https://stripe.com/connect/authentication)
+//	Related guide: [Making API calls for connected accounts](https://docs.stripe.com/connect/authentication)
 func (c v1BalanceSettingsService) Update(ctx context.Context, params *BalanceSettingsUpdateParams) (*BalanceSettings, error) {
 	if params == nil {
 		params = &BalanceSettingsUpdateParams{}

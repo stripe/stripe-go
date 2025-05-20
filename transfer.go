@@ -38,7 +38,7 @@ func (p *TransferListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
+// To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://docs.stripe.com/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 type TransferParams struct {
 	Params `form:"*"`
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
@@ -47,7 +47,7 @@ type TransferParams struct {
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// The ID of a connected Stripe account. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
+	// The ID of a connected Stripe account. [See the Connect documentation](https://docs.stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	Destination *string `form:"destination"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -77,7 +77,7 @@ func (p *TransferParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
+// To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://docs.stripe.com/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 type TransferCreateParams struct {
 	Params `form:"*"`
 	// A positive integer in cents (or local equivalent) representing how much to transfer.
@@ -86,7 +86,7 @@ type TransferCreateParams struct {
 	Currency *string `form:"currency"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
-	// The ID of a connected Stripe account. [See the Connect documentation](https://stripe.com/docs/connect/separate-charges-and-transfers) for details.
+	// The ID of a connected Stripe account. [See the Connect documentation](https://docs.stripe.com/docs/connect/separate-charges-and-transfers) for details.
 	Destination *string `form:"destination"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`

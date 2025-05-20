@@ -1162,7 +1162,7 @@ type PaymentMethodConfigurationApplePayDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 type PaymentMethodConfigurationApplePayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationApplePayDisplayPreferenceParams `form:"display_preference"`
@@ -1222,7 +1222,7 @@ type PaymentMethodConfigurationBillieDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationBillieParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationBillieDisplayPreferenceParams `form:"display_preference"`
@@ -1666,7 +1666,7 @@ type PaymentMethodConfigurationSatispayDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationSatispayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationSatispayDisplayPreferenceParams `form:"display_preference"`
@@ -1785,7 +1785,7 @@ type PaymentMethodConfigurationParams struct {
 	Alma *PaymentMethodConfigurationAlmaParams `form:"alma"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 	AmazonPay *PaymentMethodConfigurationAmazonPayParams `form:"amazon_pay"`
-	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+	// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 	ApplePay *PaymentMethodConfigurationApplePayParams `form:"apple_pay"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
 	ApplePayLater *PaymentMethodConfigurationApplePayLaterParams `form:"apple_pay_later"`
@@ -1795,7 +1795,7 @@ type PaymentMethodConfigurationParams struct {
 	BACSDebit *PaymentMethodConfigurationBACSDebitParams `form:"bacs_debit"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://stripe.com/docs/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://stripe.com/docs/payments/bancontact) for more details.
 	Bancontact *PaymentMethodConfigurationBancontactParams `form:"bancontact"`
-	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Billie *PaymentMethodConfigurationBillieParams `form:"billie"`
 	// BLIK is a [single use](https://stripe.com/docs/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://stripe.com/docs/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationBLIKParams `form:"blik"`
@@ -1875,7 +1875,7 @@ type PaymentMethodConfigurationParams struct {
 	RevolutPay *PaymentMethodConfigurationRevolutPayParams `form:"revolut_pay"`
 	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
 	SamsungPay *PaymentMethodConfigurationSamsungPayParams `form:"samsung_pay"`
-	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationSatispayParams `form:"satispay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit"`
@@ -1978,7 +1978,7 @@ type PaymentMethodConfigurationCreateApplePayDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 type PaymentMethodConfigurationCreateApplePayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateApplePayDisplayPreferenceParams `form:"display_preference"`
@@ -2038,7 +2038,7 @@ type PaymentMethodConfigurationCreateBillieDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationCreateBillieParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateBillieDisplayPreferenceParams `form:"display_preference"`
@@ -2482,7 +2482,7 @@ type PaymentMethodConfigurationCreateSatispayDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationCreateSatispayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateSatispayDisplayPreferenceParams `form:"display_preference"`
@@ -2599,7 +2599,7 @@ type PaymentMethodConfigurationCreateParams struct {
 	Alma *PaymentMethodConfigurationCreateAlmaParams `form:"alma"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 	AmazonPay *PaymentMethodConfigurationCreateAmazonPayParams `form:"amazon_pay"`
-	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+	// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 	ApplePay *PaymentMethodConfigurationCreateApplePayParams `form:"apple_pay"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
 	ApplePayLater *PaymentMethodConfigurationCreateApplePayLaterParams `form:"apple_pay_later"`
@@ -2609,7 +2609,7 @@ type PaymentMethodConfigurationCreateParams struct {
 	BACSDebit *PaymentMethodConfigurationCreateBACSDebitParams `form:"bacs_debit"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://stripe.com/docs/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://stripe.com/docs/payments/bancontact) for more details.
 	Bancontact *PaymentMethodConfigurationCreateBancontactParams `form:"bancontact"`
-	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Billie *PaymentMethodConfigurationCreateBillieParams `form:"billie"`
 	// BLIK is a [single use](https://stripe.com/docs/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://stripe.com/docs/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationCreateBLIKParams `form:"blik"`
@@ -2689,7 +2689,7 @@ type PaymentMethodConfigurationCreateParams struct {
 	RevolutPay *PaymentMethodConfigurationCreateRevolutPayParams `form:"revolut_pay"`
 	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
 	SamsungPay *PaymentMethodConfigurationCreateSamsungPayParams `form:"samsung_pay"`
-	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationCreateSatispayParams `form:"satispay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationCreateSEPADebitParams `form:"sepa_debit"`
@@ -2804,7 +2804,7 @@ type PaymentMethodConfigurationUpdateApplePayDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 type PaymentMethodConfigurationUpdateApplePayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateApplePayDisplayPreferenceParams `form:"display_preference"`
@@ -2864,7 +2864,7 @@ type PaymentMethodConfigurationUpdateBillieDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationUpdateBillieParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateBillieDisplayPreferenceParams `form:"display_preference"`
@@ -3308,7 +3308,7 @@ type PaymentMethodConfigurationUpdateSatispayDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationUpdateSatispayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateSatispayDisplayPreferenceParams `form:"display_preference"`
@@ -3427,7 +3427,7 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Alma *PaymentMethodConfigurationUpdateAlmaParams `form:"alma"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 	AmazonPay *PaymentMethodConfigurationUpdateAmazonPayParams `form:"amazon_pay"`
-	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+	// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 	ApplePay *PaymentMethodConfigurationUpdateApplePayParams `form:"apple_pay"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
 	ApplePayLater *PaymentMethodConfigurationUpdateApplePayLaterParams `form:"apple_pay_later"`
@@ -3437,7 +3437,7 @@ type PaymentMethodConfigurationUpdateParams struct {
 	BACSDebit *PaymentMethodConfigurationUpdateBACSDebitParams `form:"bacs_debit"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://stripe.com/docs/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://stripe.com/docs/payments/bancontact) for more details.
 	Bancontact *PaymentMethodConfigurationUpdateBancontactParams `form:"bancontact"`
-	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Billie *PaymentMethodConfigurationUpdateBillieParams `form:"billie"`
 	// BLIK is a [single use](https://stripe.com/docs/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://stripe.com/docs/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationUpdateBLIKParams `form:"blik"`
@@ -3515,7 +3515,7 @@ type PaymentMethodConfigurationUpdateParams struct {
 	RevolutPay *PaymentMethodConfigurationUpdateRevolutPayParams `form:"revolut_pay"`
 	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
 	SamsungPay *PaymentMethodConfigurationUpdateSamsungPayParams `form:"samsung_pay"`
-	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationUpdateSatispayParams `form:"satispay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationUpdateSEPADebitParams `form:"sepa_debit"`
