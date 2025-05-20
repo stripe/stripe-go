@@ -6,7 +6,6 @@ import (
 )
 
 // errorEnums: The beginning of the section generated from our OpenAPI spec
-
 // errorEnums: The end of the section generated from our OpenAPI spec
 
 // ErrorType is the list of allowed values for the error's type.
