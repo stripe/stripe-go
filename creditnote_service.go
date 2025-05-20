@@ -77,7 +77,7 @@ func (c v1CreditNoteService) Preview(ctx context.Context, params *CreditNotePrev
 	return creditnote, err
 }
 
-// Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+// Marks a credit note as void. Learn more about [voiding credit notes](https://docs.stripe.com/docs/billing/invoices/credit-notes#voiding).
 func (c v1CreditNoteService) VoidCreditNote(ctx context.Context, id string, params *CreditNoteVoidCreditNoteParams) (*CreditNote, error) {
 	if params == nil {
 		params = &CreditNoteVoidCreditNoteParams{}

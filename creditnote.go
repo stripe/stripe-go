@@ -418,7 +418,7 @@ func (p *CreditNotePreviewLinesParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+// Marks a credit note as void. Learn more about [voiding credit notes](https://docs.stripe.com/docs/billing/invoices/credit-notes#voiding).
 type CreditNoteVoidCreditNoteParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -615,9 +615,9 @@ type CreditNoteRefund struct {
 type CreditNoteShippingCostTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
-	// Tax rates can be applied to [invoices](https://stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
+	// Tax rates can be applied to [invoices](https://docs.stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://docs.stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://docs.stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
 	//
-	// Related guide: [Tax rates](https://stripe.com/billing/taxes/tax-rates)
+	// Related guide: [Tax rates](https://docs.stripe.com/billing/taxes/tax-rates)
 	Rate *TaxRate `json:"rate"`
 	// The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 	TaxabilityReason CreditNoteShippingCostTaxTaxabilityReason `json:"taxability_reason"`

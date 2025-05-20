@@ -111,12 +111,12 @@ func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditN
 	return creditnote, err
 }
 
-// Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+// Marks a credit note as void. Learn more about [voiding credit notes](https://docs.stripe.com/docs/billing/invoices/credit-notes#voiding).
 func VoidCreditNote(id string, params *stripe.CreditNoteVoidCreditNoteParams) (*stripe.CreditNote, error) {
 	return getC().VoidCreditNote(id, params)
 }
 
-// Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+// Marks a credit note as void. Learn more about [voiding credit notes](https://docs.stripe.com/docs/billing/invoices/credit-notes#voiding).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

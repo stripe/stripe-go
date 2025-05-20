@@ -19,7 +19,7 @@ type v1PlanService struct {
 	Key string
 }
 
-// You can now model subscriptions more flexibly using the [Prices API](https://stripe.com/docs/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
+// You can now model subscriptions more flexibly using the [Prices API](https://docs.stripe.com/api#prices). It replaces the Plans API and is backwards compatible to simplify your migration.
 func (c v1PlanService) Create(ctx context.Context, params *PlanCreateParams) (*Plan, error) {
 	if params == nil {
 		params = &PlanCreateParams{}

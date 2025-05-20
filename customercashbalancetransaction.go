@@ -46,7 +46,7 @@ const (
 	CustomerCashBalanceTransactionTypeUnappliedFromPayment CustomerCashBalanceTransactionType = "unapplied_from_payment"
 )
 
-// Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+// Returns a list of transactions that modified the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 type CustomerCashBalanceTransactionListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
@@ -59,7 +59,7 @@ func (p *CustomerCashBalanceTransactionListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 type CustomerCashBalanceTransactionParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
@@ -72,7 +72,7 @@ func (p *CustomerCashBalanceTransactionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 type CustomerCashBalanceTransactionRetrieveParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
