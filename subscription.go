@@ -366,6 +366,8 @@ type SubscriptionParams struct {
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt             *int64 `form:"cancel_at"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
@@ -432,7 +434,7 @@ type SubscriptionParams struct {
 	ProrationDate *int64 `form:"proration_date"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
 	TransferData *SubscriptionTransferDataParams `form:"transfer_data"`
-	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, `trial_end` will override the default trial period of the plan the customer is being subscribed to. The `billing_cycle_anchor` will be updated to the `trial_end` value. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
 	TrialEnd    *int64 `form:"trial_end"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
@@ -536,6 +538,14 @@ type SubscriptionAutomaticTaxParams struct {
 	Liability *SubscriptionAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type SubscriptionBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // Details about why this subscription was cancelled
 type SubscriptionCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
@@ -593,6 +603,8 @@ type SubscriptionInvoiceSettingsParams struct {
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionItemsParams struct {
 	Params `form:"*"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
@@ -983,6 +995,14 @@ type SubscriptionUpdateAutomaticTaxParams struct {
 	Liability *SubscriptionUpdateAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type SubscriptionUpdateBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // Details about why this subscription was cancelled
 type SubscriptionUpdateCancellationDetailsParams struct {
 	// Additional comments about why the user canceled the subscription, if the subscription was canceled explicitly by the user.
@@ -1035,6 +1055,12 @@ type SubscriptionUpdateInvoiceSettingsParams struct {
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *SubscriptionUpdateInvoiceSettingsIssuerParams `form:"issuer"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionUpdateItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
 }
 
 // Time span for the redeemed discount.
@@ -1093,6 +1119,8 @@ type SubscriptionUpdateItemPriceDataParams struct {
 
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionUpdateItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionUpdateItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
@@ -1326,6 +1354,8 @@ type SubscriptionUpdateParams struct {
 	BillingCycleAnchor          *int64 `form:"billing_cycle_anchor"`
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionUpdateBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt             *int64 `form:"cancel_at"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
@@ -1382,7 +1412,7 @@ type SubscriptionUpdateParams struct {
 	ProrationDate *int64 `form:"proration_date"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges. This will be unset if you POST an empty value.
 	TransferData *SubscriptionUpdateTransferDataParams `form:"transfer_data"`
-	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, `trial_end` will override the default trial period of the plan the customer is being subscribed to. The `billing_cycle_anchor` will be updated to the `trial_end` value. The special value `now` can be provided to end the customer's trial immediately. Can be at most two years from `billing_cycle_anchor`.
 	TrialEnd    *int64 `form:"trial_end"`
 	TrialEndNow *bool  `form:"-"` // See custom AppendTo
 	// Indicates if a plan's `trial_period_days` should be applied to the subscription. Setting `trial_end` per subscription is preferred, and this defaults to `false`. Setting this flag to `true` together with `trial_end` is not allowed. See [Using trial periods on subscriptions](https://stripe.com/docs/billing/subscriptions/trials) to learn more.
@@ -1498,6 +1528,14 @@ type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 	Second *int64 `form:"second"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type SubscriptionCreateBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionCreateDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -1542,6 +1580,12 @@ type SubscriptionCreateInvoiceSettingsParams struct {
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *SubscriptionCreateInvoiceSettingsIssuerParams `form:"issuer"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionCreateItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
 }
 
 // Time span for the redeemed discount.
@@ -1608,6 +1652,8 @@ type SubscriptionCreateItemTrialParams struct {
 
 // A list of up to 20 subscription items, each with an attached price.
 type SubscriptionCreateItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionCreateItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionCreateItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
@@ -1823,6 +1869,8 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *string `form:"billing_mode"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionCreateBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt             *int64 `form:"cancel_at"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
@@ -1961,6 +2009,14 @@ type SubscriptionBillingCycleAnchorConfig struct {
 type SubscriptionBillingModeDetails struct {
 	// Details on when the current billing_mode was adopted.
 	UpdatedAt int64 `json:"updated_at"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+type SubscriptionBillingThresholds struct {
+	// Monetary threshold that triggers the subscription to create an invoice
+	AmountGTE int64 `json:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`.
+	ResetBillingCycleAnchor bool `json:"reset_billing_cycle_anchor"`
 }
 
 // Details about why this subscription was cancelled
@@ -2193,6 +2249,8 @@ type Subscription struct {
 	BillingMode SubscriptionBillingMode `json:"billing_mode"`
 	// Details about when the current billing_mode was updated.
 	BillingModeDetails *SubscriptionBillingModeDetails `json:"billing_mode_details"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled
 	CancelAt int64 `json:"cancel_at"`
 	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period. This field will be removed in a future API version. Please use `cancel_at` instead.
@@ -2280,7 +2338,7 @@ type Subscription struct {
 	TrialEnd int64 `json:"trial_end"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionTrialSettings `json:"trial_settings"`
-	// If the subscription has a trial, the beginning of that trial.
+	// If the subscription has a trial, the beginning of that trial. For subsequent trials, this date remains as the start of the first ever trial on the subscription.
 	TrialStart int64 `json:"trial_start"`
 }
 

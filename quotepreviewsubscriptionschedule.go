@@ -277,6 +277,14 @@ type QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTax struct {
 	// The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
 	Liability *QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTaxLiability `json:"liability"`
 }
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+type QuotePreviewSubscriptionScheduleDefaultSettingsBillingThresholds struct {
+	// Monetary threshold that triggers the subscription to create an invoice
+	AmountGTE int64 `json:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`.
+	ResetBillingCycleAnchor bool `json:"reset_billing_cycle_anchor"`
+}
 type QuotePreviewSubscriptionScheduleDefaultSettingsInvoiceSettingsIssuer struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
@@ -304,6 +312,8 @@ type QuotePreviewSubscriptionScheduleDefaultSettings struct {
 	AutomaticTax          *QuotePreviewSubscriptionScheduleDefaultSettingsAutomaticTax `json:"automatic_tax"`
 	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor QuotePreviewSubscriptionScheduleDefaultSettingsBillingCycleAnchor `json:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+	BillingThresholds *QuotePreviewSubscriptionScheduleDefaultSettingsBillingThresholds `json:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 	CollectionMethod QuotePreviewSubscriptionScheduleDefaultSettingsCollectionMethod `json:"collection_method"`
 	// ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
@@ -383,6 +393,14 @@ type QuotePreviewSubscriptionSchedulePhaseAutomaticTax struct {
 	Liability *QuotePreviewSubscriptionSchedulePhaseAutomaticTaxLiability `json:"liability"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+type QuotePreviewSubscriptionSchedulePhaseBillingThresholds struct {
+	// Monetary threshold that triggers the subscription to create an invoice
+	AmountGTE int64 `json:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`.
+	ResetBillingCycleAnchor bool `json:"reset_billing_cycle_anchor"`
+}
+
 // Details to determine how long the discount should be applied for.
 type QuotePreviewSubscriptionSchedulePhaseDiscountDiscountEnd struct {
 	// The discount end timestamp.
@@ -421,6 +439,12 @@ type QuotePreviewSubscriptionSchedulePhaseInvoiceSettings struct {
 	Issuer *QuotePreviewSubscriptionSchedulePhaseInvoiceSettingsIssuer `json:"issuer"`
 }
 
+// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
+type QuotePreviewSubscriptionSchedulePhaseItemBillingThresholds struct {
+	// Usage threshold that triggers the subscription to create an invoice
+	UsageGTE int64 `json:"usage_gte"`
+}
+
 // Details to determine how long the discount should be applied for.
 type QuotePreviewSubscriptionSchedulePhaseItemDiscountDiscountEnd struct {
 	// The discount end timestamp.
@@ -451,6 +475,8 @@ type QuotePreviewSubscriptionSchedulePhaseItemTrial struct {
 
 // Subscription items to configure the subscription to during this phase of the subscription schedule.
 type QuotePreviewSubscriptionSchedulePhaseItem struct {
+	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
+	BillingThresholds *QuotePreviewSubscriptionSchedulePhaseItemBillingThresholds `json:"billing_thresholds"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*QuotePreviewSubscriptionSchedulePhaseItemDiscount `json:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
@@ -502,6 +528,8 @@ type QuotePreviewSubscriptionSchedulePhase struct {
 	AutomaticTax          *QuotePreviewSubscriptionSchedulePhaseAutomaticTax `json:"automatic_tax"`
 	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor QuotePreviewSubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+	BillingThresholds *QuotePreviewSubscriptionSchedulePhaseBillingThresholds `json:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 	CollectionMethod QuotePreviewSubscriptionSchedulePhaseCollectionMethod `json:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).

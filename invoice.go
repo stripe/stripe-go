@@ -1881,6 +1881,14 @@ type InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxParams struct {
 	Liability *InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type InvoiceCreatePreviewScheduleDetailsPhaseBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // Time span for the redeemed discount.
 type InvoiceCreatePreviewScheduleDetailsPhaseDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -1927,6 +1935,12 @@ type InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 	// The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 	Issuer *InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsIssuerParams `form:"issuer"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type InvoiceCreatePreviewScheduleDetailsPhaseItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
 }
 
 // Time span for the redeemed discount.
@@ -1993,6 +2007,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseItemTrialParams struct {
 
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 type InvoiceCreatePreviewScheduleDetailsPhaseItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *InvoiceCreatePreviewScheduleDetailsPhaseItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
@@ -2056,6 +2072,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	AutomaticTax *InvoiceCreatePreviewScheduleDetailsPhaseAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *InvoiceCreatePreviewScheduleDetailsPhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -2175,6 +2193,12 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
 // Time span for the redeemed discount.
 type InvoiceCreatePreviewSubscriptionDetailsItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -2231,6 +2255,8 @@ type InvoiceCreatePreviewSubscriptionDetailsItemPriceDataParams struct {
 
 // A list of up to 20 subscription items, each with an attached price.
 type InvoiceCreatePreviewSubscriptionDetailsItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *InvoiceCreatePreviewSubscriptionDetailsItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for a given subscription item. You must pass this when deleting a usage records subscription item. `clear_usage` has no effect if the plan has a billing meter attached.
 	ClearUsage *bool `form:"clear_usage"`
 	// A flag that, if set to `true`, will delete the specified item.
@@ -2324,7 +2350,9 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Valu
 
 // At any time, you can preview the upcoming invoice for a subscription or subscription schedule. This will show you all the charges that are pending, including subscription renewal charges, invoice item charges, etc. It will also show you any discounts that are applicable to the invoice.
 //
-// You can also preview the effects of creating or updating a subscription or subscription schedule, including a preview of any prorations that will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_details.proration_date parameter when doing the actual subscription update. The recommended way to get only the prorations being previewed is to consider only proration line items where period[start] is equal to the subscription_details.proration_date value passed in the request.
+// You can also preview the effects of creating or updating a subscription or subscription schedule, including a preview of any prorations that will take place. To ensure that the actual proration is calculated exactly the same as the previewed proration, you should pass the subscription_details.proration_date parameter when doing the actual subscription update.
+//
+// The recommended way to get only the prorations being previewed on the invoice is to consider line items where parent.subscription_item_details.proration is true.
 //
 // Note that when you are viewing an upcoming invoice, you are simply viewing a preview – the invoice has not yet been created. As such, the upcoming invoice will not show up in invoice listing calls, and you cannot use the API to pay or edit the invoice. If you want to change the amount that your customer will be billed, you can add, remove, or update pending invoice items, or update the customer's discount.
 //

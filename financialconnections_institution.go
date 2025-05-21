@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // The status of this institution in the Financial Connections authentication flow.
 type FinancialConnectionsInstitutionStatus string
 
@@ -102,4 +104,23 @@ type FinancialConnectionsInstitutionList struct {
 	APIResource
 	ListMeta
 	Data []*FinancialConnectionsInstitution `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a FinancialConnectionsInstitution.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (f *FinancialConnectionsInstitution) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		f.ID = id
+		return nil
+	}
+
+	type financialConnectionsInstitution FinancialConnectionsInstitution
+	var v financialConnectionsInstitution
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*f = FinancialConnectionsInstitution(v)
+	return nil
 }

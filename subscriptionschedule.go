@@ -210,6 +210,14 @@ func (p *SubscriptionScheduleListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionScheduleDefaultSettingsBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -237,6 +245,8 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionScheduleDefaultSettingsBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
@@ -311,6 +321,14 @@ type SubscriptionSchedulePhaseAutomaticTaxParams struct {
 	Liability *SubscriptionSchedulePhaseAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionSchedulePhaseBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionSchedulePhaseDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -359,6 +377,12 @@ type SubscriptionSchedulePhaseInvoiceSettingsParams struct {
 	Issuer *SubscriptionSchedulePhaseInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionSchedulePhaseItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionSchedulePhaseItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -399,6 +423,8 @@ type SubscriptionSchedulePhaseItemTrialParams struct {
 
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionSchedulePhaseItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionSchedulePhaseItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
@@ -454,6 +480,8 @@ type SubscriptionSchedulePhaseParams struct {
 	AutomaticTax *SubscriptionSchedulePhaseAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionSchedulePhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1001,6 +1029,14 @@ func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionScheduleCreateDefaultSettingsBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionScheduleCreateDefaultSettingsInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -1027,6 +1063,8 @@ type SubscriptionScheduleCreateDefaultSettingsParams struct {
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionScheduleCreateDefaultSettingsBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
@@ -1101,6 +1139,14 @@ type SubscriptionScheduleCreatePhaseAutomaticTaxParams struct {
 	Liability *SubscriptionScheduleCreatePhaseAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionScheduleCreatePhaseBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionScheduleCreatePhaseDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -1149,6 +1195,12 @@ type SubscriptionScheduleCreatePhaseInvoiceSettingsParams struct {
 	Issuer *SubscriptionScheduleCreatePhaseInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionScheduleCreatePhaseItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionScheduleCreatePhaseItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -1189,6 +1241,8 @@ type SubscriptionScheduleCreatePhaseItemTrialParams struct {
 
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 type SubscriptionScheduleCreatePhaseItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionScheduleCreatePhaseItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionScheduleCreatePhaseItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
@@ -1244,6 +1298,8 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	AutomaticTax *SubscriptionScheduleCreatePhaseAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionScheduleCreatePhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1364,6 +1420,14 @@ func (p *SubscriptionScheduleRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionScheduleUpdateDefaultSettingsBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionScheduleUpdateDefaultSettingsInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -1390,6 +1454,8 @@ type SubscriptionScheduleUpdateDefaultSettingsParams struct {
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionScheduleUpdateDefaultSettingsBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// ID of the default payment method for the subscription schedule. It must belong to the customer associated with the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
@@ -1464,6 +1530,14 @@ type SubscriptionScheduleUpdatePhaseAutomaticTaxParams struct {
 	Liability *SubscriptionScheduleUpdatePhaseAutomaticTaxLiabilityParams `form:"liability"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionScheduleUpdatePhaseBillingThresholdsParams struct {
+	// Monetary threshold that triggers the subscription to advance to a new billing period
+	AmountGTE *int64 `form:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged.
+	ResetBillingCycleAnchor *bool `form:"reset_billing_cycle_anchor"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionScheduleUpdatePhaseDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -1512,6 +1586,12 @@ type SubscriptionScheduleUpdatePhaseInvoiceSettingsParams struct {
 	Issuer *SubscriptionScheduleUpdatePhaseInvoiceSettingsIssuerParams `form:"issuer"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionScheduleUpdatePhaseItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionScheduleUpdatePhaseItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -1552,6 +1632,8 @@ type SubscriptionScheduleUpdatePhaseItemTrialParams struct {
 
 // List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 type SubscriptionScheduleUpdatePhaseItemParams struct {
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionScheduleUpdatePhaseItemBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionScheduleUpdatePhaseItemDiscountParams `form:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a configuration item. Metadata on a configuration item will update the underlying subscription item's `metadata` when the phase is entered, adding new keys and replacing existing keys. Individual keys in the subscription item's `metadata` can be unset by posting an empty value to them in the configuration item's `metadata`. To unset all keys in the subscription item's `metadata`, update the subscription item directly or unset every key individually from the configuration item's `metadata`.
@@ -1607,6 +1689,8 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	AutomaticTax *SubscriptionScheduleUpdatePhaseAutomaticTaxParams `form:"automatic_tax"`
 	// Can be set to `phase_start` to set the anchor to the start of the phase or `automatic` to automatically change it if needed. Cannot be set to `phase_start` if this phase specifies a trial. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionScheduleUpdatePhaseBillingThresholdsParams `form:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically` on creation.
 	CollectionMethod *string `form:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -1724,6 +1808,14 @@ type SubscriptionScheduleCurrentPhase struct {
 	// The start of this phase of the subscription schedule.
 	StartDate int64 `json:"start_date"`
 }
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+type SubscriptionScheduleDefaultSettingsBillingThresholds struct {
+	// Monetary threshold that triggers the subscription to create an invoice
+	AmountGTE int64 `json:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`.
+	ResetBillingCycleAnchor bool `json:"reset_billing_cycle_anchor"`
+}
 type SubscriptionScheduleDefaultSettingsInvoiceSettingsIssuer struct {
 	// The connected account being referenced when `type` is `account`.
 	Account *Account `json:"account"`
@@ -1743,6 +1835,8 @@ type SubscriptionScheduleDefaultSettings struct {
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
 	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor SubscriptionScheduleDefaultSettingsBillingCycleAnchor `json:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+	BillingThresholds *SubscriptionScheduleDefaultSettingsBillingThresholds `json:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 	CollectionMethod *SubscriptionCollectionMethod `json:"collection_method"`
 	// ID of the default payment method for the subscription schedule. If not set, invoices will use the default payment method in the customer's invoice settings.
@@ -1806,6 +1900,14 @@ type SubscriptionSchedulePhaseAddInvoiceItem struct {
 	TaxRates []*TaxRate `json:"tax_rates"`
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+type SubscriptionSchedulePhaseBillingThresholds struct {
+	// Monetary threshold that triggers the subscription to create an invoice
+	AmountGTE int64 `json:"amount_gte"`
+	// Indicates if the `billing_cycle_anchor` should be reset when a threshold is reached. If true, `billing_cycle_anchor` will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be `true` if the subscription contains items with plans that have `aggregate_usage=last_ever`.
+	ResetBillingCycleAnchor bool `json:"reset_billing_cycle_anchor"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseDiscountDiscountEnd struct {
 	// The discount end timestamp.
@@ -1844,6 +1946,12 @@ type SubscriptionSchedulePhaseInvoiceSettings struct {
 	Issuer *SubscriptionSchedulePhaseInvoiceSettingsIssuer `json:"issuer"`
 }
 
+// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
+type SubscriptionSchedulePhaseItemBillingThresholds struct {
+	// Usage threshold that triggers the subscription to create an invoice
+	UsageGTE int64 `json:"usage_gte"`
+}
+
 // Details to determine how long the discount should be applied for.
 type SubscriptionSchedulePhaseItemDiscountDiscountEnd struct {
 	// The discount end timestamp.
@@ -1874,6 +1982,8 @@ type SubscriptionSchedulePhaseItemTrial struct {
 
 // Subscription items to configure the subscription to during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItem struct {
+	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
+	BillingThresholds *SubscriptionSchedulePhaseItemBillingThresholds `json:"billing_thresholds"`
 	// The discounts applied to the subscription item. Subscription item discounts are applied before subscription discounts. Use `expand[]=discounts` to expand each discount.
 	Discounts []*SubscriptionSchedulePhaseItemDiscount `json:"discounts"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an item. Metadata on this item will update the underlying subscription item's `metadata` when the phase is entered.
@@ -1917,6 +2027,8 @@ type SubscriptionSchedulePhase struct {
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`
 	// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 	BillingCycleAnchor SubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+	BillingThresholds *SubscriptionSchedulePhaseBillingThresholds `json:"billing_thresholds"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay the underlying subscription at the end of each billing cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`.
 	CollectionMethod *SubscriptionCollectionMethod `json:"collection_method"`
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
