@@ -1067,7 +1067,7 @@ type PaymentMethodConfigurationApplePayDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 type PaymentMethodConfigurationApplePayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationApplePayDisplayPreferenceParams `form:"display_preference"`
@@ -1630,7 +1630,7 @@ type PaymentMethodConfigurationParams struct {
 	Alma *PaymentMethodConfigurationAlmaParams `form:"alma"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 	AmazonPay *PaymentMethodConfigurationAmazonPayParams `form:"amazon_pay"`
-	// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 	ApplePay *PaymentMethodConfigurationApplePayParams `form:"apple_pay"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
 	ApplePayLater *PaymentMethodConfigurationApplePayLaterParams `form:"apple_pay_later"`
@@ -1813,7 +1813,7 @@ type PaymentMethodConfigurationCreateApplePayDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 type PaymentMethodConfigurationCreateApplePayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateApplePayDisplayPreferenceParams `form:"display_preference"`
@@ -2374,7 +2374,7 @@ type PaymentMethodConfigurationCreateParams struct {
 	Alma *PaymentMethodConfigurationCreateAlmaParams `form:"alma"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 	AmazonPay *PaymentMethodConfigurationCreateAmazonPayParams `form:"amazon_pay"`
-	// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 	ApplePay *PaymentMethodConfigurationCreateApplePayParams `form:"apple_pay"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
 	ApplePayLater *PaymentMethodConfigurationCreateApplePayLaterParams `form:"apple_pay_later"`
@@ -2569,7 +2569,7 @@ type PaymentMethodConfigurationUpdateApplePayDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 type PaymentMethodConfigurationUpdateApplePayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateApplePayDisplayPreferenceParams `form:"display_preference"`
@@ -3132,7 +3132,7 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Alma *PaymentMethodConfigurationUpdateAlmaParams `form:"alma"`
 	// Amazon Pay is a wallet payment method that lets your customers check out the same way as on Amazon.
 	AmazonPay *PaymentMethodConfigurationUpdateAmazonPayParams `form:"amazon_pay"`
-	// Stripe users can accept [Apple Pay](https://docs.stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://docs.stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
+	// Stripe users can accept [Apple Pay](https://stripe.com/payments/apple-pay) in iOS applications in iOS 9 and later, and on the web in Safari starting with iOS 10 or macOS Sierra. There are no additional fees to process Apple Pay payments, and the [pricing](https://stripe.com/pricing) is the same as other card transactions. Check this [page](https://stripe.com/docs/apple-pay) for more details.
 	ApplePay *PaymentMethodConfigurationUpdateApplePayParams `form:"apple_pay"`
 	// Apple Pay Later, a payment method for customers to buy now and pay later, gives your customers a way to split purchases into four installments across six weeks.
 	ApplePayLater *PaymentMethodConfigurationUpdateApplePayLaterParams `form:"apple_pay_later"`
