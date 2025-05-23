@@ -23,10 +23,10 @@ type IdentityVerificationReportDocumentSex string
 
 // List of values that IdentityVerificationReportDocumentSex can take
 const (
-	IdentityVerificationReportDocumentSex        [redacted]IdentityVerificationReportDocumentSex = "[redacted]"
-	IdentityVerificationReportDocumentSexFemale  IdentityVerificationReportDocumentSex           = "female"
-	IdentityVerificationReportDocumentSexMale    IdentityVerificationReportDocumentSex           = "male"
-	IdentityVerificationReportDocumentSexUnknown IdentityVerificationReportDocumentSex           = "unknown"
+	IdentityVerificationReportDocumentSexRedacted IdentityVerificationReportDocumentSex = "[redacted]"
+	IdentityVerificationReportDocumentSexFemale   IdentityVerificationReportDocumentSex = "female"
+	IdentityVerificationReportDocumentSexMale     IdentityVerificationReportDocumentSex = "male"
+	IdentityVerificationReportDocumentSexUnknown  IdentityVerificationReportDocumentSex = "unknown"
 )
 
 // Status of this `document` check.

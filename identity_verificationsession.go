@@ -87,10 +87,10 @@ type IdentityVerificationSessionVerifiedOutputsSex string
 
 // List of values that IdentityVerificationSessionVerifiedOutputsSex can take
 const (
-	IdentityVerificationSessionVerifiedOutputsSex        [redacted]IdentityVerificationSessionVerifiedOutputsSex = "[redacted]"
-	IdentityVerificationSessionVerifiedOutputsSexFemale  IdentityVerificationSessionVerifiedOutputsSex           = "female"
-	IdentityVerificationSessionVerifiedOutputsSexMale    IdentityVerificationSessionVerifiedOutputsSex           = "male"
-	IdentityVerificationSessionVerifiedOutputsSexUnknown IdentityVerificationSessionVerifiedOutputsSex           = "unknown"
+	IdentityVerificationSessionVerifiedOutputsSexRedacted IdentityVerificationSessionVerifiedOutputsSex = "[redacted]"
+	IdentityVerificationSessionVerifiedOutputsSexFemale   IdentityVerificationSessionVerifiedOutputsSex = "female"
+	IdentityVerificationSessionVerifiedOutputsSexMale     IdentityVerificationSessionVerifiedOutputsSex = "male"
+	IdentityVerificationSessionVerifiedOutputsSexUnknown  IdentityVerificationSessionVerifiedOutputsSex = "unknown"
 )
 
 // Returns a list of VerificationSessions
