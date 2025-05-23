@@ -19,24 +19,24 @@ type v2MoneyManagementFinancialAddressService struct {
 
 // Create a new FinancialAddress for a FinancialAccount.
 func (c v2MoneyManagementFinancialAddressService) Create(ctx context.Context, params *V2MoneyManagementFinancialAddressCreateParams) (*V2MoneyManagementFinancialAddress, error) {
-	financialaddress := &V2MoneyManagementFinancialAddress{}
 	if params == nil {
 		params = &V2MoneyManagementFinancialAddressCreateParams{}
 	}
 	params.Context = ctx
+	financialaddress := &V2MoneyManagementFinancialAddress{}
 	err := c.B.Call(
 		http.MethodPost, "/v2/money_management/financial_addresses", c.Key, params, financialaddress)
 	return financialaddress, err
 }
 
-// Retrieve a FinancialAddress. By default, the FinancialAddress will be returned in it's unexpanded state, revealing only the last 4 digits of the account number.
+// Retrieve a FinancialAddress. By default, the FinancialAddress will be returned in its unexpanded state, revealing only the last 4 digits of the account number.
 func (c v2MoneyManagementFinancialAddressService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementFinancialAddressRetrieveParams) (*V2MoneyManagementFinancialAddress, error) {
-	path := FormatURLPath("/v2/money_management/financial_addresses/%s", id)
-	financialaddress := &V2MoneyManagementFinancialAddress{}
 	if params == nil {
 		params = &V2MoneyManagementFinancialAddressRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/financial_addresses/%s", id)
+	financialaddress := &V2MoneyManagementFinancialAddress{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, financialaddress)
 	return financialaddress, err
 }

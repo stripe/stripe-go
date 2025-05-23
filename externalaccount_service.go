@@ -21,11 +21,11 @@ type v1ExternalAccountService struct {
 
 // Create an external account for a given connected account.
 func (c v1ExternalAccountService) CreateBankAccount(ctx context.Context, params *BankAccountParams) (*BankAccount, error) {
-	bankaccount := &BankAccount{}
 	if params == nil {
 		params = &BankAccountParams{}
 	}
 	params.Context = ctx
+	bankaccount := &BankAccount{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/external_accounts", c.Key, params, bankaccount)
 	return bankaccount, err
@@ -33,35 +33,35 @@ func (c v1ExternalAccountService) CreateBankAccount(ctx context.Context, params 
 
 // Create an external account for a given connected account.
 func (c v1ExternalAccountService) CreateCard(ctx context.Context, params *CardParams) (*Card, error) {
-	card := &Card{}
 	if params == nil {
 		params = &CardParams{}
 	}
 	params.Context = ctx
+	card := &Card{}
 	err := c.B.Call(http.MethodPost, "/v1/external_accounts", c.Key, params, card)
 	return card, err
 }
 
 // Delete a specified external account for a given account.
 func (c v1ExternalAccountService) DeleteBankAccount(ctx context.Context, id string, params *BankAccountParams) (*BankAccount, error) {
-	path := FormatURLPath("/v1/external_accounts/%s", id)
-	bankaccount := &BankAccount{}
 	if params == nil {
 		params = &BankAccountParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/external_accounts/%s", id)
+	bankaccount := &BankAccount{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, bankaccount)
 	return bankaccount, err
 }
 
 // Delete a specified external account for a given account.
 func (c v1ExternalAccountService) DeleteCard(ctx context.Context, id string, params *CardParams) (*Card, error) {
-	path := FormatURLPath("/v1/external_accounts/%s", id)
-	card := &Card{}
 	if params == nil {
 		params = &CardParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/external_accounts/%s", id)
+	card := &Card{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, card)
 	return card, err
 }
@@ -88,17 +88,17 @@ func (c v1ExternalAccountService) RetrieveCard(ctx context.Context, id string, p
 // a connected account and optionally sets it as the default for its currency. Other bank account
 // details are not editable by design.
 //
-// You can only update bank accounts when [account.controller.requirement_collection is application, which includes <a href="/connect/custom-accounts">Custom accounts](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection).
+// You can only update bank accounts when [account.controller.requirement_collection is application, which includes <a href="/connect/custom-accounts">Custom accounts](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection).
 //
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
 func (c v1ExternalAccountService) UpdateBankAccount(ctx context.Context, id string, params *BankAccountParams) (*BankAccount, error) {
-	path := FormatURLPath("/v1/external_accounts/%s", id)
-	bankaccount := &BankAccount{}
 	if params == nil {
 		params = &BankAccountParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/external_accounts/%s", id)
+	bankaccount := &BankAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, bankaccount)
 	return bankaccount, err
 }
@@ -107,17 +107,17 @@ func (c v1ExternalAccountService) UpdateBankAccount(ctx context.Context, id stri
 // a connected account and optionally sets it as the default for its currency. Other bank account
 // details are not editable by design.
 //
-// You can only update bank accounts when [account.controller.requirement_collection is application, which includes <a href="/connect/custom-accounts">Custom accounts](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection).
+// You can only update bank accounts when [account.controller.requirement_collection is application, which includes <a href="/connect/custom-accounts">Custom accounts](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection).
 //
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
 func (c v1ExternalAccountService) UpdateCard(ctx context.Context, id string, params *CardParams) (*Card, error) {
-	path := FormatURLPath("/v1/external_accounts/%s", id)
-	card := &Card{}
 	if params == nil {
 		params = &CardParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/external_accounts/%s", id)
+	card := &Card{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
 	return card, err
 }

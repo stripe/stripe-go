@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2MoneyManagementFinancialAddressParams) (*st
 	return financialaddress, err
 }
 
-// Retrieve a FinancialAddress. By default, the FinancialAddress will be returned in it's unexpanded state, revealing only the last 4 digits of the account number.
+// Retrieve a FinancialAddress. By default, the FinancialAddress will be returned in its unexpanded state, revealing only the last 4 digits of the account number.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

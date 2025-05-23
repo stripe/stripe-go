@@ -69,8 +69,6 @@ import (
 	financialconnectionstransaction "github.com/stripe/stripe-go/v82/financialconnections/transaction"
 	forwardingrequest "github.com/stripe/stripe-go/v82/forwarding/request"
 	"github.com/stripe/stripe-go/v82/fxquote"
-	giftcardscard "github.com/stripe/stripe-go/v82/giftcards/card"
-	giftcardstransaction "github.com/stripe/stripe-go/v82/giftcards/transaction"
 	identityverificationreport "github.com/stripe/stripe-go/v82/identity/verificationreport"
 	identityverificationsession "github.com/stripe/stripe-go/v82/identity/verificationsession"
 	"github.com/stripe/stripe-go/v82/invoice"
@@ -197,6 +195,7 @@ import (
 	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v82/v2/moneymanagement/receiveddebit"
 	v2moneymanagementtransaction "github.com/stripe/stripe-go/v82/v2/moneymanagement/transaction"
 	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v82/v2/moneymanagement/transactionentry"
+	v2paymentsoffsessionpayment "github.com/stripe/stripe-go/v82/v2/payments/offsessionpayment"
 	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v82/v2/testhelpers/financialaddress"
 	"github.com/stripe/stripe-go/v82/webhookendpoint"
 )
@@ -319,10 +318,6 @@ type API struct {
 	ForwardingRequests *forwardingrequest.Client
 	// FxQuotes is the client used to invoke /v1/fx_quotes APIs.
 	FxQuotes *fxquote.Client
-	// GiftCardsCards is the client used to invoke /v1/gift_cards/cards APIs.
-	GiftCardsCards *giftcardscard.Client
-	// GiftCardsTransactions is the client used to invoke /v1/gift_cards/transactions APIs.
-	GiftCardsTransactions *giftcardstransaction.Client
 	// IdentityVerificationReports is the client used to invoke /v1/identity/verification_reports APIs.
 	IdentityVerificationReports *identityverificationreport.Client
 	// IdentityVerificationSessions is the client used to invoke /v1/identity/verification_sessions APIs.
@@ -575,6 +570,8 @@ type API struct {
 	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
 	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
 	V2MoneyManagementTransactions *v2moneymanagementtransaction.Client
+	// V2PaymentsOffSessionPayments is the client used to invoke /v2/payments/off_session_payments APIs.
+	V2PaymentsOffSessionPayments *v2paymentsoffsessionpayment.Client
 	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
@@ -651,8 +648,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.FinancialConnectionsTransactions = &financialconnectionstransaction.Client{B: backends.API, Key: key}
 	a.ForwardingRequests = &forwardingrequest.Client{B: backends.API, Key: key}
 	a.FxQuotes = &fxquote.Client{B: backends.API, Key: key}
-	a.GiftCardsCards = &giftcardscard.Client{B: backends.API, Key: key}
-	a.GiftCardsTransactions = &giftcardstransaction.Client{B: backends.API, Key: key}
 	a.IdentityVerificationReports = &identityverificationreport.Client{B: backends.API, Key: key}
 	a.IdentityVerificationSessions = &identityverificationsession.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
@@ -779,6 +774,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
 	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
+	a.V2PaymentsOffSessionPayments = &v2paymentsoffsessionpayment.Client{B: backends.API, Key: key}
 	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }

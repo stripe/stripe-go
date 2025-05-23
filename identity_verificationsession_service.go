@@ -25,13 +25,13 @@ type v1IdentityVerificationSessionService struct {
 //
 // If your API key is in test mode, verification checks won't actually process, though everything else will occur as if in live mode.
 //
-// Related guide: [Verify your users' identity documents](https://stripe.com/docs/identity/verify-identity-documents)
+// Related guide: [Verify your users' identity documents](https://docs.stripe.com/docs/identity/verify-identity-documents)
 func (c v1IdentityVerificationSessionService) Create(ctx context.Context, params *IdentityVerificationSessionCreateParams) (*IdentityVerificationSession, error) {
-	verificationsession := &IdentityVerificationSession{}
 	if params == nil {
 		params = &IdentityVerificationSessionCreateParams{}
 	}
 	params.Context = ctx
+	verificationsession := &IdentityVerificationSession{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/identity/verification_sessions", c.Key, params, verificationsession)
 	return verificationsession, err
@@ -42,12 +42,12 @@ func (c v1IdentityVerificationSessionService) Create(ctx context.Context, params
 // When the session status is requires_input, you can use this method to retrieve a valid
 // client_secret or url to allow re-submission.
 func (c v1IdentityVerificationSessionService) Retrieve(ctx context.Context, id string, params *IdentityVerificationSessionRetrieveParams) (*IdentityVerificationSession, error) {
-	path := FormatURLPath("/v1/identity/verification_sessions/%s", id)
-	verificationsession := &IdentityVerificationSession{}
 	if params == nil {
 		params = &IdentityVerificationSessionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/identity/verification_sessions/%s", id)
+	verificationsession := &IdentityVerificationSession{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, verificationsession)
 	return verificationsession, err
 }
@@ -57,26 +57,26 @@ func (c v1IdentityVerificationSessionService) Retrieve(ctx context.Context, id s
 // When the session status is requires_input, you can use this method to update the
 // verification check and options.
 func (c v1IdentityVerificationSessionService) Update(ctx context.Context, id string, params *IdentityVerificationSessionUpdateParams) (*IdentityVerificationSession, error) {
-	path := FormatURLPath("/v1/identity/verification_sessions/%s", id)
-	verificationsession := &IdentityVerificationSession{}
 	if params == nil {
 		params = &IdentityVerificationSessionUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/identity/verification_sessions/%s", id)
+	verificationsession := &IdentityVerificationSession{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, verificationsession)
 	return verificationsession, err
 }
 
-// A VerificationSession object can be canceled when it is in requires_input [status](https://stripe.com/docs/identity/how-sessions-work).
+// A VerificationSession object can be canceled when it is in requires_input [status](https://docs.stripe.com/docs/identity/how-sessions-work).
 //
-// Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://stripe.com/docs/identity/verification-sessions#cancel).
+// Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://docs.stripe.com/docs/identity/verification-sessions#cancel).
 func (c v1IdentityVerificationSessionService) Cancel(ctx context.Context, id string, params *IdentityVerificationSessionCancelParams) (*IdentityVerificationSession, error) {
-	path := FormatURLPath("/v1/identity/verification_sessions/%s/cancel", id)
-	verificationsession := &IdentityVerificationSession{}
 	if params == nil {
 		params = &IdentityVerificationSessionCancelParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/identity/verification_sessions/%s/cancel", id)
+	verificationsession := &IdentityVerificationSession{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, verificationsession)
 	return verificationsession, err
 }
@@ -86,7 +86,7 @@ func (c v1IdentityVerificationSessionService) Cancel(ctx context.Context, id str
 // request logs, etc.
 //
 // A VerificationSession object can be redacted when it is in requires_input or verified
-// [status](https://stripe.com/docs/identity/how-sessions-work). Redacting a VerificationSession in requires_action
+// [status](https://docs.stripe.com/docs/identity/how-sessions-work). Redacting a VerificationSession in requires_action
 // state will automatically cancel it.
 //
 // The redaction process may take up to four days. When the redaction process is in progress, the
@@ -99,14 +99,14 @@ func (c v1IdentityVerificationSessionService) Cancel(ctx context.Context, id str
 // placeholder. The metadata field will also be erased. Redacted objects cannot be updated or
 // used for any purpose.
 //
-// [Learn more](https://stripe.com/docs/identity/verification-sessions#redact).
+// [Learn more](https://docs.stripe.com/docs/identity/verification-sessions#redact).
 func (c v1IdentityVerificationSessionService) Redact(ctx context.Context, id string, params *IdentityVerificationSessionRedactParams) (*IdentityVerificationSession, error) {
-	path := FormatURLPath("/v1/identity/verification_sessions/%s/redact", id)
-	verificationsession := &IdentityVerificationSession{}
 	if params == nil {
 		params = &IdentityVerificationSessionRedactParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/identity/verification_sessions/%s/redact", id)
+	verificationsession := &IdentityVerificationSession{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, verificationsession)
 	return verificationsession, err
 }

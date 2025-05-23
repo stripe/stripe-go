@@ -24,12 +24,12 @@ type Client struct {
 	Key string
 }
 
-// Creates an immutable transaction that updates the customer's credit [balance](https://stripe.com/docs/billing/customer/balance).
+// Creates an immutable transaction that updates the customer's credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
 func New(params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	return getC().New(params)
 }
 
-// Creates an immutable transaction that updates the customer's credit [balance](https://stripe.com/docs/billing/customer/balance).
+// Creates an immutable transaction that updates the customer's credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -48,12 +48,12 @@ func (c Client) New(params *stripe.CustomerBalanceTransactionParams) (*stripe.Cu
 	return customerbalancetransaction, err
 }
 
-// Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
+// Retrieves a specific customer balance transaction that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 func Get(id string, params *stripe.CustomerBalanceTransactionParams) (*stripe.CustomerBalanceTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
+// Retrieves a specific customer balance transaction that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -92,12 +92,12 @@ func (c Client) Update(id string, params *stripe.CustomerBalanceTransactionParam
 	return customerbalancetransaction, err
 }
 
-// Returns a list of transactions that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
+// Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 func List(params *stripe.CustomerBalanceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of transactions that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
+// Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

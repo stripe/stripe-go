@@ -19,11 +19,11 @@ type v2BillingMeterEventAdjustmentService struct {
 
 // Creates a meter event adjustment to cancel a previously sent meter event.
 func (c v2BillingMeterEventAdjustmentService) Create(ctx context.Context, params *V2BillingMeterEventAdjustmentCreateParams) (*V2BillingMeterEventAdjustment, error) {
-	metereventadjustment := &V2BillingMeterEventAdjustment{}
 	if params == nil {
 		params = &V2BillingMeterEventAdjustmentCreateParams{}
 	}
 	params.Context = ctx
+	metereventadjustment := &V2BillingMeterEventAdjustment{}
 	err := c.B.Call(
 		http.MethodPost, "/v2/billing/meter_event_adjustments", c.Key, params, metereventadjustment)
 	return metereventadjustment, err

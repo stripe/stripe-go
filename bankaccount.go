@@ -439,7 +439,7 @@ type BankAccountUpdateDocumentsParams struct {
 // a connected account and optionally sets it as the default for its currency. Other bank account
 // details are not editable by design.
 //
-// You can only update bank accounts when [account.controller.requirement_collection is application, which includes <a href="/connect/custom-accounts">Custom accounts](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection).
+// You can only update bank accounts when [account.controller.requirement_collection is application, which includes <a href="/connect/custom-accounts">Custom accounts](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection).
 //
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
@@ -570,14 +570,14 @@ type BankAccountRequirements struct {
 
 // These bank accounts are payment methods on `Customer` objects.
 //
-// On the other hand [External Accounts](https://stripe.com/api#external_accounts) are transfer
+// On the other hand [External Accounts](https://docs.stripe.com/api#external_accounts) are transfer
 // destinations on `Account` objects for connected accounts.
 // They can be bank accounts or debit cards as well, and are documented in the links above.
 //
-// Related guide: [Bank debits and transfers](https://stripe.com/payments/bank-debits-transfers)
+// Related guide: [Bank debits and transfers](https://docs.stripe.com/payments/bank-debits-transfers)
 type BankAccount struct {
 	APIResource
-	// The account this bank account belongs to. Only applicable on Accounts (not customers or recipients) This property is only available when returned as an [External Account](https://stripe.com/api/external_account_bank_accounts/object) where [controller.is_controller](https://stripe.com/api/accounts/object#account_object-controller-is_controller) is `true`.
+	// The account this bank account belongs to. Only applicable on Accounts (not customers or recipients) This property is only available when returned as an [External Account](https://docs.stripe.com/api/external_account_bank_accounts/object) where [controller.is_controller](https://docs.stripe.com/api/accounts/object#account_object-controller-is_controller) is `true`.
 	Account *Account `json:"account"`
 	// The name of the person or business that owns the bank account.
 	AccountHolderName string `json:"account_holder_name"`

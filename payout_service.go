@@ -19,41 +19,41 @@ type v1PayoutService struct {
 	Key string
 }
 
-// To send funds to your own bank account, create a new payout object. Your [Stripe balance](https://stripe.com/docs/api#balance) must cover the payout amount. If it doesn't, you receive an “Insufficient Funds” error.
+// To send funds to your own bank account, create a new payout object. Your [Stripe balance](https://docs.stripe.com/api#balance) must cover the payout amount. If it doesn't, you receive an “Insufficient Funds” error.
 //
 // If your API key is in test mode, money won't actually be sent, though every other action occurs as if you're in live mode.
 //
-// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://stripe.com/docs/api#balance_object) details available and pending amounts by source type.
+// If you create a manual payout on a Stripe account that uses multiple payment source types, you need to specify the source type balance that the payout draws from. The [balance object](https://docs.stripe.com/api#balance_object) details available and pending amounts by source type.
 func (c v1PayoutService) Create(ctx context.Context, params *PayoutCreateParams) (*Payout, error) {
-	payout := &Payout{}
 	if params == nil {
 		params = &PayoutCreateParams{}
 	}
 	params.Context = ctx
+	payout := &Payout{}
 	err := c.B.Call(http.MethodPost, "/v1/payouts", c.Key, params, payout)
 	return payout, err
 }
 
 // Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list. Stripe returns the corresponding payout information.
 func (c v1PayoutService) Retrieve(ctx context.Context, id string, params *PayoutRetrieveParams) (*Payout, error) {
-	path := FormatURLPath("/v1/payouts/%s", id)
-	payout := &Payout{}
 	if params == nil {
 		params = &PayoutRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payouts/%s", id)
+	payout := &Payout{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, payout)
 	return payout, err
 }
 
 // Updates the specified payout by setting the values of the parameters you pass. We don't change parameters that you don't provide. This request only accepts the metadata as arguments.
 func (c v1PayoutService) Update(ctx context.Context, id string, params *PayoutUpdateParams) (*Payout, error) {
-	path := FormatURLPath("/v1/payouts/%s", id)
-	payout := &Payout{}
 	if params == nil {
 		params = &PayoutUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payouts/%s", id)
+	payout := &Payout{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, payout)
 	return payout, err
 }
@@ -74,12 +74,12 @@ func (c v1PayoutService) Cancel(ctx context.Context, id string, params *PayoutCa
 //
 // By requesting a reversal through /v1/payouts/:id/reverse, you confirm that the authorized signatory of the selected bank account authorizes the debit on the bank account and that no other authorization is required.
 func (c v1PayoutService) Reverse(ctx context.Context, id string, params *PayoutReverseParams) (*Payout, error) {
-	path := FormatURLPath("/v1/payouts/%s/reverse", id)
-	payout := &Payout{}
 	if params == nil {
 		params = &PayoutReverseParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payouts/%s/reverse", id)
+	payout := &Payout{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, payout)
 	return payout, err
 }

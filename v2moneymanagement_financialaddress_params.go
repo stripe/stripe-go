@@ -37,7 +37,7 @@ type V2MoneyManagementFinancialAddressCreateParams struct {
 	FinancialAccount *string `form:"financial_account" json:"financial_account"`
 }
 
-// Retrieve a FinancialAddress. By default, the FinancialAddress will be returned in it's unexpanded state, revealing only the last 4 digits of the account number.
+// Retrieve a FinancialAddress. By default, the FinancialAddress will be returned in its unexpanded state, revealing only the last 4 digits of the account number.
 type V2MoneyManagementFinancialAddressRetrieveParams struct {
 	Params `form:"*"`
 	// Open Enum. A list of fields to reveal in the FinancialAddresses returned.

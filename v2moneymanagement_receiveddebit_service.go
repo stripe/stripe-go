@@ -19,12 +19,12 @@ type v2MoneyManagementReceivedDebitService struct {
 
 // Retrieves a single ReceivedDebit by ID.
 func (c v2MoneyManagementReceivedDebitService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementReceivedDebitRetrieveParams) (*V2MoneyManagementReceivedDebit, error) {
-	path := FormatURLPath("/v2/money_management/received_debits/%s", id)
-	receiveddebit := &V2MoneyManagementReceivedDebit{}
 	if params == nil {
 		params = &V2MoneyManagementReceivedDebitRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/received_debits/%s", id)
+	receiveddebit := &V2MoneyManagementReceivedDebit{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, receiveddebit)
 	return receiveddebit, err
 }

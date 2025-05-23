@@ -25,14 +25,14 @@ type Client struct {
 
 // Creates a login link for a connected account to access the Express Dashboard.
 //
-// You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
+// You can only create login links for accounts that use the [Express Dashboard](https://docs.stripe.com/connect/express-dashboard) and are connected to your platform.
 func New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 	return getC().New(params)
 }
 
 // Creates a login link for a connected account to access the Express Dashboard.
 //
-// You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
+// You can only create login links for accounts that use the [Express Dashboard](https://docs.stripe.com/connect/express-dashboard) and are connected to your platform.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

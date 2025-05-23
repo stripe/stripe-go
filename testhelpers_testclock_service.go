@@ -21,11 +21,11 @@ type v1TestHelpersTestClockService struct {
 
 // Creates a new test clock that can be attached to new customers and quotes.
 func (c v1TestHelpersTestClockService) Create(ctx context.Context, params *TestHelpersTestClockCreateParams) (*TestHelpersTestClock, error) {
-	testclock := &TestHelpersTestClock{}
 	if params == nil {
 		params = &TestHelpersTestClockCreateParams{}
 	}
 	params.Context = ctx
+	testclock := &TestHelpersTestClock{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/test_helpers/test_clocks", c.Key, params, testclock)
 	return testclock, err
@@ -33,36 +33,36 @@ func (c v1TestHelpersTestClockService) Create(ctx context.Context, params *TestH
 
 // Retrieves a test clock.
 func (c v1TestHelpersTestClockService) Retrieve(ctx context.Context, id string, params *TestHelpersTestClockRetrieveParams) (*TestHelpersTestClock, error) {
-	path := FormatURLPath("/v1/test_helpers/test_clocks/%s", id)
-	testclock := &TestHelpersTestClock{}
 	if params == nil {
 		params = &TestHelpersTestClockRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/test_helpers/test_clocks/%s", id)
+	testclock := &TestHelpersTestClock{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, testclock)
 	return testclock, err
 }
 
 // Deletes a test clock.
 func (c v1TestHelpersTestClockService) Delete(ctx context.Context, id string, params *TestHelpersTestClockDeleteParams) (*TestHelpersTestClock, error) {
-	path := FormatURLPath("/v1/test_helpers/test_clocks/%s", id)
-	testclock := &TestHelpersTestClock{}
 	if params == nil {
 		params = &TestHelpersTestClockDeleteParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/test_helpers/test_clocks/%s", id)
+	testclock := &TestHelpersTestClock{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, testclock)
 	return testclock, err
 }
 
 // Starts advancing a test clock to a specified time in the future. Advancement is done when status changes to Ready.
 func (c v1TestHelpersTestClockService) Advance(ctx context.Context, id string, params *TestHelpersTestClockAdvanceParams) (*TestHelpersTestClock, error) {
-	path := FormatURLPath("/v1/test_helpers/test_clocks/%s/advance", id)
-	testclock := &TestHelpersTestClock{}
 	if params == nil {
 		params = &TestHelpersTestClockAdvanceParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/test_helpers/test_clocks/%s/advance", id)
+	testclock := &TestHelpersTestClock{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, testclock)
 	return testclock, err
 }

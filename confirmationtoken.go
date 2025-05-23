@@ -731,7 +731,7 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFrom struct {
 
 // Contains information about card networks that can be used to process the payment.
 type ConfirmationTokenPaymentMethodPreviewCardNetworks struct {
-	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
+	// All networks available for selection via [payment_method_options.card.network](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
 	Preferred string `json:"preferred"`
@@ -823,7 +823,7 @@ type ConfirmationTokenPaymentMethodPreviewCard struct {
 
 // Contains information about card networks that can be used to process the payment.
 type ConfirmationTokenPaymentMethodPreviewCardPresentNetworks struct {
-	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
+	// All networks available for selection via [payment_method_options.card.network](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`
@@ -912,7 +912,7 @@ type ConfirmationTokenPaymentMethodPreviewIDEAL struct {
 
 // Contains information about card networks that can be used to process the payment.
 type ConfirmationTokenPaymentMethodPreviewInteracPresentNetworks struct {
-	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
+	// All networks available for selection via [payment_method_options.card.network](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`

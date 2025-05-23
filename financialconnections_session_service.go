@@ -19,11 +19,11 @@ type v1FinancialConnectionsSessionService struct {
 
 // To launch the Financial Connections authorization flow, create a Session. The session's client_secret can be used to launch the flow using Stripe.js.
 func (c v1FinancialConnectionsSessionService) Create(ctx context.Context, params *FinancialConnectionsSessionCreateParams) (*FinancialConnectionsSession, error) {
-	session := &FinancialConnectionsSession{}
 	if params == nil {
 		params = &FinancialConnectionsSessionCreateParams{}
 	}
 	params.Context = ctx
+	session := &FinancialConnectionsSession{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/financial_connections/sessions", c.Key, params, session)
 	return session, err
@@ -31,12 +31,12 @@ func (c v1FinancialConnectionsSessionService) Create(ctx context.Context, params
 
 // Retrieves the details of a Financial Connections Session
 func (c v1FinancialConnectionsSessionService) Retrieve(ctx context.Context, id string, params *FinancialConnectionsSessionRetrieveParams) (*FinancialConnectionsSession, error) {
-	path := FormatURLPath("/v1/financial_connections/sessions/%s", id)
-	session := &FinancialConnectionsSession{}
 	if params == nil {
 		params = &FinancialConnectionsSessionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/financial_connections/sessions/%s", id)
+	session := &FinancialConnectionsSession{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, session)
 	return session, err
 }

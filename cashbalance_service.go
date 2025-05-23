@@ -20,13 +20,13 @@ type v1CashBalanceService struct {
 
 // Retrieves a customer's cash balance.
 func (c v1CashBalanceService) Retrieve(ctx context.Context, params *CashBalanceRetrieveParams) (*CashBalance, error) {
-	path := FormatURLPath(
-		"/v1/customers/%s/cash_balance", StringValue(params.Customer))
-	cashbalance := &CashBalance{}
 	if params == nil {
 		params = &CashBalanceRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/customers/%s/cash_balance", StringValue(params.Customer))
+	cashbalance := &CashBalance{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, cashbalance)
 	return cashbalance, err
 }
@@ -37,13 +37,13 @@ func (c v1CashBalanceService) Update(ctx context.Context, params *CashBalanceUpd
 		return nil, fmt.Errorf(
 			"params cannot be nil, and params.Customer must be set")
 	}
-	path := FormatURLPath(
-		"/v1/customers/%s/cash_balance", StringValue(params.Customer))
-	cashbalance := &CashBalance{}
 	if params == nil {
 		params = &CashBalanceUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/customers/%s/cash_balance", StringValue(params.Customer))
+	cashbalance := &CashBalance{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, cashbalance)
 	return cashbalance, err
 }

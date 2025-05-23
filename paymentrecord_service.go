@@ -19,12 +19,12 @@ type v1PaymentRecordService struct {
 
 // Retrieves a Payment Record with the given ID
 func (c v1PaymentRecordService) Retrieve(ctx context.Context, id string, params *PaymentRecordRetrieveParams) (*PaymentRecord, error) {
-	path := FormatURLPath("/v1/payment_records/%s", id)
-	paymentrecord := &PaymentRecord{}
 	if params == nil {
 		params = &PaymentRecordRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_records/%s", id)
+	paymentrecord := &PaymentRecord{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
 }
@@ -34,11 +34,11 @@ func (c v1PaymentRecordService) Retrieve(ctx context.Context, id string, params 
 //	initialized and later report updates through the other report_* methods, or report Payment
 //	Records in a terminal state directly, through this method.
 func (c v1PaymentRecordService) ReportPayment(ctx context.Context, params *PaymentRecordReportPaymentParams) (*PaymentRecord, error) {
-	paymentrecord := &PaymentRecord{}
 	if params == nil {
 		params = &PaymentRecordReportPaymentParams{}
 	}
 	params.Context = ctx
+	paymentrecord := &PaymentRecord{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/payment_records/report_payment", c.Key, params, paymentrecord)
 	return paymentrecord, err
@@ -48,12 +48,12 @@ func (c v1PaymentRecordService) ReportPayment(ctx context.Context, params *Payme
 //
 //	attempt can only be specified if all other payment attempts are canceled or failed.
 func (c v1PaymentRecordService) ReportPaymentAttempt(ctx context.Context, id string, params *PaymentRecordReportPaymentAttemptParams) (*PaymentRecord, error) {
-	path := FormatURLPath("/v1/payment_records/%s/report_payment_attempt", id)
-	paymentrecord := &PaymentRecord{}
 	if params == nil {
 		params = &PaymentRecordReportPaymentAttemptParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/payment_records/%s/report_payment_attempt", id)
+	paymentrecord := &PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
 }
@@ -62,13 +62,13 @@ func (c v1PaymentRecordService) ReportPaymentAttempt(ctx context.Context, id str
 //
 //	was canceled.
 func (c v1PaymentRecordService) ReportPaymentAttemptCanceled(ctx context.Context, id string, params *PaymentRecordReportPaymentAttemptCanceledParams) (*PaymentRecord, error) {
-	path := FormatURLPath(
-		"/v1/payment_records/%s/report_payment_attempt_canceled", id)
-	paymentrecord := &PaymentRecord{}
 	if params == nil {
 		params = &PaymentRecordReportPaymentAttemptCanceledParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/payment_records/%s/report_payment_attempt_canceled", id)
+	paymentrecord := &PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
 }
@@ -77,13 +77,13 @@ func (c v1PaymentRecordService) ReportPaymentAttemptCanceled(ctx context.Context
 //
 //	failed or errored.
 func (c v1PaymentRecordService) ReportPaymentAttemptFailed(ctx context.Context, id string, params *PaymentRecordReportPaymentAttemptFailedParams) (*PaymentRecord, error) {
-	path := FormatURLPath(
-		"/v1/payment_records/%s/report_payment_attempt_failed", id)
-	paymentrecord := &PaymentRecord{}
 	if params == nil {
 		params = &PaymentRecordReportPaymentAttemptFailedParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/payment_records/%s/report_payment_attempt_failed", id)
+	paymentrecord := &PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
 }
@@ -92,13 +92,13 @@ func (c v1PaymentRecordService) ReportPaymentAttemptFailed(ctx context.Context, 
 //
 //	was guaranteed.
 func (c v1PaymentRecordService) ReportPaymentAttemptGuaranteed(ctx context.Context, id string, params *PaymentRecordReportPaymentAttemptGuaranteedParams) (*PaymentRecord, error) {
-	path := FormatURLPath(
-		"/v1/payment_records/%s/report_payment_attempt_guaranteed", id)
-	paymentrecord := &PaymentRecord{}
 	if params == nil {
 		params = &PaymentRecordReportPaymentAttemptGuaranteedParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/payment_records/%s/report_payment_attempt_guaranteed", id)
+	paymentrecord := &PaymentRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentrecord)
 	return paymentrecord, err
 }

@@ -21,35 +21,35 @@ type v1MarginService struct {
 
 // Create a margin object to be used with invoices, invoice items, and invoice line items for a customer to represent a partner discount. A margin has a percent_off which is the percent that will be taken off the subtotal after all items and other discounts and promotions) of any invoices for a customer. Calculation of prorations do not include any partner margins applied on the original invoice item.
 func (c v1MarginService) Create(ctx context.Context, params *MarginCreateParams) (*Margin, error) {
-	margin := &Margin{}
 	if params == nil {
 		params = &MarginCreateParams{}
 	}
 	params.Context = ctx
+	margin := &Margin{}
 	err := c.B.Call(http.MethodPost, "/v1/billing/margins", c.Key, params, margin)
 	return margin, err
 }
 
 // Retrieve a margin object with the given ID.
 func (c v1MarginService) Retrieve(ctx context.Context, id string, params *MarginRetrieveParams) (*Margin, error) {
-	path := FormatURLPath("/v1/billing/margins/%s", id)
-	margin := &Margin{}
 	if params == nil {
 		params = &MarginRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/billing/margins/%s", id)
+	margin := &Margin{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, margin)
 	return margin, err
 }
 
 // Update the specified margin object. Certain fields of the margin object are not editable.
 func (c v1MarginService) Update(ctx context.Context, id string, params *MarginUpdateParams) (*Margin, error) {
-	path := FormatURLPath("/v1/billing/margins/%s", id)
-	margin := &Margin{}
 	if params == nil {
 		params = &MarginUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/billing/margins/%s", id)
+	margin := &Margin{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, margin)
 	return margin, err
 }

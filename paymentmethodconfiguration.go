@@ -501,6 +501,25 @@ const (
 )
 
 // The account's display preference.
+type PaymentMethodConfigurationKakaoPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationKakaoPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationKakaoPayDisplayPreferencePreferenceNone PaymentMethodConfigurationKakaoPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationKakaoPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationKakaoPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationKakaoPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationKakaoPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationKakaoPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationKakaoPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationKakaoPayDisplayPreferenceValueOff PaymentMethodConfigurationKakaoPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationKakaoPayDisplayPreferenceValueOn  PaymentMethodConfigurationKakaoPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
 type PaymentMethodConfigurationKlarnaDisplayPreferencePreference string
 
 // List of values that PaymentMethodConfigurationKlarnaDisplayPreferencePreference can take
@@ -536,6 +555,25 @@ type PaymentMethodConfigurationKonbiniDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationKonbiniDisplayPreferenceValueOff PaymentMethodConfigurationKonbiniDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationKonbiniDisplayPreferenceValueOn  PaymentMethodConfigurationKonbiniDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationKrCardDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationKrCardDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationKrCardDisplayPreferencePreferenceNone PaymentMethodConfigurationKrCardDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationKrCardDisplayPreferencePreferenceOff  PaymentMethodConfigurationKrCardDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationKrCardDisplayPreferencePreferenceOn   PaymentMethodConfigurationKrCardDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationKrCardDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationKrCardDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationKrCardDisplayPreferenceValueOff PaymentMethodConfigurationKrCardDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationKrCardDisplayPreferenceValueOn  PaymentMethodConfigurationKrCardDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -593,6 +631,25 @@ type PaymentMethodConfigurationMultibancoDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationMultibancoDisplayPreferenceValueOff PaymentMethodConfigurationMultibancoDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationMultibancoDisplayPreferenceValueOn  PaymentMethodConfigurationMultibancoDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationNaverPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationNaverPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationNaverPayDisplayPreferencePreferenceNone PaymentMethodConfigurationNaverPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationNaverPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationNaverPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationNaverPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationNaverPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationNaverPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationNaverPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationNaverPayDisplayPreferenceValueOff PaymentMethodConfigurationNaverPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationNaverPayDisplayPreferenceValueOn  PaymentMethodConfigurationNaverPayDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -669,6 +726,25 @@ type PaymentMethodConfigurationPayByBankDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOff PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationPayByBankDisplayPreferenceValueOn  PaymentMethodConfigurationPayByBankDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationPaycoDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationPaycoDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationPaycoDisplayPreferencePreferenceNone PaymentMethodConfigurationPaycoDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationPaycoDisplayPreferencePreferenceOff  PaymentMethodConfigurationPaycoDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationPaycoDisplayPreferencePreferenceOn   PaymentMethodConfigurationPaycoDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationPaycoDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationPaycoDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationPaycoDisplayPreferenceValueOff PaymentMethodConfigurationPaycoDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationPaycoDisplayPreferenceValueOn  PaymentMethodConfigurationPaycoDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -802,6 +878,25 @@ type PaymentMethodConfigurationRevolutPayDisplayPreferenceValue string
 const (
 	PaymentMethodConfigurationRevolutPayDisplayPreferenceValueOff PaymentMethodConfigurationRevolutPayDisplayPreferenceValue = "off"
 	PaymentMethodConfigurationRevolutPayDisplayPreferenceValueOn  PaymentMethodConfigurationRevolutPayDisplayPreferenceValue = "on"
+)
+
+// The account's display preference.
+type PaymentMethodConfigurationSamsungPayDisplayPreferencePreference string
+
+// List of values that PaymentMethodConfigurationSamsungPayDisplayPreferencePreference can take
+const (
+	PaymentMethodConfigurationSamsungPayDisplayPreferencePreferenceNone PaymentMethodConfigurationSamsungPayDisplayPreferencePreference = "none"
+	PaymentMethodConfigurationSamsungPayDisplayPreferencePreferenceOff  PaymentMethodConfigurationSamsungPayDisplayPreferencePreference = "off"
+	PaymentMethodConfigurationSamsungPayDisplayPreferencePreferenceOn   PaymentMethodConfigurationSamsungPayDisplayPreferencePreference = "on"
+)
+
+// The effective display preference value.
+type PaymentMethodConfigurationSamsungPayDisplayPreferenceValue string
+
+// List of values that PaymentMethodConfigurationSamsungPayDisplayPreferenceValue can take
+const (
+	PaymentMethodConfigurationSamsungPayDisplayPreferenceValueOff PaymentMethodConfigurationSamsungPayDisplayPreferenceValue = "off"
+	PaymentMethodConfigurationSamsungPayDisplayPreferenceValueOn  PaymentMethodConfigurationSamsungPayDisplayPreferenceValue = "on"
 )
 
 // The account's display preference.
@@ -1127,7 +1222,7 @@ type PaymentMethodConfigurationBillieDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationBillieParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationBillieDisplayPreferenceParams `form:"display_preference"`
@@ -1314,6 +1409,18 @@ type PaymentMethodConfigurationJCBParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationKakaoPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Kakao Pay is a popular local wallet available in South Korea.
+type PaymentMethodConfigurationKakaoPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationKakaoPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationKlarnaDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -1335,6 +1442,18 @@ type PaymentMethodConfigurationKonbiniDisplayPreferenceParams struct {
 type PaymentMethodConfigurationKonbiniParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationKonbiniDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationKrCardDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Korean cards let users pay using locally issued cards from South Korea.
+type PaymentMethodConfigurationKrCardParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationKrCardDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1371,6 +1490,18 @@ type PaymentMethodConfigurationMultibancoDisplayPreferenceParams struct {
 type PaymentMethodConfigurationMultibancoParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationNaverPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Naver Pay is a popular local wallet available in South Korea.
+type PaymentMethodConfigurationNaverPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationNaverPayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1419,6 +1550,18 @@ type PaymentMethodConfigurationPayByBankDisplayPreferenceParams struct {
 type PaymentMethodConfigurationPayByBankParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationPaycoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+type PaymentMethodConfigurationPaycoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationPaycoDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -1506,12 +1649,24 @@ type PaymentMethodConfigurationRevolutPayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationSamsungPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+type PaymentMethodConfigurationSamsungPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationSamsungPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationSatispayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
 }
 
-// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationSatispayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationSatispayDisplayPreferenceParams `form:"display_preference"`
@@ -1640,7 +1795,7 @@ type PaymentMethodConfigurationParams struct {
 	BACSDebit *PaymentMethodConfigurationBACSDebitParams `form:"bacs_debit"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://stripe.com/docs/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://stripe.com/docs/payments/bancontact) for more details.
 	Bancontact *PaymentMethodConfigurationBancontactParams `form:"bancontact"`
-	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Billie *PaymentMethodConfigurationBillieParams `form:"billie"`
 	// BLIK is a [single use](https://stripe.com/docs/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://stripe.com/docs/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationBLIKParams `form:"blik"`
@@ -1674,10 +1829,14 @@ type PaymentMethodConfigurationParams struct {
 	IDEAL *PaymentMethodConfigurationIDEALParams `form:"ideal"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
 	JCB *PaymentMethodConfigurationJCBParams `form:"jcb"`
+	// Kakao Pay is a popular local wallet available in South Korea.
+	KakaoPay *PaymentMethodConfigurationKakaoPayParams `form:"kakao_pay"`
 	// Klarna gives customers a range of [payment options](https://stripe.com/docs/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://stripe.com/docs/payments/klarna) for more details.
 	Klarna *PaymentMethodConfigurationKlarnaParams `form:"klarna"`
 	// Konbini allows customers in Japan to pay for bills and online purchases at convenience stores with cash. Check this [page](https://stripe.com/docs/payments/konbini) for more details.
 	Konbini *PaymentMethodConfigurationKonbiniParams `form:"konbini"`
+	// Korean cards let users pay using locally issued cards from South Korea.
+	KrCard *PaymentMethodConfigurationKrCardParams `form:"kr_card"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationLinkParams `form:"link"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
@@ -1686,6 +1845,8 @@ type PaymentMethodConfigurationParams struct {
 	Multibanco *PaymentMethodConfigurationMultibancoParams `form:"multibanco"`
 	// Configuration name.
 	Name *string `form:"name"`
+	// Naver Pay is a popular local wallet available in South Korea.
+	NaverPay *PaymentMethodConfigurationNaverPayParams `form:"naver_pay"`
 	// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://stripe.com/docs/payments/nz-bank-account) for more details.
 	NzBankAccount *PaymentMethodConfigurationNzBankAccountParams `form:"nz_bank_account"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://stripe.com/docs/payments/oxxo) for more details.
@@ -1696,6 +1857,8 @@ type PaymentMethodConfigurationParams struct {
 	Parent *string `form:"parent"`
 	// Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
 	PayByBank *PaymentMethodConfigurationPayByBankParams `form:"pay_by_bank"`
+	// PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+	Payco *PaymentMethodConfigurationPaycoParams `form:"payco"`
 	// PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://stripe.com/docs/payments/paynow) for more details.
 	PayNow *PaymentMethodConfigurationPayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
@@ -1710,7 +1873,9 @@ type PaymentMethodConfigurationParams struct {
 	Qris *PaymentMethodConfigurationQrisParams `form:"qris"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationRevolutPayParams `form:"revolut_pay"`
-	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+	SamsungPay *PaymentMethodConfigurationSamsungPayParams `form:"samsung_pay"`
+	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationSatispayParams `form:"satispay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationSEPADebitParams `form:"sepa_debit"`
@@ -1873,7 +2038,7 @@ type PaymentMethodConfigurationCreateBillieDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationCreateBillieParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateBillieDisplayPreferenceParams `form:"display_preference"`
@@ -2060,6 +2225,18 @@ type PaymentMethodConfigurationCreateJCBParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateKakaoPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Kakao Pay is a popular local wallet available in South Korea.
+type PaymentMethodConfigurationCreateKakaoPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateKakaoPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateKlarnaDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2081,6 +2258,18 @@ type PaymentMethodConfigurationCreateKonbiniDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateKonbiniParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateKonbiniDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateKrCardDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Korean cards let users pay using locally issued cards from South Korea.
+type PaymentMethodConfigurationCreateKrCardParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateKrCardDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2117,6 +2306,18 @@ type PaymentMethodConfigurationCreateMultibancoDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreateMultibancoParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateMultibancoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateNaverPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Naver Pay is a popular local wallet available in South Korea.
+type PaymentMethodConfigurationCreateNaverPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateNaverPayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2165,6 +2366,18 @@ type PaymentMethodConfigurationCreatePayByBankDisplayPreferenceParams struct {
 type PaymentMethodConfigurationCreatePayByBankParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreatePayByBankDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreatePaycoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+type PaymentMethodConfigurationCreatePaycoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreatePaycoDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2252,12 +2465,24 @@ type PaymentMethodConfigurationCreateRevolutPayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationCreateSamsungPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+type PaymentMethodConfigurationCreateSamsungPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationCreateSamsungPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationCreateSatispayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
 }
 
-// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationCreateSatispayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationCreateSatispayDisplayPreferenceParams `form:"display_preference"`
@@ -2384,7 +2609,7 @@ type PaymentMethodConfigurationCreateParams struct {
 	BACSDebit *PaymentMethodConfigurationCreateBACSDebitParams `form:"bacs_debit"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://stripe.com/docs/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://stripe.com/docs/payments/bancontact) for more details.
 	Bancontact *PaymentMethodConfigurationCreateBancontactParams `form:"bancontact"`
-	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Billie *PaymentMethodConfigurationCreateBillieParams `form:"billie"`
 	// BLIK is a [single use](https://stripe.com/docs/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://stripe.com/docs/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationCreateBLIKParams `form:"blik"`
@@ -2418,10 +2643,14 @@ type PaymentMethodConfigurationCreateParams struct {
 	IDEAL *PaymentMethodConfigurationCreateIDEALParams `form:"ideal"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
 	JCB *PaymentMethodConfigurationCreateJCBParams `form:"jcb"`
+	// Kakao Pay is a popular local wallet available in South Korea.
+	KakaoPay *PaymentMethodConfigurationCreateKakaoPayParams `form:"kakao_pay"`
 	// Klarna gives customers a range of [payment options](https://stripe.com/docs/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://stripe.com/docs/payments/klarna) for more details.
 	Klarna *PaymentMethodConfigurationCreateKlarnaParams `form:"klarna"`
 	// Konbini allows customers in Japan to pay for bills and online purchases at convenience stores with cash. Check this [page](https://stripe.com/docs/payments/konbini) for more details.
 	Konbini *PaymentMethodConfigurationCreateKonbiniParams `form:"konbini"`
+	// Korean cards let users pay using locally issued cards from South Korea.
+	KrCard *PaymentMethodConfigurationCreateKrCardParams `form:"kr_card"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationCreateLinkParams `form:"link"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
@@ -2430,6 +2659,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Multibanco *PaymentMethodConfigurationCreateMultibancoParams `form:"multibanco"`
 	// Configuration name.
 	Name *string `form:"name"`
+	// Naver Pay is a popular local wallet available in South Korea.
+	NaverPay *PaymentMethodConfigurationCreateNaverPayParams `form:"naver_pay"`
 	// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://stripe.com/docs/payments/nz-bank-account) for more details.
 	NzBankAccount *PaymentMethodConfigurationCreateNzBankAccountParams `form:"nz_bank_account"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://stripe.com/docs/payments/oxxo) for more details.
@@ -2440,6 +2671,8 @@ type PaymentMethodConfigurationCreateParams struct {
 	Parent *string `form:"parent"`
 	// Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
 	PayByBank *PaymentMethodConfigurationCreatePayByBankParams `form:"pay_by_bank"`
+	// PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+	Payco *PaymentMethodConfigurationCreatePaycoParams `form:"payco"`
 	// PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://stripe.com/docs/payments/paynow) for more details.
 	PayNow *PaymentMethodConfigurationCreatePayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
@@ -2454,7 +2687,9 @@ type PaymentMethodConfigurationCreateParams struct {
 	Qris *PaymentMethodConfigurationCreateQrisParams `form:"qris"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationCreateRevolutPayParams `form:"revolut_pay"`
-	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+	SamsungPay *PaymentMethodConfigurationCreateSamsungPayParams `form:"samsung_pay"`
+	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationCreateSatispayParams `form:"satispay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationCreateSEPADebitParams `form:"sepa_debit"`
@@ -2629,7 +2864,7 @@ type PaymentMethodConfigurationUpdateBillieDisplayPreferenceParams struct {
 	Preference *string `form:"preference"`
 }
 
-// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationUpdateBillieParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateBillieDisplayPreferenceParams `form:"display_preference"`
@@ -2816,6 +3051,18 @@ type PaymentMethodConfigurationUpdateJCBParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateKakaoPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Kakao Pay is a popular local wallet available in South Korea.
+type PaymentMethodConfigurationUpdateKakaoPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateKakaoPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateKlarnaDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
@@ -2837,6 +3084,18 @@ type PaymentMethodConfigurationUpdateKonbiniDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateKonbiniParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateKonbiniDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateKrCardDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Korean cards let users pay using locally issued cards from South Korea.
+type PaymentMethodConfigurationUpdateKrCardParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateKrCardDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2873,6 +3132,18 @@ type PaymentMethodConfigurationUpdateMultibancoDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdateMultibancoParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateMultibancoDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateNaverPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Naver Pay is a popular local wallet available in South Korea.
+type PaymentMethodConfigurationUpdateNaverPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateNaverPayDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -2921,6 +3192,18 @@ type PaymentMethodConfigurationUpdatePayByBankDisplayPreferenceParams struct {
 type PaymentMethodConfigurationUpdatePayByBankParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdatePayByBankDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdatePaycoDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+type PaymentMethodConfigurationUpdatePaycoParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdatePaycoDisplayPreferenceParams `form:"display_preference"`
 }
 
 // Whether or not the payment method should be displayed.
@@ -3008,12 +3291,24 @@ type PaymentMethodConfigurationUpdateRevolutPayParams struct {
 }
 
 // Whether or not the payment method should be displayed.
+type PaymentMethodConfigurationUpdateSamsungPayDisplayPreferenceParams struct {
+	// The account's preference for whether or not to display this payment method.
+	Preference *string `form:"preference"`
+}
+
+// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+type PaymentMethodConfigurationUpdateSamsungPayParams struct {
+	// Whether or not the payment method should be displayed.
+	DisplayPreference *PaymentMethodConfigurationUpdateSamsungPayDisplayPreferenceParams `form:"display_preference"`
+}
+
+// Whether or not the payment method should be displayed.
 type PaymentMethodConfigurationUpdateSatispayDisplayPreferenceParams struct {
 	// The account's preference for whether or not to display this payment method.
 	Preference *string `form:"preference"`
 }
 
-// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 type PaymentMethodConfigurationUpdateSatispayParams struct {
 	// Whether or not the payment method should be displayed.
 	DisplayPreference *PaymentMethodConfigurationUpdateSatispayDisplayPreferenceParams `form:"display_preference"`
@@ -3142,7 +3437,7 @@ type PaymentMethodConfigurationUpdateParams struct {
 	BACSDebit *PaymentMethodConfigurationUpdateBACSDebitParams `form:"bacs_debit"`
 	// Bancontact is the most popular online payment method in Belgium, with over 15 million cards in circulation. [Customers](https://stripe.com/docs/api/customers) use a Bancontact card or mobile app linked to a Belgian bank account to make online payments that are secure, guaranteed, and confirmed immediately. Check this [page](https://stripe.com/docs/payments/bancontact) for more details.
 	Bancontact *PaymentMethodConfigurationUpdateBancontactParams `form:"bancontact"`
-	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Billie is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method that offers businesses Pay by Invoice where they offer payment terms ranging from 7-120 days. Customers are redirected from your website or app, authorize the payment with Billie, then return to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Billie *PaymentMethodConfigurationUpdateBillieParams `form:"billie"`
 	// BLIK is a [single use](https://stripe.com/docs/payments/payment-methods#usage) payment method that requires customers to authenticate their payments. When customers want to pay online using BLIK, they request a six-digit code from their banking application and enter it into the payment collection form. Check this [page](https://stripe.com/docs/payments/blik) for more details.
 	BLIK *PaymentMethodConfigurationUpdateBLIKParams `form:"blik"`
@@ -3176,10 +3471,14 @@ type PaymentMethodConfigurationUpdateParams struct {
 	IDEAL *PaymentMethodConfigurationUpdateIDEALParams `form:"ideal"`
 	// JCB is a credit card company based in Japan. JCB is currently available in Japan to businesses approved by JCB, and available to all businesses in Australia, Canada, Hong Kong, Japan, New Zealand, Singapore, Switzerland, United Kingdom, United States, and all countries in the European Economic Area except Iceland. Check this [page](https://support.stripe.com/questions/accepting-japan-credit-bureau-%28jcb%29-payments) for more details.
 	JCB *PaymentMethodConfigurationUpdateJCBParams `form:"jcb"`
+	// Kakao Pay is a popular local wallet available in South Korea.
+	KakaoPay *PaymentMethodConfigurationUpdateKakaoPayParams `form:"kakao_pay"`
 	// Klarna gives customers a range of [payment options](https://stripe.com/docs/payments/klarna#payment-options) during checkout. Available payment options vary depending on the customer's billing address and the transaction amount. These payment options make it convenient for customers to purchase items in all price ranges. Check this [page](https://stripe.com/docs/payments/klarna) for more details.
 	Klarna *PaymentMethodConfigurationUpdateKlarnaParams `form:"klarna"`
 	// Konbini allows customers in Japan to pay for bills and online purchases at convenience stores with cash. Check this [page](https://stripe.com/docs/payments/konbini) for more details.
 	Konbini *PaymentMethodConfigurationUpdateKonbiniParams `form:"konbini"`
+	// Korean cards let users pay using locally issued cards from South Korea.
+	KrCard *PaymentMethodConfigurationUpdateKrCardParams `form:"kr_card"`
 	// [Link](https://stripe.com/docs/payments/link) is a payment method network. With Link, users save their payment details once, then reuse that information to pay with one click for any business on the network.
 	Link *PaymentMethodConfigurationUpdateLinkParams `form:"link"`
 	// MobilePay is a [single-use](https://stripe.com/docs/payments/payment-methods#usage) card wallet payment method used in Denmark and Finland. It allows customers to [authenticate and approve](https://stripe.com/docs/payments/payment-methods#customer-actions) payments using the MobilePay app. Check this [page](https://stripe.com/docs/payments/mobilepay) for more details.
@@ -3188,6 +3487,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Multibanco *PaymentMethodConfigurationUpdateMultibancoParams `form:"multibanco"`
 	// Configuration name.
 	Name *string `form:"name"`
+	// Naver Pay is a popular local wallet available in South Korea.
+	NaverPay *PaymentMethodConfigurationUpdateNaverPayParams `form:"naver_pay"`
 	// Stripe users in New Zealand can accept Bulk Electronic Clearing System (BECS) direct debit payments from customers with a New Zeland bank account. Check this [page](https://stripe.com/docs/payments/nz-bank-account) for more details.
 	NzBankAccount *PaymentMethodConfigurationUpdateNzBankAccountParams `form:"nz_bank_account"`
 	// OXXO is a Mexican chain of convenience stores with thousands of locations across Latin America and represents nearly 20% of online transactions in Mexico. OXXO allows customers to pay bills and online purchases in-store with cash. Check this [page](https://stripe.com/docs/payments/oxxo) for more details.
@@ -3196,6 +3497,8 @@ type PaymentMethodConfigurationUpdateParams struct {
 	P24 *PaymentMethodConfigurationUpdateP24Params `form:"p24"`
 	// Pay by bank is a redirect payment method backed by bank transfers. A customer is redirected to their bank to authorize a bank transfer for a given amount. This removes a lot of the error risks inherent in waiting for the customer to initiate a transfer themselves, and is less expensive than card payments.
 	PayByBank *PaymentMethodConfigurationUpdatePayByBankParams `form:"pay_by_bank"`
+	// PAYCO is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+	Payco *PaymentMethodConfigurationUpdatePaycoParams `form:"payco"`
 	// PayNow is a Singapore-based payment method that allows customers to make a payment using their preferred app from participating banks and participating non-bank financial institutions. Check this [page](https://stripe.com/docs/payments/paynow) for more details.
 	PayNow *PaymentMethodConfigurationUpdatePayNowParams `form:"paynow"`
 	// PayPal, a digital wallet popular with customers in Europe, allows your customers worldwide to pay using their PayPal account. Check this [page](https://stripe.com/docs/payments/paypal) for more details.
@@ -3210,7 +3513,9 @@ type PaymentMethodConfigurationUpdateParams struct {
 	Qris *PaymentMethodConfigurationUpdateQrisParams `form:"qris"`
 	// Revolut Pay, developed by Revolut, a global finance app, is a digital wallet payment method. Revolut Pay uses the customer's stored balance or cards to fund the payment, and offers the option for non-Revolut customers to save their details after their first purchase.
 	RevolutPay *PaymentMethodConfigurationUpdateRevolutPayParams `form:"revolut_pay"`
-	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
+	// Samsung Pay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage local wallet available in South Korea.
+	SamsungPay *PaymentMethodConfigurationUpdateSamsungPayParams `form:"samsung_pay"`
+	// Satispay is a [single-use](https://docs.stripe.com/payments/payment-methods#usage) payment method where customers are required to [authenticate](https://docs.stripe.com/payments/payment-methods#customer-actions) their payment. Customers pay by being redirected from your website or app, authorizing the payment with Satispay, then returning to your website or app. You get [immediate notification](https://docs.stripe.com/payments/payment-methods#payment-notification) of whether the payment succeeded or failed.
 	Satispay *PaymentMethodConfigurationUpdateSatispayParams `form:"satispay"`
 	// The [Single Euro Payments Area (SEPA)](https://en.wikipedia.org/wiki/Single_Euro_Payments_Area) is an initiative of the European Union to simplify payments within and across member countries. SEPA established and enforced banking standards to allow for the direct debiting of every EUR-denominated bank account within the SEPA region, check this [page](https://stripe.com/docs/payments/sepa-debit) for more details.
 	SEPADebit *PaymentMethodConfigurationUpdateSEPADebitParams `form:"sepa_debit"`
@@ -3573,6 +3878,19 @@ type PaymentMethodConfigurationJCB struct {
 	Available         bool                                            `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationJCBDisplayPreference `json:"display_preference"`
 }
+type PaymentMethodConfigurationKakaoPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationKakaoPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationKakaoPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationKakaoPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                 `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationKakaoPayDisplayPreference `json:"display_preference"`
+}
 type PaymentMethodConfigurationKlarnaDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
 	Overridable bool `json:"overridable"`
@@ -3598,6 +3916,19 @@ type PaymentMethodConfigurationKonbini struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationKonbiniDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationKrCardDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationKrCardDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationKrCardDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationKrCard struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                               `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationKrCardDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationLinkDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -3637,6 +3968,19 @@ type PaymentMethodConfigurationMultibanco struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                   `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationMultibancoDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationNaverPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationNaverPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationNaverPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationNaverPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                 `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationNaverPayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationNzBankAccountDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -3689,6 +4033,19 @@ type PaymentMethodConfigurationPayByBank struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                  `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationPayByBankDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationPaycoDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationPaycoDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationPaycoDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationPayco struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                              `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationPaycoDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationPayNowDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -3780,6 +4137,19 @@ type PaymentMethodConfigurationRevolutPay struct {
 	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
 	Available         bool                                                   `json:"available"`
 	DisplayPreference *PaymentMethodConfigurationRevolutPayDisplayPreference `json:"display_preference"`
+}
+type PaymentMethodConfigurationSamsungPayDisplayPreference struct {
+	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
+	Overridable bool `json:"overridable"`
+	// The account's display preference.
+	Preference PaymentMethodConfigurationSamsungPayDisplayPreferencePreference `json:"preference"`
+	// The effective display preference value.
+	Value PaymentMethodConfigurationSamsungPayDisplayPreferenceValue `json:"value"`
+}
+type PaymentMethodConfigurationSamsungPay struct {
+	// Whether this payment method may be offered at checkout. True if `display_preference` is `on` and the payment method's capability is active.
+	Available         bool                                                   `json:"available"`
+	DisplayPreference *PaymentMethodConfigurationSamsungPayDisplayPreference `json:"display_preference"`
 }
 type PaymentMethodConfigurationSatispayDisplayPreference struct {
 	// For child configs, whether or not the account's preference will be observed. If `false`, the parent configuration's default is used.
@@ -3947,17 +4317,20 @@ type PaymentMethodConfiguration struct {
 	IDBankTransfer *PaymentMethodConfigurationIDBankTransfer `json:"id_bank_transfer"`
 	IDEAL          *PaymentMethodConfigurationIDEAL          `json:"ideal"`
 	// The default configuration is used whenever a payment method configuration is not specified.
-	IsDefault bool                               `json:"is_default"`
-	JCB       *PaymentMethodConfigurationJCB     `json:"jcb"`
-	Klarna    *PaymentMethodConfigurationKlarna  `json:"klarna"`
-	Konbini   *PaymentMethodConfigurationKonbini `json:"konbini"`
-	Link      *PaymentMethodConfigurationLink    `json:"link"`
+	IsDefault bool                                `json:"is_default"`
+	JCB       *PaymentMethodConfigurationJCB      `json:"jcb"`
+	KakaoPay  *PaymentMethodConfigurationKakaoPay `json:"kakao_pay"`
+	Klarna    *PaymentMethodConfigurationKlarna   `json:"klarna"`
+	Konbini   *PaymentMethodConfigurationKonbini  `json:"konbini"`
+	KrCard    *PaymentMethodConfigurationKrCard   `json:"kr_card"`
+	Link      *PaymentMethodConfigurationLink     `json:"link"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode   bool                                  `json:"livemode"`
 	Mobilepay  *PaymentMethodConfigurationMobilepay  `json:"mobilepay"`
 	Multibanco *PaymentMethodConfigurationMultibanco `json:"multibanco"`
 	// The configuration's name.
 	Name          string                                   `json:"name"`
+	NaverPay      *PaymentMethodConfigurationNaverPay      `json:"naver_pay"`
 	NzBankAccount *PaymentMethodConfigurationNzBankAccount `json:"nz_bank_account"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string                          `json:"object"`
@@ -3966,6 +4339,7 @@ type PaymentMethodConfiguration struct {
 	// For child configs, the configuration's parent configuration.
 	Parent        string                                   `json:"parent"`
 	PayByBank     *PaymentMethodConfigurationPayByBank     `json:"pay_by_bank"`
+	Payco         *PaymentMethodConfigurationPayco         `json:"payco"`
 	PayNow        *PaymentMethodConfigurationPayNow        `json:"paynow"`
 	Paypal        *PaymentMethodConfigurationPaypal        `json:"paypal"`
 	Payto         *PaymentMethodConfigurationPayto         `json:"payto"`
@@ -3973,6 +4347,7 @@ type PaymentMethodConfiguration struct {
 	PromptPay     *PaymentMethodConfigurationPromptPay     `json:"promptpay"`
 	Qris          *PaymentMethodConfigurationQris          `json:"qris"`
 	RevolutPay    *PaymentMethodConfigurationRevolutPay    `json:"revolut_pay"`
+	SamsungPay    *PaymentMethodConfigurationSamsungPay    `json:"samsung_pay"`
 	Satispay      *PaymentMethodConfigurationSatispay      `json:"satispay"`
 	SEPADebit     *PaymentMethodConfigurationSEPADebit     `json:"sepa_debit"`
 	Shopeepay     *PaymentMethodConfigurationShopeepay     `json:"shopeepay"`

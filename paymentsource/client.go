@@ -28,7 +28,7 @@ type Client struct {
 //
 // If the card's owner has no default card, then the new card will become the default.
 // However, if the owner already has a default, then it will not change.
-// To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new default_source.
+// To change the default, you should [update the customer](https://docs.stripe.com/docs/api#update_customer) to have a new default_source.
 func New(params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 	return getC().New(params)
 }
@@ -37,7 +37,7 @@ func New(params *stripe.PaymentSourceParams) (*stripe.PaymentSource, error) {
 //
 // If the card's owner has no default card, then the new card will become the default.
 // However, if the owner already has a default, then it will not change.
-// To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new default_source.
+// To change the default, you should [update the customer](https://docs.stripe.com/docs/api#update_customer) to have a new default_source.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

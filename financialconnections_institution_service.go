@@ -21,12 +21,12 @@ type v1FinancialConnectionsInstitutionService struct {
 
 // Retrieves the details of a Financial Connections Institution.
 func (c v1FinancialConnectionsInstitutionService) Retrieve(ctx context.Context, id string, params *FinancialConnectionsInstitutionRetrieveParams) (*FinancialConnectionsInstitution, error) {
-	path := FormatURLPath("/v1/financial_connections/institutions/%s", id)
-	institution := &FinancialConnectionsInstitution{}
 	if params == nil {
 		params = &FinancialConnectionsInstitutionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/financial_connections/institutions/%s", id)
+	institution := &FinancialConnectionsInstitution{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, institution)
 	return institution, err
 }

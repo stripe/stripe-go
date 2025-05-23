@@ -21,12 +21,12 @@ type v1CapitalFinancingTransactionService struct {
 
 // Retrieves a financing transaction for a financing offer.
 func (c v1CapitalFinancingTransactionService) Retrieve(ctx context.Context, id string, params *CapitalFinancingTransactionRetrieveParams) (*CapitalFinancingTransaction, error) {
-	path := FormatURLPath("/v1/capital/financing_transactions/%s", id)
-	financingtransaction := &CapitalFinancingTransaction{}
 	if params == nil {
 		params = &CapitalFinancingTransactionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/capital/financing_transactions/%s", id)
+	financingtransaction := &CapitalFinancingTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, financingtransaction)
 	return financingtransaction, err
 }
