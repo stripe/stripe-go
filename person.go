@@ -1054,9 +1054,9 @@ type PersonVerification struct {
 
 // This is an object representing a person associated with a Stripe account.
 //
-// A platform can only access a subset of data in a person for an account where [account.controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
+// A platform can only access a subset of data in a person for an account where [account.controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`, which includes Standard and Express accounts, after creating an Account Link or Account Session to start Connect onboarding.
 //
-// See the [Standard onboarding](https://stripe.com/connect/standard-accounts) or [Express onboarding](https://stripe.com/connect/express-accounts) documentation for information about prefilling information and account onboarding steps. Learn more about [handling identity verification with the API](https://stripe.com/connect/handling-api-verification#person-information).
+// See the [Standard onboarding](https://docs.stripe.com/connect/standard-accounts) or [Express onboarding](https://docs.stripe.com/connect/express-accounts) documentation for information about prefilling information and account onboarding steps. Learn more about [handling identity verification with the API](https://docs.stripe.com/connect/handling-api-verification#person-information).
 type Person struct {
 	APIResource
 	// The account the person is associated with.
@@ -1071,15 +1071,15 @@ type Person struct {
 	Created int64      `json:"created"`
 	Deleted bool       `json:"deleted"`
 	DOB     *PersonDOB `json:"dob"`
-	// The person's email address. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The person's email address. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	Email string `json:"email"`
-	// The person's first name. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The person's first name. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	FirstName string `json:"first_name"`
-	// The Kana variation of the person's first name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The Kana variation of the person's first name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	FirstNameKana string `json:"first_name_kana"`
-	// The Kanji variation of the person's first name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The Kanji variation of the person's first name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	FirstNameKanji string `json:"first_name_kanji"`
-	// A list of alternate names or aliases that the person is known by. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// A list of alternate names or aliases that the person is known by. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	FullNameAliases []string `json:"full_name_aliases"`
 	// Information about the [upcoming new requirements for this person](https://stripe.com/docs/connect/custom-accounts/future-requirements), including what information needs to be collected, and by when.
 	FutureRequirements *PersonFutureRequirements `json:"future_requirements"`
@@ -1091,11 +1091,11 @@ type Person struct {
 	IDNumberProvided bool `json:"id_number_provided"`
 	// Whether the person's `id_number_secondary` was provided.
 	IDNumberSecondaryProvided bool `json:"id_number_secondary_provided"`
-	// The person's last name. Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The person's last name. Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	LastName string `json:"last_name"`
-	// The Kana variation of the person's last name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The Kana variation of the person's last name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	LastNameKana string `json:"last_name_kana"`
-	// The Kanji variation of the person's last name (Japan only). Also available for accounts where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
+	// The Kanji variation of the person's last name (Japan only). Also available for accounts where [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `stripe`.
 	LastNameKanji string `json:"last_name_kanji"`
 	// The person's maiden name.
 	MaidenName string `json:"maiden_name"`

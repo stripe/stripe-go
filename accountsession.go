@@ -61,6 +61,26 @@ type AccountSessionComponentsBalancesParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsDisputesListFeaturesParams struct {
+	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
+	CapturePayments *bool `form:"capture_payments"`
+	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement *bool `form:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement *bool `form:"refund_management"`
+}
+
+// Configuration for the disputes list embedded component.
+type AccountSessionComponentsDisputesListParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsDisputesListFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsDocumentsFeaturesParams struct{}
 
 // Configuration for the documents embedded component.
@@ -184,6 +204,24 @@ type AccountSessionComponentsPaymentDetailsParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsPaymentDisputesFeaturesParams struct {
+	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement *bool `form:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement *bool `form:"refund_management"`
+}
+
+// Configuration for the payment disputes embedded component.
+type AccountSessionComponentsPaymentDisputesParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsPaymentDisputesFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
@@ -266,6 +304,8 @@ type AccountSessionComponentsParams struct {
 	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
 	// Configuration for the balances embedded component.
 	Balances *AccountSessionComponentsBalancesParams `form:"balances"`
+	// Configuration for the disputes list embedded component.
+	DisputesList *AccountSessionComponentsDisputesListParams `form:"disputes_list"`
 	// Configuration for the documents embedded component.
 	Documents *AccountSessionComponentsDocumentsParams `form:"documents"`
 	// Configuration for the financial account embedded component.
@@ -280,6 +320,8 @@ type AccountSessionComponentsParams struct {
 	NotificationBanner *AccountSessionComponentsNotificationBannerParams `form:"notification_banner"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
+	// Configuration for the payment disputes embedded component.
+	PaymentDisputes *AccountSessionComponentsPaymentDisputesParams `form:"payment_disputes"`
 	// Configuration for the payments embedded component.
 	Payments *AccountSessionComponentsPaymentsParams `form:"payments"`
 	// Configuration for the payouts embedded component.
@@ -360,6 +402,26 @@ type AccountSessionCreateComponentsBalancesParams struct {
 	Enabled *bool `form:"enabled"`
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionCreateComponentsBalancesFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsDisputesListFeaturesParams struct {
+	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
+	CapturePayments *bool `form:"capture_payments"`
+	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement *bool `form:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement *bool `form:"refund_management"`
+}
+
+// Configuration for the disputes list embedded component.
+type AccountSessionCreateComponentsDisputesListParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsDisputesListFeaturesParams `form:"features"`
 }
 
 // The list of features enabled in the embedded component.
@@ -486,6 +548,24 @@ type AccountSessionCreateComponentsPaymentDetailsParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsPaymentDisputesFeaturesParams struct {
+	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement *bool `form:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement *bool `form:"refund_management"`
+}
+
+// Configuration for the payment disputes embedded component.
+type AccountSessionCreateComponentsPaymentDisputesParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsPaymentDisputesFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsPaymentsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
@@ -568,6 +648,8 @@ type AccountSessionCreateComponentsParams struct {
 	AccountOnboarding *AccountSessionCreateComponentsAccountOnboardingParams `form:"account_onboarding"`
 	// Configuration for the balances embedded component.
 	Balances *AccountSessionCreateComponentsBalancesParams `form:"balances"`
+	// Configuration for the disputes list embedded component.
+	DisputesList *AccountSessionCreateComponentsDisputesListParams `form:"disputes_list"`
 	// Configuration for the documents embedded component.
 	Documents *AccountSessionCreateComponentsDocumentsParams `form:"documents"`
 	// Configuration for the financial account embedded component.
@@ -582,6 +664,8 @@ type AccountSessionCreateComponentsParams struct {
 	NotificationBanner *AccountSessionCreateComponentsNotificationBannerParams `form:"notification_banner"`
 	// Configuration for the payment details embedded component.
 	PaymentDetails *AccountSessionCreateComponentsPaymentDetailsParams `form:"payment_details"`
+	// Configuration for the payment disputes embedded component.
+	PaymentDisputes *AccountSessionCreateComponentsPaymentDisputesParams `form:"payment_disputes"`
 	// Configuration for the payments embedded component.
 	Payments *AccountSessionCreateComponentsPaymentsParams `form:"payments"`
 	// Configuration for the payouts embedded component.
@@ -648,6 +732,21 @@ type AccountSessionComponentsBalances struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                      `json:"enabled"`
 	Features *AccountSessionComponentsBalancesFeatures `json:"features"`
+}
+type AccountSessionComponentsDisputesListFeatures struct {
+	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
+	CapturePayments bool `json:"capture_payments"`
+	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	DestinationOnBehalfOfChargeManagement bool `json:"destination_on_behalf_of_charge_management"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement bool `json:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement bool `json:"refund_management"`
+}
+type AccountSessionComponentsDisputesList struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                          `json:"enabled"`
+	Features *AccountSessionComponentsDisputesListFeatures `json:"features"`
 }
 type AccountSessionComponentsDocumentsFeatures struct{}
 type AccountSessionComponentsDocuments struct {
@@ -737,6 +836,19 @@ type AccountSessionComponentsPaymentDetails struct {
 	Enabled  bool                                            `json:"enabled"`
 	Features *AccountSessionComponentsPaymentDetailsFeatures `json:"features"`
 }
+type AccountSessionComponentsPaymentDisputesFeatures struct {
+	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	DestinationOnBehalfOfChargeManagement bool `json:"destination_on_behalf_of_charge_management"`
+	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	DisputeManagement bool `json:"dispute_management"`
+	// Whether to allow sending refunds. This is `true` by default.
+	RefundManagement bool `json:"refund_management"`
+}
+type AccountSessionComponentsPaymentDisputes struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                             `json:"enabled"`
+	Features *AccountSessionComponentsPaymentDisputesFeatures `json:"features"`
+}
 type AccountSessionComponentsPaymentsFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments bool `json:"capture_payments"`
@@ -791,6 +903,7 @@ type AccountSessionComponents struct {
 	AccountManagement            *AccountSessionComponentsAccountManagement            `json:"account_management"`
 	AccountOnboarding            *AccountSessionComponentsAccountOnboarding            `json:"account_onboarding"`
 	Balances                     *AccountSessionComponentsBalances                     `json:"balances"`
+	DisputesList                 *AccountSessionComponentsDisputesList                 `json:"disputes_list"`
 	Documents                    *AccountSessionComponentsDocuments                    `json:"documents"`
 	FinancialAccount             *AccountSessionComponentsFinancialAccount             `json:"financial_account"`
 	FinancialAccountTransactions *AccountSessionComponentsFinancialAccountTransactions `json:"financial_account_transactions"`
@@ -798,6 +911,7 @@ type AccountSessionComponents struct {
 	IssuingCardsList             *AccountSessionComponentsIssuingCardsList             `json:"issuing_cards_list"`
 	NotificationBanner           *AccountSessionComponentsNotificationBanner           `json:"notification_banner"`
 	PaymentDetails               *AccountSessionComponentsPaymentDetails               `json:"payment_details"`
+	PaymentDisputes              *AccountSessionComponentsPaymentDisputes              `json:"payment_disputes"`
 	Payments                     *AccountSessionComponentsPayments                     `json:"payments"`
 	Payouts                      *AccountSessionComponentsPayouts                      `json:"payouts"`
 	PayoutsList                  *AccountSessionComponentsPayoutsList                  `json:"payouts_list"`

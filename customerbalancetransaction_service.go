@@ -19,7 +19,7 @@ type v1CustomerBalanceTransactionService struct {
 	Key string
 }
 
-// Creates an immutable transaction that updates the customer's credit [balance](https://stripe.com/docs/billing/customer/balance).
+// Creates an immutable transaction that updates the customer's credit [balance](https://docs.stripe.com/docs/billing/customer/balance).
 func (c v1CustomerBalanceTransactionService) Create(ctx context.Context, params *CustomerBalanceTransactionCreateParams) (*CustomerBalanceTransaction, error) {
 	if params == nil {
 		params = &CustomerBalanceTransactionCreateParams{}
@@ -33,7 +33,7 @@ func (c v1CustomerBalanceTransactionService) Create(ctx context.Context, params 
 	return customerbalancetransaction, err
 }
 
-// Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
+// Retrieves a specific customer balance transaction that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 func (c v1CustomerBalanceTransactionService) Retrieve(ctx context.Context, id string, params *CustomerBalanceTransactionRetrieveParams) (*CustomerBalanceTransaction, error) {
 	if params == nil {
 		params = &CustomerBalanceTransactionRetrieveParams{}
@@ -63,7 +63,7 @@ func (c v1CustomerBalanceTransactionService) Update(ctx context.Context, id stri
 	return customerbalancetransaction, err
 }
 
-// Returns a list of transactions that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
+// Returns a list of transactions that updated the customer's [balances](https://docs.stripe.com/docs/billing/customer/balance).
 func (c v1CustomerBalanceTransactionService) List(ctx context.Context, listParams *CustomerBalanceTransactionListParams) Seq2[*CustomerBalanceTransaction, error] {
 	if listParams == nil {
 		listParams = &CustomerBalanceTransactionListParams{}

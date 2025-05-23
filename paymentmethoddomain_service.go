@@ -60,7 +60,7 @@ func (c v1PaymentMethodDomainService) Update(ctx context.Context, id string, par
 //
 // To activate a payment method on an existing payment method domain, complete the required registration steps specific to the payment method, and then validate the payment method domain with this endpoint.
 //
-// Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
+// Related guides: [Payment method domains](https://docs.stripe.com/docs/payments/payment-methods/pmd-registration).
 func (c v1PaymentMethodDomainService) Validate(ctx context.Context, id string, params *PaymentMethodDomainValidateParams) (*PaymentMethodDomain, error) {
 	if params == nil {
 		params = &PaymentMethodDomainValidateParams{}

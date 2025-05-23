@@ -8,7 +8,7 @@ package stripe
 
 // Creates a login link for a connected account to access the Express Dashboard.
 //
-// You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
+// You can only create login links for accounts that use the [Express Dashboard](https://docs.stripe.com/connect/express-dashboard) and are connected to your platform.
 type LoginLinkParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL
@@ -23,7 +23,7 @@ func (p *LoginLinkParams) AddExpand(f string) {
 
 // Creates a login link for a connected account to access the Express Dashboard.
 //
-// You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
+// You can only create login links for accounts that use the [Express Dashboard](https://docs.stripe.com/connect/express-dashboard) and are connected to your platform.
 type LoginLinkCreateParams struct {
 	Params  `form:"*"`
 	Account *string `form:"-"` // Included in URL

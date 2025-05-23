@@ -108,7 +108,7 @@ const (
 	PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
-// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
+// All networks available for selection via [payment_method_options.card.network](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 type PaymentMethodCardNetworksAvailable string
 
 // List of values that PaymentMethodCardNetworksAvailable can take
@@ -370,7 +370,7 @@ const (
 	PaymentMethodUSBankAccountStatusDetailsBlockedReasonDebitNotAuthorized        PaymentMethodUSBankAccountStatusDetailsBlockedReason = "debit_not_authorized"
 )
 
-// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
+// Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer_list) API instead.
 type PaymentMethodListParams struct {
 	ListParams `form:"*"`
 	// The ID of the customer whose PaymentMethods will be retrieved.
@@ -648,9 +648,9 @@ type PaymentMethodWeChatPayParams struct{}
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type PaymentMethodZipParams struct{}
 
-// Creates a PaymentMethod object. Read the [Stripe.js reference](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
+// Creates a PaymentMethod object. Read the [Stripe.js reference](https://docs.stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
 //
-// Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
+// Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://docs.stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
 type PaymentMethodParams struct {
 	Params `form:"*"`
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -784,16 +784,16 @@ func (p *PaymentMethodParams) AddMetadata(key string, value string) {
 
 // Attaches a PaymentMethod object to a Customer.
 //
-// To attach a new PaymentMethod to a customer for future payments, we recommend you use a [SetupIntent](https://stripe.com/docs/api/setup_intents)
-// or a PaymentIntent with [setup_future_usage](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-setup_future_usage).
+// To attach a new PaymentMethod to a customer for future payments, we recommend you use a [SetupIntent](https://docs.stripe.com/docs/api/setup_intents)
+// or a PaymentIntent with [setup_future_usage](https://docs.stripe.com/docs/api/payment_intents/create#create_payment_intent-setup_future_usage).
 // These approaches will perform any necessary steps to set up the PaymentMethod for future payments. Using the /v1/payment_methods/:id/attach
 // endpoint without first using a SetupIntent or PaymentIntent with setup_future_usage does not optimize the PaymentMethod for
 // future use, which makes later declines and payment friction more likely.
-// See [Optimizing cards for future payments](https://stripe.com/docs/payments/payment-intents#future-usage) for more information about setting up
+// See [Optimizing cards for future payments](https://docs.stripe.com/docs/payments/payment-intents#future-usage) for more information about setting up
 // future payments.
 //
 // To use this PaymentMethod as the default for invoice or subscription payments,
-// set [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method),
+// set [invoice_settings.default_payment_method](https://docs.stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method),
 // on the Customer to the PaymentMethod's ID.
 type PaymentMethodAttachParams struct {
 	Params `form:"*"`
@@ -1082,9 +1082,9 @@ type PaymentMethodCreateWeChatPayParams struct{}
 // If this is a `zip` PaymentMethod, this hash contains details about the Zip payment method.
 type PaymentMethodCreateZipParams struct{}
 
-// Creates a PaymentMethod object. Read the [Stripe.js reference](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
+// Creates a PaymentMethod object. Read the [Stripe.js reference](https://docs.stripe.com/docs/stripe-js/reference#stripe-create-payment-method) to learn how to create PaymentMethods via Stripe.js.
 //
-// Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
+// Instead of creating a PaymentMethod directly, we recommend using the [PaymentIntents API to accept a payment immediately or the <a href="/docs/payments/save-and-reuse">SetupIntent](https://docs.stripe.com/docs/payments/accept-a-payment) API to collect payment method details ahead of a future payment.
 type PaymentMethodCreateParams struct {
 	Params `form:"*"`
 	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -1215,7 +1215,7 @@ func (p *PaymentMethodCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Retrieves a PaymentMethod object attached to the StripeAccount. To retrieve a payment method attached to a Customer, you should use [Retrieve a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer)
+// Retrieves a PaymentMethod object attached to the StripeAccount. To retrieve a payment method attached to a Customer, you should use [Retrieve a Customer's PaymentMethods](https://docs.stripe.com/docs/api/payment_methods/customer)
 type PaymentMethodRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -1475,7 +1475,7 @@ type PaymentMethodCardGeneratedFrom struct {
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodCardNetworks struct {
-	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
+	// All networks available for selection via [payment_method_options.card.network](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []PaymentMethodCardNetworksAvailable `json:"available"`
 	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.
 	Preferred PaymentMethodCardNetworksPreferred `json:"preferred"`
@@ -1569,7 +1569,7 @@ type PaymentMethodCard struct {
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodCardPresentNetworks struct {
-	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
+	// All networks available for selection via [payment_method_options.card.network](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`
@@ -1651,7 +1651,7 @@ type PaymentMethodIDEAL struct {
 
 // Contains information about card networks that can be used to process the payment.
 type PaymentMethodInteracPresentNetworks struct {
-	// All networks available for selection via [payment_method_options.card.network](https://stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
+	// All networks available for selection via [payment_method_options.card.network](https://docs.stripe.com/api/payment_intents/confirm#confirm_payment_intent-payment_method_options-card-network).
 	Available []string `json:"available"`
 	// The preferred network for the card.
 	Preferred string `json:"preferred"`

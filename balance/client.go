@@ -24,14 +24,14 @@ type Client struct {
 
 // Retrieves the current account balance, based on the authentication that was used to make the request.
 //
-//	For a sample request, see [Accounting for negative balances](https://stripe.com/docs/connect/account-balances#accounting-for-negative-balances).
+//	For a sample request, see [Accounting for negative balances](https://docs.stripe.com/docs/connect/account-balances#accounting-for-negative-balances).
 func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	return getC().Get(params)
 }
 
 // Retrieves the current account balance, based on the authentication that was used to make the request.
 //
-//	For a sample request, see [Accounting for negative balances](https://stripe.com/docs/connect/account-balances#accounting-for-negative-balances).
+//	For a sample request, see [Accounting for negative balances](https://docs.stripe.com/docs/connect/account-balances#accounting-for-negative-balances).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

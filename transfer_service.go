@@ -19,7 +19,7 @@ type v1TransferService struct {
 	Key string
 }
 
-// To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
+// To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://docs.stripe.com/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 func (c v1TransferService) Create(ctx context.Context, params *TransferCreateParams) (*Transfer, error) {
 	if params == nil {
 		params = &TransferCreateParams{}

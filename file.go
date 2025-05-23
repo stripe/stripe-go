@@ -246,7 +246,7 @@ func (p *FileCreateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://stripe.com/docs/file-upload#download-file-contents).
+// Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://docs.stripe.com/docs/file-upload#download-file-contents).
 type FileRetrieveParams struct {
 	Params `form:"*"`
 	// Specifies which fields in the response should be expanded.
@@ -262,7 +262,7 @@ func (p *FileRetrieveParams) AddExpand(f string) {
 // files with the [create file](https://stripe.com/docs/api#create_file) request
 // (for example, when uploading dispute evidence). Stripe also
 // creates files independently (for example, the results of a [Sigma scheduled
-// query](https://stripe.com/docs/api#scheduled_queries)).
+// query](https://docs.stripe.com/api#scheduled_queries)).
 //
 // Related guide: [File upload guide](https://stripe.com/docs/file-upload)
 type File struct {

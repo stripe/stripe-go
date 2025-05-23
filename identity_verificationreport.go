@@ -18,6 +18,17 @@ const (
 	IdentityVerificationReportDocumentErrorCodeDocumentUnverifiedOther  IdentityVerificationReportDocumentErrorCode = "document_unverified_other"
 )
 
+// Sex of the person in the document.
+type IdentityVerificationReportDocumentSex string
+
+// List of values that IdentityVerificationReportDocumentSex can take
+const (
+	IdentityVerificationReportDocumentSexRedacted IdentityVerificationReportDocumentSex = "[redacted]"
+	IdentityVerificationReportDocumentSexFemale   IdentityVerificationReportDocumentSex = "female"
+	IdentityVerificationReportDocumentSexMale     IdentityVerificationReportDocumentSex = "male"
+	IdentityVerificationReportDocumentSexUnknown  IdentityVerificationReportDocumentSex = "unknown"
+)
+
 // Status of this `document` check.
 type IdentityVerificationReportDocumentStatus string
 
@@ -248,10 +259,16 @@ type IdentityVerificationReportDocument struct {
 	LastName string `json:"last_name"`
 	// Document ID number.
 	Number string `json:"number"`
+	// Sex of the person in the document.
+	Sex IdentityVerificationReportDocumentSex `json:"sex"`
 	// Status of this `document` check.
 	Status IdentityVerificationReportDocumentStatus `json:"status"`
 	// Type of the document.
 	Type IdentityVerificationReportDocumentType `json:"type"`
+	// Place of birth as it appears in the document.
+	UnparsedPlaceOfBirth string `json:"unparsed_place_of_birth"`
+	// Sex as it appears in the document.
+	UnparsedSex string `json:"unparsed_sex"`
 }
 
 // Details on the verification error. Present when status is `unverified`.

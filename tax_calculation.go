@@ -334,6 +334,8 @@ type TaxCalculationLineItemParams struct {
 	// A positive integer representing the line item's total price in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
 	Product *string `form:"product"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.
@@ -344,6 +346,15 @@ type TaxCalculationLineItemParams struct {
 	TaxBehavior *string `form:"tax_behavior"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
 	TaxCode *string `form:"tax_code"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TaxCalculationLineItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Details about the address from which the goods are being shipped.
@@ -403,6 +414,8 @@ type TaxCalculationCreateLineItemParams struct {
 	// A positive integer representing the line item's total price in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 	// If `tax_behavior=inclusive`, then this amount includes taxes. Otherwise, taxes are calculated on top of this amount.
 	Amount *int64 `form:"amount"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `form:"metadata"`
 	// If provided, the product's `tax_code` will be used as the line item's `tax_code`.
 	Product *string `form:"product"`
 	// The number of units of the item being purchased. Used to calculate the per-unit price from the total `amount` for the line. For example, if `amount=100` and `quantity=4`, the calculated unit price is 25.
@@ -413,6 +426,15 @@ type TaxCalculationCreateLineItemParams struct {
 	TaxBehavior *string `form:"tax_behavior"`
 	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID to use for this line item. If not provided, we will use the tax code from the provided `product` param. If neither `tax_code` nor `product` is provided, we will use the default tax code from your Tax Settings.
 	TaxCode *string `form:"tax_code"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TaxCalculationCreateLineItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Details about the address from which the goods are being shipped.

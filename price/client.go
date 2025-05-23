@@ -73,12 +73,12 @@ func (c Client) Update(id string, params *stripe.PriceParams) (*stripe.Price, er
 	return price, err
 }
 
-// Returns a list of your active prices, excluding [inline prices](https://stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
+// Returns a list of your active prices, excluding [inline prices](https://docs.stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
 func List(params *stripe.PriceListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of your active prices, excluding [inline prices](https://stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
+// Returns a list of your active prices, excluding [inline prices](https://docs.stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -116,7 +116,7 @@ func (i *Iter) PriceList() *stripe.PriceList {
 	return i.List().(*stripe.PriceList)
 }
 
-// Search for prices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Search for prices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
@@ -124,7 +124,7 @@ func Search(params *stripe.PriceSearchParams) *SearchIter {
 	return getC().Search(params)
 }
 
-// Search for prices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Search for prices you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.

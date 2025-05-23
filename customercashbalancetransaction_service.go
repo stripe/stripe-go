@@ -19,7 +19,7 @@ type v1CustomerCashBalanceTransactionService struct {
 	Key string
 }
 
-// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 func (c v1CustomerCashBalanceTransactionService) Retrieve(ctx context.Context, id string, params *CustomerCashBalanceTransactionRetrieveParams) (*CustomerCashBalanceTransaction, error) {
 	if params == nil {
 		params = &CustomerCashBalanceTransactionRetrieveParams{}
@@ -34,7 +34,7 @@ func (c v1CustomerCashBalanceTransactionService) Retrieve(ctx context.Context, i
 	return customercashbalancetransaction, err
 }
 
-// Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+// Returns a list of transactions that modified the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 func (c v1CustomerCashBalanceTransactionService) List(ctx context.Context, listParams *CustomerCashBalanceTransactionListParams) Seq2[*CustomerCashBalanceTransaction, error] {
 	if listParams == nil {
 		listParams = &CustomerCashBalanceTransactionListParams{}

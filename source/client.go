@@ -58,14 +58,14 @@ func (c Client) Get(id string, params *stripe.SourceParams) (*stripe.Source, err
 
 // Updates the specified source by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 //
-// This request accepts the metadata and owner as arguments. It is also possible to update type specific information for selected payment methods. Please refer to our [payment method guides](https://stripe.com/docs/sources) for more detail.
+// This request accepts the metadata and owner as arguments. It is also possible to update type specific information for selected payment methods. Please refer to our [payment method guides](https://docs.stripe.com/docs/sources) for more detail.
 func Update(id string, params *stripe.SourceParams) (*stripe.Source, error) {
 	return getC().Update(id, params)
 }
 
 // Updates the specified source by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 //
-// This request accepts the metadata and owner as arguments. It is also possible to update type specific information for selected payment methods. Please refer to our [payment method guides](https://stripe.com/docs/sources) for more detail.
+// This request accepts the metadata and owner as arguments. It is also possible to update type specific information for selected payment methods. Please refer to our [payment method guides](https://docs.stripe.com/docs/sources) for more detail.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
