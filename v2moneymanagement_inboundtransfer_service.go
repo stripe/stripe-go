@@ -19,11 +19,11 @@ type v2MoneyManagementInboundTransferService struct {
 
 // InboundTransfers APIs are used to create, retrieve or list InboundTransfers.
 func (c v2MoneyManagementInboundTransferService) Create(ctx context.Context, params *V2MoneyManagementInboundTransferCreateParams) (*V2MoneyManagementInboundTransfer, error) {
-	inboundtransfer := &V2MoneyManagementInboundTransfer{}
 	if params == nil {
 		params = &V2MoneyManagementInboundTransferCreateParams{}
 	}
 	params.Context = ctx
+	inboundtransfer := &V2MoneyManagementInboundTransfer{}
 	err := c.B.Call(
 		http.MethodPost, "/v2/money_management/inbound_transfers", c.Key, params, inboundtransfer)
 	return inboundtransfer, err
@@ -31,12 +31,12 @@ func (c v2MoneyManagementInboundTransferService) Create(ctx context.Context, par
 
 // Retrieve an InboundTransfer by ID.
 func (c v2MoneyManagementInboundTransferService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementInboundTransferRetrieveParams) (*V2MoneyManagementInboundTransfer, error) {
-	path := FormatURLPath("/v2/money_management/inbound_transfers/%s", id)
-	inboundtransfer := &V2MoneyManagementInboundTransfer{}
 	if params == nil {
 		params = &V2MoneyManagementInboundTransferRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/inbound_transfers/%s", id)
+	inboundtransfer := &V2MoneyManagementInboundTransfer{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, inboundtransfer)
 	return inboundtransfer, err
 }

@@ -79,7 +79,7 @@ func (c Client) Update(id string, params *stripe.PaymentMethodDomainParams) (*st
 //
 // To activate a payment method on an existing payment method domain, complete the required registration steps specific to the payment method, and then validate the payment method domain with this endpoint.
 //
-// Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
+// Related guides: [Payment method domains](https://docs.stripe.com/docs/payments/payment-methods/pmd-registration).
 func Validate(id string, params *stripe.PaymentMethodDomainValidateParams) (*stripe.PaymentMethodDomain, error) {
 	return getC().Validate(id, params)
 }
@@ -89,7 +89,7 @@ func Validate(id string, params *stripe.PaymentMethodDomainValidateParams) (*str
 //
 // To activate a payment method on an existing payment method domain, complete the required registration steps specific to the payment method, and then validate the payment method domain with this endpoint.
 //
-// Related guides: [Payment method domains](https://stripe.com/docs/payments/payment-methods/pmd-registration).
+// Related guides: [Payment method domains](https://docs.stripe.com/docs/payments/payment-methods/pmd-registration).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

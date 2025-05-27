@@ -29,7 +29,7 @@ type Client struct {
 //
 // If your API key is in test mode, verification checks won't actually process, though everything else will occur as if in live mode.
 //
-// Related guide: [Verify your users' identity documents](https://stripe.com/docs/identity/verify-identity-documents)
+// Related guide: [Verify your users' identity documents](https://docs.stripe.com/docs/identity/verify-identity-documents)
 func New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVerificationSession, error) {
 	return getC().New(params)
 }
@@ -40,7 +40,7 @@ func New(params *stripe.IdentityVerificationSessionParams) (*stripe.IdentityVeri
 //
 // If your API key is in test mode, verification checks won't actually process, though everything else will occur as if in live mode.
 //
-// Related guide: [Verify your users' identity documents](https://stripe.com/docs/identity/verify-identity-documents)
+// Related guide: [Verify your users' identity documents](https://docs.stripe.com/docs/identity/verify-identity-documents)
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -98,16 +98,16 @@ func (c Client) Update(id string, params *stripe.IdentityVerificationSessionPara
 	return verificationsession, err
 }
 
-// A VerificationSession object can be canceled when it is in requires_input [status](https://stripe.com/docs/identity/how-sessions-work).
+// A VerificationSession object can be canceled when it is in requires_input [status](https://docs.stripe.com/docs/identity/how-sessions-work).
 //
-// Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://stripe.com/docs/identity/verification-sessions#cancel).
+// Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://docs.stripe.com/docs/identity/verification-sessions#cancel).
 func Cancel(id string, params *stripe.IdentityVerificationSessionCancelParams) (*stripe.IdentityVerificationSession, error) {
 	return getC().Cancel(id, params)
 }
 
-// A VerificationSession object can be canceled when it is in requires_input [status](https://stripe.com/docs/identity/how-sessions-work).
+// A VerificationSession object can be canceled when it is in requires_input [status](https://docs.stripe.com/docs/identity/how-sessions-work).
 //
-// Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://stripe.com/docs/identity/verification-sessions#cancel).
+// Once canceled, future submission attempts are disabled. This cannot be undone. [Learn more](https://docs.stripe.com/docs/identity/verification-sessions#cancel).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -125,7 +125,7 @@ func (c Client) Cancel(id string, params *stripe.IdentityVerificationSessionCanc
 // request logs, etc.
 //
 // A VerificationSession object can be redacted when it is in requires_input or verified
-// [status](https://stripe.com/docs/identity/how-sessions-work). Redacting a VerificationSession in requires_action
+// [status](https://docs.stripe.com/docs/identity/how-sessions-work). Redacting a VerificationSession in requires_action
 // state will automatically cancel it.
 //
 // The redaction process may take up to four days. When the redaction process is in progress, the
@@ -138,7 +138,7 @@ func (c Client) Cancel(id string, params *stripe.IdentityVerificationSessionCanc
 // placeholder. The metadata field will also be erased. Redacted objects cannot be updated or
 // used for any purpose.
 //
-// [Learn more](https://stripe.com/docs/identity/verification-sessions#redact).
+// [Learn more](https://docs.stripe.com/docs/identity/verification-sessions#redact).
 func Redact(id string, params *stripe.IdentityVerificationSessionRedactParams) (*stripe.IdentityVerificationSession, error) {
 	return getC().Redact(id, params)
 }
@@ -148,7 +148,7 @@ func Redact(id string, params *stripe.IdentityVerificationSessionRedactParams) (
 // request logs, etc.
 //
 // A VerificationSession object can be redacted when it is in requires_input or verified
-// [status](https://stripe.com/docs/identity/how-sessions-work). Redacting a VerificationSession in requires_action
+// [status](https://docs.stripe.com/docs/identity/how-sessions-work). Redacting a VerificationSession in requires_action
 // state will automatically cancel it.
 //
 // The redaction process may take up to four days. When the redaction process is in progress, the
@@ -161,7 +161,7 @@ func Redact(id string, params *stripe.IdentityVerificationSessionRedactParams) (
 // placeholder. The metadata field will also be erased. Redacted objects cannot be updated or
 // used for any purpose.
 //
-// [Learn more](https://stripe.com/docs/identity/verification-sessions#redact).
+// [Learn more](https://docs.stripe.com/docs/identity/verification-sessions#redact).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

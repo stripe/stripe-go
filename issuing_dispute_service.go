@@ -19,13 +19,13 @@ type v1IssuingDisputeService struct {
 	Key string
 }
 
-// Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
+// Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://docs.stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
 func (c v1IssuingDisputeService) Create(ctx context.Context, params *IssuingDisputeCreateParams) (*IssuingDispute, error) {
-	dispute := &IssuingDispute{}
 	if params == nil {
 		params = &IssuingDisputeCreateParams{}
 	}
 	params.Context = ctx
+	dispute := &IssuingDispute{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/issuing/disputes", c.Key, params, dispute)
 	return dispute, err
@@ -33,36 +33,36 @@ func (c v1IssuingDisputeService) Create(ctx context.Context, params *IssuingDisp
 
 // Retrieves an Issuing Dispute object.
 func (c v1IssuingDisputeService) Retrieve(ctx context.Context, id string, params *IssuingDisputeRetrieveParams) (*IssuingDispute, error) {
-	path := FormatURLPath("/v1/issuing/disputes/%s", id)
-	dispute := &IssuingDispute{}
 	if params == nil {
 		params = &IssuingDisputeRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/disputes/%s", id)
+	dispute := &IssuingDispute{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, dispute)
 	return dispute, err
 }
 
 // Updates the specified Issuing Dispute object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Properties on the evidence object can be unset by passing in an empty string.
 func (c v1IssuingDisputeService) Update(ctx context.Context, id string, params *IssuingDisputeUpdateParams) (*IssuingDispute, error) {
-	path := FormatURLPath("/v1/issuing/disputes/%s", id)
-	dispute := &IssuingDispute{}
 	if params == nil {
 		params = &IssuingDisputeUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/disputes/%s", id)
+	dispute := &IssuingDispute{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
 	return dispute, err
 }
 
-// Submits an Issuing Dispute to the card network. Stripe validates that all evidence fields required for the dispute's reason are present. For more details, see [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence).
+// Submits an Issuing Dispute to the card network. Stripe validates that all evidence fields required for the dispute's reason are present. For more details, see [Dispute reasons and evidence](https://docs.stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence).
 func (c v1IssuingDisputeService) Submit(ctx context.Context, id string, params *IssuingDisputeSubmitParams) (*IssuingDispute, error) {
-	path := FormatURLPath("/v1/issuing/disputes/%s/submit", id)
-	dispute := &IssuingDispute{}
 	if params == nil {
 		params = &IssuingDisputeSubmitParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/disputes/%s/submit", id)
+	dispute := &IssuingDispute{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
 	return dispute, err
 }

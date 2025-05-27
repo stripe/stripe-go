@@ -88,19 +88,20 @@ const (
 	TerminalReaderActionTypeSetReaderDisplay     TerminalReaderActionType = "set_reader_display"
 )
 
-// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `stripe_s700`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, `simulated_wisepos_e`, or `mobile_phone_reader`.
+// Device type of the reader.
 type TerminalReaderDeviceType string
 
 // List of values that TerminalReaderDeviceType can take
 const (
-	TerminalReaderDeviceTypeBBPOSChipper2X    TerminalReaderDeviceType = "bbpos_chipper2x"
-	TerminalReaderDeviceTypeBBPOSWisePad3     TerminalReaderDeviceType = "bbpos_wisepad3"
-	TerminalReaderDeviceTypeBBPOSWisePOSE     TerminalReaderDeviceType = "bbpos_wisepos_e"
-	TerminalReaderDeviceTypeMobilePhoneReader TerminalReaderDeviceType = "mobile_phone_reader"
-	TerminalReaderDeviceTypeSimulatedWisePOSE TerminalReaderDeviceType = "simulated_wisepos_e"
-	TerminalReaderDeviceTypeStripeM2          TerminalReaderDeviceType = "stripe_m2"
-	TerminalReaderDeviceTypeStripeS700        TerminalReaderDeviceType = "stripe_s700"
-	TerminalReaderDeviceTypeVerifoneP400      TerminalReaderDeviceType = "verifone_P400"
+	TerminalReaderDeviceTypeBBPOSChipper2X      TerminalReaderDeviceType = "bbpos_chipper2x"
+	TerminalReaderDeviceTypeBBPOSWisePad3       TerminalReaderDeviceType = "bbpos_wisepad3"
+	TerminalReaderDeviceTypeBBPOSWisePOSE       TerminalReaderDeviceType = "bbpos_wisepos_e"
+	TerminalReaderDeviceTypeMobilePhoneReader   TerminalReaderDeviceType = "mobile_phone_reader"
+	TerminalReaderDeviceTypeSimulatedStripeS700 TerminalReaderDeviceType = "simulated_stripe_s700"
+	TerminalReaderDeviceTypeSimulatedWisePOSE   TerminalReaderDeviceType = "simulated_wisepos_e"
+	TerminalReaderDeviceTypeStripeM2            TerminalReaderDeviceType = "stripe_m2"
+	TerminalReaderDeviceTypeStripeS700          TerminalReaderDeviceType = "stripe_s700"
+	TerminalReaderDeviceTypeVerifoneP400        TerminalReaderDeviceType = "verifone_P400"
 )
 
 // The networking status of the reader. We do not recommend using this field in flows that may block taking payments.
@@ -284,9 +285,17 @@ func (p *TerminalReaderCollectPaymentMethodParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Configuration overrides
+type TerminalReaderConfirmPaymentIntentConfirmConfigParams struct {
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
+	ReturnURL *string `form:"return_url"`
+}
+
 // Finalizes a payment on a Reader.
 type TerminalReaderConfirmPaymentIntentParams struct {
 	Params `form:"*"`
+	// Configuration overrides
+	ConfirmConfig *TerminalReaderConfirmPaymentIntentConfirmConfigParams `form:"confirm_config"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// PaymentIntent ID
@@ -310,6 +319,8 @@ type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
 	AllowRedisplay *string `form:"allow_redisplay"`
 	// Enables cancel button on transaction screens.
 	EnableCustomerCancellation *bool `form:"enable_customer_cancellation"`
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
+	ReturnURL *string `form:"return_url"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping *bool `form:"skip_tipping"`
 	// Tipping configuration for this transaction.
@@ -646,10 +657,18 @@ type TerminalReaderActionCollectPaymentMethod struct {
 	PaymentMethod *PaymentMethod `json:"payment_method"`
 }
 
+// Represents a per-transaction override of a reader configuration
+type TerminalReaderActionConfirmPaymentIntentConfirmConfig struct {
+	// If the customer does not abandon authenticating the payment, they will be redirected to this specified URL after completion.
+	ReturnURL string `json:"return_url"`
+}
+
 // Represents a reader action to confirm a payment
 type TerminalReaderActionConfirmPaymentIntent struct {
 	// Account the payment intent belongs to.
 	Account string `json:"account"`
+	// Represents a per-transaction override of a reader configuration
+	ConfirmConfig *TerminalReaderActionConfirmPaymentIntentConfirmConfig `json:"confirm_config"`
 	// Most recent PaymentIntent processed by the reader.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 }
@@ -664,6 +683,8 @@ type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
 type TerminalReaderActionProcessPaymentIntentProcessConfig struct {
 	// Enable customer initiated cancellation when processing this payment.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
+	// If the customer does not abandon authenticating the payment, they will be redirected to this specified URL after completion.
+	ReturnURL string `json:"return_url"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping bool `json:"skip_tipping"`
 	// Represents a per-transaction tipping configuration
@@ -792,7 +813,7 @@ type TerminalReader struct {
 	Deleted bool                  `json:"deleted"`
 	// The current software version of the reader.
 	DeviceSwVersion string `json:"device_sw_version"`
-	// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `stripe_s700`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, `simulated_wisepos_e`, or `mobile_phone_reader`.
+	// Device type of the reader.
 	DeviceType TerminalReaderDeviceType `json:"device_type"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

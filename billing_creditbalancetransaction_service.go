@@ -21,12 +21,12 @@ type v1BillingCreditBalanceTransactionService struct {
 
 // Retrieves a credit balance transaction.
 func (c v1BillingCreditBalanceTransactionService) Retrieve(ctx context.Context, id string, params *BillingCreditBalanceTransactionRetrieveParams) (*BillingCreditBalanceTransaction, error) {
-	path := FormatURLPath("/v1/billing/credit_balance_transactions/%s", id)
-	creditbalancetransaction := &BillingCreditBalanceTransaction{}
 	if params == nil {
 		params = &BillingCreditBalanceTransactionRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/billing/credit_balance_transactions/%s", id)
+	creditbalancetransaction := &BillingCreditBalanceTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, creditbalancetransaction)
 	return creditbalancetransaction, err
 }

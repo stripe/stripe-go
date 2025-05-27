@@ -6,7 +6,19 @@
 
 package stripe
 
-// List validation errors method
+// A code indicating the reason for the error.
+type PrivacyRedactionJobValidationErrorCode string
+
+// List of values that PrivacyRedactionJobValidationErrorCode can take
+const (
+	PrivacyRedactionJobValidationErrorCodeInvalidCascadingSource PrivacyRedactionJobValidationErrorCode = "invalid_cascading_source"
+	PrivacyRedactionJobValidationErrorCodeInvalidFilePurpose     PrivacyRedactionJobValidationErrorCode = "invalid_file_purpose"
+	PrivacyRedactionJobValidationErrorCodeInvalidState           PrivacyRedactionJobValidationErrorCode = "invalid_state"
+	PrivacyRedactionJobValidationErrorCodeLockedByOtherJob       PrivacyRedactionJobValidationErrorCode = "locked_by_other_job"
+	PrivacyRedactionJobValidationErrorCodeTooManyObjects         PrivacyRedactionJobValidationErrorCode = "too_many_objects"
+)
+
+// Returns a list of validation errors for the specified redaction job.
 type PrivacyRedactionJobValidationErrorListParams struct {
 	ListParams `form:"*"`
 	Job        *string `form:"-"` // Included in URL
@@ -19,12 +31,25 @@ func (p *PrivacyRedactionJobValidationErrorListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Validation errors
-type PrivacyRedactionJobValidationError struct {
-	Code           string            `json:"code"`
-	ErroringObject map[string]string `json:"erroring_object"`
+// If the error is related to a specific object, this field includes the object's identifier and object type.
+type PrivacyRedactionJobValidationErrorErroringObject struct {
 	// Unique identifier for the object.
-	ID      string `json:"id"`
+	ID string `json:"id"`
+	// Erroring object type
+	ObjectType string `json:"object_type"`
+}
+
+// The Redaction Job validation error object contains information about
+// errors that affect the ability to redact a specific object in a
+// redaction job.
+type PrivacyRedactionJobValidationError struct {
+	// A code indicating the reason for the error.
+	Code PrivacyRedactionJobValidationErrorCode `json:"code"`
+	// If the error is related to a specific object, this field includes the object's identifier and object type.
+	ErroringObject *PrivacyRedactionJobValidationErrorErroringObject `json:"erroring_object"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A human-readable message providing more details about the error.
 	Message string `json:"message"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

@@ -21,11 +21,11 @@ type v1IssuingCardholderService struct {
 
 // Creates a new Issuing Cardholder object that can be issued cards.
 func (c v1IssuingCardholderService) Create(ctx context.Context, params *IssuingCardholderCreateParams) (*IssuingCardholder, error) {
-	cardholder := &IssuingCardholder{}
 	if params == nil {
 		params = &IssuingCardholderCreateParams{}
 	}
 	params.Context = ctx
+	cardholder := &IssuingCardholder{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/issuing/cardholders", c.Key, params, cardholder)
 	return cardholder, err
@@ -33,24 +33,24 @@ func (c v1IssuingCardholderService) Create(ctx context.Context, params *IssuingC
 
 // Retrieves an Issuing Cardholder object.
 func (c v1IssuingCardholderService) Retrieve(ctx context.Context, id string, params *IssuingCardholderRetrieveParams) (*IssuingCardholder, error) {
-	path := FormatURLPath("/v1/issuing/cardholders/%s", id)
-	cardholder := &IssuingCardholder{}
 	if params == nil {
 		params = &IssuingCardholderRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/cardholders/%s", id)
+	cardholder := &IssuingCardholder{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, cardholder)
 	return cardholder, err
 }
 
 // Updates the specified Issuing Cardholder object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c v1IssuingCardholderService) Update(ctx context.Context, id string, params *IssuingCardholderUpdateParams) (*IssuingCardholder, error) {
-	path := FormatURLPath("/v1/issuing/cardholders/%s", id)
-	cardholder := &IssuingCardholder{}
 	if params == nil {
 		params = &IssuingCardholderUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/cardholders/%s", id)
+	cardholder := &IssuingCardholder{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, cardholder)
 	return cardholder, err
 }

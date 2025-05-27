@@ -21,12 +21,12 @@ type v1IssuingDisputeSettlementDetailService struct {
 
 // Retrieves an Issuing DisputeSettlementDetail object.
 func (c v1IssuingDisputeSettlementDetailService) Retrieve(ctx context.Context, id string, params *IssuingDisputeSettlementDetailRetrieveParams) (*IssuingDisputeSettlementDetail, error) {
-	path := FormatURLPath("/v1/issuing/dispute_settlement_details/%s", id)
-	disputesettlementdetail := &IssuingDisputeSettlementDetail{}
 	if params == nil {
 		params = &IssuingDisputeSettlementDetailRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/issuing/dispute_settlement_details/%s", id)
+	disputesettlementdetail := &IssuingDisputeSettlementDetail{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, disputesettlementdetail)
 	return disputesettlementdetail, err
 }

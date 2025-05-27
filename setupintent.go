@@ -40,7 +40,7 @@ const (
 	SetupIntentFlowDirectionOutbound SetupIntentFlowDirection = "outbound"
 )
 
-// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
+// Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 type SetupIntentNextActionType string
 
 // List of values that SetupIntentNextActionType can take
@@ -1058,7 +1058,7 @@ type SetupIntentSingleUseParams struct {
 
 // Creates a SetupIntent object.
 //
-// After you create the SetupIntent, attach a payment method and [confirm](https://stripe.com/docs/api/setup_intents/confirm)
+// After you create the SetupIntent, attach a payment method and [confirm](https://docs.stripe.com/docs/api/setup_intents/confirm)
 // it to collect any required permissions to charge the payment method later.
 type SetupIntentParams struct {
 	Params `form:"*"`
@@ -1137,7 +1137,7 @@ func (p *SetupIntentParams) AddMetadata(key string, value string) {
 
 // You can cancel a SetupIntent object when it's in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
 //
-// After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error. You can't cancel the SetupIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
+// After you cancel it, setup is abandoned and any operations on the SetupIntent fail with an error. You can't cancel the SetupIntent for a Checkout Session. [Expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire) instead.
 type SetupIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this SetupIntent. Possible values are: `abandoned`, `requested_by_customer`, or `duplicate`
@@ -2377,7 +2377,7 @@ type SetupIntentCreateSingleUseParams struct {
 
 // Creates a SetupIntent object.
 //
-// After you create the SetupIntent, attach a payment method and [confirm](https://stripe.com/docs/api/setup_intents/confirm)
+// After you create the SetupIntent, attach a payment method and [confirm](https://docs.stripe.com/docs/api/setup_intents/confirm)
 // it to collect any required permissions to charge the payment method later.
 type SetupIntentCreateParams struct {
 	Params `form:"*"`
@@ -2456,7 +2456,7 @@ func (p *SetupIntentCreateParams) AddMetadata(key string, value string) {
 //
 // Client-side retrieval using a publishable key is allowed when the client_secret is provided in the query string.
 //
-// When retrieved with a publishable key, only a subset of properties will be returned. Please refer to the [SetupIntent](https://stripe.com/docs/api#setup_intent_object) object reference for more details.
+// When retrieved with a publishable key, only a subset of properties will be returned. Please refer to the [SetupIntent](https://docs.stripe.com/api#setup_intent_object) object reference for more details.
 type SetupIntentRetrieveParams struct {
 	Params `form:"*"`
 	// The client secret of the SetupIntent. We require this string if you use a publishable key to retrieve the SetupIntent.
@@ -3258,7 +3258,7 @@ type SetupIntentNextActionVerifyWithMicrodeposits struct {
 type SetupIntentNextAction struct {
 	CashAppHandleRedirectOrDisplayQRCode *SetupIntentNextActionCashAppHandleRedirectOrDisplayQRCode `json:"cashapp_handle_redirect_or_display_qr_code"`
 	RedirectToURL                        *SetupIntentNextActionRedirectToURL                        `json:"redirect_to_url"`
-	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
+	// Type of the next action to perform. Refer to the other child attributes under `next_action` for available values. Examples include: `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type SetupIntentNextActionType `json:"type"`
 	// When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 	UseStripeSDK            *SetupIntentNextActionUseStripeSDK            `json:"use_stripe_sdk"`

@@ -304,8 +304,8 @@ func TestConstructEventWithOptions_UsesDefaultToleranceWhenNoneProvided(t *testi
 
 func TestApiVersionCompatibility(t *testing.T) {
 	tests := []struct {
-		sdkApiVersion   string
-		eventApiVersion string
+		sdkAPIVersion   string
+		eventAPIVersion string
 		expected        bool
 	}{
 		{"2024-02-31.acacia", "1999-03-31", false},
@@ -317,9 +317,9 @@ func TestApiVersionCompatibility(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		result := isCompatibleAPIVersion(test.sdkApiVersion, test.eventApiVersion)
+		result := isCompatibleAPIVersion(test.sdkAPIVersion, test.eventAPIVersion)
 		if result != test.expected {
-			t.Errorf("Expected %v for API version %s <> %s, got %v", test.expected, test.sdkApiVersion, test.eventApiVersion, result)
+			t.Errorf("Expected %v for API version %s <> %s, got %v", test.expected, test.sdkAPIVersion, test.eventAPIVersion, result)
 		}
 	}
 }

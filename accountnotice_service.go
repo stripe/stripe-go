@@ -21,24 +21,24 @@ type v1AccountNoticeService struct {
 
 // Retrieves an AccountNotice object.
 func (c v1AccountNoticeService) Retrieve(ctx context.Context, id string, params *AccountNoticeRetrieveParams) (*AccountNotice, error) {
-	path := FormatURLPath("/v1/account_notices/%s", id)
-	accountnotice := &AccountNotice{}
 	if params == nil {
 		params = &AccountNoticeRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/account_notices/%s", id)
+	accountnotice := &AccountNotice{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, accountnotice)
 	return accountnotice, err
 }
 
 // Updates an AccountNotice object.
 func (c v1AccountNoticeService) Update(ctx context.Context, id string, params *AccountNoticeUpdateParams) (*AccountNotice, error) {
-	path := FormatURLPath("/v1/account_notices/%s", id)
-	accountnotice := &AccountNotice{}
 	if params == nil {
 		params = &AccountNoticeUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/account_notices/%s", id)
+	accountnotice := &AccountNotice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, accountnotice)
 	return accountnotice, err
 }

@@ -23,12 +23,12 @@ type Client struct {
 	Key string
 }
 
-// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 func Get(id string, params *stripe.CustomerCashBalanceTransactionParams) (*stripe.CustomerCashBalanceTransaction, error) {
 	return getC().Get(id, params)
 }
 
-// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+// Retrieves a specific cash balance transaction, which updated the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -43,12 +43,12 @@ func (c Client) Get(id string, params *stripe.CustomerCashBalanceTransactionPara
 	return customercashbalancetransaction, err
 }
 
-// Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+// Returns a list of transactions that modified the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 func List(params *stripe.CustomerCashBalanceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-// Returns a list of transactions that modified the customer's [cash balance](https://stripe.com/docs/payments/customer-balance).
+// Returns a list of transactions that modified the customer's [cash balance](https://docs.stripe.com/docs/payments/customer-balance).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

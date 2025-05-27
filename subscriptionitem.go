@@ -18,6 +18,8 @@ const (
 // Deletes an item from the subscription. Removing a subscription item from a subscription will not cancel the subscription.
 type SubscriptionItemParams struct {
 	Params `form:"*"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	// Delete all usage for the given subscription item. Allowed only when the current plan's `usage_type` is `metered`.
 	ClearUsage *bool `form:"clear_usage"`
 	// The coupons to redeem into discounts for the subscription item.
@@ -69,6 +71,12 @@ func (p *SubscriptionItemParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionItemBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
 }
 
 // Time span for the redeemed discount.
@@ -170,6 +178,12 @@ func (p *SubscriptionItemRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionItemUpdateBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
 // Time span for the redeemed discount.
 type SubscriptionItemUpdateDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -227,6 +241,8 @@ type SubscriptionItemUpdatePriceDataParams struct {
 // Updates the plan or quantity of an item on a current subscription.
 type SubscriptionItemUpdateParams struct {
 	Params `form:"*"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionItemUpdateBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
@@ -271,6 +287,12 @@ func (p *SubscriptionItemUpdateParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionItemCreateBillingThresholdsParams struct {
+	// Number of units that meets the billing threshold to advance the subscription to a new billing period (e.g., it takes 10 $5 units to meet a $50 [monetary threshold](https://stripe.com/docs/api/subscriptions/update#update_subscription-billing_thresholds-amount_gte))
+	UsageGTE *int64 `form:"usage_gte"`
 }
 
 // Time span for the redeemed discount.
@@ -338,6 +360,8 @@ type SubscriptionItemCreateTrialParams struct {
 // Adds a new item to an existing subscription. No existing items will be changed or replaced.
 type SubscriptionItemCreateParams struct {
 	Params `form:"*"`
+	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+	BillingThresholds *SubscriptionItemCreateBillingThresholdsParams `form:"billing_thresholds"`
 	// The coupons to redeem into discounts for the subscription item.
 	Discounts []*SubscriptionItemCreateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
@@ -386,6 +410,12 @@ func (p *SubscriptionItemCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
+type SubscriptionItemBillingThresholds struct {
+	// Usage threshold that triggers the subscription to create an invoice
+	UsageGTE int64 `json:"usage_gte"`
+}
+
 // Options that configure the trial on the subscription item.
 type SubscriptionItemTrial struct {
 	// List of price IDs which, if present on the subscription following a paid trial, constitute opting-in to the paid trial.
@@ -398,6 +428,8 @@ type SubscriptionItemTrial struct {
 // one plan, making it easy to represent complex billing relationships.
 type SubscriptionItem struct {
 	APIResource
+	// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
+	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// The end time of this subscription item's current billing period.

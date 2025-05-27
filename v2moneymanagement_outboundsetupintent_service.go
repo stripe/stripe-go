@@ -19,11 +19,11 @@ type v2MoneyManagementOutboundSetupIntentService struct {
 
 // Create an OutboundSetupIntent object.
 func (c v2MoneyManagementOutboundSetupIntentService) Create(ctx context.Context, params *V2MoneyManagementOutboundSetupIntentCreateParams) (*V2MoneyManagementOutboundSetupIntent, error) {
-	outboundsetupintent := &V2MoneyManagementOutboundSetupIntent{}
 	if params == nil {
 		params = &V2MoneyManagementOutboundSetupIntentCreateParams{}
 	}
 	params.Context = ctx
+	outboundsetupintent := &V2MoneyManagementOutboundSetupIntent{}
 	err := c.B.Call(
 		http.MethodPost, "/v2/money_management/outbound_setup_intents", c.Key, params, outboundsetupintent)
 	return outboundsetupintent, err
@@ -31,37 +31,37 @@ func (c v2MoneyManagementOutboundSetupIntentService) Create(ctx context.Context,
 
 // Retrieve an OutboundSetupIntent object.
 func (c v2MoneyManagementOutboundSetupIntentService) Retrieve(ctx context.Context, id string, params *V2MoneyManagementOutboundSetupIntentRetrieveParams) (*V2MoneyManagementOutboundSetupIntent, error) {
-	path := FormatURLPath("/v2/money_management/outbound_setup_intents/%s", id)
-	outboundsetupintent := &V2MoneyManagementOutboundSetupIntent{}
 	if params == nil {
 		params = &V2MoneyManagementOutboundSetupIntentRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/outbound_setup_intents/%s", id)
+	outboundsetupintent := &V2MoneyManagementOutboundSetupIntent{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, outboundsetupintent)
 	return outboundsetupintent, err
 }
 
 // Update an OutboundSetupIntent object.
 func (c v2MoneyManagementOutboundSetupIntentService) Update(ctx context.Context, id string, params *V2MoneyManagementOutboundSetupIntentUpdateParams) (*V2MoneyManagementOutboundSetupIntent, error) {
-	path := FormatURLPath("/v2/money_management/outbound_setup_intents/%s", id)
-	outboundsetupintent := &V2MoneyManagementOutboundSetupIntent{}
 	if params == nil {
 		params = &V2MoneyManagementOutboundSetupIntentUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v2/money_management/outbound_setup_intents/%s", id)
+	outboundsetupintent := &V2MoneyManagementOutboundSetupIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, outboundsetupintent)
 	return outboundsetupintent, err
 }
 
 // Cancel an OutboundSetupIntent object.
 func (c v2MoneyManagementOutboundSetupIntentService) Cancel(ctx context.Context, id string, params *V2MoneyManagementOutboundSetupIntentCancelParams) (*V2MoneyManagementOutboundSetupIntent, error) {
-	path := FormatURLPath(
-		"/v2/money_management/outbound_setup_intents/%s/cancel", id)
-	outboundsetupintent := &V2MoneyManagementOutboundSetupIntent{}
 	if params == nil {
 		params = &V2MoneyManagementOutboundSetupIntentCancelParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath(
+		"/v2/money_management/outbound_setup_intents/%s/cancel", id)
+	outboundsetupintent := &V2MoneyManagementOutboundSetupIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, outboundsetupintent)
 	return outboundsetupintent, err
 }

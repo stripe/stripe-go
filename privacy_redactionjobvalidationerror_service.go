@@ -19,15 +19,15 @@ type v1PrivacyRedactionJobValidationErrorService struct {
 	Key string
 }
 
-// List validation errors method
+// Returns a list of validation errors for the specified redaction job.
 func (c v1PrivacyRedactionJobValidationErrorService) List(ctx context.Context, listParams *PrivacyRedactionJobValidationErrorListParams) Seq2[*PrivacyRedactionJobValidationError, error] {
-	path := FormatURLPath(
-		"/v1/privacy/redaction_jobs/%s/validation_errors", StringValue(
-			listParams.Job))
 	if listParams == nil {
 		listParams = &PrivacyRedactionJobValidationErrorListParams{}
 	}
 	listParams.Context = ctx
+	path := FormatURLPath(
+		"/v1/privacy/redaction_jobs/%s/validation_errors", StringValue(
+			listParams.Job))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*PrivacyRedactionJobValidationError, ListContainer, error) {
 		list := &PrivacyRedactionJobValidationErrorList{}
 		if p == nil {

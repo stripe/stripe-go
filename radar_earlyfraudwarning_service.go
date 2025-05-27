@@ -21,14 +21,14 @@ type v1RadarEarlyFraudWarningService struct {
 
 // Retrieves the details of an early fraud warning that has previously been created.
 //
-// Please refer to the [early fraud warning](https://stripe.com/docs/api#early_fraud_warning_object) object reference for more details.
+// Please refer to the [early fraud warning](https://docs.stripe.com/api#early_fraud_warning_object) object reference for more details.
 func (c v1RadarEarlyFraudWarningService) Retrieve(ctx context.Context, id string, params *RadarEarlyFraudWarningRetrieveParams) (*RadarEarlyFraudWarning, error) {
-	path := FormatURLPath("/v1/radar/early_fraud_warnings/%s", id)
-	earlyfraudwarning := &RadarEarlyFraudWarning{}
 	if params == nil {
 		params = &RadarEarlyFraudWarningRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/radar/early_fraud_warnings/%s", id)
+	earlyfraudwarning := &RadarEarlyFraudWarning{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, earlyfraudwarning)
 	return earlyfraudwarning, err
 }

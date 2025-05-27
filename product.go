@@ -11,22 +11,6 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// The specific type of gift_card provisioning, only `fixed_amount` currently supported.
-type ProductProvisioningGiftCardType string
-
-// List of values that ProductProvisioningGiftCardType can take
-const (
-	ProductProvisioningGiftCardTypeFixedAmount ProductProvisioningGiftCardType = "fixed_amount"
-)
-
-// The type of provisioning, only `gift_card` currently supported.
-type ProductProvisioningType string
-
-// List of values that ProductProvisioningType can take
-const (
-	ProductProvisioningTypeGiftCard ProductProvisioningType = "gift_card"
-)
-
 // The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 type ProductType string
 
@@ -61,8 +45,6 @@ type ProductParams struct {
 	Name *string `form:"name"`
 	// The dimensions of this product for shipping purposes.
 	PackageDimensions *ProductPackageDimensionsParams `form:"package_dimensions"`
-	// Provisioning configuration for this product.
-	Provisioning *ProductProvisioningParams `form:"provisioning"`
 	// Whether this product is shipped (i.e., physical goods).
 	Shippable *bool `form:"shippable"`
 	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
@@ -235,25 +217,7 @@ func (p *ProductDefaultPriceDataParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-type ProductProvisioningGiftCardFixedAmountParams struct {
-	// The initial amount with which the provisioned gift card will be created.
-	Amount   *int64  `form:"amount"`
-	Currency *string `form:"currency"`
-}
-type ProductProvisioningGiftCardParams struct {
-	FixedAmount *ProductProvisioningGiftCardFixedAmountParams `form:"fixed_amount"`
-	// The specific type of gift_card provisioning, only `fixed_amount` currently supported.
-	Type *string `form:"type"`
-}
-
-// Provisioning configuration for this product.
-type ProductProvisioningParams struct {
-	GiftCard *ProductProvisioningGiftCardParams `form:"gift_card"`
-	// The type of provisioning, only `gift_card` currently supported.
-	Type *string `form:"type"`
-}
-
-// Search for products you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Search for products you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
@@ -469,23 +433,6 @@ type ProductCreatePackageDimensionsParams struct {
 	// Width, in inches. Maximum precision is 2 decimal places.
 	Width *float64 `form:"width"`
 }
-type ProductCreateProvisioningGiftCardFixedAmountParams struct {
-	// The initial amount with which the provisioned gift card will be created.
-	Amount   *int64  `form:"amount"`
-	Currency *string `form:"currency"`
-}
-type ProductCreateProvisioningGiftCardParams struct {
-	FixedAmount *ProductCreateProvisioningGiftCardFixedAmountParams `form:"fixed_amount"`
-	// The specific type of gift_card provisioning, only `fixed_amount` currently supported.
-	Type *string `form:"type"`
-}
-
-// Provisioning configuration for this product.
-type ProductCreateProvisioningParams struct {
-	GiftCard *ProductCreateProvisioningGiftCardParams `form:"gift_card"`
-	// The type of provisioning, only `gift_card` currently supported.
-	Type *string `form:"type"`
-}
 
 // Creates a new product object.
 type ProductCreateParams struct {
@@ -510,8 +457,6 @@ type ProductCreateParams struct {
 	Name *string `form:"name"`
 	// The dimensions of this product for shipping purposes.
 	PackageDimensions *ProductCreatePackageDimensionsParams `form:"package_dimensions"`
-	// Provisioning configuration for this product.
-	Provisioning *ProductCreateProvisioningParams `form:"provisioning"`
 	// Whether this product is shipped (i.e., physical goods).
 	Shippable *bool `form:"shippable"`
 	// An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.
@@ -560,24 +505,6 @@ type ProductPackageDimensions struct {
 	// Width, in inches.
 	Width float64 `json:"width"`
 }
-type ProductProvisioningGiftCardFixedAmount struct {
-	// The initial amount with which the provisioned gift card will be created.
-	Amount int64 `json:"amount"`
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-}
-type ProductProvisioningGiftCard struct {
-	FixedAmount *ProductProvisioningGiftCardFixedAmount `json:"fixed_amount"`
-	// The specific type of gift_card provisioning, only `fixed_amount` currently supported.
-	Type ProductProvisioningGiftCardType `json:"type"`
-}
-
-// Provisioning configuration for this product.
-type ProductProvisioning struct {
-	GiftCard *ProductProvisioningGiftCard `json:"gift_card"`
-	// The type of provisioning, only `gift_card` currently supported.
-	Type ProductProvisioningType `json:"type"`
-}
 
 // Products describe the specific goods or services you offer to your customers.
 // For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product.
@@ -614,8 +541,6 @@ type Product struct {
 	Object string `json:"object"`
 	// The dimensions of this product for shipping purposes.
 	PackageDimensions *ProductPackageDimensions `json:"package_dimensions"`
-	// Provisioning configuration for this product.
-	Provisioning *ProductProvisioning `json:"provisioning"`
 	// Whether this product is shipped (i.e., physical goods).
 	Shippable bool `json:"shippable"`
 	// Extra information about a product which will appear on your customer's credit card statement. In the case that multiple products are billed at once, the first statement descriptor will be used. Only used for subscription payments.

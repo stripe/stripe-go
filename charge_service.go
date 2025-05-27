@@ -19,55 +19,55 @@ type v1ChargeService struct {
 	Key string
 }
 
-// This method is no longer recommended—use the [Payment Intents API](https://stripe.com/docs/api/payment_intents)
+// This method is no longer recommended—use the [Payment Intents API](https://docs.stripe.com/docs/api/payment_intents)
 // to initiate a new payment instead. Confirmation of the PaymentIntent creates the Charge
 // object used to request payment.
 func (c v1ChargeService) Create(ctx context.Context, params *ChargeCreateParams) (*Charge, error) {
-	charge := &Charge{}
 	if params == nil {
 		params = &ChargeCreateParams{}
 	}
 	params.Context = ctx
+	charge := &Charge{}
 	err := c.B.Call(http.MethodPost, "/v1/charges", c.Key, params, charge)
 	return charge, err
 }
 
 // Retrieves the details of a charge that has previously been created. Supply the unique charge ID that was returned from your previous request, and Stripe will return the corresponding charge information. The same information is returned when creating or refunding the charge.
 func (c v1ChargeService) Retrieve(ctx context.Context, id string, params *ChargeRetrieveParams) (*Charge, error) {
-	path := FormatURLPath("/v1/charges/%s", id)
-	charge := &Charge{}
 	if params == nil {
 		params = &ChargeRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/charges/%s", id)
+	charge := &Charge{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, charge)
 	return charge, err
 }
 
 // Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 func (c v1ChargeService) Update(ctx context.Context, id string, params *ChargeUpdateParams) (*Charge, error) {
-	path := FormatURLPath("/v1/charges/%s", id)
-	charge := &Charge{}
 	if params == nil {
 		params = &ChargeUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/charges/%s", id)
+	charge := &Charge{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, charge)
 	return charge, err
 }
 
 // Capture the payment of an existing, uncaptured charge that was created with the capture option set to false.
 //
-// Uncaptured payments expire a set number of days after they are created ([7 by default](https://stripe.com/docs/charges/placing-a-hold)), after which they are marked as refunded and capture attempts will fail.
+// Uncaptured payments expire a set number of days after they are created ([7 by default](https://docs.stripe.com/docs/charges/placing-a-hold)), after which they are marked as refunded and capture attempts will fail.
 //
-// Don't use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://stripe.com/docs/api/payment_intents/capture).
+// Don't use this method to capture a PaymentIntent-initiated charge. Use [Capture a PaymentIntent](https://docs.stripe.com/docs/api/payment_intents/capture).
 func (c v1ChargeService) Capture(ctx context.Context, id string, params *ChargeCaptureParams) (*Charge, error) {
-	path := FormatURLPath("/v1/charges/%s/capture", id)
-	charge := &Charge{}
 	if params == nil {
 		params = &ChargeCaptureParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/charges/%s/capture", id)
+	charge := &Charge{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, charge)
 	return charge, err
 }
@@ -89,7 +89,7 @@ func (c v1ChargeService) List(ctx context.Context, listParams *ChargeListParams)
 	}).All()
 }
 
-// Search for charges you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Search for charges you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.

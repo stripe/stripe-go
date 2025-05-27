@@ -132,26 +132,26 @@ func TestAccountLinksPost(t *testing.T) {
 }
 
 func TestAccountLinksPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AccountLinkParams{
 		Account:    stripe.String("acct_xxxxxxxxxxxxx"),
 		RefreshURL: stripe.String("https://example.com/reauth"),
 		ReturnURL:  stripe.String("https://example.com/return"),
 		Type:       stripe.String("account_onboarding"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.AccountLinks.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountLinksPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AccountLinkCreateParams{
 		Account:    stripe.String("acct_xxxxxxxxxxxxx"),
 		RefreshURL: stripe.String("https://example.com/reauth"),
 		ReturnURL:  stripe.String("https://example.com/return"),
 		Type:       stripe.String("account_onboarding"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1AccountLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -167,20 +167,20 @@ func TestAccountsCapabilitiesGet(t *testing.T) {
 }
 
 func TestAccountsCapabilitiesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CapabilityListParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Capabilities.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestAccountsCapabilitiesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CapabilityListParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Capabilities.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -195,20 +195,20 @@ func TestAccountsCapabilitiesGet2(t *testing.T) {
 }
 
 func TestAccountsCapabilitiesGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CapabilityParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Capabilities.Get("card_payments", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsCapabilitiesGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CapabilityRetrieveParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Capabilities.Retrieve(
 		context.TODO(), "card_payments", params)
 	assert.NotNil(t, result)
@@ -226,22 +226,22 @@ func TestAccountsCapabilitiesPost(t *testing.T) {
 }
 
 func TestAccountsCapabilitiesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CapabilityParams{
 		Requested: stripe.Bool(true),
 		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Capabilities.Update("card_payments", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsCapabilitiesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CapabilityUpdateParams{
 		Requested: stripe.Bool(true),
 		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Capabilities.Update(
 		context.TODO(), "card_payments", params)
 	assert.NotNil(t, result)
@@ -256,16 +256,16 @@ func TestAccountsDelete(t *testing.T) {
 }
 
 func TestAccountsDeleteService(t *testing.T) {
-	params := &stripe.AccountParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.AccountParams{}
 	result, err := sc.Accounts.Del("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsDeleteClient(t *testing.T) {
-	params := &stripe.AccountDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.AccountDeleteParams{}
 	result, err := sc.V1Accounts.Delete(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -281,18 +281,18 @@ func TestAccountsGet(t *testing.T) {
 }
 
 func TestAccountsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AccountListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Accounts.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestAccountsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AccountListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Accounts.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -305,16 +305,16 @@ func TestAccountsGet2(t *testing.T) {
 }
 
 func TestAccountsGet2Service(t *testing.T) {
-	params := &stripe.AccountParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.AccountParams{}
 	result, err := sc.Accounts.GetByID("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsGet2Client(t *testing.T) {
-	params := &stripe.AccountRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.AccountRetrieveParams{}
 	result, err := sc.V1Accounts.GetByID(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -331,20 +331,20 @@ func TestAccountsLoginLinksPost(t *testing.T) {
 }
 
 func TestAccountsLoginLinksPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.LoginLinkParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.LoginLinks.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsLoginLinksPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.LoginLinkCreateParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1LoginLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -358,18 +358,18 @@ func TestAccountsPersonsDelete(t *testing.T) {
 }
 
 func TestAccountsPersonsDeleteService(t *testing.T) {
-	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := sc.Persons.Del("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsPersonsDeleteClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PersonDeleteParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Persons.Delete(
 		context.TODO(), "person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -387,22 +387,22 @@ func TestAccountsPersonsGet(t *testing.T) {
 }
 
 func TestAccountsPersonsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PersonListParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Persons.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestAccountsPersonsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PersonListParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Persons.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -415,18 +415,18 @@ func TestAccountsPersonsGet2(t *testing.T) {
 }
 
 func TestAccountsPersonsGet2Service(t *testing.T) {
-	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	result, err := sc.Persons.Get("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsPersonsGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PersonRetrieveParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Persons.Retrieve(
 		context.TODO(), "person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -445,24 +445,24 @@ func TestAccountsPersonsPost(t *testing.T) {
 }
 
 func TestAccountsPersonsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PersonParams{
 		FirstName: stripe.String("Jane"),
 		LastName:  stripe.String("Diaz"),
 		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Persons.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsPersonsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PersonCreateParams{
 		FirstName: stripe.String("Jane"),
 		LastName:  stripe.String("Diaz"),
 		Account:   stripe.String("acct_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Persons.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -477,20 +477,20 @@ func TestAccountsPersonsPost2(t *testing.T) {
 }
 
 func TestAccountsPersonsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PersonParams{Account: stripe.String("acct_xxxxxxxxxxxxx")}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Persons.Update("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsPersonsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PersonUpdateParams{
 		Account: stripe.String("acct_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Persons.Update(
 		context.TODO(), "person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -499,7 +499,7 @@ func TestAccountsPersonsPost2Client(t *testing.T) {
 
 func TestAccountsPost(t *testing.T) {
 	params := &stripe.AccountParams{
-		Type:    stripe.String(string(stripe.AccountTypeCustom)),
+		Type:    stripe.String(stripe.AccountTypeCustom),
 		Country: stripe.String("US"),
 		Email:   stripe.String("jenny.rosen@example.com"),
 		Capabilities: &stripe.AccountCapabilitiesParams{
@@ -517,8 +517,9 @@ func TestAccountsPost(t *testing.T) {
 }
 
 func TestAccountsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AccountParams{
-		Type:    stripe.String(string(stripe.AccountTypeCustom)),
+		Type:    stripe.String(stripe.AccountTypeCustom),
 		Country: stripe.String("US"),
 		Email:   stripe.String("jenny.rosen@example.com"),
 		Capabilities: &stripe.AccountCapabilitiesParams{
@@ -530,15 +531,15 @@ func TestAccountsPostService(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Accounts.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AccountCreateParams{
-		Type:    stripe.String(string(stripe.AccountTypeCustom)),
+		Type:    stripe.String(stripe.AccountTypeCustom),
 		Country: stripe.String("US"),
 		Email:   stripe.String("jenny.rosen@example.com"),
 		Capabilities: &stripe.AccountCreateCapabilitiesParams{
@@ -550,7 +551,6 @@ func TestAccountsPostClient(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Accounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -565,18 +565,18 @@ func TestAccountsPost2(t *testing.T) {
 }
 
 func TestAccountsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AccountParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Accounts.Update("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AccountUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Accounts.Update(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -591,16 +591,16 @@ func TestAccountsRejectPost(t *testing.T) {
 }
 
 func TestAccountsRejectPostService(t *testing.T) {
-	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
 	result, err := sc.Accounts.Reject("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAccountsRejectPostClient(t *testing.T) {
-	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.AccountRejectParams{Reason: stripe.String("fraud")}
 	result, err := sc.V1Accounts.Reject(
 		context.TODO(), "acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -616,18 +616,18 @@ func TestApplicationFeesGet(t *testing.T) {
 }
 
 func TestApplicationFeesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ApplicationFeeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.ApplicationFees.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestApplicationFeesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ApplicationFeeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1ApplicationFees.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -640,16 +640,16 @@ func TestApplicationFeesGet2(t *testing.T) {
 }
 
 func TestApplicationFeesGet2Service(t *testing.T) {
-	params := &stripe.ApplicationFeeParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ApplicationFeeParams{}
 	result, err := sc.ApplicationFees.Get("fee_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestApplicationFeesGet2Client(t *testing.T) {
-	params := &stripe.ApplicationFeeRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ApplicationFeeRetrieveParams{}
 	result, err := sc.V1ApplicationFees.Retrieve(
 		context.TODO(), "fee_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -665,18 +665,18 @@ func TestApplicationFeesRefundsGet(t *testing.T) {
 }
 
 func TestApplicationFeesRefundsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FeeRefundListParams{ID: stripe.String("fee_xxxxxxxxxxxxx")}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.FeeRefunds.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestApplicationFeesRefundsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FeeRefundListParams{ID: stripe.String("fee_xxxxxxxxxxxxx")}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1FeeRefunds.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -689,18 +689,18 @@ func TestApplicationFeesRefundsGet2(t *testing.T) {
 }
 
 func TestApplicationFeesRefundsGet2Service(t *testing.T) {
-	params := &stripe.FeeRefundParams{Fee: stripe.String("fee_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FeeRefundParams{Fee: stripe.String("fee_xxxxxxxxxxxxx")}
 	result, err := sc.FeeRefunds.Get("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestApplicationFeesRefundsGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FeeRefundRetrieveParams{
 		Fee: stripe.String("fee_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1FeeRefunds.Retrieve(
 		context.TODO(), "fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -715,18 +715,18 @@ func TestApplicationFeesRefundsPost(t *testing.T) {
 }
 
 func TestApplicationFeesRefundsPostService(t *testing.T) {
-	params := &stripe.FeeRefundParams{ID: stripe.String("fee_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FeeRefundParams{ID: stripe.String("fee_xxxxxxxxxxxxx")}
 	result, err := sc.FeeRefunds.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestApplicationFeesRefundsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FeeRefundCreateParams{
 		ID: stripe.String("fee_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1FeeRefunds.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -741,20 +741,20 @@ func TestApplicationFeesRefundsPost2(t *testing.T) {
 }
 
 func TestApplicationFeesRefundsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FeeRefundParams{Fee: stripe.String("fee_xxxxxxxxxxxxx")}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.FeeRefunds.Update("fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestApplicationFeesRefundsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FeeRefundUpdateParams{
 		Fee: stripe.String("fee_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1FeeRefunds.Update(
 		context.TODO(), "fr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -765,7 +765,7 @@ func TestAppsSecretsDeletePost(t *testing.T) {
 	params := &stripe.AppsSecretDeleteWhereParams{
 		Name: stripe.String("my-api-key"),
 		Scope: &stripe.AppsSecretDeleteWhereScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	result, err := apps_secret.DeleteWhere(params)
@@ -774,26 +774,26 @@ func TestAppsSecretsDeletePost(t *testing.T) {
 }
 
 func TestAppsSecretsDeletePostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AppsSecretDeleteWhereParams{
 		Name: stripe.String("my-api-key"),
 		Scope: &stripe.AppsSecretDeleteWhereScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.AppsSecrets.DeleteWhere(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAppsSecretsDeletePostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AppsSecretDeleteWhereParams{
 		Name: stripe.String("my-api-key"),
 		Scope: &stripe.AppsSecretDeleteWhereScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1AppsSecrets.DeleteWhere(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -803,7 +803,7 @@ func TestAppsSecretsFindGet(t *testing.T) {
 	params := &stripe.AppsSecretFindParams{
 		Name: stripe.String("sec_123"),
 		Scope: &stripe.AppsSecretFindScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	result, err := apps_secret.Find(params)
@@ -812,26 +812,26 @@ func TestAppsSecretsFindGet(t *testing.T) {
 }
 
 func TestAppsSecretsFindGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AppsSecretFindParams{
 		Name: stripe.String("sec_123"),
 		Scope: &stripe.AppsSecretFindScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.AppsSecrets.Find(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAppsSecretsFindGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AppsSecretFindParams{
 		Name: stripe.String("sec_123"),
 		Scope: &stripe.AppsSecretFindScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1AppsSecrets.Find(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -840,7 +840,7 @@ func TestAppsSecretsFindGetClient(t *testing.T) {
 func TestAppsSecretsGet(t *testing.T) {
 	params := &stripe.AppsSecretListParams{
 		Scope: &stripe.AppsSecretListScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	params.Limit = stripe.Int64(2)
@@ -850,26 +850,26 @@ func TestAppsSecretsGet(t *testing.T) {
 }
 
 func TestAppsSecretsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AppsSecretListParams{
 		Scope: &stripe.AppsSecretListScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	params.Limit = stripe.Int64(2)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.AppsSecrets.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestAppsSecretsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AppsSecretListParams{
 		Scope: &stripe.AppsSecretListScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	params.Limit = stripe.Int64(2)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1AppsSecrets.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -877,7 +877,7 @@ func TestAppsSecretsGetClient(t *testing.T) {
 func TestAppsSecretsGet2(t *testing.T) {
 	params := &stripe.AppsSecretListParams{
 		Scope: &stripe.AppsSecretListScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	params.Limit = stripe.Int64(2)
@@ -887,26 +887,26 @@ func TestAppsSecretsGet2(t *testing.T) {
 }
 
 func TestAppsSecretsGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AppsSecretListParams{
 		Scope: &stripe.AppsSecretListScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	params.Limit = stripe.Int64(2)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.AppsSecrets.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestAppsSecretsGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AppsSecretListParams{
 		Scope: &stripe.AppsSecretListScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	params.Limit = stripe.Int64(2)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1AppsSecrets.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -916,7 +916,7 @@ func TestAppsSecretsPost(t *testing.T) {
 		Name:    stripe.String("sec_123"),
 		Payload: stripe.String("very secret string"),
 		Scope: &stripe.AppsSecretScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	result, err := apps_secret.New(params)
@@ -925,28 +925,28 @@ func TestAppsSecretsPost(t *testing.T) {
 }
 
 func TestAppsSecretsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AppsSecretParams{
 		Name:    stripe.String("sec_123"),
 		Payload: stripe.String("very secret string"),
 		Scope: &stripe.AppsSecretScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.AppsSecrets.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAppsSecretsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AppsSecretCreateParams{
 		Name:    stripe.String("sec_123"),
 		Payload: stripe.String("very secret string"),
 		Scope: &stripe.AppsSecretCreateScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1AppsSecrets.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -957,7 +957,7 @@ func TestAppsSecretsPost2(t *testing.T) {
 		Name:    stripe.String("my-api-key"),
 		Payload: stripe.String("secret_key_xxxxxx"),
 		Scope: &stripe.AppsSecretScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
 	result, err := apps_secret.New(params)
@@ -966,28 +966,28 @@ func TestAppsSecretsPost2(t *testing.T) {
 }
 
 func TestAppsSecretsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.AppsSecretParams{
 		Name:    stripe.String("my-api-key"),
 		Payload: stripe.String("secret_key_xxxxxx"),
 		Scope: &stripe.AppsSecretScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.AppsSecrets.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestAppsSecretsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.AppsSecretCreateParams{
 		Name:    stripe.String("my-api-key"),
 		Payload: stripe.String("secret_key_xxxxxx"),
 		Scope: &stripe.AppsSecretCreateScopeParams{
-			Type: stripe.String(string(stripe.AppsSecretScopeTypeAccount)),
+			Type: stripe.String(stripe.AppsSecretScopeTypeAccount),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1AppsSecrets.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1002,18 +1002,18 @@ func TestBalanceTransactionsGet(t *testing.T) {
 }
 
 func TestBalanceTransactionsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.BalanceTransactionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.BalanceTransactions.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestBalanceTransactionsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.BalanceTransactionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1BalanceTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -1026,16 +1026,16 @@ func TestBalanceTransactionsGet2(t *testing.T) {
 }
 
 func TestBalanceTransactionsGet2Service(t *testing.T) {
-	params := &stripe.BalanceTransactionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BalanceTransactionParams{}
 	result, err := sc.BalanceTransactions.Get("txn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestBalanceTransactionsGet2Client(t *testing.T) {
-	params := &stripe.BalanceTransactionRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BalanceTransactionRetrieveParams{}
 	result, err := sc.V1BalanceTransactions.Retrieve(
 		context.TODO(), "txn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1051,18 +1051,18 @@ func TestBillingPortalConfigurationsGet(t *testing.T) {
 }
 
 func TestBillingPortalConfigurationsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.BillingPortalConfigurationListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.BillingPortalConfigurations.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestBillingPortalConfigurationsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.BillingPortalConfigurationListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1BillingPortalConfigurations.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -1075,8 +1075,8 @@ func TestBillingPortalConfigurationsGet2(t *testing.T) {
 }
 
 func TestBillingPortalConfigurationsGet2Service(t *testing.T) {
-	params := &stripe.BillingPortalConfigurationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.BillingPortalConfigurationParams{}
 	result, err := sc.BillingPortalConfigurations.Get(
 		"bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1084,8 +1084,8 @@ func TestBillingPortalConfigurationsGet2Service(t *testing.T) {
 }
 
 func TestBillingPortalConfigurationsGet2Client(t *testing.T) {
-	params := &stripe.BillingPortalConfigurationRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.BillingPortalConfigurationRetrieveParams{}
 	result, err := sc.V1BillingPortalConfigurations.Retrieve(
 		context.TODO(), "bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1097,8 +1097,8 @@ func TestBillingPortalConfigurationsPost(t *testing.T) {
 		Features: &stripe.BillingPortalConfigurationFeaturesParams{
 			CustomerUpdate: &stripe.BillingPortalConfigurationFeaturesCustomerUpdateParams{
 				AllowedUpdates: []*string{
-					stripe.String(string(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateEmail)),
-					stripe.String(string(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateTaxID)),
+					stripe.String(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateEmail),
+					stripe.String(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateTaxID),
 				},
 				Enabled: stripe.Bool(true),
 			},
@@ -1117,12 +1117,13 @@ func TestBillingPortalConfigurationsPost(t *testing.T) {
 }
 
 func TestBillingPortalConfigurationsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.BillingPortalConfigurationParams{
 		Features: &stripe.BillingPortalConfigurationFeaturesParams{
 			CustomerUpdate: &stripe.BillingPortalConfigurationFeaturesCustomerUpdateParams{
 				AllowedUpdates: []*string{
-					stripe.String(string(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateEmail)),
-					stripe.String(string(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateTaxID)),
+					stripe.String(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateEmail),
+					stripe.String(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateTaxID),
 				},
 				Enabled: stripe.Bool(true),
 			},
@@ -1135,19 +1136,19 @@ func TestBillingPortalConfigurationsPostService(t *testing.T) {
 			TermsOfServiceURL: stripe.String("https://example.com/terms"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.BillingPortalConfigurations.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestBillingPortalConfigurationsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.BillingPortalConfigurationCreateParams{
 		Features: &stripe.BillingPortalConfigurationCreateFeaturesParams{
 			CustomerUpdate: &stripe.BillingPortalConfigurationCreateFeaturesCustomerUpdateParams{
 				AllowedUpdates: []*string{
-					stripe.String(string(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateEmail)),
-					stripe.String(string(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateTaxID)),
+					stripe.String(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateEmail),
+					stripe.String(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateTaxID),
 				},
 				Enabled: stripe.Bool(true),
 			},
@@ -1160,7 +1161,6 @@ func TestBillingPortalConfigurationsPostClient(t *testing.T) {
 			TermsOfServiceURL: stripe.String("https://example.com/terms"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1BillingPortalConfigurations.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -1181,13 +1181,13 @@ func TestBillingPortalConfigurationsPost2(t *testing.T) {
 }
 
 func TestBillingPortalConfigurationsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.BillingPortalConfigurationParams{
 		BusinessProfile: &stripe.BillingPortalConfigurationBusinessProfileParams{
 			PrivacyPolicyURL:  stripe.String("https://example.com/privacy"),
 			TermsOfServiceURL: stripe.String("https://example.com/terms"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.BillingPortalConfigurations.Update(
 		"bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1195,13 +1195,13 @@ func TestBillingPortalConfigurationsPost2Service(t *testing.T) {
 }
 
 func TestBillingPortalConfigurationsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.BillingPortalConfigurationUpdateParams{
 		BusinessProfile: &stripe.BillingPortalConfigurationUpdateBusinessProfileParams{
 			PrivacyPolicyURL:  stripe.String("https://example.com/privacy"),
 			TermsOfServiceURL: stripe.String("https://example.com/terms"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1BillingPortalConfigurations.Update(
 		context.TODO(), "bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1219,22 +1219,22 @@ func TestBillingPortalSessionsPost(t *testing.T) {
 }
 
 func TestBillingPortalSessionsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.BillingPortalSessionParams{
 		Customer:  stripe.String("cus_xxxxxxxxxxxxx"),
 		ReturnURL: stripe.String("https://example.com/account"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.BillingPortalSessions.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestBillingPortalSessionsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.BillingPortalSessionCreateParams{
 		Customer:  stripe.String("cus_xxxxxxxxxxxxx"),
 		ReturnURL: stripe.String("https://example.com/account"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1BillingPortalSessions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1248,16 +1248,16 @@ func TestChargesCapturePost(t *testing.T) {
 }
 
 func TestChargesCapturePostService(t *testing.T) {
-	params := &stripe.ChargeCaptureParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ChargeCaptureParams{}
 	result, err := sc.Charges.Capture("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestChargesCapturePostClient(t *testing.T) {
-	params := &stripe.ChargeCaptureParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ChargeCaptureParams{}
 	result, err := sc.V1Charges.Capture(
 		context.TODO(), "ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1273,18 +1273,18 @@ func TestChargesGet(t *testing.T) {
 }
 
 func TestChargesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ChargeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Charges.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestChargesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ChargeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Charges.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -1297,16 +1297,16 @@ func TestChargesGet2(t *testing.T) {
 }
 
 func TestChargesGet2Service(t *testing.T) {
-	params := &stripe.ChargeParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ChargeParams{}
 	result, err := sc.Charges.Get("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestChargesGet2Client(t *testing.T) {
-	params := &stripe.ChargeRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ChargeRetrieveParams{}
 	result, err := sc.V1Charges.Retrieve(
 		context.TODO(), "ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1316,7 +1316,7 @@ func TestChargesGet2Client(t *testing.T) {
 func TestChargesPost(t *testing.T) {
 	params := &stripe.ChargeParams{
 		Amount:      stripe.Int64(2000),
-		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		Currency:    stripe.String(stripe.CurrencyUSD),
 		Source:      &stripe.PaymentSourceSourceParams{Token: stripe.String("tok_xxxx")},
 		Description: stripe.String("My First Test Charge (created for API docs at https://www.stripe.com/docs/api)"),
 	}
@@ -1326,26 +1326,26 @@ func TestChargesPost(t *testing.T) {
 }
 
 func TestChargesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ChargeParams{
 		Amount:      stripe.Int64(2000),
-		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		Currency:    stripe.String(stripe.CurrencyUSD),
 		Source:      &stripe.PaymentSourceSourceParams{Token: stripe.String("tok_xxxx")},
 		Description: stripe.String("My First Test Charge (created for API docs at https://www.stripe.com/docs/api)"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Charges.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestChargesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ChargeCreateParams{
 		Amount:      stripe.Int64(2000),
-		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		Currency:    stripe.String(stripe.CurrencyUSD),
 		Source:      &stripe.PaymentSourceSourceParams{Token: stripe.String("tok_xxxx")},
 		Description: stripe.String("My First Test Charge (created for API docs at https://www.stripe.com/docs/api)"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Charges.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1360,18 +1360,18 @@ func TestChargesPost2(t *testing.T) {
 }
 
 func TestChargesPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ChargeParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Charges.Update("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestChargesPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ChargeUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Charges.Update(
 		context.TODO(), "ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1390,24 +1390,24 @@ func TestChargesSearchGet(t *testing.T) {
 }
 
 func TestChargesSearchGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ChargeSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "amount>999 AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Charges.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestChargesSearchGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ChargeSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "amount>999 AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Charges.Search(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -1420,16 +1420,16 @@ func TestCheckoutSessionsExpirePost(t *testing.T) {
 }
 
 func TestCheckoutSessionsExpirePostService(t *testing.T) {
-	params := &stripe.CheckoutSessionExpireParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CheckoutSessionExpireParams{}
 	result, err := sc.CheckoutSessions.Expire("sess_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCheckoutSessionsExpirePostClient(t *testing.T) {
-	params := &stripe.CheckoutSessionExpireParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.CheckoutSessionExpireParams{}
 	result, err := sc.V1CheckoutSessions.Expire(
 		context.TODO(), "sess_xyz", params)
 	assert.NotNil(t, result)
@@ -1444,16 +1444,16 @@ func TestCheckoutSessionsExpirePost2(t *testing.T) {
 }
 
 func TestCheckoutSessionsExpirePost2Service(t *testing.T) {
-	params := &stripe.CheckoutSessionExpireParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CheckoutSessionExpireParams{}
 	result, err := sc.CheckoutSessions.Expire("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCheckoutSessionsExpirePost2Client(t *testing.T) {
-	params := &stripe.CheckoutSessionExpireParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.CheckoutSessionExpireParams{}
 	result, err := sc.V1CheckoutSessions.Expire(
 		context.TODO(), "cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1469,18 +1469,18 @@ func TestCheckoutSessionsGet(t *testing.T) {
 }
 
 func TestCheckoutSessionsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CheckoutSessionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.CheckoutSessions.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCheckoutSessionsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CheckoutSessionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1CheckoutSessions.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -1493,16 +1493,16 @@ func TestCheckoutSessionsGet2(t *testing.T) {
 }
 
 func TestCheckoutSessionsGet2Service(t *testing.T) {
-	params := &stripe.CheckoutSessionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CheckoutSessionParams{}
 	result, err := sc.CheckoutSessions.Get("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCheckoutSessionsGet2Client(t *testing.T) {
-	params := &stripe.CheckoutSessionRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.CheckoutSessionRetrieveParams{}
 	result, err := sc.V1CheckoutSessions.Retrieve(
 		context.TODO(), "cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1519,20 +1519,20 @@ func TestCheckoutSessionsLineItemsGet(t *testing.T) {
 }
 
 func TestCheckoutSessionsLineItemsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CheckoutSessionListLineItemsParams{
 		Session: stripe.String("sess_xyz"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.CheckoutSessions.ListLineItems(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCheckoutSessionsLineItemsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CheckoutSessionListLineItemsParams{
 		Session: stripe.String("sess_xyz"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1CheckoutSessions.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -1541,7 +1541,7 @@ func TestCheckoutSessionsPost(t *testing.T) {
 	params := &stripe.CheckoutSessionParams{
 		SuccessURL: stripe.String("https://example.com/success"),
 		CancelURL:  stripe.String("https://example.com/cancel"),
-		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
+		Mode:       stripe.String(stripe.CheckoutSessionModePayment),
 		ShippingOptions: []*stripe.CheckoutSessionShippingOptionParams{
 			{
 				ShippingRate: stripe.String("shr_standard"),
@@ -1569,10 +1569,11 @@ func TestCheckoutSessionsPost(t *testing.T) {
 }
 
 func TestCheckoutSessionsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CheckoutSessionParams{
 		SuccessURL: stripe.String("https://example.com/success"),
 		CancelURL:  stripe.String("https://example.com/cancel"),
-		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
+		Mode:       stripe.String(stripe.CheckoutSessionModePayment),
 		ShippingOptions: []*stripe.CheckoutSessionShippingOptionParams{
 			{
 				ShippingRate: stripe.String("shr_standard"),
@@ -1594,17 +1595,17 @@ func TestCheckoutSessionsPostService(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.CheckoutSessions.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCheckoutSessionsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CheckoutSessionCreateParams{
 		SuccessURL: stripe.String("https://example.com/success"),
 		CancelURL:  stripe.String("https://example.com/cancel"),
-		Mode:       stripe.String(string(stripe.CheckoutSessionModePayment)),
+		Mode:       stripe.String(stripe.CheckoutSessionModePayment),
 		ShippingOptions: []*stripe.CheckoutSessionCreateShippingOptionParams{
 			{
 				ShippingRate: stripe.String("shr_standard"),
@@ -1626,7 +1627,6 @@ func TestCheckoutSessionsPostClient(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1CheckoutSessions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1641,7 +1641,7 @@ func TestCheckoutSessionsPost2(t *testing.T) {
 				Quantity: stripe.Int64(2),
 			},
 		},
-		Mode: stripe.String(string(stripe.CheckoutSessionModePayment)),
+		Mode: stripe.String(stripe.CheckoutSessionModePayment),
 	}
 	result, err := checkout_session.New(params)
 	assert.NotNil(t, result)
@@ -1649,6 +1649,7 @@ func TestCheckoutSessionsPost2(t *testing.T) {
 }
 
 func TestCheckoutSessionsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CheckoutSessionParams{
 		SuccessURL: stripe.String("https://example.com/success"),
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
@@ -1657,15 +1658,15 @@ func TestCheckoutSessionsPost2Service(t *testing.T) {
 				Quantity: stripe.Int64(2),
 			},
 		},
-		Mode: stripe.String(string(stripe.CheckoutSessionModePayment)),
+		Mode: stripe.String(stripe.CheckoutSessionModePayment),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.CheckoutSessions.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCheckoutSessionsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CheckoutSessionCreateParams{
 		SuccessURL: stripe.String("https://example.com/success"),
 		LineItems: []*stripe.CheckoutSessionCreateLineItemParams{
@@ -1674,9 +1675,8 @@ func TestCheckoutSessionsPost2Client(t *testing.T) {
 				Quantity: stripe.Int64(2),
 			},
 		},
-		Mode: stripe.String(string(stripe.CheckoutSessionModePayment)),
+		Mode: stripe.String(stripe.CheckoutSessionModePayment),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1CheckoutSessions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1691,18 +1691,18 @@ func TestCountrySpecsGet(t *testing.T) {
 }
 
 func TestCountrySpecsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CountrySpecListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.CountrySpecs.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCountrySpecsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CountrySpecListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1CountrySpecs.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -1715,16 +1715,16 @@ func TestCountrySpecsGet2(t *testing.T) {
 }
 
 func TestCountrySpecsGet2Service(t *testing.T) {
-	params := &stripe.CountrySpecParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CountrySpecParams{}
 	result, err := sc.CountrySpecs.Get("US", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCountrySpecsGet2Client(t *testing.T) {
-	params := &stripe.CountrySpecRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.CountrySpecRetrieveParams{}
 	result, err := sc.V1CountrySpecs.Retrieve(context.TODO(), "US", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1738,16 +1738,16 @@ func TestCouponsDelete(t *testing.T) {
 }
 
 func TestCouponsDeleteService(t *testing.T) {
-	params := &stripe.CouponParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CouponParams{}
 	result, err := sc.Coupons.Del("Z4OV52SU", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCouponsDeleteClient(t *testing.T) {
-	params := &stripe.CouponDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.CouponDeleteParams{}
 	result, err := sc.V1Coupons.Delete(context.TODO(), "Z4OV52SU", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1762,18 +1762,18 @@ func TestCouponsGet(t *testing.T) {
 }
 
 func TestCouponsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CouponListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Coupons.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCouponsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CouponListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Coupons.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -1786,16 +1786,16 @@ func TestCouponsGet2(t *testing.T) {
 }
 
 func TestCouponsGet2Service(t *testing.T) {
-	params := &stripe.CouponParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CouponParams{}
 	result, err := sc.Coupons.Get("Z4OV52SU", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCouponsGet2Client(t *testing.T) {
-	params := &stripe.CouponRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.CouponRetrieveParams{}
 	result, err := sc.V1Coupons.Retrieve(context.TODO(), "Z4OV52SU", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1804,7 +1804,7 @@ func TestCouponsGet2Client(t *testing.T) {
 func TestCouponsPost(t *testing.T) {
 	params := &stripe.CouponParams{
 		PercentOff: stripe.Float64(25.5),
-		Duration:   stripe.String(string(stripe.CouponDurationOnce)),
+		Duration:   stripe.String(stripe.CouponDurationOnce),
 	}
 	result, err := coupon.New(params)
 	assert.NotNil(t, result)
@@ -1812,22 +1812,22 @@ func TestCouponsPost(t *testing.T) {
 }
 
 func TestCouponsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CouponParams{
 		PercentOff: stripe.Float64(25.5),
-		Duration:   stripe.String(string(stripe.CouponDurationOnce)),
+		Duration:   stripe.String(stripe.CouponDurationOnce),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Coupons.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCouponsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CouponCreateParams{
 		PercentOff: stripe.Float64(25.5),
-		Duration:   stripe.String(string(stripe.CouponDurationOnce)),
+		Duration:   stripe.String(stripe.CouponDurationOnce),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Coupons.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1842,18 +1842,18 @@ func TestCouponsPost2(t *testing.T) {
 }
 
 func TestCouponsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CouponParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Coupons.Update("Z4OV52SU", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCouponsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CouponUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Coupons.Update(context.TODO(), "Z4OV52SU", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1874,6 +1874,7 @@ func TestCustomerSessionsPost(t *testing.T) {
 }
 
 func TestCustomerSessionsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerSessionParams{
 		Customer: stripe.String("cus_123"),
 		Components: &stripe.CustomerSessionComponentsParams{
@@ -1882,13 +1883,13 @@ func TestCustomerSessionsPostService(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.CustomerSessions.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomerSessionsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerSessionCreateParams{
 		Customer: stripe.String("cus_123"),
 		Components: &stripe.CustomerSessionCreateComponentsParams{
@@ -1897,7 +1898,6 @@ func TestCustomerSessionsPostClient(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1CustomerSessions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -1914,22 +1914,22 @@ func TestCustomersBalanceTransactionsGet(t *testing.T) {
 }
 
 func TestCustomersBalanceTransactionsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerBalanceTransactionListParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.CustomerBalanceTransactions.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersBalanceTransactionsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerBalanceTransactionListParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1CustomerBalanceTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -1944,10 +1944,10 @@ func TestCustomersBalanceTransactionsGet2(t *testing.T) {
 }
 
 func TestCustomersBalanceTransactionsGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerBalanceTransactionParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.CustomerBalanceTransactions.Get(
 		"cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1955,10 +1955,10 @@ func TestCustomersBalanceTransactionsGet2Service(t *testing.T) {
 }
 
 func TestCustomersBalanceTransactionsGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerBalanceTransactionRetrieveParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1CustomerBalanceTransactions.Retrieve(
 		context.TODO(), "cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -1968,7 +1968,7 @@ func TestCustomersBalanceTransactionsGet2Client(t *testing.T) {
 func TestCustomersBalanceTransactionsPost(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionParams{
 		Amount:   stripe.Int64(-500),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	result, err := customerbalancetransaction.New(params)
@@ -1977,24 +1977,24 @@ func TestCustomersBalanceTransactionsPost(t *testing.T) {
 }
 
 func TestCustomersBalanceTransactionsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerBalanceTransactionParams{
 		Amount:   stripe.Int64(-500),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.CustomerBalanceTransactions.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersBalanceTransactionsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerBalanceTransactionCreateParams{
 		Amount:   stripe.Int64(-500),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1CustomerBalanceTransactions.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -2013,11 +2013,11 @@ func TestCustomersBalanceTransactionsPost2(t *testing.T) {
 }
 
 func TestCustomersBalanceTransactionsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerBalanceTransactionParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.CustomerBalanceTransactions.Update(
 		"cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2025,11 +2025,11 @@ func TestCustomersBalanceTransactionsPost2Service(t *testing.T) {
 }
 
 func TestCustomersBalanceTransactionsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerBalanceTransactionUpdateParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1CustomerBalanceTransactions.Update(
 		context.TODO(), "cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2044,18 +2044,18 @@ func TestCustomersCashBalanceGet(t *testing.T) {
 }
 
 func TestCustomersCashBalanceGetService(t *testing.T) {
-	params := &stripe.CashBalanceParams{Customer: stripe.String("cus_123")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CashBalanceParams{Customer: stripe.String("cus_123")}
 	result, err := sc.CashBalances.Get(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersCashBalanceGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CashBalanceRetrieveParams{
 		Customer: stripe.String("cus_123"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1CashBalances.Retrieve(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -2064,7 +2064,7 @@ func TestCustomersCashBalanceGetClient(t *testing.T) {
 func TestCustomersCashBalancePost(t *testing.T) {
 	params := &stripe.CashBalanceParams{
 		Settings: &stripe.CashBalanceSettingsParams{
-			ReconciliationMode: stripe.String(string(stripe.CashBalanceSettingsReconciliationModeManual)),
+			ReconciliationMode: stripe.String(stripe.CashBalanceSettingsReconciliationModeManual),
 		},
 		Customer: stripe.String("cus_123"),
 	}
@@ -2074,26 +2074,26 @@ func TestCustomersCashBalancePost(t *testing.T) {
 }
 
 func TestCustomersCashBalancePostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CashBalanceParams{
 		Settings: &stripe.CashBalanceSettingsParams{
-			ReconciliationMode: stripe.String(string(stripe.CashBalanceSettingsReconciliationModeManual)),
+			ReconciliationMode: stripe.String(stripe.CashBalanceSettingsReconciliationModeManual),
 		},
 		Customer: stripe.String("cus_123"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.CashBalances.Update(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersCashBalancePostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CashBalanceUpdateParams{
 		Settings: &stripe.CashBalanceUpdateSettingsParams{
-			ReconciliationMode: stripe.String(string(stripe.CashBalanceSettingsReconciliationModeManual)),
+			ReconciliationMode: stripe.String(stripe.CashBalanceSettingsReconciliationModeManual),
 		},
 		Customer: stripe.String("cus_123"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1CashBalances.Update(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -2110,22 +2110,22 @@ func TestCustomersCashBalanceTransactionsGet(t *testing.T) {
 }
 
 func TestCustomersCashBalanceTransactionsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerCashBalanceTransactionListParams{
 		Customer: stripe.String("cus_123"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.CustomerCashBalanceTransactions.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersCashBalanceTransactionsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerCashBalanceTransactionListParams{
 		Customer: stripe.String("cus_123"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1CustomerCashBalanceTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2138,16 +2138,16 @@ func TestCustomersDelete(t *testing.T) {
 }
 
 func TestCustomersDeleteService(t *testing.T) {
-	params := &stripe.CustomerParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CustomerParams{}
 	result, err := sc.Customers.Del("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersDeleteClient(t *testing.T) {
-	params := &stripe.CustomerDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.CustomerDeleteParams{}
 	result, err := sc.V1Customers.Delete(
 		context.TODO(), "cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2160,7 +2160,7 @@ func TestCustomersFundingInstructionsPost(t *testing.T) {
 			RequestedAddressTypes: []*string{stripe.String("zengin")},
 			Type:                  stripe.String("jp_bank_transfer"),
 		},
-		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		Currency:    stripe.String(stripe.CurrencyUSD),
 		FundingType: stripe.String("bank_transfer"),
 	}
 	result, err := customer.CreateFundingInstructions("cus_123", params)
@@ -2169,30 +2169,30 @@ func TestCustomersFundingInstructionsPost(t *testing.T) {
 }
 
 func TestCustomersFundingInstructionsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerCreateFundingInstructionsParams{
 		BankTransfer: &stripe.CustomerCreateFundingInstructionsBankTransferParams{
 			RequestedAddressTypes: []*string{stripe.String("zengin")},
 			Type:                  stripe.String("jp_bank_transfer"),
 		},
-		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		Currency:    stripe.String(stripe.CurrencyUSD),
 		FundingType: stripe.String("bank_transfer"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Customers.CreateFundingInstructions("cus_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersFundingInstructionsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerCreateFundingInstructionsParams{
 		BankTransfer: &stripe.CustomerCreateFundingInstructionsBankTransferParams{
 			RequestedAddressTypes: []*string{stripe.String("zengin")},
 			Type:                  stripe.String("jp_bank_transfer"),
 		},
-		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		Currency:    stripe.String(stripe.CurrencyUSD),
 		FundingType: stripe.String("bank_transfer"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Customers.CreateFundingInstructions(
 		context.TODO(), "cus_123", params)
 	assert.NotNil(t, result)
@@ -2208,18 +2208,18 @@ func TestCustomersGet(t *testing.T) {
 }
 
 func TestCustomersGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Customers.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Customers.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2233,18 +2233,18 @@ func TestCustomersGet2(t *testing.T) {
 }
 
 func TestCustomersGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Customers.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Customers.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2257,16 +2257,16 @@ func TestCustomersGet3(t *testing.T) {
 }
 
 func TestCustomersGet3Service(t *testing.T) {
-	params := &stripe.CustomerParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CustomerParams{}
 	result, err := sc.Customers.Get("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersGet3Client(t *testing.T) {
-	params := &stripe.CustomerRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.CustomerRetrieveParams{}
 	result, err := sc.V1Customers.Retrieve(
 		context.TODO(), "cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2284,22 +2284,22 @@ func TestCustomersPaymentMethodsGet(t *testing.T) {
 }
 
 func TestCustomersPaymentMethodsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerListPaymentMethodsParams{
 		Type:     stripe.String("card"),
 		Customer: stripe.String("cus_xyz"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Customers.ListPaymentMethods(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersPaymentMethodsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerListPaymentMethodsParams{
 		Type:     stripe.String("card"),
 		Customer: stripe.String("cus_xyz"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Customers.ListPaymentMethods(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2315,22 +2315,22 @@ func TestCustomersPaymentMethodsGet2(t *testing.T) {
 }
 
 func TestCustomersPaymentMethodsGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerListPaymentMethodsParams{
 		Type:     stripe.String("card"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Customers.ListPaymentMethods(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersPaymentMethodsGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerListPaymentMethodsParams{
 		Type:     stripe.String("card"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Customers.ListPaymentMethods(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2345,20 +2345,20 @@ func TestCustomersPost(t *testing.T) {
 }
 
 func TestCustomersPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerParams{
 		Description: stripe.String("My First Test Customer (created for API docs at https://www.stripe.com/docs/api)"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Customers.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerCreateParams{
 		Description: stripe.String("My First Test Customer (created for API docs at https://www.stripe.com/docs/api)"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Customers.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -2373,18 +2373,18 @@ func TestCustomersPost2(t *testing.T) {
 }
 
 func TestCustomersPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Customers.Update("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Customers.Update(
 		context.TODO(), "cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2403,24 +2403,24 @@ func TestCustomersSearchGet(t *testing.T) {
 }
 
 func TestCustomersSearchGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "name:'fakename' AND metadata['foo']:'bar'",
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Customers.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersSearchGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "name:'fakename' AND metadata['foo']:'bar'",
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Customers.Search(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2437,24 +2437,24 @@ func TestCustomersSearchGet2(t *testing.T) {
 }
 
 func TestCustomersSearchGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CustomerSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "name:'fakename' AND metadata['foo']:'bar'",
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Customers.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersSearchGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CustomerSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "name:'fakename' AND metadata['foo']:'bar'",
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Customers.Search(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2467,18 +2467,18 @@ func TestCustomersSourcesDelete(t *testing.T) {
 }
 
 func TestCustomersSourcesDeleteService(t *testing.T) {
-	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.Cards.Del("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersSourcesDeleteClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardDeleteParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Cards.Delete(context.TODO(), "ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -2492,18 +2492,18 @@ func TestCustomersSourcesDelete2(t *testing.T) {
 }
 
 func TestCustomersSourcesDelete2Service(t *testing.T) {
-	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.CardParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.Cards.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersSourcesDelete2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardDeleteParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Cards.Delete(
 		context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2522,24 +2522,24 @@ func TestCustomersSourcesGet(t *testing.T) {
 }
 
 func TestCustomersSourcesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentSourceListParams{
 		Object:   stripe.String("bank_account"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.PaymentSources.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersSourcesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentSourceListParams{
 		Object:   stripe.String("bank_account"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1PaymentSources.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2556,24 +2556,24 @@ func TestCustomersSourcesGet2(t *testing.T) {
 }
 
 func TestCustomersSourcesGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentSourceListParams{
 		Object:   stripe.String("card"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.PaymentSources.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersSourcesGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentSourceListParams{
 		Object:   stripe.String("card"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1PaymentSources.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2588,20 +2588,20 @@ func TestCustomersSourcesGet3(t *testing.T) {
 }
 
 func TestCustomersSourcesGet3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentSourceParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentSources.Get("ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersSourcesGet3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentSourceRetrieveParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentSources.Retrieve(
 		context.TODO(), "ba_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2618,20 +2618,20 @@ func TestCustomersSourcesGet4(t *testing.T) {
 }
 
 func TestCustomersSourcesGet4Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentSourceParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentSources.Get("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersSourcesGet4Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentSourceRetrieveParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentSources.Retrieve(
 		context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2649,22 +2649,22 @@ func TestCustomersSourcesPost(t *testing.T) {
 }
 
 func TestCustomersSourcesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CardParams{
 		AccountHolderName: stripe.String("Kamil"),
 		Customer:          stripe.String("cus_123"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Cards.Update("card_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersSourcesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardUpdateParams{
 		AccountHolderName: stripe.String("Kamil"),
 		Customer:          stripe.String("cus_123"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Cards.Update(context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -2681,22 +2681,22 @@ func TestCustomersSourcesPost5(t *testing.T) {
 }
 
 func TestCustomersSourcesPost5Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.CardParams{
 		Name:     stripe.String("Jenny Rosen"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Cards.Update("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersSourcesPost5Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.CardUpdateParams{
 		Name:     stripe.String("Jenny Rosen"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Cards.Update(
 		context.TODO(), "card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2711,18 +2711,18 @@ func TestCustomersTaxIdsDelete(t *testing.T) {
 }
 
 func TestCustomersTaxIdsDeleteService(t *testing.T) {
-	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.TaxIDs.Del("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersTaxIdsDeleteClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxIDDeleteParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TaxIDs.Delete(
 		context.TODO(), "txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2740,22 +2740,22 @@ func TestCustomersTaxIdsGet(t *testing.T) {
 }
 
 func TestCustomersTaxIdsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxIDListParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TaxIDs.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestCustomersTaxIdsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxIDListParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TaxIDs.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2768,18 +2768,18 @@ func TestCustomersTaxIdsGet2(t *testing.T) {
 }
 
 func TestCustomersTaxIdsGet2Service(t *testing.T) {
-	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxIDParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.TaxIDs.Get("txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersTaxIdsGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxIDRetrieveParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TaxIDs.Retrieve(
 		context.TODO(), "txi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2788,7 +2788,7 @@ func TestCustomersTaxIdsGet2Client(t *testing.T) {
 
 func TestCustomersTaxIdsPost(t *testing.T) {
 	params := &stripe.TaxIDParams{
-		Type:     stripe.String(string(stripe.TaxIDTypeEUVAT)),
+		Type:     stripe.String(stripe.TaxIDTypeEUVAT),
 		Value:    stripe.String("DE123456789"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
@@ -2798,24 +2798,24 @@ func TestCustomersTaxIdsPost(t *testing.T) {
 }
 
 func TestCustomersTaxIdsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxIDParams{
-		Type:     stripe.String(string(stripe.TaxIDTypeEUVAT)),
+		Type:     stripe.String(stripe.TaxIDTypeEUVAT),
 		Value:    stripe.String("DE123456789"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TaxIDs.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestCustomersTaxIdsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxIDCreateParams{
-		Type:     stripe.String(string(stripe.TaxIDTypeEUVAT)),
+		Type:     stripe.String(stripe.TaxIDTypeEUVAT),
 		Value:    stripe.String("DE123456789"),
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TaxIDs.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -2829,16 +2829,16 @@ func TestDisputesClosePost(t *testing.T) {
 }
 
 func TestDisputesClosePostService(t *testing.T) {
-	params := &stripe.DisputeParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.DisputeParams{}
 	result, err := sc.Disputes.Close("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestDisputesClosePostClient(t *testing.T) {
-	params := &stripe.DisputeCloseParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.DisputeCloseParams{}
 	result, err := sc.V1Disputes.Close(
 		context.TODO(), "dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2854,18 +2854,18 @@ func TestDisputesGet(t *testing.T) {
 }
 
 func TestDisputesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.DisputeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Disputes.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestDisputesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.DisputeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Disputes.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2878,16 +2878,16 @@ func TestDisputesGet2(t *testing.T) {
 }
 
 func TestDisputesGet2Service(t *testing.T) {
-	params := &stripe.DisputeParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.DisputeParams{}
 	result, err := sc.Disputes.Get("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestDisputesGet2Client(t *testing.T) {
-	params := &stripe.DisputeRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.DisputeRetrieveParams{}
 	result, err := sc.V1Disputes.Retrieve(
 		context.TODO(), "dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2903,18 +2903,18 @@ func TestDisputesPost(t *testing.T) {
 }
 
 func TestDisputesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.DisputeParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Disputes.Update("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestDisputesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.DisputeUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Disputes.Update(
 		context.TODO(), "dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2930,18 +2930,18 @@ func TestEventsGet(t *testing.T) {
 }
 
 func TestEventsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.EventListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Events.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestEventsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.EventListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Events.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -2954,16 +2954,16 @@ func TestEventsGet2(t *testing.T) {
 }
 
 func TestEventsGet2Service(t *testing.T) {
-	params := &stripe.EventParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.EventParams{}
 	result, err := sc.Events.Get("evt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestEventsGet2Client(t *testing.T) {
-	params := &stripe.EventRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.EventRetrieveParams{}
 	result, err := sc.V1Events.Retrieve(
 		context.TODO(), "evt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -2978,16 +2978,16 @@ func TestFinancialConnectionsAccountsDisconnectPost(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsDisconnectPostService(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	result, err := sc.FinancialConnectionsAccounts.Disconnect("fca_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountsDisconnectPostClient(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	result, err := sc.V1FinancialConnectionsAccounts.Disconnect(
 		context.TODO(), "fca_xyz", params)
 	assert.NotNil(t, result)
@@ -3003,8 +3003,8 @@ func TestFinancialConnectionsAccountsDisconnectPost2(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsDisconnectPost2Service(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	result, err := sc.FinancialConnectionsAccounts.Disconnect(
 		"fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3012,8 +3012,8 @@ func TestFinancialConnectionsAccountsDisconnectPost2Service(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsDisconnectPost2Client(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.FinancialConnectionsAccountDisconnectParams{}
 	result, err := sc.V1FinancialConnectionsAccounts.Disconnect(
 		context.TODO(), "fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3028,16 +3028,16 @@ func TestFinancialConnectionsAccountsGet(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsGetService(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FinancialConnectionsAccountListParams{}
 	result := sc.FinancialConnectionsAccounts.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsGetClient(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountListParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.FinancialConnectionsAccountListParams{}
 	result := sc.V1FinancialConnectionsAccounts.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -3050,16 +3050,16 @@ func TestFinancialConnectionsAccountsGet2(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsGet2Service(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FinancialConnectionsAccountParams{}
 	result, err := sc.FinancialConnectionsAccounts.GetByID("fca_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountsGet2Client(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.FinancialConnectionsAccountRetrieveParams{}
 	result, err := sc.V1FinancialConnectionsAccounts.GetByID(
 		context.TODO(), "fca_xyz", params)
 	assert.NotNil(t, result)
@@ -3078,24 +3078,24 @@ func TestFinancialConnectionsAccountsGet3(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsGet3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsAccountListParams{
 		AccountHolder: &stripe.FinancialConnectionsAccountListAccountHolderParams{
 			Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.FinancialConnectionsAccounts.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsGet3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsAccountListParams{
 		AccountHolder: &stripe.FinancialConnectionsAccountListAccountHolderParams{
 			Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1FinancialConnectionsAccounts.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -3109,8 +3109,8 @@ func TestFinancialConnectionsAccountsGet4(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsGet4Service(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FinancialConnectionsAccountParams{}
 	result, err := sc.FinancialConnectionsAccounts.GetByID(
 		"fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3118,8 +3118,8 @@ func TestFinancialConnectionsAccountsGet4Service(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsGet4Client(t *testing.T) {
-	params := &stripe.FinancialConnectionsAccountRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.FinancialConnectionsAccountRetrieveParams{}
 	result, err := sc.V1FinancialConnectionsAccounts.GetByID(
 		context.TODO(), "fca_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3137,22 +3137,22 @@ func TestFinancialConnectionsAccountsOwnersGet(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsOwnersGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xyz"),
 		Account:   stripe.String("fca_xyz"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.FinancialConnectionsAccounts.ListOwners(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsOwnersGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xyz"),
 		Account:   stripe.String("fca_xyz"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1FinancialConnectionsAccounts.ListOwners(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -3170,24 +3170,24 @@ func TestFinancialConnectionsAccountsOwnersGet2(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsOwnersGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xxxxxxxxxxxxx"),
 		Account:   stripe.String("fca_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.FinancialConnectionsAccounts.ListOwners(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestFinancialConnectionsAccountsOwnersGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsAccountListOwnersParams{
 		Ownership: stripe.String("fcaowns_xxxxxxxxxxxxx"),
 		Account:   stripe.String("fca_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1FinancialConnectionsAccounts.ListOwners(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -3203,20 +3203,20 @@ func TestFinancialConnectionsAccountsRefreshPost(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsRefreshPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsAccountRefreshParams{
 		Features: []*string{stripe.String("balance")},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.FinancialConnectionsAccounts.Refresh("fca_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountsRefreshPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsAccountRefreshParams{
 		Features: []*string{stripe.String("balance")},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1FinancialConnectionsAccounts.Refresh(
 		context.TODO(), "fca_xyz", params)
 	assert.NotNil(t, result)
@@ -3233,20 +3233,20 @@ func TestFinancialConnectionsAccountsSubscribePost(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsSubscribePostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsAccountSubscribeParams{
 		Features: []*string{stripe.String("transactions")},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.FinancialConnectionsAccounts.Subscribe("fa_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountsSubscribePostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsAccountSubscribeParams{
 		Features: []*string{stripe.String("transactions")},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1FinancialConnectionsAccounts.Subscribe(
 		context.TODO(), "fa_123", params)
 	assert.NotNil(t, result)
@@ -3263,20 +3263,20 @@ func TestFinancialConnectionsAccountsUnsubscribePost(t *testing.T) {
 }
 
 func TestFinancialConnectionsAccountsUnsubscribePostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsAccountUnsubscribeParams{
 		Features: []*string{stripe.String("transactions")},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.FinancialConnectionsAccounts.Unsubscribe("fa_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsAccountsUnsubscribePostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsAccountUnsubscribeParams{
 		Features: []*string{stripe.String("transactions")},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1FinancialConnectionsAccounts.Unsubscribe(
 		context.TODO(), "fa_123", params)
 	assert.NotNil(t, result)
@@ -3291,16 +3291,16 @@ func TestFinancialConnectionsSessionsGet(t *testing.T) {
 }
 
 func TestFinancialConnectionsSessionsGetService(t *testing.T) {
-	params := &stripe.FinancialConnectionsSessionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FinancialConnectionsSessionParams{}
 	result, err := sc.FinancialConnectionsSessions.Get("fcsess_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsSessionsGetClient(t *testing.T) {
-	params := &stripe.FinancialConnectionsSessionRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.FinancialConnectionsSessionRetrieveParams{}
 	result, err := sc.V1FinancialConnectionsSessions.Retrieve(
 		context.TODO(), "fcsess_xyz", params)
 	assert.NotNil(t, result)
@@ -3316,8 +3316,8 @@ func TestFinancialConnectionsSessionsGet2(t *testing.T) {
 }
 
 func TestFinancialConnectionsSessionsGet2Service(t *testing.T) {
-	params := &stripe.FinancialConnectionsSessionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FinancialConnectionsSessionParams{}
 	result, err := sc.FinancialConnectionsSessions.Get(
 		"fcsess_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3325,8 +3325,8 @@ func TestFinancialConnectionsSessionsGet2Service(t *testing.T) {
 }
 
 func TestFinancialConnectionsSessionsGet2Client(t *testing.T) {
-	params := &stripe.FinancialConnectionsSessionRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.FinancialConnectionsSessionRetrieveParams{}
 	result, err := sc.V1FinancialConnectionsSessions.Retrieve(
 		context.TODO(), "fcsess_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3336,11 +3336,11 @@ func TestFinancialConnectionsSessionsGet2Client(t *testing.T) {
 func TestFinancialConnectionsSessionsPost(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{
 		AccountHolder: &stripe.FinancialConnectionsSessionAccountHolderParams{
-			Type:     stripe.String(string(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer)),
+			Type:     stripe.String(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer),
 			Customer: stripe.String("cus_123"),
 		},
 		Permissions: []*string{
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
+			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 	}
 	result, err := financialconnections_session.New(params)
@@ -3349,32 +3349,32 @@ func TestFinancialConnectionsSessionsPost(t *testing.T) {
 }
 
 func TestFinancialConnectionsSessionsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsSessionParams{
 		AccountHolder: &stripe.FinancialConnectionsSessionAccountHolderParams{
-			Type:     stripe.String(string(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer)),
+			Type:     stripe.String(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer),
 			Customer: stripe.String("cus_123"),
 		},
 		Permissions: []*string{
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
+			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.FinancialConnectionsSessions.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsSessionsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsSessionCreateParams{
 		AccountHolder: &stripe.FinancialConnectionsSessionCreateAccountHolderParams{
-			Type:     stripe.String(string(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer)),
+			Type:     stripe.String(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer),
 			Customer: stripe.String("cus_123"),
 		},
 		Permissions: []*string{
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
+			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1FinancialConnectionsSessions.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -3384,12 +3384,12 @@ func TestFinancialConnectionsSessionsPostClient(t *testing.T) {
 func TestFinancialConnectionsSessionsPost2(t *testing.T) {
 	params := &stripe.FinancialConnectionsSessionParams{
 		AccountHolder: &stripe.FinancialConnectionsSessionAccountHolderParams{
-			Type:     stripe.String(string(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer)),
+			Type:     stripe.String(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer),
 			Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		},
 		Permissions: []*string{
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionPaymentMethod)),
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
+			stripe.String(stripe.FinancialConnectionsSessionPermissionPaymentMethod),
+			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 		Filters: &stripe.FinancialConnectionsSessionFiltersParams{
 			Countries: []*string{stripe.String("US")},
@@ -3401,40 +3401,40 @@ func TestFinancialConnectionsSessionsPost2(t *testing.T) {
 }
 
 func TestFinancialConnectionsSessionsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsSessionParams{
 		AccountHolder: &stripe.FinancialConnectionsSessionAccountHolderParams{
-			Type:     stripe.String(string(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer)),
+			Type:     stripe.String(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer),
 			Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		},
 		Permissions: []*string{
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionPaymentMethod)),
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
+			stripe.String(stripe.FinancialConnectionsSessionPermissionPaymentMethod),
+			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 		Filters: &stripe.FinancialConnectionsSessionFiltersParams{
 			Countries: []*string{stripe.String("US")},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.FinancialConnectionsSessions.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsSessionsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsSessionCreateParams{
 		AccountHolder: &stripe.FinancialConnectionsSessionCreateAccountHolderParams{
-			Type:     stripe.String(string(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer)),
+			Type:     stripe.String(stripe.FinancialConnectionsSessionAccountHolderTypeCustomer),
 			Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		},
 		Permissions: []*string{
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionPaymentMethod)),
-			stripe.String(string(stripe.FinancialConnectionsSessionPermissionBalances)),
+			stripe.String(stripe.FinancialConnectionsSessionPermissionPaymentMethod),
+			stripe.String(stripe.FinancialConnectionsSessionPermissionBalances),
 		},
 		Filters: &stripe.FinancialConnectionsSessionCreateFiltersParams{
 			Countries: []*string{stripe.String("US")},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1FinancialConnectionsSessions.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -3449,16 +3449,16 @@ func TestFinancialConnectionsTransactionsGet(t *testing.T) {
 }
 
 func TestFinancialConnectionsTransactionsGetService(t *testing.T) {
-	params := &stripe.FinancialConnectionsTransactionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.FinancialConnectionsTransactionParams{}
 	result, err := sc.FinancialConnectionsTransactions.Get("tr_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestFinancialConnectionsTransactionsGetClient(t *testing.T) {
-	params := &stripe.FinancialConnectionsTransactionRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.FinancialConnectionsTransactionRetrieveParams{}
 	result, err := sc.V1FinancialConnectionsTransactions.Retrieve(
 		context.TODO(), "tr_123", params)
 	assert.NotNil(t, result)
@@ -3475,20 +3475,20 @@ func TestFinancialConnectionsTransactionsGet2(t *testing.T) {
 }
 
 func TestFinancialConnectionsTransactionsGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.FinancialConnectionsTransactionListParams{
 		Account: stripe.String("fca_xyz"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.FinancialConnectionsTransactions.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestFinancialConnectionsTransactionsGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.FinancialConnectionsTransactionListParams{
 		Account: stripe.String("fca_xyz"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1FinancialConnectionsTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -3502,18 +3502,18 @@ func TestIdentityVerificationReportsGet(t *testing.T) {
 }
 
 func TestIdentityVerificationReportsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IdentityVerificationReportListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.IdentityVerificationReports.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestIdentityVerificationReportsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IdentityVerificationReportListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1IdentityVerificationReports.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -3526,16 +3526,16 @@ func TestIdentityVerificationReportsGet2(t *testing.T) {
 }
 
 func TestIdentityVerificationReportsGet2Service(t *testing.T) {
-	params := &stripe.IdentityVerificationReportParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IdentityVerificationReportParams{}
 	result, err := sc.IdentityVerificationReports.Get("vr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIdentityVerificationReportsGet2Client(t *testing.T) {
-	params := &stripe.IdentityVerificationReportRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IdentityVerificationReportRetrieveParams{}
 	result, err := sc.V1IdentityVerificationReports.Retrieve(
 		context.TODO(), "vr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3551,8 +3551,8 @@ func TestIdentityVerificationSessionsCancelPost(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsCancelPostService(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IdentityVerificationSessionCancelParams{}
 	result, err := sc.IdentityVerificationSessions.Cancel(
 		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3560,8 +3560,8 @@ func TestIdentityVerificationSessionsCancelPostService(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsCancelPostClient(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IdentityVerificationSessionCancelParams{}
 	result, err := sc.V1IdentityVerificationSessions.Cancel(
 		context.TODO(), "vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3577,18 +3577,18 @@ func TestIdentityVerificationSessionsGet(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IdentityVerificationSessionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.IdentityVerificationSessions.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestIdentityVerificationSessionsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IdentityVerificationSessionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1IdentityVerificationSessions.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -3601,8 +3601,8 @@ func TestIdentityVerificationSessionsGet2(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsGet2Service(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IdentityVerificationSessionParams{}
 	result, err := sc.IdentityVerificationSessions.Get(
 		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3610,8 +3610,8 @@ func TestIdentityVerificationSessionsGet2Service(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsGet2Client(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IdentityVerificationSessionRetrieveParams{}
 	result, err := sc.V1IdentityVerificationSessions.Retrieve(
 		context.TODO(), "vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3620,7 +3620,7 @@ func TestIdentityVerificationSessionsGet2Client(t *testing.T) {
 
 func TestIdentityVerificationSessionsPost(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionParams{
-		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeDocument)),
+		Type: stripe.String(stripe.IdentityVerificationSessionTypeDocument),
 	}
 	result, err := identity_verificationsession.New(params)
 	assert.NotNil(t, result)
@@ -3628,20 +3628,20 @@ func TestIdentityVerificationSessionsPost(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsPostService(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionParams{
-		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeDocument)),
-	}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IdentityVerificationSessionParams{
+		Type: stripe.String(stripe.IdentityVerificationSessionTypeDocument),
+	}
 	result, err := sc.IdentityVerificationSessions.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIdentityVerificationSessionsPostClient(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionCreateParams{
-		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeDocument)),
-	}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IdentityVerificationSessionCreateParams{
+		Type: stripe.String(stripe.IdentityVerificationSessionTypeDocument),
+	}
 	result, err := sc.V1IdentityVerificationSessions.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -3650,7 +3650,7 @@ func TestIdentityVerificationSessionsPostClient(t *testing.T) {
 
 func TestIdentityVerificationSessionsPost2(t *testing.T) {
 	params := &stripe.IdentityVerificationSessionParams{
-		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeIDNumber)),
+		Type: stripe.String(stripe.IdentityVerificationSessionTypeIDNumber),
 	}
 	result, err := identity_verificationsession.Update(
 		"vs_xxxxxxxxxxxxx", params)
@@ -3659,10 +3659,10 @@ func TestIdentityVerificationSessionsPost2(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsPost2Service(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionParams{
-		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeIDNumber)),
-	}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IdentityVerificationSessionParams{
+		Type: stripe.String(stripe.IdentityVerificationSessionTypeIDNumber),
+	}
 	result, err := sc.IdentityVerificationSessions.Update(
 		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3670,10 +3670,10 @@ func TestIdentityVerificationSessionsPost2Service(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsPost2Client(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionUpdateParams{
-		Type: stripe.String(string(stripe.IdentityVerificationSessionTypeIDNumber)),
-	}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IdentityVerificationSessionUpdateParams{
+		Type: stripe.String(stripe.IdentityVerificationSessionTypeIDNumber),
+	}
 	result, err := sc.V1IdentityVerificationSessions.Update(
 		context.TODO(), "vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3689,8 +3689,8 @@ func TestIdentityVerificationSessionsRedactPost(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsRedactPostService(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionRedactParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IdentityVerificationSessionRedactParams{}
 	result, err := sc.IdentityVerificationSessions.Redact(
 		"vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3698,8 +3698,8 @@ func TestIdentityVerificationSessionsRedactPostService(t *testing.T) {
 }
 
 func TestIdentityVerificationSessionsRedactPostClient(t *testing.T) {
-	params := &stripe.IdentityVerificationSessionRedactParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IdentityVerificationSessionRedactParams{}
 	result, err := sc.V1IdentityVerificationSessions.Redact(
 		context.TODO(), "vs_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3714,16 +3714,16 @@ func TestInvoiceitemsDelete(t *testing.T) {
 }
 
 func TestInvoiceitemsDeleteService(t *testing.T) {
-	params := &stripe.InvoiceItemParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.InvoiceItemParams{}
 	result, err := sc.InvoiceItems.Del("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoiceitemsDeleteClient(t *testing.T) {
-	params := &stripe.InvoiceItemDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.InvoiceItemDeleteParams{}
 	result, err := sc.V1InvoiceItems.Delete(
 		context.TODO(), "ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3740,20 +3740,20 @@ func TestInvoiceitemsPost(t *testing.T) {
 }
 
 func TestInvoiceitemsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.InvoiceItemParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.InvoiceItems.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoiceitemsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.InvoiceItemCreateParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1InvoiceItems.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -3768,18 +3768,18 @@ func TestInvoiceitemsPost2(t *testing.T) {
 }
 
 func TestInvoiceitemsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.InvoiceItemParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.InvoiceItems.Update("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoiceitemsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.InvoiceItemUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1InvoiceItems.Update(
 		context.TODO(), "ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3794,16 +3794,16 @@ func TestInvoicesDelete(t *testing.T) {
 }
 
 func TestInvoicesDeleteService(t *testing.T) {
-	params := &stripe.InvoiceParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.InvoiceParams{}
 	result, err := sc.Invoices.Del("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoicesDeleteClient(t *testing.T) {
-	params := &stripe.InvoiceDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.InvoiceDeleteParams{}
 	result, err := sc.V1Invoices.Delete(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3818,16 +3818,16 @@ func TestInvoicesFinalizePost(t *testing.T) {
 }
 
 func TestInvoicesFinalizePostService(t *testing.T) {
-	params := &stripe.InvoiceFinalizeInvoiceParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.InvoiceFinalizeInvoiceParams{}
 	result, err := sc.Invoices.FinalizeInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoicesFinalizePostClient(t *testing.T) {
-	params := &stripe.InvoiceFinalizeInvoiceParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.InvoiceFinalizeInvoiceParams{}
 	result, err := sc.V1Invoices.FinalizeInvoice(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3843,18 +3843,18 @@ func TestInvoicesGet(t *testing.T) {
 }
 
 func TestInvoicesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.InvoiceListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Invoices.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestInvoicesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.InvoiceListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Invoices.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -3867,16 +3867,16 @@ func TestInvoicesGet2(t *testing.T) {
 }
 
 func TestInvoicesGet2Service(t *testing.T) {
-	params := &stripe.InvoiceParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.InvoiceParams{}
 	result, err := sc.Invoices.Get("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoicesGet2Client(t *testing.T) {
-	params := &stripe.InvoiceRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.InvoiceRetrieveParams{}
 	result, err := sc.V1Invoices.Retrieve(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3892,18 +3892,18 @@ func TestInvoicesGet3(t *testing.T) {
 }
 
 func TestInvoicesGet3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.InvoiceParams{}
 	params.AddExpand("customer")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Invoices.Get("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoicesGet3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.InvoiceRetrieveParams{}
 	params.AddExpand("customer")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Invoices.Retrieve(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3918,16 +3918,16 @@ func TestInvoicesPayPost(t *testing.T) {
 }
 
 func TestInvoicesPayPostService(t *testing.T) {
-	params := &stripe.InvoicePayParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.InvoicePayParams{}
 	result, err := sc.Invoices.Pay("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoicesPayPostClient(t *testing.T) {
-	params := &stripe.InvoicePayParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.InvoicePayParams{}
 	result, err := sc.V1Invoices.Pay(context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -3941,18 +3941,18 @@ func TestInvoicesPost(t *testing.T) {
 }
 
 func TestInvoicesPostService(t *testing.T) {
-	params := &stripe.InvoiceParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.InvoiceParams{Customer: stripe.String("cus_xxxxxxxxxxxxx")}
 	result, err := sc.Invoices.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoicesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.InvoiceCreateParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Invoices.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -3967,18 +3967,18 @@ func TestInvoicesPost2(t *testing.T) {
 }
 
 func TestInvoicesPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.InvoiceParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Invoices.Update("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoicesPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.InvoiceUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Invoices.Update(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -3997,24 +3997,24 @@ func TestInvoicesSearchGet(t *testing.T) {
 }
 
 func TestInvoicesSearchGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.InvoiceSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "total>999 AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Invoices.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestInvoicesSearchGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.InvoiceSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "total>999 AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Invoices.Search(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -4027,16 +4027,16 @@ func TestInvoicesSendPost(t *testing.T) {
 }
 
 func TestInvoicesSendPostService(t *testing.T) {
-	params := &stripe.InvoiceSendInvoiceParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.InvoiceSendInvoiceParams{}
 	result, err := sc.Invoices.SendInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoicesSendPostClient(t *testing.T) {
-	params := &stripe.InvoiceSendInvoiceParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.InvoiceSendInvoiceParams{}
 	result, err := sc.V1Invoices.SendInvoice(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4051,16 +4051,16 @@ func TestInvoicesVoidPost(t *testing.T) {
 }
 
 func TestInvoicesVoidPostService(t *testing.T) {
-	params := &stripe.InvoiceVoidInvoiceParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.InvoiceVoidInvoiceParams{}
 	result, err := sc.Invoices.VoidInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestInvoicesVoidPostClient(t *testing.T) {
-	params := &stripe.InvoiceVoidInvoiceParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.InvoiceVoidInvoiceParams{}
 	result, err := sc.V1Invoices.VoidInvoice(
 		context.TODO(), "in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4075,8 +4075,8 @@ func TestIssuingAuthorizationsApprovePost(t *testing.T) {
 }
 
 func TestIssuingAuthorizationsApprovePostService(t *testing.T) {
-	params := &stripe.IssuingAuthorizationApproveParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingAuthorizationApproveParams{}
 	result, err := sc.IssuingAuthorizations.Approve(
 		"iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4084,8 +4084,8 @@ func TestIssuingAuthorizationsApprovePostService(t *testing.T) {
 }
 
 func TestIssuingAuthorizationsApprovePostClient(t *testing.T) {
-	params := &stripe.IssuingAuthorizationApproveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingAuthorizationApproveParams{}
 	result, err := sc.V1IssuingAuthorizations.Approve(
 		context.TODO(), "iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4100,8 +4100,8 @@ func TestIssuingAuthorizationsDeclinePost(t *testing.T) {
 }
 
 func TestIssuingAuthorizationsDeclinePostService(t *testing.T) {
-	params := &stripe.IssuingAuthorizationDeclineParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingAuthorizationDeclineParams{}
 	result, err := sc.IssuingAuthorizations.Decline(
 		"iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4109,8 +4109,8 @@ func TestIssuingAuthorizationsDeclinePostService(t *testing.T) {
 }
 
 func TestIssuingAuthorizationsDeclinePostClient(t *testing.T) {
-	params := &stripe.IssuingAuthorizationDeclineParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingAuthorizationDeclineParams{}
 	result, err := sc.V1IssuingAuthorizations.Decline(
 		context.TODO(), "iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4126,18 +4126,18 @@ func TestIssuingAuthorizationsGet(t *testing.T) {
 }
 
 func TestIssuingAuthorizationsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingAuthorizationListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.IssuingAuthorizations.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestIssuingAuthorizationsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingAuthorizationListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1IssuingAuthorizations.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -4150,16 +4150,16 @@ func TestIssuingAuthorizationsGet2(t *testing.T) {
 }
 
 func TestIssuingAuthorizationsGet2Service(t *testing.T) {
-	params := &stripe.IssuingAuthorizationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingAuthorizationParams{}
 	result, err := sc.IssuingAuthorizations.Get("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingAuthorizationsGet2Client(t *testing.T) {
-	params := &stripe.IssuingAuthorizationRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingAuthorizationRetrieveParams{}
 	result, err := sc.V1IssuingAuthorizations.Retrieve(
 		context.TODO(), "iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4175,18 +4175,18 @@ func TestIssuingAuthorizationsPost(t *testing.T) {
 }
 
 func TestIssuingAuthorizationsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingAuthorizationParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.IssuingAuthorizations.Update("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingAuthorizationsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingAuthorizationUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1IssuingAuthorizations.Update(
 		context.TODO(), "iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4202,18 +4202,18 @@ func TestIssuingCardholdersGet(t *testing.T) {
 }
 
 func TestIssuingCardholdersGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingCardholderListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.IssuingCardholders.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestIssuingCardholdersGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingCardholderListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1IssuingCardholders.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -4226,16 +4226,16 @@ func TestIssuingCardholdersGet2(t *testing.T) {
 }
 
 func TestIssuingCardholdersGet2Service(t *testing.T) {
-	params := &stripe.IssuingCardholderParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingCardholderParams{}
 	result, err := sc.IssuingCardholders.Get("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingCardholdersGet2Client(t *testing.T) {
-	params := &stripe.IssuingCardholderRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingCardholderRetrieveParams{}
 	result, err := sc.V1IssuingCardholders.Retrieve(
 		context.TODO(), "ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4244,7 +4244,7 @@ func TestIssuingCardholdersGet2Client(t *testing.T) {
 
 func TestIssuingCardholdersPost(t *testing.T) {
 	params := &stripe.IssuingCardholderParams{
-		Type:        stripe.String(string(stripe.IssuingCardholderTypeIndividual)),
+		Type:        stripe.String(stripe.IssuingCardholderTypeIndividual),
 		Name:        stripe.String("Jenny Rosen"),
 		Email:       stripe.String("jenny.rosen@example.com"),
 		PhoneNumber: stripe.String("+18888675309"),
@@ -4264,8 +4264,9 @@ func TestIssuingCardholdersPost(t *testing.T) {
 }
 
 func TestIssuingCardholdersPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingCardholderParams{
-		Type:        stripe.String(string(stripe.IssuingCardholderTypeIndividual)),
+		Type:        stripe.String(stripe.IssuingCardholderTypeIndividual),
 		Name:        stripe.String("Jenny Rosen"),
 		Email:       stripe.String("jenny.rosen@example.com"),
 		PhoneNumber: stripe.String("+18888675309"),
@@ -4279,15 +4280,15 @@ func TestIssuingCardholdersPostService(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.IssuingCardholders.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingCardholdersPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingCardholderCreateParams{
-		Type:        stripe.String(string(stripe.IssuingCardholderTypeIndividual)),
+		Type:        stripe.String(stripe.IssuingCardholderTypeIndividual),
 		Name:        stripe.String("Jenny Rosen"),
 		Email:       stripe.String("jenny.rosen@example.com"),
 		PhoneNumber: stripe.String("+18888675309"),
@@ -4301,7 +4302,6 @@ func TestIssuingCardholdersPostClient(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1IssuingCardholders.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -4316,18 +4316,18 @@ func TestIssuingCardholdersPost2(t *testing.T) {
 }
 
 func TestIssuingCardholdersPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingCardholderParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.IssuingCardholders.Update("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingCardholdersPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingCardholderUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1IssuingCardholders.Update(
 		context.TODO(), "ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4343,18 +4343,18 @@ func TestIssuingCardsGet(t *testing.T) {
 }
 
 func TestIssuingCardsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingCardListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.IssuingCards.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestIssuingCardsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingCardListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1IssuingCards.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -4367,16 +4367,16 @@ func TestIssuingCardsGet2(t *testing.T) {
 }
 
 func TestIssuingCardsGet2Service(t *testing.T) {
-	params := &stripe.IssuingCardParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingCardParams{}
 	result, err := sc.IssuingCards.Get("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingCardsGet2Client(t *testing.T) {
-	params := &stripe.IssuingCardRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingCardRetrieveParams{}
 	result, err := sc.V1IssuingCards.Retrieve(
 		context.TODO(), "ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4386,8 +4386,8 @@ func TestIssuingCardsGet2Client(t *testing.T) {
 func TestIssuingCardsPost(t *testing.T) {
 	params := &stripe.IssuingCardParams{
 		Cardholder: stripe.String("ich_xxxxxxxxxxxxx"),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
-		Type:       stripe.String(string(stripe.IssuingCardTypeVirtual)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
+		Type:       stripe.String(stripe.IssuingCardTypeVirtual),
 	}
 	result, err := issuing_card.New(params)
 	assert.NotNil(t, result)
@@ -4395,24 +4395,24 @@ func TestIssuingCardsPost(t *testing.T) {
 }
 
 func TestIssuingCardsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingCardParams{
 		Cardholder: stripe.String("ich_xxxxxxxxxxxxx"),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
-		Type:       stripe.String(string(stripe.IssuingCardTypeVirtual)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
+		Type:       stripe.String(stripe.IssuingCardTypeVirtual),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.IssuingCards.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingCardsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingCardCreateParams{
 		Cardholder: stripe.String("ich_xxxxxxxxxxxxx"),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
-		Type:       stripe.String(string(stripe.IssuingCardTypeVirtual)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
+		Type:       stripe.String(stripe.IssuingCardTypeVirtual),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1IssuingCards.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -4427,18 +4427,18 @@ func TestIssuingCardsPost2(t *testing.T) {
 }
 
 func TestIssuingCardsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingCardParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.IssuingCards.Update("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingCardsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingCardUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1IssuingCards.Update(
 		context.TODO(), "ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4454,18 +4454,18 @@ func TestIssuingDisputesGet(t *testing.T) {
 }
 
 func TestIssuingDisputesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingDisputeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.IssuingDisputes.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestIssuingDisputesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingDisputeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1IssuingDisputes.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -4478,16 +4478,16 @@ func TestIssuingDisputesGet2(t *testing.T) {
 }
 
 func TestIssuingDisputesGet2Service(t *testing.T) {
-	params := &stripe.IssuingDisputeParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingDisputeParams{}
 	result, err := sc.IssuingDisputes.Get("idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingDisputesGet2Client(t *testing.T) {
-	params := &stripe.IssuingDisputeRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingDisputeRetrieveParams{}
 	result, err := sc.V1IssuingDisputes.Retrieve(
 		context.TODO(), "idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4498,7 +4498,7 @@ func TestIssuingDisputesPost(t *testing.T) {
 	params := &stripe.IssuingDisputeParams{
 		Transaction: stripe.String("ipi_xxxxxxxxxxxxx"),
 		Evidence: &stripe.IssuingDisputeEvidenceParams{
-			Reason: stripe.String(string(stripe.IssuingDisputeEvidenceReasonFraudulent)),
+			Reason: stripe.String(stripe.IssuingDisputeEvidenceReasonFraudulent),
 			Fraudulent: &stripe.IssuingDisputeEvidenceFraudulentParams{
 				Explanation: stripe.String("Purchase was unrecognized."),
 			},
@@ -4510,32 +4510,32 @@ func TestIssuingDisputesPost(t *testing.T) {
 }
 
 func TestIssuingDisputesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingDisputeParams{
 		Transaction: stripe.String("ipi_xxxxxxxxxxxxx"),
 		Evidence: &stripe.IssuingDisputeEvidenceParams{
-			Reason: stripe.String(string(stripe.IssuingDisputeEvidenceReasonFraudulent)),
+			Reason: stripe.String(stripe.IssuingDisputeEvidenceReasonFraudulent),
 			Fraudulent: &stripe.IssuingDisputeEvidenceFraudulentParams{
 				Explanation: stripe.String("Purchase was unrecognized."),
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.IssuingDisputes.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingDisputesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingDisputeCreateParams{
 		Transaction: stripe.String("ipi_xxxxxxxxxxxxx"),
 		Evidence: &stripe.IssuingDisputeCreateEvidenceParams{
-			Reason: stripe.String(string(stripe.IssuingDisputeEvidenceReasonFraudulent)),
+			Reason: stripe.String(stripe.IssuingDisputeEvidenceReasonFraudulent),
 			Fraudulent: &stripe.IssuingDisputeCreateEvidenceFraudulentParams{
 				Explanation: stripe.String("Purchase was unrecognized."),
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1IssuingDisputes.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -4549,16 +4549,16 @@ func TestIssuingDisputesSubmitPost(t *testing.T) {
 }
 
 func TestIssuingDisputesSubmitPostService(t *testing.T) {
-	params := &stripe.IssuingDisputeSubmitParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingDisputeSubmitParams{}
 	result, err := sc.IssuingDisputes.Submit("idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingDisputesSubmitPostClient(t *testing.T) {
-	params := &stripe.IssuingDisputeSubmitParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingDisputeSubmitParams{}
 	result, err := sc.V1IssuingDisputes.Submit(
 		context.TODO(), "idp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4573,16 +4573,16 @@ func TestIssuingPersonalizationDesignsGet(t *testing.T) {
 }
 
 func TestIssuingPersonalizationDesignsGetService(t *testing.T) {
-	params := &stripe.IssuingPersonalizationDesignListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingPersonalizationDesignListParams{}
 	result := sc.IssuingPersonalizationDesigns.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestIssuingPersonalizationDesignsGetClient(t *testing.T) {
-	params := &stripe.IssuingPersonalizationDesignListParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingPersonalizationDesignListParams{}
 	result := sc.V1IssuingPersonalizationDesigns.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -4595,16 +4595,16 @@ func TestIssuingPersonalizationDesignsGet2(t *testing.T) {
 }
 
 func TestIssuingPersonalizationDesignsGet2Service(t *testing.T) {
-	params := &stripe.IssuingPersonalizationDesignParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingPersonalizationDesignParams{}
 	result, err := sc.IssuingPersonalizationDesigns.Get("pd_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingPersonalizationDesignsGet2Client(t *testing.T) {
-	params := &stripe.IssuingPersonalizationDesignRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingPersonalizationDesignRetrieveParams{}
 	result, err := sc.V1IssuingPersonalizationDesigns.Retrieve(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
@@ -4621,20 +4621,20 @@ func TestIssuingPersonalizationDesignsPost(t *testing.T) {
 }
 
 func TestIssuingPersonalizationDesignsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingPersonalizationDesignParams{
 		PhysicalBundle: stripe.String("pb_xyz"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.IssuingPersonalizationDesigns.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingPersonalizationDesignsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingPersonalizationDesignCreateParams{
 		PhysicalBundle: stripe.String("pb_xyz"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1IssuingPersonalizationDesigns.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -4649,16 +4649,16 @@ func TestIssuingPersonalizationDesignsPost2(t *testing.T) {
 }
 
 func TestIssuingPersonalizationDesignsPost2Service(t *testing.T) {
-	params := &stripe.IssuingPersonalizationDesignParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingPersonalizationDesignParams{}
 	result, err := sc.IssuingPersonalizationDesigns.Update("pd_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingPersonalizationDesignsPost2Client(t *testing.T) {
-	params := &stripe.IssuingPersonalizationDesignUpdateParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingPersonalizationDesignUpdateParams{}
 	result, err := sc.V1IssuingPersonalizationDesigns.Update(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
@@ -4673,16 +4673,16 @@ func TestIssuingPhysicalBundlesGet(t *testing.T) {
 }
 
 func TestIssuingPhysicalBundlesGetService(t *testing.T) {
-	params := &stripe.IssuingPhysicalBundleListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingPhysicalBundleListParams{}
 	result := sc.IssuingPhysicalBundles.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestIssuingPhysicalBundlesGetClient(t *testing.T) {
-	params := &stripe.IssuingPhysicalBundleListParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingPhysicalBundleListParams{}
 	result := sc.V1IssuingPhysicalBundles.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -4695,16 +4695,16 @@ func TestIssuingPhysicalBundlesGet2(t *testing.T) {
 }
 
 func TestIssuingPhysicalBundlesGet2Service(t *testing.T) {
-	params := &stripe.IssuingPhysicalBundleParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingPhysicalBundleParams{}
 	result, err := sc.IssuingPhysicalBundles.Get("pb_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingPhysicalBundlesGet2Client(t *testing.T) {
-	params := &stripe.IssuingPhysicalBundleRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingPhysicalBundleRetrieveParams{}
 	result, err := sc.V1IssuingPhysicalBundles.Retrieve(
 		context.TODO(), "pb_xyz", params)
 	assert.NotNil(t, result)
@@ -4720,18 +4720,18 @@ func TestIssuingTransactionsGet(t *testing.T) {
 }
 
 func TestIssuingTransactionsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingTransactionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.IssuingTransactions.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestIssuingTransactionsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingTransactionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1IssuingTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -4744,16 +4744,16 @@ func TestIssuingTransactionsGet2(t *testing.T) {
 }
 
 func TestIssuingTransactionsGet2Service(t *testing.T) {
-	params := &stripe.IssuingTransactionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.IssuingTransactionParams{}
 	result, err := sc.IssuingTransactions.Get("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingTransactionsGet2Client(t *testing.T) {
-	params := &stripe.IssuingTransactionRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.IssuingTransactionRetrieveParams{}
 	result, err := sc.V1IssuingTransactions.Retrieve(
 		context.TODO(), "ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4769,18 +4769,18 @@ func TestIssuingTransactionsPost(t *testing.T) {
 }
 
 func TestIssuingTransactionsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.IssuingTransactionParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.IssuingTransactions.Update("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestIssuingTransactionsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.IssuingTransactionUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1IssuingTransactions.Update(
 		context.TODO(), "ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4795,16 +4795,16 @@ func TestMandatesGet(t *testing.T) {
 }
 
 func TestMandatesGetService(t *testing.T) {
-	params := &stripe.MandateParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.MandateParams{}
 	result, err := sc.Mandates.Get("mandate_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestMandatesGetClient(t *testing.T) {
-	params := &stripe.MandateRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.MandateRetrieveParams{}
 	result, err := sc.V1Mandates.Retrieve(
 		context.TODO(), "mandate_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4819,8 +4819,8 @@ func TestPaymentIntentsApplyCustomerBalancePost(t *testing.T) {
 }
 
 func TestPaymentIntentsApplyCustomerBalancePostService(t *testing.T) {
-	params := &stripe.PaymentIntentApplyCustomerBalanceParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentIntentApplyCustomerBalanceParams{}
 	result, err := sc.PaymentIntents.ApplyCustomerBalance(
 		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4828,8 +4828,8 @@ func TestPaymentIntentsApplyCustomerBalancePostService(t *testing.T) {
 }
 
 func TestPaymentIntentsApplyCustomerBalancePostClient(t *testing.T) {
-	params := &stripe.PaymentIntentApplyCustomerBalanceParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentIntentApplyCustomerBalanceParams{}
 	result, err := sc.V1PaymentIntents.ApplyCustomerBalance(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4844,16 +4844,16 @@ func TestPaymentIntentsCancelPost(t *testing.T) {
 }
 
 func TestPaymentIntentsCancelPostService(t *testing.T) {
-	params := &stripe.PaymentIntentCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentIntentCancelParams{}
 	result, err := sc.PaymentIntents.Cancel("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentIntentsCancelPostClient(t *testing.T) {
-	params := &stripe.PaymentIntentCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentIntentCancelParams{}
 	result, err := sc.V1PaymentIntents.Cancel(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4868,16 +4868,16 @@ func TestPaymentIntentsCapturePost(t *testing.T) {
 }
 
 func TestPaymentIntentsCapturePostService(t *testing.T) {
-	params := &stripe.PaymentIntentCaptureParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentIntentCaptureParams{}
 	result, err := sc.PaymentIntents.Capture("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentIntentsCapturePostClient(t *testing.T) {
-	params := &stripe.PaymentIntentCaptureParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentIntentCaptureParams{}
 	result, err := sc.V1PaymentIntents.Capture(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4894,20 +4894,20 @@ func TestPaymentIntentsConfirmPost(t *testing.T) {
 }
 
 func TestPaymentIntentsConfirmPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentIntentConfirmParams{
 		PaymentMethod: stripe.String("pm_card_visa"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentIntents.Confirm("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentIntentsConfirmPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentIntentConfirmParams{
 		PaymentMethod: stripe.String("pm_card_visa"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentIntents.Confirm(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4923,18 +4923,18 @@ func TestPaymentIntentsGet(t *testing.T) {
 }
 
 func TestPaymentIntentsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentIntentListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.PaymentIntents.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPaymentIntentsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentIntentListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1PaymentIntents.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -4947,16 +4947,16 @@ func TestPaymentIntentsGet2(t *testing.T) {
 }
 
 func TestPaymentIntentsGet2Service(t *testing.T) {
-	params := &stripe.PaymentIntentParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentIntentParams{}
 	result, err := sc.PaymentIntents.Get("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentIntentsGet2Client(t *testing.T) {
-	params := &stripe.PaymentIntentRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentIntentRetrieveParams{}
 	result, err := sc.V1PaymentIntents.Retrieve(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4974,10 +4974,10 @@ func TestPaymentIntentsIncrementAuthorizationPost(t *testing.T) {
 }
 
 func TestPaymentIntentsIncrementAuthorizationPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentIntentIncrementAuthorizationParams{
 		Amount: stripe.Int64(2099),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentIntents.IncrementAuthorization(
 		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4985,10 +4985,10 @@ func TestPaymentIntentsIncrementAuthorizationPostService(t *testing.T) {
 }
 
 func TestPaymentIntentsIncrementAuthorizationPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentIntentIncrementAuthorizationParams{
 		Amount: stripe.Int64(2099),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentIntents.IncrementAuthorization(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -4998,7 +4998,7 @@ func TestPaymentIntentsIncrementAuthorizationPostClient(t *testing.T) {
 func TestPaymentIntentsPost(t *testing.T) {
 	params := &stripe.PaymentIntentParams{
 		Amount:   stripe.Int64(1099),
-		Currency: stripe.String(string(stripe.CurrencyEUR)),
+		Currency: stripe.String(stripe.CurrencyEUR),
 		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
 			Enabled: stripe.Bool(true),
 		},
@@ -5009,28 +5009,28 @@ func TestPaymentIntentsPost(t *testing.T) {
 }
 
 func TestPaymentIntentsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentIntentParams{
 		Amount:   stripe.Int64(1099),
-		Currency: stripe.String(string(stripe.CurrencyEUR)),
+		Currency: stripe.String(stripe.CurrencyEUR),
 		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
 			Enabled: stripe.Bool(true),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentIntents.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentIntentsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentIntentCreateParams{
 		Amount:   stripe.Int64(1099),
-		Currency: stripe.String(string(stripe.CurrencyEUR)),
+		Currency: stripe.String(stripe.CurrencyEUR),
 		AutomaticPaymentMethods: &stripe.PaymentIntentCreateAutomaticPaymentMethodsParams{
 			Enabled: stripe.Bool(true),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -5039,7 +5039,7 @@ func TestPaymentIntentsPostClient(t *testing.T) {
 func TestPaymentIntentsPost2(t *testing.T) {
 	params := &stripe.PaymentIntentParams{
 		Amount:   stripe.Int64(2000),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
 			Enabled: stripe.Bool(true),
 		},
@@ -5050,28 +5050,28 @@ func TestPaymentIntentsPost2(t *testing.T) {
 }
 
 func TestPaymentIntentsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentIntentParams{
 		Amount:   stripe.Int64(2000),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
 			Enabled: stripe.Bool(true),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentIntents.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentIntentsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentIntentCreateParams{
 		Amount:   stripe.Int64(2000),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		AutomaticPaymentMethods: &stripe.PaymentIntentCreateAutomaticPaymentMethodsParams{
 			Enabled: stripe.Bool(true),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -5086,18 +5086,18 @@ func TestPaymentIntentsPost3(t *testing.T) {
 }
 
 func TestPaymentIntentsPost3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentIntentParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentIntents.Update("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentIntentsPost3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentIntentUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentIntents.Update(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5107,7 +5107,7 @@ func TestPaymentIntentsPost3Client(t *testing.T) {
 func TestPaymentIntentsPost4(t *testing.T) {
 	params := &stripe.PaymentIntentParams{
 		Amount:   stripe.Int64(200),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		PaymentMethodData: &stripe.PaymentIntentPaymentMethodDataParams{
 			Type: stripe.String("p24"),
 			P24:  &stripe.PaymentMethodP24Params{Bank: stripe.String("blik")},
@@ -5119,30 +5119,30 @@ func TestPaymentIntentsPost4(t *testing.T) {
 }
 
 func TestPaymentIntentsPost4Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentIntentParams{
 		Amount:   stripe.Int64(200),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		PaymentMethodData: &stripe.PaymentIntentPaymentMethodDataParams{
 			Type: stripe.String("p24"),
 			P24:  &stripe.PaymentMethodP24Params{Bank: stripe.String("blik")},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentIntents.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentIntentsPost4Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentIntentCreateParams{
 		Amount:   stripe.Int64(200),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		PaymentMethodData: &stripe.PaymentIntentCreatePaymentMethodDataParams{
 			Type: stripe.String("p24"),
 			P24:  &stripe.PaymentMethodP24Params{Bank: stripe.String("blik")},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -5160,24 +5160,24 @@ func TestPaymentIntentsSearchGet(t *testing.T) {
 }
 
 func TestPaymentIntentsSearchGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentIntentSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "status:'succeeded' AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.PaymentIntents.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPaymentIntentsSearchGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentIntentSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "status:'succeeded' AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1PaymentIntents.Search(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -5190,8 +5190,8 @@ func TestPaymentIntentsVerifyMicrodepositsPost(t *testing.T) {
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPostService(t *testing.T) {
-	params := &stripe.PaymentIntentVerifyMicrodepositsParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentIntentVerifyMicrodepositsParams{}
 	result, err := sc.PaymentIntents.VerifyMicrodeposits(
 		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5199,8 +5199,8 @@ func TestPaymentIntentsVerifyMicrodepositsPostService(t *testing.T) {
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPostClient(t *testing.T) {
-	params := &stripe.PaymentIntentVerifyMicrodepositsParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentIntentVerifyMicrodepositsParams{}
 	result, err := sc.V1PaymentIntents.VerifyMicrodeposits(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5217,10 +5217,10 @@ func TestPaymentIntentsVerifyMicrodepositsPost2(t *testing.T) {
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentIntentVerifyMicrodepositsParams{
 		Amounts: []*int64{stripe.Int64(32), stripe.Int64(45)},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentIntents.VerifyMicrodeposits(
 		"pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5228,10 +5228,10 @@ func TestPaymentIntentsVerifyMicrodepositsPost2Service(t *testing.T) {
 }
 
 func TestPaymentIntentsVerifyMicrodepositsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentIntentVerifyMicrodepositsParams{
 		Amounts: []*int64{stripe.Int64(32), stripe.Int64(45)},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentIntents.VerifyMicrodeposits(
 		context.TODO(), "pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5246,16 +5246,16 @@ func TestPaymentLinksGet(t *testing.T) {
 }
 
 func TestPaymentLinksGetService(t *testing.T) {
-	params := &stripe.PaymentLinkParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentLinkParams{}
 	result, err := sc.PaymentLinks.Get("pl_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentLinksGetClient(t *testing.T) {
-	params := &stripe.PaymentLinkRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentLinkRetrieveParams{}
 	result, err := sc.V1PaymentLinks.Retrieve(context.TODO(), "pl_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -5270,18 +5270,18 @@ func TestPaymentLinksGet2(t *testing.T) {
 }
 
 func TestPaymentLinksGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentLinkListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.PaymentLinks.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPaymentLinksGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentLinkListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1PaymentLinks.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -5294,16 +5294,16 @@ func TestPaymentLinksGet3(t *testing.T) {
 }
 
 func TestPaymentLinksGet3Service(t *testing.T) {
-	params := &stripe.PaymentLinkParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentLinkParams{}
 	result, err := sc.PaymentLinks.Get("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentLinksGet3Client(t *testing.T) {
-	params := &stripe.PaymentLinkRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentLinkRetrieveParams{}
 	result, err := sc.V1PaymentLinks.Retrieve(
 		context.TODO(), "plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5320,20 +5320,20 @@ func TestPaymentLinksLineItemsGet(t *testing.T) {
 }
 
 func TestPaymentLinksLineItemsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentLinkListLineItemsParams{
 		PaymentLink: stripe.String("pl_xyz"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.PaymentLinks.ListLineItems(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPaymentLinksLineItemsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentLinkListLineItemsParams{
 		PaymentLink: stripe.String("pl_xyz"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1PaymentLinks.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -5353,6 +5353,7 @@ func TestPaymentLinksPost(t *testing.T) {
 }
 
 func TestPaymentLinksPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentLinkParams{
 		LineItems: []*stripe.PaymentLinkLineItemParams{
 			{
@@ -5361,13 +5362,13 @@ func TestPaymentLinksPostService(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentLinks.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentLinksPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentLinkCreateParams{
 		LineItems: []*stripe.PaymentLinkCreateLineItemParams{
 			{
@@ -5376,7 +5377,6 @@ func TestPaymentLinksPostClient(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -5397,6 +5397,7 @@ func TestPaymentLinksPost2(t *testing.T) {
 }
 
 func TestPaymentLinksPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentLinkParams{
 		LineItems: []*stripe.PaymentLinkLineItemParams{
 			{
@@ -5405,13 +5406,13 @@ func TestPaymentLinksPost2Service(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentLinks.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentLinksPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentLinkCreateParams{
 		LineItems: []*stripe.PaymentLinkCreateLineItemParams{
 			{
@@ -5420,7 +5421,6 @@ func TestPaymentLinksPost2Client(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentLinks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -5434,16 +5434,16 @@ func TestPaymentLinksPost3(t *testing.T) {
 }
 
 func TestPaymentLinksPost3Service(t *testing.T) {
-	params := &stripe.PaymentLinkParams{Active: stripe.Bool(false)}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentLinkParams{Active: stripe.Bool(false)}
 	result, err := sc.PaymentLinks.Update("plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentLinksPost3Client(t *testing.T) {
-	params := &stripe.PaymentLinkUpdateParams{Active: stripe.Bool(false)}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentLinkUpdateParams{Active: stripe.Bool(false)}
 	result, err := sc.V1PaymentLinks.Update(
 		context.TODO(), "plink_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5460,20 +5460,20 @@ func TestPaymentMethodConfigurationsGet(t *testing.T) {
 }
 
 func TestPaymentMethodConfigurationsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentMethodConfigurationListParams{
 		Application: stripe.String("foo"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.PaymentMethodConfigurations.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPaymentMethodConfigurationsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentMethodConfigurationListParams{
 		Application: stripe.String("foo"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1PaymentMethodConfigurations.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -5486,16 +5486,16 @@ func TestPaymentMethodConfigurationsGet2(t *testing.T) {
 }
 
 func TestPaymentMethodConfigurationsGet2Service(t *testing.T) {
-	params := &stripe.PaymentMethodConfigurationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentMethodConfigurationParams{}
 	result, err := sc.PaymentMethodConfigurations.Get("foo", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentMethodConfigurationsGet2Client(t *testing.T) {
-	params := &stripe.PaymentMethodConfigurationRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentMethodConfigurationRetrieveParams{}
 	result, err := sc.V1PaymentMethodConfigurations.Retrieve(
 		context.TODO(), "foo", params)
 	assert.NotNil(t, result)
@@ -5506,12 +5506,12 @@ func TestPaymentMethodConfigurationsPost(t *testing.T) {
 	params := &stripe.PaymentMethodConfigurationParams{
 		ACSSDebit: &stripe.PaymentMethodConfigurationACSSDebitParams{
 			DisplayPreference: &stripe.PaymentMethodConfigurationACSSDebitDisplayPreferenceParams{
-				Preference: stripe.String(string(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceNone)),
+				Preference: stripe.String(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceNone),
 			},
 		},
 		Affirm: &stripe.PaymentMethodConfigurationAffirmParams{
 			DisplayPreference: &stripe.PaymentMethodConfigurationAffirmDisplayPreferenceParams{
-				Preference: stripe.String(string(stripe.PaymentMethodConfigurationAffirmDisplayPreferencePreferenceNone)),
+				Preference: stripe.String(stripe.PaymentMethodConfigurationAffirmDisplayPreferencePreferenceNone),
 			},
 		},
 	}
@@ -5521,38 +5521,38 @@ func TestPaymentMethodConfigurationsPost(t *testing.T) {
 }
 
 func TestPaymentMethodConfigurationsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentMethodConfigurationParams{
 		ACSSDebit: &stripe.PaymentMethodConfigurationACSSDebitParams{
 			DisplayPreference: &stripe.PaymentMethodConfigurationACSSDebitDisplayPreferenceParams{
-				Preference: stripe.String(string(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceNone)),
+				Preference: stripe.String(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceNone),
 			},
 		},
 		Affirm: &stripe.PaymentMethodConfigurationAffirmParams{
 			DisplayPreference: &stripe.PaymentMethodConfigurationAffirmDisplayPreferenceParams{
-				Preference: stripe.String(string(stripe.PaymentMethodConfigurationAffirmDisplayPreferencePreferenceNone)),
+				Preference: stripe.String(stripe.PaymentMethodConfigurationAffirmDisplayPreferencePreferenceNone),
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentMethodConfigurations.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentMethodConfigurationsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentMethodConfigurationCreateParams{
 		ACSSDebit: &stripe.PaymentMethodConfigurationCreateACSSDebitParams{
 			DisplayPreference: &stripe.PaymentMethodConfigurationCreateACSSDebitDisplayPreferenceParams{
-				Preference: stripe.String(string(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceNone)),
+				Preference: stripe.String(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceNone),
 			},
 		},
 		Affirm: &stripe.PaymentMethodConfigurationCreateAffirmParams{
 			DisplayPreference: &stripe.PaymentMethodConfigurationCreateAffirmDisplayPreferenceParams{
-				Preference: stripe.String(string(stripe.PaymentMethodConfigurationAffirmDisplayPreferencePreferenceNone)),
+				Preference: stripe.String(stripe.PaymentMethodConfigurationAffirmDisplayPreferencePreferenceNone),
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentMethodConfigurations.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -5563,7 +5563,7 @@ func TestPaymentMethodConfigurationsPost2(t *testing.T) {
 	params := &stripe.PaymentMethodConfigurationParams{
 		ACSSDebit: &stripe.PaymentMethodConfigurationACSSDebitParams{
 			DisplayPreference: &stripe.PaymentMethodConfigurationACSSDebitDisplayPreferenceParams{
-				Preference: stripe.String(string(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceOn)),
+				Preference: stripe.String(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceOn),
 			},
 		},
 	}
@@ -5573,28 +5573,28 @@ func TestPaymentMethodConfigurationsPost2(t *testing.T) {
 }
 
 func TestPaymentMethodConfigurationsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentMethodConfigurationParams{
 		ACSSDebit: &stripe.PaymentMethodConfigurationACSSDebitParams{
 			DisplayPreference: &stripe.PaymentMethodConfigurationACSSDebitDisplayPreferenceParams{
-				Preference: stripe.String(string(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceOn)),
+				Preference: stripe.String(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceOn),
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentMethodConfigurations.Update("foo", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentMethodConfigurationsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentMethodConfigurationUpdateParams{
 		ACSSDebit: &stripe.PaymentMethodConfigurationUpdateACSSDebitParams{
 			DisplayPreference: &stripe.PaymentMethodConfigurationUpdateACSSDebitDisplayPreferenceParams{
-				Preference: stripe.String(string(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceOn)),
+				Preference: stripe.String(stripe.PaymentMethodConfigurationACSSDebitDisplayPreferencePreferenceOn),
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentMethodConfigurations.Update(
 		context.TODO(), "foo", params)
 	assert.NotNil(t, result)
@@ -5611,20 +5611,20 @@ func TestPaymentMethodsAttachPost(t *testing.T) {
 }
 
 func TestPaymentMethodsAttachPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentMethodAttachParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentMethods.Attach("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentMethodsAttachPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentMethodAttachParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentMethods.Attach(
 		context.TODO(), "pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5639,16 +5639,16 @@ func TestPaymentMethodsDetachPost(t *testing.T) {
 }
 
 func TestPaymentMethodsDetachPostService(t *testing.T) {
-	params := &stripe.PaymentMethodDetachParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentMethodDetachParams{}
 	result, err := sc.PaymentMethods.Detach("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentMethodsDetachPostClient(t *testing.T) {
-	params := &stripe.PaymentMethodDetachParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentMethodDetachParams{}
 	result, err := sc.V1PaymentMethods.Detach(
 		context.TODO(), "pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5658,7 +5658,7 @@ func TestPaymentMethodsDetachPostClient(t *testing.T) {
 func TestPaymentMethodsGet(t *testing.T) {
 	params := &stripe.PaymentMethodListParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-		Type:     stripe.String(string(stripe.PaymentMethodTypeCard)),
+		Type:     stripe.String(stripe.PaymentMethodTypeCard),
 	}
 	result := paymentmethod.List(params)
 	assert.NotNil(t, result)
@@ -5666,22 +5666,22 @@ func TestPaymentMethodsGet(t *testing.T) {
 }
 
 func TestPaymentMethodsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentMethodListParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-		Type:     stripe.String(string(stripe.PaymentMethodTypeCard)),
+		Type:     stripe.String(stripe.PaymentMethodTypeCard),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.PaymentMethods.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPaymentMethodsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentMethodListParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-		Type:     stripe.String(string(stripe.PaymentMethodTypeCard)),
+		Type:     stripe.String(stripe.PaymentMethodTypeCard),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1PaymentMethods.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -5694,16 +5694,16 @@ func TestPaymentMethodsGet2(t *testing.T) {
 }
 
 func TestPaymentMethodsGet2Service(t *testing.T) {
-	params := &stripe.PaymentMethodParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PaymentMethodParams{}
 	result, err := sc.PaymentMethods.Get("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentMethodsGet2Client(t *testing.T) {
-	params := &stripe.PaymentMethodRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PaymentMethodRetrieveParams{}
 	result, err := sc.V1PaymentMethods.Retrieve(
 		context.TODO(), "pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5712,7 +5712,7 @@ func TestPaymentMethodsGet2Client(t *testing.T) {
 
 func TestPaymentMethodsPost(t *testing.T) {
 	params := &stripe.PaymentMethodParams{
-		Type: stripe.String(string(stripe.PaymentMethodTypeCard)),
+		Type: stripe.String(stripe.PaymentMethodTypeCard),
 		Card: &stripe.PaymentMethodCardParams{
 			Number:   stripe.String("4242424242424242"),
 			ExpMonth: stripe.Int64(8),
@@ -5726,8 +5726,9 @@ func TestPaymentMethodsPost(t *testing.T) {
 }
 
 func TestPaymentMethodsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentMethodParams{
-		Type: stripe.String(string(stripe.PaymentMethodTypeCard)),
+		Type: stripe.String(stripe.PaymentMethodTypeCard),
 		Card: &stripe.PaymentMethodCardParams{
 			Number:   stripe.String("4242424242424242"),
 			ExpMonth: stripe.Int64(8),
@@ -5735,15 +5736,15 @@ func TestPaymentMethodsPostService(t *testing.T) {
 			CVC:      stripe.String("314"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentMethods.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentMethodsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentMethodCreateParams{
-		Type: stripe.String(string(stripe.PaymentMethodTypeCard)),
+		Type: stripe.String(stripe.PaymentMethodTypeCard),
 		Card: &stripe.PaymentMethodCreateCardParams{
 			Number:   stripe.String("4242424242424242"),
 			ExpMonth: stripe.Int64(8),
@@ -5751,7 +5752,6 @@ func TestPaymentMethodsPostClient(t *testing.T) {
 			CVC:      stripe.String("314"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentMethods.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -5766,18 +5766,18 @@ func TestPaymentMethodsPost2(t *testing.T) {
 }
 
 func TestPaymentMethodsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PaymentMethodParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PaymentMethods.Update("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPaymentMethodsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PaymentMethodUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PaymentMethods.Update(
 		context.TODO(), "pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5792,16 +5792,16 @@ func TestPayoutsCancelPost(t *testing.T) {
 }
 
 func TestPayoutsCancelPostService(t *testing.T) {
-	params := &stripe.PayoutParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PayoutParams{}
 	result, err := sc.Payouts.Cancel("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPayoutsCancelPostClient(t *testing.T) {
-	params := &stripe.PayoutCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PayoutCancelParams{}
 	result, err := sc.V1Payouts.Cancel(
 		context.TODO(), "po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5817,18 +5817,18 @@ func TestPayoutsGet(t *testing.T) {
 }
 
 func TestPayoutsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PayoutListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Payouts.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPayoutsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PayoutListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Payouts.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -5841,16 +5841,16 @@ func TestPayoutsGet2(t *testing.T) {
 }
 
 func TestPayoutsGet2Service(t *testing.T) {
-	params := &stripe.PayoutParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PayoutParams{}
 	result, err := sc.Payouts.Get("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPayoutsGet2Client(t *testing.T) {
-	params := &stripe.PayoutRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PayoutRetrieveParams{}
 	result, err := sc.V1Payouts.Retrieve(
 		context.TODO(), "po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5860,7 +5860,7 @@ func TestPayoutsGet2Client(t *testing.T) {
 func TestPayoutsPost(t *testing.T) {
 	params := &stripe.PayoutParams{
 		Amount:   stripe.Int64(1100),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 	}
 	result, err := payout.New(params)
 	assert.NotNil(t, result)
@@ -5868,22 +5868,22 @@ func TestPayoutsPost(t *testing.T) {
 }
 
 func TestPayoutsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PayoutParams{
 		Amount:   stripe.Int64(1100),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Payouts.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPayoutsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PayoutCreateParams{
 		Amount:   stripe.Int64(1100),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Payouts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -5898,18 +5898,18 @@ func TestPayoutsPost2(t *testing.T) {
 }
 
 func TestPayoutsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PayoutParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Payouts.Update("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPayoutsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PayoutUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Payouts.Update(
 		context.TODO(), "po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5924,16 +5924,16 @@ func TestPayoutsReversePost(t *testing.T) {
 }
 
 func TestPayoutsReversePostService(t *testing.T) {
-	params := &stripe.PayoutReverseParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PayoutReverseParams{}
 	result, err := sc.Payouts.Reverse("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPayoutsReversePostClient(t *testing.T) {
-	params := &stripe.PayoutReverseParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PayoutReverseParams{}
 	result, err := sc.V1Payouts.Reverse(
 		context.TODO(), "po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5948,16 +5948,16 @@ func TestPlansDelete(t *testing.T) {
 }
 
 func TestPlansDeleteService(t *testing.T) {
-	params := &stripe.PlanParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PlanParams{}
 	result, err := sc.Plans.Del("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPlansDeleteClient(t *testing.T) {
-	params := &stripe.PlanDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PlanDeleteParams{}
 	result, err := sc.V1Plans.Delete(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -5973,18 +5973,18 @@ func TestPlansGet(t *testing.T) {
 }
 
 func TestPlansGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PlanListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Plans.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPlansGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PlanListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Plans.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -5997,16 +5997,16 @@ func TestPlansGet2(t *testing.T) {
 }
 
 func TestPlansGet2Service(t *testing.T) {
-	params := &stripe.PlanParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PlanParams{}
 	result, err := sc.Plans.Get("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPlansGet2Client(t *testing.T) {
-	params := &stripe.PlanRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PlanRetrieveParams{}
 	result, err := sc.V1Plans.Retrieve(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6016,8 +6016,8 @@ func TestPlansGet2Client(t *testing.T) {
 func TestPlansPost(t *testing.T) {
 	params := &stripe.PlanParams{
 		Amount:   stripe.Int64(2000),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Interval: stripe.String(string(stripe.PlanIntervalMonth)),
+		Currency: stripe.String(stripe.CurrencyUSD),
+		Interval: stripe.String(stripe.PlanIntervalMonth),
 		Product:  &stripe.PlanProductParams{Name: stripe.String("My product")},
 	}
 	result, err := plan.New(params)
@@ -6026,26 +6026,26 @@ func TestPlansPost(t *testing.T) {
 }
 
 func TestPlansPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PlanParams{
 		Amount:   stripe.Int64(2000),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Interval: stripe.String(string(stripe.PlanIntervalMonth)),
+		Currency: stripe.String(stripe.CurrencyUSD),
+		Interval: stripe.String(stripe.PlanIntervalMonth),
 		Product:  &stripe.PlanProductParams{Name: stripe.String("My product")},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Plans.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPlansPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PlanCreateParams{
 		Amount:   stripe.Int64(2000),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Interval: stripe.String(string(stripe.PlanIntervalMonth)),
+		Currency: stripe.String(stripe.CurrencyUSD),
+		Interval: stripe.String(stripe.PlanIntervalMonth),
 		Product:  &stripe.PlanCreateProductParams{Name: stripe.String("My product")},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Plans.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6060,18 +6060,18 @@ func TestPlansPost2(t *testing.T) {
 }
 
 func TestPlansPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PlanParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Plans.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPlansPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PlanUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Plans.Update(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6087,18 +6087,18 @@ func TestPricesGet(t *testing.T) {
 }
 
 func TestPricesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PriceListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Prices.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPricesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PriceListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Prices.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6111,16 +6111,16 @@ func TestPricesGet2(t *testing.T) {
 }
 
 func TestPricesGet2Service(t *testing.T) {
-	params := &stripe.PriceParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PriceParams{}
 	result, err := sc.Prices.Get("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPricesGet2Client(t *testing.T) {
-	params := &stripe.PriceRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PriceRetrieveParams{}
 	result, err := sc.V1Prices.Retrieve(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6130,13 +6130,13 @@ func TestPricesGet2Client(t *testing.T) {
 func TestPricesPost(t *testing.T) {
 	params := &stripe.PriceParams{
 		UnitAmount: stripe.Int64(2000),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
 		CurrencyOptions: map[string]*stripe.PriceCurrencyOptionsParams{
 			"uah": {UnitAmount: stripe.Int64(5000)},
 			"eur": {UnitAmount: stripe.Int64(1800)},
 		},
 		Recurring: &stripe.PriceRecurringParams{
-			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+			Interval: stripe.String(stripe.PriceRecurringIntervalMonth),
 		},
 		Product: stripe.String("prod_xxxxxxxxxxxxx"),
 	}
@@ -6146,28 +6146,29 @@ func TestPricesPost(t *testing.T) {
 }
 
 func TestPricesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PriceParams{
 		UnitAmount: stripe.Int64(2000),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
 		CurrencyOptions: map[string]*stripe.PriceCurrencyOptionsParams{
 			"uah": {UnitAmount: stripe.Int64(5000)},
 			"eur": {UnitAmount: stripe.Int64(1800)},
 		},
 		Recurring: &stripe.PriceRecurringParams{
-			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+			Interval: stripe.String(stripe.PriceRecurringIntervalMonth),
 		},
 		Product: stripe.String("prod_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Prices.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPricesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PriceCreateParams{
 		UnitAmount: stripe.Int64(2000),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
 		CurrencyOptions: map[string]*stripe.PriceCreateCurrencyOptionsParams{
 			"uah": {
 				UnitAmount: stripe.Int64(5000),
@@ -6177,11 +6178,10 @@ func TestPricesPostClient(t *testing.T) {
 			},
 		},
 		Recurring: &stripe.PriceCreateRecurringParams{
-			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+			Interval: stripe.String(stripe.PriceRecurringIntervalMonth),
 		},
 		Product: stripe.String("prod_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Prices.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6190,9 +6190,9 @@ func TestPricesPostClient(t *testing.T) {
 func TestPricesPost2(t *testing.T) {
 	params := &stripe.PriceParams{
 		UnitAmount: stripe.Int64(2000),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
 		Recurring: &stripe.PriceRecurringParams{
-			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+			Interval: stripe.String(stripe.PriceRecurringIntervalMonth),
 		},
 		Product: stripe.String("prod_xxxxxxxxxxxxx"),
 	}
@@ -6202,30 +6202,30 @@ func TestPricesPost2(t *testing.T) {
 }
 
 func TestPricesPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PriceParams{
 		UnitAmount: stripe.Int64(2000),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
 		Recurring: &stripe.PriceRecurringParams{
-			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+			Interval: stripe.String(stripe.PriceRecurringIntervalMonth),
 		},
 		Product: stripe.String("prod_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Prices.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPricesPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PriceCreateParams{
 		UnitAmount: stripe.Int64(2000),
-		Currency:   stripe.String(string(stripe.CurrencyUSD)),
+		Currency:   stripe.String(stripe.CurrencyUSD),
 		Recurring: &stripe.PriceCreateRecurringParams{
-			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+			Interval: stripe.String(stripe.PriceRecurringIntervalMonth),
 		},
 		Product: stripe.String("prod_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Prices.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6240,18 +6240,18 @@ func TestPricesPost3(t *testing.T) {
 }
 
 func TestPricesPost3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PriceParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Prices.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPricesPost3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PriceUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Prices.Update(
 		context.TODO(), "price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6270,24 +6270,24 @@ func TestPricesSearchGet(t *testing.T) {
 }
 
 func TestPricesSearchGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PriceSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "active:'true' AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Prices.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPricesSearchGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PriceSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "active:'true' AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Prices.Search(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6300,16 +6300,16 @@ func TestProductsDelete(t *testing.T) {
 }
 
 func TestProductsDeleteService(t *testing.T) {
-	params := &stripe.ProductParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ProductParams{}
 	result, err := sc.Products.Del("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestProductsDeleteClient(t *testing.T) {
-	params := &stripe.ProductDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ProductDeleteParams{}
 	result, err := sc.V1Products.Delete(
 		context.TODO(), "prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6325,18 +6325,18 @@ func TestProductsGet(t *testing.T) {
 }
 
 func TestProductsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ProductListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Products.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestProductsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ProductListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Products.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6349,16 +6349,16 @@ func TestProductsGet2(t *testing.T) {
 }
 
 func TestProductsGet2Service(t *testing.T) {
-	params := &stripe.ProductParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ProductParams{}
 	result, err := sc.Products.Get("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestProductsGet2Client(t *testing.T) {
-	params := &stripe.ProductRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ProductRetrieveParams{}
 	result, err := sc.V1Products.Retrieve(
 		context.TODO(), "prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6373,16 +6373,16 @@ func TestProductsPost(t *testing.T) {
 }
 
 func TestProductsPostService(t *testing.T) {
-	params := &stripe.ProductParams{Name: stripe.String("Gold Special")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ProductParams{Name: stripe.String("Gold Special")}
 	result, err := sc.Products.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestProductsPostClient(t *testing.T) {
-	params := &stripe.ProductCreateParams{Name: stripe.String("Gold Special")}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ProductCreateParams{Name: stripe.String("Gold Special")}
 	result, err := sc.V1Products.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6397,18 +6397,18 @@ func TestProductsPost2(t *testing.T) {
 }
 
 func TestProductsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ProductParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Products.Update("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestProductsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ProductUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Products.Update(
 		context.TODO(), "prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6427,24 +6427,24 @@ func TestProductsSearchGet(t *testing.T) {
 }
 
 func TestProductsSearchGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ProductSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "active:'true' AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Products.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestProductsSearchGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ProductSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "active:'true' AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Products.Search(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6458,18 +6458,18 @@ func TestPromotionCodesGet(t *testing.T) {
 }
 
 func TestPromotionCodesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PromotionCodeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.PromotionCodes.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestPromotionCodesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PromotionCodeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1PromotionCodes.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6482,16 +6482,16 @@ func TestPromotionCodesGet2(t *testing.T) {
 }
 
 func TestPromotionCodesGet2Service(t *testing.T) {
-	params := &stripe.PromotionCodeParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PromotionCodeParams{}
 	result, err := sc.PromotionCodes.Get("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPromotionCodesGet2Client(t *testing.T) {
-	params := &stripe.PromotionCodeRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.PromotionCodeRetrieveParams{}
 	result, err := sc.V1PromotionCodes.Retrieve(
 		context.TODO(), "promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6506,18 +6506,18 @@ func TestPromotionCodesPost(t *testing.T) {
 }
 
 func TestPromotionCodesPostService(t *testing.T) {
-	params := &stripe.PromotionCodeParams{Coupon: stripe.String("Z4OV52SU")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.PromotionCodeParams{Coupon: stripe.String("Z4OV52SU")}
 	result, err := sc.PromotionCodes.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPromotionCodesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PromotionCodeCreateParams{
 		Coupon: stripe.String("Z4OV52SU"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PromotionCodes.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6532,18 +6532,18 @@ func TestPromotionCodesPost2(t *testing.T) {
 }
 
 func TestPromotionCodesPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.PromotionCodeParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.PromotionCodes.Update("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestPromotionCodesPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.PromotionCodeUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1PromotionCodes.Update(
 		context.TODO(), "promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6558,16 +6558,16 @@ func TestQuotesAcceptPost(t *testing.T) {
 }
 
 func TestQuotesAcceptPostService(t *testing.T) {
-	params := &stripe.QuoteAcceptParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.QuoteAcceptParams{}
 	result, err := sc.Quotes.Accept("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestQuotesAcceptPostClient(t *testing.T) {
-	params := &stripe.QuoteAcceptParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.QuoteAcceptParams{}
 	result, err := sc.V1Quotes.Accept(context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6581,16 +6581,16 @@ func TestQuotesCancelPost(t *testing.T) {
 }
 
 func TestQuotesCancelPostService(t *testing.T) {
-	params := &stripe.QuoteCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.QuoteCancelParams{}
 	result, err := sc.Quotes.Cancel("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestQuotesCancelPostClient(t *testing.T) {
-	params := &stripe.QuoteCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.QuoteCancelParams{}
 	result, err := sc.V1Quotes.Cancel(context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6604,16 +6604,16 @@ func TestQuotesFinalizePost(t *testing.T) {
 }
 
 func TestQuotesFinalizePostService(t *testing.T) {
-	params := &stripe.QuoteFinalizeQuoteParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.QuoteFinalizeQuoteParams{}
 	result, err := sc.Quotes.FinalizeQuote("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestQuotesFinalizePostClient(t *testing.T) {
-	params := &stripe.QuoteFinalizeQuoteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.QuoteFinalizeQuoteParams{}
 	result, err := sc.V1Quotes.FinalizeQuote(
 		context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6629,18 +6629,18 @@ func TestQuotesGet(t *testing.T) {
 }
 
 func TestQuotesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.QuoteListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Quotes.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestQuotesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.QuoteListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Quotes.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6653,16 +6653,16 @@ func TestQuotesGet2(t *testing.T) {
 }
 
 func TestQuotesGet2Service(t *testing.T) {
-	params := &stripe.QuoteParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.QuoteParams{}
 	result, err := sc.Quotes.Get("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestQuotesGet2Client(t *testing.T) {
-	params := &stripe.QuoteRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.QuoteRetrieveParams{}
 	result, err := sc.V1Quotes.Retrieve(
 		context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6679,20 +6679,20 @@ func TestQuotesLineItemsGet(t *testing.T) {
 }
 
 func TestQuotesLineItemsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.QuoteListLineItemsParams{
 		Quote: stripe.String("qt_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Quotes.ListLineItems(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestQuotesLineItemsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.QuoteListLineItemsParams{
 		Quote: stripe.String("qt_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Quotes.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6705,16 +6705,16 @@ func TestQuotesPdfGet(t *testing.T) {
 }
 
 func TestQuotesPdfGetService(t *testing.T) {
-	params := &stripe.QuotePDFParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.QuotePDFParams{}
 	result, err := sc.Quotes.PDF("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestQuotesPdfGetClient(t *testing.T) {
-	params := &stripe.QuotePDFParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.QuotePDFParams{}
 	result, err := sc.V1Quotes.PDF(context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6736,6 +6736,7 @@ func TestQuotesPost(t *testing.T) {
 }
 
 func TestQuotesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.QuoteParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		LineItems: []*stripe.QuoteLineItemParams{
@@ -6745,13 +6746,13 @@ func TestQuotesPostService(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Quotes.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestQuotesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.QuoteCreateParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		LineItems: []*stripe.QuoteCreateLineItemParams{
@@ -6761,7 +6762,6 @@ func TestQuotesPostClient(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Quotes.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6776,18 +6776,18 @@ func TestQuotesPost2(t *testing.T) {
 }
 
 func TestQuotesPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.QuoteParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Quotes.Update("qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestQuotesPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.QuoteUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Quotes.Update(context.TODO(), "qt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6804,22 +6804,22 @@ func TestQuotesPreviewInvoicesLinesGet(t *testing.T) {
 }
 
 func TestQuotesPreviewInvoicesLinesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.QuoteListPreviewInvoiceLinesParams{
 		Quote:          stripe.String("qt_xyz"),
 		PreviewInvoice: stripe.String("in_xyz"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Quotes.ListPreviewInvoiceLines(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestQuotesPreviewInvoicesLinesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.QuoteListPreviewInvoiceLinesParams{
 		Quote:          stripe.String("qt_xyz"),
 		PreviewInvoice: stripe.String("in_xyz"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Quotes.ListPreviewInvoiceLines(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6833,18 +6833,18 @@ func TestRadarEarlyFraudWarningsGet(t *testing.T) {
 }
 
 func TestRadarEarlyFraudWarningsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.RadarEarlyFraudWarningListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.RadarEarlyFraudWarnings.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestRadarEarlyFraudWarningsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.RadarEarlyFraudWarningListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1RadarEarlyFraudWarnings.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6857,16 +6857,16 @@ func TestRadarEarlyFraudWarningsGet2(t *testing.T) {
 }
 
 func TestRadarEarlyFraudWarningsGet2Service(t *testing.T) {
-	params := &stripe.RadarEarlyFraudWarningParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.RadarEarlyFraudWarningParams{}
 	result, err := sc.RadarEarlyFraudWarnings.Get("issfr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRadarEarlyFraudWarningsGet2Client(t *testing.T) {
-	params := &stripe.RadarEarlyFraudWarningRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.RadarEarlyFraudWarningRetrieveParams{}
 	result, err := sc.V1RadarEarlyFraudWarnings.Retrieve(
 		context.TODO(), "issfr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6881,16 +6881,16 @@ func TestRadarValueListItemsDelete(t *testing.T) {
 }
 
 func TestRadarValueListItemsDeleteService(t *testing.T) {
-	params := &stripe.RadarValueListItemParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.RadarValueListItemParams{}
 	result, err := sc.RadarValueListItems.Del("rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRadarValueListItemsDeleteClient(t *testing.T) {
-	params := &stripe.RadarValueListItemDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.RadarValueListItemDeleteParams{}
 	result, err := sc.V1RadarValueListItems.Delete(
 		context.TODO(), "rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6908,22 +6908,22 @@ func TestRadarValueListItemsGet(t *testing.T) {
 }
 
 func TestRadarValueListItemsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.RadarValueListItemListParams{
 		ValueList: stripe.String("rsl_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.RadarValueListItems.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestRadarValueListItemsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.RadarValueListItemListParams{
 		ValueList: stripe.String("rsl_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1RadarValueListItems.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -6936,16 +6936,16 @@ func TestRadarValueListItemsGet2(t *testing.T) {
 }
 
 func TestRadarValueListItemsGet2Service(t *testing.T) {
-	params := &stripe.RadarValueListItemParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.RadarValueListItemParams{}
 	result, err := sc.RadarValueListItems.Get("rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRadarValueListItemsGet2Client(t *testing.T) {
-	params := &stripe.RadarValueListItemRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.RadarValueListItemRetrieveParams{}
 	result, err := sc.V1RadarValueListItems.Retrieve(
 		context.TODO(), "rsli_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -6963,22 +6963,22 @@ func TestRadarValueListItemsPost(t *testing.T) {
 }
 
 func TestRadarValueListItemsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.RadarValueListItemParams{
 		ValueList: stripe.String("rsl_xxxxxxxxxxxxx"),
 		Value:     stripe.String("1.2.3.4"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.RadarValueListItems.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRadarValueListItemsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.RadarValueListItemCreateParams{
 		ValueList: stripe.String("rsl_xxxxxxxxxxxxx"),
 		Value:     stripe.String("1.2.3.4"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1RadarValueListItems.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -6992,16 +6992,16 @@ func TestRadarValueListsDelete(t *testing.T) {
 }
 
 func TestRadarValueListsDeleteService(t *testing.T) {
-	params := &stripe.RadarValueListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.RadarValueListParams{}
 	result, err := sc.RadarValueLists.Del("rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRadarValueListsDeleteClient(t *testing.T) {
-	params := &stripe.RadarValueListDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.RadarValueListDeleteParams{}
 	result, err := sc.V1RadarValueLists.Delete(
 		context.TODO(), "rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7017,18 +7017,18 @@ func TestRadarValueListsGet(t *testing.T) {
 }
 
 func TestRadarValueListsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.RadarValueListListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.RadarValueLists.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestRadarValueListsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.RadarValueListListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1RadarValueLists.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7041,16 +7041,16 @@ func TestRadarValueListsGet2(t *testing.T) {
 }
 
 func TestRadarValueListsGet2Service(t *testing.T) {
-	params := &stripe.RadarValueListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.RadarValueListParams{}
 	result, err := sc.RadarValueLists.Get("rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRadarValueListsGet2Client(t *testing.T) {
-	params := &stripe.RadarValueListRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.RadarValueListRetrieveParams{}
 	result, err := sc.V1RadarValueLists.Retrieve(
 		context.TODO(), "rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7061,7 +7061,7 @@ func TestRadarValueListsPost(t *testing.T) {
 	params := &stripe.RadarValueListParams{
 		Alias:    stripe.String("custom_ip_xxxxxxxxxxxxx"),
 		Name:     stripe.String("Custom IP Blocklist"),
-		ItemType: stripe.String(string(stripe.RadarValueListItemTypeIPAddress)),
+		ItemType: stripe.String(stripe.RadarValueListItemTypeIPAddress),
 	}
 	result, err := radar_valuelist.New(params)
 	assert.NotNil(t, result)
@@ -7069,24 +7069,24 @@ func TestRadarValueListsPost(t *testing.T) {
 }
 
 func TestRadarValueListsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.RadarValueListParams{
 		Alias:    stripe.String("custom_ip_xxxxxxxxxxxxx"),
 		Name:     stripe.String("Custom IP Blocklist"),
-		ItemType: stripe.String(string(stripe.RadarValueListItemTypeIPAddress)),
+		ItemType: stripe.String(stripe.RadarValueListItemTypeIPAddress),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.RadarValueLists.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRadarValueListsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.RadarValueListCreateParams{
 		Alias:    stripe.String("custom_ip_xxxxxxxxxxxxx"),
 		Name:     stripe.String("Custom IP Blocklist"),
-		ItemType: stripe.String(string(stripe.RadarValueListItemTypeIPAddress)),
+		ItemType: stripe.String(stripe.RadarValueListItemTypeIPAddress),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1RadarValueLists.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -7102,20 +7102,20 @@ func TestRadarValueListsPost2(t *testing.T) {
 }
 
 func TestRadarValueListsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.RadarValueListParams{
 		Name: stripe.String("Updated IP Block List"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.RadarValueLists.Update("rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRadarValueListsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.RadarValueListUpdateParams{
 		Name: stripe.String("Updated IP Block List"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1RadarValueLists.Update(
 		context.TODO(), "rsl_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7130,16 +7130,16 @@ func TestRefundsCancelPost(t *testing.T) {
 }
 
 func TestRefundsCancelPostService(t *testing.T) {
-	params := &stripe.RefundCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.RefundCancelParams{}
 	result, err := sc.Refunds.Cancel("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRefundsCancelPostClient(t *testing.T) {
-	params := &stripe.RefundCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.RefundCancelParams{}
 	result, err := sc.V1Refunds.Cancel(
 		context.TODO(), "re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7155,18 +7155,18 @@ func TestRefundsGet(t *testing.T) {
 }
 
 func TestRefundsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.RefundListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Refunds.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestRefundsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.RefundListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Refunds.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7179,16 +7179,16 @@ func TestRefundsGet2(t *testing.T) {
 }
 
 func TestRefundsGet2Service(t *testing.T) {
-	params := &stripe.RefundParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.RefundParams{}
 	result, err := sc.Refunds.Get("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRefundsGet2Client(t *testing.T) {
-	params := &stripe.RefundRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.RefundRetrieveParams{}
 	result, err := sc.V1Refunds.Retrieve(
 		context.TODO(), "re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7203,18 +7203,18 @@ func TestRefundsPost(t *testing.T) {
 }
 
 func TestRefundsPostService(t *testing.T) {
-	params := &stripe.RefundParams{Charge: stripe.String("ch_xxxxxxxxxxxxx")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.RefundParams{Charge: stripe.String("ch_xxxxxxxxxxxxx")}
 	result, err := sc.Refunds.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRefundsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.RefundCreateParams{
 		Charge: stripe.String("ch_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Refunds.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -7229,18 +7229,18 @@ func TestRefundsPost2(t *testing.T) {
 }
 
 func TestRefundsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.RefundParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Refunds.Update("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestRefundsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.RefundUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Refunds.Update(
 		context.TODO(), "re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7256,18 +7256,18 @@ func TestReportingReportRunsGet(t *testing.T) {
 }
 
 func TestReportingReportRunsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ReportingReportRunListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.ReportingReportRuns.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestReportingReportRunsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ReportingReportRunListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1ReportingReportRuns.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7280,16 +7280,16 @@ func TestReportingReportRunsGet2(t *testing.T) {
 }
 
 func TestReportingReportRunsGet2Service(t *testing.T) {
-	params := &stripe.ReportingReportRunParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ReportingReportRunParams{}
 	result, err := sc.ReportingReportRuns.Get("frr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestReportingReportRunsGet2Client(t *testing.T) {
-	params := &stripe.ReportingReportRunRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ReportingReportRunRetrieveParams{}
 	result, err := sc.V1ReportingReportRuns.Retrieve(
 		context.TODO(), "frr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7310,6 +7310,7 @@ func TestReportingReportRunsPost(t *testing.T) {
 }
 
 func TestReportingReportRunsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ReportingReportRunParams{
 		ReportType: stripe.String("balance.summary.1"),
 		Parameters: &stripe.ReportingReportRunParametersParams{
@@ -7317,13 +7318,13 @@ func TestReportingReportRunsPostService(t *testing.T) {
 			IntervalEnd:   stripe.Int64(1525132800),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.ReportingReportRuns.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestReportingReportRunsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ReportingReportRunCreateParams{
 		ReportType: stripe.String("balance.summary.1"),
 		Parameters: &stripe.ReportingReportRunCreateParametersParams{
@@ -7331,7 +7332,6 @@ func TestReportingReportRunsPostClient(t *testing.T) {
 			IntervalEnd:   stripe.Int64(1525132800),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1ReportingReportRuns.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -7345,16 +7345,16 @@ func TestReportingReportTypesGet(t *testing.T) {
 }
 
 func TestReportingReportTypesGetService(t *testing.T) {
-	params := &stripe.ReportingReportTypeListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ReportingReportTypeListParams{}
 	result := sc.ReportingReportTypes.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestReportingReportTypesGetClient(t *testing.T) {
-	params := &stripe.ReportingReportTypeListParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ReportingReportTypeListParams{}
 	result := sc.V1ReportingReportTypes.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7367,16 +7367,16 @@ func TestReportingReportTypesGet2(t *testing.T) {
 }
 
 func TestReportingReportTypesGet2Service(t *testing.T) {
-	params := &stripe.ReportingReportTypeParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ReportingReportTypeParams{}
 	result, err := sc.ReportingReportTypes.Get("balance.summary.1", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestReportingReportTypesGet2Client(t *testing.T) {
-	params := &stripe.ReportingReportTypeRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ReportingReportTypeRetrieveParams{}
 	result, err := sc.V1ReportingReportTypes.Retrieve(
 		context.TODO(), "balance.summary.1", params)
 	assert.NotNil(t, result)
@@ -7391,16 +7391,16 @@ func TestReviewsApprovePost(t *testing.T) {
 }
 
 func TestReviewsApprovePostService(t *testing.T) {
-	params := &stripe.ReviewApproveParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ReviewApproveParams{}
 	result, err := sc.Reviews.Approve("prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestReviewsApprovePostClient(t *testing.T) {
-	params := &stripe.ReviewApproveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ReviewApproveParams{}
 	result, err := sc.V1Reviews.Approve(
 		context.TODO(), "prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7416,18 +7416,18 @@ func TestReviewsGet(t *testing.T) {
 }
 
 func TestReviewsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ReviewListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Reviews.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestReviewsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ReviewListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Reviews.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7440,16 +7440,16 @@ func TestReviewsGet2(t *testing.T) {
 }
 
 func TestReviewsGet2Service(t *testing.T) {
-	params := &stripe.ReviewParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ReviewParams{}
 	result, err := sc.Reviews.Get("prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestReviewsGet2Client(t *testing.T) {
-	params := &stripe.ReviewRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ReviewRetrieveParams{}
 	result, err := sc.V1Reviews.Retrieve(
 		context.TODO(), "prv_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7467,22 +7467,22 @@ func TestSetupAttemptsGet(t *testing.T) {
 }
 
 func TestSetupAttemptsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SetupAttemptListParams{
 		SetupIntent: stripe.String("si_xyz"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.SetupAttempts.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestSetupAttemptsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SetupAttemptListParams{
 		SetupIntent: stripe.String("si_xyz"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1SetupAttempts.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7495,16 +7495,16 @@ func TestSetupIntentsCancelPost(t *testing.T) {
 }
 
 func TestSetupIntentsCancelPostService(t *testing.T) {
-	params := &stripe.SetupIntentCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SetupIntentCancelParams{}
 	result, err := sc.SetupIntents.Cancel("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSetupIntentsCancelPostClient(t *testing.T) {
-	params := &stripe.SetupIntentCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SetupIntentCancelParams{}
 	result, err := sc.V1SetupIntents.Cancel(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7521,20 +7521,20 @@ func TestSetupIntentsConfirmPost(t *testing.T) {
 }
 
 func TestSetupIntentsConfirmPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SetupIntentConfirmParams{
 		PaymentMethod: stripe.String("pm_card_visa"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.SetupIntents.Confirm("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSetupIntentsConfirmPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SetupIntentConfirmParams{
 		PaymentMethod: stripe.String("pm_card_visa"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1SetupIntents.Confirm(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7550,18 +7550,18 @@ func TestSetupIntentsGet(t *testing.T) {
 }
 
 func TestSetupIntentsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SetupIntentListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.SetupIntents.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestSetupIntentsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SetupIntentListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1SetupIntents.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7574,16 +7574,16 @@ func TestSetupIntentsGet2(t *testing.T) {
 }
 
 func TestSetupIntentsGet2Service(t *testing.T) {
-	params := &stripe.SetupIntentParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SetupIntentParams{}
 	result, err := sc.SetupIntents.Get("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSetupIntentsGet2Client(t *testing.T) {
-	params := &stripe.SetupIntentRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SetupIntentRetrieveParams{}
 	result, err := sc.V1SetupIntents.Retrieve(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7600,20 +7600,20 @@ func TestSetupIntentsPost(t *testing.T) {
 }
 
 func TestSetupIntentsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SetupIntentParams{
 		PaymentMethodTypes: []*string{stripe.String("card")},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.SetupIntents.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSetupIntentsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SetupIntentCreateParams{
 		PaymentMethodTypes: []*string{stripe.String("card")},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1SetupIntents.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -7628,18 +7628,18 @@ func TestSetupIntentsPost2(t *testing.T) {
 }
 
 func TestSetupIntentsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SetupIntentParams{}
 	params.AddMetadata("user_id", "3435453")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.SetupIntents.Update("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSetupIntentsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SetupIntentUpdateParams{}
 	params.AddMetadata("user_id", "3435453")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1SetupIntents.Update(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7654,8 +7654,8 @@ func TestSetupIntentsVerifyMicrodepositsPost(t *testing.T) {
 }
 
 func TestSetupIntentsVerifyMicrodepositsPostService(t *testing.T) {
-	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
 	result, err := sc.SetupIntents.VerifyMicrodeposits(
 		"seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7663,8 +7663,8 @@ func TestSetupIntentsVerifyMicrodepositsPostService(t *testing.T) {
 }
 
 func TestSetupIntentsVerifyMicrodepositsPostClient(t *testing.T) {
-	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
 	result, err := sc.V1SetupIntents.VerifyMicrodeposits(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7681,10 +7681,10 @@ func TestSetupIntentsVerifyMicrodepositsPost2(t *testing.T) {
 }
 
 func TestSetupIntentsVerifyMicrodepositsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SetupIntentVerifyMicrodepositsParams{
 		Amounts: []*int64{stripe.Int64(32), stripe.Int64(45)},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.SetupIntents.VerifyMicrodeposits(
 		"seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7692,10 +7692,10 @@ func TestSetupIntentsVerifyMicrodepositsPost2Service(t *testing.T) {
 }
 
 func TestSetupIntentsVerifyMicrodepositsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SetupIntentVerifyMicrodepositsParams{
 		Amounts: []*int64{stripe.Int64(32), stripe.Int64(45)},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1SetupIntents.VerifyMicrodeposits(
 		context.TODO(), "seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7710,16 +7710,16 @@ func TestShippingRatesGet(t *testing.T) {
 }
 
 func TestShippingRatesGetService(t *testing.T) {
-	params := &stripe.ShippingRateListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ShippingRateListParams{}
 	result := sc.ShippingRates.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestShippingRatesGetClient(t *testing.T) {
-	params := &stripe.ShippingRateListParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ShippingRateListParams{}
 	result := sc.V1ShippingRates.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7733,18 +7733,18 @@ func TestShippingRatesGet2(t *testing.T) {
 }
 
 func TestShippingRatesGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ShippingRateListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.ShippingRates.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestShippingRatesGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ShippingRateListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1ShippingRates.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7757,16 +7757,16 @@ func TestShippingRatesGet3(t *testing.T) {
 }
 
 func TestShippingRatesGet3Service(t *testing.T) {
-	params := &stripe.ShippingRateParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.ShippingRateParams{}
 	result, err := sc.ShippingRates.Get("shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestShippingRatesGet3Client(t *testing.T) {
-	params := &stripe.ShippingRateRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.ShippingRateRetrieveParams{}
 	result, err := sc.V1ShippingRates.Retrieve(
 		context.TODO(), "shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7777,7 +7777,7 @@ func TestShippingRatesPost(t *testing.T) {
 	params := &stripe.ShippingRateParams{
 		DisplayName: stripe.String("Sample Shipper"),
 		FixedAmount: &stripe.ShippingRateFixedAmountParams{
-			Currency: stripe.String(string(stripe.CurrencyUSD)),
+			Currency: stripe.String(stripe.CurrencyUSD),
 			Amount:   stripe.Int64(400),
 		},
 		Type: stripe.String("fixed_amount"),
@@ -7788,30 +7788,30 @@ func TestShippingRatesPost(t *testing.T) {
 }
 
 func TestShippingRatesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ShippingRateParams{
 		DisplayName: stripe.String("Sample Shipper"),
 		FixedAmount: &stripe.ShippingRateFixedAmountParams{
-			Currency: stripe.String(string(stripe.CurrencyUSD)),
+			Currency: stripe.String(stripe.CurrencyUSD),
 			Amount:   stripe.Int64(400),
 		},
 		Type: stripe.String("fixed_amount"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.ShippingRates.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestShippingRatesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ShippingRateCreateParams{
 		DisplayName: stripe.String("Sample Shipper"),
 		FixedAmount: &stripe.ShippingRateCreateFixedAmountParams{
-			Currency: stripe.String(string(stripe.CurrencyUSD)),
+			Currency: stripe.String(stripe.CurrencyUSD),
 			Amount:   stripe.Int64(400),
 		},
 		Type: stripe.String("fixed_amount"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1ShippingRates.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -7823,7 +7823,7 @@ func TestShippingRatesPost2(t *testing.T) {
 		Type:        stripe.String("fixed_amount"),
 		FixedAmount: &stripe.ShippingRateFixedAmountParams{
 			Amount:   stripe.Int64(500),
-			Currency: stripe.String(string(stripe.CurrencyUSD)),
+			Currency: stripe.String(stripe.CurrencyUSD),
 		},
 	}
 	result, err := shippingrate.New(params)
@@ -7832,30 +7832,30 @@ func TestShippingRatesPost2(t *testing.T) {
 }
 
 func TestShippingRatesPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ShippingRateParams{
 		DisplayName: stripe.String("Ground shipping"),
 		Type:        stripe.String("fixed_amount"),
 		FixedAmount: &stripe.ShippingRateFixedAmountParams{
 			Amount:   stripe.Int64(500),
-			Currency: stripe.String(string(stripe.CurrencyUSD)),
+			Currency: stripe.String(stripe.CurrencyUSD),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.ShippingRates.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestShippingRatesPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ShippingRateCreateParams{
 		DisplayName: stripe.String("Ground shipping"),
 		Type:        stripe.String("fixed_amount"),
 		FixedAmount: &stripe.ShippingRateCreateFixedAmountParams{
 			Amount:   stripe.Int64(500),
-			Currency: stripe.String(string(stripe.CurrencyUSD)),
+			Currency: stripe.String(stripe.CurrencyUSD),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1ShippingRates.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -7870,18 +7870,18 @@ func TestShippingRatesPost3(t *testing.T) {
 }
 
 func TestShippingRatesPost3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.ShippingRateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.ShippingRates.Update("shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestShippingRatesPost3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.ShippingRateUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1ShippingRates.Update(
 		context.TODO(), "shr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7897,18 +7897,18 @@ func TestSigmaScheduledQueryRunsGet(t *testing.T) {
 }
 
 func TestSigmaScheduledQueryRunsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SigmaScheduledQueryRunListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.SigmaScheduledQueryRuns.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestSigmaScheduledQueryRunsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SigmaScheduledQueryRunListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1SigmaScheduledQueryRuns.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -7921,16 +7921,16 @@ func TestSigmaScheduledQueryRunsGet2(t *testing.T) {
 }
 
 func TestSigmaScheduledQueryRunsGet2Service(t *testing.T) {
-	params := &stripe.SigmaScheduledQueryRunParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SigmaScheduledQueryRunParams{}
 	result, err := sc.SigmaScheduledQueryRuns.Get("sqr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSigmaScheduledQueryRunsGet2Client(t *testing.T) {
-	params := &stripe.SigmaScheduledQueryRunRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SigmaScheduledQueryRunRetrieveParams{}
 	result, err := sc.V1SigmaScheduledQueryRuns.Retrieve(
 		context.TODO(), "sqr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7945,16 +7945,16 @@ func TestSourcesGet(t *testing.T) {
 }
 
 func TestSourcesGetService(t *testing.T) {
-	params := &stripe.SourceParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SourceParams{}
 	result, err := sc.Sources.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSourcesGetClient(t *testing.T) {
-	params := &stripe.SourceRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SourceRetrieveParams{}
 	result, err := sc.V1Sources.Retrieve(
 		context.TODO(), "src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7969,16 +7969,16 @@ func TestSourcesGet2(t *testing.T) {
 }
 
 func TestSourcesGet2Service(t *testing.T) {
-	params := &stripe.SourceParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SourceParams{}
 	result, err := sc.Sources.Get("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSourcesGet2Client(t *testing.T) {
-	params := &stripe.SourceRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SourceRetrieveParams{}
 	result, err := sc.V1Sources.Retrieve(
 		context.TODO(), "src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -7994,18 +7994,18 @@ func TestSourcesPost(t *testing.T) {
 }
 
 func TestSourcesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SourceParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Sources.Update("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSourcesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SourceUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Sources.Update(
 		context.TODO(), "src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8020,16 +8020,16 @@ func TestSubscriptionItemsDelete(t *testing.T) {
 }
 
 func TestSubscriptionItemsDeleteService(t *testing.T) {
-	params := &stripe.SubscriptionItemParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SubscriptionItemParams{}
 	result, err := sc.SubscriptionItems.Del("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionItemsDeleteClient(t *testing.T) {
-	params := &stripe.SubscriptionItemDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SubscriptionItemDeleteParams{}
 	result, err := sc.V1SubscriptionItems.Delete(
 		context.TODO(), "si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8046,20 +8046,20 @@ func TestSubscriptionItemsGet(t *testing.T) {
 }
 
 func TestSubscriptionItemsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SubscriptionItemListParams{
 		Subscription: stripe.String("sub_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.SubscriptionItems.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestSubscriptionItemsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SubscriptionItemListParams{
 		Subscription: stripe.String("sub_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1SubscriptionItems.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -8072,16 +8072,16 @@ func TestSubscriptionItemsGet2(t *testing.T) {
 }
 
 func TestSubscriptionItemsGet2Service(t *testing.T) {
-	params := &stripe.SubscriptionItemParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SubscriptionItemParams{}
 	result, err := sc.SubscriptionItems.Get("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionItemsGet2Client(t *testing.T) {
-	params := &stripe.SubscriptionItemRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SubscriptionItemRetrieveParams{}
 	result, err := sc.V1SubscriptionItems.Retrieve(
 		context.TODO(), "si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8100,24 +8100,24 @@ func TestSubscriptionItemsPost(t *testing.T) {
 }
 
 func TestSubscriptionItemsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SubscriptionItemParams{
 		Subscription: stripe.String("sub_xxxxxxxxxxxxx"),
 		Price:        stripe.String("price_xxxxxxxxxxxxx"),
 		Quantity:     stripe.Int64(2),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.SubscriptionItems.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionItemsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SubscriptionItemCreateParams{
 		Subscription: stripe.String("sub_xxxxxxxxxxxxx"),
 		Price:        stripe.String("price_xxxxxxxxxxxxx"),
 		Quantity:     stripe.Int64(2),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1SubscriptionItems.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8132,18 +8132,18 @@ func TestSubscriptionItemsPost2(t *testing.T) {
 }
 
 func TestSubscriptionItemsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SubscriptionItemParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.SubscriptionItems.Update("si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionItemsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SubscriptionItemUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1SubscriptionItems.Update(
 		context.TODO(), "si_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8158,8 +8158,8 @@ func TestSubscriptionSchedulesCancelPost(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesCancelPostService(t *testing.T) {
-	params := &stripe.SubscriptionScheduleCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SubscriptionScheduleCancelParams{}
 	result, err := sc.SubscriptionSchedules.Cancel(
 		"sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8167,8 +8167,8 @@ func TestSubscriptionSchedulesCancelPostService(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesCancelPostClient(t *testing.T) {
-	params := &stripe.SubscriptionScheduleCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SubscriptionScheduleCancelParams{}
 	result, err := sc.V1SubscriptionSchedules.Cancel(
 		context.TODO(), "sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8184,18 +8184,18 @@ func TestSubscriptionSchedulesGet(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SubscriptionScheduleListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.SubscriptionSchedules.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestSubscriptionSchedulesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SubscriptionScheduleListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1SubscriptionSchedules.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -8208,8 +8208,8 @@ func TestSubscriptionSchedulesGet2(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesGet2Service(t *testing.T) {
-	params := &stripe.SubscriptionScheduleParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SubscriptionScheduleParams{}
 	result, err := sc.SubscriptionSchedules.Get(
 		"sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8217,8 +8217,8 @@ func TestSubscriptionSchedulesGet2Service(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesGet2Client(t *testing.T) {
-	params := &stripe.SubscriptionScheduleRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SubscriptionScheduleRetrieveParams{}
 	result, err := sc.V1SubscriptionSchedules.Retrieve(
 		context.TODO(), "sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8229,7 +8229,7 @@ func TestSubscriptionSchedulesPost(t *testing.T) {
 	params := &stripe.SubscriptionScheduleParams{
 		Customer:    stripe.String("cus_xxxxxxxxxxxxx"),
 		StartDate:   stripe.Int64(1676070661),
-		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
+		EndBehavior: stripe.String(stripe.SubscriptionScheduleEndBehaviorRelease),
 		Phases: []*stripe.SubscriptionSchedulePhaseParams{
 			{
 				Items: []*stripe.SubscriptionSchedulePhaseItemParams{
@@ -8248,10 +8248,11 @@ func TestSubscriptionSchedulesPost(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SubscriptionScheduleParams{
 		Customer:    stripe.String("cus_xxxxxxxxxxxxx"),
 		StartDate:   stripe.Int64(1676070661),
-		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
+		EndBehavior: stripe.String(stripe.SubscriptionScheduleEndBehaviorRelease),
 		Phases: []*stripe.SubscriptionSchedulePhaseParams{
 			{
 				Items: []*stripe.SubscriptionSchedulePhaseItemParams{
@@ -8264,17 +8265,17 @@ func TestSubscriptionSchedulesPostService(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.SubscriptionSchedules.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionSchedulesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SubscriptionScheduleCreateParams{
 		Customer:    stripe.String("cus_xxxxxxxxxxxxx"),
 		StartDate:   stripe.Int64(1676070661),
-		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
+		EndBehavior: stripe.String(stripe.SubscriptionScheduleEndBehaviorRelease),
 		Phases: []*stripe.SubscriptionScheduleCreatePhaseParams{
 			{
 				Items: []*stripe.SubscriptionScheduleCreatePhaseItemParams{
@@ -8287,7 +8288,6 @@ func TestSubscriptionSchedulesPostClient(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1SubscriptionSchedules.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8295,7 +8295,7 @@ func TestSubscriptionSchedulesPostClient(t *testing.T) {
 
 func TestSubscriptionSchedulesPost2(t *testing.T) {
 	params := &stripe.SubscriptionScheduleParams{
-		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
+		EndBehavior: stripe.String(stripe.SubscriptionScheduleEndBehaviorRelease),
 	}
 	result, err := subscriptionschedule.Update("sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8303,10 +8303,10 @@ func TestSubscriptionSchedulesPost2(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesPost2Service(t *testing.T) {
-	params := &stripe.SubscriptionScheduleParams{
-		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
-	}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SubscriptionScheduleParams{
+		EndBehavior: stripe.String(stripe.SubscriptionScheduleEndBehaviorRelease),
+	}
 	result, err := sc.SubscriptionSchedules.Update(
 		"sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8314,10 +8314,10 @@ func TestSubscriptionSchedulesPost2Service(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesPost2Client(t *testing.T) {
-	params := &stripe.SubscriptionScheduleUpdateParams{
-		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorRelease)),
-	}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SubscriptionScheduleUpdateParams{
+		EndBehavior: stripe.String(stripe.SubscriptionScheduleEndBehaviorRelease),
+	}
 	result, err := sc.V1SubscriptionSchedules.Update(
 		context.TODO(), "sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8333,8 +8333,8 @@ func TestSubscriptionSchedulesReleasePost(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesReleasePostService(t *testing.T) {
-	params := &stripe.SubscriptionScheduleReleaseParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SubscriptionScheduleReleaseParams{}
 	result, err := sc.SubscriptionSchedules.Release(
 		"sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8342,8 +8342,8 @@ func TestSubscriptionSchedulesReleasePostService(t *testing.T) {
 }
 
 func TestSubscriptionSchedulesReleasePostClient(t *testing.T) {
-	params := &stripe.SubscriptionScheduleReleaseParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SubscriptionScheduleReleaseParams{}
 	result, err := sc.V1SubscriptionSchedules.Release(
 		context.TODO(), "sub_sched_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8358,16 +8358,16 @@ func TestSubscriptionsDelete(t *testing.T) {
 }
 
 func TestSubscriptionsDeleteService(t *testing.T) {
-	params := &stripe.SubscriptionCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SubscriptionCancelParams{}
 	result, err := sc.Subscriptions.Cancel("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionsDeleteClient(t *testing.T) {
-	params := &stripe.SubscriptionCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SubscriptionCancelParams{}
 	result, err := sc.V1Subscriptions.Cancel(
 		context.TODO(), "sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8382,16 +8382,16 @@ func TestSubscriptionsDiscountDelete(t *testing.T) {
 }
 
 func TestSubscriptionsDiscountDeleteService(t *testing.T) {
-	params := &stripe.SubscriptionDeleteDiscountParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SubscriptionDeleteDiscountParams{}
 	result, err := sc.Subscriptions.DeleteDiscount("sub_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionsDiscountDeleteClient(t *testing.T) {
-	params := &stripe.SubscriptionDeleteDiscountParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SubscriptionDeleteDiscountParams{}
 	result, err := sc.V1Subscriptions.DeleteDiscount(
 		context.TODO(), "sub_xyz", params)
 	assert.NotNil(t, result)
@@ -8407,18 +8407,18 @@ func TestSubscriptionsGet(t *testing.T) {
 }
 
 func TestSubscriptionsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SubscriptionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Subscriptions.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestSubscriptionsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SubscriptionListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Subscriptions.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -8431,16 +8431,16 @@ func TestSubscriptionsGet2(t *testing.T) {
 }
 
 func TestSubscriptionsGet2Service(t *testing.T) {
-	params := &stripe.SubscriptionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.SubscriptionParams{}
 	result, err := sc.Subscriptions.Get("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionsGet2Client(t *testing.T) {
-	params := &stripe.SubscriptionRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.SubscriptionRetrieveParams{}
 	result, err := sc.V1Subscriptions.Retrieve(
 		context.TODO(), "sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8462,6 +8462,7 @@ func TestSubscriptionsPost(t *testing.T) {
 }
 
 func TestSubscriptionsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SubscriptionParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		Items: []*stripe.SubscriptionItemsParams{
@@ -8470,13 +8471,13 @@ func TestSubscriptionsPostService(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Subscriptions.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SubscriptionCreateParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
 		Items: []*stripe.SubscriptionCreateItemParams{
@@ -8485,7 +8486,6 @@ func TestSubscriptionsPostClient(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Subscriptions.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8500,18 +8500,18 @@ func TestSubscriptionsPost2(t *testing.T) {
 }
 
 func TestSubscriptionsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SubscriptionParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Subscriptions.Update("sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestSubscriptionsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SubscriptionUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Subscriptions.Update(
 		context.TODO(), "sub_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8530,24 +8530,24 @@ func TestSubscriptionsSearchGet(t *testing.T) {
 }
 
 func TestSubscriptionsSearchGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.SubscriptionSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "status:'active' AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Subscriptions.Search(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestSubscriptionsSearchGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.SubscriptionSearchParams{
 		SearchParams: stripe.SearchParams{
 			Query: "status:'active' AND metadata['order_id']:'6735'",
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Subscriptions.Search(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -8562,27 +8562,27 @@ func TestTaxCalculationsLineItemsGet(t *testing.T) {
 }
 
 func TestTaxCalculationsLineItemsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxCalculationListLineItemsParams{
 		Calculation: stripe.String("xxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TaxCalculations.ListLineItems(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTaxCalculationsLineItemsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxCalculationListLineItemsParams{
 		Calculation: stripe.String("xxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TaxCalculations.ListLineItems(context.TODO(), params)
 	assert.NotNil(t, result)
 }
 
 func TestTaxCalculationsPost(t *testing.T) {
 	params := &stripe.TaxCalculationParams{
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		LineItems: []*stripe.TaxCalculationLineItemParams{
 			{
 				Amount:    stripe.Int64(1000),
@@ -8597,7 +8597,7 @@ func TestTaxCalculationsPost(t *testing.T) {
 				PostalCode: stripe.String("94080"),
 				Country:    stripe.String("US"),
 			},
-			AddressSource: stripe.String(string(stripe.TaxCalculationCustomerDetailsAddressSourceShipping)),
+			AddressSource: stripe.String(stripe.TaxCalculationCustomerDetailsAddressSourceShipping),
 		},
 	}
 	result, err := tax_calculation.New(params)
@@ -8606,8 +8606,9 @@ func TestTaxCalculationsPost(t *testing.T) {
 }
 
 func TestTaxCalculationsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxCalculationParams{
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		LineItems: []*stripe.TaxCalculationLineItemParams{
 			{
 				Amount:    stripe.Int64(1000),
@@ -8622,18 +8623,18 @@ func TestTaxCalculationsPostService(t *testing.T) {
 				PostalCode: stripe.String("94080"),
 				Country:    stripe.String("US"),
 			},
-			AddressSource: stripe.String(string(stripe.TaxCalculationCustomerDetailsAddressSourceShipping)),
+			AddressSource: stripe.String(stripe.TaxCalculationCustomerDetailsAddressSourceShipping),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TaxCalculations.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxCalculationsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxCalculationCreateParams{
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		LineItems: []*stripe.TaxCalculationCreateLineItemParams{
 			{
 				Amount:    stripe.Int64(1000),
@@ -8648,10 +8649,9 @@ func TestTaxCalculationsPostClient(t *testing.T) {
 				PostalCode: stripe.String("94080"),
 				Country:    stripe.String("US"),
 			},
-			AddressSource: stripe.String(string(stripe.TaxCalculationCustomerDetailsAddressSourceShipping)),
+			AddressSource: stripe.String(stripe.TaxCalculationCustomerDetailsAddressSourceShipping),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TaxCalculations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8666,18 +8666,18 @@ func TestTaxCodesGet(t *testing.T) {
 }
 
 func TestTaxCodesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxCodeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TaxCodes.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTaxCodesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxCodeListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TaxCodes.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -8690,16 +8690,16 @@ func TestTaxCodesGet2(t *testing.T) {
 }
 
 func TestTaxCodesGet2Service(t *testing.T) {
-	params := &stripe.TaxCodeParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxCodeParams{}
 	result, err := sc.TaxCodes.Get("txcd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxCodesGet2Client(t *testing.T) {
-	params := &stripe.TaxCodeRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TaxCodeRetrieveParams{}
 	result, err := sc.V1TaxCodes.Retrieve(
 		context.TODO(), "txcd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8714,16 +8714,16 @@ func TestTaxFormsPdfGet(t *testing.T) {
 }
 
 func TestTaxFormsPdfGetService(t *testing.T) {
-	params := &stripe.TaxFormPDFParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxFormPDFParams{}
 	result, err := sc.TaxForms.PDF("form_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxFormsPdfGetClient(t *testing.T) {
-	params := &stripe.TaxFormPDFParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TaxFormPDFParams{}
 	result, err := sc.V1TaxForms.PDF(
 		context.TODO(), "form_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8738,16 +8738,16 @@ func TestTaxIdsDelete(t *testing.T) {
 }
 
 func TestTaxIdsDeleteService(t *testing.T) {
-	params := &stripe.TaxIDParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxIDParams{}
 	result, err := sc.TaxIDs.Del("taxid_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxIdsDeleteClient(t *testing.T) {
-	params := &stripe.TaxIDDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TaxIDDeleteParams{}
 	result, err := sc.V1TaxIDs.Delete(context.TODO(), "taxid_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8761,16 +8761,16 @@ func TestTaxIdsGet(t *testing.T) {
 }
 
 func TestTaxIdsGetService(t *testing.T) {
-	params := &stripe.TaxIDListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxIDListParams{}
 	result := sc.TaxIDs.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTaxIdsGetClient(t *testing.T) {
-	params := &stripe.TaxIDListParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TaxIDListParams{}
 	result := sc.V1TaxIDs.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -8783,16 +8783,16 @@ func TestTaxIdsGet2(t *testing.T) {
 }
 
 func TestTaxIdsGet2Service(t *testing.T) {
-	params := &stripe.TaxIDParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxIDParams{}
 	result, err := sc.TaxIDs.Get("taxid_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxIdsGet2Client(t *testing.T) {
-	params := &stripe.TaxIDRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TaxIDRetrieveParams{}
 	result, err := sc.V1TaxIDs.Retrieve(context.TODO(), "taxid_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8800,7 +8800,7 @@ func TestTaxIdsGet2Client(t *testing.T) {
 
 func TestTaxIdsPost(t *testing.T) {
 	params := &stripe.TaxIDParams{
-		Type:  stripe.String(string(stripe.TaxIDTypeEUVAT)),
+		Type:  stripe.String(stripe.TaxIDTypeEUVAT),
 		Value: stripe.String("123"),
 	}
 	result, err := taxid.New(params)
@@ -8809,22 +8809,22 @@ func TestTaxIdsPost(t *testing.T) {
 }
 
 func TestTaxIdsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxIDParams{
-		Type:  stripe.String(string(stripe.TaxIDTypeEUVAT)),
+		Type:  stripe.String(stripe.TaxIDTypeEUVAT),
 		Value: stripe.String("123"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TaxIDs.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxIdsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxIDCreateParams{
-		Type:  stripe.String(string(stripe.TaxIDTypeEUVAT)),
+		Type:  stripe.String(stripe.TaxIDTypeEUVAT),
 		Value: stripe.String("123"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TaxIDs.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8839,18 +8839,18 @@ func TestTaxRatesGet(t *testing.T) {
 }
 
 func TestTaxRatesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxRateListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TaxRates.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTaxRatesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxRateListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TaxRates.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -8863,16 +8863,16 @@ func TestTaxRatesGet2(t *testing.T) {
 }
 
 func TestTaxRatesGet2Service(t *testing.T) {
-	params := &stripe.TaxRateParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxRateParams{}
 	result, err := sc.TaxRates.Get("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxRatesGet2Client(t *testing.T) {
-	params := &stripe.TaxRateRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TaxRateRetrieveParams{}
 	result, err := sc.V1TaxRates.Retrieve(
 		context.TODO(), "txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8893,6 +8893,7 @@ func TestTaxRatesPost(t *testing.T) {
 }
 
 func TestTaxRatesPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxRateParams{
 		DisplayName:  stripe.String("VAT"),
 		Description:  stripe.String("VAT Germany"),
@@ -8900,13 +8901,13 @@ func TestTaxRatesPostService(t *testing.T) {
 		Percentage:   stripe.Float64(16),
 		Inclusive:    stripe.Bool(false),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TaxRates.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxRatesPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxRateCreateParams{
 		DisplayName:  stripe.String("VAT"),
 		Description:  stripe.String("VAT Germany"),
@@ -8914,7 +8915,6 @@ func TestTaxRatesPostClient(t *testing.T) {
 		Percentage:   stripe.Float64(16),
 		Inclusive:    stripe.Bool(false),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TaxRates.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8928,16 +8928,16 @@ func TestTaxRatesPost2(t *testing.T) {
 }
 
 func TestTaxRatesPost2Service(t *testing.T) {
-	params := &stripe.TaxRateParams{Active: stripe.Bool(false)}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxRateParams{Active: stripe.Bool(false)}
 	result, err := sc.TaxRates.Update("txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxRatesPost2Client(t *testing.T) {
-	params := &stripe.TaxRateUpdateParams{Active: stripe.Bool(false)}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TaxRateUpdateParams{Active: stripe.Bool(false)}
 	result, err := sc.V1TaxRates.Update(
 		context.TODO(), "txr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -8952,16 +8952,16 @@ func TestTaxSettingsGet(t *testing.T) {
 }
 
 func TestTaxSettingsGetService(t *testing.T) {
-	params := &stripe.TaxSettingsParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TaxSettingsParams{}
 	result, err := sc.TaxSettings.Get(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxSettingsGetClient(t *testing.T) {
-	params := &stripe.TaxSettingsRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TaxSettingsRetrieveParams{}
 	result, err := sc.V1TaxSettings.Retrieve(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -8979,24 +8979,24 @@ func TestTaxSettingsPost(t *testing.T) {
 }
 
 func TestTaxSettingsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxSettingsParams{
 		Defaults: &stripe.TaxSettingsDefaultsParams{
 			TaxCode: stripe.String("txcd_10000000"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TaxSettings.Update(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxSettingsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxSettingsUpdateParams{
 		Defaults: &stripe.TaxSettingsUpdateDefaultsParams{
 			TaxCode: stripe.String("txcd_10000000"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TaxSettings.Update(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -9013,22 +9013,22 @@ func TestTaxTransactionsCreateFromCalculationPost(t *testing.T) {
 }
 
 func TestTaxTransactionsCreateFromCalculationPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TaxTransactionCreateFromCalculationParams{
 		Calculation: stripe.String("xxx"),
 		Reference:   stripe.String("yyy"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TaxTransactions.CreateFromCalculation(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTaxTransactionsCreateFromCalculationPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TaxTransactionCreateFromCalculationParams{
 		Calculation: stripe.String("xxx"),
 		Reference:   stripe.String("yyy"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TaxTransactions.CreateFromCalculation(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -9043,16 +9043,16 @@ func TestTerminalConfigurationsDelete(t *testing.T) {
 }
 
 func TestTerminalConfigurationsDeleteService(t *testing.T) {
-	params := &stripe.TerminalConfigurationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.Del("uc_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationsDeleteClient(t *testing.T) {
-	params := &stripe.TerminalConfigurationDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalConfigurationDeleteParams{}
 	result, err := sc.V1TerminalConfigurations.Delete(
 		context.TODO(), "uc_123", params)
 	assert.NotNil(t, result)
@@ -9067,16 +9067,16 @@ func TestTerminalConfigurationsDelete2(t *testing.T) {
 }
 
 func TestTerminalConfigurationsDelete2Service(t *testing.T) {
-	params := &stripe.TerminalConfigurationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.Del("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationsDelete2Client(t *testing.T) {
-	params := &stripe.TerminalConfigurationDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalConfigurationDeleteParams{}
 	result, err := sc.V1TerminalConfigurations.Delete(
 		context.TODO(), "tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9091,16 +9091,16 @@ func TestTerminalConfigurationsGet(t *testing.T) {
 }
 
 func TestTerminalConfigurationsGetService(t *testing.T) {
-	params := &stripe.TerminalConfigurationListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalConfigurationListParams{}
 	result := sc.TerminalConfigurations.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTerminalConfigurationsGetClient(t *testing.T) {
-	params := &stripe.TerminalConfigurationListParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalConfigurationListParams{}
 	result := sc.V1TerminalConfigurations.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -9113,16 +9113,16 @@ func TestTerminalConfigurationsGet2(t *testing.T) {
 }
 
 func TestTerminalConfigurationsGet2Service(t *testing.T) {
-	params := &stripe.TerminalConfigurationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.Get("uc_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationsGet2Client(t *testing.T) {
-	params := &stripe.TerminalConfigurationRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalConfigurationRetrieveParams{}
 	result, err := sc.V1TerminalConfigurations.Retrieve(
 		context.TODO(), "uc_123", params)
 	assert.NotNil(t, result)
@@ -9138,18 +9138,18 @@ func TestTerminalConfigurationsGet3(t *testing.T) {
 }
 
 func TestTerminalConfigurationsGet3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalConfigurationListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TerminalConfigurations.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTerminalConfigurationsGet3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalConfigurationListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TerminalConfigurations.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -9162,16 +9162,16 @@ func TestTerminalConfigurationsGet4(t *testing.T) {
 }
 
 func TestTerminalConfigurationsGet4Service(t *testing.T) {
-	params := &stripe.TerminalConfigurationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.Get("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationsGet4Client(t *testing.T) {
-	params := &stripe.TerminalConfigurationRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalConfigurationRetrieveParams{}
 	result, err := sc.V1TerminalConfigurations.Retrieve(
 		context.TODO(), "tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9186,16 +9186,16 @@ func TestTerminalConfigurationsPost(t *testing.T) {
 }
 
 func TestTerminalConfigurationsPostService(t *testing.T) {
-	params := &stripe.TerminalConfigurationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalConfigurationParams{}
 	result, err := sc.TerminalConfigurations.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationsPostClient(t *testing.T) {
-	params := &stripe.TerminalConfigurationCreateParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalConfigurationCreateParams{}
 	result, err := sc.V1TerminalConfigurations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -9215,6 +9215,7 @@ func TestTerminalConfigurationsPost2(t *testing.T) {
 }
 
 func TestTerminalConfigurationsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalConfigurationParams{
 		Tipping: &stripe.TerminalConfigurationTippingParams{
 			USD: &stripe.TerminalConfigurationTippingUSDParams{
@@ -9222,13 +9223,13 @@ func TestTerminalConfigurationsPost2Service(t *testing.T) {
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TerminalConfigurations.Update("uc_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalConfigurationUpdateParams{
 		Tipping: &stripe.TerminalConfigurationUpdateTippingParams{
 			USD: &stripe.TerminalConfigurationUpdateTippingUSDParams{
@@ -9236,7 +9237,6 @@ func TestTerminalConfigurationsPost2Client(t *testing.T) {
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TerminalConfigurations.Update(
 		context.TODO(), "uc_123", params)
 	assert.NotNil(t, result)
@@ -9255,24 +9255,24 @@ func TestTerminalConfigurationsPost3(t *testing.T) {
 }
 
 func TestTerminalConfigurationsPost3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalConfigurationParams{
 		BBPOSWisePOSE: &stripe.TerminalConfigurationBBPOSWisePOSEParams{
 			Splashscreen: stripe.String("file_xxxxxxxxxxxxx"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TerminalConfigurations.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationsPost3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalConfigurationCreateParams{
 		BBPOSWisePOSE: &stripe.TerminalConfigurationCreateBBPOSWisePOSEParams{
 			Splashscreen: stripe.String("file_xxxxxxxxxxxxx"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TerminalConfigurations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -9290,24 +9290,24 @@ func TestTerminalConfigurationsPost4(t *testing.T) {
 }
 
 func TestTerminalConfigurationsPost4Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalConfigurationParams{
 		BBPOSWisePOSE: &stripe.TerminalConfigurationBBPOSWisePOSEParams{
 			Splashscreen: stripe.String("file_xxxxxxxxxxxxx"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TerminalConfigurations.Update("tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalConfigurationsPost4Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalConfigurationUpdateParams{
 		BBPOSWisePOSE: &stripe.TerminalConfigurationUpdateBBPOSWisePOSEParams{
 			Splashscreen: stripe.String("file_xxxxxxxxxxxxx"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TerminalConfigurations.Update(
 		context.TODO(), "tmc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9322,16 +9322,16 @@ func TestTerminalConnectionTokensPost(t *testing.T) {
 }
 
 func TestTerminalConnectionTokensPostService(t *testing.T) {
-	params := &stripe.TerminalConnectionTokenParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalConnectionTokenParams{}
 	result, err := sc.TerminalConnectionTokens.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalConnectionTokensPostClient(t *testing.T) {
-	params := &stripe.TerminalConnectionTokenCreateParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalConnectionTokenCreateParams{}
 	result, err := sc.V1TerminalConnectionTokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -9345,16 +9345,16 @@ func TestTerminalLocationsDelete(t *testing.T) {
 }
 
 func TestTerminalLocationsDeleteService(t *testing.T) {
-	params := &stripe.TerminalLocationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalLocationParams{}
 	result, err := sc.TerminalLocations.Del("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalLocationsDeleteClient(t *testing.T) {
-	params := &stripe.TerminalLocationDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalLocationDeleteParams{}
 	result, err := sc.V1TerminalLocations.Delete(
 		context.TODO(), "tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9370,18 +9370,18 @@ func TestTerminalLocationsGet(t *testing.T) {
 }
 
 func TestTerminalLocationsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalLocationListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TerminalLocations.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTerminalLocationsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalLocationListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TerminalLocations.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -9394,16 +9394,16 @@ func TestTerminalLocationsGet2(t *testing.T) {
 }
 
 func TestTerminalLocationsGet2Service(t *testing.T) {
-	params := &stripe.TerminalLocationParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalLocationParams{}
 	result, err := sc.TerminalLocations.Get("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalLocationsGet2Client(t *testing.T) {
-	params := &stripe.TerminalLocationRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalLocationRetrieveParams{}
 	result, err := sc.V1TerminalLocations.Retrieve(
 		context.TODO(), "tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9427,6 +9427,7 @@ func TestTerminalLocationsPost(t *testing.T) {
 }
 
 func TestTerminalLocationsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalLocationParams{
 		DisplayName: stripe.String("My First Store"),
 		Address: &stripe.AddressParams{
@@ -9437,13 +9438,13 @@ func TestTerminalLocationsPostService(t *testing.T) {
 			Country:    stripe.String("US"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TerminalLocations.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalLocationsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalLocationCreateParams{
 		DisplayName: stripe.String("My First Store"),
 		Address: &stripe.AddressParams{
@@ -9454,7 +9455,6 @@ func TestTerminalLocationsPostClient(t *testing.T) {
 			Country:    stripe.String("US"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TerminalLocations.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -9470,20 +9470,20 @@ func TestTerminalLocationsPost2(t *testing.T) {
 }
 
 func TestTerminalLocationsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalLocationParams{
 		DisplayName: stripe.String("My First Store"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TerminalLocations.Update("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalLocationsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalLocationUpdateParams{
 		DisplayName: stripe.String("My First Store"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TerminalLocations.Update(
 		context.TODO(), "tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9498,16 +9498,16 @@ func TestTerminalReadersCancelActionPost(t *testing.T) {
 }
 
 func TestTerminalReadersCancelActionPostService(t *testing.T) {
-	params := &stripe.TerminalReaderCancelActionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalReaderCancelActionParams{}
 	result, err := sc.TerminalReaders.CancelAction("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalReadersCancelActionPostClient(t *testing.T) {
-	params := &stripe.TerminalReaderCancelActionParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalReaderCancelActionParams{}
 	result, err := sc.V1TerminalReaders.CancelAction(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9522,16 +9522,16 @@ func TestTerminalReadersDelete(t *testing.T) {
 }
 
 func TestTerminalReadersDeleteService(t *testing.T) {
-	params := &stripe.TerminalReaderParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalReaderParams{}
 	result, err := sc.TerminalReaders.Del("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalReadersDeleteClient(t *testing.T) {
-	params := &stripe.TerminalReaderDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalReaderDeleteParams{}
 	result, err := sc.V1TerminalReaders.Delete(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9547,18 +9547,18 @@ func TestTerminalReadersGet(t *testing.T) {
 }
 
 func TestTerminalReadersGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalReaderListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TerminalReaders.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTerminalReadersGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalReaderListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TerminalReaders.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -9571,16 +9571,16 @@ func TestTerminalReadersGet2(t *testing.T) {
 }
 
 func TestTerminalReadersGet2Service(t *testing.T) {
-	params := &stripe.TerminalReaderParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalReaderParams{}
 	result, err := sc.TerminalReaders.Get("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalReadersGet2Client(t *testing.T) {
-	params := &stripe.TerminalReaderRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TerminalReaderRetrieveParams{}
 	result, err := sc.V1TerminalReaders.Retrieve(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9599,24 +9599,24 @@ func TestTerminalReadersPost(t *testing.T) {
 }
 
 func TestTerminalReadersPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalReaderParams{
 		RegistrationCode: stripe.String("puppies-plug-could"),
 		Label:            stripe.String("Blue Rabbit"),
 		Location:         stripe.String("tml_1234"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TerminalReaders.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalReadersPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalReaderCreateParams{
 		RegistrationCode: stripe.String("puppies-plug-could"),
 		Label:            stripe.String("Blue Rabbit"),
 		Location:         stripe.String("tml_1234"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TerminalReaders.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -9630,18 +9630,18 @@ func TestTerminalReadersPost2(t *testing.T) {
 }
 
 func TestTerminalReadersPost2Service(t *testing.T) {
-	params := &stripe.TerminalReaderParams{Label: stripe.String("Blue Rabbit")}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TerminalReaderParams{Label: stripe.String("Blue Rabbit")}
 	result, err := sc.TerminalReaders.Update("tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTerminalReadersPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalReaderUpdateParams{
 		Label: stripe.String("Blue Rabbit"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TerminalReaders.Update(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9659,10 +9659,10 @@ func TestTerminalReadersProcessPaymentIntentPost(t *testing.T) {
 }
 
 func TestTerminalReadersProcessPaymentIntentPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalReaderProcessPaymentIntentParams{
 		PaymentIntent: stripe.String("pi_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TerminalReaders.ProcessPaymentIntent(
 		"tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9670,10 +9670,10 @@ func TestTerminalReadersProcessPaymentIntentPostService(t *testing.T) {
 }
 
 func TestTerminalReadersProcessPaymentIntentPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalReaderProcessPaymentIntentParams{
 		PaymentIntent: stripe.String("pi_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TerminalReaders.ProcessPaymentIntent(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9692,11 +9692,11 @@ func TestTerminalReadersProcessSetupIntentPost(t *testing.T) {
 }
 
 func TestTerminalReadersProcessSetupIntentPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TerminalReaderProcessSetupIntentParams{
 		SetupIntent:    stripe.String("seti_xxxxxxxxxxxxx"),
 		AllowRedisplay: stripe.String("always"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TerminalReaders.ProcessSetupIntent(
 		"tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9704,11 +9704,11 @@ func TestTerminalReadersProcessSetupIntentPostService(t *testing.T) {
 }
 
 func TestTerminalReadersProcessSetupIntentPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TerminalReaderProcessSetupIntentParams{
 		SetupIntent:    stripe.String("seti_xxxxxxxxxxxxx"),
 		AllowRedisplay: stripe.String("always"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TerminalReaders.ProcessSetupIntent(
 		context.TODO(), "tmr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -9718,7 +9718,7 @@ func TestTerminalReadersProcessSetupIntentPostClient(t *testing.T) {
 func TestTestHelpersCustomersFundCashBalancePost(t *testing.T) {
 	params := &stripe.TestHelpersCustomerFundCashBalanceParams{
 		Amount:   stripe.Int64(30),
-		Currency: stripe.String(string(stripe.CurrencyEUR)),
+		Currency: stripe.String(stripe.CurrencyEUR),
 	}
 	result, err := testhelpers_customer.FundCashBalance("cus_123", params)
 	assert.NotNil(t, result)
@@ -9726,22 +9726,22 @@ func TestTestHelpersCustomersFundCashBalancePost(t *testing.T) {
 }
 
 func TestTestHelpersCustomersFundCashBalancePostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersCustomerFundCashBalanceParams{
 		Amount:   stripe.Int64(30),
-		Currency: stripe.String(string(stripe.CurrencyEUR)),
+		Currency: stripe.String(stripe.CurrencyEUR),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersCustomers.FundCashBalance("cus_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersCustomersFundCashBalancePostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersCustomerFundCashBalanceParams{
 		Amount:   stripe.Int64(30),
-		Currency: stripe.String(string(stripe.CurrencyEUR)),
+		Currency: stripe.String(stripe.CurrencyEUR),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersCustomers.FundCashBalance(
 		context.TODO(), "cus_123", params)
 	assert.NotNil(t, result)
@@ -9797,6 +9797,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingAuthorizationsCapturePostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersIssuingAuthorizationCaptureParams{
 		CaptureAmount:      stripe.Int64(100),
 		CloseAuthorization: stripe.Bool(true),
@@ -9838,7 +9839,6 @@ func TestTestHelpersIssuingAuthorizationsCapturePostService(t *testing.T) {
 			Reference: stripe.String("foo"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersIssuingAuthorizations.Capture(
 		"example_authorization", params)
 	assert.NotNil(t, result)
@@ -9846,6 +9846,7 @@ func TestTestHelpersIssuingAuthorizationsCapturePostService(t *testing.T) {
 }
 
 func TestTestHelpersIssuingAuthorizationsCapturePostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersIssuingAuthorizationCaptureParams{
 		CaptureAmount:      stripe.Int64(100),
 		CloseAuthorization: stripe.Bool(true),
@@ -9887,7 +9888,6 @@ func TestTestHelpersIssuingAuthorizationsCapturePostClient(t *testing.T) {
 			Reference: stripe.String("foo"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Capture(
 		context.TODO(), "example_authorization", params)
 	assert.NotNil(t, result)
@@ -9903,8 +9903,8 @@ func TestTestHelpersIssuingAuthorizationsExpirePost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingAuthorizationsExpirePostService(t *testing.T) {
-	params := &stripe.TestHelpersIssuingAuthorizationExpireParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersIssuingAuthorizationExpireParams{}
 	result, err := sc.TestHelpersIssuingAuthorizations.Expire(
 		"example_authorization", params)
 	assert.NotNil(t, result)
@@ -9912,8 +9912,8 @@ func TestTestHelpersIssuingAuthorizationsExpirePostService(t *testing.T) {
 }
 
 func TestTestHelpersIssuingAuthorizationsExpirePostClient(t *testing.T) {
-	params := &stripe.TestHelpersIssuingAuthorizationExpireParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersIssuingAuthorizationExpireParams{}
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Expire(
 		context.TODO(), "example_authorization", params)
 	assert.NotNil(t, result)
@@ -9932,11 +9932,11 @@ func TestTestHelpersIssuingAuthorizationsIncrementPost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingAuthorizationsIncrementPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersIssuingAuthorizationIncrementParams{
 		IncrementAmount:      stripe.Int64(50),
 		IsAmountControllable: stripe.Bool(true),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersIssuingAuthorizations.Increment(
 		"example_authorization", params)
 	assert.NotNil(t, result)
@@ -9944,11 +9944,11 @@ func TestTestHelpersIssuingAuthorizationsIncrementPostService(t *testing.T) {
 }
 
 func TestTestHelpersIssuingAuthorizationsIncrementPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersIssuingAuthorizationIncrementParams{
 		IncrementAmount:      stripe.Int64(50),
 		IsAmountControllable: stripe.Bool(true),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Increment(
 		context.TODO(), "example_authorization", params)
 	assert.NotNil(t, result)
@@ -9962,9 +9962,9 @@ func TestTestHelpersIssuingAuthorizationsPost(t *testing.T) {
 			ATMFee:         stripe.Int64(10),
 			CashbackAmount: stripe.Int64(5),
 		},
-		AuthorizationMethod:  stripe.String(string(stripe.IssuingAuthorizationAuthorizationMethodChip)),
+		AuthorizationMethod:  stripe.String(stripe.IssuingAuthorizationAuthorizationMethodChip),
 		Card:                 stripe.String("foo"),
-		Currency:             stripe.String(string(stripe.CurrencyUSD)),
+		Currency:             stripe.String(stripe.CurrencyUSD),
 		IsAmountControllable: stripe.Bool(true),
 		MerchantData: &stripe.TestHelpersIssuingAuthorizationMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
@@ -9993,15 +9993,16 @@ func TestTestHelpersIssuingAuthorizationsPost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingAuthorizationsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersIssuingAuthorizationParams{
 		Amount: stripe.Int64(100),
 		AmountDetails: &stripe.TestHelpersIssuingAuthorizationAmountDetailsParams{
 			ATMFee:         stripe.Int64(10),
 			CashbackAmount: stripe.Int64(5),
 		},
-		AuthorizationMethod:  stripe.String(string(stripe.IssuingAuthorizationAuthorizationMethodChip)),
+		AuthorizationMethod:  stripe.String(stripe.IssuingAuthorizationAuthorizationMethodChip),
 		Card:                 stripe.String("foo"),
-		Currency:             stripe.String(string(stripe.CurrencyUSD)),
+		Currency:             stripe.String(stripe.CurrencyUSD),
 		IsAmountControllable: stripe.Bool(true),
 		MerchantData: &stripe.TestHelpersIssuingAuthorizationMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
@@ -10024,22 +10025,22 @@ func TestTestHelpersIssuingAuthorizationsPostService(t *testing.T) {
 		},
 		Wallet: stripe.String("apple_pay"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersIssuingAuthorizations.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersIssuingAuthorizationsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersIssuingAuthorizationCreateParams{
 		Amount: stripe.Int64(100),
 		AmountDetails: &stripe.TestHelpersIssuingAuthorizationCreateAmountDetailsParams{
 			ATMFee:         stripe.Int64(10),
 			CashbackAmount: stripe.Int64(5),
 		},
-		AuthorizationMethod:  stripe.String(string(stripe.IssuingAuthorizationAuthorizationMethodChip)),
+		AuthorizationMethod:  stripe.String(stripe.IssuingAuthorizationAuthorizationMethodChip),
 		Card:                 stripe.String("foo"),
-		Currency:             stripe.String(string(stripe.CurrencyUSD)),
+		Currency:             stripe.String(stripe.CurrencyUSD),
 		IsAmountControllable: stripe.Bool(true),
 		MerchantData: &stripe.TestHelpersIssuingAuthorizationCreateMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
@@ -10062,7 +10063,6 @@ func TestTestHelpersIssuingAuthorizationsPostClient(t *testing.T) {
 		},
 		Wallet: stripe.String("apple_pay"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -10080,10 +10080,10 @@ func TestTestHelpersIssuingAuthorizationsReversePost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingAuthorizationsReversePostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersIssuingAuthorizationReverseParams{
 		ReverseAmount: stripe.Int64(20),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersIssuingAuthorizations.Reverse(
 		"example_authorization", params)
 	assert.NotNil(t, result)
@@ -10091,10 +10091,10 @@ func TestTestHelpersIssuingAuthorizationsReversePostService(t *testing.T) {
 }
 
 func TestTestHelpersIssuingAuthorizationsReversePostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersIssuingAuthorizationReverseParams{
 		ReverseAmount: stripe.Int64(20),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersIssuingAuthorizations.Reverse(
 		context.TODO(), "example_authorization", params)
 	assert.NotNil(t, result)
@@ -10109,16 +10109,16 @@ func TestTestHelpersIssuingCardsShippingDeliverPost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingCardsShippingDeliverPostService(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
 	result, err := sc.TestHelpersIssuingCards.DeliverCard("card_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingDeliverPostClient(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersIssuingCardDeliverCardParams{}
 	result, err := sc.V1TestHelpersIssuingCards.DeliverCard(
 		context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
@@ -10133,16 +10133,16 @@ func TestTestHelpersIssuingCardsShippingFailPost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingCardsShippingFailPostService(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardFailCardParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersIssuingCardFailCardParams{}
 	result, err := sc.TestHelpersIssuingCards.FailCard("card_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingFailPostClient(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardFailCardParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersIssuingCardFailCardParams{}
 	result, err := sc.V1TestHelpersIssuingCards.FailCard(
 		context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
@@ -10157,16 +10157,16 @@ func TestTestHelpersIssuingCardsShippingReturnPost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingCardsShippingReturnPostService(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
 	result, err := sc.TestHelpersIssuingCards.ReturnCard("card_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingReturnPostClient(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersIssuingCardReturnCardParams{}
 	result, err := sc.V1TestHelpersIssuingCards.ReturnCard(
 		context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
@@ -10181,16 +10181,16 @@ func TestTestHelpersIssuingCardsShippingShipPost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingCardsShippingShipPostService(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardShipCardParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersIssuingCardShipCardParams{}
 	result, err := sc.TestHelpersIssuingCards.ShipCard("card_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersIssuingCardsShippingShipPostClient(t *testing.T) {
-	params := &stripe.TestHelpersIssuingCardShipCardParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersIssuingCardShipCardParams{}
 	result, err := sc.V1TestHelpersIssuingCards.ShipCard(
 		context.TODO(), "card_123", params)
 	assert.NotNil(t, result)
@@ -10208,8 +10208,8 @@ func TestTestHelpersIssuingPersonalizationDesignsActivatePost(t *testing.T) {
 func TestTestHelpersIssuingPersonalizationDesignsActivatePostService(
 	t *testing.T,
 ) {
-	params := &stripe.TestHelpersIssuingPersonalizationDesignActivateParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersIssuingPersonalizationDesignActivateParams{}
 	result, err := sc.TestHelpersIssuingPersonalizationDesigns.Activate(
 		"pd_xyz", params)
 	assert.NotNil(t, result)
@@ -10219,8 +10219,8 @@ func TestTestHelpersIssuingPersonalizationDesignsActivatePostService(
 func TestTestHelpersIssuingPersonalizationDesignsActivatePostClient(
 	t *testing.T,
 ) {
-	params := &stripe.TestHelpersIssuingPersonalizationDesignActivateParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersIssuingPersonalizationDesignActivateParams{}
 	result, err := sc.V1TestHelpersIssuingPersonalizationDesigns.Activate(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
@@ -10238,8 +10238,8 @@ func TestTestHelpersIssuingPersonalizationDesignsDeactivatePost(t *testing.T) {
 func TestTestHelpersIssuingPersonalizationDesignsDeactivatePostService(
 	t *testing.T,
 ) {
-	params := &stripe.TestHelpersIssuingPersonalizationDesignDeactivateParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersIssuingPersonalizationDesignDeactivateParams{}
 	result, err := sc.TestHelpersIssuingPersonalizationDesigns.Deactivate(
 		"pd_xyz", params)
 	assert.NotNil(t, result)
@@ -10249,8 +10249,8 @@ func TestTestHelpersIssuingPersonalizationDesignsDeactivatePostService(
 func TestTestHelpersIssuingPersonalizationDesignsDeactivatePostClient(
 	t *testing.T,
 ) {
-	params := &stripe.TestHelpersIssuingPersonalizationDesignDeactivateParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersIssuingPersonalizationDesignDeactivateParams{}
 	result, err := sc.V1TestHelpersIssuingPersonalizationDesigns.Deactivate(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
@@ -10261,7 +10261,7 @@ func TestTestHelpersIssuingPersonalizationDesignsRejectPost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingPersonalizationDesignRejectParams{
 		RejectionReasons: &stripe.TestHelpersIssuingPersonalizationDesignRejectRejectionReasonsParams{
 			CardLogo: []*string{
-				stripe.String(string(stripe.IssuingPersonalizationDesignRejectionReasonsCardLogoGeographicLocation)),
+				stripe.String(stripe.IssuingPersonalizationDesignRejectionReasonsCardLogoGeographicLocation),
 			},
 		},
 	}
@@ -10274,14 +10274,14 @@ func TestTestHelpersIssuingPersonalizationDesignsRejectPost(t *testing.T) {
 func TestTestHelpersIssuingPersonalizationDesignsRejectPostService(
 	t *testing.T,
 ) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersIssuingPersonalizationDesignRejectParams{
 		RejectionReasons: &stripe.TestHelpersIssuingPersonalizationDesignRejectRejectionReasonsParams{
 			CardLogo: []*string{
-				stripe.String(string(stripe.IssuingPersonalizationDesignRejectionReasonsCardLogoGeographicLocation)),
+				stripe.String(stripe.IssuingPersonalizationDesignRejectionReasonsCardLogoGeographicLocation),
 			},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersIssuingPersonalizationDesigns.Reject(
 		"pd_xyz", params)
 	assert.NotNil(t, result)
@@ -10291,14 +10291,14 @@ func TestTestHelpersIssuingPersonalizationDesignsRejectPostService(
 func TestTestHelpersIssuingPersonalizationDesignsRejectPostClient(
 	t *testing.T,
 ) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersIssuingPersonalizationDesignRejectParams{
 		RejectionReasons: &stripe.TestHelpersIssuingPersonalizationDesignRejectRejectionReasonsParams{
 			CardLogo: []*string{
-				stripe.String(string(stripe.IssuingPersonalizationDesignRejectionReasonsCardLogoGeographicLocation)),
+				stripe.String(stripe.IssuingPersonalizationDesignRejectionReasonsCardLogoGeographicLocation),
 			},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersIssuingPersonalizationDesigns.Reject(
 		context.TODO(), "pd_xyz", params)
 	assert.NotNil(t, result)
@@ -10309,7 +10309,7 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingTransactionCreateForceCaptureParams{
 		Amount:   stripe.Int64(100),
 		Card:     stripe.String("foo"),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		MerchantData: &stripe.TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
 			City:       stripe.String("foo"),
@@ -10366,10 +10366,11 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePost(t *testing.T) {
 func TestTestHelpersIssuingTransactionsCreateForceCapturePostService(
 	t *testing.T,
 ) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersIssuingTransactionCreateForceCaptureParams{
 		Amount:   stripe.Int64(100),
 		Card:     stripe.String("foo"),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		MerchantData: &stripe.TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
 			City:       stripe.String("foo"),
@@ -10418,7 +10419,6 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePostService(
 			Reference: stripe.String("foo"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersIssuingTransactions.CreateForceCapture(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -10427,10 +10427,11 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePostService(
 func TestTestHelpersIssuingTransactionsCreateForceCapturePostClient(
 	t *testing.T,
 ) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersIssuingTransactionCreateForceCaptureParams{
 		Amount:   stripe.Int64(100),
 		Card:     stripe.String("foo"),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		MerchantData: &stripe.TestHelpersIssuingTransactionCreateForceCaptureMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
 			City:       stripe.String("foo"),
@@ -10479,7 +10480,6 @@ func TestTestHelpersIssuingTransactionsCreateForceCapturePostClient(
 			Reference: stripe.String("foo"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersIssuingTransactions.CreateForceCapture(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -10490,7 +10490,7 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 	params := &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams{
 		Amount:   stripe.Int64(100),
 		Card:     stripe.String("foo"),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		MerchantData: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
 			City:       stripe.String("foo"),
@@ -10547,10 +10547,11 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPost(t *testing.T) {
 func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostService(
 	t *testing.T,
 ) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams{
 		Amount:   stripe.Int64(100),
 		Card:     stripe.String("foo"),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		MerchantData: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
 			City:       stripe.String("foo"),
@@ -10599,7 +10600,6 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostService(
 			Reference: stripe.String("foo"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersIssuingTransactions.CreateUnlinkedRefund(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -10608,10 +10608,11 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostService(
 func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostClient(
 	t *testing.T,
 ) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundParams{
 		Amount:   stripe.Int64(100),
 		Card:     stripe.String("foo"),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Currency: stripe.String(stripe.CurrencyUSD),
 		MerchantData: &stripe.TestHelpersIssuingTransactionCreateUnlinkedRefundMerchantDataParams{
 			Category:   stripe.String("ac_refrigeration_repair"),
 			City:       stripe.String("foo"),
@@ -10660,7 +10661,6 @@ func TestTestHelpersIssuingTransactionsCreateUnlinkedRefundPostClient(
 			Reference: stripe.String("foo"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersIssuingTransactions.CreateUnlinkedRefund(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -10678,10 +10678,10 @@ func TestTestHelpersIssuingTransactionsRefundPost(t *testing.T) {
 }
 
 func TestTestHelpersIssuingTransactionsRefundPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersIssuingTransactionRefundParams{
 		RefundAmount: stripe.Int64(50),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersIssuingTransactions.Refund(
 		"example_transaction", params)
 	assert.NotNil(t, result)
@@ -10689,10 +10689,10 @@ func TestTestHelpersIssuingTransactionsRefundPostService(t *testing.T) {
 }
 
 func TestTestHelpersIssuingTransactionsRefundPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersIssuingTransactionRefundParams{
 		RefundAmount: stripe.Int64(50),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersIssuingTransactions.Refund(
 		context.TODO(), "example_transaction", params)
 	assert.NotNil(t, result)
@@ -10707,16 +10707,16 @@ func TestTestHelpersRefundsExpirePost(t *testing.T) {
 }
 
 func TestTestHelpersRefundsExpirePostService(t *testing.T) {
-	params := &stripe.TestHelpersRefundExpireParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersRefundExpireParams{}
 	result, err := sc.TestHelpersRefunds.Expire("re_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersRefundsExpirePostClient(t *testing.T) {
-	params := &stripe.TestHelpersRefundExpireParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersRefundExpireParams{}
 	result, err := sc.V1TestHelpersRefunds.Expire(
 		context.TODO(), "re_123", params)
 	assert.NotNil(t, result)
@@ -10733,20 +10733,20 @@ func TestTestHelpersTestClocksAdvancePost(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksAdvancePostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersTestClockAdvanceParams{
 		FrozenTime: stripe.Int64(142),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersTestClocks.Advance("clock_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClocksAdvancePostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersTestClockAdvanceParams{
 		FrozenTime: stripe.Int64(142),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersTestClocks.Advance(
 		context.TODO(), "clock_xyz", params)
 	assert.NotNil(t, result)
@@ -10763,10 +10763,10 @@ func TestTestHelpersTestClocksAdvancePost2(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksAdvancePost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersTestClockAdvanceParams{
 		FrozenTime: stripe.Int64(1675552261),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersTestClocks.Advance(
 		"clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -10774,10 +10774,10 @@ func TestTestHelpersTestClocksAdvancePost2Service(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksAdvancePost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersTestClockAdvanceParams{
 		FrozenTime: stripe.Int64(1675552261),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersTestClocks.Advance(
 		context.TODO(), "clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -10792,16 +10792,16 @@ func TestTestHelpersTestClocksDelete(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksDeleteService(t *testing.T) {
-	params := &stripe.TestHelpersTestClockParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersTestClockParams{}
 	result, err := sc.TestHelpersTestClocks.Del("clock_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClocksDeleteClient(t *testing.T) {
-	params := &stripe.TestHelpersTestClockDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersTestClockDeleteParams{}
 	result, err := sc.V1TestHelpersTestClocks.Delete(
 		context.TODO(), "clock_xyz", params)
 	assert.NotNil(t, result)
@@ -10816,16 +10816,16 @@ func TestTestHelpersTestClocksDelete2(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksDelete2Service(t *testing.T) {
-	params := &stripe.TestHelpersTestClockParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersTestClockParams{}
 	result, err := sc.TestHelpersTestClocks.Del("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClocksDelete2Client(t *testing.T) {
-	params := &stripe.TestHelpersTestClockDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersTestClockDeleteParams{}
 	result, err := sc.V1TestHelpersTestClocks.Delete(
 		context.TODO(), "clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -10840,16 +10840,16 @@ func TestTestHelpersTestClocksGet(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksGetService(t *testing.T) {
-	params := &stripe.TestHelpersTestClockListParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersTestClockListParams{}
 	result := sc.TestHelpersTestClocks.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTestHelpersTestClocksGetClient(t *testing.T) {
-	params := &stripe.TestHelpersTestClockListParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersTestClockListParams{}
 	result := sc.V1TestHelpersTestClocks.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -10862,16 +10862,16 @@ func TestTestHelpersTestClocksGet2(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksGet2Service(t *testing.T) {
-	params := &stripe.TestHelpersTestClockParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersTestClockParams{}
 	result, err := sc.TestHelpersTestClocks.Get("clock_xyz", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClocksGet2Client(t *testing.T) {
-	params := &stripe.TestHelpersTestClockRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersTestClockRetrieveParams{}
 	result, err := sc.V1TestHelpersTestClocks.Retrieve(
 		context.TODO(), "clock_xyz", params)
 	assert.NotNil(t, result)
@@ -10887,18 +10887,18 @@ func TestTestHelpersTestClocksGet3(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksGet3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersTestClockListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TestHelpersTestClocks.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTestHelpersTestClocksGet3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersTestClockListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TestHelpersTestClocks.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -10911,16 +10911,16 @@ func TestTestHelpersTestClocksGet4(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksGet4Service(t *testing.T) {
-	params := &stripe.TestHelpersTestClockParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersTestClockParams{}
 	result, err := sc.TestHelpersTestClocks.Get("clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClocksGet4Client(t *testing.T) {
-	params := &stripe.TestHelpersTestClockRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersTestClockRetrieveParams{}
 	result, err := sc.V1TestHelpersTestClocks.Retrieve(
 		context.TODO(), "clock_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -10938,22 +10938,22 @@ func TestTestHelpersTestClocksPost(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersTestClockParams{
 		FrozenTime: stripe.Int64(123),
 		Name:       stripe.String("cogsworth"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersTestClocks.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClocksPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersTestClockCreateParams{
 		FrozenTime: stripe.Int64(123),
 		Name:       stripe.String("cogsworth"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersTestClocks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -10969,20 +10969,20 @@ func TestTestHelpersTestClocksPost2(t *testing.T) {
 }
 
 func TestTestHelpersTestClocksPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersTestClockParams{
 		FrozenTime: stripe.Int64(1577836800),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersTestClocks.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTestClocksPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersTestClockCreateParams{
 		FrozenTime: stripe.Int64(1577836800),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersTestClocks.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -10991,7 +10991,7 @@ func TestTestHelpersTestClocksPost2Client(t *testing.T) {
 func TestTestHelpersTreasuryInboundTransfersFailPost(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryInboundTransferFailParams{
 		FailureDetails: &stripe.TestHelpersTreasuryInboundTransferFailFailureDetailsParams{
-			Code: stripe.String(string(stripe.TreasuryInboundTransferFailureDetailsCodeAccountClosed)),
+			Code: stripe.String(stripe.TreasuryInboundTransferFailureDetailsCodeAccountClosed),
 		},
 	}
 	result, err := testhelpers_treasury_inboundtransfer.Fail("ibt_123", params)
@@ -11000,24 +11000,24 @@ func TestTestHelpersTreasuryInboundTransfersFailPost(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryInboundTransfersFailPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersTreasuryInboundTransferFailParams{
 		FailureDetails: &stripe.TestHelpersTreasuryInboundTransferFailFailureDetailsParams{
-			Code: stripe.String(string(stripe.TreasuryInboundTransferFailureDetailsCodeAccountClosed)),
+			Code: stripe.String(stripe.TreasuryInboundTransferFailureDetailsCodeAccountClosed),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersTreasuryInboundTransfers.Fail("ibt_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryInboundTransfersFailPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersTreasuryInboundTransferFailParams{
 		FailureDetails: &stripe.TestHelpersTreasuryInboundTransferFailFailureDetailsParams{
-			Code: stripe.String(string(stripe.TreasuryInboundTransferFailureDetailsCodeAccountClosed)),
+			Code: stripe.String(stripe.TreasuryInboundTransferFailureDetailsCodeAccountClosed),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersTreasuryInboundTransfers.Fail(
 		context.TODO(), "ibt_123", params)
 	assert.NotNil(t, result)
@@ -11033,8 +11033,8 @@ func TestTestHelpersTreasuryInboundTransfersReturnPost(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryInboundTransfersReturnPostService(t *testing.T) {
-	params := &stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams{}
 	result, err := sc.TestHelpersTreasuryInboundTransfers.ReturnInboundTransfer(
 		"ibt_123", params)
 	assert.NotNil(t, result)
@@ -11042,8 +11042,8 @@ func TestTestHelpersTreasuryInboundTransfersReturnPostService(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryInboundTransfersReturnPostClient(t *testing.T) {
-	params := &stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersTreasuryInboundTransferReturnInboundTransferParams{}
 	result, err := sc.V1TestHelpersTreasuryInboundTransfers.ReturnInboundTransfer(
 		context.TODO(), "ibt_123", params)
 	assert.NotNil(t, result)
@@ -11059,8 +11059,8 @@ func TestTestHelpersTreasuryInboundTransfersSucceedPost(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryInboundTransfersSucceedPostService(t *testing.T) {
-	params := &stripe.TestHelpersTreasuryInboundTransferSucceedParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersTreasuryInboundTransferSucceedParams{}
 	result, err := sc.TestHelpersTreasuryInboundTransfers.Succeed(
 		"ibt_123", params)
 	assert.NotNil(t, result)
@@ -11068,8 +11068,8 @@ func TestTestHelpersTreasuryInboundTransfersSucceedPostService(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryInboundTransfersSucceedPostClient(t *testing.T) {
-	params := &stripe.TestHelpersTreasuryInboundTransferSucceedParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersTreasuryInboundTransferSucceedParams{}
 	result, err := sc.V1TestHelpersTreasuryInboundTransfers.Succeed(
 		context.TODO(), "ibt_123", params)
 	assert.NotNil(t, result)
@@ -11084,8 +11084,8 @@ func TestTestHelpersTreasuryOutboundTransfersFailPost(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryOutboundTransfersFailPostService(t *testing.T) {
-	params := &stripe.TestHelpersTreasuryOutboundTransferFailParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersTreasuryOutboundTransferFailParams{}
 	result, err := sc.TestHelpersTreasuryOutboundTransfers.Fail(
 		"obt_123", params)
 	assert.NotNil(t, result)
@@ -11093,8 +11093,8 @@ func TestTestHelpersTreasuryOutboundTransfersFailPostService(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryOutboundTransfersFailPostClient(t *testing.T) {
-	params := &stripe.TestHelpersTreasuryOutboundTransferFailParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersTreasuryOutboundTransferFailParams{}
 	result, err := sc.V1TestHelpersTreasuryOutboundTransfers.Fail(
 		context.TODO(), "obt_123", params)
 	assert.NotNil(t, result)
@@ -11109,8 +11109,8 @@ func TestTestHelpersTreasuryOutboundTransfersPostPost(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryOutboundTransfersPostPostService(t *testing.T) {
-	params := &stripe.TestHelpersTreasuryOutboundTransferPostParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TestHelpersTreasuryOutboundTransferPostParams{}
 	result, err := sc.TestHelpersTreasuryOutboundTransfers.Post(
 		"obt_123", params)
 	assert.NotNil(t, result)
@@ -11118,8 +11118,8 @@ func TestTestHelpersTreasuryOutboundTransfersPostPostService(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryOutboundTransfersPostPostClient(t *testing.T) {
-	params := &stripe.TestHelpersTreasuryOutboundTransferPostParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TestHelpersTreasuryOutboundTransferPostParams{}
 	result, err := sc.V1TestHelpersTreasuryOutboundTransfers.Post(
 		context.TODO(), "obt_123", params)
 	assert.NotNil(t, result)
@@ -11129,7 +11129,7 @@ func TestTestHelpersTreasuryOutboundTransfersPostPostClient(t *testing.T) {
 func TestTestHelpersTreasuryOutboundTransfersReturnPost(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams{
 		ReturnedDetails: &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferReturnedDetailsParams{
-			Code: stripe.String(string(stripe.TreasuryOutboundTransferReturnedDetailsCodeAccountClosed)),
+			Code: stripe.String(stripe.TreasuryOutboundTransferReturnedDetailsCodeAccountClosed),
 		},
 	}
 	result, err := testhelpers_treasury_outboundtransfer.ReturnOutboundTransfer(
@@ -11139,12 +11139,12 @@ func TestTestHelpersTreasuryOutboundTransfersReturnPost(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryOutboundTransfersReturnPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams{
 		ReturnedDetails: &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferReturnedDetailsParams{
-			Code: stripe.String(string(stripe.TreasuryOutboundTransferReturnedDetailsCodeAccountClosed)),
+			Code: stripe.String(stripe.TreasuryOutboundTransferReturnedDetailsCodeAccountClosed),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersTreasuryOutboundTransfers.ReturnOutboundTransfer(
 		"obt_123", params)
 	assert.NotNil(t, result)
@@ -11152,12 +11152,12 @@ func TestTestHelpersTreasuryOutboundTransfersReturnPostService(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryOutboundTransfersReturnPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferParams{
 		ReturnedDetails: &stripe.TestHelpersTreasuryOutboundTransferReturnOutboundTransferReturnedDetailsParams{
-			Code: stripe.String(string(stripe.TreasuryOutboundTransferReturnedDetailsCodeAccountClosed)),
+			Code: stripe.String(stripe.TreasuryOutboundTransferReturnedDetailsCodeAccountClosed),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersTreasuryOutboundTransfers.ReturnOutboundTransfer(
 		context.TODO(), "obt_123", params)
 	assert.NotNil(t, result)
@@ -11167,9 +11167,9 @@ func TestTestHelpersTreasuryOutboundTransfersReturnPostClient(t *testing.T) {
 func TestTestHelpersTreasuryReceivedCreditsPost(t *testing.T) {
 	params := &stripe.TestHelpersTreasuryReceivedCreditParams{
 		FinancialAccount: stripe.String("fa_123"),
-		Network:          stripe.String(string(stripe.TreasuryReceivedCreditNetworkACH)),
+		Network:          stripe.String(stripe.TreasuryReceivedCreditNetworkACH),
 		Amount:           stripe.Int64(1234),
-		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+		Currency:         stripe.String(stripe.CurrencyUSD),
 	}
 	result, err := testhelpers_treasury_receivedcredit.New(params)
 	assert.NotNil(t, result)
@@ -11177,26 +11177,26 @@ func TestTestHelpersTreasuryReceivedCreditsPost(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryReceivedCreditsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersTreasuryReceivedCreditParams{
 		FinancialAccount: stripe.String("fa_123"),
-		Network:          stripe.String(string(stripe.TreasuryReceivedCreditNetworkACH)),
+		Network:          stripe.String(stripe.TreasuryReceivedCreditNetworkACH),
 		Amount:           stripe.Int64(1234),
-		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+		Currency:         stripe.String(stripe.CurrencyUSD),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersTreasuryReceivedCredits.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedCreditsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersTreasuryReceivedCreditCreateParams{
 		FinancialAccount: stripe.String("fa_123"),
-		Network:          stripe.String(string(stripe.TreasuryReceivedCreditNetworkACH)),
+		Network:          stripe.String(stripe.TreasuryReceivedCreditNetworkACH),
 		Amount:           stripe.Int64(1234),
-		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+		Currency:         stripe.String(stripe.CurrencyUSD),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersTreasuryReceivedCredits.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -11208,7 +11208,7 @@ func TestTestHelpersTreasuryReceivedDebitsPost(t *testing.T) {
 		FinancialAccount: stripe.String("fa_123"),
 		Network:          stripe.String("ach"),
 		Amount:           stripe.Int64(1234),
-		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+		Currency:         stripe.String(stripe.CurrencyUSD),
 	}
 	result, err := testhelpers_treasury_receiveddebit.New(params)
 	assert.NotNil(t, result)
@@ -11216,26 +11216,26 @@ func TestTestHelpersTreasuryReceivedDebitsPost(t *testing.T) {
 }
 
 func TestTestHelpersTreasuryReceivedDebitsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TestHelpersTreasuryReceivedDebitParams{
 		FinancialAccount: stripe.String("fa_123"),
 		Network:          stripe.String("ach"),
 		Amount:           stripe.Int64(1234),
-		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+		Currency:         stripe.String(stripe.CurrencyUSD),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TestHelpersTreasuryReceivedDebits.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTestHelpersTreasuryReceivedDebitsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TestHelpersTreasuryReceivedDebitCreateParams{
 		FinancialAccount: stripe.String("fa_123"),
 		Network:          stripe.String("ach"),
 		Amount:           stripe.Int64(1234),
-		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+		Currency:         stripe.String(stripe.CurrencyUSD),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TestHelpersTreasuryReceivedDebits.Create(
 		context.TODO(), params)
 	assert.NotNil(t, result)
@@ -11250,16 +11250,16 @@ func TestTokensGet(t *testing.T) {
 }
 
 func TestTokensGetService(t *testing.T) {
-	params := &stripe.TokenParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TokenParams{}
 	result, err := sc.Tokens.Get("tok_xxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTokensGetClient(t *testing.T) {
-	params := &stripe.TokenRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TokenRetrieveParams{}
 	result, err := sc.V1Tokens.Retrieve(context.TODO(), "tok_xxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11280,6 +11280,7 @@ func TestTokensPost(t *testing.T) {
 }
 
 func TestTokensPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TokenParams{
 		Card: &stripe.CardParams{
 			Number:   stripe.String("4242424242424242"),
@@ -11288,13 +11289,13 @@ func TestTokensPostService(t *testing.T) {
 			CVC:      stripe.String("314"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTokensPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TokenCreateParams{
 		Card: &stripe.CardParams{
 			Number:   stripe.String("4242424242424242"),
@@ -11303,7 +11304,6 @@ func TestTokensPostClient(t *testing.T) {
 			CVC:      stripe.String("314"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11313,7 +11313,7 @@ func TestTokensPost2(t *testing.T) {
 	params := &stripe.TokenParams{
 		BankAccount: &stripe.BankAccountParams{
 			Country:           stripe.String("US"),
-			Currency:          stripe.String(string(stripe.CurrencyUSD)),
+			Currency:          stripe.String(stripe.CurrencyUSD),
 			AccountHolderName: stripe.String("Jenny Rosen"),
 			AccountHolderType: stripe.String("individual"),
 			RoutingNumber:     stripe.String("110000000"),
@@ -11326,34 +11326,34 @@ func TestTokensPost2(t *testing.T) {
 }
 
 func TestTokensPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TokenParams{
 		BankAccount: &stripe.BankAccountParams{
 			Country:           stripe.String("US"),
-			Currency:          stripe.String(string(stripe.CurrencyUSD)),
+			Currency:          stripe.String(stripe.CurrencyUSD),
 			AccountHolderName: stripe.String("Jenny Rosen"),
 			AccountHolderType: stripe.String("individual"),
 			RoutingNumber:     stripe.String("110000000"),
 			AccountNumber:     stripe.String("000123456789"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTokensPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TokenCreateParams{
 		BankAccount: &stripe.BankAccountParams{
 			Country:           stripe.String("US"),
-			Currency:          stripe.String(string(stripe.CurrencyUSD)),
+			Currency:          stripe.String(stripe.CurrencyUSD),
 			AccountHolderName: stripe.String("Jenny Rosen"),
 			AccountHolderType: stripe.String("individual"),
 			RoutingNumber:     stripe.String("110000000"),
 			AccountNumber:     stripe.String("000123456789"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11369,20 +11369,20 @@ func TestTokensPost3(t *testing.T) {
 }
 
 func TestTokensPost3Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TokenParams{
 		PII: &stripe.TokenPIIParams{IDNumber: stripe.String("000000000")},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTokensPost3Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TokenCreateParams{
 		PII: &stripe.TokenCreatePIIParams{IDNumber: stripe.String("000000000")},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11404,6 +11404,7 @@ func TestTokensPost4(t *testing.T) {
 }
 
 func TestTokensPost4Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TokenParams{
 		Account: &stripe.TokenAccountParams{
 			Individual: &stripe.PersonParams{
@@ -11413,13 +11414,13 @@ func TestTokensPost4Service(t *testing.T) {
 			TOSShownAndAccepted: stripe.Bool(true),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTokensPost4Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TokenCreateParams{
 		Account: &stripe.TokenCreateAccountParams{
 			Individual: &stripe.PersonParams{
@@ -11429,7 +11430,6 @@ func TestTokensPost4Client(t *testing.T) {
 			TOSShownAndAccepted: stripe.Bool(true),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11449,6 +11449,7 @@ func TestTokensPost5(t *testing.T) {
 }
 
 func TestTokensPost5Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TokenParams{
 		Person: &stripe.PersonParams{
 			FirstName:    stripe.String("Jane"),
@@ -11456,13 +11457,13 @@ func TestTokensPost5Service(t *testing.T) {
 			Relationship: &stripe.PersonRelationshipParams{Owner: stripe.Bool(true)},
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTokensPost5Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TokenCreateParams{
 		Person: &stripe.PersonParams{
 			FirstName:    stripe.String("Jane"),
@@ -11470,7 +11471,6 @@ func TestTokensPost5Client(t *testing.T) {
 			Relationship: &stripe.PersonRelationshipParams{Owner: stripe.Bool(true)},
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11486,20 +11486,20 @@ func TestTokensPost6(t *testing.T) {
 }
 
 func TestTokensPost6Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TokenParams{
 		CVCUpdate: &stripe.TokenCVCUpdateParams{CVC: stripe.String("123")},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Tokens.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTokensPost6Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TokenCreateParams{
 		CVCUpdate: &stripe.TokenCreateCVCUpdateParams{CVC: stripe.String("123")},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Tokens.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11513,16 +11513,16 @@ func TestTopupsCancelPost(t *testing.T) {
 }
 
 func TestTopupsCancelPostService(t *testing.T) {
-	params := &stripe.TopupParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TopupParams{}
 	result, err := sc.Topups.Cancel("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTopupsCancelPostClient(t *testing.T) {
-	params := &stripe.TopupCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TopupCancelParams{}
 	result, err := sc.V1Topups.Cancel(context.TODO(), "tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11537,18 +11537,18 @@ func TestTopupsGet(t *testing.T) {
 }
 
 func TestTopupsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TopupListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Topups.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTopupsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TopupListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Topups.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -11561,16 +11561,16 @@ func TestTopupsGet2(t *testing.T) {
 }
 
 func TestTopupsGet2Service(t *testing.T) {
-	params := &stripe.TopupParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TopupParams{}
 	result, err := sc.Topups.Get("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTopupsGet2Client(t *testing.T) {
-	params := &stripe.TopupRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TopupRetrieveParams{}
 	result, err := sc.V1Topups.Retrieve(
 		context.TODO(), "tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -11580,7 +11580,7 @@ func TestTopupsGet2Client(t *testing.T) {
 func TestTopupsPost(t *testing.T) {
 	params := &stripe.TopupParams{
 		Amount:              stripe.Int64(2000),
-		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		Currency:            stripe.String(stripe.CurrencyUSD),
 		Description:         stripe.String("Top-up for Jenny Rosen"),
 		StatementDescriptor: stripe.String("Top-up"),
 	}
@@ -11590,26 +11590,26 @@ func TestTopupsPost(t *testing.T) {
 }
 
 func TestTopupsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TopupParams{
 		Amount:              stripe.Int64(2000),
-		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		Currency:            stripe.String(stripe.CurrencyUSD),
 		Description:         stripe.String("Top-up for Jenny Rosen"),
 		StatementDescriptor: stripe.String("Top-up"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Topups.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTopupsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TopupCreateParams{
 		Amount:              stripe.Int64(2000),
-		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		Currency:            stripe.String(stripe.CurrencyUSD),
 		Description:         stripe.String("Top-up for Jenny Rosen"),
 		StatementDescriptor: stripe.String("Top-up"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Topups.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11624,18 +11624,18 @@ func TestTopupsPost2(t *testing.T) {
 }
 
 func TestTopupsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TopupParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Topups.Update("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTopupsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TopupUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Topups.Update(context.TODO(), "tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11650,18 +11650,18 @@ func TestTransfersGet(t *testing.T) {
 }
 
 func TestTransfersGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TransferListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.Transfers.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTransfersGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TransferListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1Transfers.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -11674,16 +11674,16 @@ func TestTransfersGet2(t *testing.T) {
 }
 
 func TestTransfersGet2Service(t *testing.T) {
-	params := &stripe.TransferParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TransferParams{}
 	result, err := sc.Transfers.Get("tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTransfersGet2Client(t *testing.T) {
-	params := &stripe.TransferRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TransferRetrieveParams{}
 	result, err := sc.V1Transfers.Retrieve(
 		context.TODO(), "tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -11693,7 +11693,7 @@ func TestTransfersGet2Client(t *testing.T) {
 func TestTransfersPost(t *testing.T) {
 	params := &stripe.TransferParams{
 		Amount:        stripe.Int64(400),
-		Currency:      stripe.String(string(stripe.CurrencyUSD)),
+		Currency:      stripe.String(stripe.CurrencyUSD),
 		Destination:   stripe.String("acct_xxxxxxxxxxxxx"),
 		TransferGroup: stripe.String("ORDER_95"),
 	}
@@ -11703,26 +11703,26 @@ func TestTransfersPost(t *testing.T) {
 }
 
 func TestTransfersPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TransferParams{
 		Amount:        stripe.Int64(400),
-		Currency:      stripe.String(string(stripe.CurrencyUSD)),
+		Currency:      stripe.String(stripe.CurrencyUSD),
 		Destination:   stripe.String("acct_xxxxxxxxxxxxx"),
 		TransferGroup: stripe.String("ORDER_95"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Transfers.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTransfersPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TransferCreateParams{
 		Amount:        stripe.Int64(400),
-		Currency:      stripe.String(string(stripe.CurrencyUSD)),
+		Currency:      stripe.String(stripe.CurrencyUSD),
 		Destination:   stripe.String("acct_xxxxxxxxxxxxx"),
 		TransferGroup: stripe.String("ORDER_95"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Transfers.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11737,18 +11737,18 @@ func TestTransfersPost2(t *testing.T) {
 }
 
 func TestTransfersPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TransferParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.Transfers.Update("tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTransfersPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TransferUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1Transfers.Update(
 		context.TODO(), "tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -11766,22 +11766,22 @@ func TestTransfersReversalsGet(t *testing.T) {
 }
 
 func TestTransfersReversalsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TransferReversalListParams{
 		ID: stripe.String("tr_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TransferReversals.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTransfersReversalsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TransferReversalListParams{
 		ID: stripe.String("tr_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TransferReversals.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -11796,20 +11796,20 @@ func TestTransfersReversalsGet2(t *testing.T) {
 }
 
 func TestTransfersReversalsGet2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TransferReversalParams{
 		ID: stripe.String("tr_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TransferReversals.Get("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTransfersReversalsGet2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TransferReversalRetrieveParams{
 		ID: stripe.String("tr_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TransferReversals.Retrieve(
 		context.TODO(), "trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -11827,22 +11827,22 @@ func TestTransfersReversalsPost(t *testing.T) {
 }
 
 func TestTransfersReversalsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TransferReversalParams{
 		Amount: stripe.Int64(100),
 		ID:     stripe.String("tr_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TransferReversals.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTransfersReversalsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TransferReversalCreateParams{
 		Amount: stripe.Int64(100),
 		ID:     stripe.String("tr_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TransferReversals.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11859,22 +11859,22 @@ func TestTransfersReversalsPost2(t *testing.T) {
 }
 
 func TestTransfersReversalsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TransferReversalParams{
 		ID: stripe.String("tr_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TransferReversals.Update("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTransfersReversalsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TransferReversalUpdateParams{
 		ID: stripe.String("tr_xxxxxxxxxxxxx"),
 	}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TransferReversals.Update(
 		context.TODO(), "trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -11892,22 +11892,22 @@ func TestTreasuryCreditReversalsGet(t *testing.T) {
 }
 
 func TestTreasuryCreditReversalsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryCreditReversalListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryCreditReversals.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryCreditReversalsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryCreditReversalListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryCreditReversals.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -11920,8 +11920,8 @@ func TestTreasuryCreditReversalsGet2(t *testing.T) {
 }
 
 func TestTreasuryCreditReversalsGet2Service(t *testing.T) {
-	params := &stripe.TreasuryCreditReversalParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryCreditReversalParams{}
 	result, err := sc.TreasuryCreditReversals.Get(
 		"credrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -11929,8 +11929,8 @@ func TestTreasuryCreditReversalsGet2Service(t *testing.T) {
 }
 
 func TestTreasuryCreditReversalsGet2Client(t *testing.T) {
-	params := &stripe.TreasuryCreditReversalRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryCreditReversalRetrieveParams{}
 	result, err := sc.V1TreasuryCreditReversals.Retrieve(
 		context.TODO(), "credrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -11947,20 +11947,20 @@ func TestTreasuryCreditReversalsPost(t *testing.T) {
 }
 
 func TestTreasuryCreditReversalsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryCreditReversalParams{
 		ReceivedCredit: stripe.String("rc_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TreasuryCreditReversals.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryCreditReversalsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryCreditReversalCreateParams{
 		ReceivedCredit: stripe.String("rc_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TreasuryCreditReversals.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -11977,22 +11977,22 @@ func TestTreasuryDebitReversalsGet(t *testing.T) {
 }
 
 func TestTreasuryDebitReversalsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryDebitReversalListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryDebitReversals.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryDebitReversalsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryDebitReversalListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryDebitReversals.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12005,16 +12005,16 @@ func TestTreasuryDebitReversalsGet2(t *testing.T) {
 }
 
 func TestTreasuryDebitReversalsGet2Service(t *testing.T) {
-	params := &stripe.TreasuryDebitReversalParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryDebitReversalParams{}
 	result, err := sc.TreasuryDebitReversals.Get("debrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryDebitReversalsGet2Client(t *testing.T) {
-	params := &stripe.TreasuryDebitReversalRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryDebitReversalRetrieveParams{}
 	result, err := sc.V1TreasuryDebitReversals.Retrieve(
 		context.TODO(), "debrev_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12031,20 +12031,20 @@ func TestTreasuryDebitReversalsPost(t *testing.T) {
 }
 
 func TestTreasuryDebitReversalsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryDebitReversalParams{
 		ReceivedDebit: stripe.String("rd_xxxxxxxxxxxxx"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TreasuryDebitReversals.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryDebitReversalsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryDebitReversalCreateParams{
 		ReceivedDebit: stripe.String("rd_xxxxxxxxxxxxx"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TreasuryDebitReversals.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -12059,8 +12059,8 @@ func TestTreasuryFinancialAccountsFeaturesGet(t *testing.T) {
 }
 
 func TestTreasuryFinancialAccountsFeaturesGetService(t *testing.T) {
-	params := &stripe.TreasuryFinancialAccountRetrieveFeaturesParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryFinancialAccountRetrieveFeaturesParams{}
 	result, err := sc.TreasuryFinancialAccounts.RetrieveFeatures(
 		"fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12068,8 +12068,8 @@ func TestTreasuryFinancialAccountsFeaturesGetService(t *testing.T) {
 }
 
 func TestTreasuryFinancialAccountsFeaturesGetClient(t *testing.T) {
-	params := &stripe.TreasuryFinancialAccountRetrieveFeaturesParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryFinancialAccountRetrieveFeaturesParams{}
 	result, err := sc.V1TreasuryFinancialAccounts.RetrieveFeatures(
 		context.TODO(), "fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12085,18 +12085,18 @@ func TestTreasuryFinancialAccountsGet(t *testing.T) {
 }
 
 func TestTreasuryFinancialAccountsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryFinancialAccountListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryFinancialAccounts.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryFinancialAccountsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryFinancialAccountListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryFinancialAccounts.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12109,16 +12109,16 @@ func TestTreasuryFinancialAccountsGet2(t *testing.T) {
 }
 
 func TestTreasuryFinancialAccountsGet2Service(t *testing.T) {
-	params := &stripe.TreasuryFinancialAccountParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryFinancialAccountParams{}
 	result, err := sc.TreasuryFinancialAccounts.Get("fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryFinancialAccountsGet2Client(t *testing.T) {
-	params := &stripe.TreasuryFinancialAccountRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryFinancialAccountRetrieveParams{}
 	result, err := sc.V1TreasuryFinancialAccounts.Retrieve(
 		context.TODO(), "fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12136,22 +12136,22 @@ func TestTreasuryFinancialAccountsPost(t *testing.T) {
 }
 
 func TestTreasuryFinancialAccountsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryFinancialAccountParams{
 		SupportedCurrencies: []*string{stripe.String("usd")},
 		Features:            &stripe.TreasuryFinancialAccountFeaturesParams{},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TreasuryFinancialAccounts.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryFinancialAccountsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryFinancialAccountCreateParams{
 		SupportedCurrencies: []*string{stripe.String("usd")},
 		Features:            &stripe.TreasuryFinancialAccountCreateFeaturesParams{},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TreasuryFinancialAccounts.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -12166,9 +12166,9 @@ func TestTreasuryFinancialAccountsPost2(t *testing.T) {
 }
 
 func TestTreasuryFinancialAccountsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryFinancialAccountParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TreasuryFinancialAccounts.Update(
 		"fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12176,9 +12176,9 @@ func TestTreasuryFinancialAccountsPost2Service(t *testing.T) {
 }
 
 func TestTreasuryFinancialAccountsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryFinancialAccountUpdateParams{}
 	params.AddMetadata("order_id", "6735")
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TreasuryFinancialAccounts.Update(
 		context.TODO(), "fa_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12193,8 +12193,8 @@ func TestTreasuryInboundTransfersCancelPost(t *testing.T) {
 }
 
 func TestTreasuryInboundTransfersCancelPostService(t *testing.T) {
-	params := &stripe.TreasuryInboundTransferCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryInboundTransferCancelParams{}
 	result, err := sc.TreasuryInboundTransfers.Cancel(
 		"ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12202,8 +12202,8 @@ func TestTreasuryInboundTransfersCancelPostService(t *testing.T) {
 }
 
 func TestTreasuryInboundTransfersCancelPostClient(t *testing.T) {
-	params := &stripe.TreasuryInboundTransferCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryInboundTransferCancelParams{}
 	result, err := sc.V1TreasuryInboundTransfers.Cancel(
 		context.TODO(), "ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12221,22 +12221,22 @@ func TestTreasuryInboundTransfersGet(t *testing.T) {
 }
 
 func TestTreasuryInboundTransfersGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryInboundTransferListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryInboundTransfers.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryInboundTransfersGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryInboundTransferListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryInboundTransfers.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12249,16 +12249,16 @@ func TestTreasuryInboundTransfersGet2(t *testing.T) {
 }
 
 func TestTreasuryInboundTransfersGet2Service(t *testing.T) {
-	params := &stripe.TreasuryInboundTransferParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryInboundTransferParams{}
 	result, err := sc.TreasuryInboundTransfers.Get("ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryInboundTransfersGet2Client(t *testing.T) {
-	params := &stripe.TreasuryInboundTransferRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryInboundTransferRetrieveParams{}
 	result, err := sc.V1TreasuryInboundTransfers.Retrieve(
 		context.TODO(), "ibt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12269,7 +12269,7 @@ func TestTreasuryInboundTransfersPost(t *testing.T) {
 	params := &stripe.TreasuryInboundTransferParams{
 		FinancialAccount:    stripe.String("fa_xxxxxxxxxxxxx"),
 		Amount:              stripe.Int64(10000),
-		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		Currency:            stripe.String(stripe.CurrencyUSD),
 		OriginPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Description:         stripe.String("InboundTransfer from my bank account"),
 	}
@@ -12279,28 +12279,28 @@ func TestTreasuryInboundTransfersPost(t *testing.T) {
 }
 
 func TestTreasuryInboundTransfersPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryInboundTransferParams{
 		FinancialAccount:    stripe.String("fa_xxxxxxxxxxxxx"),
 		Amount:              stripe.Int64(10000),
-		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		Currency:            stripe.String(stripe.CurrencyUSD),
 		OriginPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Description:         stripe.String("InboundTransfer from my bank account"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TreasuryInboundTransfers.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryInboundTransfersPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryInboundTransferCreateParams{
 		FinancialAccount:    stripe.String("fa_xxxxxxxxxxxxx"),
 		Amount:              stripe.Int64(10000),
-		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		Currency:            stripe.String(stripe.CurrencyUSD),
 		OriginPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Description:         stripe.String("InboundTransfer from my bank account"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TreasuryInboundTransfers.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -12314,8 +12314,8 @@ func TestTreasuryOutboundPaymentsCancelPost(t *testing.T) {
 }
 
 func TestTreasuryOutboundPaymentsCancelPostService(t *testing.T) {
-	params := &stripe.TreasuryOutboundPaymentCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryOutboundPaymentCancelParams{}
 	result, err := sc.TreasuryOutboundPayments.Cancel(
 		"bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12323,8 +12323,8 @@ func TestTreasuryOutboundPaymentsCancelPostService(t *testing.T) {
 }
 
 func TestTreasuryOutboundPaymentsCancelPostClient(t *testing.T) {
-	params := &stripe.TreasuryOutboundPaymentCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryOutboundPaymentCancelParams{}
 	result, err := sc.V1TreasuryOutboundPayments.Cancel(
 		context.TODO(), "bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12342,22 +12342,22 @@ func TestTreasuryOutboundPaymentsGet(t *testing.T) {
 }
 
 func TestTreasuryOutboundPaymentsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryOutboundPaymentListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryOutboundPayments.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryOutboundPaymentsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryOutboundPaymentListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryOutboundPayments.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12370,16 +12370,16 @@ func TestTreasuryOutboundPaymentsGet2(t *testing.T) {
 }
 
 func TestTreasuryOutboundPaymentsGet2Service(t *testing.T) {
-	params := &stripe.TreasuryOutboundPaymentParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryOutboundPaymentParams{}
 	result, err := sc.TreasuryOutboundPayments.Get("bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundPaymentsGet2Client(t *testing.T) {
-	params := &stripe.TreasuryOutboundPaymentRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryOutboundPaymentRetrieveParams{}
 	result, err := sc.V1TreasuryOutboundPayments.Retrieve(
 		context.TODO(), "bot_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12390,7 +12390,7 @@ func TestTreasuryOutboundPaymentsPost(t *testing.T) {
 	params := &stripe.TreasuryOutboundPaymentParams{
 		FinancialAccount:         stripe.String("fa_xxxxxxxxxxxxx"),
 		Amount:                   stripe.Int64(10000),
-		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
+		Currency:                 stripe.String(stripe.CurrencyUSD),
 		Customer:                 stripe.String("cus_xxxxxxxxxxxxx"),
 		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Description:              stripe.String("OutboundPayment to a 3rd party"),
@@ -12401,30 +12401,30 @@ func TestTreasuryOutboundPaymentsPost(t *testing.T) {
 }
 
 func TestTreasuryOutboundPaymentsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryOutboundPaymentParams{
 		FinancialAccount:         stripe.String("fa_xxxxxxxxxxxxx"),
 		Amount:                   stripe.Int64(10000),
-		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
+		Currency:                 stripe.String(stripe.CurrencyUSD),
 		Customer:                 stripe.String("cus_xxxxxxxxxxxxx"),
 		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Description:              stripe.String("OutboundPayment to a 3rd party"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TreasuryOutboundPayments.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundPaymentsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryOutboundPaymentCreateParams{
 		FinancialAccount:         stripe.String("fa_xxxxxxxxxxxxx"),
 		Amount:                   stripe.Int64(10000),
-		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
+		Currency:                 stripe.String(stripe.CurrencyUSD),
 		Customer:                 stripe.String("cus_xxxxxxxxxxxxx"),
 		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Description:              stripe.String("OutboundPayment to a 3rd party"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TreasuryOutboundPayments.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -12438,8 +12438,8 @@ func TestTreasuryOutboundTransfersCancelPost(t *testing.T) {
 }
 
 func TestTreasuryOutboundTransfersCancelPostService(t *testing.T) {
-	params := &stripe.TreasuryOutboundTransferCancelParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryOutboundTransferCancelParams{}
 	result, err := sc.TreasuryOutboundTransfers.Cancel(
 		"obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12447,8 +12447,8 @@ func TestTreasuryOutboundTransfersCancelPostService(t *testing.T) {
 }
 
 func TestTreasuryOutboundTransfersCancelPostClient(t *testing.T) {
-	params := &stripe.TreasuryOutboundTransferCancelParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryOutboundTransferCancelParams{}
 	result, err := sc.V1TreasuryOutboundTransfers.Cancel(
 		context.TODO(), "obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12466,22 +12466,22 @@ func TestTreasuryOutboundTransfersGet(t *testing.T) {
 }
 
 func TestTreasuryOutboundTransfersGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryOutboundTransferListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryOutboundTransfers.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryOutboundTransfersGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryOutboundTransferListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryOutboundTransfers.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12494,16 +12494,16 @@ func TestTreasuryOutboundTransfersGet2(t *testing.T) {
 }
 
 func TestTreasuryOutboundTransfersGet2Service(t *testing.T) {
-	params := &stripe.TreasuryOutboundTransferParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryOutboundTransferParams{}
 	result, err := sc.TreasuryOutboundTransfers.Get("obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundTransfersGet2Client(t *testing.T) {
-	params := &stripe.TreasuryOutboundTransferRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryOutboundTransferRetrieveParams{}
 	result, err := sc.V1TreasuryOutboundTransfers.Retrieve(
 		context.TODO(), "obt_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12515,7 +12515,7 @@ func TestTreasuryOutboundTransfersPost(t *testing.T) {
 		FinancialAccount:         stripe.String("fa_xxxxxxxxxxxxx"),
 		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Amount:                   stripe.Int64(500),
-		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
+		Currency:                 stripe.String(stripe.CurrencyUSD),
 		Description:              stripe.String("OutboundTransfer to my external bank account"),
 	}
 	result, err := treasury_outboundtransfer.New(params)
@@ -12524,28 +12524,28 @@ func TestTreasuryOutboundTransfersPost(t *testing.T) {
 }
 
 func TestTreasuryOutboundTransfersPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryOutboundTransferParams{
 		FinancialAccount:         stripe.String("fa_xxxxxxxxxxxxx"),
 		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Amount:                   stripe.Int64(500),
-		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
+		Currency:                 stripe.String(stripe.CurrencyUSD),
 		Description:              stripe.String("OutboundTransfer to my external bank account"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.TreasuryOutboundTransfers.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryOutboundTransfersPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryOutboundTransferCreateParams{
 		FinancialAccount:         stripe.String("fa_xxxxxxxxxxxxx"),
 		DestinationPaymentMethod: stripe.String("pm_xxxxxxxxxxxxx"),
 		Amount:                   stripe.Int64(500),
-		Currency:                 stripe.String(string(stripe.CurrencyUSD)),
+		Currency:                 stripe.String(stripe.CurrencyUSD),
 		Description:              stripe.String("OutboundTransfer to my external bank account"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1TreasuryOutboundTransfers.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -12562,22 +12562,22 @@ func TestTreasuryReceivedCreditsGet(t *testing.T) {
 }
 
 func TestTreasuryReceivedCreditsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryReceivedCreditListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryReceivedCredits.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryReceivedCreditsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryReceivedCreditListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryReceivedCredits.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12590,16 +12590,16 @@ func TestTreasuryReceivedCreditsGet2(t *testing.T) {
 }
 
 func TestTreasuryReceivedCreditsGet2Service(t *testing.T) {
-	params := &stripe.TreasuryReceivedCreditParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryReceivedCreditParams{}
 	result, err := sc.TreasuryReceivedCredits.Get("rc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryReceivedCreditsGet2Client(t *testing.T) {
-	params := &stripe.TreasuryReceivedCreditRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryReceivedCreditRetrieveParams{}
 	result, err := sc.V1TreasuryReceivedCredits.Retrieve(
 		context.TODO(), "rc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12617,22 +12617,22 @@ func TestTreasuryReceivedDebitsGet(t *testing.T) {
 }
 
 func TestTreasuryReceivedDebitsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryReceivedDebitListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryReceivedDebits.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryReceivedDebitsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryReceivedDebitListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryReceivedDebits.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12645,16 +12645,16 @@ func TestTreasuryReceivedDebitsGet2(t *testing.T) {
 }
 
 func TestTreasuryReceivedDebitsGet2Service(t *testing.T) {
-	params := &stripe.TreasuryReceivedDebitParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryReceivedDebitParams{}
 	result, err := sc.TreasuryReceivedDebits.Get("rd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryReceivedDebitsGet2Client(t *testing.T) {
-	params := &stripe.TreasuryReceivedDebitRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryReceivedDebitRetrieveParams{}
 	result, err := sc.V1TreasuryReceivedDebits.Retrieve(
 		context.TODO(), "rd_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12672,22 +12672,22 @@ func TestTreasuryTransactionEntriesGet(t *testing.T) {
 }
 
 func TestTreasuryTransactionEntriesGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryTransactionEntryListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryTransactionEntries.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryTransactionEntriesGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryTransactionEntryListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryTransactionEntries.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12700,8 +12700,8 @@ func TestTreasuryTransactionEntriesGet2(t *testing.T) {
 }
 
 func TestTreasuryTransactionEntriesGet2Service(t *testing.T) {
-	params := &stripe.TreasuryTransactionEntryParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryTransactionEntryParams{}
 	result, err := sc.TreasuryTransactionEntries.Get(
 		"trxne_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12709,8 +12709,8 @@ func TestTreasuryTransactionEntriesGet2Service(t *testing.T) {
 }
 
 func TestTreasuryTransactionEntriesGet2Client(t *testing.T) {
-	params := &stripe.TreasuryTransactionEntryRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryTransactionEntryRetrieveParams{}
 	result, err := sc.V1TreasuryTransactionEntries.Retrieve(
 		context.TODO(), "trxne_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12728,22 +12728,22 @@ func TestTreasuryTransactionsGet(t *testing.T) {
 }
 
 func TestTreasuryTransactionsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.TreasuryTransactionListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.TreasuryTransactions.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestTreasuryTransactionsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.TreasuryTransactionListParams{
 		FinancialAccount: stripe.String("fa_xxxxxxxxxxxxx"),
 	}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1TreasuryTransactions.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12756,16 +12756,16 @@ func TestTreasuryTransactionsGet2(t *testing.T) {
 }
 
 func TestTreasuryTransactionsGet2Service(t *testing.T) {
-	params := &stripe.TreasuryTransactionParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.TreasuryTransactionParams{}
 	result, err := sc.TreasuryTransactions.Get("trxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestTreasuryTransactionsGet2Client(t *testing.T) {
-	params := &stripe.TreasuryTransactionRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.TreasuryTransactionRetrieveParams{}
 	result, err := sc.V1TreasuryTransactions.Retrieve(
 		context.TODO(), "trxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12780,16 +12780,16 @@ func TestWebhookEndpointsDelete(t *testing.T) {
 }
 
 func TestWebhookEndpointsDeleteService(t *testing.T) {
-	params := &stripe.WebhookEndpointParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.WebhookEndpointParams{}
 	result, err := sc.WebhookEndpoints.Del("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestWebhookEndpointsDeleteClient(t *testing.T) {
-	params := &stripe.WebhookEndpointDeleteParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.WebhookEndpointDeleteParams{}
 	result, err := sc.V1WebhookEndpoints.Delete(
 		context.TODO(), "we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12805,18 +12805,18 @@ func TestWebhookEndpointsGet(t *testing.T) {
 }
 
 func TestWebhookEndpointsGetService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.WebhookEndpointListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := client.New(TestAPIKey, nil)
 	result := sc.WebhookEndpoints.List(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, result.Err())
 }
 
 func TestWebhookEndpointsGetClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.WebhookEndpointListParams{}
 	params.Limit = stripe.Int64(3)
-	sc := stripe.NewClient(TestAPIKey)
 	result := sc.V1WebhookEndpoints.List(context.TODO(), params)
 	assert.NotNil(t, result)
 }
@@ -12829,16 +12829,16 @@ func TestWebhookEndpointsGet2(t *testing.T) {
 }
 
 func TestWebhookEndpointsGet2Service(t *testing.T) {
-	params := &stripe.WebhookEndpointParams{}
 	sc := client.New(TestAPIKey, nil)
+	params := &stripe.WebhookEndpointParams{}
 	result, err := sc.WebhookEndpoints.Get("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestWebhookEndpointsGet2Client(t *testing.T) {
-	params := &stripe.WebhookEndpointRetrieveParams{}
 	sc := stripe.NewClient(TestAPIKey)
+	params := &stripe.WebhookEndpointRetrieveParams{}
 	result, err := sc.V1WebhookEndpoints.Retrieve(
 		context.TODO(), "we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
@@ -12859,6 +12859,7 @@ func TestWebhookEndpointsPost(t *testing.T) {
 }
 
 func TestWebhookEndpointsPostService(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.WebhookEndpointParams{
 		URL: stripe.String("https://example.com/my/webhook/endpoint"),
 		EnabledEvents: []*string{
@@ -12866,13 +12867,13 @@ func TestWebhookEndpointsPostService(t *testing.T) {
 			stripe.String("charge.succeeded"),
 		},
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.WebhookEndpoints.New(params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestWebhookEndpointsPostClient(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.WebhookEndpointCreateParams{
 		URL: stripe.String("https://example.com/my/webhook/endpoint"),
 		EnabledEvents: []*string{
@@ -12880,7 +12881,6 @@ func TestWebhookEndpointsPostClient(t *testing.T) {
 			stripe.String("charge.succeeded"),
 		},
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1WebhookEndpoints.Create(context.TODO(), params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
@@ -12896,20 +12896,20 @@ func TestWebhookEndpointsPost2(t *testing.T) {
 }
 
 func TestWebhookEndpointsPost2Service(t *testing.T) {
+	sc := client.New(TestAPIKey, nil)
 	params := &stripe.WebhookEndpointParams{
 		URL: stripe.String("https://example.com/new_endpoint"),
 	}
-	sc := client.New(TestAPIKey, nil)
 	result, err := sc.WebhookEndpoints.Update("we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
 
 func TestWebhookEndpointsPost2Client(t *testing.T) {
+	sc := stripe.NewClient(TestAPIKey)
 	params := &stripe.WebhookEndpointUpdateParams{
 		URL: stripe.String("https://example.com/new_endpoint"),
 	}
-	sc := stripe.NewClient(TestAPIKey)
 	result, err := sc.V1WebhookEndpoints.Update(
 		context.TODO(), "we_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)

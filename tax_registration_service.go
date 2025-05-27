@@ -21,11 +21,11 @@ type v1TaxRegistrationService struct {
 
 // Creates a new Tax Registration object.
 func (c v1TaxRegistrationService) Create(ctx context.Context, params *TaxRegistrationCreateParams) (*TaxRegistration, error) {
-	registration := &TaxRegistration{}
 	if params == nil {
 		params = &TaxRegistrationCreateParams{}
 	}
 	params.Context = ctx
+	registration := &TaxRegistration{}
 	err := c.B.Call(
 		http.MethodPost, "/v1/tax/registrations", c.Key, params, registration)
 	return registration, err
@@ -33,12 +33,12 @@ func (c v1TaxRegistrationService) Create(ctx context.Context, params *TaxRegistr
 
 // Returns a Tax Registration object.
 func (c v1TaxRegistrationService) Retrieve(ctx context.Context, id string, params *TaxRegistrationRetrieveParams) (*TaxRegistration, error) {
-	path := FormatURLPath("/v1/tax/registrations/%s", id)
-	registration := &TaxRegistration{}
 	if params == nil {
 		params = &TaxRegistrationRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/tax/registrations/%s", id)
+	registration := &TaxRegistration{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, registration)
 	return registration, err
 }
@@ -47,12 +47,12 @@ func (c v1TaxRegistrationService) Retrieve(ctx context.Context, id string, param
 //
 // A registration cannot be deleted after it has been created. If you wish to end a registration you may do so by setting expires_at.
 func (c v1TaxRegistrationService) Update(ctx context.Context, id string, params *TaxRegistrationUpdateParams) (*TaxRegistration, error) {
-	path := FormatURLPath("/v1/tax/registrations/%s", id)
-	registration := &TaxRegistration{}
 	if params == nil {
 		params = &TaxRegistrationUpdateParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/tax/registrations/%s", id)
+	registration := &TaxRegistration{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, registration)
 	return registration, err
 }

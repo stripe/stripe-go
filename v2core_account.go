@@ -28,7 +28,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExemptReverse V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt = "reverse"
 )
 
-// The customer's country as identified by Stripe Tax.
+// The identified tax country of the customer.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry can take
@@ -285,7 +285,7 @@ const (
 	V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountryZw V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry = "zw"
 )
 
-// The data source used by Stripe Tax to identify the customer's location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource string
 
 // List of values that V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource can take
@@ -5416,11 +5416,11 @@ const (
 	V2CoreAccountRequirementsSummaryMinimumDeadlineStatusPastDue       V2CoreAccountRequirementsSummaryMinimumDeadlineStatus = "past_due"
 )
 
-// The customer's location as identified by Stripe Tax - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+// The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 type V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation struct {
-	// The customer's country as identified by Stripe Tax.
+	// The identified tax country of the customer.
 	Country V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationCountry `json:"country"`
-	// The customer's state, county, province, or region as identified by Stripe Tax.
+	// The identified tax state, county, province, or region of the customer.
 	State string `json:"state"`
 }
 
@@ -5430,9 +5430,9 @@ type V2CoreAccountConfigurationCustomerAutomaticIndirectTax struct {
 	Exempt V2CoreAccountConfigurationCustomerAutomaticIndirectTaxExempt `json:"exempt"`
 	// A recent IP address of the customer used for tax reporting and tax location inference.
 	IPAddress string `json:"ip_address"`
-	// The customer's location as identified by Stripe Tax - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
+	// The customer's identified tax location - uses `location_source`. Will only be rendered if the `automatic_indirect_tax` feature is requested and `active`.
 	Location *V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocation `json:"location"`
-	// The data source used by Stripe Tax to identify the customer's location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
+	// The data source used to identify the customer's tax location - defaults to 'identity_address'. Will only be used for automatic tax calculation on the customer's Invoices and Subscriptions.
 	LocationSource V2CoreAccountConfigurationCustomerAutomaticIndirectTaxLocationSource `json:"location_source"`
 }
 
@@ -6280,7 +6280,7 @@ type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayouts struct {
 	StatusDetails []*V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetail `json:"status_details"`
 }
 
-// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
+// Capabilities that enable the merchant to manage their Stripe Balance (/v1/balance).
 type V2CoreAccountConfigurationMerchantCapabilitiesStripeBalance struct {
 	// Allows the account to do payouts using their Stripe Balance (/v1/balance).
 	Payouts *V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayouts `json:"payouts"`
@@ -6440,7 +6440,7 @@ type V2CoreAccountConfigurationMerchantCapabilities struct {
 	SEPABankTransferPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPayments `json:"sepa_bank_transfer_payments"`
 	// Allow the merchant to process SEPA Direct Debit payments.
 	SEPADebitPayments *V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPayments `json:"sepa_debit_payments"`
-	// Capabilities that enable the recipient to manage their Stripe Balance (/v1/balance).
+	// Capabilities that enable the merchant to manage their Stripe Balance (/v1/balance).
 	StripeBalance *V2CoreAccountConfigurationMerchantCapabilitiesStripeBalance `json:"stripe_balance"`
 	// Allow the merchant to process Swish payments.
 	SwishPayments *V2CoreAccountConfigurationMerchantCapabilitiesSwishPayments `json:"swish_payments"`

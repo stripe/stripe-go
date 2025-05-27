@@ -21,24 +21,24 @@ type v1ReviewService struct {
 
 // Retrieves a Review object.
 func (c v1ReviewService) Retrieve(ctx context.Context, id string, params *ReviewRetrieveParams) (*Review, error) {
-	path := FormatURLPath("/v1/reviews/%s", id)
-	review := &Review{}
 	if params == nil {
 		params = &ReviewRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/reviews/%s", id)
+	review := &Review{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, review)
 	return review, err
 }
 
 // Approves a Review object, closing it and removing it from the list of reviews.
 func (c v1ReviewService) Approve(ctx context.Context, id string, params *ReviewApproveParams) (*Review, error) {
-	path := FormatURLPath("/v1/reviews/%s/approve", id)
-	review := &Review{}
 	if params == nil {
 		params = &ReviewApproveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/reviews/%s/approve", id)
+	review := &Review{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, review)
 	return review, err
 }

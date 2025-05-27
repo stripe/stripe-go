@@ -21,23 +21,23 @@ type v1FxQuoteService struct {
 
 // Creates an FX Quote object
 func (c v1FxQuoteService) Create(ctx context.Context, params *FxQuoteCreateParams) (*FxQuote, error) {
-	fxquote := &FxQuote{}
 	if params == nil {
 		params = &FxQuoteCreateParams{}
 	}
 	params.Context = ctx
+	fxquote := &FxQuote{}
 	err := c.B.Call(http.MethodPost, "/v1/fx_quotes", c.Key, params, fxquote)
 	return fxquote, err
 }
 
 // Retrieve an FX Quote object
 func (c v1FxQuoteService) Retrieve(ctx context.Context, id string, params *FxQuoteRetrieveParams) (*FxQuote, error) {
-	path := FormatURLPath("/v1/fx_quotes/%s", id)
-	fxquote := &FxQuote{}
 	if params == nil {
 		params = &FxQuoteRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/fx_quotes/%s", id)
+	fxquote := &FxQuote{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, fxquote)
 	return fxquote, err
 }

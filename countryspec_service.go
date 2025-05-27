@@ -21,12 +21,12 @@ type v1CountrySpecService struct {
 
 // Returns a Country Spec for a given Country code.
 func (c v1CountrySpecService) Retrieve(ctx context.Context, id string, params *CountrySpecRetrieveParams) (*CountrySpec, error) {
-	path := FormatURLPath("/v1/country_specs/%s", id)
-	countryspec := &CountrySpec{}
 	if params == nil {
 		params = &CountrySpecRetrieveParams{}
 	}
 	params.Context = ctx
+	path := FormatURLPath("/v1/country_specs/%s", id)
+	countryspec := &CountrySpec{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, countryspec)
 	return countryspec, err
 }

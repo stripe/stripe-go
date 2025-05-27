@@ -364,6 +364,8 @@ type FinancialConnectionsAccount struct {
 	ID string `json:"id"`
 	// The state of the most recent attempt to refresh the account's inferred balance history.
 	InferredBalancesRefresh *FinancialConnectionsAccountInferredBalancesRefresh `json:"inferred_balances_refresh"`
+	// The ID of the Financial Connections Institution this account belongs to. Note that this relationship may sometimes change in rare circumstances (e.g. institution mergers).
+	Institution *FinancialConnectionsInstitution `json:"institution"`
 	// The name of the institution that holds this account.
 	InstitutionName string `json:"institution_name"`
 	// The last 4 digits of the account number. If present, this will be 4 numeric characters.

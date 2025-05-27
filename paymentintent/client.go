@@ -25,13 +25,13 @@ type Client struct {
 
 // Creates a PaymentIntent object.
 //
-// After the PaymentIntent is created, attach a payment method and [confirm](https://stripe.com/docs/api/payment_intents/confirm)
+// After the PaymentIntent is created, attach a payment method and [confirm](https://docs.stripe.com/docs/api/payment_intents/confirm)
 // to continue the payment. Learn more about <a href="/docs/payments/payment-intents">the available payment flows
 // with the Payment Intents API.
 //
 // When you use confirm=true during creation, it's equivalent to creating
 // and confirming the PaymentIntent in the same call. You can use any parameters
-// available in the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) when you supply
+// available in the [confirm API](https://docs.stripe.com/docs/api/payment_intents/confirm) when you supply
 // confirm=true.
 func New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	return getC().New(params)
@@ -39,13 +39,13 @@ func New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 
 // Creates a PaymentIntent object.
 //
-// After the PaymentIntent is created, attach a payment method and [confirm](https://stripe.com/docs/api/payment_intents/confirm)
+// After the PaymentIntent is created, attach a payment method and [confirm](https://docs.stripe.com/docs/api/payment_intents/confirm)
 // to continue the payment. Learn more about <a href="/docs/payments/payment-intents">the available payment flows
 // with the Payment Intents API.
 //
 // When you use confirm=true during creation, it's equivalent to creating
 // and confirming the PaymentIntent in the same call. You can use any parameters
-// available in the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) when you supply
+// available in the [confirm API](https://docs.stripe.com/docs/api/payment_intents/confirm) when you supply
 // confirm=true.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
@@ -62,7 +62,7 @@ func (c Client) New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, 
 //
 // You can retrieve a PaymentIntent client-side using a publishable key when the client_secret is in the query string.
 //
-// If you retrieve a PaymentIntent with a publishable key, it only returns a subset of properties. Refer to the [payment intent](https://stripe.com/docs/api#payment_intent_object) object reference for more details.
+// If you retrieve a PaymentIntent with a publishable key, it only returns a subset of properties. Refer to the [payment intent](https://docs.stripe.com/api#payment_intent_object) object reference for more details.
 func Get(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	return getC().Get(id, params)
 }
@@ -71,7 +71,7 @@ func Get(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, 
 //
 // You can retrieve a PaymentIntent client-side using a publishable key when the client_secret is in the query string.
 //
-// If you retrieve a PaymentIntent with a publishable key, it only returns a subset of properties. Refer to the [payment intent](https://stripe.com/docs/api#payment_intent_object) object reference for more details.
+// If you retrieve a PaymentIntent with a publishable key, it only returns a subset of properties. Refer to the [payment intent](https://docs.stripe.com/api#payment_intent_object) object reference for more details.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -89,7 +89,7 @@ func (c Client) Get(id string, params *stripe.PaymentIntentParams) (*stripe.Paym
 // PaymentIntent again. For example, updating the payment_method
 // always requires you to confirm the PaymentIntent again. If you prefer to
 // update and confirm at the same time, we recommend updating properties through
-// the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) instead.
+// the [confirm API](https://docs.stripe.com/docs/api/payment_intents/confirm) instead.
 func Update(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	return getC().Update(id, params)
 }
@@ -100,7 +100,7 @@ func Update(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentInten
 // PaymentIntent again. For example, updating the payment_method
 // always requires you to confirm the PaymentIntent again. If you prefer to
 // update and confirm at the same time, we recommend updating properties through
-// the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) instead.
+// the [confirm API](https://docs.stripe.com/docs/api/payment_intents/confirm) instead.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -130,20 +130,20 @@ func (c Client) ApplyCustomerBalance(id string, params *stripe.PaymentIntentAppl
 	return paymentintent, err
 }
 
-// You can cancel a PaymentIntent object when it's in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://stripe.com/docs/payments/intents), processing.
+// You can cancel a PaymentIntent object when it's in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://docs.stripe.com/docs/payments/intents), processing.
 //
 // After it's canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable is automatically refunded.
 //
-// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
+// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire) instead.
 func Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.PaymentIntent, error) {
 	return getC().Cancel(id, params)
 }
 
-// You can cancel a PaymentIntent object when it's in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://stripe.com/docs/payments/intents), processing.
+// You can cancel a PaymentIntent object when it's in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action or, [in rare cases](https://docs.stripe.com/docs/payments/intents), processing.
 //
 // After it's canceled, no additional charges are made by the PaymentIntent and any operations on the PaymentIntent fail with an error. For PaymentIntents with a status of requires_capture, the remaining amount_capturable is automatically refunded.
 //
-// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
+// You can't cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://docs.stripe.com/docs/api/checkout/sessions/expire) instead.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -159,7 +159,7 @@ func (c Client) Cancel(id string, params *stripe.PaymentIntentCancelParams) (*st
 //
 // Uncaptured PaymentIntents are cancelled a set number of days (7 by default) after their creation.
 //
-// Learn more about [separate authorization and capture](https://stripe.com/docs/payments/capture-later).
+// Learn more about [separate authorization and capture](https://docs.stripe.com/docs/payments/capture-later).
 func Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.PaymentIntent, error) {
 	return getC().Capture(id, params)
 }
@@ -168,7 +168,7 @@ func Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.Paym
 //
 // Uncaptured PaymentIntents are cancelled a set number of days (7 by default) after their creation.
 //
-// Learn more about [separate authorization and capture](https://stripe.com/docs/payments/capture-later).
+// Learn more about [separate authorization and capture](https://docs.stripe.com/docs/payments/capture-later).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -191,8 +191,8 @@ func (c Client) Capture(id string, params *stripe.PaymentIntentCaptureParams) (*
 // payment succeeds, the PaymentIntent will transition to the succeeded
 // status (or requires_capture, if capture_method is set to manual).
 // If the confirmation_method is automatic, payment may be attempted
-// using our [client SDKs](https://stripe.com/docs/stripe-js/reference#stripe-handle-card-payment)
-// and the PaymentIntent's [client_secret](https://stripe.com/docs/api#payment_intent_object-client_secret).
+// using our [client SDKs](https://docs.stripe.com/docs/stripe-js/reference#stripe-handle-card-payment)
+// and the PaymentIntent's [client_secret](https://docs.stripe.com/api#payment_intent_object-client_secret).
 // After next_actions are handled by the client, no additional
 // confirmation is required to complete the payment.
 // If the confirmation_method is manual, all payment attempts must be
@@ -220,8 +220,8 @@ func Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.Paym
 // payment succeeds, the PaymentIntent will transition to the succeeded
 // status (or requires_capture, if capture_method is set to manual).
 // If the confirmation_method is automatic, payment may be attempted
-// using our [client SDKs](https://stripe.com/docs/stripe-js/reference#stripe-handle-card-payment)
-// and the PaymentIntent's [client_secret](https://stripe.com/docs/api#payment_intent_object-client_secret).
+// using our [client SDKs](https://docs.stripe.com/docs/stripe-js/reference#stripe-handle-card-payment)
+// and the PaymentIntent's [client_secret](https://docs.stripe.com/api#payment_intent_object-client_secret).
 // After next_actions are handled by the client, no additional
 // confirmation is required to complete the payment.
 // If the confirmation_method is manual, all payment attempts must be
@@ -246,9 +246,9 @@ func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*
 }
 
 // Perform a decremental authorization on an eligible
-// [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
+// [PaymentIntent](https://docs.stripe.com/docs/api/payment_intents/object). To be eligible, the
 // PaymentIntent's status must be requires_capture and
-// [decremental_authorization.status](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card-decremental_authorization)
+// [decremental_authorization.status](https://docs.stripe.com/docs/api/charges/object#charge_object-payment_method_details-card-decremental_authorization)
 // must be available.
 //
 // Decremental authorizations decrease the authorized amount on your customer's card
@@ -256,7 +256,7 @@ func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*
 //
 // After decrement, the PaymentIntent object
 // returns with the updated
-// [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
+// [amount](https://docs.stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
 // The PaymentIntent will now be capturable up to the new authorized amount.
 //
 // Each PaymentIntent can have a maximum of 10 decremental or incremental authorization attempts, including declines.
@@ -266,9 +266,9 @@ func DecrementAuthorization(id string, params *stripe.PaymentIntentDecrementAuth
 }
 
 // Perform a decremental authorization on an eligible
-// [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
+// [PaymentIntent](https://docs.stripe.com/docs/api/payment_intents/object). To be eligible, the
 // PaymentIntent's status must be requires_capture and
-// [decremental_authorization.status](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card-decremental_authorization)
+// [decremental_authorization.status](https://docs.stripe.com/docs/api/charges/object#charge_object-payment_method_details-card-decremental_authorization)
 // must be available.
 //
 // Decremental authorizations decrease the authorized amount on your customer's card
@@ -276,7 +276,7 @@ func DecrementAuthorization(id string, params *stripe.PaymentIntentDecrementAuth
 //
 // After decrement, the PaymentIntent object
 // returns with the updated
-// [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
+// [amount](https://docs.stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
 // The PaymentIntent will now be capturable up to the new authorized amount.
 //
 // Each PaymentIntent can have a maximum of 10 decremental or incremental authorization attempts, including declines.
@@ -294,9 +294,9 @@ func (c Client) DecrementAuthorization(id string, params *stripe.PaymentIntentDe
 }
 
 // Perform an incremental authorization on an eligible
-// [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
+// [PaymentIntent](https://docs.stripe.com/docs/api/payment_intents/object). To be eligible, the
 // PaymentIntent's status must be requires_capture and
-// [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported)
+// [incremental_authorization_supported](https://docs.stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported)
 // must be true.
 //
 // Incremental authorizations attempt to increase the authorized amount on
@@ -307,24 +307,24 @@ func (c Client) DecrementAuthorization(id string, params *stripe.PaymentIntentDe
 //
 // If the incremental authorization succeeds, the PaymentIntent object
 // returns with the updated
-// [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
+// [amount](https://docs.stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
 // If the incremental authorization fails, a
-// [card_declined](https://stripe.com/docs/error-codes#card-declined) error returns, and no other
+// [card_declined](https://docs.stripe.com/docs/error-codes#card-declined) error returns, and no other
 // fields on the PaymentIntent or Charge update. The PaymentIntent
 // object remains capturable for the previously authorized amount.
 //
 // Each PaymentIntent can have a maximum of 10 incremental authorization attempts, including declines.
 // After it's captured, a PaymentIntent can no longer be incremented.
 //
-// Learn more about [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations).
+// Learn more about [incremental authorizations](https://docs.stripe.com/docs/terminal/features/incremental-authorizations).
 func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
 	return getC().IncrementAuthorization(id, params)
 }
 
 // Perform an incremental authorization on an eligible
-// [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
+// [PaymentIntent](https://docs.stripe.com/docs/api/payment_intents/object). To be eligible, the
 // PaymentIntent's status must be requires_capture and
-// [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported)
+// [incremental_authorization_supported](https://docs.stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported)
 // must be true.
 //
 // Incremental authorizations attempt to increase the authorized amount on
@@ -335,16 +335,16 @@ func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuth
 //
 // If the incremental authorization succeeds, the PaymentIntent object
 // returns with the updated
-// [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
+// [amount](https://docs.stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
 // If the incremental authorization fails, a
-// [card_declined](https://stripe.com/docs/error-codes#card-declined) error returns, and no other
+// [card_declined](https://docs.stripe.com/docs/error-codes#card-declined) error returns, and no other
 // fields on the PaymentIntent or Charge update. The PaymentIntent
 // object remains capturable for the previously authorized amount.
 //
 // Each PaymentIntent can have a maximum of 10 incremental authorization attempts, including declines.
 // After it's captured, a PaymentIntent can no longer be incremented.
 //
-// Learn more about [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations).
+// Learn more about [incremental authorizations](https://docs.stripe.com/docs/terminal/features/incremental-authorizations).
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -435,7 +435,7 @@ func (i *Iter) PaymentIntentList() *stripe.PaymentIntentList {
 	return i.List().(*stripe.PaymentIntentList)
 }
 
-// Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.
@@ -443,7 +443,7 @@ func Search(params *stripe.PaymentIntentSearchParams) *SearchIter {
 	return getC().Search(params)
 }
 
-// Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
 // to an hour behind during outages. Search functionality is not available to merchants in India.

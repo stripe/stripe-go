@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // The status of this institution in the Financial Connections authentication flow.
 type FinancialConnectionsInstitutionStatus string
 
@@ -78,7 +80,9 @@ type FinancialConnectionsInstitutionFeatures struct {
 // An institution represents a financial institution to which an end user can connect using the Financial Connections authentication flow.
 type FinancialConnectionsInstitution struct {
 	APIResource
-	Features *FinancialConnectionsInstitutionFeatures `json:"features"`
+	// The list of countries supported by this institution, formatted as ISO country codes.
+	Countries []string                                 `json:"countries"`
+	Features  *FinancialConnectionsInstitutionFeatures `json:"features"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
@@ -100,4 +104,23 @@ type FinancialConnectionsInstitutionList struct {
 	APIResource
 	ListMeta
 	Data []*FinancialConnectionsInstitution `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a FinancialConnectionsInstitution.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (f *FinancialConnectionsInstitution) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		f.ID = id
+		return nil
+	}
+
+	type financialConnectionsInstitution FinancialConnectionsInstitution
+	var v financialConnectionsInstitution
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*f = FinancialConnectionsInstitution(v)
+	return nil
 }

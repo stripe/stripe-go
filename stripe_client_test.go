@@ -87,7 +87,7 @@ func TestParseThinEventNoTolerance(t *testing.T) {
 	p.Signature = stripe.ComputeSignature(p.Timestamp, p.Payload, p.Secret)
 	p.Header = generateHeader(p)
 	sc := stripe.NewClient("sk_test_secret")
-	thinEvent, err = sc.ParseThinEvent(p.Payload, p.Header, p.Secret, stripe.WithTolerance(0))
+	_, err = sc.ParseThinEvent(p.Payload, p.Header, p.Secret, stripe.WithTolerance(0))
 	assert.Equal(t, stripe.ErrWebhookTooOld, err)
 }
 
