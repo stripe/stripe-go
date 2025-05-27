@@ -31,7 +31,7 @@ func (c v1PromotionCodeService) Create(ctx context.Context, params *PromotionCod
 	return promotioncode, err
 }
 
-// Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
+// Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://docs.stripe.com/docs/api/promotion_codes/list) with the desired code.
 func (c v1PromotionCodeService) Retrieve(ctx context.Context, id string, params *PromotionCodeRetrieveParams) (*PromotionCode, error) {
 	if params == nil {
 		params = &PromotionCodeRetrieveParams{}

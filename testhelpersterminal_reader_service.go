@@ -29,3 +29,29 @@ func (c v1TestHelpersTerminalReaderService) PresentPaymentMethod(ctx context.Con
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
 	return reader, err
 }
+
+// Use this endpoint to trigger a successful input collection on a simulated reader.
+func (c v1TestHelpersTerminalReaderService) SucceedInputCollection(ctx context.Context, id string, params *TestHelpersTerminalReaderSucceedInputCollectionParams) (*TerminalReader, error) {
+	if params == nil {
+		params = &TestHelpersTerminalReaderSucceedInputCollectionParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/test_helpers/terminal/readers/%s/succeed_input_collection", id)
+	reader := &TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// Use this endpoint to complete an input collection with a timeout error on a simulated reader.
+func (c v1TestHelpersTerminalReaderService) TimeoutInputCollection(ctx context.Context, id string, params *TestHelpersTerminalReaderTimeoutInputCollectionParams) (*TerminalReader, error) {
+	if params == nil {
+		params = &TestHelpersTerminalReaderTimeoutInputCollectionParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath(
+		"/v1/test_helpers/terminal/readers/%s/timeout_input_collection", id)
+	reader := &TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}

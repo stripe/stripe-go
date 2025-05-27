@@ -43,8 +43,8 @@ func (c v1IssuingAuthorizationService) Update(ctx context.Context, id string, pa
 	return authorization, err
 }
 
-// Deprecated: [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
-// This method is deprecated. Instead, [respond directly to the webhook request to approve an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
+// Deprecated: [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://docs.stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// This method is deprecated. Instead, [respond directly to the webhook request to approve an authorization](https://docs.stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 func (c v1IssuingAuthorizationService) Approve(ctx context.Context, id string, params *IssuingAuthorizationApproveParams) (*IssuingAuthorization, error) {
 	if params == nil {
 		params = &IssuingAuthorizationApproveParams{}
@@ -56,8 +56,8 @@ func (c v1IssuingAuthorizationService) Approve(ctx context.Context, id string, p
 	return authorization, err
 }
 
-// Deprecated: [Deprecated] Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
-// This method is deprecated. Instead, [respond directly to the webhook request to decline an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
+// Deprecated: [Deprecated] Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://docs.stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+// This method is deprecated. Instead, [respond directly to the webhook request to decline an authorization](https://docs.stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
 func (c v1IssuingAuthorizationService) Decline(ctx context.Context, id string, params *IssuingAuthorizationDeclineParams) (*IssuingAuthorization, error) {
 	if params == nil {
 		params = &IssuingAuthorizationDeclineParams{}

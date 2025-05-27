@@ -39,7 +39,7 @@ func (c v1FileService) Create(ctx context.Context, params *FileCreateParams) (*F
 	return file, err
 }
 
-// Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://stripe.com/docs/file-upload#download-file-contents).
+// Retrieves the details of an existing file object. After you supply a unique file ID, Stripe returns the corresponding file object. Learn how to [access file contents](https://docs.stripe.com/docs/file-upload#download-file-contents).
 func (c v1FileService) Retrieve(ctx context.Context, id string, params *FileRetrieveParams) (*File, error) {
 	if params == nil {
 		params = &FileRetrieveParams{}

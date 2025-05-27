@@ -6,7 +6,6 @@ import (
 )
 
 // errorEnums: The beginning of the section generated from our OpenAPI spec
-
 // errorEnums: The end of the section generated from our OpenAPI spec
 
 // ErrorType is the list of allowed values for the error's type.
@@ -90,6 +89,7 @@ const (
 	ErrorCodeForwardingAPIRetryableUpstreamError                         ErrorCode = "forwarding_api_retryable_upstream_error"
 	ErrorCodeForwardingAPIUpstreamConnectionError                        ErrorCode = "forwarding_api_upstream_connection_error"
 	ErrorCodeForwardingAPIUpstreamConnectionTimeout                      ErrorCode = "forwarding_api_upstream_connection_timeout"
+	ErrorCodeForwardingAPIUpstreamError                                  ErrorCode = "forwarding_api_upstream_error"
 	ErrorCodeIdempotencyKeyInUse                                         ErrorCode = "idempotency_key_in_use"
 	ErrorCodeIncorrectAddress                                            ErrorCode = "incorrect_address"
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"

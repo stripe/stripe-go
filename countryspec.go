@@ -57,7 +57,7 @@ type VerificationFieldsList struct {
 // Country Specs API makes these rules available to your integration.
 //
 // You can also view the information from this API call as [an online
-// guide](https://stripe.com/docs/connect/required-verification-information).
+// guide](https://docs.stripe.com/docs/connect/required-verification-information).
 type CountrySpec struct {
 	APIResource
 	// The default currency for this country. This applies to both payment methods and bank accounts.

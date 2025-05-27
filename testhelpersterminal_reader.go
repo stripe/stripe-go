@@ -37,3 +37,29 @@ type TestHelpersTerminalReaderPresentPaymentMethodParams struct {
 func (p *TestHelpersTerminalReaderPresentPaymentMethodParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
+
+// Use this endpoint to trigger a successful input collection on a simulated reader.
+type TestHelpersTerminalReaderSucceedInputCollectionParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// This parameter defines the skip behavior for input collection.
+	SkipNonRequiredInputs *string `form:"skip_non_required_inputs"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTerminalReaderSucceedInputCollectionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Use this endpoint to complete an input collection with a timeout error on a simulated reader.
+type TestHelpersTerminalReaderTimeoutInputCollectionParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TestHelpersTerminalReaderTimeoutInputCollectionParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}

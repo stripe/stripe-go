@@ -430,7 +430,7 @@ type InvoiceLineItemParentSubscriptionItemDetails struct {
 	SubscriptionItem string `json:"subscription_item"`
 }
 
-// The parent that generated this invoice
+// The parent that generated this line item.
 type InvoiceLineItemParent struct {
 	// Details about the invoice item that generated this line item
 	InvoiceItemDetails *InvoiceLineItemParentInvoiceItemDetails `json:"invoice_item_details"`
@@ -515,7 +515,7 @@ type InvoiceLineItem struct {
 	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
-	// The parent that generated this invoice
+	// The parent that generated this line item.
 	Parent *InvoiceLineItemParent `json:"parent"`
 	Period *Period                `json:"period"`
 	// Contains pretax credit amounts (ex: discount, credit grants, etc) that apply to this line item.

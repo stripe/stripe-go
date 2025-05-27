@@ -314,7 +314,10 @@ type RefundDestinationDetailsP24 struct {
 	ReferenceStatus string `json:"reference_status"`
 }
 type RefundDestinationDetailsPayNow struct{}
-type RefundDestinationDetailsPaypal struct{}
+type RefundDestinationDetailsPaypal struct {
+	// For refunds declined by the network, a decline code provided by the network which indicates the reason the refund failed.
+	NetworkDeclineCode string `json:"network_decline_code"`
+}
 type RefundDestinationDetailsPix struct{}
 type RefundDestinationDetailsRevolut struct{}
 type RefundDestinationDetailsSofort struct{}

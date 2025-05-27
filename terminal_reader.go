@@ -6,6 +6,46 @@
 
 package stripe
 
+// The button style for the choice
+type TerminalReaderActionCollectInputsInputSelectionChoiceStyle string
+
+// List of values that TerminalReaderActionCollectInputsInputSelectionChoiceStyle can take
+const (
+	TerminalReaderActionCollectInputsInputSelectionChoiceStylePrimary   TerminalReaderActionCollectInputsInputSelectionChoiceStyle = "primary"
+	TerminalReaderActionCollectInputsInputSelectionChoiceStyleSecondary TerminalReaderActionCollectInputsInputSelectionChoiceStyle = "secondary"
+)
+
+// The toggle's default value
+type TerminalReaderActionCollectInputsInputToggleDefaultValue string
+
+// List of values that TerminalReaderActionCollectInputsInputToggleDefaultValue can take
+const (
+	TerminalReaderActionCollectInputsInputToggleDefaultValueDisabled TerminalReaderActionCollectInputsInputToggleDefaultValue = "disabled"
+	TerminalReaderActionCollectInputsInputToggleDefaultValueEnabled  TerminalReaderActionCollectInputsInputToggleDefaultValue = "enabled"
+)
+
+// The toggle's collected value
+type TerminalReaderActionCollectInputsInputToggleValue string
+
+// List of values that TerminalReaderActionCollectInputsInputToggleValue can take
+const (
+	TerminalReaderActionCollectInputsInputToggleValueDisabled TerminalReaderActionCollectInputsInputToggleValue = "disabled"
+	TerminalReaderActionCollectInputsInputToggleValueEnabled  TerminalReaderActionCollectInputsInputToggleValue = "enabled"
+)
+
+// Type of input being collected.
+type TerminalReaderActionCollectInputsInputType string
+
+// List of values that TerminalReaderActionCollectInputsInputType can take
+const (
+	TerminalReaderActionCollectInputsInputTypeEmail     TerminalReaderActionCollectInputsInputType = "email"
+	TerminalReaderActionCollectInputsInputTypeNumeric   TerminalReaderActionCollectInputsInputType = "numeric"
+	TerminalReaderActionCollectInputsInputTypePhone     TerminalReaderActionCollectInputsInputType = "phone"
+	TerminalReaderActionCollectInputsInputTypeSelection TerminalReaderActionCollectInputsInputType = "selection"
+	TerminalReaderActionCollectInputsInputTypeSignature TerminalReaderActionCollectInputsInputType = "signature"
+	TerminalReaderActionCollectInputsInputTypeText      TerminalReaderActionCollectInputsInputType = "text"
+)
+
 // The reason for the refund.
 type TerminalReaderActionRefundPaymentReason string
 
@@ -39,25 +79,27 @@ type TerminalReaderActionType string
 
 // List of values that TerminalReaderActionType can take
 const (
+	TerminalReaderActionTypeCollectInputs        TerminalReaderActionType = "collect_inputs"
 	TerminalReaderActionTypeProcessPaymentIntent TerminalReaderActionType = "process_payment_intent"
 	TerminalReaderActionTypeProcessSetupIntent   TerminalReaderActionType = "process_setup_intent"
 	TerminalReaderActionTypeRefundPayment        TerminalReaderActionType = "refund_payment"
 	TerminalReaderActionTypeSetReaderDisplay     TerminalReaderActionType = "set_reader_display"
 )
 
-// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `stripe_s700`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, `simulated_wisepos_e`, or `mobile_phone_reader`.
+// Device type of the reader.
 type TerminalReaderDeviceType string
 
 // List of values that TerminalReaderDeviceType can take
 const (
-	TerminalReaderDeviceTypeBBPOSChipper2X    TerminalReaderDeviceType = "bbpos_chipper2x"
-	TerminalReaderDeviceTypeBBPOSWisePad3     TerminalReaderDeviceType = "bbpos_wisepad3"
-	TerminalReaderDeviceTypeBBPOSWisePOSE     TerminalReaderDeviceType = "bbpos_wisepos_e"
-	TerminalReaderDeviceTypeMobilePhoneReader TerminalReaderDeviceType = "mobile_phone_reader"
-	TerminalReaderDeviceTypeSimulatedWisePOSE TerminalReaderDeviceType = "simulated_wisepos_e"
-	TerminalReaderDeviceTypeStripeM2          TerminalReaderDeviceType = "stripe_m2"
-	TerminalReaderDeviceTypeStripeS700        TerminalReaderDeviceType = "stripe_s700"
-	TerminalReaderDeviceTypeVerifoneP400      TerminalReaderDeviceType = "verifone_P400"
+	TerminalReaderDeviceTypeBBPOSChipper2X      TerminalReaderDeviceType = "bbpos_chipper2x"
+	TerminalReaderDeviceTypeBBPOSWisePad3       TerminalReaderDeviceType = "bbpos_wisepad3"
+	TerminalReaderDeviceTypeBBPOSWisePOSE       TerminalReaderDeviceType = "bbpos_wisepos_e"
+	TerminalReaderDeviceTypeMobilePhoneReader   TerminalReaderDeviceType = "mobile_phone_reader"
+	TerminalReaderDeviceTypeSimulatedStripeS700 TerminalReaderDeviceType = "simulated_stripe_s700"
+	TerminalReaderDeviceTypeSimulatedWisePOSE   TerminalReaderDeviceType = "simulated_wisepos_e"
+	TerminalReaderDeviceTypeStripeM2            TerminalReaderDeviceType = "stripe_m2"
+	TerminalReaderDeviceTypeStripeS700          TerminalReaderDeviceType = "stripe_s700"
+	TerminalReaderDeviceTypeVerifoneP400        TerminalReaderDeviceType = "verifone_P400"
 )
 
 // The networking status of the reader. We do not recommend using this field in flows that may block taking payments.
@@ -130,6 +172,83 @@ func (p *TerminalReaderCancelActionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Customize the text which will be displayed while collecting this input
+type TerminalReaderCollectInputsInputCustomTextParams struct {
+	// The description which will be displayed when collecting this input
+	Description *string `form:"description"`
+	// The skip button text
+	SkipButton *string `form:"skip_button"`
+	// The submit button text
+	SubmitButton *string `form:"submit_button"`
+	// The title which will be displayed when collecting this input
+	Title *string `form:"title"`
+}
+
+// List of choices for the `selection` input
+type TerminalReaderCollectInputsInputSelectionChoiceParams struct {
+	// The unique identifier for this choice
+	ID *string `form:"id"`
+	// The style of the button which will be shown for this choice
+	Style *string `form:"style"`
+	// The text which will be shown on the button for this choice
+	Text *string `form:"text"`
+}
+
+// Options for the `selection` input
+type TerminalReaderCollectInputsInputSelectionParams struct {
+	// List of choices for the `selection` input
+	Choices []*TerminalReaderCollectInputsInputSelectionChoiceParams `form:"choices"`
+}
+
+// List of toggles to be displayed and customization for the toggles
+type TerminalReaderCollectInputsInputToggleParams struct {
+	// The default value of the toggle
+	DefaultValue *string `form:"default_value"`
+	// The description which will be displayed for the toggle
+	Description *string `form:"description"`
+	// The title which will be displayed for the toggle
+	Title *string `form:"title"`
+}
+
+// List of inputs to be collected using the Reader
+type TerminalReaderCollectInputsInputParams struct {
+	// Customize the text which will be displayed while collecting this input
+	CustomText *TerminalReaderCollectInputsInputCustomTextParams `form:"custom_text"`
+	// Indicate that this input is required, disabling the skip button
+	Required *bool `form:"required"`
+	// Options for the `selection` input
+	Selection *TerminalReaderCollectInputsInputSelectionParams `form:"selection"`
+	// List of toggles to be displayed and customization for the toggles
+	Toggles []*TerminalReaderCollectInputsInputToggleParams `form:"toggles"`
+	// The type of input to collect
+	Type *string `form:"type"`
+}
+
+// Initiates an input collection flow on a Reader.
+type TerminalReaderCollectInputsParams struct {
+	Params `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// List of inputs to be collected using the Reader
+	Inputs []*TerminalReaderCollectInputsInputParams `form:"inputs"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderCollectInputsParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *TerminalReaderCollectInputsParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Tipping configuration for this transaction.
 type TerminalReaderProcessPaymentIntentProcessConfigTippingParams struct {
 	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
@@ -142,6 +261,8 @@ type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
 	AllowRedisplay *string `form:"allow_redisplay"`
 	// Enables cancel button on transaction screens.
 	EnableCustomerCancellation *bool `form:"enable_customer_cancellation"`
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
+	ReturnURL *string `form:"return_url"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping *bool `form:"skip_tipping"`
 	// Tipping configuration for this transaction.
@@ -338,6 +459,114 @@ func (p *TerminalReaderCreateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// Default text of input being collected.
+type TerminalReaderActionCollectInputsInputCustomText struct {
+	// Customize the default description for this input
+	Description string `json:"description"`
+	// Customize the default label for this input's skip button
+	SkipButton string `json:"skip_button"`
+	// Customize the default label for this input's submit button
+	SubmitButton string `json:"submit_button"`
+	// Customize the default title for this input
+	Title string `json:"title"`
+}
+
+// Information about a email being collected using a reader
+type TerminalReaderActionCollectInputsInputEmail struct {
+	// The collected email address
+	Value string `json:"value"`
+}
+
+// Information about a number being collected using a reader
+type TerminalReaderActionCollectInputsInputNumeric struct {
+	// The collected number
+	Value string `json:"value"`
+}
+
+// Information about a phone number being collected using a reader
+type TerminalReaderActionCollectInputsInputPhone struct {
+	// The collected phone number
+	Value string `json:"value"`
+}
+
+// List of possible choices to be selected
+type TerminalReaderActionCollectInputsInputSelectionChoice struct {
+	// The id to be selected
+	ID string `json:"id"`
+	// The button style for the choice
+	Style TerminalReaderActionCollectInputsInputSelectionChoiceStyle `json:"style"`
+	// The text to be selected
+	Text string `json:"text"`
+}
+
+// Information about a selection being collected using a reader
+type TerminalReaderActionCollectInputsInputSelection struct {
+	// List of possible choices to be selected
+	Choices []*TerminalReaderActionCollectInputsInputSelectionChoice `json:"choices"`
+	// The id of the selected choice
+	ID string `json:"id"`
+	// The text of the selected choice
+	Text string `json:"text"`
+}
+
+// Information about a signature being collected using a reader
+type TerminalReaderActionCollectInputsInputSignature struct {
+	// The File ID of a collected signature image
+	Value string `json:"value"`
+}
+
+// Information about text being collected using a reader
+type TerminalReaderActionCollectInputsInputText struct {
+	// The collected text value
+	Value string `json:"value"`
+}
+
+// List of toggles being collected. Values are present if collection is complete.
+type TerminalReaderActionCollectInputsInputToggle struct {
+	// The toggle's default value
+	DefaultValue TerminalReaderActionCollectInputsInputToggleDefaultValue `json:"default_value"`
+	// The toggle's description text
+	Description string `json:"description"`
+	// The toggle's title text
+	Title string `json:"title"`
+	// The toggle's collected value
+	Value TerminalReaderActionCollectInputsInputToggleValue `json:"value"`
+}
+
+// List of inputs to be collected.
+type TerminalReaderActionCollectInputsInput struct {
+	// Default text of input being collected.
+	CustomText *TerminalReaderActionCollectInputsInputCustomText `json:"custom_text"`
+	// Information about a email being collected using a reader
+	Email *TerminalReaderActionCollectInputsInputEmail `json:"email"`
+	// Information about a number being collected using a reader
+	Numeric *TerminalReaderActionCollectInputsInputNumeric `json:"numeric"`
+	// Information about a phone number being collected using a reader
+	Phone *TerminalReaderActionCollectInputsInputPhone `json:"phone"`
+	// Indicate that this input is required, disabling the skip button.
+	Required bool `json:"required"`
+	// Information about a selection being collected using a reader
+	Selection *TerminalReaderActionCollectInputsInputSelection `json:"selection"`
+	// Information about a signature being collected using a reader
+	Signature *TerminalReaderActionCollectInputsInputSignature `json:"signature"`
+	// Indicate that this input was skipped by the user.
+	Skipped bool `json:"skipped"`
+	// Information about text being collected using a reader
+	Text *TerminalReaderActionCollectInputsInputText `json:"text"`
+	// List of toggles being collected. Values are present if collection is complete.
+	Toggles []*TerminalReaderActionCollectInputsInputToggle `json:"toggles"`
+	// Type of input being collected.
+	Type TerminalReaderActionCollectInputsInputType `json:"type"`
+}
+
+// Represents a reader action to collect customer inputs
+type TerminalReaderActionCollectInputs struct {
+	// List of inputs to be collected.
+	Inputs []*TerminalReaderActionCollectInputsInput `json:"inputs"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+}
+
 // Represents a per-transaction tipping configuration
 type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
 	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
@@ -348,6 +577,8 @@ type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
 type TerminalReaderActionProcessPaymentIntentProcessConfig struct {
 	// Enable customer initiated cancellation when processing this payment.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
+	// If the customer does not abandon authenticating the payment, they will be redirected to this specified URL after completion.
+	ReturnURL string `json:"return_url"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping bool `json:"skip_tipping"`
 	// Represents a per-transaction tipping configuration
@@ -438,6 +669,8 @@ type TerminalReaderActionSetReaderDisplay struct {
 
 // The most recent action performed by the reader.
 type TerminalReaderAction struct {
+	// Represents a reader action to collect customer inputs
+	CollectInputs *TerminalReaderActionCollectInputs `json:"collect_inputs"`
 	// Failure code, only set if status is `failed`.
 	FailureCode string `json:"failure_code"`
 	// Detailed failure message, only set if status is `failed`.
@@ -466,7 +699,7 @@ type TerminalReader struct {
 	Deleted bool                  `json:"deleted"`
 	// The current software version of the reader.
 	DeviceSwVersion string `json:"device_sw_version"`
-	// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `stripe_s700`, `bbpos_chipper2x`, `bbpos_wisepos_e`, `verifone_P400`, `simulated_wisepos_e`, or `mobile_phone_reader`.
+	// Device type of the reader.
 	DeviceType TerminalReaderDeviceType `json:"device_type"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
