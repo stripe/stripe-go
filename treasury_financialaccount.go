@@ -123,6 +123,8 @@ type TreasuryFinancialAccountListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
+	// Only return FinancialAccounts that have the given status: `open` or `closed`
+	Status *string `form:"status"`
 }
 
 // AddExpand appends a new field to expand.
