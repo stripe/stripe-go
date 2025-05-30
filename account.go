@@ -1031,6 +1031,8 @@ type AccountCompanyOwnershipDeclarationParams struct {
 	// The user agent of the browser from which the beneficial owner attestation was made.
 	UserAgent *string `form:"user_agent"`
 }
+
+// When the business was incorporated or registered.
 type AccountCompanyRegistrationDateParams struct {
 	// The day of registration, between 1 and 31.
 	Day *int64 `form:"day"`
@@ -1087,7 +1089,8 @@ type AccountCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
-	Phone            *string                               `form:"phone"`
+	Phone *string `form:"phone"`
+	// When the business was incorporated or registered.
 	RegistrationDate *AccountCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
@@ -3351,6 +3354,8 @@ type AccountCreateCompanyOwnershipDeclarationParams struct {
 	// The user agent of the browser from which the beneficial owner attestation was made.
 	UserAgent *string `form:"user_agent"`
 }
+
+// When the business was incorporated or registered.
 type AccountCreateCompanyRegistrationDateParams struct {
 	// The day of registration, between 1 and 31.
 	Day *int64 `form:"day"`
@@ -3406,7 +3411,8 @@ type AccountCreateCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
-	Phone            *string                                     `form:"phone"`
+	Phone *string `form:"phone"`
+	// When the business was incorporated or registered.
 	RegistrationDate *AccountCreateCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`

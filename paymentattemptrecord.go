@@ -486,7 +486,6 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsStripeBalanceSourceTypeFPX         PaymentAttemptRecordPaymentMethodDetailsStripeBalanceSourceType = "fpx"
 )
 
-// Account holder type: individual or company.
 type PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderType string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderType can take
@@ -495,7 +494,6 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderTypeIndividual PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderType = "individual"
 )
 
-// Account type: checkings or savings. Defaults to checking if omitted.
 type PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType can take
@@ -1283,11 +1281,21 @@ type PaymentAttemptRecordPaymentMethodDetailsSwish struct {
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsTWINT struct{}
+
+// Amount of the ACH return to the bank account.
+type PaymentAttemptRecordPaymentMethodDetailsUSBankAccountACHReturnAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	Value int64 `json:"value"`
+}
+
+// Details of the US Bank Account used for this payment attempt.
 type PaymentAttemptRecordPaymentMethodDetailsUSBankAccount struct {
-	// Account holder type: individual or company.
 	AccountHolderType PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
-	// Account type: checkings or savings. Defaults to checking if omitted.
-	AccountType PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType `json:"account_type"`
+	AccountType       PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType       `json:"account_type"`
+	// Amount of the ACH return to the bank account.
+	ACHReturnAmount *PaymentAttemptRecordPaymentMethodDetailsUSBankAccountACHReturnAmount `json:"ach_return_amount"`
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
@@ -1386,7 +1394,8 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
-	Type          string                                                 `json:"type"`
+	Type string `json:"type"`
+	// Details of the US Bank Account used for this payment attempt.
 	USBankAccount *PaymentAttemptRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 	WeChat        *PaymentAttemptRecordPaymentMethodDetailsWeChat        `json:"wechat"`
 	WeChatPay     *PaymentAttemptRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay"`
