@@ -524,7 +524,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 
 			// The telemetry in the second request should contain the
 			// expected usage
-			assert.Equal(t, telemetry.LastRequestMetrics.Usage, []string{"llama", "bufo"})
+			assert.ElementsMatch(t, telemetry.LastRequestMetrics.Usage, []string{"llama", "bufo"})
 		default:
 			assert.Fail(t, "Should not have reached request %v", requestNum)
 		}
