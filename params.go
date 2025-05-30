@@ -239,7 +239,7 @@ func (p *Params) AddExpand(f string) {
 // Unstable: for internal stripe-go usage only.
 func (p *Params) InternalSetUsage(usage []string) {
 	// Optimization for nil or empty usage
-	if usage == nil || len(usage) == 0 {
+	if len(usage) == 0 {
 		return
 	}
 
