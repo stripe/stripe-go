@@ -235,10 +235,26 @@ func (p *Params) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// InternalSetUsage sets the usage field on the Params struct.
+// InternalSetUsage sets the usage field on the Params struct, removing duplicates.
 // Unstable: for internal stripe-go usage only.
 func (p *Params) InternalSetUsage(usage []string) {
-	p.usage = append(p.usage, usage...)
+	// Optimization for nil or empty usage
+	if usage == nil || len(usage) == 0 {
+		return
+	}
+
+	// Use a map to track unique usage values
+	usageMap := make(map[string]struct{})
+	for _, u := range p.usage {
+		usageMap[u] = struct{}{}
+	}
+	for _, u := range usage {
+		usageMap[u] = struct{}{}
+	}
+	p.usage = p.usage[:0] // Reset the slice to avoid retaining old values
+	for u := range usageMap {
+		p.usage = append(p.usage, u)
+	}
 }
 
 // AddExtra adds a new arbitrary key-value pair to the request data
