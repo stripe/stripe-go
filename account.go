@@ -1142,6 +1142,12 @@ type AccountDocumentsCompanyTaxIDVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
+// One or more documents that demonstrate proof of address.
+type AccountDocumentsProofOfAddressParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
@@ -1168,6 +1174,8 @@ type AccountDocumentsParams struct {
 	CompanyRegistrationVerification *AccountDocumentsCompanyRegistrationVerificationParams `form:"company_registration_verification"`
 	// One or more documents that demonstrate proof of a company's tax ID.
 	CompanyTaxIDVerification *AccountDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *AccountDocumentsProofOfAddressParams `form:"proof_of_address"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -2313,6 +2321,12 @@ type AccountUpdateDocumentsCompanyTaxIDVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
+// One or more documents that demonstrate proof of address.
+type AccountUpdateDocumentsProofOfAddressParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountUpdateDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
@@ -2339,6 +2353,8 @@ type AccountUpdateDocumentsParams struct {
 	CompanyRegistrationVerification *AccountUpdateDocumentsCompanyRegistrationVerificationParams `form:"company_registration_verification"`
 	// One or more documents that demonstrate proof of a company's tax ID.
 	CompanyTaxIDVerification *AccountUpdateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *AccountUpdateDocumentsProofOfAddressParams `form:"proof_of_address"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountUpdateDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -3514,6 +3530,12 @@ type AccountCreateDocumentsCompanyTaxIDVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
+// One or more documents that demonstrate proof of address.
+type AccountCreateDocumentsProofOfAddressParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountCreateDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
@@ -3540,6 +3562,8 @@ type AccountCreateDocumentsParams struct {
 	CompanyRegistrationVerification *AccountCreateDocumentsCompanyRegistrationVerificationParams `form:"company_registration_verification"`
 	// One or more documents that demonstrate proof of a company's tax ID.
 	CompanyTaxIDVerification *AccountCreateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *AccountCreateDocumentsProofOfAddressParams `form:"proof_of_address"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountCreateDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
