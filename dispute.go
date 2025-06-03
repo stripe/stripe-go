@@ -100,6 +100,7 @@ const (
 	DisputeReasonGeneral                 DisputeReason = "general"
 	DisputeReasonIncorrectAccountDetails DisputeReason = "incorrect_account_details"
 	DisputeReasonInsufficientFunds       DisputeReason = "insufficient_funds"
+	DisputeReasonNoncompliant            DisputeReason = "noncompliant"
 	DisputeReasonProductNotReceived      DisputeReason = "product_not_received"
 	DisputeReasonProductUnacceptable     DisputeReason = "product_unacceptable"
 	DisputeReasonSubscriptionCanceled    DisputeReason = "subscription_canceled"
