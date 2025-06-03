@@ -1538,20 +1538,10 @@ type PaymentRecordPaymentMethodDetailsSwish struct {
 }
 type PaymentRecordPaymentMethodDetailsTWINT struct{}
 
-// Amount of the ACH return to the bank account.
-type PaymentRecordPaymentMethodDetailsUSBankAccountACHReturnAmount struct {
-	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
-	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
-	Value int64 `json:"value"`
-}
-
 // Details of the US Bank Account used for this payment attempt.
 type PaymentRecordPaymentMethodDetailsUSBankAccount struct {
 	AccountHolderType PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
 	AccountType       PaymentRecordPaymentMethodDetailsUSBankAccountAccountType       `json:"account_type"`
-	// Amount of the ACH return to the bank account.
-	ACHReturnAmount *PaymentRecordPaymentMethodDetailsUSBankAccountACHReturnAmount `json:"ach_return_amount"`
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
