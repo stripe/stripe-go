@@ -2720,12 +2720,9 @@ type CheckoutSessionSubscriptionDataParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 	TransferData *CheckoutSessionSubscriptionDataTransferDataParams `form:"transfer_data"`
-	// Unix timestamp representing the end of the trial period the customer
-	// will get before being charged for the first time. Has to be at least
-	// 48 hours in the future.
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
-	// Integer representing the number of trial period days before the
-	// customer is charged for the first time. Has to be at least 1.
+	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *CheckoutSessionSubscriptionDataTrialSettingsParams `form:"trial_settings"`
@@ -4323,12 +4320,9 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 	TransferData *CheckoutSessionCreateSubscriptionDataTransferDataParams `form:"transfer_data"`
-	// Unix timestamp representing the end of the trial period the customer
-	// will get before being charged for the first time. Has to be at least
-	// 48 hours in the future.
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
-	// Integer representing the number of trial period days before the
-	// customer is charged for the first time. Has to be at least 1.
+	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *CheckoutSessionCreateSubscriptionDataTrialSettingsParams `form:"trial_settings"`
