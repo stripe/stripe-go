@@ -1,5 +1,12 @@
 # Changelog
 
+## 82.2.1 - 2025-06-04
+* [#2073](https://github.com/stripe/stripe-go/pull/2073) Update `DisputeReason` to include value `noncompliant`
+  * Adds `noncompliant` to `DisputeReason` enum
+* [#2070](https://github.com/stripe/stripe-go/pull/2070) Fix failing telemetry test
+* [#2068](https://github.com/stripe/stripe-go/pull/2068) Deduplicate telemetry strings
+  * Fixes a bug where telemetry strings could have duplicate values
+
 ## 82.2.0 - 2025-05-29
  This release changes the pinned API version to `2025-05-28.basil`.
 
