@@ -4730,6 +4730,14 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionUpdateShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
+type CheckoutSessionUpdateSubscriptionDataParams struct {
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
+	TrialEnd *int64 `form:"trial_end"`
+	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
+	TrialPeriodDays *int64 `form:"trial_period_days"`
+}
+
 // Updates a Checkout Session object.
 //
 // Related guide: [Dynamically update Checkout](https://docs.stripe.com/payments/checkout/dynamic-updates)
@@ -4757,6 +4765,8 @@ type CheckoutSessionUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionUpdateShippingOptionParams `form:"shipping_options"`
+	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
+	SubscriptionData *CheckoutSessionUpdateSubscriptionDataParams `form:"subscription_data"`
 }
 
 // AddExpand appends a new field to expand.
