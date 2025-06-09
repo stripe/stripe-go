@@ -29,9 +29,6 @@ import (
 //
 
 const (
-	// APIVersion is the currently supported API version
-	APIVersion string = apiVersion
-
 	// APIBackend is a constant representing the API service backend.
 	APIBackend SupportedBackend = "api"
 
@@ -571,7 +568,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 
 	req.Header.Add("Authorization", authorization)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Stripe-Version", apiVersion)
+	req.Header.Add("Stripe-Version", APIVersion)
 	req.Header.Add("User-Agent", encodedUserAgent)
 	req.Header.Add("X-Stripe-Client-User-Agent", getEncodedStripeUserAgent())
 
