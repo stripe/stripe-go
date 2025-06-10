@@ -679,7 +679,8 @@ type PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsGopaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsGopaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsGopaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage = "off_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
