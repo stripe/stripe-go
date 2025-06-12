@@ -1549,7 +1549,7 @@ func TestRawRequestStandardGet(t *testing.T) {
 	assert.Equal(t, `/v1/abc?foo=myFoo`, path)
 	assert.Equal(t, `GET`, method)
 	assert.Equal(t, `application/x-www-form-urlencoded`, contentType)
-	assert.Equal(t, apiVersion, stripeVersion)
+	assert.Equal(t, APIVersion, stripeVersion)
 	assert.NoError(t, err)
 	defer testServer.Close()
 }
@@ -1587,7 +1587,7 @@ func TestRawRequestStandardPost(t *testing.T) {
 	assert.Equal(t, `/v1/abc`, path)
 	assert.Equal(t, `POST`, method)
 	assert.Equal(t, `application/x-www-form-urlencoded`, contentType)
-	assert.Equal(t, apiVersion, stripeVersion)
+	assert.Equal(t, APIVersion, stripeVersion)
 	assert.NoError(t, err)
 	defer testServer.Close()
 }
