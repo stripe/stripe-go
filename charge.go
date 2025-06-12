@@ -2031,7 +2031,7 @@ type ChargePaymentMethodDetailsCardIncrementalAuthorization struct {
 	Status ChargePaymentMethodDetailsCardIncrementalAuthorizationStatus `json:"status"`
 }
 
-// Installment details for this payment (Mexico only).
+// Installment details for this payment.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type ChargePaymentMethodDetailsCardInstallments struct {
@@ -2151,7 +2151,7 @@ type ChargePaymentMethodDetailsCard struct {
 	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 	Funding                  CardFunding                                             `json:"funding"`
 	IncrementalAuthorization *ChargePaymentMethodDetailsCardIncrementalAuthorization `json:"incremental_authorization"`
-	// Installment details for this payment (Mexico only).
+	// Installment details for this payment.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *ChargePaymentMethodDetailsCardInstallments `json:"installments"`

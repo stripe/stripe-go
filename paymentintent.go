@@ -406,12 +406,14 @@ const (
 	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanIntervalMonth PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval = "month"
 )
 
-// Type of installment plan, one of `fixed_count`.
+// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType can take
 const (
+	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeBonus      PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "bonus"
 	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeFixedCount PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "fixed_count"
+	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeRevolving  PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "revolving"
 )
 
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
@@ -2198,7 +2200,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -5306,7 +5308,7 @@ type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -7300,7 +7302,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -9175,11 +9177,11 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsPlan struct {
 	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval `json:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType `json:"type"`
 }
 
-// Installment details for this payment (Mexico only).
+// Installment details for this payment.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type PaymentIntentPaymentMethodOptionsCardInstallments struct {
@@ -9220,7 +9222,7 @@ type PaymentIntentPaymentMethodOptionsCardStatementDetails struct {
 type PaymentIntentPaymentMethodOptionsCard struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardCaptureMethod `json:"capture_method"`
-	// Installment details for this payment (Mexico only).
+	// Installment details for this payment.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *PaymentIntentPaymentMethodOptionsCardInstallments `json:"installments"`
