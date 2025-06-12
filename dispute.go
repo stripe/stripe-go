@@ -14,6 +14,7 @@ type DisputeEnhancedEligibilityType string
 // List of values that DisputeEnhancedEligibilityType can take
 const (
 	DisputeEnhancedEligibilityTypeVisaCompellingEvidence3 DisputeEnhancedEligibilityType = "visa_compelling_evidence_3"
+	DisputeEnhancedEligibilityTypeVisaCompliance          DisputeEnhancedEligibilityType = "visa_compliance"
 )
 
 // Categorization of disputed payment.
@@ -71,6 +72,7 @@ type DisputePaymentMethodDetailsCardCaseType string
 // List of values that DisputePaymentMethodDetailsCardCaseType can take
 const (
 	DisputePaymentMethodDetailsCardCaseTypeChargeback DisputePaymentMethodDetailsCardCaseType = "chargeback"
+	DisputePaymentMethodDetailsCardCaseTypeCompliance DisputePaymentMethodDetailsCardCaseType = "compliance"
 	DisputePaymentMethodDetailsCardCaseTypeInquiry    DisputePaymentMethodDetailsCardCaseType = "inquiry"
 )
 
@@ -100,6 +102,7 @@ const (
 	DisputeReasonGeneral                 DisputeReason = "general"
 	DisputeReasonIncorrectAccountDetails DisputeReason = "incorrect_account_details"
 	DisputeReasonInsufficientFunds       DisputeReason = "insufficient_funds"
+	DisputeReasonNoncompliant            DisputeReason = "noncompliant"
 	DisputeReasonProductNotReceived      DisputeReason = "product_not_received"
 	DisputeReasonProductUnacceptable     DisputeReason = "product_unacceptable"
 	DisputeReasonSubscriptionCanceled    DisputeReason = "subscription_canceled"

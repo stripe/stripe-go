@@ -488,7 +488,6 @@ const (
 	PaymentRecordPaymentMethodDetailsStripeBalanceSourceTypeFPX         PaymentRecordPaymentMethodDetailsStripeBalanceSourceType = "fpx"
 )
 
-// Account holder type: individual or company.
 type PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType string
 
 // List of values that PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType can take
@@ -497,7 +496,6 @@ const (
 	PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderTypeIndividual PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType = "individual"
 )
 
-// Account type: checkings or savings. Defaults to checking if omitted.
 type PaymentRecordPaymentMethodDetailsUSBankAccountAccountType string
 
 // List of values that PaymentRecordPaymentMethodDetailsUSBankAccountAccountType can take
@@ -1539,11 +1537,11 @@ type PaymentRecordPaymentMethodDetailsSwish struct {
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
 type PaymentRecordPaymentMethodDetailsTWINT struct{}
+
+// Details of the US Bank Account used for this payment attempt.
 type PaymentRecordPaymentMethodDetailsUSBankAccount struct {
-	// Account holder type: individual or company.
 	AccountHolderType PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
-	// Account type: checkings or savings. Defaults to checking if omitted.
-	AccountType PaymentRecordPaymentMethodDetailsUSBankAccountAccountType `json:"account_type"`
+	AccountType       PaymentRecordPaymentMethodDetailsUSBankAccountAccountType       `json:"account_type"`
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
@@ -1642,7 +1640,8 @@ type PaymentRecordPaymentMethodDetails struct {
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
-	Type          string                                          `json:"type"`
+	Type string `json:"type"`
+	// Details of the US Bank Account used for this payment attempt.
 	USBankAccount *PaymentRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 	WeChat        *PaymentRecordPaymentMethodDetailsWeChat        `json:"wechat"`
 	WeChatPay     *PaymentRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay"`

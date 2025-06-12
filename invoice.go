@@ -520,7 +520,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -2306,7 +2306,7 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	CancelAt             *int64 `form:"cancel_at"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This param will be removed in a future API version. Please use `cancel_at` instead.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
 	CancelNow *bool `form:"cancel_now"`
@@ -2527,7 +2527,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams 
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -2945,7 +2945,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams 
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 

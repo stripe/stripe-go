@@ -406,12 +406,14 @@ const (
 	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanIntervalMonth PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval = "month"
 )
 
-// Type of installment plan, one of `fixed_count`.
+// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType can take
 const (
+	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeBonus      PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "bonus"
 	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeFixedCount PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "fixed_count"
+	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeRevolving  PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "revolving"
 )
 
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
@@ -679,7 +681,8 @@ type PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsGopaySetupFutureUsageNone PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsGopaySetupFutureUsageNone       PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsGopaySetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsGopaySetupFutureUsage = "off_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2197,7 +2200,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -3366,7 +3369,7 @@ type PaymentIntentParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentRadarOptionsParams `form:"radar_options"`
@@ -4291,7 +4294,7 @@ type PaymentIntentConfirmParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, a card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options"`
@@ -5305,7 +5308,7 @@ type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -6476,7 +6479,7 @@ type PaymentIntentCreateParams struct {
 	PaymentMethodData *PaymentIntentCreatePaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentCreatePaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentCreateRadarOptionsParams `form:"radar_options"`
@@ -7299,7 +7302,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -8426,7 +8429,7 @@ type PaymentIntentUpdateParams struct {
 	PaymentMethodData *PaymentIntentUpdatePaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentUpdatePaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
@@ -9174,11 +9177,11 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsPlan struct {
 	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval `json:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType `json:"type"`
 }
 
-// Installment details for this payment (Mexico only).
+// Installment details for this payment.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type PaymentIntentPaymentMethodOptionsCardInstallments struct {
@@ -9219,7 +9222,7 @@ type PaymentIntentPaymentMethodOptionsCardStatementDetails struct {
 type PaymentIntentPaymentMethodOptionsCard struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardCaptureMethod `json:"capture_method"`
-	// Installment details for this payment (Mexico only).
+	// Installment details for this payment.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *PaymentIntentPaymentMethodOptionsCardInstallments `json:"installments"`
