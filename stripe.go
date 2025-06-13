@@ -1695,7 +1695,7 @@ var encodedStripeUserAgentReady *sync.Once
 var encodedUserAgent string
 
 // API Version with beta headers if any
-var apiVersionWithBetaHeaders string = apiVersion
+var apiVersionWithBetaHeaders string = APIVersion
 
 // The default HTTP client used for communication with any of Stripe's
 // backends.
