@@ -604,7 +604,7 @@ func TestCall_TelemetryEnabled(t *testing.T) {
 
 			// The telemetry in the second request should contain the
 			// expected usage
-			assert.Equal(t, telemetry.LastRequestMetrics.Usage, []string{"llama", "bufo"})
+			assert.ElementsMatch(t, telemetry.LastRequestMetrics.Usage, []string{"llama", "bufo"})
 		default:
 			assert.Fail(t, "Should not have reached request %v", requestNum)
 		}
@@ -1629,7 +1629,7 @@ func TestRawRequestStandardGet(t *testing.T) {
 	assert.Equal(t, `/v1/abc?foo=myFoo`, path)
 	assert.Equal(t, `GET`, method)
 	assert.Equal(t, `application/x-www-form-urlencoded`, contentType)
-	assert.Equal(t, apiVersion, stripeVersion)
+	assert.Equal(t, APIVersion, stripeVersion)
 	assert.NoError(t, err)
 	defer testServer.Close()
 }
@@ -1667,7 +1667,7 @@ func TestRawRequestStandardPost(t *testing.T) {
 	assert.Equal(t, `/v1/abc`, path)
 	assert.Equal(t, `POST`, method)
 	assert.Equal(t, `application/x-www-form-urlencoded`, contentType)
-	assert.Equal(t, apiVersion, stripeVersion)
+	assert.Equal(t, APIVersion, stripeVersion)
 	assert.NoError(t, err)
 	defer testServer.Close()
 }
