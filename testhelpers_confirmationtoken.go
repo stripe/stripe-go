@@ -439,7 +439,7 @@ type TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanParams 
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -931,7 +931,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsPlanP
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
