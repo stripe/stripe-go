@@ -365,7 +365,7 @@ type SubscriptionParams struct {
 	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *SubscriptionBillingModeParams `form:"billing_mode"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
@@ -874,6 +874,11 @@ type SubscriptionBillingCycleAnchorConfigParams struct {
 	Second *int64 `form:"second"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // Search for subscriptions you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
@@ -891,11 +896,16 @@ func (p *SubscriptionSearchParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionMigrateBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // Upgrade the billing_mode of an existing subscription.
 type SubscriptionMigrateParams struct {
 	Params `form:"*"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *SubscriptionMigrateBillingModeParams `form:"billing_mode"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 }
@@ -1528,6 +1538,11 @@ type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 	Second *int64 `form:"second"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionCreateBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 type SubscriptionCreateBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -1868,7 +1883,7 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorNow       *bool                                             `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *SubscriptionCreateBillingModeParams `form:"billing_mode"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionCreateBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.

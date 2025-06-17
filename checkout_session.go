@@ -2660,6 +2660,11 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type CheckoutSessionSubscriptionDataBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -2701,7 +2706,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *CheckoutSessionSubscriptionDataBillingModeParams `form:"billing_mode"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
 	// from the subscription.
@@ -4260,6 +4265,11 @@ type CheckoutSessionCreateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionCreateShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type CheckoutSessionCreateSubscriptionDataBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -4301,7 +4311,7 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *CheckoutSessionCreateSubscriptionDataBillingModeParams `form:"billing_mode"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
 	// from the subscription.

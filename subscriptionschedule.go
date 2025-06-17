@@ -210,6 +210,11 @@ func (p *SubscriptionScheduleListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionScheduleBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionScheduleDefaultSettingsBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -563,7 +568,7 @@ type SubscriptionScheduleParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *SubscriptionScheduleBillingModeParams `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.
@@ -1029,6 +1034,11 @@ func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionScheduleCreateBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionScheduleCreateDefaultSettingsBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -1363,7 +1373,7 @@ type SubscriptionScheduleCreateParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *SubscriptionScheduleCreateBillingModeParams `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.

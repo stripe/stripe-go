@@ -884,6 +884,11 @@ type QuoteSubscriptionDataBillOnAcceptanceParams struct {
 	BillUntil *QuoteSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type QuoteSubscriptionDataBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 type QuoteSubscriptionDataPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
@@ -897,7 +902,7 @@ type QuoteSubscriptionDataParams struct {
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *QuoteSubscriptionDataBillingModeParams `form:"billing_mode"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
@@ -1755,6 +1760,11 @@ type QuoteCreateSubscriptionDataBillOnAcceptanceParams struct {
 	BillUntil *QuoteCreateSubscriptionDataBillOnAcceptanceBillUntilParams `form:"bill_until"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type QuoteCreateSubscriptionDataBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // If specified, the invoicing for the given billing cycle iterations will be processed when the quote is accepted. Cannot be used with `effective_date`.
 type QuoteCreateSubscriptionDataPrebillingParams struct {
 	// This is used to determine the number of billing cycles to prebill.
@@ -1768,7 +1778,7 @@ type QuoteCreateSubscriptionDataParams struct {
 	// When specified as `reset`, the subscription will always start a new billing period when the quote is accepted.
 	BillingCycleAnchor *string `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *QuoteCreateSubscriptionDataBillingModeParams `form:"billing_mode"`
 	// Describes the period to bill for upon accepting the quote.
 	BillOnAcceptance *QuoteCreateSubscriptionDataBillOnAcceptanceParams `form:"bill_on_acceptance"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.

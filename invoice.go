@@ -1807,6 +1807,11 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentParams struct {
 	TrialSettings *InvoiceCreatePreviewScheduleDetailsAmendmentTrialSettingsParams `form:"trial_settings"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type InvoiceCreatePreviewScheduleDetailsBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // Time span for the redeemed discount.
 type InvoiceCreatePreviewScheduleDetailsPhaseAddInvoiceItemDiscountDiscountEndDurationParams struct {
 	// Specifies a type of interval unit. Either `day`, `week`, `month` or `year`.
@@ -2182,7 +2187,7 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *InvoiceCreatePreviewScheduleDetailsBillingModeParams `form:"billing_mode"`
 	// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` or `cancel` with the default being `release`. `release` will end the subscription schedule and keep the underlying subscription running. `cancel` will end the subscription schedule and cancel the underlying subscription.
 	EndBehavior *string `form:"end_behavior"`
 	// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
@@ -2191,6 +2196,11 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 	Prebilling []*InvoiceCreatePreviewScheduleDetailsPrebillingParams `form:"prebilling"`
 	// In cases where the `schedule_details` params update the currently active phase, specifies if and how to prorate at the time of the request.
 	ProrationBehavior *string `form:"proration_behavior"`
+}
+
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type InvoiceCreatePreviewSubscriptionDetailsBillingModeParams struct {
+	Type *string `form:"type"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
@@ -2301,7 +2311,7 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	BillingCycleAnchorNow       *bool  `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool  `form:"-"` // See custom AppendTo
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *InvoiceCreatePreviewSubscriptionDetailsBillingModeParams `form:"billing_mode"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt             *int64 `form:"cancel_at"`
 	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
