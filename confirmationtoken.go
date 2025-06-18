@@ -215,7 +215,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankPermata ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "permata"
 )
 
-// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type ConfirmationTokenPaymentMethodPreviewIDEALBank string
 
 // List of values that ConfirmationTokenPaymentMethodPreviewIDEALBank can take
@@ -223,6 +223,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBankAbnAmro       ConfirmationTokenPaymentMethodPreviewIDEALBank = "abn_amro"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankAsnBank       ConfirmationTokenPaymentMethodPreviewIDEALBank = "asn_bank"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankBunq          ConfirmationTokenPaymentMethodPreviewIDEALBank = "bunq"
+	ConfirmationTokenPaymentMethodPreviewIDEALBankBuut          ConfirmationTokenPaymentMethodPreviewIDEALBank = "buut"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankHandelsbanken ConfirmationTokenPaymentMethodPreviewIDEALBank = "handelsbanken"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankIng           ConfirmationTokenPaymentMethodPreviewIDEALBank = "ing"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankKnab          ConfirmationTokenPaymentMethodPreviewIDEALBank = "knab"
@@ -247,6 +248,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBICASNBNL21 ConfirmationTokenPaymentMethodPreviewIDEALBIC = "ASNBNL21"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICBITSNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BITSNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICBUNQNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BUNQNL2A"
+	ConfirmationTokenPaymentMethodPreviewIDEALBICBUUTNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BUUTNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICFVLBNL22 ConfirmationTokenPaymentMethodPreviewIDEALBIC = "FVLBNL22"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICHANDNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "HANDNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICINGBNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "INGBNL2A"
@@ -906,7 +908,7 @@ type ConfirmationTokenPaymentMethodPreviewIDBankTransfer struct {
 	DisplayName string                                                  `json:"display_name"`
 }
 type ConfirmationTokenPaymentMethodPreviewIDEAL struct {
-	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank ConfirmationTokenPaymentMethodPreviewIDEALBank `json:"bank"`
 	// The Bank Identifier Code of the customer's bank, if the bank was provided.
 	BIC ConfirmationTokenPaymentMethodPreviewIDEALBIC `json:"bic"`
