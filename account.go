@@ -251,6 +251,20 @@ const (
 	AccountSettingsPayoutsScheduleIntervalWeekly  AccountSettingsPayoutsScheduleInterval = "weekly"
 )
 
+// The days of the week when available funds are paid out, specified as an array, for example, [`monday`, `tuesday`]. Only shown if `interval` is weekly.
+type AccountSettingsPayoutsScheduleWeeklyPayoutDay string
+
+// List of values that AccountSettingsPayoutsScheduleWeeklyPayoutDay can take
+const (
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayFriday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "friday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayMonday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "monday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDaySaturday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "saturday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDaySunday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "sunday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayThursday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "thursday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayTuesday   AccountSettingsPayoutsScheduleWeeklyPayoutDay = "tuesday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayWednesday AccountSettingsPayoutsScheduleWeeklyPayoutDay = "wednesday"
+)
+
 // The user's service agreement type
 type AccountTOSAcceptanceServiceAgreement string
 
@@ -1341,8 +1355,12 @@ type AccountSettingsPayoutsScheduleParams struct {
 	Interval *string `form:"interval"`
 	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
+	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
+	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
 	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
 	WeeklyAnchor *string `form:"weekly_anchor"`
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
 // AppendTo implements custom encoding logic for AccountSettingsPayoutsScheduleParams.
@@ -2529,8 +2547,12 @@ type AccountUpdateSettingsPayoutsScheduleParams struct {
 	Interval *string `form:"interval"`
 	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
+	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
+	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
 	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
 	WeeklyAnchor *string `form:"weekly_anchor"`
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
 // AppendTo implements custom encoding logic for AccountUpdateSettingsPayoutsScheduleParams.
@@ -3736,8 +3758,12 @@ type AccountCreateSettingsPayoutsScheduleParams struct {
 	Interval *string `form:"interval"`
 	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
+	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
+	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
 	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
 	WeeklyAnchor *string `form:"weekly_anchor"`
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
 // AppendTo implements custom encoding logic for AccountCreateSettingsPayoutsScheduleParams.
@@ -4411,8 +4437,12 @@ type AccountSettingsPayoutsSchedule struct {
 	Interval AccountSettingsPayoutsScheduleInterval `json:"interval"`
 	// The day of the month funds will be paid out. Only shown if `interval` is monthly. Payouts scheduled between the 29th and 31st of the month are sent on the last day of shorter months.
 	MonthlyAnchor int64 `json:"monthly_anchor"`
+	// The days of the month funds will be paid out. Only shown if `interval` is monthly. Payouts scheduled between the 29th and 31st of the month are sent on the last day of shorter months.
+	MonthlyPayoutDays []int64 `json:"monthly_payout_days"`
 	// The day of the week funds will be paid out, of the style 'monday', 'tuesday', etc. Only shown if `interval` is weekly.
 	WeeklyAnchor string `json:"weekly_anchor"`
+	// The days of the week when available funds are paid out, specified as an array, for example, [`monday`, `tuesday`]. Only shown if `interval` is weekly.
+	WeeklyPayoutDays []AccountSettingsPayoutsScheduleWeeklyPayoutDay `json:"weekly_payout_days"`
 }
 type AccountSettingsPayouts struct {
 	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://docs.stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.
