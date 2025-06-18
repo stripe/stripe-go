@@ -2353,7 +2353,7 @@ type Subscription struct {
 	TrialEnd int64 `json:"trial_end"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionTrialSettings `json:"trial_settings"`
-	// If the subscription has a trial, the beginning of that trial. For subsequent trials, this date remains as the start of the first ever trial on the subscription.
+	// If the subscription has a trial, the beginning of that trial.
 	TrialStart int64 `json:"trial_start"`
 }
 
