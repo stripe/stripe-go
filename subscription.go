@@ -29,12 +29,12 @@ const (
 )
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-type SubscriptionBillingMode string
+type SubscriptionBillingModeType string
 
-// List of values that SubscriptionBillingMode can take
+// List of values that SubscriptionBillingModeType can take
 const (
-	SubscriptionBillingModeClassic  SubscriptionBillingMode = "classic"
-	SubscriptionBillingModeFlexible SubscriptionBillingMode = "flexible"
+	SubscriptionBillingModeTypeClassic  SubscriptionBillingModeType = "classic"
+	SubscriptionBillingModeTypeFlexible SubscriptionBillingModeType = "flexible"
 )
 
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
@@ -356,7 +356,7 @@ type SubscriptionParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
-	// For new subscriptions, a past timestamp to backdate the subscription's start date to. If set, the first invoice will contain a proration for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
+	// A past timestamp to backdate the subscription's start date to. If set, the first invoice will contain line items for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
 	BackdateStartDate *int64 `form:"backdate_start_date"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
@@ -1874,7 +1874,7 @@ type SubscriptionCreateParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Automatic tax settings for this subscription.
 	AutomaticTax *SubscriptionCreateAutomaticTaxParams `form:"automatic_tax"`
-	// For new subscriptions, a past timestamp to backdate the subscription's start date to. If set, the first invoice will contain a proration for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
+	// A past timestamp to backdate the subscription's start date to. If set, the first invoice will contain line items for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
 	BackdateStartDate *int64 `form:"backdate_start_date"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
@@ -2020,8 +2020,10 @@ type SubscriptionBillingCycleAnchorConfig struct {
 	Second int64 `json:"second"`
 }
 
-// Details about when the current billing_mode was updated.
-type SubscriptionBillingModeDetails struct {
+// The billing mode of the subscription.
+type SubscriptionBillingMode struct {
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	Type SubscriptionBillingModeType `json:"type"`
 	// Details on when the current billing_mode was adopted.
 	UpdatedAt int64 `json:"updated_at"`
 }
@@ -2260,10 +2262,8 @@ type Subscription struct {
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The fixed values used to calculate the `billing_cycle_anchor`.
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
-	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode SubscriptionBillingMode `json:"billing_mode"`
-	// Details about when the current billing_mode was updated.
-	BillingModeDetails *SubscriptionBillingModeDetails `json:"billing_mode_details"`
+	// The billing mode of the subscription.
+	BillingMode *SubscriptionBillingMode `json:"billing_mode"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled
