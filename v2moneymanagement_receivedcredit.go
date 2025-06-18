@@ -53,7 +53,9 @@ type V2MoneyManagementReceivedCreditBalanceTransferType string
 
 // List of values that V2MoneyManagementReceivedCreditBalanceTransferType can take
 const (
-	V2MoneyManagementReceivedCreditBalanceTransferTypePayoutV1 V2MoneyManagementReceivedCreditBalanceTransferType = "payout_v1"
+	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundPayment  V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_payment"
+	V2MoneyManagementReceivedCreditBalanceTransferTypeOutboundTransfer V2MoneyManagementReceivedCreditBalanceTransferType = "outbound_transfer"
+	V2MoneyManagementReceivedCreditBalanceTransferTypePayoutV1         V2MoneyManagementReceivedCreditBalanceTransferType = "payout_v1"
 )
 
 // Open Enum. Indicates the type of source via from which external funds originated.
@@ -118,7 +120,13 @@ type V2MoneyManagementReceivedCreditStatusTransitions struct {
 
 // This object stores details about the originating Stripe transaction that resulted in the ReceivedCredit. Present if `type` field value is `balance_transfer`.
 type V2MoneyManagementReceivedCreditBalanceTransfer struct {
-	// The ID of the Stripe Money Movement that originated the ReceivedCredit.
+	// The ID of the account that owns the source object originated the ReceivedCredit.
+	FromAccount string `json:"from_account"`
+	// The ID of the outbound payment object that originated the ReceivedCredit.
+	OutboundPayment string `json:"outbound_payment"`
+	// The ID of the outbound transfer object that originated the ReceivedCredit.
+	OutboundTransfer string `json:"outbound_transfer"`
+	// The ID of the payout object that originated the ReceivedCredit.
 	PayoutV1 string `json:"payout_v1"`
 	// Open Enum. The type of Stripe Money Movement that originated the ReceivedCredit.
 	Type V2MoneyManagementReceivedCreditBalanceTransferType `json:"type"`

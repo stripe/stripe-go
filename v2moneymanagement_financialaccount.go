@@ -258,6 +258,7 @@ const (
 	V2MoneyManagementFinancialAccountCountryVu V2MoneyManagementFinancialAccountCountry = "vu"
 	V2MoneyManagementFinancialAccountCountryWf V2MoneyManagementFinancialAccountCountry = "wf"
 	V2MoneyManagementFinancialAccountCountryWs V2MoneyManagementFinancialAccountCountry = "ws"
+	V2MoneyManagementFinancialAccountCountryXx V2MoneyManagementFinancialAccountCountry = "xx"
 	V2MoneyManagementFinancialAccountCountryYe V2MoneyManagementFinancialAccountCountry = "ye"
 	V2MoneyManagementFinancialAccountCountryYt V2MoneyManagementFinancialAccountCountry = "yt"
 	V2MoneyManagementFinancialAccountCountryZa V2MoneyManagementFinancialAccountCountry = "za"
@@ -270,8 +271,18 @@ type V2MoneyManagementFinancialAccountStatus string
 
 // List of values that V2MoneyManagementFinancialAccountStatus can take
 const (
-	V2MoneyManagementFinancialAccountStatusClosed V2MoneyManagementFinancialAccountStatus = "closed"
-	V2MoneyManagementFinancialAccountStatusOpen   V2MoneyManagementFinancialAccountStatus = "open"
+	V2MoneyManagementFinancialAccountStatusClosed  V2MoneyManagementFinancialAccountStatus = "closed"
+	V2MoneyManagementFinancialAccountStatusOpen    V2MoneyManagementFinancialAccountStatus = "open"
+	V2MoneyManagementFinancialAccountStatusPending V2MoneyManagementFinancialAccountStatus = "pending"
+)
+
+type V2MoneyManagementFinancialAccountStatusDetailsClosedReason string
+
+// List of values that V2MoneyManagementFinancialAccountStatusDetailsClosedReason can take
+const (
+	V2MoneyManagementFinancialAccountStatusDetailsClosedReasonAccountClosed    V2MoneyManagementFinancialAccountStatusDetailsClosedReason = "account_closed"
+	V2MoneyManagementFinancialAccountStatusDetailsClosedReasonClosedByPlatform V2MoneyManagementFinancialAccountStatusDetailsClosedReason = "closed_by_platform"
+	V2MoneyManagementFinancialAccountStatusDetailsClosedReasonOther            V2MoneyManagementFinancialAccountStatusDetailsClosedReason = "other"
 )
 
 // The currencies that this FinancialAccount can hold.
@@ -486,6 +497,12 @@ type V2MoneyManagementFinancialAccountOther struct {
 	// The type of the FinancialAccount, represented as a string. Upgrade your API version to see the type reflected in `financial_account.type`.
 	Type string `json:"type"`
 }
+type V2MoneyManagementFinancialAccountStatusDetailsClosed struct {
+	Reason V2MoneyManagementFinancialAccountStatusDetailsClosedReason `json:"reason"`
+}
+type V2MoneyManagementFinancialAccountStatusDetails struct {
+	Closed *V2MoneyManagementFinancialAccountStatusDetailsClosed `json:"closed"`
+}
 
 // If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 type V2MoneyManagementFinancialAccountStorage struct {
@@ -501,18 +518,20 @@ type V2MoneyManagementFinancialAccount struct {
 	// Open Enum. Two-letter country code that represents the country where the LegalEntity associated with the FinancialAccount is based in.
 	Country V2MoneyManagementFinancialAccountCountry `json:"country"`
 	// Time at which the object was created.
-	Created     time.Time `json:"created"`
-	Description string    `json:"description"`
+	Created time.Time `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Metadata associated with the FinancialAccount
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.
 	Other *V2MoneyManagementFinancialAccountOther `json:"other"`
 	// Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
-	Status V2MoneyManagementFinancialAccountStatus `json:"status"`
+	Status        V2MoneyManagementFinancialAccountStatus         `json:"status"`
+	StatusDetails *V2MoneyManagementFinancialAccountStatusDetails `json:"status_details"`
 	// If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 	Storage *V2MoneyManagementFinancialAccountStorage `json:"storage"`
 	// Type of the FinancialAccount. An additional hash is included on the FinancialAccount with a name matching this value.
