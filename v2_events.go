@@ -81,7 +81,7 @@ type V1BillingMeterNoMeterFoundEvent struct {
 }
 
 // V2CoreEventDestinationPingEvent is the Go struct for the "v2.core.event_destination.ping" event.
-// A ping event used to test the connection to an event destination.
+// A ping event used to test the connection to an EventDestination.
 type V2CoreEventDestinationPingEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
