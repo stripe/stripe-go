@@ -57,6 +57,7 @@ const (
 	DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatusRequiresFeeAcknowledgement DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus = "requires_fee_acknowledgement"
 )
 
+// Whether the dispute was submitted manually, with Smart Disputes, or not submitted.
 type DisputeEvidenceDetailsSubmissionMethod string
 
 // List of values that DisputeEvidenceDetailsSubmissionMethod can take
@@ -611,7 +612,8 @@ type DisputeEvidenceDetails struct {
 	// Whether the last evidence submission was submitted past the due date. Defaults to `false` if no evidence submissions have occurred. If `true`, then delivery of the latest evidence is *not* guaranteed.
 	PastDue bool `json:"past_due"`
 	// The number of times evidence has been submitted. Typically, you may only submit evidence once.
-	SubmissionCount  int64                                  `json:"submission_count"`
+	SubmissionCount int64 `json:"submission_count"`
+	// Whether the dispute was submitted manually, with Smart Disputes, or not submitted.
 	SubmissionMethod DisputeEvidenceDetailsSubmissionMethod `json:"submission_method"`
 }
 type DisputePaymentMethodDetailsAmazonPay struct {
