@@ -2113,6 +2113,28 @@ type CheckoutSessionPaymentMethodOptionsKakaoPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Describes the upcoming charge for this subscription.
+type CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if the Checkout Session sets up a future subscription.
+type CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // contains details about the Klarna payment method options.
 type CheckoutSessionPaymentMethodOptionsKlarnaParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2123,6 +2145,8 @@ type CheckoutSessionPaymentMethodOptionsKlarnaParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if the Checkout Session sets up a future subscription.
+	Subscriptions []*CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // contains details about the Konbini payment method options.
@@ -3718,6 +3742,28 @@ type CheckoutSessionCreatePaymentMethodOptionsKakaoPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Describes the upcoming charge for this subscription.
+type CheckoutSessionCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if the Checkout Session sets up a future subscription.
+type CheckoutSessionCreatePaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *CheckoutSessionCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // contains details about the Klarna payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsKlarnaParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3728,6 +3774,8 @@ type CheckoutSessionCreatePaymentMethodOptionsKlarnaParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if the Checkout Session sets up a future subscription.
+	Subscriptions []*CheckoutSessionCreatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // contains details about the Konbini payment method options.

@@ -918,6 +918,54 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 type SetupIntentPaymentMethodOptionsCardPresentParams struct{}
 
+// On-demand details if setting up a payment method for on-demand payments.
+type SetupIntentPaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type SetupIntentPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription
+type SetupIntentPaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *SetupIntentPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+type SetupIntentPaymentMethodOptionsKlarnaParams struct {
+	// The currency of the SetupIntent. Three letter ISO currency code.
+	Currency *string `form:"currency"`
+	// On-demand details if setting up a payment method for on-demand payments.
+	OnDemand *SetupIntentPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
+	// Preferred language of the Klarna authorization page that the customer is redirected to
+	PreferredLocale *string `form:"preferred_locale"`
+	// Subscription details if setting up or charging a subscription
+	Subscriptions []*SetupIntentPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+}
+
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentPaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
@@ -1034,6 +1082,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 	CardPresent *SetupIntentPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+	Klarna *SetupIntentPaymentMethodOptionsKlarnaParams `form:"klarna"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentPaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
@@ -2237,6 +2287,54 @@ type SetupIntentCreatePaymentMethodOptionsCardParams struct {
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 type SetupIntentCreatePaymentMethodOptionsCardPresentParams struct{}
 
+// On-demand details if setting up a payment method for on-demand payments.
+type SetupIntentCreatePaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription
+type SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+type SetupIntentCreatePaymentMethodOptionsKlarnaParams struct {
+	// The currency of the SetupIntent. Three letter ISO currency code.
+	Currency *string `form:"currency"`
+	// On-demand details if setting up a payment method for on-demand payments.
+	OnDemand *SetupIntentCreatePaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
+	// Preferred language of the Klarna authorization page that the customer is redirected to
+	PreferredLocale *string `form:"preferred_locale"`
+	// Subscription details if setting up or charging a subscription
+	Subscriptions []*SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+}
+
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentCreatePaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
@@ -2353,6 +2451,8 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	Card *SetupIntentCreatePaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 	CardPresent *SetupIntentCreatePaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+	Klarna *SetupIntentCreatePaymentMethodOptionsKlarnaParams `form:"klarna"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentCreatePaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
@@ -3032,6 +3132,54 @@ type SetupIntentUpdatePaymentMethodOptionsCardParams struct {
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 type SetupIntentUpdatePaymentMethodOptionsCardPresentParams struct{}
 
+// On-demand details if setting up a payment method for on-demand payments.
+type SetupIntentUpdatePaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription
+type SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+type SetupIntentUpdatePaymentMethodOptionsKlarnaParams struct {
+	// The currency of the SetupIntent. Three letter ISO currency code.
+	Currency *string `form:"currency"`
+	// On-demand details if setting up a payment method for on-demand payments.
+	OnDemand *SetupIntentUpdatePaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
+	// Preferred language of the Klarna authorization page that the customer is redirected to
+	PreferredLocale *string `form:"preferred_locale"`
+	// Subscription details if setting up or charging a subscription
+	Subscriptions []*SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+}
+
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentUpdatePaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
@@ -3148,6 +3296,8 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	Card *SetupIntentUpdatePaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 	CardPresent *SetupIntentUpdatePaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+	Klarna *SetupIntentUpdatePaymentMethodOptionsKlarnaParams `form:"klarna"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentUpdatePaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
@@ -3332,6 +3482,12 @@ type SetupIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 type SetupIntentPaymentMethodOptionsCardPresent struct{}
+type SetupIntentPaymentMethodOptionsKlarna struct {
+	// The currency of the setup intent. Three letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// Preferred locale of the Klarna checkout page that the customer is redirected to.
+	PreferredLocale string `json:"preferred_locale"`
+}
 type SetupIntentPaymentMethodOptionsLink struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
@@ -3409,6 +3565,7 @@ type SetupIntentPaymentMethodOptions struct {
 	BACSDebit     *SetupIntentPaymentMethodOptionsBACSDebit     `json:"bacs_debit"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	CardPresent   *SetupIntentPaymentMethodOptionsCardPresent   `json:"card_present"`
+	Klarna        *SetupIntentPaymentMethodOptionsKlarna        `json:"klarna"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
 	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal"`
 	Payto         *SetupIntentPaymentMethodOptionsPayto         `json:"payto"`
