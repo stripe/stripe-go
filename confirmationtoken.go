@@ -15,12 +15,14 @@ const (
 	ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanIntervalMonth ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval = "month"
 )
 
-// Type of installment plan, one of `fixed_count`.
+// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType string
 
 // List of values that ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType can take
 const (
+	ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanTypeBonus      ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType = "bonus"
 	ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanTypeFixedCount ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType = "fixed_count"
+	ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanTypeRevolving  ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType = "revolving"
 )
 
 // This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to “unspecified”.
@@ -213,7 +215,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDBankTransferBankPermata ConfirmationTokenPaymentMethodPreviewIDBankTransferBank = "permata"
 )
 
-// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type ConfirmationTokenPaymentMethodPreviewIDEALBank string
 
 // List of values that ConfirmationTokenPaymentMethodPreviewIDEALBank can take
@@ -221,6 +223,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBankAbnAmro       ConfirmationTokenPaymentMethodPreviewIDEALBank = "abn_amro"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankAsnBank       ConfirmationTokenPaymentMethodPreviewIDEALBank = "asn_bank"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankBunq          ConfirmationTokenPaymentMethodPreviewIDEALBank = "bunq"
+	ConfirmationTokenPaymentMethodPreviewIDEALBankBuut          ConfirmationTokenPaymentMethodPreviewIDEALBank = "buut"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankHandelsbanken ConfirmationTokenPaymentMethodPreviewIDEALBank = "handelsbanken"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankIng           ConfirmationTokenPaymentMethodPreviewIDEALBank = "ing"
 	ConfirmationTokenPaymentMethodPreviewIDEALBankKnab          ConfirmationTokenPaymentMethodPreviewIDEALBank = "knab"
@@ -245,6 +248,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewIDEALBICASNBNL21 ConfirmationTokenPaymentMethodPreviewIDEALBIC = "ASNBNL21"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICBITSNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BITSNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICBUNQNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BUNQNL2A"
+	ConfirmationTokenPaymentMethodPreviewIDEALBICBUUTNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "BUUTNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICFVLBNL22 ConfirmationTokenPaymentMethodPreviewIDEALBIC = "FVLBNL22"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICHANDNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "HANDNL2A"
 	ConfirmationTokenPaymentMethodPreviewIDEALBICINGBNL2A ConfirmationTokenPaymentMethodPreviewIDEALBIC = "INGBNL2A"
@@ -373,6 +377,7 @@ const (
 	ConfirmationTokenPaymentMethodPreviewTypeCard             ConfirmationTokenPaymentMethodPreviewType = "card"
 	ConfirmationTokenPaymentMethodPreviewTypeCardPresent      ConfirmationTokenPaymentMethodPreviewType = "card_present"
 	ConfirmationTokenPaymentMethodPreviewTypeCashApp          ConfirmationTokenPaymentMethodPreviewType = "cashapp"
+	ConfirmationTokenPaymentMethodPreviewTypeCrypto           ConfirmationTokenPaymentMethodPreviewType = "crypto"
 	ConfirmationTokenPaymentMethodPreviewTypeCustomerBalance  ConfirmationTokenPaymentMethodPreviewType = "customer_balance"
 	ConfirmationTokenPaymentMethodPreviewTypeEPS              ConfirmationTokenPaymentMethodPreviewType = "eps"
 	ConfirmationTokenPaymentMethodPreviewTypeFPX              ConfirmationTokenPaymentMethodPreviewType = "fpx"
@@ -538,7 +543,7 @@ type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlan struct {
 	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanInterval `json:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type ConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanType `json:"type"`
 }
 
@@ -637,9 +642,9 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
 	AccountType ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type"`
-	// EMV tag 9F26, cryptogram generated by the integrated circuit chip.
+	// The Application Cryptogram, a unique value generated by the card to authenticate the transaction with issuers.
 	ApplicationCryptogram string `json:"application_cryptogram"`
-	// Mnenomic of the Application Identifier.
+	// The Application Identifier (AID) on the card used to determine which networks are eligible to process the transaction. Referenced from EMV tag 9F12, data encoded on the card's chip.
 	ApplicationPreferredName string `json:"application_preferred_name"`
 	// Identifier for this transaction.
 	AuthorizationCode string `json:"authorization_code"`
@@ -647,11 +652,11 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	AuthorizationResponseCode string `json:"authorization_response_code"`
 	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
 	CardholderVerificationMethod string `json:"cardholder_verification_method"`
-	// EMV tag 84. Similar to the application identifier stored on the integrated circuit chip.
+	// Similar to the application_preferred_name, identifying the applications (AIDs) available on the card. Referenced from EMV tag 84.
 	DedicatedFileName string `json:"dedicated_file_name"`
-	// The outcome of a series of EMV functions performed by the card reader.
+	// A 5-byte string that records the checks and validations that occur between the card and the terminal. These checks determine how the terminal processes the transaction and what risk tolerance is acceptable. Referenced from EMV Tag 95.
 	TerminalVerificationResults string `json:"terminal_verification_results"`
-	// An indication of various EMV functions performed during the transaction.
+	// An indication of which steps were completed during the card read process. Referenced from EMV Tag 9B.
 	TransactionStatusInformation string `json:"transaction_status_information"`
 }
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentWallet struct {
@@ -703,7 +708,7 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 	Offline *ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentOffline `json:"offline"`
 	// Defines whether the authorized amount can be over-captured or not
 	OvercaptureSupported bool `json:"overcapture_supported"`
-	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
 	ReadMethod ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
@@ -871,7 +876,7 @@ type ConfirmationTokenPaymentMethodPreviewCardPresent struct {
 	Networks *ConfirmationTokenPaymentMethodPreviewCardPresentNetworks `json:"networks"`
 	// Details about payment methods collected offline.
 	Offline *ConfirmationTokenPaymentMethodPreviewCardPresentOffline `json:"offline"`
-	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
 	ReadMethod ConfirmationTokenPaymentMethodPreviewCardPresentReadMethod `json:"read_method"`
@@ -883,6 +888,7 @@ type ConfirmationTokenPaymentMethodPreviewCashApp struct {
 	// A public identifier for buyers using Cash App.
 	Cashtag string `json:"cashtag"`
 }
+type ConfirmationTokenPaymentMethodPreviewCrypto struct{}
 type ConfirmationTokenPaymentMethodPreviewCustomerBalance struct{}
 type ConfirmationTokenPaymentMethodPreviewEPS struct {
 	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
@@ -904,7 +910,7 @@ type ConfirmationTokenPaymentMethodPreviewIDBankTransfer struct {
 	DisplayName string                                                  `json:"display_name"`
 }
 type ConfirmationTokenPaymentMethodPreviewIDEAL struct {
-	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank, if provided. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank ConfirmationTokenPaymentMethodPreviewIDEALBank `json:"bank"`
 	// The Bank Identifier Code of the customer's bank, if the bank was provided.
 	BIC ConfirmationTokenPaymentMethodPreviewIDEALBIC `json:"bic"`
@@ -944,7 +950,7 @@ type ConfirmationTokenPaymentMethodPreviewInteracPresent struct {
 	Last4 string `json:"last4"`
 	// Contains information about card networks that can be used to process the payment.
 	Networks *ConfirmationTokenPaymentMethodPreviewInteracPresentNetworks `json:"networks"`
-	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
 	ReadMethod ConfirmationTokenPaymentMethodPreviewInteracPresentReadMethod `json:"read_method"`
@@ -1147,6 +1153,7 @@ type ConfirmationTokenPaymentMethodPreview struct {
 	Card           *ConfirmationTokenPaymentMethodPreviewCard           `json:"card"`
 	CardPresent    *ConfirmationTokenPaymentMethodPreviewCardPresent    `json:"card_present"`
 	CashApp        *ConfirmationTokenPaymentMethodPreviewCashApp        `json:"cashapp"`
+	Crypto         *ConfirmationTokenPaymentMethodPreviewCrypto         `json:"crypto"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
 	Customer        *Customer                                             `json:"customer"`
 	CustomerAccount string                                                `json:"customer_account"`

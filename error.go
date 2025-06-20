@@ -572,7 +572,7 @@ func (e *NotCancelableError) canRetry() bool {
 }
 
 // InsufficientFundsError is the Go struct corresponding to the error type "insufficient_funds."
-// Error returned when the balance of provided financial account and balance type in the OutboundPayment request does not have enough funds.
+// Error returned when the balance of provided financial account and balance type in the OutboundPayment/OutboundTransfer request does not have enough funds.
 type InsufficientFundsError struct {
 	APIResource
 	Code        string    `json:"code"`
