@@ -209,6 +209,26 @@ const (
 	PaymentRecordPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentRecordPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
+// The blockchain network that the transaction was sent on.
+type PaymentRecordPaymentMethodDetailsCryptoNetwork string
+
+// List of values that PaymentRecordPaymentMethodDetailsCryptoNetwork can take
+const (
+	PaymentRecordPaymentMethodDetailsCryptoNetworkBase     PaymentRecordPaymentMethodDetailsCryptoNetwork = "base"
+	PaymentRecordPaymentMethodDetailsCryptoNetworkEthereum PaymentRecordPaymentMethodDetailsCryptoNetwork = "ethereum"
+	PaymentRecordPaymentMethodDetailsCryptoNetworkPolygon  PaymentRecordPaymentMethodDetailsCryptoNetwork = "polygon"
+)
+
+// The token currency that the transaction was sent with.
+type PaymentRecordPaymentMethodDetailsCryptoTokenCurrency string
+
+// List of values that PaymentRecordPaymentMethodDetailsCryptoTokenCurrency can take
+const (
+	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
+	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
+	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdp PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdp"
+)
+
 // The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
 type PaymentRecordPaymentMethodDetailsEPSBank string
 
@@ -1143,6 +1163,16 @@ type PaymentRecordPaymentMethodDetailsCashApp struct {
 	// A public identifier for buyers using Cash App.
 	Cashtag string `json:"cashtag"`
 }
+type PaymentRecordPaymentMethodDetailsCrypto struct {
+	// The wallet address of the customer.
+	BuyerAddress string `json:"buyer_address"`
+	// The blockchain network that the transaction was sent on.
+	Network PaymentRecordPaymentMethodDetailsCryptoNetwork `json:"network"`
+	// The token currency that the transaction was sent with.
+	TokenCurrency PaymentRecordPaymentMethodDetailsCryptoTokenCurrency `json:"token_currency"`
+	// The blockchain transaction hash of the crypto payment.
+	TransactionHash string `json:"transaction_hash"`
+}
 
 // Custom Payment Methods represent Payment Method types not modeled directly in
 // the Stripe API. This resource consists of details about the custom payment method
@@ -1592,6 +1622,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	Card        *PaymentRecordPaymentMethodDetailsCard        `json:"card"`
 	CardPresent *PaymentRecordPaymentMethodDetailsCardPresent `json:"card_present"`
 	CashApp     *PaymentRecordPaymentMethodDetailsCashApp     `json:"cashapp"`
+	Crypto      *PaymentRecordPaymentMethodDetailsCrypto      `json:"crypto"`
 	// Custom Payment Methods represent Payment Method types not modeled directly in
 	// the Stripe API. This resource consists of details about the custom payment method
 	// used for this payment attempt.

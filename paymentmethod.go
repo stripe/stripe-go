@@ -296,6 +296,7 @@ const (
 	PaymentMethodTypeCard             PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent      PaymentMethodType = "card_present"
 	PaymentMethodTypeCashApp          PaymentMethodType = "cashapp"
+	PaymentMethodTypeCrypto           PaymentMethodType = "crypto"
 	PaymentMethodTypeCustomerBalance  PaymentMethodType = "customer_balance"
 	PaymentMethodTypeEPS              PaymentMethodType = "eps"
 	PaymentMethodTypeFPX              PaymentMethodType = "fpx"
@@ -509,6 +510,9 @@ type PaymentMethodCardParams struct {
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type PaymentMethodCashAppParams struct{}
+
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type PaymentMethodCryptoParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentMethodCustomerBalanceParams struct{}
@@ -766,6 +770,8 @@ type PaymentMethodParams struct {
 	Card *PaymentMethodCardParams `form:"card"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *PaymentMethodCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -1013,6 +1019,9 @@ type PaymentMethodCreateCardParams struct {
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type PaymentMethodCreateCashAppParams struct{}
+
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type PaymentMethodCreateCryptoParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type PaymentMethodCreateCustomerBalanceParams struct{}
@@ -1270,6 +1279,8 @@ type PaymentMethodCreateParams struct {
 	Card *PaymentMethodCreateCardParams `form:"card"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCreateCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *PaymentMethodCreateCryptoParams `form:"crypto"`
 	// The `Customer` to whom the original PaymentMethod is attached.
 	Customer *string `form:"customer"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
@@ -1810,6 +1821,7 @@ type PaymentMethodCashApp struct {
 	// A public identifier for buyers using Cash App.
 	Cashtag string `json:"cashtag"`
 }
+type PaymentMethodCrypto struct{}
 type PaymentMethodCustomerBalance struct{}
 type PaymentMethodEPS struct {
 	// The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
@@ -2086,7 +2098,8 @@ type PaymentMethod struct {
 	CardPresent    *PaymentMethodCardPresent    `json:"card_present"`
 	CashApp        *PaymentMethodCashApp        `json:"cashapp"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
-	Created int64 `json:"created"`
+	Created int64                `json:"created"`
+	Crypto  *PaymentMethodCrypto `json:"crypto"`
 	// The ID of the Customer to which this PaymentMethod is saved. This will not be set when the PaymentMethod has not been saved to a Customer.
 	Customer        *Customer                     `json:"customer"`
 	CustomerAccount string                        `json:"customer_account"`

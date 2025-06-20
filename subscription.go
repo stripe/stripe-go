@@ -221,6 +221,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCard               SubscriptionPaymentSettingsPaymentMethodType = "card"
 	SubscriptionPaymentSettingsPaymentMethodTypeCashApp            SubscriptionPaymentSettingsPaymentMethodType = "cashapp"
+	SubscriptionPaymentSettingsPaymentMethodTypeCrypto             SubscriptionPaymentSettingsPaymentMethodType = "crypto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCustom             SubscriptionPaymentSettingsPaymentMethodType = "custom"
 	SubscriptionPaymentSettingsPaymentMethodTypeCustomerBalance    SubscriptionPaymentSettingsPaymentMethodType = "customer_balance"
 	SubscriptionPaymentSettingsPaymentMethodTypeEPS                SubscriptionPaymentSettingsPaymentMethodType = "eps"

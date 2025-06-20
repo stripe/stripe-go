@@ -505,6 +505,12 @@ type AccountCapabilitiesCashAppPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The crypto_payments capability.
+type AccountCapabilitiesCryptoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The eps_payments capability.
 type AccountCapabilitiesEPSPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -878,6 +884,8 @@ type AccountCapabilitiesParams struct {
 	CartesBancairesPayments *AccountCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
 	// The cashapp_payments capability.
 	CashAppPayments *AccountCapabilitiesCashAppPaymentsParams `form:"cashapp_payments"`
+	// The crypto_payments capability.
+	CryptoPayments *AccountCapabilitiesCryptoPaymentsParams `form:"crypto_payments"`
 	// The eps_payments capability.
 	EPSPayments *AccountCapabilitiesEPSPaymentsParams `form:"eps_payments"`
 	// The fpx_payments capability.
@@ -1693,6 +1701,12 @@ type AccountUpdateCapabilitiesCashAppPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The crypto_payments capability.
+type AccountUpdateCapabilitiesCryptoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The eps_payments capability.
 type AccountUpdateCapabilitiesEPSPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -2066,6 +2080,8 @@ type AccountUpdateCapabilitiesParams struct {
 	CartesBancairesPayments *AccountUpdateCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
 	// The cashapp_payments capability.
 	CashAppPayments *AccountUpdateCapabilitiesCashAppPaymentsParams `form:"cashapp_payments"`
+	// The crypto_payments capability.
+	CryptoPayments *AccountUpdateCapabilitiesCryptoPaymentsParams `form:"crypto_payments"`
 	// The eps_payments capability.
 	EPSPayments *AccountUpdateCapabilitiesEPSPaymentsParams `form:"eps_payments"`
 	// The fpx_payments capability.
@@ -2852,6 +2868,12 @@ type AccountCreateCapabilitiesCashAppPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The crypto_payments capability.
+type AccountCreateCapabilitiesCryptoPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The eps_payments capability.
 type AccountCreateCapabilitiesEPSPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -3225,6 +3247,8 @@ type AccountCreateCapabilitiesParams struct {
 	CartesBancairesPayments *AccountCreateCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
 	// The cashapp_payments capability.
 	CashAppPayments *AccountCreateCapabilitiesCashAppPaymentsParams `form:"cashapp_payments"`
+	// The crypto_payments capability.
+	CryptoPayments *AccountCreateCapabilitiesCryptoPaymentsParams `form:"crypto_payments"`
 	// The eps_payments capability.
 	EPSPayments *AccountCreateCapabilitiesEPSPaymentsParams `form:"eps_payments"`
 	// The fpx_payments capability.
@@ -3991,6 +4015,8 @@ type AccountCapabilities struct {
 	CartesBancairesPayments AccountCapabilityStatus `json:"cartes_bancaires_payments"`
 	// The status of the Cash App Pay capability of the account, or whether the account can directly process Cash App Pay payments.
 	CashAppPayments AccountCapabilityStatus `json:"cashapp_payments"`
+	// The status of the Crypto capability of the account, or whether the account can directly process Crypto payments.
+	CryptoPayments AccountCapabilityStatus `json:"crypto_payments"`
 	// The status of the EPS payments capability of the account, or whether the account can directly process EPS charges.
 	EPSPayments AccountCapabilityStatus `json:"eps_payments"`
 	// The status of the FPX payments capability of the account, or whether the account can directly process FPX charges.

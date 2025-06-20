@@ -204,6 +204,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeBoleto             InvoicePaymentSettingsPaymentMethodType = "boleto"
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
 	InvoicePaymentSettingsPaymentMethodTypeCashApp            InvoicePaymentSettingsPaymentMethodType = "cashapp"
+	InvoicePaymentSettingsPaymentMethodTypeCrypto             InvoicePaymentSettingsPaymentMethodType = "crypto"
 	InvoicePaymentSettingsPaymentMethodTypeCustom             InvoicePaymentSettingsPaymentMethodType = "custom"
 	InvoicePaymentSettingsPaymentMethodTypeCustomerBalance    InvoicePaymentSettingsPaymentMethodType = "customer_balance"
 	InvoicePaymentSettingsPaymentMethodTypeEPS                InvoicePaymentSettingsPaymentMethodType = "eps"

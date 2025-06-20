@@ -429,6 +429,9 @@ type SetupIntentPaymentMethodDataBoletoParams struct {
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentPaymentMethodDataCashAppParams struct{}
 
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type SetupIntentPaymentMethodDataCryptoParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentPaymentMethodDataCustomerBalanceParams struct{}
 
@@ -681,6 +684,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Boleto *SetupIntentPaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentPaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *SetupIntentPaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -1274,6 +1279,9 @@ type SetupIntentConfirmPaymentMethodDataBoletoParams struct {
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentConfirmPaymentMethodDataCashAppParams struct{}
 
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type SetupIntentConfirmPaymentMethodDataCryptoParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentConfirmPaymentMethodDataCustomerBalanceParams struct{}
 
@@ -1526,6 +1534,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Boleto *SetupIntentConfirmPaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentConfirmPaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *SetupIntentConfirmPaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentConfirmPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -1798,6 +1808,9 @@ type SetupIntentCreatePaymentMethodDataBoletoParams struct {
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentCreatePaymentMethodDataCashAppParams struct{}
 
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type SetupIntentCreatePaymentMethodDataCryptoParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentCreatePaymentMethodDataCustomerBalanceParams struct{}
 
@@ -2050,6 +2063,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Boleto *SetupIntentCreatePaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentCreatePaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *SetupIntentCreatePaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentCreatePaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -2643,6 +2658,9 @@ type SetupIntentUpdatePaymentMethodDataBoletoParams struct {
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentUpdatePaymentMethodDataCashAppParams struct{}
 
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type SetupIntentUpdatePaymentMethodDataCryptoParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentUpdatePaymentMethodDataCustomerBalanceParams struct{}
 
@@ -2895,6 +2913,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Boleto *SetupIntentUpdatePaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentUpdatePaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *SetupIntentUpdatePaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentUpdatePaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.

@@ -578,6 +578,20 @@ const (
 	PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage = "on_session"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsageNone PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage = "none"
+)
+
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
 //
 // Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
@@ -1874,6 +1888,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *PaymentMethodCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -2385,6 +2401,20 @@ type PaymentIntentPaymentMethodOptionsCashAppParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+type PaymentIntentPaymentMethodOptionsCryptoParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3225,6 +3255,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	CardPresent *PaymentIntentPaymentMethodOptionsCardPresentParams `form:"card_present"`
 	// If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
 	CashApp *PaymentIntentPaymentMethodOptionsCashAppParams `form:"cashapp"`
+	// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+	Crypto *PaymentIntentPaymentMethodOptionsCryptoParams `form:"crypto"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -5022,6 +5054,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *PaymentMethodCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -5533,6 +5567,20 @@ type PaymentIntentCreatePaymentMethodOptionsCashAppParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+type PaymentIntentCreatePaymentMethodOptionsCryptoParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -6373,6 +6421,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	CardPresent *PaymentIntentCreatePaymentMethodOptionsCardPresentParams `form:"card_present"`
 	// If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
 	CashApp *PaymentIntentCreatePaymentMethodOptionsCashAppParams `form:"cashapp"`
+	// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+	Crypto *PaymentIntentCreatePaymentMethodOptionsCryptoParams `form:"crypto"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentCreatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -7056,6 +7106,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *PaymentMethodCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -7567,6 +7619,20 @@ type PaymentIntentUpdatePaymentMethodOptionsCashAppParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
+// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsCryptoParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -8407,6 +8473,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	CardPresent *PaymentIntentUpdatePaymentMethodOptionsCardPresentParams `form:"card_present"`
 	// If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
 	CashApp *PaymentIntentUpdatePaymentMethodOptionsCashAppParams `form:"cashapp"`
+	// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+	Crypto *PaymentIntentUpdatePaymentMethodOptionsCryptoParams `form:"crypto"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentUpdatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -9405,6 +9473,16 @@ type PaymentIntentPaymentMethodOptionsCashApp struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsCrypto struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
 	Country string `json:"country"`
@@ -9952,6 +10030,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
 	CashApp          *PaymentIntentPaymentMethodOptionsCashApp          `json:"cashapp"`
+	Crypto           *PaymentIntentPaymentMethodOptionsCrypto           `json:"crypto"`
 	CustomerBalance  *PaymentIntentPaymentMethodOptionsCustomerBalance  `json:"customer_balance"`
 	EPS              *PaymentIntentPaymentMethodOptionsEPS              `json:"eps"`
 	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx"`
