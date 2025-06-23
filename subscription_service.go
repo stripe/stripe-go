@@ -107,6 +107,18 @@ func (c v1SubscriptionService) DeleteDiscount(ctx context.Context, id string, pa
 	return subscription, err
 }
 
+// Upgrade the billing_mode of an existing subscription.
+func (c v1SubscriptionService) Migrate(ctx context.Context, id string, params *SubscriptionMigrateParams) (*Subscription, error) {
+	if params == nil {
+		params = &SubscriptionMigrateParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/subscriptions/%s/migrate", id)
+	subscription := &Subscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
+	return subscription, err
+}
+
 // Initiates resumption of a paused subscription, optionally resetting the billing cycle anchor and creating prorations. If a resumption invoice is generated, it must be paid or marked uncollectible before the subscription will be unpaused. If payment succeeds the subscription will become active, and if payment fails the subscription will be past_due. The resumption invoice will void automatically if not paid by the expiration date.
 func (c v1SubscriptionService) Resume(ctx context.Context, id string, params *SubscriptionResumeParams) (*Subscription, error) {
 	if params == nil {

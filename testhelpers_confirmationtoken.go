@@ -79,6 +79,9 @@ type TestHelpersConfirmationTokenPaymentMethodDataBoletoParams struct {
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataCashAppParams struct{}
 
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type TestHelpersConfirmationTokenPaymentMethodDataCryptoParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type TestHelpersConfirmationTokenPaymentMethodDataCustomerBalanceParams struct{}
 
@@ -278,6 +281,8 @@ type TestHelpersConfirmationTokenPaymentMethodDataParams struct {
 	Boleto *TestHelpersConfirmationTokenPaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *TestHelpersConfirmationTokenPaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *TestHelpersConfirmationTokenPaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *TestHelpersConfirmationTokenPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -371,7 +376,7 @@ type TestHelpersConfirmationTokenPaymentMethodOptionsCardInstallmentsPlanParams 
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -502,6 +507,9 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataBoletoParams struct {
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataCashAppParams struct{}
+
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type TestHelpersConfirmationTokenCreatePaymentMethodDataCryptoParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type TestHelpersConfirmationTokenCreatePaymentMethodDataCustomerBalanceParams struct{}
@@ -702,6 +710,8 @@ type TestHelpersConfirmationTokenCreatePaymentMethodDataParams struct {
 	Boleto *TestHelpersConfirmationTokenCreatePaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *TestHelpersConfirmationTokenCreatePaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *TestHelpersConfirmationTokenCreatePaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *TestHelpersConfirmationTokenCreatePaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -795,7 +805,7 @@ type TestHelpersConfirmationTokenCreatePaymentMethodOptionsCardInstallmentsPlanP
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 

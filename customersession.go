@@ -74,7 +74,7 @@ type CustomerSessionComponentsPaymentElementFeaturesParams struct {
 	PaymentMethodAllowRedisplayFilters []*string `form:"payment_method_allow_redisplay_filters"`
 	// Controls whether or not the Payment Element shows saved payment methods. This parameter defaults to `disabled`.
 	PaymentMethodRedisplay *string `form:"payment_method_redisplay"`
-	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `3`.
+	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `3`. The maximum redisplay limit is `10`.
 	PaymentMethodRedisplayLimit *int64 `form:"payment_method_redisplay_limit"`
 	// Controls whether the Payment Element displays the option to remove a saved payment method. This parameter defaults to `disabled`.
 	//
@@ -144,7 +144,7 @@ type CustomerSessionCreateComponentsPaymentElementFeaturesParams struct {
 	PaymentMethodAllowRedisplayFilters []*string `form:"payment_method_allow_redisplay_filters"`
 	// Controls whether or not the Payment Element shows saved payment methods. This parameter defaults to `disabled`.
 	PaymentMethodRedisplay *string `form:"payment_method_redisplay"`
-	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `3`.
+	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `3`. The maximum redisplay limit is `10`.
 	PaymentMethodRedisplayLimit *int64 `form:"payment_method_redisplay_limit"`
 	// Controls whether the Payment Element displays the option to remove a saved payment method. This parameter defaults to `disabled`.
 	//
@@ -214,7 +214,7 @@ type CustomerSessionComponentsPaymentElementFeatures struct {
 	PaymentMethodAllowRedisplayFilters []CustomerSessionComponentsPaymentElementFeaturesPaymentMethodAllowRedisplayFilter `json:"payment_method_allow_redisplay_filters"`
 	// Controls whether or not the Payment Element shows saved payment methods. This parameter defaults to `disabled`.
 	PaymentMethodRedisplay CustomerSessionComponentsPaymentElementFeaturesPaymentMethodRedisplay `json:"payment_method_redisplay"`
-	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `3`.
+	// Determines the max number of saved payment methods for the Payment Element to display. This parameter defaults to `3`. The maximum redisplay limit is `10`.
 	PaymentMethodRedisplayLimit int64 `json:"payment_method_redisplay_limit"`
 	// Controls whether the Payment Element displays the option to remove a saved payment method. This parameter defaults to `disabled`.
 	//

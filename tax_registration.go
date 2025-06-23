@@ -1055,6 +1055,14 @@ const (
 )
 
 // Type of registration in `country`.
+type TaxRegistrationCountryOptionsUaType string
+
+// List of values that TaxRegistrationCountryOptionsUaType can take
+const (
+	TaxRegistrationCountryOptionsUaTypeSimplified TaxRegistrationCountryOptionsUaType = "simplified"
+)
+
+// Type of registration in `country`.
 type TaxRegistrationCountryOptionsUgType string
 
 // List of values that TaxRegistrationCountryOptionsUgType can take
@@ -1920,6 +1928,12 @@ type TaxRegistrationCountryOptionsTzParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in UA.
+type TaxRegistrationCountryOptionsUaParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in UG.
 type TaxRegistrationCountryOptionsUgParams struct {
 	// Type of registration to be created in `country`.
@@ -2184,6 +2198,8 @@ type TaxRegistrationCountryOptionsParams struct {
 	TR *TaxRegistrationCountryOptionsTRParams `form:"tr"`
 	// Options for the registration in TZ.
 	Tz *TaxRegistrationCountryOptionsTzParams `form:"tz"`
+	// Options for the registration in UA.
+	Ua *TaxRegistrationCountryOptionsUaParams `form:"ua"`
 	// Options for the registration in UG.
 	Ug *TaxRegistrationCountryOptionsUgParams `form:"ug"`
 	// Options for the registration in US.
@@ -2998,6 +3014,12 @@ type TaxRegistrationCreateCountryOptionsTzParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the registration in UA.
+type TaxRegistrationCreateCountryOptionsUaParams struct {
+	// Type of registration to be created in `country`.
+	Type *string `form:"type"`
+}
+
 // Options for the registration in UG.
 type TaxRegistrationCreateCountryOptionsUgParams struct {
 	// Type of registration to be created in `country`.
@@ -3262,6 +3284,8 @@ type TaxRegistrationCreateCountryOptionsParams struct {
 	TR *TaxRegistrationCreateCountryOptionsTRParams `form:"tr"`
 	// Options for the registration in TZ.
 	Tz *TaxRegistrationCreateCountryOptionsTzParams `form:"tz"`
+	// Options for the registration in UA.
+	Ua *TaxRegistrationCreateCountryOptionsUaParams `form:"ua"`
 	// Options for the registration in UG.
 	Ug *TaxRegistrationCreateCountryOptionsUgParams `form:"ug"`
 	// Options for the registration in US.
@@ -3850,6 +3874,10 @@ type TaxRegistrationCountryOptionsTz struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsTzType `json:"type"`
 }
+type TaxRegistrationCountryOptionsUa struct {
+	// Type of registration in `country`.
+	Type TaxRegistrationCountryOptionsUaType `json:"type"`
+}
 type TaxRegistrationCountryOptionsUg struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsUgType `json:"type"`
@@ -3998,6 +4026,7 @@ type TaxRegistrationCountryOptions struct {
 	Tj *TaxRegistrationCountryOptionsTj `json:"tj"`
 	TR *TaxRegistrationCountryOptionsTR `json:"tr"`
 	Tz *TaxRegistrationCountryOptionsTz `json:"tz"`
+	Ua *TaxRegistrationCountryOptionsUa `json:"ua"`
 	Ug *TaxRegistrationCountryOptionsUg `json:"ug"`
 	US *TaxRegistrationCountryOptionsUS `json:"us"`
 	Uy *TaxRegistrationCountryOptionsUy `json:"uy"`
