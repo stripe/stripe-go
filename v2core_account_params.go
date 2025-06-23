@@ -779,6 +779,14 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationParams stru
 	Type *string `form:"type" json:"type"`
 }
 
+// One or more documents that demonstrate proof of address.
+type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	Files []*string `form:"files" json:"files"`
+	// The format of the document. Currently supports `files` only.
+	Type *string `form:"type" json:"type"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -811,6 +819,8 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsParams struct {
 	CompanyTaxIDVerification *V2CoreAccountIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// A document verifying the business.
 	PrimaryVerification *V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationParams `form:"primary_verification" json:"primary_verification,omitempty"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -2007,6 +2017,14 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsPrimaryVerificationParam
 	Type *string `form:"type" json:"type"`
 }
 
+// One or more documents that demonstrate proof of address.
+type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	Files []*string `form:"files" json:"files"`
+	// The format of the document. Currently supports `files` only.
+	Type *string `form:"type" json:"type"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -2039,6 +2057,8 @@ type V2CoreAccountCreateIdentityBusinessDetailsDocumentsParams struct {
 	CompanyTaxIDVerification *V2CoreAccountCreateIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// A document verifying the business.
 	PrimaryVerification *V2CoreAccountCreateIdentityBusinessDetailsDocumentsPrimaryVerificationParams `form:"primary_verification" json:"primary_verification,omitempty"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *V2CoreAccountCreateIdentityBusinessDetailsDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -3239,6 +3259,14 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsPrimaryVerificationParam
 	Type *string `form:"type" json:"type"`
 }
 
+// One or more documents that demonstrate proof of address.
+type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfAddressParams struct {
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	Files []*string `form:"files" json:"files"`
+	// The format of the document. Currently supports `files` only.
+	Type *string `form:"type" json:"type"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationParams struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -3271,6 +3299,8 @@ type V2CoreAccountUpdateIdentityBusinessDetailsDocumentsParams struct {
 	CompanyTaxIDVerification *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification" json:"company_tax_id_verification,omitempty"`
 	// A document verifying the business.
 	PrimaryVerification *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsPrimaryVerificationParams `form:"primary_verification" json:"primary_verification,omitempty"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfAddressParams `form:"proof_of_address" json:"proof_of_address,omitempty"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *V2CoreAccountUpdateIdentityBusinessDetailsDocumentsProofOfRegistrationParams `form:"proof_of_registration" json:"proof_of_registration,omitempty"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.

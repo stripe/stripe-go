@@ -276,15 +276,6 @@ const (
 	V2MoneyManagementFinancialAccountStatusPending V2MoneyManagementFinancialAccountStatus = "pending"
 )
 
-type V2MoneyManagementFinancialAccountStatusDetailsClosedReason string
-
-// List of values that V2MoneyManagementFinancialAccountStatusDetailsClosedReason can take
-const (
-	V2MoneyManagementFinancialAccountStatusDetailsClosedReasonAccountClosed    V2MoneyManagementFinancialAccountStatusDetailsClosedReason = "account_closed"
-	V2MoneyManagementFinancialAccountStatusDetailsClosedReasonClosedByPlatform V2MoneyManagementFinancialAccountStatusDetailsClosedReason = "closed_by_platform"
-	V2MoneyManagementFinancialAccountStatusDetailsClosedReasonOther            V2MoneyManagementFinancialAccountStatusDetailsClosedReason = "other"
-)
-
 // The currencies that this FinancialAccount can hold.
 type V2MoneyManagementFinancialAccountStorageHoldsCurrency string
 
@@ -486,7 +477,7 @@ const (
 type V2MoneyManagementFinancialAccountBalance struct {
 	// Balance that can be used for money movement.
 	Available map[string]Amount `json:"available"`
-	// Balance of inbound funds that will later transition to the `cash` balance.
+	// Balance of inbound funds that will later transition to the `available` balance.
 	InboundPending map[string]Amount `json:"inbound_pending"`
 	// Balance of funds that are being used for a pending outbound money movement.
 	OutboundPending map[string]Amount `json:"outbound_pending"`
@@ -496,12 +487,6 @@ type V2MoneyManagementFinancialAccountBalance struct {
 type V2MoneyManagementFinancialAccountOther struct {
 	// The type of the FinancialAccount, represented as a string. Upgrade your API version to see the type reflected in `financial_account.type`.
 	Type string `json:"type"`
-}
-type V2MoneyManagementFinancialAccountStatusDetailsClosed struct {
-	Reason V2MoneyManagementFinancialAccountStatusDetailsClosedReason `json:"reason"`
-}
-type V2MoneyManagementFinancialAccountStatusDetails struct {
-	Closed *V2MoneyManagementFinancialAccountStatusDetailsClosed `json:"closed"`
 }
 
 // If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
@@ -530,8 +515,7 @@ type V2MoneyManagementFinancialAccount struct {
 	// If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.
 	Other *V2MoneyManagementFinancialAccountOther `json:"other"`
 	// Closed Enum. An enum representing the status of the FinancialAccount. This indicates whether or not the FinancialAccount can be used for any money movement flows.
-	Status        V2MoneyManagementFinancialAccountStatus         `json:"status"`
-	StatusDetails *V2MoneyManagementFinancialAccountStatusDetails `json:"status_details"`
+	Status V2MoneyManagementFinancialAccountStatus `json:"status"`
 	// If this is a `storage` FinancialAccount, this hash includes details specific to `storage` FinancialAccounts.
 	Storage *V2MoneyManagementFinancialAccountStorage `json:"storage"`
 	// Type of the FinancialAccount. An additional hash is included on the FinancialAccount with a name matching this value.

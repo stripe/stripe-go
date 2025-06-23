@@ -327,6 +327,7 @@ const (
 	V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationCustomerCapabilitiesAutomaticIndirectTaxStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -361,6 +362,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesACHDebitPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -395,6 +397,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesACSSDebitPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -429,6 +432,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesAffirmPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -463,6 +467,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesAfterpayClearpayPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -497,6 +502,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesAlmaPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -531,6 +537,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesAmazonPayPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -565,6 +572,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesAUBECSDebitPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -599,6 +607,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesBACSDebitPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -633,6 +642,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesBancontactPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -667,6 +677,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesBLIKPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -701,6 +712,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesBoletoPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -735,6 +747,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesCardPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -769,6 +782,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesCartesBancairesPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -803,6 +817,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesCashAppPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -837,6 +852,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesEPSPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -871,6 +887,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesFPXPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -905,6 +922,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesGBBankTransferPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -939,6 +957,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesGrabpayPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -973,6 +992,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesIDEALPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1007,6 +1027,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesJCBPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1041,6 +1062,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesJPBankTransferPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1075,6 +1097,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesKakaoPayPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1109,6 +1132,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesKlarnaPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1143,6 +1167,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesKonbiniPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1177,6 +1202,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesKrCardPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1211,6 +1237,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesLinkPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1245,6 +1272,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesMobilepayPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1279,6 +1307,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesMultibancoPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1313,6 +1342,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesMXBankTransferPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1347,6 +1377,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesNaverPayPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1381,6 +1412,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesOXXOPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1415,6 +1447,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesP24PaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1449,6 +1482,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesPayByBankPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1483,6 +1517,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesPaycoPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1517,6 +1552,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesPayNowPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1551,6 +1587,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesPromptPayPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1585,6 +1622,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesRevolutPayPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1619,6 +1657,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesSamsungPayPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1653,6 +1692,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesSEPABankTransferPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1687,6 +1727,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesSEPADebitPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1721,6 +1762,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1755,6 +1797,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesSwishPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1789,6 +1832,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesTWINTPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1823,6 +1867,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesUSBankTransferPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -1857,6 +1902,7 @@ const (
 	V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationMerchantCapabilitiesZipPaymentsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -2149,6 +2195,7 @@ const (
 	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsLocalStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -2183,6 +2230,7 @@ const (
 	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationRecipientCapabilitiesBankAccountsWireStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -2217,6 +2265,7 @@ const (
 	V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationRecipientCapabilitiesCardsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -2251,6 +2300,7 @@ const (
 	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationRecipientCapabilitiesStripeBalancePayoutsStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -2285,6 +2335,7 @@ const (
 	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCodeRestrictedOther                 V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCode = "restricted_other"
 	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCodeUnsupportedBusiness             V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCode = "unsupported_business"
 	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCodeUnsupportedCountry              V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCode = "unsupported_country"
+	V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCodeUnsupportedEntityType           V2CoreAccountConfigurationRecipientCapabilitiesStripeBalanceStripeTransfersStatusDetailCode = "unsupported_entity_type"
 )
 
 // Machine-readable code explaining how to make the Capability active.
@@ -2900,6 +2951,14 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationType string
 // List of values that V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationType can take
 const (
 	V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationTypeFrontBack V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationType = "front_back"
+)
+
+// The format of the document. Currently supports `files` only.
+type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressType string
+
+// List of values that V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressType can take
+const (
+	V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressTypeFiles V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressType = "files"
 )
 
 // The format of the document. Currently supports `files` only.
@@ -6851,6 +6910,14 @@ type V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerification struct {
 	Type V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerificationType `json:"type"`
 }
 
+// One or more documents that demonstrate proof of address.
+type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddress struct {
+	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
+	Files []string `json:"files"`
+	// The format of the document. Currently supports `files` only.
+	Type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddressType `json:"type"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistration struct {
 	// One or more document IDs returned by a [file upload](https://docs.stripe.com/api/persons/update#create_file) with a purpose value of `account_requirement`.
@@ -6883,6 +6950,8 @@ type V2CoreAccountIdentityBusinessDetailsDocuments struct {
 	CompanyTaxIDVerification *V2CoreAccountIdentityBusinessDetailsDocumentsCompanyTaxIDVerification `json:"company_tax_id_verification"`
 	// A document verifying the business.
 	PrimaryVerification *V2CoreAccountIdentityBusinessDetailsDocumentsPrimaryVerification `json:"primary_verification"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfAddress `json:"proof_of_address"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *V2CoreAccountIdentityBusinessDetailsDocumentsProofOfRegistration `json:"proof_of_registration"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
