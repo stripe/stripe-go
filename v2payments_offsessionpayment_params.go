@@ -20,7 +20,7 @@ type V2PaymentsOffSessionPaymentRetryDetailsParams struct {
 // How you want to transfer the funds to your connected accounts.
 type V2PaymentsOffSessionPaymentTransferDataParams struct {
 	// Amount in minor units that you want to transfer.
-	Amount *int64 `form:"amount" json:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// ID of the connected account where you want money to go.
 	Destination *string `form:"destination" json:"destination"`
 }
@@ -77,7 +77,7 @@ type V2PaymentsOffSessionPaymentCreateRetryDetailsParams struct {
 // How you want to transfer the funds to your connected accounts.
 type V2PaymentsOffSessionPaymentCreateTransferDataParams struct {
 	// Amount in minor units that you want to transfer.
-	Amount *int64 `form:"amount" json:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// ID of the connected account where you want money to go.
 	Destination *string `form:"destination" json:"destination"`
 }
