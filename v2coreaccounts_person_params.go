@@ -8,6 +8,15 @@ package stripe
 
 import "time"
 
+// Returns a list of Persons associated with an Account.
+type V2CoreAccountsPersonListParams struct {
+	Params `form:"*"`
+	// Account the Persons are associated with.
+	AccountID *string `form:"-" json:"-"` // Included in URL
+	// The upper limit on the number of accounts returned by the List Account request.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
+}
+
 // Additional addresses associated with the person.
 type V2CoreAccountsPersonAdditionalAddressParams struct {
 	// City, district, suburb, town, or village.
@@ -300,15 +309,6 @@ func (p *V2CoreAccountsPersonParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
-}
-
-// Returns a list of Persons associated with an Account.
-type V2CoreAccountsPersonListParams struct {
-	Params `form:"*"`
-	// Account the Persons are associated with.
-	AccountID *string `form:"-" json:"-"` // Included in URL
-	// The upper limit on the number of accounts returned by the List Account request.
-	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // Additional addresses associated with the person.

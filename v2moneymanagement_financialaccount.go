@@ -258,6 +258,7 @@ const (
 	V2MoneyManagementFinancialAccountCountryVu V2MoneyManagementFinancialAccountCountry = "vu"
 	V2MoneyManagementFinancialAccountCountryWf V2MoneyManagementFinancialAccountCountry = "wf"
 	V2MoneyManagementFinancialAccountCountryWs V2MoneyManagementFinancialAccountCountry = "ws"
+	V2MoneyManagementFinancialAccountCountryXx V2MoneyManagementFinancialAccountCountry = "xx"
 	V2MoneyManagementFinancialAccountCountryYe V2MoneyManagementFinancialAccountCountry = "ye"
 	V2MoneyManagementFinancialAccountCountryYt V2MoneyManagementFinancialAccountCountry = "yt"
 	V2MoneyManagementFinancialAccountCountryZa V2MoneyManagementFinancialAccountCountry = "za"
@@ -270,8 +271,9 @@ type V2MoneyManagementFinancialAccountStatus string
 
 // List of values that V2MoneyManagementFinancialAccountStatus can take
 const (
-	V2MoneyManagementFinancialAccountStatusClosed V2MoneyManagementFinancialAccountStatus = "closed"
-	V2MoneyManagementFinancialAccountStatusOpen   V2MoneyManagementFinancialAccountStatus = "open"
+	V2MoneyManagementFinancialAccountStatusClosed  V2MoneyManagementFinancialAccountStatus = "closed"
+	V2MoneyManagementFinancialAccountStatusOpen    V2MoneyManagementFinancialAccountStatus = "open"
+	V2MoneyManagementFinancialAccountStatusPending V2MoneyManagementFinancialAccountStatus = "pending"
 )
 
 // The currencies that this FinancialAccount can hold.
@@ -475,7 +477,7 @@ const (
 type V2MoneyManagementFinancialAccountBalance struct {
 	// Balance that can be used for money movement.
 	Available map[string]Amount `json:"available"`
-	// Balance of inbound funds that will later transition to the `cash` balance.
+	// Balance of inbound funds that will later transition to the `available` balance.
 	InboundPending map[string]Amount `json:"inbound_pending"`
 	// Balance of funds that are being used for a pending outbound money movement.
 	OutboundPending map[string]Amount `json:"outbound_pending"`
@@ -501,12 +503,13 @@ type V2MoneyManagementFinancialAccount struct {
 	// Open Enum. Two-letter country code that represents the country where the LegalEntity associated with the FinancialAccount is based in.
 	Country V2MoneyManagementFinancialAccountCountry `json:"country"`
 	// Time at which the object was created.
-	Created     time.Time `json:"created"`
-	Description string    `json:"description"`
+	Created time.Time `json:"created"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
+	// Metadata associated with the FinancialAccount
+	Metadata map[string]string `json:"metadata"`
 	// String representing the object's type. Objects of the same type share the same value of the object field.
 	Object string `json:"object"`
 	// If this is a `other` FinancialAccount, this hash indicates what the actual type is. Upgrade your API version to see it reflected in `type`.

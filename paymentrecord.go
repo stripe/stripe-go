@@ -209,6 +209,26 @@ const (
 	PaymentRecordPaymentMethodDetailsCardPresentWalletTypeUnknown    PaymentRecordPaymentMethodDetailsCardPresentWalletType = "unknown"
 )
 
+// The blockchain network that the transaction was sent on.
+type PaymentRecordPaymentMethodDetailsCryptoNetwork string
+
+// List of values that PaymentRecordPaymentMethodDetailsCryptoNetwork can take
+const (
+	PaymentRecordPaymentMethodDetailsCryptoNetworkBase     PaymentRecordPaymentMethodDetailsCryptoNetwork = "base"
+	PaymentRecordPaymentMethodDetailsCryptoNetworkEthereum PaymentRecordPaymentMethodDetailsCryptoNetwork = "ethereum"
+	PaymentRecordPaymentMethodDetailsCryptoNetworkPolygon  PaymentRecordPaymentMethodDetailsCryptoNetwork = "polygon"
+)
+
+// The token currency that the transaction was sent with.
+type PaymentRecordPaymentMethodDetailsCryptoTokenCurrency string
+
+// List of values that PaymentRecordPaymentMethodDetailsCryptoTokenCurrency can take
+const (
+	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdc PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdc"
+	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdg PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdg"
+	PaymentRecordPaymentMethodDetailsCryptoTokenCurrencyUsdp PaymentRecordPaymentMethodDetailsCryptoTokenCurrency = "usdp"
+)
+
 // The customer's bank. Should be one of `arzte_und_apotheker_bank`, `austrian_anadi_bank_ag`, `bank_austria`, `bankhaus_carl_spangler`, `bankhaus_schelhammer_und_schattera_ag`, `bawag_psk_ag`, `bks_bank_ag`, `brull_kallmus_bank_ag`, `btv_vier_lander_bank`, `capital_bank_grawe_gruppe_ag`, `deutsche_bank_ag`, `dolomitenbank`, `easybank_ag`, `erste_bank_und_sparkassen`, `hypo_alpeadriabank_international_ag`, `hypo_noe_lb_fur_niederosterreich_u_wien`, `hypo_oberosterreich_salzburg_steiermark`, `hypo_tirol_bank_ag`, `hypo_vorarlberg_bank_ag`, `hypo_bank_burgenland_aktiengesellschaft`, `marchfelder_bank`, `oberbank_ag`, `raiffeisen_bankengruppe_osterreich`, `schoellerbank_ag`, `sparda_bank_wien`, `volksbank_gruppe`, `volkskreditbank_ag`, or `vr_bank_braunau`.
 type PaymentRecordPaymentMethodDetailsEPSBank string
 
@@ -294,7 +314,7 @@ const (
 	PaymentRecordPaymentMethodDetailsIDBankTransferBankPermata PaymentRecordPaymentMethodDetailsIDBankTransferBank = "permata"
 )
 
-// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 type PaymentRecordPaymentMethodDetailsIDEALBank string
 
 // List of values that PaymentRecordPaymentMethodDetailsIDEALBank can take
@@ -302,6 +322,7 @@ const (
 	PaymentRecordPaymentMethodDetailsIDEALBankAbnAmro       PaymentRecordPaymentMethodDetailsIDEALBank = "abn_amro"
 	PaymentRecordPaymentMethodDetailsIDEALBankAsnBank       PaymentRecordPaymentMethodDetailsIDEALBank = "asn_bank"
 	PaymentRecordPaymentMethodDetailsIDEALBankBunq          PaymentRecordPaymentMethodDetailsIDEALBank = "bunq"
+	PaymentRecordPaymentMethodDetailsIDEALBankBuut          PaymentRecordPaymentMethodDetailsIDEALBank = "buut"
 	PaymentRecordPaymentMethodDetailsIDEALBankHandelsbanken PaymentRecordPaymentMethodDetailsIDEALBank = "handelsbanken"
 	PaymentRecordPaymentMethodDetailsIDEALBankIng           PaymentRecordPaymentMethodDetailsIDEALBank = "ing"
 	PaymentRecordPaymentMethodDetailsIDEALBankKnab          PaymentRecordPaymentMethodDetailsIDEALBank = "knab"
@@ -326,6 +347,7 @@ const (
 	PaymentRecordPaymentMethodDetailsIDEALBICASNBNL21 PaymentRecordPaymentMethodDetailsIDEALBIC = "ASNBNL21"
 	PaymentRecordPaymentMethodDetailsIDEALBICBITSNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "BITSNL2A"
 	PaymentRecordPaymentMethodDetailsIDEALBICBUNQNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "BUNQNL2A"
+	PaymentRecordPaymentMethodDetailsIDEALBICBUUTNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "BUUTNL2A"
 	PaymentRecordPaymentMethodDetailsIDEALBICFVLBNL22 PaymentRecordPaymentMethodDetailsIDEALBIC = "FVLBNL22"
 	PaymentRecordPaymentMethodDetailsIDEALBICHANDNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "HANDNL2A"
 	PaymentRecordPaymentMethodDetailsIDEALBICINGBNL2A PaymentRecordPaymentMethodDetailsIDEALBIC = "INGBNL2A"
@@ -488,7 +510,6 @@ const (
 	PaymentRecordPaymentMethodDetailsStripeBalanceSourceTypeFPX         PaymentRecordPaymentMethodDetailsStripeBalanceSourceType = "fpx"
 )
 
-// Account holder type: individual or company.
 type PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType string
 
 // List of values that PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType can take
@@ -497,7 +518,6 @@ const (
 	PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderTypeIndividual PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType = "individual"
 )
 
-// Account type: checkings or savings. Defaults to checking if omitted.
 type PaymentRecordPaymentMethodDetailsUSBankAccountAccountType string
 
 // List of values that PaymentRecordPaymentMethodDetailsUSBankAccountAccountType can take
@@ -1063,9 +1083,9 @@ type PaymentRecordPaymentMethodDetailsCardPresentOffline struct {
 type PaymentRecordPaymentMethodDetailsCardPresentReceipt struct {
 	// The type of account being debited or credited
 	AccountType PaymentRecordPaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type"`
-	// EMV tag 9F26, cryptogram generated by the integrated circuit chip.
+	// The Application Cryptogram, a unique value generated by the card to authenticate the transaction with issuers.
 	ApplicationCryptogram string `json:"application_cryptogram"`
-	// Mnenomic of the Application Identifier.
+	// The Application Identifier (AID) on the card used to determine which networks are eligible to process the transaction. Referenced from EMV tag 9F12, data encoded on the card's chip.
 	ApplicationPreferredName string `json:"application_preferred_name"`
 	// Identifier for this transaction.
 	AuthorizationCode string `json:"authorization_code"`
@@ -1073,11 +1093,11 @@ type PaymentRecordPaymentMethodDetailsCardPresentReceipt struct {
 	AuthorizationResponseCode string `json:"authorization_response_code"`
 	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
 	CardholderVerificationMethod string `json:"cardholder_verification_method"`
-	// EMV tag 84. Similar to the application identifier stored on the integrated circuit chip.
+	// Similar to the application_preferred_name, identifying the applications (AIDs) available on the card. Referenced from EMV tag 84.
 	DedicatedFileName string `json:"dedicated_file_name"`
-	// The outcome of a series of EMV functions performed by the card reader.
+	// A 5-byte string that records the checks and validations that occur between the card and the terminal. These checks determine how the terminal processes the transaction and what risk tolerance is acceptable. Referenced from EMV Tag 95.
 	TerminalVerificationResults string `json:"terminal_verification_results"`
-	// An indication of various EMV functions performed during the transaction.
+	// An indication of which steps were completed during the card read process. Referenced from EMV Tag 9B.
 	TransactionStatusInformation string `json:"transaction_status_information"`
 }
 type PaymentRecordPaymentMethodDetailsCardPresentWallet struct {
@@ -1129,7 +1149,7 @@ type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	Offline *PaymentRecordPaymentMethodDetailsCardPresentOffline `json:"offline"`
 	// Defines whether the authorized amount can be over-captured or not
 	OvercaptureSupported bool `json:"overcapture_supported"`
-	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
 	ReadMethod PaymentRecordPaymentMethodDetailsCardPresentReadMethod `json:"read_method"`
@@ -1142,6 +1162,16 @@ type PaymentRecordPaymentMethodDetailsCashApp struct {
 	BuyerID string `json:"buyer_id"`
 	// A public identifier for buyers using Cash App.
 	Cashtag string `json:"cashtag"`
+}
+type PaymentRecordPaymentMethodDetailsCrypto struct {
+	// The wallet address of the customer.
+	BuyerAddress string `json:"buyer_address"`
+	// The blockchain network that the transaction was sent on.
+	Network PaymentRecordPaymentMethodDetailsCryptoNetwork `json:"network"`
+	// The token currency that the transaction was sent with.
+	TokenCurrency PaymentRecordPaymentMethodDetailsCryptoTokenCurrency `json:"token_currency"`
+	// The blockchain transaction hash of the crypto payment.
+	TransactionHash string `json:"transaction_hash"`
 }
 
 // Custom Payment Methods represent Payment Method types not modeled directly in
@@ -1200,7 +1230,7 @@ type PaymentRecordPaymentMethodDetailsIDBankTransfer struct {
 	DisplayName string `json:"display_name"`
 }
 type PaymentRecordPaymentMethodDetailsIDEAL struct {
-	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
+	// The customer's bank. Can be one of `abn_amro`, `asn_bank`, `bunq`, `buut`, `handelsbanken`, `ing`, `knab`, `moneyou`, `n26`, `nn`, `rabobank`, `regiobank`, `revolut`, `sns_bank`, `triodos_bank`, `van_lanschot`, or `yoursafe`.
 	Bank PaymentRecordPaymentMethodDetailsIDEALBank `json:"bank"`
 	// The Bank Identifier Code of the customer's bank.
 	BIC PaymentRecordPaymentMethodDetailsIDEALBIC `json:"bic"`
@@ -1219,9 +1249,9 @@ type PaymentRecordPaymentMethodDetailsIDEAL struct {
 type PaymentRecordPaymentMethodDetailsInteracPresentReceipt struct {
 	// The type of account being debited or credited
 	AccountType PaymentRecordPaymentMethodDetailsInteracPresentReceiptAccountType `json:"account_type"`
-	// EMV tag 9F26, cryptogram generated by the integrated circuit chip.
+	// The Application Cryptogram, a unique value generated by the card to authenticate the transaction with issuers.
 	ApplicationCryptogram string `json:"application_cryptogram"`
-	// Mnenomic of the Application Identifier.
+	// The Application Identifier (AID) on the card used to determine which networks are eligible to process the transaction. Referenced from EMV tag 9F12, data encoded on the card's chip.
 	ApplicationPreferredName string `json:"application_preferred_name"`
 	// Identifier for this transaction.
 	AuthorizationCode string `json:"authorization_code"`
@@ -1229,11 +1259,11 @@ type PaymentRecordPaymentMethodDetailsInteracPresentReceipt struct {
 	AuthorizationResponseCode string `json:"authorization_response_code"`
 	// Describes the method used by the cardholder to verify ownership of the card. One of the following: `approval`, `failure`, `none`, `offline_pin`, `offline_pin_and_signature`, `online_pin`, or `signature`.
 	CardholderVerificationMethod string `json:"cardholder_verification_method"`
-	// EMV tag 84. Similar to the application identifier stored on the integrated circuit chip.
+	// Similar to the application_preferred_name, identifying the applications (AIDs) available on the card. Referenced from EMV tag 84.
 	DedicatedFileName string `json:"dedicated_file_name"`
-	// The outcome of a series of EMV functions performed by the card reader.
+	// A 5-byte string that records the checks and validations that occur between the card and the terminal. These checks determine how the terminal processes the transaction and what risk tolerance is acceptable. Referenced from EMV Tag 95.
 	TerminalVerificationResults string `json:"terminal_verification_results"`
-	// An indication of various EMV functions performed during the transaction.
+	// An indication of which steps were completed during the card read process. Referenced from EMV Tag 9B.
 	TransactionStatusInformation string `json:"transaction_status_information"`
 }
 type PaymentRecordPaymentMethodDetailsInteracPresent struct {
@@ -1269,7 +1299,7 @@ type PaymentRecordPaymentMethodDetailsInteracPresent struct {
 	Network string `json:"network"`
 	// This is used by the financial networks to identify a transaction. Visa calls this the Transaction ID, Mastercard calls this the Trace ID, and American Express calls this the Acquirer Reference Data. This value will be present if it is returned by the financial network in the authorization response, and null otherwise.
 	NetworkTransactionID string `json:"network_transaction_id"`
-	// EMV tag 5F2D. Preferred languages specified by the integrated circuit chip.
+	// The languages that the issuing bank recommends using for localizing any customer-facing text, as read from the card. Referenced from EMV tag 5F2D, data encoded on the card's chip.
 	PreferredLocales []string `json:"preferred_locales"`
 	// How card details were read in this transaction.
 	ReadMethod PaymentRecordPaymentMethodDetailsInteracPresentReadMethod `json:"read_method"`
@@ -1539,11 +1569,11 @@ type PaymentRecordPaymentMethodDetailsSwish struct {
 	VerifiedPhoneLast4 string `json:"verified_phone_last4"`
 }
 type PaymentRecordPaymentMethodDetailsTWINT struct{}
+
+// Details of the US Bank Account used for this payment attempt.
 type PaymentRecordPaymentMethodDetailsUSBankAccount struct {
-	// Account holder type: individual or company.
 	AccountHolderType PaymentRecordPaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
-	// Account type: checkings or savings. Defaults to checking if omitted.
-	AccountType PaymentRecordPaymentMethodDetailsUSBankAccountAccountType `json:"account_type"`
+	AccountType       PaymentRecordPaymentMethodDetailsUSBankAccountAccountType       `json:"account_type"`
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
 	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
@@ -1592,6 +1622,7 @@ type PaymentRecordPaymentMethodDetails struct {
 	Card        *PaymentRecordPaymentMethodDetailsCard        `json:"card"`
 	CardPresent *PaymentRecordPaymentMethodDetailsCardPresent `json:"card_present"`
 	CashApp     *PaymentRecordPaymentMethodDetailsCashApp     `json:"cashapp"`
+	Crypto      *PaymentRecordPaymentMethodDetailsCrypto      `json:"crypto"`
 	// Custom Payment Methods represent Payment Method types not modeled directly in
 	// the Stripe API. This resource consists of details about the custom payment method
 	// used for this payment attempt.
@@ -1642,7 +1673,8 @@ type PaymentRecordPaymentMethodDetails struct {
 	// The type of transaction-specific details of the payment method used in the payment. See [PaymentMethod.type](https://stripe.com/docs/api/payment_methods/object#payment_method_object-type) for the full list of possible types.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
-	Type          string                                          `json:"type"`
+	Type string `json:"type"`
+	// Details of the US Bank Account used for this payment attempt.
 	USBankAccount *PaymentRecordPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 	WeChat        *PaymentRecordPaymentMethodDetailsWeChat        `json:"wechat"`
 	WeChatPay     *PaymentRecordPaymentMethodDetailsWeChatPay     `json:"wechat_pay"`

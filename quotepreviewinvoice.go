@@ -360,6 +360,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeBoleto             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "boleto"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCard               QuotePreviewInvoicePaymentSettingsPaymentMethodType = "card"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCashApp            QuotePreviewInvoicePaymentSettingsPaymentMethodType = "cashapp"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCrypto             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "crypto"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCustom             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "custom"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeCustomerBalance    QuotePreviewInvoicePaymentSettingsPaymentMethodType = "customer_balance"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeEPS                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "eps"

@@ -6,13 +6,6 @@
 
 package stripe
 
-// Archive a USBankAccount object. USBankAccount objects will not be automatically archived by Stripe.
-// Archived USBankAccount objects cannot be used as outbound destinations
-// and will not appear in the outbound destination list.
-type V2CoreVaultUSBankAccountArchiveParams struct {
-	Params `form:"*"`
-}
-
 // Create a USBankAccount object.
 type V2CoreVaultUSBankAccountParams struct {
 	Params `form:"*"`
@@ -24,6 +17,13 @@ type V2CoreVaultUSBankAccountParams struct {
 	FedwireRoutingNumber *string `form:"fedwire_routing_number" json:"fedwire_routing_number,omitempty"`
 	// The ACH routing number of the bank account. Note that certain banks have the same ACH and wire routing number.
 	RoutingNumber *string `form:"routing_number" json:"routing_number,omitempty"`
+}
+
+// Archive a USBankAccount object. USBankAccount objects will not be automatically archived by Stripe.
+// Archived USBankAccount objects cannot be used as outbound destinations
+// and will not appear in the outbound destination list.
+type V2CoreVaultUSBankAccountArchiveParams struct {
+	Params `form:"*"`
 }
 
 // Create a USBankAccount object.

@@ -8,13 +8,13 @@ package stripe
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAccountManagementFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 }
 
-// Configuration for the account management embedded component.
+// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
 type AccountSessionComponentsAccountManagementParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -24,13 +24,13 @@ type AccountSessionComponentsAccountManagementParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAccountOnboardingFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 }
 
-// Configuration for the account onboarding embedded component.
+// Configuration for the [account onboarding](https://docs.stripe.com/connect/supported-embedded-components/account-onboarding/) embedded component.
 type AccountSessionComponentsAccountOnboardingParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -40,11 +40,11 @@ type AccountSessionComponentsAccountOnboardingParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAppInstallFeaturesParams struct {
-	// List of apps allowed to be enabled for this account session.
+	// The list of apps allowed to be enabled in the embedded component.
 	AllowedApps []*string `form:"allowed_apps"`
 }
 
-// Configuration for the app install component.
+// Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
 type AccountSessionComponentsAppInstallParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -54,11 +54,11 @@ type AccountSessionComponentsAppInstallParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsAppViewportFeaturesParams struct {
-	// List of apps allowed to be enabled for this account session.
+	// The list of apps allowed to be enabled in the embedded component.
 	AllowedApps []*string `form:"allowed_apps"`
 }
 
-// Configuration for the app viewport component.
+// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
 type AccountSessionComponentsAppViewportParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -68,19 +68,19 @@ type AccountSessionComponentsAppViewportParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsBalancesFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow payout schedule to be changed. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	InstantPayouts *bool `form:"instant_payouts"`
-	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
 }
 
-// Configuration for the balances embedded component.
+// Configuration for the [balances](https://docs.stripe.com/connect/supported-embedded-components/balances/) embedded component.
 type AccountSessionComponentsBalancesParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -91,7 +91,7 @@ type AccountSessionComponentsBalancesParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsCapitalFinancingFeaturesParams struct{}
 
-// Configuration for the capital financing embedded component.
+// Configuration for the [Capital financing](https://docs.stripe.com/connect/supported-embedded-components/capital-financing/) embedded component.
 type AccountSessionComponentsCapitalFinancingParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -102,7 +102,7 @@ type AccountSessionComponentsCapitalFinancingParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsCapitalFinancingApplicationFeaturesParams struct{}
 
-// Configuration for the capital financing application embedded component.
+// Configuration for the [Capital financing application](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-application/) embedded component.
 type AccountSessionComponentsCapitalFinancingApplicationParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -113,7 +113,7 @@ type AccountSessionComponentsCapitalFinancingApplicationParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsCapitalFinancingPromotionFeaturesParams struct{}
 
-// Configuration for the capital financing promotion embedded component.
+// Configuration for the [Capital financing promotion](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-promotion/) embedded component.
 type AccountSessionComponentsCapitalFinancingPromotionParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -124,7 +124,7 @@ type AccountSessionComponentsCapitalFinancingPromotionParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsCapitalOverviewFeaturesParams struct{}
 
-// Configuration for the capital overview embedded component.
+// Configuration for the [Capital overview](https://docs.stripe.com/connect/supported-embedded-components/capital-overview/) embedded component.
 type AccountSessionComponentsCapitalOverviewParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -136,15 +136,15 @@ type AccountSessionComponentsCapitalOverviewParams struct {
 type AccountSessionComponentsDisputesListFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement *bool `form:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management"`
 }
 
-// Configuration for the disputes list embedded component.
+// Configuration for the [disputes list](https://docs.stripe.com/connect/supported-embedded-components/disputes-list/) embedded component.
 type AccountSessionComponentsDisputesListParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -155,7 +155,7 @@ type AccountSessionComponentsDisputesListParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsDocumentsFeaturesParams struct{}
 
-// Configuration for the documents embedded component.
+// Configuration for the [documents](https://docs.stripe.com/connect/supported-embedded-components/documents/) embedded component.
 type AccountSessionComponentsDocumentsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -166,7 +166,7 @@ type AccountSessionComponentsDocumentsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsExportTaxTransactionsFeaturesParams struct{}
 
-// Configuration for the export tax transactions embedded component.
+// Configuration for the [export tax transactions](https://docs.stripe.com/connect/supported-embedded-components/export-tax-transactions/) embedded component.
 type AccountSessionComponentsExportTaxTransactionsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -176,9 +176,9 @@ type AccountSessionComponentsExportTaxTransactionsParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsFinancialAccountFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow external accounts to be linked for money transfer.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 	// Whether to allow sending money.
 	SendMoney *bool `form:"send_money"`
@@ -186,7 +186,7 @@ type AccountSessionComponentsFinancialAccountFeaturesParams struct {
 	TransferBalance *bool `form:"transfer_balance"`
 }
 
-// Configuration for the financial account embedded component.
+// Configuration for the [financial account](https://docs.stripe.com/connect/supported-embedded-components/financial-account/) embedded component.
 type AccountSessionComponentsFinancialAccountParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -200,7 +200,7 @@ type AccountSessionComponentsFinancialAccountTransactionsFeaturesParams struct {
 	CardSpendDisputeManagement *bool `form:"card_spend_dispute_management"`
 }
 
-// Configuration for the financial account transactions embedded component.
+// Configuration for the [financial account transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-account-transactions/) embedded component.
 type AccountSessionComponentsFinancialAccountTransactionsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -220,7 +220,7 @@ type AccountSessionComponentsIssuingCardFeaturesParams struct {
 	SpendControlManagement *bool `form:"spend_control_management"`
 }
 
-// Configuration for the issuing card embedded component.
+// Configuration for the [issuing card](https://docs.stripe.com/connect/supported-embedded-components/issuing-card/) embedded component.
 type AccountSessionComponentsIssuingCardParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -236,13 +236,13 @@ type AccountSessionComponentsIssuingCardsListFeaturesParams struct {
 	CardManagement *bool `form:"card_management"`
 	// Whether to allow card spend dispute management features.
 	CardSpendDisputeManagement *bool `form:"card_spend_dispute_management"`
-	// Disables Stripe user authentication for this embedded component. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether to allow spend control management features.
 	SpendControlManagement *bool `form:"spend_control_management"`
 }
 
-// Configuration for the issuing cards list embedded component.
+// Configuration for the [issuing cards list](https://docs.stripe.com/connect/supported-embedded-components/issuing-cards-list/) embedded component.
 type AccountSessionComponentsIssuingCardsListParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -252,13 +252,13 @@ type AccountSessionComponentsIssuingCardsListParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsNotificationBannerFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 }
 
-// Configuration for the notification banner embedded component.
+// Configuration for the [notification banner](https://docs.stripe.com/connect/supported-embedded-components/notification-banner/) embedded component.
 type AccountSessionComponentsNotificationBannerParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -270,15 +270,15 @@ type AccountSessionComponentsNotificationBannerParams struct {
 type AccountSessionComponentsPaymentDetailsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement *bool `form:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management"`
 }
 
-// Configuration for the payment details embedded component.
+// Configuration for the [payment details](https://docs.stripe.com/connect/supported-embedded-components/payment-details/) embedded component.
 type AccountSessionComponentsPaymentDetailsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -288,15 +288,15 @@ type AccountSessionComponentsPaymentDetailsParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentDisputesFeaturesParams struct {
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement *bool `form:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management"`
 }
 
-// Configuration for the payment disputes embedded component.
+// Configuration for the [payment disputes](https://docs.stripe.com/connect/supported-embedded-components/payment-disputes/) embedded component.
 type AccountSessionComponentsPaymentDisputesParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -307,7 +307,7 @@ type AccountSessionComponentsPaymentDisputesParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsPaymentMethodSettingsFeaturesParams struct{}
 
-// Configuration for the payment method settings embedded component.
+// Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
 type AccountSessionComponentsPaymentMethodSettingsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -319,15 +319,15 @@ type AccountSessionComponentsPaymentMethodSettingsParams struct {
 type AccountSessionComponentsPaymentsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement *bool `form:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management"`
 }
 
-// Configuration for the payments embedded component.
+// Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.
 type AccountSessionComponentsPaymentsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -337,19 +337,19 @@ type AccountSessionComponentsPaymentsParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsPayoutsFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow payout schedule to be changed. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	InstantPayouts *bool `form:"instant_payouts"`
-	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
 }
 
-// Configuration for the payouts embedded component.
+// Configuration for the [payouts](https://docs.stripe.com/connect/supported-embedded-components/payouts/) embedded component.
 type AccountSessionComponentsPayoutsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -360,7 +360,7 @@ type AccountSessionComponentsPayoutsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsPayoutsListFeaturesParams struct{}
 
-// Configuration for the payouts list embedded component.
+// Configuration for the [payouts list](https://docs.stripe.com/connect/supported-embedded-components/payouts-list/) embedded component.
 type AccountSessionComponentsPayoutsListParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -371,7 +371,7 @@ type AccountSessionComponentsPayoutsListParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsProductTaxCodeSelectorFeaturesParams struct{}
 
-// Configuration for the product tax code selector embedded component.
+// Configuration for the [product tax code selector](https://docs.stripe.com/connect/supported-embedded-components/product-tax-code-selector/) embedded component.
 type AccountSessionComponentsProductTaxCodeSelectorParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -383,7 +383,7 @@ type AccountSessionComponentsRecipientsFeaturesParams struct {
 	SendMoney *bool `form:"send_money"`
 }
 
-// Configuration for the recipients component.
+// Configuration for the [recipients](https://docs.stripe.com/connect/supported-embedded-components/recipients/) embedded component.
 type AccountSessionComponentsRecipientsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled  *bool                                             `form:"enabled"`
@@ -393,7 +393,7 @@ type AccountSessionComponentsRecipientsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsReportingChartFeaturesParams struct{}
 
-// Configuration for the reporting chart embedded component.
+// Configuration for the [reporting chart](https://docs.stripe.com/connect/supported-embedded-components/reporting-chart/) embedded component.
 type AccountSessionComponentsReportingChartParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -404,7 +404,7 @@ type AccountSessionComponentsReportingChartParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsTaxRegistrationsFeaturesParams struct{}
 
-// Configuration for the tax registrations embedded component.
+// Configuration for the [tax registrations](https://docs.stripe.com/connect/supported-embedded-components/tax-registrations/) embedded component.
 type AccountSessionComponentsTaxRegistrationsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -415,7 +415,7 @@ type AccountSessionComponentsTaxRegistrationsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsTaxSettingsFeaturesParams struct{}
 
-// Configuration for the tax settings embedded component.
+// Configuration for the [tax settings](https://docs.stripe.com/connect/supported-embedded-components/tax-settings/) embedded component.
 type AccountSessionComponentsTaxSettingsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -426,7 +426,7 @@ type AccountSessionComponentsTaxSettingsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsTaxThresholdMonitoringFeaturesParams struct{}
 
-// Configuration for the tax threshold monitoring embedded component.
+// Configuration for the [tax threshold monitoring](https://docs.stripe.com/connect/supported-embedded-components/tax-threshold-monitoring/) embedded component.
 type AccountSessionComponentsTaxThresholdMonitoringParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -436,63 +436,63 @@ type AccountSessionComponentsTaxThresholdMonitoringParams struct {
 
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionComponentsParams struct {
-	// Configuration for the account management embedded component.
+	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
 	AccountManagement *AccountSessionComponentsAccountManagementParams `form:"account_management"`
-	// Configuration for the account onboarding embedded component.
+	// Configuration for the [account onboarding](https://docs.stripe.com/connect/supported-embedded-components/account-onboarding/) embedded component.
 	AccountOnboarding *AccountSessionComponentsAccountOnboardingParams `form:"account_onboarding"`
-	// Configuration for the app install component.
+	// Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
 	AppInstall *AccountSessionComponentsAppInstallParams `form:"app_install"`
-	// Configuration for the app viewport component.
+	// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
 	AppViewport *AccountSessionComponentsAppViewportParams `form:"app_viewport"`
-	// Configuration for the balances embedded component.
+	// Configuration for the [balances](https://docs.stripe.com/connect/supported-embedded-components/balances/) embedded component.
 	Balances *AccountSessionComponentsBalancesParams `form:"balances"`
-	// Configuration for the capital financing embedded component.
+	// Configuration for the [Capital financing](https://docs.stripe.com/connect/supported-embedded-components/capital-financing/) embedded component.
 	CapitalFinancing *AccountSessionComponentsCapitalFinancingParams `form:"capital_financing"`
-	// Configuration for the capital financing application embedded component.
+	// Configuration for the [Capital financing application](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-application/) embedded component.
 	CapitalFinancingApplication *AccountSessionComponentsCapitalFinancingApplicationParams `form:"capital_financing_application"`
-	// Configuration for the capital financing promotion embedded component.
+	// Configuration for the [Capital financing promotion](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-promotion/) embedded component.
 	CapitalFinancingPromotion *AccountSessionComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
-	// Configuration for the capital overview embedded component.
+	// Configuration for the [Capital overview](https://docs.stripe.com/connect/supported-embedded-components/capital-overview/) embedded component.
 	CapitalOverview *AccountSessionComponentsCapitalOverviewParams `form:"capital_overview"`
-	// Configuration for the disputes list embedded component.
+	// Configuration for the [disputes list](https://docs.stripe.com/connect/supported-embedded-components/disputes-list/) embedded component.
 	DisputesList *AccountSessionComponentsDisputesListParams `form:"disputes_list"`
-	// Configuration for the documents embedded component.
+	// Configuration for the [documents](https://docs.stripe.com/connect/supported-embedded-components/documents/) embedded component.
 	Documents *AccountSessionComponentsDocumentsParams `form:"documents"`
-	// Configuration for the export tax transactions embedded component.
+	// Configuration for the [export tax transactions](https://docs.stripe.com/connect/supported-embedded-components/export-tax-transactions/) embedded component.
 	ExportTaxTransactions *AccountSessionComponentsExportTaxTransactionsParams `form:"export_tax_transactions"`
-	// Configuration for the financial account embedded component.
+	// Configuration for the [financial account](https://docs.stripe.com/connect/supported-embedded-components/financial-account/) embedded component.
 	FinancialAccount *AccountSessionComponentsFinancialAccountParams `form:"financial_account"`
-	// Configuration for the financial account transactions embedded component.
+	// Configuration for the [financial account transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-account-transactions/) embedded component.
 	FinancialAccountTransactions *AccountSessionComponentsFinancialAccountTransactionsParams `form:"financial_account_transactions"`
-	// Configuration for the issuing card embedded component.
+	// Configuration for the [issuing card](https://docs.stripe.com/connect/supported-embedded-components/issuing-card/) embedded component.
 	IssuingCard *AccountSessionComponentsIssuingCardParams `form:"issuing_card"`
-	// Configuration for the issuing cards list embedded component.
+	// Configuration for the [issuing cards list](https://docs.stripe.com/connect/supported-embedded-components/issuing-cards-list/) embedded component.
 	IssuingCardsList *AccountSessionComponentsIssuingCardsListParams `form:"issuing_cards_list"`
-	// Configuration for the notification banner embedded component.
+	// Configuration for the [notification banner](https://docs.stripe.com/connect/supported-embedded-components/notification-banner/) embedded component.
 	NotificationBanner *AccountSessionComponentsNotificationBannerParams `form:"notification_banner"`
-	// Configuration for the payment details embedded component.
+	// Configuration for the [payment details](https://docs.stripe.com/connect/supported-embedded-components/payment-details/) embedded component.
 	PaymentDetails *AccountSessionComponentsPaymentDetailsParams `form:"payment_details"`
-	// Configuration for the payment disputes embedded component.
+	// Configuration for the [payment disputes](https://docs.stripe.com/connect/supported-embedded-components/payment-disputes/) embedded component.
 	PaymentDisputes *AccountSessionComponentsPaymentDisputesParams `form:"payment_disputes"`
-	// Configuration for the payment method settings embedded component.
+	// Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
 	PaymentMethodSettings *AccountSessionComponentsPaymentMethodSettingsParams `form:"payment_method_settings"`
-	// Configuration for the payments embedded component.
+	// Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.
 	Payments *AccountSessionComponentsPaymentsParams `form:"payments"`
-	// Configuration for the payouts embedded component.
+	// Configuration for the [payouts](https://docs.stripe.com/connect/supported-embedded-components/payouts/) embedded component.
 	Payouts *AccountSessionComponentsPayoutsParams `form:"payouts"`
-	// Configuration for the payouts list embedded component.
+	// Configuration for the [payouts list](https://docs.stripe.com/connect/supported-embedded-components/payouts-list/) embedded component.
 	PayoutsList *AccountSessionComponentsPayoutsListParams `form:"payouts_list"`
-	// Configuration for the product tax code selector embedded component.
+	// Configuration for the [product tax code selector](https://docs.stripe.com/connect/supported-embedded-components/product-tax-code-selector/) embedded component.
 	ProductTaxCodeSelector *AccountSessionComponentsProductTaxCodeSelectorParams `form:"product_tax_code_selector"`
-	// Configuration for the recipients component.
+	// Configuration for the [recipients](https://docs.stripe.com/connect/supported-embedded-components/recipients/) embedded component.
 	Recipients *AccountSessionComponentsRecipientsParams `form:"recipients"`
-	// Configuration for the reporting chart embedded component.
+	// Configuration for the [reporting chart](https://docs.stripe.com/connect/supported-embedded-components/reporting-chart/) embedded component.
 	ReportingChart *AccountSessionComponentsReportingChartParams `form:"reporting_chart"`
-	// Configuration for the tax registrations embedded component.
+	// Configuration for the [tax registrations](https://docs.stripe.com/connect/supported-embedded-components/tax-registrations/) embedded component.
 	TaxRegistrations *AccountSessionComponentsTaxRegistrationsParams `form:"tax_registrations"`
-	// Configuration for the tax settings embedded component.
+	// Configuration for the [tax settings](https://docs.stripe.com/connect/supported-embedded-components/tax-settings/) embedded component.
 	TaxSettings *AccountSessionComponentsTaxSettingsParams `form:"tax_settings"`
-	// Configuration for the tax threshold monitoring embedded component.
+	// Configuration for the [tax threshold monitoring](https://docs.stripe.com/connect/supported-embedded-components/tax-threshold-monitoring/) embedded component.
 	TaxThresholdMonitoring *AccountSessionComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring"`
 }
 
@@ -514,13 +514,13 @@ func (p *AccountSessionParams) AddExpand(f string) {
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsAccountManagementFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 }
 
-// Configuration for the account management embedded component.
+// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
 type AccountSessionCreateComponentsAccountManagementParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -530,13 +530,13 @@ type AccountSessionCreateComponentsAccountManagementParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsAccountOnboardingFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 }
 
-// Configuration for the account onboarding embedded component.
+// Configuration for the [account onboarding](https://docs.stripe.com/connect/supported-embedded-components/account-onboarding/) embedded component.
 type AccountSessionCreateComponentsAccountOnboardingParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -546,11 +546,11 @@ type AccountSessionCreateComponentsAccountOnboardingParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsAppInstallFeaturesParams struct {
-	// List of apps allowed to be enabled for this account session.
+	// The list of apps allowed to be enabled in the embedded component.
 	AllowedApps []*string `form:"allowed_apps"`
 }
 
-// Configuration for the app install component.
+// Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
 type AccountSessionCreateComponentsAppInstallParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -560,11 +560,11 @@ type AccountSessionCreateComponentsAppInstallParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsAppViewportFeaturesParams struct {
-	// List of apps allowed to be enabled for this account session.
+	// The list of apps allowed to be enabled in the embedded component.
 	AllowedApps []*string `form:"allowed_apps"`
 }
 
-// Configuration for the app viewport component.
+// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
 type AccountSessionCreateComponentsAppViewportParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -574,19 +574,19 @@ type AccountSessionCreateComponentsAppViewportParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsBalancesFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow payout schedule to be changed. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	InstantPayouts *bool `form:"instant_payouts"`
-	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
 }
 
-// Configuration for the balances embedded component.
+// Configuration for the [balances](https://docs.stripe.com/connect/supported-embedded-components/balances/) embedded component.
 type AccountSessionCreateComponentsBalancesParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -597,7 +597,7 @@ type AccountSessionCreateComponentsBalancesParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsCapitalFinancingFeaturesParams struct{}
 
-// Configuration for the capital financing embedded component.
+// Configuration for the [Capital financing](https://docs.stripe.com/connect/supported-embedded-components/capital-financing/) embedded component.
 type AccountSessionCreateComponentsCapitalFinancingParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -608,7 +608,7 @@ type AccountSessionCreateComponentsCapitalFinancingParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsCapitalFinancingApplicationFeaturesParams struct{}
 
-// Configuration for the capital financing application embedded component.
+// Configuration for the [Capital financing application](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-application/) embedded component.
 type AccountSessionCreateComponentsCapitalFinancingApplicationParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -619,7 +619,7 @@ type AccountSessionCreateComponentsCapitalFinancingApplicationParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsCapitalFinancingPromotionFeaturesParams struct{}
 
-// Configuration for the capital financing promotion embedded component.
+// Configuration for the [Capital financing promotion](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-promotion/) embedded component.
 type AccountSessionCreateComponentsCapitalFinancingPromotionParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -630,7 +630,7 @@ type AccountSessionCreateComponentsCapitalFinancingPromotionParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsCapitalOverviewFeaturesParams struct{}
 
-// Configuration for the capital overview embedded component.
+// Configuration for the [Capital overview](https://docs.stripe.com/connect/supported-embedded-components/capital-overview/) embedded component.
 type AccountSessionCreateComponentsCapitalOverviewParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -642,15 +642,15 @@ type AccountSessionCreateComponentsCapitalOverviewParams struct {
 type AccountSessionCreateComponentsDisputesListFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement *bool `form:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management"`
 }
 
-// Configuration for the disputes list embedded component.
+// Configuration for the [disputes list](https://docs.stripe.com/connect/supported-embedded-components/disputes-list/) embedded component.
 type AccountSessionCreateComponentsDisputesListParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -661,7 +661,7 @@ type AccountSessionCreateComponentsDisputesListParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsDocumentsFeaturesParams struct{}
 
-// Configuration for the documents embedded component.
+// Configuration for the [documents](https://docs.stripe.com/connect/supported-embedded-components/documents/) embedded component.
 type AccountSessionCreateComponentsDocumentsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -672,7 +672,7 @@ type AccountSessionCreateComponentsDocumentsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsExportTaxTransactionsFeaturesParams struct{}
 
-// Configuration for the export tax transactions embedded component.
+// Configuration for the [export tax transactions](https://docs.stripe.com/connect/supported-embedded-components/export-tax-transactions/) embedded component.
 type AccountSessionCreateComponentsExportTaxTransactionsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -682,9 +682,9 @@ type AccountSessionCreateComponentsExportTaxTransactionsParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsFinancialAccountFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow external accounts to be linked for money transfer.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 	// Whether to allow sending money.
 	SendMoney *bool `form:"send_money"`
@@ -692,7 +692,7 @@ type AccountSessionCreateComponentsFinancialAccountFeaturesParams struct {
 	TransferBalance *bool `form:"transfer_balance"`
 }
 
-// Configuration for the financial account embedded component.
+// Configuration for the [financial account](https://docs.stripe.com/connect/supported-embedded-components/financial-account/) embedded component.
 type AccountSessionCreateComponentsFinancialAccountParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -706,7 +706,7 @@ type AccountSessionCreateComponentsFinancialAccountTransactionsFeaturesParams st
 	CardSpendDisputeManagement *bool `form:"card_spend_dispute_management"`
 }
 
-// Configuration for the financial account transactions embedded component.
+// Configuration for the [financial account transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-account-transactions/) embedded component.
 type AccountSessionCreateComponentsFinancialAccountTransactionsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -726,7 +726,7 @@ type AccountSessionCreateComponentsIssuingCardFeaturesParams struct {
 	SpendControlManagement *bool `form:"spend_control_management"`
 }
 
-// Configuration for the issuing card embedded component.
+// Configuration for the [issuing card](https://docs.stripe.com/connect/supported-embedded-components/issuing-card/) embedded component.
 type AccountSessionCreateComponentsIssuingCardParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -742,13 +742,13 @@ type AccountSessionCreateComponentsIssuingCardsListFeaturesParams struct {
 	CardManagement *bool `form:"card_management"`
 	// Whether to allow card spend dispute management features.
 	CardSpendDisputeManagement *bool `form:"card_spend_dispute_management"`
-	// Disables Stripe user authentication for this embedded component. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
 	// Whether to allow spend control management features.
 	SpendControlManagement *bool `form:"spend_control_management"`
 }
 
-// Configuration for the issuing cards list embedded component.
+// Configuration for the [issuing cards list](https://docs.stripe.com/connect/supported-embedded-components/issuing-cards-list/) embedded component.
 type AccountSessionCreateComponentsIssuingCardsListParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -758,13 +758,13 @@ type AccountSessionCreateComponentsIssuingCardsListParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsNotificationBannerFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
 }
 
-// Configuration for the notification banner embedded component.
+// Configuration for the [notification banner](https://docs.stripe.com/connect/supported-embedded-components/notification-banner/) embedded component.
 type AccountSessionCreateComponentsNotificationBannerParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -776,15 +776,15 @@ type AccountSessionCreateComponentsNotificationBannerParams struct {
 type AccountSessionCreateComponentsPaymentDetailsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement *bool `form:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management"`
 }
 
-// Configuration for the payment details embedded component.
+// Configuration for the [payment details](https://docs.stripe.com/connect/supported-embedded-components/payment-details/) embedded component.
 type AccountSessionCreateComponentsPaymentDetailsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -794,15 +794,15 @@ type AccountSessionCreateComponentsPaymentDetailsParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsPaymentDisputesFeaturesParams struct {
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement *bool `form:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management"`
 }
 
-// Configuration for the payment disputes embedded component.
+// Configuration for the [payment disputes](https://docs.stripe.com/connect/supported-embedded-components/payment-disputes/) embedded component.
 type AccountSessionCreateComponentsPaymentDisputesParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -813,7 +813,7 @@ type AccountSessionCreateComponentsPaymentDisputesParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsPaymentMethodSettingsFeaturesParams struct{}
 
-// Configuration for the payment method settings embedded component.
+// Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
 type AccountSessionCreateComponentsPaymentMethodSettingsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -825,15 +825,15 @@ type AccountSessionCreateComponentsPaymentMethodSettingsParams struct {
 type AccountSessionCreateComponentsPaymentsFeaturesParams struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments *bool `form:"capture_payments"`
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement *bool `form:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement *bool `form:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement *bool `form:"refund_management"`
 }
 
-// Configuration for the payments embedded component.
+// Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.
 type AccountSessionCreateComponentsPaymentsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -843,19 +843,19 @@ type AccountSessionCreateComponentsPaymentsParams struct {
 
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsPayoutsFeaturesParams struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
-	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow payout schedule to be changed. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	EditPayoutSchedule *bool `form:"edit_payout_schedule"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection *bool `form:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	InstantPayouts *bool `form:"instant_payouts"`
-	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts *bool `form:"standard_payouts"`
 }
 
-// Configuration for the payouts embedded component.
+// Configuration for the [payouts](https://docs.stripe.com/connect/supported-embedded-components/payouts/) embedded component.
 type AccountSessionCreateComponentsPayoutsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -866,7 +866,7 @@ type AccountSessionCreateComponentsPayoutsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsPayoutsListFeaturesParams struct{}
 
-// Configuration for the payouts list embedded component.
+// Configuration for the [payouts list](https://docs.stripe.com/connect/supported-embedded-components/payouts-list/) embedded component.
 type AccountSessionCreateComponentsPayoutsListParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -877,7 +877,7 @@ type AccountSessionCreateComponentsPayoutsListParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsProductTaxCodeSelectorFeaturesParams struct{}
 
-// Configuration for the product tax code selector embedded component.
+// Configuration for the [product tax code selector](https://docs.stripe.com/connect/supported-embedded-components/product-tax-code-selector/) embedded component.
 type AccountSessionCreateComponentsProductTaxCodeSelectorParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -889,7 +889,7 @@ type AccountSessionCreateComponentsRecipientsFeaturesParams struct {
 	SendMoney *bool `form:"send_money"`
 }
 
-// Configuration for the recipients component.
+// Configuration for the [recipients](https://docs.stripe.com/connect/supported-embedded-components/recipients/) embedded component.
 type AccountSessionCreateComponentsRecipientsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled  *bool                                                   `form:"enabled"`
@@ -899,7 +899,7 @@ type AccountSessionCreateComponentsRecipientsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsReportingChartFeaturesParams struct{}
 
-// Configuration for the reporting chart embedded component.
+// Configuration for the [reporting chart](https://docs.stripe.com/connect/supported-embedded-components/reporting-chart/) embedded component.
 type AccountSessionCreateComponentsReportingChartParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -910,7 +910,7 @@ type AccountSessionCreateComponentsReportingChartParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsTaxRegistrationsFeaturesParams struct{}
 
-// Configuration for the tax registrations embedded component.
+// Configuration for the [tax registrations](https://docs.stripe.com/connect/supported-embedded-components/tax-registrations/) embedded component.
 type AccountSessionCreateComponentsTaxRegistrationsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -921,7 +921,7 @@ type AccountSessionCreateComponentsTaxRegistrationsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsTaxSettingsFeaturesParams struct{}
 
-// Configuration for the tax settings embedded component.
+// Configuration for the [tax settings](https://docs.stripe.com/connect/supported-embedded-components/tax-settings/) embedded component.
 type AccountSessionCreateComponentsTaxSettingsParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -932,7 +932,7 @@ type AccountSessionCreateComponentsTaxSettingsParams struct {
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsTaxThresholdMonitoringFeaturesParams struct{}
 
-// Configuration for the tax threshold monitoring embedded component.
+// Configuration for the [tax threshold monitoring](https://docs.stripe.com/connect/supported-embedded-components/tax-threshold-monitoring/) embedded component.
 type AccountSessionCreateComponentsTaxThresholdMonitoringParams struct {
 	// Whether the embedded component is enabled.
 	Enabled *bool `form:"enabled"`
@@ -942,63 +942,63 @@ type AccountSessionCreateComponentsTaxThresholdMonitoringParams struct {
 
 // Each key of the dictionary represents an embedded component, and each embedded component maps to its configuration (e.g. whether it has been enabled or not).
 type AccountSessionCreateComponentsParams struct {
-	// Configuration for the account management embedded component.
+	// Configuration for the [account management](https://docs.stripe.com/connect/supported-embedded-components/account-management/) embedded component.
 	AccountManagement *AccountSessionCreateComponentsAccountManagementParams `form:"account_management"`
-	// Configuration for the account onboarding embedded component.
+	// Configuration for the [account onboarding](https://docs.stripe.com/connect/supported-embedded-components/account-onboarding/) embedded component.
 	AccountOnboarding *AccountSessionCreateComponentsAccountOnboardingParams `form:"account_onboarding"`
-	// Configuration for the app install component.
+	// Configuration for the [app install](https://docs.stripe.com/connect/supported-embedded-components/app-install/) embedded component.
 	AppInstall *AccountSessionCreateComponentsAppInstallParams `form:"app_install"`
-	// Configuration for the app viewport component.
+	// Configuration for the [app viewport](https://docs.stripe.com/connect/supported-embedded-components/app-viewport/) embedded component.
 	AppViewport *AccountSessionCreateComponentsAppViewportParams `form:"app_viewport"`
-	// Configuration for the balances embedded component.
+	// Configuration for the [balances](https://docs.stripe.com/connect/supported-embedded-components/balances/) embedded component.
 	Balances *AccountSessionCreateComponentsBalancesParams `form:"balances"`
-	// Configuration for the capital financing embedded component.
+	// Configuration for the [Capital financing](https://docs.stripe.com/connect/supported-embedded-components/capital-financing/) embedded component.
 	CapitalFinancing *AccountSessionCreateComponentsCapitalFinancingParams `form:"capital_financing"`
-	// Configuration for the capital financing application embedded component.
+	// Configuration for the [Capital financing application](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-application/) embedded component.
 	CapitalFinancingApplication *AccountSessionCreateComponentsCapitalFinancingApplicationParams `form:"capital_financing_application"`
-	// Configuration for the capital financing promotion embedded component.
+	// Configuration for the [Capital financing promotion](https://docs.stripe.com/connect/supported-embedded-components/capital-financing-promotion/) embedded component.
 	CapitalFinancingPromotion *AccountSessionCreateComponentsCapitalFinancingPromotionParams `form:"capital_financing_promotion"`
-	// Configuration for the capital overview embedded component.
+	// Configuration for the [Capital overview](https://docs.stripe.com/connect/supported-embedded-components/capital-overview/) embedded component.
 	CapitalOverview *AccountSessionCreateComponentsCapitalOverviewParams `form:"capital_overview"`
-	// Configuration for the disputes list embedded component.
+	// Configuration for the [disputes list](https://docs.stripe.com/connect/supported-embedded-components/disputes-list/) embedded component.
 	DisputesList *AccountSessionCreateComponentsDisputesListParams `form:"disputes_list"`
-	// Configuration for the documents embedded component.
+	// Configuration for the [documents](https://docs.stripe.com/connect/supported-embedded-components/documents/) embedded component.
 	Documents *AccountSessionCreateComponentsDocumentsParams `form:"documents"`
-	// Configuration for the export tax transactions embedded component.
+	// Configuration for the [export tax transactions](https://docs.stripe.com/connect/supported-embedded-components/export-tax-transactions/) embedded component.
 	ExportTaxTransactions *AccountSessionCreateComponentsExportTaxTransactionsParams `form:"export_tax_transactions"`
-	// Configuration for the financial account embedded component.
+	// Configuration for the [financial account](https://docs.stripe.com/connect/supported-embedded-components/financial-account/) embedded component.
 	FinancialAccount *AccountSessionCreateComponentsFinancialAccountParams `form:"financial_account"`
-	// Configuration for the financial account transactions embedded component.
+	// Configuration for the [financial account transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-account-transactions/) embedded component.
 	FinancialAccountTransactions *AccountSessionCreateComponentsFinancialAccountTransactionsParams `form:"financial_account_transactions"`
-	// Configuration for the issuing card embedded component.
+	// Configuration for the [issuing card](https://docs.stripe.com/connect/supported-embedded-components/issuing-card/) embedded component.
 	IssuingCard *AccountSessionCreateComponentsIssuingCardParams `form:"issuing_card"`
-	// Configuration for the issuing cards list embedded component.
+	// Configuration for the [issuing cards list](https://docs.stripe.com/connect/supported-embedded-components/issuing-cards-list/) embedded component.
 	IssuingCardsList *AccountSessionCreateComponentsIssuingCardsListParams `form:"issuing_cards_list"`
-	// Configuration for the notification banner embedded component.
+	// Configuration for the [notification banner](https://docs.stripe.com/connect/supported-embedded-components/notification-banner/) embedded component.
 	NotificationBanner *AccountSessionCreateComponentsNotificationBannerParams `form:"notification_banner"`
-	// Configuration for the payment details embedded component.
+	// Configuration for the [payment details](https://docs.stripe.com/connect/supported-embedded-components/payment-details/) embedded component.
 	PaymentDetails *AccountSessionCreateComponentsPaymentDetailsParams `form:"payment_details"`
-	// Configuration for the payment disputes embedded component.
+	// Configuration for the [payment disputes](https://docs.stripe.com/connect/supported-embedded-components/payment-disputes/) embedded component.
 	PaymentDisputes *AccountSessionCreateComponentsPaymentDisputesParams `form:"payment_disputes"`
-	// Configuration for the payment method settings embedded component.
+	// Configuration for the [payment method settings](https://docs.stripe.com/connect/supported-embedded-components/payment-method-settings/) embedded component.
 	PaymentMethodSettings *AccountSessionCreateComponentsPaymentMethodSettingsParams `form:"payment_method_settings"`
-	// Configuration for the payments embedded component.
+	// Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.
 	Payments *AccountSessionCreateComponentsPaymentsParams `form:"payments"`
-	// Configuration for the payouts embedded component.
+	// Configuration for the [payouts](https://docs.stripe.com/connect/supported-embedded-components/payouts/) embedded component.
 	Payouts *AccountSessionCreateComponentsPayoutsParams `form:"payouts"`
-	// Configuration for the payouts list embedded component.
+	// Configuration for the [payouts list](https://docs.stripe.com/connect/supported-embedded-components/payouts-list/) embedded component.
 	PayoutsList *AccountSessionCreateComponentsPayoutsListParams `form:"payouts_list"`
-	// Configuration for the product tax code selector embedded component.
+	// Configuration for the [product tax code selector](https://docs.stripe.com/connect/supported-embedded-components/product-tax-code-selector/) embedded component.
 	ProductTaxCodeSelector *AccountSessionCreateComponentsProductTaxCodeSelectorParams `form:"product_tax_code_selector"`
-	// Configuration for the recipients component.
+	// Configuration for the [recipients](https://docs.stripe.com/connect/supported-embedded-components/recipients/) embedded component.
 	Recipients *AccountSessionCreateComponentsRecipientsParams `form:"recipients"`
-	// Configuration for the reporting chart embedded component.
+	// Configuration for the [reporting chart](https://docs.stripe.com/connect/supported-embedded-components/reporting-chart/) embedded component.
 	ReportingChart *AccountSessionCreateComponentsReportingChartParams `form:"reporting_chart"`
-	// Configuration for the tax registrations embedded component.
+	// Configuration for the [tax registrations](https://docs.stripe.com/connect/supported-embedded-components/tax-registrations/) embedded component.
 	TaxRegistrations *AccountSessionCreateComponentsTaxRegistrationsParams `form:"tax_registrations"`
-	// Configuration for the tax settings embedded component.
+	// Configuration for the [tax settings](https://docs.stripe.com/connect/supported-embedded-components/tax-settings/) embedded component.
 	TaxSettings *AccountSessionCreateComponentsTaxSettingsParams `form:"tax_settings"`
-	// Configuration for the tax threshold monitoring embedded component.
+	// Configuration for the [tax threshold monitoring](https://docs.stripe.com/connect/supported-embedded-components/tax-threshold-monitoring/) embedded component.
 	TaxThresholdMonitoring *AccountSessionCreateComponentsTaxThresholdMonitoringParams `form:"tax_threshold_monitoring"`
 }
 
@@ -1019,9 +1019,9 @@ func (p *AccountSessionCreateParams) AddExpand(f string) {
 }
 
 type AccountSessionComponentsAccountManagementFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
 }
 type AccountSessionComponentsAccountManagement struct {
@@ -1030,9 +1030,9 @@ type AccountSessionComponentsAccountManagement struct {
 	Features *AccountSessionComponentsAccountManagementFeatures `json:"features"`
 }
 type AccountSessionComponentsAccountOnboardingFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
 }
 type AccountSessionComponentsAccountOnboarding struct {
@@ -1041,15 +1041,15 @@ type AccountSessionComponentsAccountOnboarding struct {
 	Features *AccountSessionComponentsAccountOnboardingFeatures `json:"features"`
 }
 type AccountSessionComponentsBalancesFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
-	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow payout schedule to be changed. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	InstantPayouts bool `json:"instant_payouts"`
-	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts bool `json:"standard_payouts"`
 }
 type AccountSessionComponentsBalances struct {
@@ -1078,11 +1078,11 @@ type AccountSessionComponentsCapitalFinancingPromotion struct {
 type AccountSessionComponentsDisputesListFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments bool `json:"capture_payments"`
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement bool `json:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement bool `json:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement bool `json:"refund_management"`
 }
 type AccountSessionComponentsDisputesList struct {
@@ -1097,9 +1097,9 @@ type AccountSessionComponentsDocuments struct {
 	Features *AccountSessionComponentsDocumentsFeatures `json:"features"`
 }
 type AccountSessionComponentsFinancialAccountFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
-	// Whether to allow external accounts to be linked for money transfer.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
 	// Whether to allow sending money.
 	SendMoney bool `json:"send_money"`
@@ -1142,7 +1142,7 @@ type AccountSessionComponentsIssuingCardsListFeatures struct {
 	CardManagement bool `json:"card_management"`
 	// Whether to allow card spend dispute management features.
 	CardSpendDisputeManagement bool `json:"card_spend_dispute_management"`
-	// Disables Stripe user authentication for this embedded component. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
 	// Whether to allow spend control management features.
 	SpendControlManagement bool `json:"spend_control_management"`
@@ -1153,9 +1153,9 @@ type AccountSessionComponentsIssuingCardsList struct {
 	Features *AccountSessionComponentsIssuingCardsListFeatures `json:"features"`
 }
 type AccountSessionComponentsNotificationBannerFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
 }
 type AccountSessionComponentsNotificationBanner struct {
@@ -1166,11 +1166,11 @@ type AccountSessionComponentsNotificationBanner struct {
 type AccountSessionComponentsPaymentDetailsFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments bool `json:"capture_payments"`
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement bool `json:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement bool `json:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement bool `json:"refund_management"`
 }
 type AccountSessionComponentsPaymentDetails struct {
@@ -1179,11 +1179,11 @@ type AccountSessionComponentsPaymentDetails struct {
 	Features *AccountSessionComponentsPaymentDetailsFeatures `json:"features"`
 }
 type AccountSessionComponentsPaymentDisputesFeatures struct {
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement bool `json:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement bool `json:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement bool `json:"refund_management"`
 }
 type AccountSessionComponentsPaymentDisputes struct {
@@ -1194,11 +1194,11 @@ type AccountSessionComponentsPaymentDisputes struct {
 type AccountSessionComponentsPaymentsFeatures struct {
 	// Whether to allow capturing and cancelling payment intents. This is `true` by default.
 	CapturePayments bool `json:"capture_payments"`
-	// Whether to allow connected accounts to manage destination charges that are created on behalf of them. This is `false` by default.
+	// Whether connected accounts can manage destination charges that are created on behalf of them. This is `false` by default.
 	DestinationOnBehalfOfChargeManagement bool `json:"destination_on_behalf_of_charge_management"`
-	// Whether to allow responding to disputes, including submitting evidence and accepting disputes. This is `true` by default.
+	// Whether responding to disputes is enabled, including submitting evidence and accepting disputes. This is `true` by default.
 	DisputeManagement bool `json:"dispute_management"`
-	// Whether to allow sending refunds. This is `true` by default.
+	// Whether sending refunds is enabled. This is `true` by default.
 	RefundManagement bool `json:"refund_management"`
 }
 type AccountSessionComponentsPayments struct {
@@ -1207,15 +1207,15 @@ type AccountSessionComponentsPayments struct {
 	Features *AccountSessionComponentsPaymentsFeatures `json:"features"`
 }
 type AccountSessionComponentsPayoutsFeatures struct {
-	// Disables Stripe user authentication for this embedded component. This value can only be true for accounts where `controller.requirement_collection` is `application`. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to true and `disable_stripe_user_authentication` defaults to false.
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
-	// Whether to allow payout schedule to be changed. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow payout schedule to be changed. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	EditPayoutSchedule bool `json:"edit_payout_schedule"`
-	// Whether to allow platforms to control bank account collection for their connected accounts. This feature can only be false for accounts where you're responsible for collecting updated information when requirements are due or change, like custom accounts. Otherwise, bank account collection is determined by compliance requirements. The default value for this feature is `true`.
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
 	ExternalAccountCollection bool `json:"external_account_collection"`
-	// Whether to allow creation of instant payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	InstantPayouts bool `json:"instant_payouts"`
-	// Whether to allow creation of standard payouts. Default `true` when Stripe owns Loss Liability, default `false` otherwise.
+	// Whether to allow creation of standard payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
 	StandardPayouts bool `json:"standard_payouts"`
 }
 type AccountSessionComponentsPayouts struct {

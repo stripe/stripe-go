@@ -6,6 +6,15 @@
 
 package stripe
 
+// Lists all event destinations.
+type V2CoreEventDestinationListParams struct {
+	Params `form:"*"`
+	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
+	Include []*string `form:"include" json:"include,omitempty"`
+	// The page size.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
+}
+
 // Amazon EventBridge configuration.
 type V2CoreEventDestinationAmazonEventbridgeParams struct {
 	// The AWS account ID.
@@ -64,15 +73,6 @@ type V2CoreEventDestinationDisableParams struct {
 // Enable an event destination.
 type V2CoreEventDestinationEnableParams struct {
 	Params `form:"*"`
-}
-
-// Lists all event destinations.
-type V2CoreEventDestinationListParams struct {
-	Params `form:"*"`
-	// Additional fields to include in the response. Currently supports `webhook_endpoint.url`.
-	Include []*string `form:"include" json:"include,omitempty"`
-	// The page size.
-	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // Send a `ping` event to an event destination.

@@ -1664,7 +1664,7 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices). The parameter is required for `payment` and `subscription` mode.
 //
 // For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
 //
@@ -2113,6 +2113,28 @@ type CheckoutSessionPaymentMethodOptionsKakaoPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Describes the upcoming charge for this subscription.
+type CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if the Checkout Session sets up a future subscription.
+type CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // contains details about the Klarna payment method options.
 type CheckoutSessionPaymentMethodOptionsKlarnaParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2123,6 +2145,8 @@ type CheckoutSessionPaymentMethodOptionsKlarnaParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if the Checkout Session sets up a future subscription.
+	Subscriptions []*CheckoutSessionPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // contains details about the Konbini payment method options.
@@ -2660,6 +2684,11 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type CheckoutSessionSubscriptionDataBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type CheckoutSessionSubscriptionDataInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -2701,7 +2730,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *CheckoutSessionSubscriptionDataBillingModeParams `form:"billing_mode"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
 	// from the subscription.
@@ -2720,12 +2749,9 @@ type CheckoutSessionSubscriptionDataParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 	TransferData *CheckoutSessionSubscriptionDataTransferDataParams `form:"transfer_data"`
-	// Unix timestamp representing the end of the trial period the customer
-	// will get before being charged for the first time. Has to be at least
-	// 48 hours in the future.
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
-	// Integer representing the number of trial period days before the
-	// customer is charged for the first time. Has to be at least 1.
+	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *CheckoutSessionSubscriptionDataTrialSettingsParams `form:"trial_settings"`
@@ -2829,19 +2855,11 @@ type CheckoutSessionParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionInvoiceCreationParams `form:"invoice_creation"`
-	// A list of items the customer is purchasing.
+	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices). The parameter is required for `payment` and `subscription` mode.
 	//
-	// When updating line items, you must retransmit the entire array of line items.
+	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
 	//
-	// To retain an existing line item, specify its `id`.
-	//
-	// To update an existing line item, specify its `id` along with the new values of the fields to update.
-	//
-	// To add a new line item, specify one of `price` or `price_data` and `quantity`.
-	//
-	// To remove an existing line item, omit the line item's ID from the retransmitted array.
-	//
-	// To reorder a line item, specify it at the desired position in the retransmitted array.
+	// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices will be on the initial invoice only.
 	LineItems []*CheckoutSessionLineItemParams `form:"line_items"`
 	// The IETF language tag of the locale Checkout is displayed in. If blank or `auto`, the browser's locale is used.
 	Locale *string `form:"locale"`
@@ -3277,7 +3295,7 @@ type CheckoutSessionCreateLineItemPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices). The parameter is required for `payment` and `subscription` mode.
 //
 // For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
 //
@@ -3724,6 +3742,28 @@ type CheckoutSessionCreatePaymentMethodOptionsKakaoPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Describes the upcoming charge for this subscription.
+type CheckoutSessionCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if the Checkout Session sets up a future subscription.
+type CheckoutSessionCreatePaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *CheckoutSessionCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // contains details about the Klarna payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsKlarnaParams struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3734,6 +3774,8 @@ type CheckoutSessionCreatePaymentMethodOptionsKlarnaParams struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if the Checkout Session sets up a future subscription.
+	Subscriptions []*CheckoutSessionCreatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // contains details about the Konbini payment method options.
@@ -4271,6 +4313,11 @@ type CheckoutSessionCreateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionCreateShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type CheckoutSessionCreateSubscriptionDataBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type CheckoutSessionCreateSubscriptionDataInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -4312,7 +4359,7 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	// A future timestamp to anchor the subscription's billing cycle for new subscriptions.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *CheckoutSessionCreateSubscriptionDataBillingModeParams `form:"billing_mode"`
 	// The tax rates that will apply to any subscription item that does not have
 	// `tax_rates` set. Invoices created will have their `default_tax_rates` populated
 	// from the subscription.
@@ -4331,12 +4378,9 @@ type CheckoutSessionCreateSubscriptionDataParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 	// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 	TransferData *CheckoutSessionCreateSubscriptionDataTransferDataParams `form:"transfer_data"`
-	// Unix timestamp representing the end of the trial period the customer
-	// will get before being charged for the first time. Has to be at least
-	// 48 hours in the future.
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
 	TrialEnd *int64 `form:"trial_end"`
-	// Integer representing the number of trial period days before the
-	// customer is charged for the first time. Has to be at least 1.
+	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
 	TrialPeriodDays *int64 `form:"trial_period_days"`
 	// Settings related to subscription trials.
 	TrialSettings *CheckoutSessionCreateSubscriptionDataTrialSettingsParams `form:"trial_settings"`
@@ -4438,7 +4482,7 @@ type CheckoutSessionCreateParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 	// Generate a post-purchase Invoice for one-time payments.
 	InvoiceCreation *CheckoutSessionCreateInvoiceCreationParams `form:"invoice_creation"`
-	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+	// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices). The parameter is required for `payment` and `subscription` mode.
 	//
 	// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
 	//

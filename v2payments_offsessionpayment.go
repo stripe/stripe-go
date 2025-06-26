@@ -70,8 +70,6 @@ type V2PaymentsOffSessionPayment struct {
 	APIResource
 	// The amount you requested to be collected on the OSP upon creation.
 	AmountRequested Amount `json:"amount_requested"`
-	// Number of authorization attempts.
-	Attempts int64 `json:"attempts"`
 	// The frequency of the underlying payment that this OSP represents.
 	Cadence V2PaymentsOffSessionPaymentCadence `json:"cadence"`
 	// ID of owning compartment.

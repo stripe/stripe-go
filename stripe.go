@@ -961,6 +961,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
+	case "feature_not_enabled":
+		tmp := struct {
+			Error *FeatureNotEnabledError `json:"error"`
+		}{
+			Error: &FeatureNotEnabledError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
 	case "blocked_by_stripe":
 		tmp := struct {
 			Error *BlockedByStripeError `json:"error"`
@@ -1021,17 +1032,6 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 			Error *RecipientNotNotifiableError `json:"error"`
 		}{
 			Error: &RecipientNotNotifiableError{},
-		}
-		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
-			return err
-		}
-		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
-		typedError = tmp.Error
-	case "feature_not_enabled":
-		tmp := struct {
-			Error *FeatureNotEnabledError `json:"error"`
-		}{
-			Error: &FeatureNotEnabledError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err

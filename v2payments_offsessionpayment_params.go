@@ -6,9 +6,11 @@
 
 package stripe
 
-// Cancel OSP.
-type V2PaymentsOffSessionPaymentCancelParams struct {
+// List OSPs matching filter.
+type V2PaymentsOffSessionPaymentListParams struct {
 	Params `form:"*"`
+	// The page size limit, if not provided the default is 20.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // How you want stripe to retry the OSP.
@@ -20,7 +22,7 @@ type V2PaymentsOffSessionPaymentRetryDetailsParams struct {
 // How you want to transfer the funds to your connected accounts.
 type V2PaymentsOffSessionPaymentTransferDataParams struct {
 	// Amount in minor units that you want to transfer.
-	Amount *int64 `form:"amount" json:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// ID of the connected account where you want money to go.
 	Destination *string `form:"destination" json:"destination"`
 }
@@ -61,11 +63,9 @@ func (p *V2PaymentsOffSessionPaymentParams) AddMetadata(key string, value string
 	p.Metadata[key] = value
 }
 
-// List OSPs matching filter.
-type V2PaymentsOffSessionPaymentListParams struct {
+// Cancel OSP.
+type V2PaymentsOffSessionPaymentCancelParams struct {
 	Params `form:"*"`
-	// The page size limit, if not provided the default is 20.
-	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // How you want stripe to retry the OSP.
@@ -77,7 +77,7 @@ type V2PaymentsOffSessionPaymentCreateRetryDetailsParams struct {
 // How you want to transfer the funds to your connected accounts.
 type V2PaymentsOffSessionPaymentCreateTransferDataParams struct {
 	// Amount in minor units that you want to transfer.
-	Amount *int64 `form:"amount" json:"amount"`
+	Amount *int64 `form:"amount" json:"amount,omitempty"`
 	// ID of the connected account where you want money to go.
 	Destination *string `form:"destination" json:"destination"`
 }

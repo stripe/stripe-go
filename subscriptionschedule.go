@@ -20,13 +20,13 @@ const (
 	SubscriptionScheduleBillingBehaviorProrateUpFront     SubscriptionScheduleBillingBehavior = "prorate_up_front"
 )
 
-// The [billing mode](https://docs.stripe.com/api/subscriptions/create#create_subscription-billing_mode) that will be used to process all future operations for the subscription schedule.
-type SubscriptionScheduleBillingMode string
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionScheduleBillingModeType string
 
-// List of values that SubscriptionScheduleBillingMode can take
+// List of values that SubscriptionScheduleBillingModeType can take
 const (
-	SubscriptionScheduleBillingModeClassic  SubscriptionScheduleBillingMode = "classic"
-	SubscriptionScheduleBillingModeFlexible SubscriptionScheduleBillingMode = "flexible"
+	SubscriptionScheduleBillingModeTypeClassic  SubscriptionScheduleBillingModeType = "classic"
+	SubscriptionScheduleBillingModeTypeFlexible SubscriptionScheduleBillingModeType = "flexible"
 )
 
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
@@ -208,6 +208,11 @@ type SubscriptionScheduleListParams struct {
 // AddExpand appends a new field to expand.
 func (p *SubscriptionScheduleListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionScheduleBillingModeParams struct {
+	Type *string `form:"type"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
@@ -563,7 +568,7 @@ type SubscriptionScheduleParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *SubscriptionScheduleBillingModeParams `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.
@@ -1029,6 +1034,11 @@ func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionScheduleCreateBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
 type SubscriptionScheduleCreateDefaultSettingsBillingThresholdsParams struct {
 	// Monetary threshold that triggers the subscription to advance to a new billing period
@@ -1363,7 +1373,7 @@ type SubscriptionScheduleCreateParams struct {
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior *string `form:"billing_behavior"`
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
-	BillingMode *string `form:"billing_mode"`
+	BillingMode *SubscriptionScheduleCreateBillingModeParams `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// The identifier of the account to create the subscription schedule for.
@@ -1801,6 +1811,14 @@ func (p *SubscriptionScheduleUpdateParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
+// The billing mode of the subscription.
+type SubscriptionScheduleBillingMode struct {
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	Type SubscriptionScheduleBillingModeType `json:"type"`
+	// Details on when the current billing_mode was adopted.
+	UpdatedAt int64 `json:"updated_at"`
+}
+
 // Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 type SubscriptionScheduleCurrentPhase struct {
 	// The end of this phase of the subscription schedule.
@@ -2088,8 +2106,8 @@ type SubscriptionSchedule struct {
 	Application *Application `json:"application"`
 	// Configures when the subscription schedule generates prorations for phase transitions. Possible values are `prorate_on_next_phase` or `prorate_up_front` with the default being `prorate_on_next_phase`. `prorate_on_next_phase` will apply phase changes and generate prorations at transition time. `prorate_up_front` will bill for all phases within the current billing cycle up front.
 	BillingBehavior SubscriptionScheduleBillingBehavior `json:"billing_behavior"`
-	// The [billing mode](https://docs.stripe.com/api/subscriptions/create#create_subscription-billing_mode) that will be used to process all future operations for the subscription schedule.
-	BillingMode SubscriptionScheduleBillingMode `json:"billing_mode"`
+	// The billing mode of the subscription.
+	BillingMode *SubscriptionScheduleBillingMode `json:"billing_mode"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
 	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.
