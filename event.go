@@ -215,6 +215,7 @@ const (
 	EventTypeTaxRateUpdated                                     EventType = "tax_rate.updated"
 	EventTypeTerminalReaderActionFailed                         EventType = "terminal.reader.action_failed"
 	EventTypeTerminalReaderActionSucceeded                      EventType = "terminal.reader.action_succeeded"
+	EventTypeTerminalReaderActionUpdated                        EventType = "terminal.reader.action_updated"
 	EventTypeTestHelpersTestClockAdvancing                      EventType = "test_helpers.test_clock.advancing"
 	EventTypeTestHelpersTestClockCreated                        EventType = "test_helpers.test_clock.created"
 	EventTypeTestHelpersTestClockDeleted                        EventType = "test_helpers.test_clock.deleted"
@@ -372,7 +373,7 @@ type Event struct {
 	APIResource
 	// The connected account that originates the event.
 	Account string `json:"account"`
-	// The Stripe API version used to render `data`. This property is populated only for events on or after October 31, 2014.
+	// The Stripe API version used to render `data` when the event was created. The contents of `data` never change, so this value remains static regardless of the API version currently in use. This property is populated only for events created on or after October 31, 2014.
 	APIVersion string `json:"api_version"`
 	// Authentication context needed to fetch the event or related object.
 	Context string `json:"context"`

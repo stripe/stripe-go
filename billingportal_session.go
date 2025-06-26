@@ -85,7 +85,7 @@ type BillingPortalSessionFlowDataSubscriptionUpdateParams struct {
 	Subscription *string `form:"subscription"`
 }
 
-// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+// The coupon or promotion code to apply to this subscription update.
 type BillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscountParams struct {
 	// The ID of the coupon to apply to this subscription update.
 	Coupon *string `form:"coupon"`
@@ -105,7 +105,7 @@ type BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams struct {
 
 // Configuration when `flow_data.type=subscription_update_confirm`.
 type BillingPortalSessionFlowDataSubscriptionUpdateConfirmParams struct {
-	// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+	// The coupon or promotion code to apply to this subscription update.
 	Discounts []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmDiscountParams `form:"discounts"`
 	// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 	Items []*BillingPortalSessionFlowDataSubscriptionUpdateConfirmItemParams `form:"items"`
@@ -201,7 +201,7 @@ type BillingPortalSessionCreateFlowDataSubscriptionUpdateParams struct {
 	Subscription *string `form:"subscription"`
 }
 
-// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+// The coupon or promotion code to apply to this subscription update.
 type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmDiscountParams struct {
 	// The ID of the coupon to apply to this subscription update.
 	Coupon *string `form:"coupon"`
@@ -221,7 +221,7 @@ type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmItemParams struc
 
 // Configuration when `flow_data.type=subscription_update_confirm`.
 type BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmParams struct {
-	// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+	// The coupon or promotion code to apply to this subscription update.
 	Discounts []*BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmDiscountParams `form:"discounts"`
 	// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 	Items []*BillingPortalSessionCreateFlowDataSubscriptionUpdateConfirmItemParams `form:"items"`
@@ -315,7 +315,7 @@ type BillingPortalSessionFlowSubscriptionUpdate struct {
 	Subscription string `json:"subscription"`
 }
 
-// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+// The coupon or promotion code to apply to this subscription update.
 type BillingPortalSessionFlowSubscriptionUpdateConfirmDiscount struct {
 	// The ID of the coupon to apply to this subscription update.
 	Coupon string `json:"coupon"`
@@ -335,7 +335,7 @@ type BillingPortalSessionFlowSubscriptionUpdateConfirmItem struct {
 
 // Configuration when `flow.type=subscription_update_confirm`.
 type BillingPortalSessionFlowSubscriptionUpdateConfirm struct {
-	// The coupon or promotion code to apply to this subscription update. Currently, only up to one may be specified.
+	// The coupon or promotion code to apply to this subscription update.
 	Discounts []*BillingPortalSessionFlowSubscriptionUpdateConfirmDiscount `json:"discounts"`
 	// The [subscription item](https://stripe.com/docs/api/subscription_items) to be updated through this flow. Currently, only up to one may be specified and subscriptions with multiple items are not updatable.
 	Items []*BillingPortalSessionFlowSubscriptionUpdateConfirmItem `json:"items"`

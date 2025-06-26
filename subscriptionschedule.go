@@ -11,6 +11,15 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionScheduleBillingModeType string
+
+// List of values that SubscriptionScheduleBillingModeType can take
+const (
+	SubscriptionScheduleBillingModeTypeClassic  SubscriptionScheduleBillingModeType = "classic"
+	SubscriptionScheduleBillingModeTypeFlexible SubscriptionScheduleBillingModeType = "flexible"
+)
+
 // Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
 type SubscriptionScheduleDefaultSettingsBillingCycleAnchor string
 
@@ -110,6 +119,11 @@ type SubscriptionScheduleListParams struct {
 // AddExpand appends a new field to expand.
 func (p *SubscriptionScheduleListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionScheduleBillingModeParams struct {
+	Type *string `form:"type"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
@@ -360,6 +374,8 @@ func (p *SubscriptionSchedulePhaseParams) AppendTo(body *form.Values, keyParts [
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionScheduleParams struct {
 	Params `form:"*"`
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *SubscriptionScheduleBillingModeParams `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// Object representing the subscription schedule's default settings.
@@ -430,6 +446,11 @@ type SubscriptionScheduleReleaseParams struct {
 // AddExpand appends a new field to expand.
 func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionScheduleCreateBillingModeParams struct {
+	Type *string `form:"type"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
@@ -661,6 +682,8 @@ func (p *SubscriptionScheduleCreatePhaseParams) AddMetadata(key string, value st
 // Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionScheduleCreateParams struct {
 	Params `form:"*"`
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *SubscriptionScheduleCreateBillingModeParams `form:"billing_mode"`
 	// The identifier of the customer to create the subscription schedule for.
 	Customer *string `form:"customer"`
 	// Object representing the subscription schedule's default settings.
@@ -988,6 +1011,14 @@ func (p *SubscriptionScheduleUpdateParams) AddMetadata(key string, value string)
 	p.Metadata[key] = value
 }
 
+// The billing mode of the subscription.
+type SubscriptionScheduleBillingMode struct {
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	Type SubscriptionScheduleBillingModeType `json:"type"`
+	// Details on when the current billing_mode was adopted.
+	UpdatedAt int64 `json:"updated_at"`
+}
+
 // Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 type SubscriptionScheduleCurrentPhase struct {
 	// The end of this phase of the subscription schedule.
@@ -1179,6 +1210,8 @@ type SubscriptionSchedule struct {
 	APIResource
 	// ID of the Connect Application that created the schedule.
 	Application *Application `json:"application"`
+	// The billing mode of the subscription.
+	BillingMode *SubscriptionScheduleBillingMode `json:"billing_mode"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
 	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.

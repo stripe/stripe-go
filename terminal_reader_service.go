@@ -91,6 +91,30 @@ func (c v1TerminalReaderService) CollectInputs(ctx context.Context, id string, p
 	return reader, err
 }
 
+// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation.
+func (c v1TerminalReaderService) CollectPaymentMethod(ctx context.Context, id string, params *TerminalReaderCollectPaymentMethodParams) (*TerminalReader, error) {
+	if params == nil {
+		params = &TerminalReaderCollectPaymentMethodParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/readers/%s/collect_payment_method", id)
+	reader := &TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// Finalizes a payment on a Reader.
+func (c v1TerminalReaderService) ConfirmPaymentIntent(ctx context.Context, id string, params *TerminalReaderConfirmPaymentIntentParams) (*TerminalReader, error) {
+	if params == nil {
+		params = &TerminalReaderConfirmPaymentIntentParams{}
+	}
+	params.Context = ctx
+	path := FormatURLPath("/v1/terminal/readers/%s/confirm_payment_intent", id)
+	reader := &TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
 // Initiates a payment flow on a Reader.
 func (c v1TerminalReaderService) ProcessPaymentIntent(ctx context.Context, id string, params *TerminalReaderProcessPaymentIntentParams) (*TerminalReader, error) {
 	if params == nil {
