@@ -6,9 +6,11 @@
 
 package stripe
 
-// Cancel an OutboundSetupIntent object.
-type V2MoneyManagementOutboundSetupIntentCancelParams struct {
+// List the OutboundSetupIntent objects.
+type V2MoneyManagementOutboundSetupIntentListParams struct {
 	Params `form:"*"`
+	// The page size.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // The type specific details of the bank account payout method.
@@ -62,11 +64,9 @@ type V2MoneyManagementOutboundSetupIntentParams struct {
 	UsageIntent *string `form:"usage_intent" json:"usage_intent,omitempty"`
 }
 
-// List the OutboundSetupIntent objects.
-type V2MoneyManagementOutboundSetupIntentListParams struct {
+// Cancel an OutboundSetupIntent object.
+type V2MoneyManagementOutboundSetupIntentCancelParams struct {
 	Params `form:"*"`
-	// The page size.
-	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // The type specific details of the bank account payout method.

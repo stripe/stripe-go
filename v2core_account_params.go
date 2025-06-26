@@ -8,11 +8,13 @@ package stripe
 
 import "time"
 
-// Removes access to the Account and its associated resources.
-type V2CoreAccountCloseParams struct {
+// Returns a list of Accounts.
+type V2CoreAccountListParams struct {
 	Params `form:"*"`
-	// Configurations on the Account to be closed. All configurations on the Account must be passed in for this request to succeed.
+	// Filter only accounts that have all of the configurations specified. If omitted, returns all accounts regardless of which configurations they have.
 	AppliedConfigurations []*string `form:"applied_configurations" json:"applied_configurations,omitempty"`
+	// The upper limit on the number of accounts returned by the List Account request.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
@@ -1250,13 +1252,11 @@ func (p *V2CoreAccountParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// Returns a list of Accounts.
-type V2CoreAccountListParams struct {
+// Removes access to the Account and its associated resources.
+type V2CoreAccountCloseParams struct {
 	Params `form:"*"`
-	// Filter only accounts that have all of the configurations specified. If omitted, returns all accounts regardless of which configurations they have.
+	// Configurations on the Account to be closed. All configurations on the Account must be passed in for this request to succeed.
 	AppliedConfigurations []*string `form:"applied_configurations" json:"applied_configurations,omitempty"`
-	// The upper limit on the number of accounts returned by the List Account request.
-	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.

@@ -6,12 +6,6 @@
 
 package stripe
 
-// Archive a PayoutMethod object. Archived objects cannot be used as payout methods
-// and will not appear in the payout method list.
-type V2MoneyManagementPayoutMethodArchiveParams struct {
-	Params `form:"*"`
-}
-
 // Usage status filter.
 type V2MoneyManagementPayoutMethodListUsageStatusParams struct {
 	// List of payments status to filter by.
@@ -31,6 +25,12 @@ type V2MoneyManagementPayoutMethodListParams struct {
 
 // Retrieve a PayoutMethod object.
 type V2MoneyManagementPayoutMethodParams struct {
+	Params `form:"*"`
+}
+
+// Archive a PayoutMethod object. Archived objects cannot be used as payout methods
+// and will not appear in the payout method list.
+type V2MoneyManagementPayoutMethodArchiveParams struct {
 	Params `form:"*"`
 }
 
