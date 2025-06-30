@@ -220,6 +220,7 @@ type MandatePaymentMethodDetailsBACSDebit struct {
 type MandatePaymentMethodDetailsCard struct{}
 type MandatePaymentMethodDetailsCashApp struct{}
 type MandatePaymentMethodDetailsKakaoPay struct{}
+type MandatePaymentMethodDetailsKlarna struct{}
 type MandatePaymentMethodDetailsKrCard struct{}
 type MandatePaymentMethodDetailsLink struct{}
 type MandatePaymentMethodDetailsNaverPay struct{}
@@ -270,6 +271,7 @@ type MandatePaymentMethodDetails struct {
 	Card          *MandatePaymentMethodDetailsCard          `json:"card"`
 	CashApp       *MandatePaymentMethodDetailsCashApp       `json:"cashapp"`
 	KakaoPay      *MandatePaymentMethodDetailsKakaoPay      `json:"kakao_pay"`
+	Klarna        *MandatePaymentMethodDetailsKlarna        `json:"klarna"`
 	KrCard        *MandatePaymentMethodDetailsKrCard        `json:"kr_card"`
 	Link          *MandatePaymentMethodDetailsLink          `json:"link"`
 	NaverPay      *MandatePaymentMethodDetailsNaverPay      `json:"naver_pay"`

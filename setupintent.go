@@ -429,6 +429,9 @@ type SetupIntentPaymentMethodDataBoletoParams struct {
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentPaymentMethodDataCashAppParams struct{}
 
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type SetupIntentPaymentMethodDataCryptoParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentPaymentMethodDataCustomerBalanceParams struct{}
 
@@ -681,6 +684,8 @@ type SetupIntentPaymentMethodDataParams struct {
 	Boleto *SetupIntentPaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentPaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *SetupIntentPaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -918,6 +923,54 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 type SetupIntentPaymentMethodOptionsCardPresentParams struct{}
 
+// On-demand details if setting up a payment method for on-demand payments.
+type SetupIntentPaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type SetupIntentPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription
+type SetupIntentPaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *SetupIntentPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+type SetupIntentPaymentMethodOptionsKlarnaParams struct {
+	// The currency of the SetupIntent. Three letter ISO currency code.
+	Currency *string `form:"currency"`
+	// On-demand details if setting up a payment method for on-demand payments.
+	OnDemand *SetupIntentPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
+	// Preferred language of the Klarna authorization page that the customer is redirected to
+	PreferredLocale *string `form:"preferred_locale"`
+	// Subscription details if setting up or charging a subscription
+	Subscriptions []*SetupIntentPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+}
+
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentPaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
@@ -1034,6 +1087,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 	CardPresent *SetupIntentPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+	Klarna *SetupIntentPaymentMethodOptionsKlarnaParams `form:"klarna"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentPaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
@@ -1107,7 +1162,7 @@ type SetupIntentParams struct {
 	PaymentMethodData *SetupIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url"`
@@ -1223,6 +1278,9 @@ type SetupIntentConfirmPaymentMethodDataBoletoParams struct {
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentConfirmPaymentMethodDataCashAppParams struct{}
+
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type SetupIntentConfirmPaymentMethodDataCryptoParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentConfirmPaymentMethodDataCustomerBalanceParams struct{}
@@ -1476,6 +1534,8 @@ type SetupIntentConfirmPaymentMethodDataParams struct {
 	Boleto *SetupIntentConfirmPaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentConfirmPaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *SetupIntentConfirmPaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentConfirmPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -1748,6 +1808,9 @@ type SetupIntentCreatePaymentMethodDataBoletoParams struct {
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentCreatePaymentMethodDataCashAppParams struct{}
 
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type SetupIntentCreatePaymentMethodDataCryptoParams struct{}
+
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentCreatePaymentMethodDataCustomerBalanceParams struct{}
 
@@ -2000,6 +2063,8 @@ type SetupIntentCreatePaymentMethodDataParams struct {
 	Boleto *SetupIntentCreatePaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentCreatePaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *SetupIntentCreatePaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentCreatePaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -2237,6 +2302,54 @@ type SetupIntentCreatePaymentMethodOptionsCardParams struct {
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 type SetupIntentCreatePaymentMethodOptionsCardPresentParams struct{}
 
+// On-demand details if setting up a payment method for on-demand payments.
+type SetupIntentCreatePaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription
+type SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+type SetupIntentCreatePaymentMethodOptionsKlarnaParams struct {
+	// The currency of the SetupIntent. Three letter ISO currency code.
+	Currency *string `form:"currency"`
+	// On-demand details if setting up a payment method for on-demand payments.
+	OnDemand *SetupIntentCreatePaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
+	// Preferred language of the Klarna authorization page that the customer is redirected to
+	PreferredLocale *string `form:"preferred_locale"`
+	// Subscription details if setting up or charging a subscription
+	Subscriptions []*SetupIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+}
+
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentCreatePaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
@@ -2353,6 +2466,8 @@ type SetupIntentCreatePaymentMethodOptionsParams struct {
 	Card *SetupIntentCreatePaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 	CardPresent *SetupIntentCreatePaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+	Klarna *SetupIntentCreatePaymentMethodOptionsKlarnaParams `form:"klarna"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentCreatePaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
@@ -2424,7 +2539,7 @@ type SetupIntentCreateParams struct {
 	PaymentMethodData *SetupIntentCreatePaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentCreatePaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, card) that this SetupIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, card) that this SetupIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. To redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
 	ReturnURL *string `form:"return_url"`
@@ -2542,6 +2657,9 @@ type SetupIntentUpdatePaymentMethodDataBoletoParams struct {
 
 // If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 type SetupIntentUpdatePaymentMethodDataCashAppParams struct{}
+
+// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+type SetupIntentUpdatePaymentMethodDataCryptoParams struct{}
 
 // If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 type SetupIntentUpdatePaymentMethodDataCustomerBalanceParams struct{}
@@ -2795,6 +2913,8 @@ type SetupIntentUpdatePaymentMethodDataParams struct {
 	Boleto *SetupIntentUpdatePaymentMethodDataBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *SetupIntentUpdatePaymentMethodDataCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *SetupIntentUpdatePaymentMethodDataCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *SetupIntentUpdatePaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -3032,6 +3152,54 @@ type SetupIntentUpdatePaymentMethodOptionsCardParams struct {
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 type SetupIntentUpdatePaymentMethodOptionsCardPresentParams struct{}
 
+// On-demand details if setting up a payment method for on-demand payments.
+type SetupIntentUpdatePaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription
+type SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+type SetupIntentUpdatePaymentMethodOptionsKlarnaParams struct {
+	// The currency of the SetupIntent. Three letter ISO currency code.
+	Currency *string `form:"currency"`
+	// On-demand details if setting up a payment method for on-demand payments.
+	OnDemand *SetupIntentUpdatePaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
+	// Preferred language of the Klarna authorization page that the customer is redirected to
+	PreferredLocale *string `form:"preferred_locale"`
+	// Subscription details if setting up or charging a subscription
+	Subscriptions []*SetupIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
+}
+
 // If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 type SetupIntentUpdatePaymentMethodOptionsLinkParams struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
@@ -3148,6 +3316,8 @@ type SetupIntentUpdatePaymentMethodOptionsParams struct {
 	Card *SetupIntentUpdatePaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the card-present payment method options.
 	CardPresent *SetupIntentUpdatePaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method options.
+	Klarna *SetupIntentUpdatePaymentMethodOptionsKlarnaParams `form:"klarna"`
 	// If this is a `link` PaymentMethod, this sub-hash contains details about the Link payment method options.
 	Link *SetupIntentUpdatePaymentMethodOptionsLinkParams `form:"link"`
 	// If this is a `paypal` PaymentMethod, this sub-hash contains details about the PayPal payment method options.
@@ -3194,7 +3364,7 @@ type SetupIntentUpdateParams struct {
 	PaymentMethodData *SetupIntentUpdatePaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentUpdatePaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, card) that this SetupIntent can set up. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 }
 
@@ -3332,6 +3502,12 @@ type SetupIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 type SetupIntentPaymentMethodOptionsCardPresent struct{}
+type SetupIntentPaymentMethodOptionsKlarna struct {
+	// The currency of the setup intent. Three letter ISO currency code.
+	Currency Currency `json:"currency"`
+	// Preferred locale of the Klarna checkout page that the customer is redirected to.
+	PreferredLocale string `json:"preferred_locale"`
+}
 type SetupIntentPaymentMethodOptionsLink struct {
 	// [Deprecated] This is a legacy parameter that no longer has any function.
 	// Deprecated:
@@ -3409,6 +3585,7 @@ type SetupIntentPaymentMethodOptions struct {
 	BACSDebit     *SetupIntentPaymentMethodOptionsBACSDebit     `json:"bacs_debit"`
 	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
 	CardPresent   *SetupIntentPaymentMethodOptionsCardPresent   `json:"card_present"`
+	Klarna        *SetupIntentPaymentMethodOptionsKlarna        `json:"klarna"`
 	Link          *SetupIntentPaymentMethodOptionsLink          `json:"link"`
 	Paypal        *SetupIntentPaymentMethodOptionsPaypal        `json:"paypal"`
 	Payto         *SetupIntentPaymentMethodOptionsPayto         `json:"payto"`
@@ -3493,7 +3670,7 @@ type SetupIntent struct {
 	PaymentMethodConfigurationDetails *SetupIntentPaymentMethodConfigurationDetails `json:"payment_method_configuration_details"`
 	// Payment method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptions `json:"payment_method_options"`
-	// The list of payment method types (e.g. card) that this SetupIntent is allowed to set up.
+	// The list of payment method types (e.g. card) that this SetupIntent is allowed to set up. A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []string `json:"payment_method_types"`
 	// ID of the single_use Mandate generated by the SetupIntent.
 	SingleUseMandate *Mandate `json:"single_use_mandate"`

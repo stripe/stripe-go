@@ -6,9 +6,11 @@
 
 package stripe
 
-// Cancel OSP.
-type V2PaymentsOffSessionPaymentCancelParams struct {
+// List OSPs matching filter.
+type V2PaymentsOffSessionPaymentListParams struct {
 	Params `form:"*"`
+	// The page size limit, if not provided the default is 20.
+	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // How you want stripe to retry the OSP.
@@ -61,11 +63,9 @@ func (p *V2PaymentsOffSessionPaymentParams) AddMetadata(key string, value string
 	p.Metadata[key] = value
 }
 
-// List OSPs matching filter.
-type V2PaymentsOffSessionPaymentListParams struct {
+// Cancel OSP.
+type V2PaymentsOffSessionPaymentCancelParams struct {
 	Params `form:"*"`
-	// The page size limit, if not provided the default is 20.
-	Limit *int64 `form:"limit" json:"limit,omitempty"`
 }
 
 // How you want stripe to retry the OSP.

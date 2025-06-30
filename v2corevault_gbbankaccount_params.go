@@ -6,20 +6,6 @@
 
 package stripe
 
-// Confirm that you have received the result of the Confirmation of Payee request, and that you are okay with
-// proceeding to pay out to this bank account despite the account not matching, partially matching, or the service
-// being unavailable. Once you confirm this, you will be able to send OutboundPayments, but this may lead to
-// funds being sent to the wrong account, which we might not be able to recover.
-type V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams struct {
-	Params `form:"*"`
-}
-
-// Archive a GBBankAccount object. Archived GBBankAccount objects cannot be used as outbound destinations
-// and will not appear in the outbound destination list.
-type V2CoreVaultGBBankAccountArchiveParams struct {
-	Params `form:"*"`
-}
-
 // Whether or not to automatically perform Confirmation of Payee to verify the users information
 // against what was provided by the bank. Doing so is required for all bank accounts not owned
 // by you before making domestic UK OutboundPayments.
@@ -46,6 +32,20 @@ type V2CoreVaultGBBankAccountParams struct {
 	ConfirmationOfPayee *V2CoreVaultGBBankAccountConfirmationOfPayeeParams `form:"confirmation_of_payee" json:"confirmation_of_payee,omitempty"`
 	// The Sort Code of the bank account.
 	SortCode *string `form:"sort_code" json:"sort_code,omitempty"`
+}
+
+// Confirm that you have received the result of the Confirmation of Payee request, and that you are okay with
+// proceeding to pay out to this bank account despite the account not matching, partially matching, or the service
+// being unavailable. Once you confirm this, you will be able to send OutboundPayments, but this may lead to
+// funds being sent to the wrong account, which we might not be able to recover.
+type V2CoreVaultGBBankAccountAcknowledgeConfirmationOfPayeeParams struct {
+	Params `form:"*"`
+}
+
+// Archive a GBBankAccount object. Archived GBBankAccount objects cannot be used as outbound destinations
+// and will not appear in the outbound destination list.
+type V2CoreVaultGBBankAccountArchiveParams struct {
+	Params `form:"*"`
 }
 
 // Initiate Confirmation of Payee (CoP) in order to verify that the owner of a UK bank account matches

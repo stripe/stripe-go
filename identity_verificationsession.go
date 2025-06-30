@@ -42,6 +42,24 @@ const (
 	IdentityVerificationSessionOptionsDocumentAllowedTypePassport       IdentityVerificationSessionOptionsDocumentAllowedType = "passport"
 )
 
+// Strictness of the DOB matching policy to apply.
+type IdentityVerificationSessionOptionsMatchingDOB string
+
+// List of values that IdentityVerificationSessionOptionsMatchingDOB can take
+const (
+	IdentityVerificationSessionOptionsMatchingDOBNone    IdentityVerificationSessionOptionsMatchingDOB = "none"
+	IdentityVerificationSessionOptionsMatchingDOBSimilar IdentityVerificationSessionOptionsMatchingDOB = "similar"
+)
+
+// Strictness of the name matching policy to apply.
+type IdentityVerificationSessionOptionsMatchingName string
+
+// List of values that IdentityVerificationSessionOptionsMatchingName can take
+const (
+	IdentityVerificationSessionOptionsMatchingNameNone    IdentityVerificationSessionOptionsMatchingName = "none"
+	IdentityVerificationSessionOptionsMatchingNameSimilar IdentityVerificationSessionOptionsMatchingName = "similar"
+)
+
 // Indicates whether this object and its related objects have been redacted or not.
 type IdentityVerificationSessionRedactionStatus string
 
@@ -141,6 +159,14 @@ type IdentityVerificationSessionProvidedDetailsParams struct {
 	Phone *string `form:"phone"`
 }
 
+// Tokens referencing a Person resource and it's associated account.
+type IdentityVerificationSessionRelatedPersonParams struct {
+	// A token representing a connected account. If provided, the person parameter is also required and must be associated with the account.
+	Account *string `form:"account"`
+	// A token referencing a Person resource that this verification is being used to verify.
+	Person *string `form:"person"`
+}
+
 // Creates a VerificationSession object.
 //
 // After the VerificationSession is created, display a verification modal using the session client_secret or send your users to the session's url.
@@ -164,6 +190,8 @@ type IdentityVerificationSessionParams struct {
 	RelatedCustomer *string `form:"related_customer"`
 	// Token referencing a Customer Account resource.
 	RelatedCustomerAccount *string `form:"related_customer_account"`
+	// Tokens referencing a Person resource and it's associated account.
+	RelatedPerson *IdentityVerificationSessionRelatedPersonParams `form:"related_person"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
@@ -256,6 +284,14 @@ type IdentityVerificationSessionCreateProvidedDetailsParams struct {
 	Phone *string `form:"phone"`
 }
 
+// Tokens referencing a Person resource and it's associated account.
+type IdentityVerificationSessionCreateRelatedPersonParams struct {
+	// A token representing a connected account. If provided, the person parameter is also required and must be associated with the account.
+	Account *string `form:"account"`
+	// A token referencing a Person resource that this verification is being used to verify.
+	Person *string `form:"person"`
+}
+
 // Creates a VerificationSession object.
 //
 // After the VerificationSession is created, display a verification modal using the session client_secret or send your users to the session's url.
@@ -279,6 +315,8 @@ type IdentityVerificationSessionCreateParams struct {
 	RelatedCustomer *string `form:"related_customer"`
 	// Token referencing a Customer Account resource.
 	RelatedCustomerAccount *string `form:"related_customer_account"`
+	// Tokens referencing a Person resource and it's associated account.
+	RelatedPerson *IdentityVerificationSessionCreateRelatedPersonParams `form:"related_person"`
 	// The URL that the user will be redirected to upon completing the verification flow.
 	ReturnURL *string `form:"return_url"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed. You must provide a `type` if not passing `verification_flow`.
@@ -396,6 +434,12 @@ type IdentityVerificationSessionOptionsEmail struct {
 	RequireVerification bool `json:"require_verification"`
 }
 type IdentityVerificationSessionOptionsIDNumber struct{}
+type IdentityVerificationSessionOptionsMatching struct {
+	// Strictness of the DOB matching policy to apply.
+	DOB IdentityVerificationSessionOptionsMatchingDOB `json:"dob"`
+	// Strictness of the name matching policy to apply.
+	Name IdentityVerificationSessionOptionsMatchingName `json:"name"`
+}
 type IdentityVerificationSessionOptionsPhone struct {
 	// Request one time password verification of `provided_details.phone`.
 	RequireVerification bool `json:"require_verification"`
@@ -406,6 +450,7 @@ type IdentityVerificationSessionOptions struct {
 	Document *IdentityVerificationSessionOptionsDocument `json:"document"`
 	Email    *IdentityVerificationSessionOptionsEmail    `json:"email"`
 	IDNumber *IdentityVerificationSessionOptionsIDNumber `json:"id_number"`
+	Matching *IdentityVerificationSessionOptionsMatching `json:"matching"`
 	Phone    *IdentityVerificationSessionOptionsPhone    `json:"phone"`
 }
 
@@ -421,6 +466,12 @@ type IdentityVerificationSessionProvidedDetails struct {
 type IdentityVerificationSessionRedaction struct {
 	// Indicates whether this object and its related objects have been redacted or not.
 	Status IdentityVerificationSessionRedactionStatus `json:"status"`
+}
+type IdentityVerificationSessionRelatedPerson struct {
+	// Token referencing the associated Account of the related Person resource.
+	Account string `json:"account"`
+	// Token referencing the related Person resource.
+	Person string `json:"person"`
 }
 
 // The user's verified date of birth.
@@ -499,7 +550,8 @@ type IdentityVerificationSession struct {
 	// Customer ID
 	RelatedCustomer string `json:"related_customer"`
 	// Token referencing a Customer Account resource.
-	RelatedCustomerAccount string `json:"related_customer_account"`
+	RelatedCustomerAccount string                                    `json:"related_customer_account"`
+	RelatedPerson          *IdentityVerificationSessionRelatedPerson `json:"related_person"`
 	// Status of this VerificationSession. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 	Status IdentityVerificationSessionStatus `json:"status"`
 	// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed.
