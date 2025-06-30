@@ -319,7 +319,7 @@ However, [a bug](https://github.com/stripe/stripe-go/pull/1940) in the `80.x.y` 
 ## 80.0.0 - 2024-10-01
 * [#1926](https://github.com/stripe/stripe-go/pull/1926) Support for APIs in the new API version 2024-09-30.acacia
   
-  This release changes the pinned API version to `2024-09-30.acacia`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2024-09-30.acacia) and carefully review the API changes before upgrading.
+  This release changes the pinned API version to `2024-09-30.acacia`. Please read the [API Changelog](https://docs.stripe.com/changelog/acacia#2024-09-30.acacia) and carefully review the API changes before upgrading.
   
   ### ⚠️ Breaking changes
   
@@ -443,7 +443,7 @@ However, [a bug](https://github.com/stripe/stripe-go/pull/1940) in the `80.x.y` 
 ## 79.0.0 - 2024-06-24
 * [#1878](https://github.com/stripe/stripe-go/pull/1878) Update generated code
   
-  This release changes the pinned API version to 2024-06-20. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2024-06-20) and carefully review the API changes before upgrading.
+  This release changes the pinned API version to 2024-06-20. Please read the [API Changelog](https://docs.stripe.com/changelog/2024-06-20) and carefully review the API changes before upgrading.
   
   ### ⚠️ Breaking changes
   
@@ -573,7 +573,7 @@ However, [a bug](https://github.com/stripe/stripe-go/pull/1940) in the `80.x.y` 
 ## 78.0.0 - 2024-04-10
 * [#1841](https://github.com/stripe/stripe-go/pull/1841) 
   
-  * This release changes the pinned API version to `2024-04-10`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2024-04-10) and carefully review the API changes before upgrading.
+  * This release changes the pinned API version to `2024-04-10`. Please read the [API Changelog](https://docs.stripe.com/changelog/2024-04-10) and carefully review the API changes before upgrading.
   
   ### ⚠️ Breaking changes
   
@@ -912,7 +912,7 @@ However, [a bug](https://github.com/stripe/stripe-go/pull/1940) in the `80.x.y` 
   * Add support for new value `invalid_dob_age_under_minimum` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `BankAccountFutureRequirementsErrorsCode`, and `BankAccountRequirementsErrorsCode`
 
 ## 76.0.0 - 2023-10-16
-* This release changes the pinned API version to `2023-10-16`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2023-10-16) and carefully review the API changes before upgrading `stripe-go`.
+* This release changes the pinned API version to `2023-10-16`. Please read the [API Changelog](https://docs.stripe.com/changelog/2023-10-16) and carefully review the API changes before upgrading `stripe-go`.
 * [#1753](https://github.com/stripe/stripe-go/pull/1753) Update generated code
   * Add support for `LegalGuardian` on `AccountPersonsRelationshipParams` and `TokenPersonRelationshipParams`
   * Add support for new values `invalid_address_highway_contract_box`, `invalid_address_private_mailbox`, `invalid_business_profile_name_denylisted`, `invalid_business_profile_name`, `invalid_company_name_denylisted`, `invalid_dob_age_over_maximum`, `invalid_product_description_length`, `invalid_product_description_url_match`, `invalid_statement_descriptor_business_mismatch`, `invalid_statement_descriptor_denylisted`, `invalid_statement_descriptor_length`, `invalid_statement_descriptor_prefix_denylisted`, `invalid_statement_descriptor_prefix_mismatch`, `invalid_tax_id_format`, `invalid_tax_id`, `invalid_url_denylisted`, `invalid_url_format`, `invalid_url_length`, `invalid_url_web_presence_detected`, `invalid_url_website_business_information_mismatch`, `invalid_url_website_empty`, `invalid_url_website_inaccessible_geoblocked`, `invalid_url_website_inaccessible_password_protected`, `invalid_url_website_inaccessible`, `invalid_url_website_incomplete_cancellation_policy`, `invalid_url_website_incomplete_customer_service_details`, `invalid_url_website_incomplete_legal_restrictions`, `invalid_url_website_incomplete_refund_policy`, `invalid_url_website_incomplete_return_policy`, `invalid_url_website_incomplete_terms_and_conditions`, `invalid_url_website_incomplete_under_construction`, `invalid_url_website_incomplete`, and `invalid_url_website_other` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `BankAccountFutureRequirementsErrorsCode`, and `BankAccountRequirementsErrorsCode`
@@ -1007,7 +1007,7 @@ However, [a bug](https://github.com/stripe/stripe-go/pull/1940) in the `80.x.y` 
 * [#1712](https://github.com/stripe/stripe-go/pull/1712) Fix link title to go migration guide
 
 ## 75.0.0 - 2023-08-16
-* This release changes the pinned API version to `2023-08-16`. Please read the [API Upgrade Guide](https://stripe.com/docs/upgrades#2023-08-16) and carefully review the API changes before upgrading `stripe-go`.
+* This release changes the pinned API version to `2023-08-16`. Please read the [API Changelog](https://docs.stripe.com/changelog/2023-08-16) and carefully review the API changes before upgrading `stripe-go`.
 * More information is available in the [stripe-go v75 migration guide](https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v75)
 * [#1705](https://github.com/stripe/stripe-go/pull/1705) Update generated code
   * ⚠️Add support for new values `verification_directors_mismatch`, `verification_document_directors_mismatch`, `verification_extraneous_directors`, and `verification_missing_directors` on enums `AccountFutureRequirementsErrorsCode`, `AccountRequirementsErrorsCode`, `BankAccountFutureRequirementsErrorsCode`, and `BankAccountRequirementsErrorsCode`
@@ -1365,7 +1365,7 @@ However, [a bug](https://github.com/stripe/stripe-go/pull/1940) in the `80.x.y` 
 
 ## 74.0.0 - 2022-11-15
 
-Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the Stripe products, read more at https://stripe.com/docs/upgrades#2022-11-15.
+Breaking changes that arose during code generation of the library that we postponed for the next major version. For changes to the Stripe products, read more at https://docs.stripe.com/changelog/2022-11-15.
 
 "⚠️" symbol highlights breaking changes.
 
@@ -1493,7 +1493,7 @@ Breaking changes that arose during code generation of the library that we postpo
 
 This release includes breaking changes resulting from:
 
-* Moving to use the new API version "2022-08-01". To learn more about these changes to Stripe products, see https://stripe.com/docs/upgrades#2022-08-01
+* Moving to use the new API version "2022-08-01". To learn more about these changes to Stripe products, see https://docs.stripe.com/changelog/2022-08-01
 * Cleaning up the SDK to remove deprecated/unused APIs and rename classes/methods/properties to sync with product APIs. Read more detailed description at https://github.com/stripe/stripe-go/wiki/Migration-guide-for-v73.
 
 "⚠️" symbol highlights breaking changes.
@@ -2942,7 +2942,7 @@ Version 71 of stripe-go contains some major changes. Many of them are breaking, 
 * [#969](https://github.com/stripe/stripe-go/pull/969) Add `DeviceType` filter when listing Terminal `Reader`s
 
 ## 65.0.0 - 2019-10-09
-* [#951](https://github.com/stripe/stripe-go/pull/951) Move to API version [`2019-10-08`](https://stripe.com/docs/upgrades#2019-10-08) and other changes
+* [#951](https://github.com/stripe/stripe-go/pull/951) Move to API version [`2019-10-08`](https://docs.stripe.com/changelog/2019-10-08) and other changes
   * [#950](https://github.com/stripe/stripe-go/pull/950) Remove lossy "MarshalJSON" implementations
   * [#962](https://github.com/stripe/stripe-go/pull/962) Removed deprecated properties and most todos
     * Removed `GetBalanceTransaction` and `List` from the `balance` package. Prefer using `Get` and `List` in the `balancetransaction` package.
@@ -2961,7 +2961,7 @@ Version 71 of stripe-go contains some major changes. Many of them are breaking, 
 * [#967](https://github.com/stripe/stripe-go/pull/967) Add `Get` method to `OrderReturn`
 
 ## 64.0.0 - 2019-10-08
-* ~[#968](https://github.com/stripe/stripe-go/pull/968) Update to latest API version [`2019-10-08`](https://stripe.com/docs/upgrades#2019-10-08)~
+* ~[#968](https://github.com/stripe/stripe-go/pull/968) Update to latest API version [`2019-10-08`](https://docs.stripe.com/changelog/2019-10-08)~
   * **Note:** This release is actually a no-op as we failed to merge the changes. Please use 65.0.0 instead.
 
 ## 63.5.0 - 2019-10-03
@@ -2991,7 +2991,7 @@ Version 71 of stripe-go contains some major changes. Many of them are breaking, 
 * [#949](https://github.com/stripe/stripe-go/pull/949) Add support for `DeclineCode` on `Error` top-level
 
 ## 63.0.0 - 2019-09-10
-* [#947](https://github.com/stripe/stripe-go/pull/947) Bump API version to [`2019-09-09`](https://stripe.com/docs/upgrades#2019-09-09)
+* [#947](https://github.com/stripe/stripe-go/pull/947) Bump API version to [`2019-09-09`](https://docs.stripe.com/changelog/2019-09-09)
 
 ## 62.10.0 - 2019-09-09
 * [#945](https://github.com/stripe/stripe-go/pull/945) Changes to `Account` and `Person` to represent identity verification state
@@ -3043,7 +3043,7 @@ Version 71 of stripe-go contains some major changes. Many of them are breaking, 
   * Add support for `Executive` on Person create, update and list
 
 ## 62.0.0 - 2019-08-14
-* [#915](https://github.com/stripe/stripe-go/pull/915) Move to API version [`2019-08-14`](https://stripe.com/docs/upgrades#2019-08-14) and other changes
+* [#915](https://github.com/stripe/stripe-go/pull/915) Move to API version [`2019-08-14`](https://docs.stripe.com/changelog/2019-08-14) and other changes
   * Pin to API version `2019-08-14`
   * Rename `AccountCapabilityPlatformPayments` to `AccountCapabilityTransfers`
   * Add `Executive` in `PersonRelationship`
@@ -3893,7 +3893,7 @@ Version 71 of stripe-go contains some major changes. Many of them are breaking, 
 * Balances are now retrieved by payout instead of by transfer
 
 ## 20.0.0 - 2017-04-06
-* Bump API version to 2017-04-06: https://stripe.com/docs/upgrades#2017-04-06
+* Bump API version to 2017-04-06: https://docs.stripe.com/changelog/2017-04-06
 * Add support for payouts and recipient transfers
 * Change the transfer resource to support its new format
 * Deprecate recipient creation
