@@ -139,7 +139,7 @@ type CreditNoteLineTaxAmountParams struct {
 	TaxRate *string `form:"tax_rate"`
 }
 
-// Line items that make up the credit note.
+// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNoteLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
@@ -169,7 +169,7 @@ type CreditNoteRefundParams struct {
 	Refund *string `form:"refund"`
 }
 
-// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNoteShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
 	ShippingRate *string `form:"shipping_rate"`
@@ -188,7 +188,7 @@ type CreditNoteShippingCostParams struct {
 // post_payment_credit_notes_amount, or both, depending on the invoice's amount_remaining at the time of credit note creation.
 type CreditNoteParams struct {
 	Params `form:"*"`
-	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	Amount *int64 `form:"amount"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
@@ -200,7 +200,7 @@ type CreditNoteParams struct {
 	Expand []*string `form:"expand"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
-	// Line items that make up the credit note.
+	// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	Lines []*CreditNoteLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
@@ -214,7 +214,7 @@ type CreditNoteParams struct {
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
 	Refunds []*CreditNoteRefundParams `form:"refunds"`
-	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	ShippingCost *CreditNoteShippingCostParams `form:"shipping_cost"`
 }
 
@@ -242,7 +242,7 @@ type CreditNotePreviewLineTaxAmountParams struct {
 	TaxRate *string `form:"tax_rate"`
 }
 
-// Line items that make up the credit note.
+// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
@@ -272,7 +272,7 @@ type CreditNotePreviewRefundParams struct {
 	Refund *string `form:"refund"`
 }
 
-// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
 	ShippingRate *string `form:"shipping_rate"`
@@ -281,7 +281,7 @@ type CreditNotePreviewShippingCostParams struct {
 // Get a preview of a credit note without creating it.
 type CreditNotePreviewParams struct {
 	Params `form:"*"`
-	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	Amount *int64 `form:"amount"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
@@ -293,7 +293,7 @@ type CreditNotePreviewParams struct {
 	Expand []*string `form:"expand"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
-	// Line items that make up the credit note.
+	// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	Lines []*CreditNotePreviewLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
@@ -307,7 +307,7 @@ type CreditNotePreviewParams struct {
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
 	Refunds []*CreditNotePreviewRefundParams `form:"refunds"`
-	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	ShippingCost *CreditNotePreviewShippingCostParams `form:"shipping_cost"`
 }
 
@@ -335,7 +335,7 @@ type CreditNotePreviewLinesLineTaxAmountParams struct {
 	TaxRate *string `form:"tax_rate"`
 }
 
-// Line items that make up the credit note.
+// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewLinesLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
@@ -365,16 +365,16 @@ type CreditNotePreviewLinesRefundParams struct {
 	Refund *string `form:"refund"`
 }
 
-// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewLinesShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
 	ShippingRate *string `form:"shipping_rate"`
 }
 
-// Line items that make up the credit note.
+// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNotePreviewLinesParams struct {
 	ListParams `form:"*"`
-	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	Amount *int64 `form:"amount"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
@@ -386,7 +386,7 @@ type CreditNotePreviewLinesParams struct {
 	Expand []*string `form:"expand"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
-	// Line items that make up the credit note.
+	// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	Lines []*CreditNotePreviewLinesLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
@@ -400,7 +400,7 @@ type CreditNotePreviewLinesParams struct {
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
 	Refunds []*CreditNotePreviewLinesRefundParams `form:"refunds"`
-	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	ShippingCost *CreditNotePreviewLinesShippingCostParams `form:"shipping_cost"`
 }
 
@@ -453,7 +453,7 @@ type CreditNoteCreateLineTaxAmountParams struct {
 	TaxRate *string `form:"tax_rate"`
 }
 
-// Line items that make up the credit note.
+// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNoteCreateLineParams struct {
 	// The line item amount to credit. Only valid when `type` is `invoice_line_item`. If invoice is set up with `automatic_tax[enabled]=true`, this amount is tax exclusive
 	Amount *int64 `form:"amount"`
@@ -483,7 +483,7 @@ type CreditNoteCreateRefundParams struct {
 	Refund *string `form:"refund"`
 }
 
-// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 type CreditNoteCreateShippingCostParams struct {
 	// The ID of the shipping rate to use for this order.
 	ShippingRate *string `form:"shipping_rate"`
@@ -502,7 +502,7 @@ type CreditNoteCreateShippingCostParams struct {
 // post_payment_credit_notes_amount, or both, depending on the invoice's amount_remaining at the time of credit note creation.
 type CreditNoteCreateParams struct {
 	Params `form:"*"`
-	// The integer amount in cents (or local equivalent) representing the total amount of the credit note.
+	// The integer amount in cents (or local equivalent) representing the total amount of the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	Amount *int64 `form:"amount"`
 	// The integer amount in cents (or local equivalent) representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
 	CreditAmount *int64 `form:"credit_amount"`
@@ -514,7 +514,7 @@ type CreditNoteCreateParams struct {
 	Expand []*string `form:"expand"`
 	// ID of the invoice.
 	Invoice *string `form:"invoice"`
-	// Line items that make up the credit note.
+	// Line items that make up the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	Lines []*CreditNoteCreateLineParams `form:"lines"`
 	// The credit note's memo appears on the credit note PDF.
 	Memo *string `form:"memo"`
@@ -528,7 +528,7 @@ type CreditNoteCreateParams struct {
 	RefundAmount *int64 `form:"refund_amount"`
 	// Refunds to link to this credit note.
 	Refunds []*CreditNoteCreateRefundParams `form:"refunds"`
-	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note.
+	// When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided.
 	ShippingCost *CreditNoteCreateShippingCostParams `form:"shipping_cost"`
 }
 

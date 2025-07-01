@@ -125,6 +125,42 @@ func (c Client) CollectInputs(id string, params *stripe.TerminalReaderCollectInp
 	return reader, err
 }
 
+// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation.
+func CollectPaymentMethod(id string, params *stripe.TerminalReaderCollectPaymentMethodParams) (*stripe.TerminalReader, error) {
+	return getC().CollectPaymentMethod(id, params)
+}
+
+// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) CollectPaymentMethod(id string, params *stripe.TerminalReaderCollectPaymentMethodParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath(
+		"/v1/terminal/readers/%s/collect_payment_method", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// Finalizes a payment on a Reader.
+func ConfirmPaymentIntent(id string, params *stripe.TerminalReaderConfirmPaymentIntentParams) (*stripe.TerminalReader, error) {
+	return getC().ConfirmPaymentIntent(id, params)
+}
+
+// Finalizes a payment on a Reader.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) ConfirmPaymentIntent(id string, params *stripe.TerminalReaderConfirmPaymentIntentParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath(
+		"/v1/terminal/readers/%s/confirm_payment_intent", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
 // Initiates a payment flow on a Reader.
 func ProcessPaymentIntent(id string, params *stripe.TerminalReaderProcessPaymentIntentParams) (*stripe.TerminalReader, error) {
 	return getC().ProcessPaymentIntent(id, params)

@@ -28,6 +28,15 @@ const (
 	SubscriptionAutomaticTaxLiabilityTypeSelf    SubscriptionAutomaticTaxLiabilityType = "self"
 )
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionBillingModeType string
+
+// List of values that SubscriptionBillingModeType can take
+const (
+	SubscriptionBillingModeTypeClassic  SubscriptionBillingModeType = "classic"
+	SubscriptionBillingModeTypeFlexible SubscriptionBillingModeType = "flexible"
+)
+
 // The customer submitted reason for why they canceled, if the subscription was canceled explicitly by the user.
 type SubscriptionCancellationDetailsFeedback string
 
@@ -203,6 +212,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCard               SubscriptionPaymentSettingsPaymentMethodType = "card"
 	SubscriptionPaymentSettingsPaymentMethodTypeCashApp            SubscriptionPaymentSettingsPaymentMethodType = "cashapp"
+	SubscriptionPaymentSettingsPaymentMethodTypeCrypto             SubscriptionPaymentSettingsPaymentMethodType = "crypto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCustomerBalance    SubscriptionPaymentSettingsPaymentMethodType = "customer_balance"
 	SubscriptionPaymentSettingsPaymentMethodTypeEPS                SubscriptionPaymentSettingsPaymentMethodType = "eps"
 	SubscriptionPaymentSettingsPaymentMethodTypeFPX                SubscriptionPaymentSettingsPaymentMethodType = "fpx"
@@ -326,7 +336,7 @@ type SubscriptionParams struct {
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
 	// Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
 	AutomaticTax *SubscriptionAutomaticTaxParams `form:"automatic_tax"`
-	// For new subscriptions, a past timestamp to backdate the subscription's start date to. If set, the first invoice will contain a proration for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
+	// A past timestamp to backdate the subscription's start date to. If set, the first invoice will contain line items for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
 	BackdateStartDate *int64 `form:"backdate_start_date"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
@@ -334,11 +344,13 @@ type SubscriptionParams struct {
 	BillingCycleAnchorConfig    *SubscriptionBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                       `form:"-"` // See custom AppendTo
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *SubscriptionBillingModeParams `form:"billing_mode"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This param will be removed in a future API version. Please use `cancel_at` instead.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Details about why this subscription was cancelled
 	CancellationDetails *SubscriptionCancellationDetailsParams `form:"cancellation_details"`
@@ -771,6 +783,11 @@ type SubscriptionBillingCycleAnchorConfigParams struct {
 	Second *int64 `form:"second"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // Search for subscriptions you've previously created using Stripe's [Search Query Language](https://docs.stripe.com/docs/search#search-query-language).
 // Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
 // conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
@@ -785,6 +802,25 @@ type SubscriptionSearchParams struct {
 
 // AddExpand appends a new field to expand.
 func (p *SubscriptionSearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionMigrateBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
+// Upgrade the billing_mode of an existing subscription.
+type SubscriptionMigrateParams struct {
+	Params `form:"*"`
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *SubscriptionMigrateBillingModeParams `form:"billing_mode"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *SubscriptionMigrateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
@@ -1166,7 +1202,7 @@ type SubscriptionUpdateParams struct {
 	BillingThresholds *SubscriptionUpdateBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This param will be removed in a future API version. Please use `cancel_at` instead.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Details about why this subscription was cancelled
 	CancellationDetails *SubscriptionUpdateCancellationDetailsParams `form:"cancellation_details"`
@@ -1284,7 +1320,7 @@ type SubscriptionCreateAutomaticTaxLiabilityParams struct {
 	Type *string `form:"type"`
 }
 
-// Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
+// Automatic tax settings for this subscription.
 type SubscriptionCreateAutomaticTaxParams struct {
 	// Enabled automatic tax calculation which will automatically compute tax rates on all invoices generated by the subscription.
 	Enabled *bool `form:"enabled"`
@@ -1304,6 +1340,11 @@ type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 	Month *int64 `form:"month"`
 	// The second of the minute the billing_cycle_anchor should be. Ranges from 0 to 59.
 	Second *int64 `form:"second"`
+}
+
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type SubscriptionCreateBillingModeParams struct {
+	Type *string `form:"type"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
@@ -1570,9 +1611,9 @@ type SubscriptionCreateParams struct {
 	AddInvoiceItems []*SubscriptionCreateAddInvoiceItemParams `form:"add_invoice_items"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions).
 	ApplicationFeePercent *float64 `form:"application_fee_percent"`
-	// Automatic tax settings for this subscription. We recommend you only include this parameter when the existing value is being changed.
+	// Automatic tax settings for this subscription.
 	AutomaticTax *SubscriptionCreateAutomaticTaxParams `form:"automatic_tax"`
-	// For new subscriptions, a past timestamp to backdate the subscription's start date to. If set, the first invoice will contain a proration for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
+	// A past timestamp to backdate the subscription's start date to. If set, the first invoice will contain line items for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
 	BackdateStartDate *int64 `form:"backdate_start_date"`
 	// A future timestamp in UTC format to anchor the subscription's [billing cycle](https://stripe.com/docs/subscriptions/billing-cycle). The anchor is the reference point that aligns future billing cycle dates. It sets the day of week for `week` intervals, the day of month for `month` and `year` intervals, and the month of year for `year` intervals.
 	BillingCycleAnchor *int64 `form:"billing_cycle_anchor"`
@@ -1580,11 +1621,13 @@ type SubscriptionCreateParams struct {
 	BillingCycleAnchorConfig    *SubscriptionCreateBillingCycleAnchorConfigParams `form:"billing_cycle_anchor_config"`
 	BillingCycleAnchorNow       *bool                                             `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                             `form:"-"` // See custom AppendTo
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *SubscriptionCreateBillingModeParams `form:"billing_mode"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
 	BillingThresholds *SubscriptionCreateBillingThresholdsParams `form:"billing_thresholds"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
 	CancelAt *int64 `form:"cancel_at"`
-	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`. This param will be removed in a future API version. Please use `cancel_at` instead.
+	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as `active`. Defaults to `charge_automatically`.
 	CollectionMethod *string `form:"collection_method"`
@@ -1702,6 +1745,14 @@ type SubscriptionBillingCycleAnchorConfig struct {
 	Month int64 `json:"month"`
 	// The second of the minute of the billing_cycle_anchor.
 	Second int64 `json:"second"`
+}
+
+// The billing mode of the subscription.
+type SubscriptionBillingMode struct {
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	Type SubscriptionBillingModeType `json:"type"`
+	// Details on when the current billing_mode was adopted.
+	UpdatedAt int64 `json:"updated_at"`
 }
 
 // Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
@@ -1899,11 +1950,13 @@ type Subscription struct {
 	BillingCycleAnchor int64 `json:"billing_cycle_anchor"`
 	// The fixed values used to calculate the `billing_cycle_anchor`.
 	BillingCycleAnchorConfig *SubscriptionBillingCycleAnchorConfig `json:"billing_cycle_anchor_config"`
+	// The billing mode of the subscription.
+	BillingMode *SubscriptionBillingMode `json:"billing_mode"`
 	// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
 	BillingThresholds *SubscriptionBillingThresholds `json:"billing_thresholds"`
 	// A date in the future at which the subscription will automatically get canceled
 	CancelAt int64 `json:"cancel_at"`
-	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period. This field will be removed in a future API version. Please use `cancel_at` instead.
+	// Whether this subscription will (if `status=active`) or did (if `status=canceled`) cancel at the end of the current billing period.
 	CancelAtPeriodEnd bool `json:"cancel_at_period_end"`
 	// If the subscription has been canceled, the date of that cancellation. If the subscription was canceled with `cancel_at_period_end`, `canceled_at` will reflect the time of the most recent update request, not the end of the subscription period when the subscription is automatically moved to a canceled state.
 	CanceledAt int64 `json:"canceled_at"`
@@ -1982,7 +2035,7 @@ type Subscription struct {
 	TrialEnd int64 `json:"trial_end"`
 	// Settings related to subscription trials.
 	TrialSettings *SubscriptionTrialSettings `json:"trial_settings"`
-	// If the subscription has a trial, the beginning of that trial. For subsequent trials, this date remains as the start of the first ever trial on the subscription.
+	// If the subscription has a trial, the beginning of that trial.
 	TrialStart int64 `json:"trial_start"`
 }
 

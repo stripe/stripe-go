@@ -80,6 +80,8 @@ type TerminalReaderActionType string
 // List of values that TerminalReaderActionType can take
 const (
 	TerminalReaderActionTypeCollectInputs        TerminalReaderActionType = "collect_inputs"
+	TerminalReaderActionTypeCollectPaymentMethod TerminalReaderActionType = "collect_payment_method"
+	TerminalReaderActionTypeConfirmPaymentIntent TerminalReaderActionType = "confirm_payment_intent"
 	TerminalReaderActionTypeProcessPaymentIntent TerminalReaderActionType = "process_payment_intent"
 	TerminalReaderActionTypeProcessSetupIntent   TerminalReaderActionType = "process_setup_intent"
 	TerminalReaderActionTypeRefundPayment        TerminalReaderActionType = "refund_payment"
@@ -247,6 +249,62 @@ func (p *TerminalReaderCollectInputsParams) AddMetadata(key string, value string
 	}
 
 	p.Metadata[key] = value
+}
+
+// Tipping configuration for this transaction.
+type TerminalReaderCollectPaymentMethodCollectConfigTippingParams struct {
+	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
+	AmountEligible *int64 `form:"amount_eligible"`
+}
+
+// Configuration overrides.
+type TerminalReaderCollectPaymentMethodCollectConfigParams struct {
+	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
+	AllowRedisplay *string `form:"allow_redisplay"`
+	// Enables cancel button on transaction screens.
+	EnableCustomerCancellation *bool `form:"enable_customer_cancellation"`
+	// Override showing a tipping selection screen on this transaction.
+	SkipTipping *bool `form:"skip_tipping"`
+	// Tipping configuration for this transaction.
+	Tipping *TerminalReaderCollectPaymentMethodCollectConfigTippingParams `form:"tipping"`
+}
+
+// Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation.
+type TerminalReaderCollectPaymentMethodParams struct {
+	Params `form:"*"`
+	// Configuration overrides.
+	CollectConfig *TerminalReaderCollectPaymentMethodCollectConfigParams `form:"collect_config"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// PaymentIntent ID.
+	PaymentIntent *string `form:"payment_intent"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderCollectPaymentMethodParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// Configuration overrides.
+type TerminalReaderConfirmPaymentIntentConfirmConfigParams struct {
+	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
+	ReturnURL *string `form:"return_url"`
+}
+
+// Finalizes a payment on a Reader.
+type TerminalReaderConfirmPaymentIntentParams struct {
+	Params `form:"*"`
+	// Configuration overrides.
+	ConfirmConfig *TerminalReaderConfirmPaymentIntentConfirmConfigParams `form:"confirm_config"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// PaymentIntent ID.
+	PaymentIntent *string `form:"payment_intent"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *TerminalReaderConfirmPaymentIntentParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Tipping configuration for this transaction.
@@ -568,6 +626,50 @@ type TerminalReaderActionCollectInputs struct {
 }
 
 // Represents a per-transaction tipping configuration
+type TerminalReaderActionCollectPaymentMethodCollectConfigTipping struct {
+	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
+	AmountEligible int64 `json:"amount_eligible"`
+}
+
+// Represents a per-transaction override of a reader configuration
+type TerminalReaderActionCollectPaymentMethodCollectConfig struct {
+	// Enable customer-initiated cancellation when processing this payment.
+	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
+	// Override showing a tipping selection screen on this transaction.
+	SkipTipping bool `json:"skip_tipping"`
+	// Represents a per-transaction tipping configuration
+	Tipping *TerminalReaderActionCollectPaymentMethodCollectConfigTipping `json:"tipping"`
+}
+
+// Represents a reader action to collect a payment method
+type TerminalReaderActionCollectPaymentMethod struct {
+	// Represents a per-transaction override of a reader configuration
+	CollectConfig *TerminalReaderActionCollectPaymentMethodCollectConfig `json:"collect_config"`
+	// Most recent PaymentIntent processed by the reader.
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// PaymentMethod objects represent your customer's payment instruments.
+	// You can use them with [PaymentIntents](https://stripe.com/docs/payments/payment-intents) to collect payments or save them to
+	// Customer objects to store instrument details for future payments.
+	//
+	// Related guides: [Payment Methods](https://stripe.com/docs/payments/payment-methods) and [More Payment Scenarios](https://stripe.com/docs/payments/more-payment-scenarios).
+	PaymentMethod *PaymentMethod `json:"payment_method"`
+}
+
+// Represents a per-transaction override of a reader configuration
+type TerminalReaderActionConfirmPaymentIntentConfirmConfig struct {
+	// If the customer doesn't abandon authenticating the payment, they're redirected to this URL after completion.
+	ReturnURL string `json:"return_url"`
+}
+
+// Represents a reader action to confirm a payment
+type TerminalReaderActionConfirmPaymentIntent struct {
+	// Represents a per-transaction override of a reader configuration
+	ConfirmConfig *TerminalReaderActionConfirmPaymentIntentConfirmConfig `json:"confirm_config"`
+	// Most recent PaymentIntent processed by the reader.
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+}
+
+// Represents a per-transaction tipping configuration
 type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
 	// Amount used to calculate tip suggestions on tipping selection screen for this transaction. Must be a positive integer in the smallest currency unit (e.g., 100 cents to represent $1.00 or 100 to represent ¥100, a zero-decimal currency).
 	AmountEligible int64 `json:"amount_eligible"`
@@ -575,9 +677,9 @@ type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
 
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionProcessPaymentIntentProcessConfig struct {
-	// Enable customer initiated cancellation when processing this payment.
+	// Enable customer-initiated cancellation when processing this payment.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
-	// If the customer does not abandon authenticating the payment, they will be redirected to this specified URL after completion.
+	// If the customer doesn't abandon authenticating the payment, they're redirected to this URL after completion.
 	ReturnURL string `json:"return_url"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping bool `json:"skip_tipping"`
@@ -595,7 +697,7 @@ type TerminalReaderActionProcessPaymentIntent struct {
 
 // Represents a per-setup override of a reader configuration
 type TerminalReaderActionProcessSetupIntentProcessConfig struct {
-	// Enable customer initiated cancellation when processing this SetupIntent.
+	// Enable customer-initiated cancellation when processing this SetupIntent.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
 }
 
@@ -611,7 +713,7 @@ type TerminalReaderActionProcessSetupIntent struct {
 
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionRefundPaymentRefundPaymentConfig struct {
-	// Enable customer initiated cancellation when refunding this payment.
+	// Enable customer-initiated cancellation when refunding this payment.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
 }
 
@@ -671,6 +773,10 @@ type TerminalReaderActionSetReaderDisplay struct {
 type TerminalReaderAction struct {
 	// Represents a reader action to collect customer inputs
 	CollectInputs *TerminalReaderActionCollectInputs `json:"collect_inputs"`
+	// Represents a reader action to collect a payment method
+	CollectPaymentMethod *TerminalReaderActionCollectPaymentMethod `json:"collect_payment_method"`
+	// Represents a reader action to confirm a payment
+	ConfirmPaymentIntent *TerminalReaderActionConfirmPaymentIntent `json:"confirm_payment_intent"`
 	// Failure code, only set if status is `failed`.
 	FailureCode string `json:"failure_code"`
 	// Detailed failure message, only set if status is `failed`.

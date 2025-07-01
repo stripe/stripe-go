@@ -114,6 +114,15 @@ const (
 	QuoteStatusOpen     QuoteStatus = "open"
 )
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type QuoteSubscriptionDataBillingModeType string
+
+// List of values that QuoteSubscriptionDataBillingModeType can take
+const (
+	QuoteSubscriptionDataBillingModeTypeClassic  QuoteSubscriptionDataBillingModeType = "classic"
+	QuoteSubscriptionDataBillingModeTypeFlexible QuoteSubscriptionDataBillingModeType = "flexible"
+)
+
 // The reasoning behind this tax, for example, if the product is tax exempt. The possible values for this field may be extended as new tax rules are supported.
 type QuoteTotalDetailsBreakdownTaxTaxabilityReason string
 
@@ -254,11 +263,18 @@ type QuoteLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type QuoteSubscriptionDataBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteSubscriptionDataParams struct {
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *QuoteSubscriptionDataBillingModeParams `form:"billing_mode"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
-	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
+	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. The `effective_date` is ignored if it is in the past when the quote is accepted.
 	EffectiveDate                 *int64 `form:"effective_date"`
 	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
@@ -526,11 +542,18 @@ type QuoteCreateLineItemParams struct {
 	TaxRates []*string `form:"tax_rates"`
 }
 
+// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+type QuoteCreateSubscriptionDataBillingModeParams struct {
+	Type *string `form:"type"`
+}
+
 // When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 type QuoteCreateSubscriptionDataParams struct {
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	BillingMode *QuoteCreateSubscriptionDataBillingModeParams `form:"billing_mode"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
-	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
+	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. The `effective_date` is ignored if it is in the past when the quote is accepted.
 	EffectiveDate                 *int64 `form:"effective_date"`
 	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
@@ -732,7 +755,7 @@ type QuoteUpdateLineItemParams struct {
 type QuoteUpdateSubscriptionDataParams struct {
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description *string `form:"description"`
-	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. When updating a subscription, the date of which the subscription will be updated using a subscription schedule. The special value `current_period_end` can be provided to update a subscription at the end of its current period. The `effective_date` is ignored if it is in the past when the quote is accepted.
+	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. The `effective_date` is ignored if it is in the past when the quote is accepted.
 	EffectiveDate                 *int64 `form:"effective_date"`
 	EffectiveDateCurrentPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that will set metadata on the subscription or subscription schedule when the quote is accepted. If a recurring price is included in `line_items`, this field will be passed to the resulting subscription's `metadata` field. If `subscription_data.effective_date` is used, this field will be passed to the resulting subscription schedule's `phases.metadata` field. Unlike object-level metadata, this field is declarative. Updates will clear prior values.
@@ -973,7 +996,15 @@ type QuoteStatusTransitions struct {
 	// The time that the quote was finalized. Measured in seconds since Unix epoch.
 	FinalizedAt int64 `json:"finalized_at"`
 }
+
+// The billing mode of the quote.
+type QuoteSubscriptionDataBillingMode struct {
+	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
+	Type QuoteSubscriptionDataBillingModeType `json:"type"`
+}
 type QuoteSubscriptionData struct {
+	// The billing mode of the quote.
+	BillingMode *QuoteSubscriptionDataBillingMode `json:"billing_mode"`
 	// The subscription's description, meant to be displayable to the customer. Use this field to optionally store an explanation of the subscription for rendering in Stripe surfaces and certain local payment methods UIs.
 	Description string `json:"description"`
 	// When creating a new subscription, the date of which the subscription schedule will start after the quote is accepted. This date is ignored if it is in the past when the quote is accepted. Measured in seconds since the Unix epoch.

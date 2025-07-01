@@ -225,6 +225,20 @@ const (
 	AccountSettingsPayoutsScheduleIntervalWeekly  AccountSettingsPayoutsScheduleInterval = "weekly"
 )
 
+// The days of the week when available funds are paid out, specified as an array, for example, [`monday`, `tuesday`]. Only shown if `interval` is weekly.
+type AccountSettingsPayoutsScheduleWeeklyPayoutDay string
+
+// List of values that AccountSettingsPayoutsScheduleWeeklyPayoutDay can take
+const (
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayFriday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "friday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayMonday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "monday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDaySaturday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "saturday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDaySunday    AccountSettingsPayoutsScheduleWeeklyPayoutDay = "sunday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayThursday  AccountSettingsPayoutsScheduleWeeklyPayoutDay = "thursday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayTuesday   AccountSettingsPayoutsScheduleWeeklyPayoutDay = "tuesday"
+	AccountSettingsPayoutsScheduleWeeklyPayoutDayWednesday AccountSettingsPayoutsScheduleWeeklyPayoutDay = "wednesday"
+)
+
 // The user's service agreement type
 type AccountTOSAcceptanceServiceAgreement string
 
@@ -453,6 +467,12 @@ type AccountCapabilitiesCartesBancairesPaymentsParams struct {
 
 // The cashapp_payments capability.
 type AccountCapabilitiesCashAppPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The crypto_payments capability.
+type AccountCapabilitiesCryptoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -750,6 +770,8 @@ type AccountCapabilitiesParams struct {
 	CartesBancairesPayments *AccountCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
 	// The cashapp_payments capability.
 	CashAppPayments *AccountCapabilitiesCashAppPaymentsParams `form:"cashapp_payments"`
+	// The crypto_payments capability.
+	CryptoPayments *AccountCapabilitiesCryptoPaymentsParams `form:"crypto_payments"`
 	// The eps_payments capability.
 	EPSPayments *AccountCapabilitiesEPSPaymentsParams `form:"eps_payments"`
 	// The fpx_payments capability.
@@ -891,6 +913,8 @@ type AccountCompanyOwnershipDeclarationParams struct {
 	// The user agent of the browser from which the beneficial owner attestation was made.
 	UserAgent *string `form:"user_agent"`
 }
+
+// When the business was incorporated or registered.
 type AccountCompanyRegistrationDateParams struct {
 	// The day of registration, between 1 and 31.
 	Day *int64 `form:"day"`
@@ -947,7 +971,8 @@ type AccountCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
-	Phone            *string                               `form:"phone"`
+	Phone *string `form:"phone"`
+	// When the business was incorporated or registered.
 	RegistrationDate *AccountCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
@@ -999,6 +1024,12 @@ type AccountDocumentsCompanyTaxIDVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
+// One or more documents that demonstrate proof of address.
+type AccountDocumentsProofOfAddressParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
@@ -1025,6 +1056,8 @@ type AccountDocumentsParams struct {
 	CompanyRegistrationVerification *AccountDocumentsCompanyRegistrationVerificationParams `form:"company_registration_verification"`
 	// One or more documents that demonstrate proof of a company's tax ID.
 	CompanyTaxIDVerification *AccountDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *AccountDocumentsProofOfAddressParams `form:"proof_of_address"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -1152,8 +1185,12 @@ type AccountSettingsPayoutsScheduleParams struct {
 	Interval *string `form:"interval"`
 	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
+	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
+	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
 	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
 	WeeklyAnchor *string `form:"weekly_anchor"`
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
 // AppendTo implements custom encoding logic for AccountSettingsPayoutsScheduleParams.
@@ -1444,6 +1481,12 @@ type AccountUpdateCapabilitiesCartesBancairesPaymentsParams struct {
 
 // The cashapp_payments capability.
 type AccountUpdateCapabilitiesCashAppPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The crypto_payments capability.
+type AccountUpdateCapabilitiesCryptoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -1741,6 +1784,8 @@ type AccountUpdateCapabilitiesParams struct {
 	CartesBancairesPayments *AccountUpdateCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
 	// The cashapp_payments capability.
 	CashAppPayments *AccountUpdateCapabilitiesCashAppPaymentsParams `form:"cashapp_payments"`
+	// The crypto_payments capability.
+	CryptoPayments *AccountUpdateCapabilitiesCryptoPaymentsParams `form:"crypto_payments"`
 	// The eps_payments capability.
 	EPSPayments *AccountUpdateCapabilitiesEPSPaymentsParams `form:"eps_payments"`
 	// The fpx_payments capability.
@@ -1988,6 +2033,12 @@ type AccountUpdateDocumentsCompanyTaxIDVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
+// One or more documents that demonstrate proof of address.
+type AccountUpdateDocumentsProofOfAddressParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountUpdateDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
@@ -2014,6 +2065,8 @@ type AccountUpdateDocumentsParams struct {
 	CompanyRegistrationVerification *AccountUpdateDocumentsCompanyRegistrationVerificationParams `form:"company_registration_verification"`
 	// One or more documents that demonstrate proof of a company's tax ID.
 	CompanyTaxIDVerification *AccountUpdateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *AccountUpdateDocumentsProofOfAddressParams `form:"proof_of_address"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountUpdateDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -2150,8 +2203,12 @@ type AccountUpdateSettingsPayoutsScheduleParams struct {
 	Interval *string `form:"interval"`
 	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
+	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
+	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
 	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
 	WeeklyAnchor *string `form:"weekly_anchor"`
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
 // AppendTo implements custom encoding logic for AccountUpdateSettingsPayoutsScheduleParams.
@@ -2427,6 +2484,12 @@ type AccountCreateCapabilitiesCartesBancairesPaymentsParams struct {
 
 // The cashapp_payments capability.
 type AccountCreateCapabilitiesCashAppPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The crypto_payments capability.
+type AccountCreateCapabilitiesCryptoPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -2724,6 +2787,8 @@ type AccountCreateCapabilitiesParams struct {
 	CartesBancairesPayments *AccountCreateCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
 	// The cashapp_payments capability.
 	CashAppPayments *AccountCreateCapabilitiesCashAppPaymentsParams `form:"cashapp_payments"`
+	// The crypto_payments capability.
+	CryptoPayments *AccountCreateCapabilitiesCryptoPaymentsParams `form:"crypto_payments"`
 	// The eps_payments capability.
 	EPSPayments *AccountCreateCapabilitiesEPSPaymentsParams `form:"eps_payments"`
 	// The fpx_payments capability.
@@ -2865,6 +2930,8 @@ type AccountCreateCompanyOwnershipDeclarationParams struct {
 	// The user agent of the browser from which the beneficial owner attestation was made.
 	UserAgent *string `form:"user_agent"`
 }
+
+// When the business was incorporated or registered.
 type AccountCreateCompanyRegistrationDateParams struct {
 	// The day of registration, between 1 and 31.
 	Day *int64 `form:"day"`
@@ -2920,7 +2987,8 @@ type AccountCreateCompanyParams struct {
 	// Whether the company's owners have been provided. Set this Boolean to `true` after creating all the company's owners with [the Persons API](https://docs.stripe.com/api/persons) for accounts with a `relationship.owner` requirement.
 	OwnersProvided *bool `form:"owners_provided"`
 	// The company's phone number (used for verification).
-	Phone            *string                                     `form:"phone"`
+	Phone *string `form:"phone"`
+	// When the business was incorporated or registered.
 	RegistrationDate *AccountCreateCompanyRegistrationDateParams `form:"registration_date"`
 	// The identification number given to a company when it is registered or incorporated, if distinct from the identification number used for filing taxes. (Examples are the CIN for companies and LLP IN for partnerships in India, and the Company Registration Number in Hong Kong).
 	RegistrationNumber *string `form:"registration_number"`
@@ -3002,6 +3070,12 @@ type AccountCreateDocumentsCompanyTaxIDVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
+// One or more documents that demonstrate proof of address.
+type AccountCreateDocumentsProofOfAddressParams struct {
+	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
+	Files []*string `form:"files"`
+}
+
 // One or more documents showing the company's proof of registration with the national business registry.
 type AccountCreateDocumentsProofOfRegistrationParams struct {
 	// One or more document ids returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `account_requirement`.
@@ -3028,6 +3102,8 @@ type AccountCreateDocumentsParams struct {
 	CompanyRegistrationVerification *AccountCreateDocumentsCompanyRegistrationVerificationParams `form:"company_registration_verification"`
 	// One or more documents that demonstrate proof of a company's tax ID.
 	CompanyTaxIDVerification *AccountCreateDocumentsCompanyTaxIDVerificationParams `form:"company_tax_id_verification"`
+	// One or more documents that demonstrate proof of address.
+	ProofOfAddress *AccountCreateDocumentsProofOfAddressParams `form:"proof_of_address"`
 	// One or more documents showing the company's proof of registration with the national business registry.
 	ProofOfRegistration *AccountCreateDocumentsProofOfRegistrationParams `form:"proof_of_registration"`
 	// One or more documents that demonstrate proof of ultimate beneficial ownership.
@@ -3162,8 +3238,12 @@ type AccountCreateSettingsPayoutsScheduleParams struct {
 	Interval *string `form:"interval"`
 	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
 	MonthlyAnchor *int64 `form:"monthly_anchor"`
+	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly` and `monthly_anchor` is not set.
+	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
 	// The day of the week when available funds are paid out, specified as `monday`, `tuesday`, etc. (required and applicable only if `interval` is `weekly`.)
 	WeeklyAnchor *string `form:"weekly_anchor"`
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly` and `weekly_anchor` is not set.)
+	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
 // AppendTo implements custom encoding logic for AccountCreateSettingsPayoutsScheduleParams.
@@ -3375,6 +3455,8 @@ type AccountCapabilities struct {
 	CartesBancairesPayments AccountCapabilityStatus `json:"cartes_bancaires_payments"`
 	// The status of the Cash App Pay capability of the account, or whether the account can directly process Cash App Pay payments.
 	CashAppPayments AccountCapabilityStatus `json:"cashapp_payments"`
+	// The status of the Crypto capability of the account, or whether the account can directly process Crypto payments.
+	CryptoPayments AccountCapabilityStatus `json:"crypto_payments"`
 	// The status of the EPS payments capability of the account, or whether the account can directly process EPS charges.
 	EPSPayments AccountCapabilityStatus `json:"eps_payments"`
 	// The status of the FPX payments capability of the account, or whether the account can directly process FPX charges.
@@ -3755,8 +3837,12 @@ type AccountSettingsPayoutsSchedule struct {
 	Interval AccountSettingsPayoutsScheduleInterval `json:"interval"`
 	// The day of the month funds will be paid out. Only shown if `interval` is monthly. Payouts scheduled between the 29th and 31st of the month are sent on the last day of shorter months.
 	MonthlyAnchor int64 `json:"monthly_anchor"`
+	// The days of the month funds will be paid out. Only shown if `interval` is monthly. Payouts scheduled between the 29th and 31st of the month are sent on the last day of shorter months.
+	MonthlyPayoutDays []int64 `json:"monthly_payout_days"`
 	// The day of the week funds will be paid out, of the style 'monday', 'tuesday', etc. Only shown if `interval` is weekly.
 	WeeklyAnchor string `json:"weekly_anchor"`
+	// The days of the week when available funds are paid out, specified as an array, for example, [`monday`, `tuesday`]. Only shown if `interval` is weekly.
+	WeeklyPayoutDays []AccountSettingsPayoutsScheduleWeeklyPayoutDay `json:"weekly_payout_days"`
 }
 type AccountSettingsPayouts struct {
 	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://docs.stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.

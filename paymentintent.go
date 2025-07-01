@@ -351,12 +351,14 @@ const (
 	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanIntervalMonth PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval = "month"
 )
 
-// Type of installment plan, one of `fixed_count`.
+// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType can take
 const (
+	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeBonus      PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "bonus"
 	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeFixedCount PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "fixed_count"
+	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeRevolving  PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "revolving"
 )
 
 // One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
@@ -501,6 +503,20 @@ const (
 	PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage = "off_session"
 	PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage = "on_session"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsageNone PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage = "none"
 )
 
 // List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
@@ -666,7 +682,9 @@ type PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsage can take
 const (
-	PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsageNone PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsage = "off_session"
+	PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsage = "on_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1262,6 +1280,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *PaymentMethodCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -1574,7 +1594,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -1755,6 +1775,20 @@ type PaymentIntentPaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+type PaymentIntentPaymentMethodOptionsCryptoParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
@@ -1882,6 +1916,42 @@ type PaymentIntentPaymentMethodOptionsKakaoPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// On-demand details if setting up or charging an on-demand payment.
+type PaymentIntentPaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type PaymentIntentPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription.
+type PaymentIntentPaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *PaymentIntentPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -1890,6 +1960,8 @@ type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// On-demand details if setting up or charging an on-demand payment.
+	OnDemand *PaymentIntentPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
 	PreferredLocale *string `form:"preferred_locale"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1902,6 +1974,8 @@ type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if setting up or charging a subscription.
+	Subscriptions []*PaymentIntentPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
@@ -2376,6 +2450,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	CardPresent *PaymentIntentPaymentMethodOptionsCardPresentParams `form:"card_present"`
 	// If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
 	CashApp *PaymentIntentPaymentMethodOptionsCashAppParams `form:"cashapp"`
+	// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+	Crypto *PaymentIntentPaymentMethodOptionsCryptoParams `form:"crypto"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -2534,7 +2610,7 @@ type PaymentIntentParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentRadarOptionsParams `form:"radar_options"`
@@ -2741,7 +2817,7 @@ type PaymentIntentConfirmParams struct {
 	PaymentMethodData *PaymentIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, a card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentConfirmRadarOptionsParams `form:"radar_options"`
@@ -2945,6 +3021,8 @@ type PaymentIntentCreatePaymentMethodDataParams struct {
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *PaymentMethodCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -3257,7 +3335,7 @@ type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -3438,6 +3516,20 @@ type PaymentIntentCreatePaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+type PaymentIntentCreatePaymentMethodOptionsCryptoParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentCreatePaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
@@ -3565,6 +3657,42 @@ type PaymentIntentCreatePaymentMethodOptionsKakaoPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// On-demand details if setting up or charging an on-demand payment.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription.
+type PaymentIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *PaymentIntentCreatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentCreatePaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -3573,6 +3701,8 @@ type PaymentIntentCreatePaymentMethodOptionsKlarnaParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// On-demand details if setting up or charging an on-demand payment.
+	OnDemand *PaymentIntentCreatePaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
 	PreferredLocale *string `form:"preferred_locale"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -3585,6 +3715,8 @@ type PaymentIntentCreatePaymentMethodOptionsKlarnaParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if setting up or charging a subscription.
+	Subscriptions []*PaymentIntentCreatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
@@ -4059,6 +4191,8 @@ type PaymentIntentCreatePaymentMethodOptionsParams struct {
 	CardPresent *PaymentIntentCreatePaymentMethodOptionsCardPresentParams `form:"card_present"`
 	// If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
 	CashApp *PaymentIntentCreatePaymentMethodOptionsCashAppParams `form:"cashapp"`
+	// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+	Crypto *PaymentIntentCreatePaymentMethodOptionsCryptoParams `form:"crypto"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentCreatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -4219,7 +4353,7 @@ type PaymentIntentCreateParams struct {
 	PaymentMethodData *PaymentIntentCreatePaymentMethodDataParams `form:"payment_method_data"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentCreatePaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, a card) that this PaymentIntent can use. If you don't provide this, Stripe will dynamically show relevant payment methods from your [payment method settings](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Options to configure Radar. Learn more about [Radar Sessions](https://stripe.com/docs/radar/radar-session).
 	RadarOptions *PaymentIntentCreateRadarOptionsParams `form:"radar_options"`
@@ -4338,6 +4472,8 @@ type PaymentIntentUpdatePaymentMethodDataParams struct {
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	// If this is a `cashapp` PaymentMethod, this hash contains details about the Cash App Pay payment method.
 	CashApp *PaymentMethodCashAppParams `form:"cashapp"`
+	// If this is a Crypto PaymentMethod, this hash contains details about the Crypto payment method.
+	Crypto *PaymentMethodCryptoParams `form:"crypto"`
 	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
 	CustomerBalance *PaymentMethodCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
@@ -4650,7 +4786,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 	// For `fixed_count` installment plans, this is required. It represents the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval *string `form:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type *string `form:"type"`
 }
 
@@ -4831,6 +4967,20 @@ type PaymentIntentUpdatePaymentMethodOptionsCashAppParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+type PaymentIntentUpdatePaymentMethodOptionsCryptoParams struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	//
+	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // Configuration for the eu_bank_transfer funding type.
 type PaymentIntentUpdatePaymentMethodOptionsCustomerBalanceBankTransferEUBankTransferParams struct {
 	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
@@ -4958,6 +5108,42 @@ type PaymentIntentUpdatePaymentMethodOptionsKakaoPayParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// On-demand details if setting up or charging an on-demand payment.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription.
+type PaymentIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *PaymentIntentUpdatePaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -4966,6 +5152,8 @@ type PaymentIntentUpdatePaymentMethodOptionsKlarnaParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// On-demand details if setting up or charging an on-demand payment.
+	OnDemand *PaymentIntentUpdatePaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
 	PreferredLocale *string `form:"preferred_locale"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -4978,6 +5166,8 @@ type PaymentIntentUpdatePaymentMethodOptionsKlarnaParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if setting up or charging a subscription.
+	Subscriptions []*PaymentIntentUpdatePaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
@@ -5452,6 +5642,8 @@ type PaymentIntentUpdatePaymentMethodOptionsParams struct {
 	CardPresent *PaymentIntentUpdatePaymentMethodOptionsCardPresentParams `form:"card_present"`
 	// If this is a `cashapp` PaymentMethod, this sub-hash contains details about the Cash App Pay payment method options.
 	CashApp *PaymentIntentUpdatePaymentMethodOptionsCashAppParams `form:"cashapp"`
+	// If this is a `crypto` PaymentMethod, this sub-hash contains details about the Crypto payment method options.
+	Crypto *PaymentIntentUpdatePaymentMethodOptionsCryptoParams `form:"crypto"`
 	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
 	CustomerBalance *PaymentIntentUpdatePaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -5567,7 +5759,7 @@ type PaymentIntentUpdateParams struct {
 	PaymentMethodData *PaymentIntentUpdatePaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentUpdatePaymentMethodOptionsParams `form:"payment_method_options"`
-	// The list of payment method types (for example, card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types (for example, card) that this PaymentIntent can use. Use `automatic_payment_methods` to manage payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods). A list of valid payment method types can be found [here](https://docs.stripe.com/api/payment_methods/object#payment_method_object-type).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
 	// Email address that the receipt for the resulting payment will be sent to. If `receipt_email` is specified for a payment in live mode, a receipt will be sent regardless of your [email settings](https://dashboard.stripe.com/account/emails).
 	ReceiptEmail *string `form:"receipt_email"`
@@ -6144,11 +6336,11 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsPlan struct {
 	// For `fixed_count` installment plans, this is the interval between installment payments your customer will make to their credit card.
 	// One of `month`.
 	Interval PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval `json:"interval"`
-	// Type of installment plan, one of `fixed_count`.
+	// Type of installment plan, one of `fixed_count`, `bonus`, or `revolving`.
 	Type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType `json:"type"`
 }
 
-// Installment details for this payment (Mexico only).
+// Installment details for this payment.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type PaymentIntentPaymentMethodOptionsCardInstallments struct {
@@ -6184,7 +6376,7 @@ type PaymentIntentPaymentMethodOptionsCardMandateOptions struct {
 type PaymentIntentPaymentMethodOptionsCard struct {
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod PaymentIntentPaymentMethodOptionsCardCaptureMethod `json:"capture_method"`
-	// Installment details for this payment (Mexico only).
+	// Installment details for this payment.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *PaymentIntentPaymentMethodOptionsCardInstallments `json:"installments"`
@@ -6239,6 +6431,16 @@ type PaymentIntentPaymentMethodOptionsCashApp struct {
 	//
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsCashAppSetupFutureUsage `json:"setup_future_usage"`
+}
+type PaymentIntentPaymentMethodOptionsCrypto struct {
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsCryptoSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferEUBankTransfer struct {
 	// The desired country code of the bank account information. Permitted values include: `BE`, `DE`, `ES`, `FR`, `IE`, or `NL`.
@@ -6659,6 +6861,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
 	CashApp          *PaymentIntentPaymentMethodOptionsCashApp          `json:"cashapp"`
+	Crypto           *PaymentIntentPaymentMethodOptionsCrypto           `json:"crypto"`
 	CustomerBalance  *PaymentIntentPaymentMethodOptionsCustomerBalance  `json:"customer_balance"`
 	EPS              *PaymentIntentPaymentMethodOptionsEPS              `json:"eps"`
 	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx"`
