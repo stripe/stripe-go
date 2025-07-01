@@ -14,6 +14,7 @@ type DisputeEnhancedEligibilityType string
 // List of values that DisputeEnhancedEligibilityType can take
 const (
 	DisputeEnhancedEligibilityTypeVisaCompellingEvidence3 DisputeEnhancedEligibilityType = "visa_compelling_evidence_3"
+	DisputeEnhancedEligibilityTypeVisaCompliance          DisputeEnhancedEligibilityType = "visa_compliance"
 )
 
 // Categorization of disputed payment.
@@ -56,6 +57,16 @@ const (
 	DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatusRequiresFeeAcknowledgement DisputeEvidenceDetailsEnhancedEligibilityVisaComplianceStatus = "requires_fee_acknowledgement"
 )
 
+// Whether the dispute was submitted manually, with Smart Disputes, or not submitted.
+type DisputeEvidenceDetailsSubmissionMethod string
+
+// List of values that DisputeEvidenceDetailsSubmissionMethod can take
+const (
+	DisputeEvidenceDetailsSubmissionMethodManual        DisputeEvidenceDetailsSubmissionMethod = "manual"
+	DisputeEvidenceDetailsSubmissionMethodNotSubmitted  DisputeEvidenceDetailsSubmissionMethod = "not_submitted"
+	DisputeEvidenceDetailsSubmissionMethodSmartDisputes DisputeEvidenceDetailsSubmissionMethod = "smart_disputes"
+)
+
 // The AmazonPay dispute type, chargeback or claim
 type DisputePaymentMethodDetailsAmazonPayDisputeType string
 
@@ -71,6 +82,7 @@ type DisputePaymentMethodDetailsCardCaseType string
 // List of values that DisputePaymentMethodDetailsCardCaseType can take
 const (
 	DisputePaymentMethodDetailsCardCaseTypeChargeback DisputePaymentMethodDetailsCardCaseType = "chargeback"
+	DisputePaymentMethodDetailsCardCaseTypeCompliance DisputePaymentMethodDetailsCardCaseType = "compliance"
 	DisputePaymentMethodDetailsCardCaseTypeInquiry    DisputePaymentMethodDetailsCardCaseType = "inquiry"
 )
 
@@ -601,6 +613,8 @@ type DisputeEvidenceDetails struct {
 	PastDue bool `json:"past_due"`
 	// The number of times evidence has been submitted. Typically, you may only submit evidence once.
 	SubmissionCount int64 `json:"submission_count"`
+	// Whether the dispute was submitted manually, with Smart Disputes, or not submitted.
+	SubmissionMethod DisputeEvidenceDetailsSubmissionMethod `json:"submission_method"`
 }
 type DisputePaymentMethodDetailsAmazonPay struct {
 	// The AmazonPay dispute type, chargeback or claim

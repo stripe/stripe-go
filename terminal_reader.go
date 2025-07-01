@@ -257,7 +257,7 @@ type TerminalReaderCollectPaymentMethodCollectConfigTippingParams struct {
 	AmountEligible *int64 `form:"amount_eligible"`
 }
 
-// Configuration overrides
+// Configuration overrides.
 type TerminalReaderCollectPaymentMethodCollectConfigParams struct {
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow.
 	AllowRedisplay *string `form:"allow_redisplay"`
@@ -272,11 +272,11 @@ type TerminalReaderCollectPaymentMethodCollectConfigParams struct {
 // Initiates a payment flow on a Reader and updates the PaymentIntent with card details before manual confirmation.
 type TerminalReaderCollectPaymentMethodParams struct {
 	Params `form:"*"`
-	// Configuration overrides
+	// Configuration overrides.
 	CollectConfig *TerminalReaderCollectPaymentMethodCollectConfigParams `form:"collect_config"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// PaymentIntent ID
+	// PaymentIntent ID.
 	PaymentIntent *string `form:"payment_intent"`
 }
 
@@ -285,7 +285,7 @@ func (p *TerminalReaderCollectPaymentMethodParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
-// Configuration overrides
+// Configuration overrides.
 type TerminalReaderConfirmPaymentIntentConfirmConfigParams struct {
 	// The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method's app or site. If you'd prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
 	ReturnURL *string `form:"return_url"`
@@ -294,11 +294,11 @@ type TerminalReaderConfirmPaymentIntentConfirmConfigParams struct {
 // Finalizes a payment on a Reader.
 type TerminalReaderConfirmPaymentIntentParams struct {
 	Params `form:"*"`
-	// Configuration overrides
+	// Configuration overrides.
 	ConfirmConfig *TerminalReaderConfirmPaymentIntentConfirmConfigParams `form:"confirm_config"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// PaymentIntent ID
+	// PaymentIntent ID.
 	PaymentIntent *string `form:"payment_intent"`
 }
 
@@ -633,7 +633,7 @@ type TerminalReaderActionCollectPaymentMethodCollectConfigTipping struct {
 
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionCollectPaymentMethodCollectConfig struct {
-	// Enable customer initiated cancellation when processing this payment.
+	// Enable customer-initiated cancellation when processing this payment.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping bool `json:"skip_tipping"`
@@ -659,7 +659,7 @@ type TerminalReaderActionCollectPaymentMethod struct {
 
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionConfirmPaymentIntentConfirmConfig struct {
-	// If the customer does not abandon authenticating the payment, they will be redirected to this specified URL after completion.
+	// If the customer doesn't abandon authenticating the payment, they're redirected to this URL after completion.
 	ReturnURL string `json:"return_url"`
 }
 
@@ -681,9 +681,9 @@ type TerminalReaderActionProcessPaymentIntentProcessConfigTipping struct {
 
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionProcessPaymentIntentProcessConfig struct {
-	// Enable customer initiated cancellation when processing this payment.
+	// Enable customer-initiated cancellation when processing this payment.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
-	// If the customer does not abandon authenticating the payment, they will be redirected to this specified URL after completion.
+	// If the customer doesn't abandon authenticating the payment, they're redirected to this URL after completion.
 	ReturnURL string `json:"return_url"`
 	// Override showing a tipping selection screen on this transaction.
 	SkipTipping bool `json:"skip_tipping"`
@@ -703,7 +703,7 @@ type TerminalReaderActionProcessPaymentIntent struct {
 
 // Represents a per-setup override of a reader configuration
 type TerminalReaderActionProcessSetupIntentProcessConfig struct {
-	// Enable customer initiated cancellation when processing this SetupIntent.
+	// Enable customer-initiated cancellation when processing this SetupIntent.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
 }
 
@@ -719,7 +719,7 @@ type TerminalReaderActionProcessSetupIntent struct {
 
 // Represents a per-transaction override of a reader configuration
 type TerminalReaderActionRefundPaymentRefundPaymentConfig struct {
-	// Enable customer initiated cancellation when refunding this payment.
+	// Enable customer-initiated cancellation when refunding this payment.
 	EnableCustomerCancellation bool `json:"enable_customer_cancellation"`
 }
 

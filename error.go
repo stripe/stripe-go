@@ -490,6 +490,33 @@ func (e *FinancialAccountNotOpenError) canRetry() bool {
 	return false
 }
 
+// FeatureNotEnabledError is the Go struct corresponding to the error type "feature_not_enabled."
+// The required storer capabilities are missing.
+type FeatureNotEnabledError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *FeatureNotEnabledError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *FeatureNotEnabledError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *FeatureNotEnabledError) canRetry() bool {
+	return false
+}
+
 // BlockedByStripeError is the Go struct corresponding to the error type "blocked_by_stripe."
 // Returned if an InboundTransfer is not allowed for risk, legal, regulatory or other unforeseen reasons.
 type BlockedByStripeError struct {
@@ -572,7 +599,7 @@ func (e *NotCancelableError) canRetry() bool {
 }
 
 // InsufficientFundsError is the Go struct corresponding to the error type "insufficient_funds."
-// Error returned when the balance of provided financial account and balance type in the OutboundPayment request does not have enough funds.
+// Error returned when the balance of provided financial account and balance type in the OutboundPayment/OutboundTransfer request does not have enough funds.
 type InsufficientFundsError struct {
 	APIResource
 	Code        string    `json:"code"`
@@ -649,33 +676,6 @@ func (e *RecipientNotNotifiableError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *RecipientNotNotifiableError) canRetry() bool {
-	return false
-}
-
-// FeatureNotEnabledError is the Go struct corresponding to the error type "feature_not_enabled."
-// Error returned when recipient does not have the active features required to receive funds from this OutboundPayment request.
-type FeatureNotEnabledError struct {
-	APIResource
-	Code        string    `json:"code"`
-	DocURL      *string   `json:"doc_url,omitempty"`
-	Message     string    `json:"message"`
-	Type        ErrorType `json:"type"`
-	UserMessage *string   `json:"user_message,omitempty"`
-}
-
-// Error serializes the error object to JSON and returns it as a string.
-func (e *FeatureNotEnabledError) Error() string {
-	ret, _ := json.Marshal(e)
-	return string(ret)
-}
-
-// redact implements the redacter interface.
-func (e *FeatureNotEnabledError) redact() error {
-	return e
-}
-
-// canRetry implements the retrier interface.
-func (e *FeatureNotEnabledError) canRetry() bool {
 	return false
 }
 

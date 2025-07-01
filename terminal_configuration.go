@@ -1158,6 +1158,7 @@ type TerminalConfigurationWifi struct {
 }
 
 // A Configurations object represents how features should be configured for terminal readers.
+// For information about how to use it, see the [Terminal configurations documentation](https://docs.stripe.com/terminal/fleet/configurations-overview).
 type TerminalConfiguration struct {
 	APIResource
 	BBPOSWisePOSE *TerminalConfigurationBBPOSWisePOSE `json:"bbpos_wisepos_e"`

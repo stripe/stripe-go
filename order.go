@@ -249,7 +249,9 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsage string
 
 // List of values that OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsage can take
 const (
-	OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsageNone OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsage = "none"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsageNone       OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsage = "none"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsageOffSession OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsage = "off_session"
+	OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsageOnSession  OrderPaymentSettingsPaymentMethodOptionsKlarnaSetupFutureUsage = "on_session"
 )
 
 // Controls when the funds will be captured from the customer's account.
@@ -942,6 +944,42 @@ type OrderPaymentSettingsPaymentMethodOptionsIDEALParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// On-demand details if setting up or charging an on-demand payment.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription.
+type OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
 type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -950,6 +988,8 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// On-demand details if setting up or charging an on-demand payment.
+	OnDemand *OrderPaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
 	PreferredLocale *string `form:"preferred_locale"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -962,6 +1002,8 @@ type OrderPaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if setting up or charging a subscription.
+	Subscriptions []*OrderPaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
@@ -1685,6 +1727,42 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsIDEALParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// On-demand details if setting up or charging an on-demand payment.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription.
+type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
 type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -1693,6 +1771,8 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// On-demand details if setting up or charging an on-demand payment.
+	OnDemand *OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
 	PreferredLocale *string `form:"preferred_locale"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1705,6 +1785,8 @@ type OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if setting up or charging a subscription.
+	Subscriptions []*OrderCreatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
@@ -2391,6 +2473,42 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsIDEALParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// On-demand details if setting up or charging an on-demand payment.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams struct {
+	// Your average amount value. You can use a value across your customer base, or segment based on customer type, country, etc.
+	AverageAmount *int64 `form:"average_amount"`
+	// The maximum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MaximumAmount *int64 `form:"maximum_amount"`
+	// The lowest or minimum value you may charge a customer per purchase. You can use a value across your customer base, or segment based on customer type, country, etc.
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Interval at which the customer is making purchases
+	PurchaseInterval *string `form:"purchase_interval"`
+	// The number of `purchase_interval` between charges
+	PurchaseIntervalCount *int64 `form:"purchase_interval_count"`
+}
+
+// Describes the upcoming charge for this subscription.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams struct {
+	// The amount of the next charge for the subscription.
+	Amount *int64 `form:"amount"`
+	// The date of the next charge for the subscription in YYYY-MM-DD format.
+	Date *string `form:"date"`
+}
+
+// Subscription details if setting up or charging a subscription.
+type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams struct {
+	// Unit of time between subscription charges.
+	Interval *string `form:"interval"`
+	// The number of intervals (specified in the `interval` attribute) between subscription charges. For example, `interval=month` and `interval_count=3` charges every 3 months.
+	IntervalCount *int64 `form:"interval_count"`
+	// Name for subscription.
+	Name *string `form:"name"`
+	// Describes the upcoming charge for this subscription.
+	NextBilling *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionNextBillingParams `form:"next_billing"`
+	// A non-customer-facing reference to correlate subscription charges in the Klarna app. Use a value that persists across subscription charges.
+	Reference *string `form:"reference"`
+}
+
 // If paying by `klarna`, this sub-hash contains details about the Klarna payment method options to pass to the order's PaymentIntent.
 type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	// Controls when the funds are captured from the customer's account.
@@ -2399,6 +2517,8 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	//
 	// If `capture_method` is already set on the PaymentIntent, providing an empty value for this parameter unsets the stored value for this payment method type.
 	CaptureMethod *string `form:"capture_method"`
+	// On-demand details if setting up or charging an on-demand payment.
+	OnDemand *OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaOnDemandParams `form:"on_demand"`
 	// Preferred language of the Klarna authorization page that the customer is redirected to
 	PreferredLocale *string `form:"preferred_locale"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2411,6 +2531,8 @@ type OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaParams struct {
 	//
 	// If you've already set `setup_future_usage` and you're performing a request using a publishable key, you can only update the value from `on_session` to `off_session`.
 	SetupFutureUsage *string `form:"setup_future_usage"`
+	// Subscription details if setting up or charging a subscription.
+	Subscriptions []*OrderUpdatePaymentSettingsPaymentMethodOptionsKlarnaSubscriptionParams `form:"subscriptions"`
 }
 
 // If paying by `link`, this sub-hash contains details about the Link payment method options to pass to the order's PaymentIntent.
