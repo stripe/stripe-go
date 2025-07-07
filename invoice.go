@@ -340,7 +340,7 @@ type InvoiceParams struct {
 	AmountsDue []*InvoiceAmountsDueParams `form:"amounts_due"`
 	// A fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
+	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action. Defaults to false.
 	AutoAdvance *bool `form:"auto_advance"`
 	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state. To turn off automatic finalization, set `auto_advance` to false.
 	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`
@@ -525,7 +525,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this invoice (Mexico Only).
+// Installment configuration for payments attempted on this invoice.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
@@ -538,7 +538,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
-	// Installment configuration for payments attempted on this invoice (Mexico Only).
+	// Installment configuration for payments attempted on this invoice.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
@@ -1810,6 +1810,7 @@ type InvoiceCreatePreviewScheduleDetailsAmendmentParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewScheduleDetailsBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -2201,6 +2202,7 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewSubscriptionDetailsBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -2542,7 +2544,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams 
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this invoice (Mexico Only).
+// Installment configuration for payments attempted on this invoice.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
@@ -2555,7 +2557,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams stru
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
-	// Installment configuration for payments attempted on this invoice (Mexico Only).
+	// Installment configuration for payments attempted on this invoice.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
@@ -2960,7 +2962,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams 
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this invoice (Mexico Only).
+// Installment configuration for payments attempted on this invoice.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
@@ -2973,7 +2975,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams stru
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
-	// Installment configuration for payments attempted on this invoice (Mexico Only).
+	// Installment configuration for payments attempted on this invoice.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
@@ -3192,7 +3194,7 @@ type InvoiceCreateParams struct {
 	AmountsDue []*InvoiceCreateAmountsDueParams `form:"amounts_due"`
 	// A fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
+	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action. Defaults to false.
 	AutoAdvance *bool `form:"auto_advance"`
 	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state.
 	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`

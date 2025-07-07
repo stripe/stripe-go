@@ -1542,8 +1542,10 @@ type CheckoutSessionCustomerUpdateParams struct {
 
 // The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 type CheckoutSessionDiscountParams struct {
-	// The ID of the coupon to apply to this Session.
+	// The ID of the [Coupon](https://stripe.com/docs/api/coupons) to apply to this Session. One of `coupon` or `coupon_data` is required when updating discounts.
 	Coupon *string `form:"coupon"`
+	// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+	CouponData *CheckoutSessionDiscountCouponDataParams `form:"coupon_data"`
 	// The ID of a promotion code to apply to this Session.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -2546,6 +2548,10 @@ type CheckoutSessionPermissionsUpdateParams struct {
 type CheckoutSessionPermissionsParams struct {
 	// Permissions for updating the Checkout Session.
 	Update *CheckoutSessionPermissionsUpdateParams `form:"update"`
+	// Determines which entity is allowed to update the discounts (coupons or promotion codes) that apply to this session.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically handle discount updates. If set to `server_only`, only your server is allowed to update discounts.
+	UpdateDiscounts *string `form:"update_discounts"`
 	// Determines which entity is allowed to update the line items.
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the line items. If set to `server_only`, only your server is allowed to update the line items.
@@ -2686,6 +2692,7 @@ type CheckoutSessionShippingOptionParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type CheckoutSessionSubscriptionDataBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -2972,6 +2979,31 @@ type CheckoutSessionCollectedInformationShippingDetailsParams struct {
 type CheckoutSessionCollectedInformationParams struct {
 	// The shipping details to apply to this Session.
 	ShippingDetails *CheckoutSessionCollectedInformationShippingDetailsParams `form:"shipping_details"`
+}
+
+// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+type CheckoutSessionDiscountCouponDataParams struct {
+	// A positive integer representing the amount to subtract from an invoice total (required if `percent_off` is not passed).
+	AmountOff *int64 `form:"amount_off"`
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
+	Currency *string `form:"currency"`
+	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
+	Duration *string `form:"duration"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
+	Name *string `form:"name"`
+	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
+	PercentOff *float64 `form:"percent_off"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionDiscountCouponDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
@@ -4175,6 +4207,10 @@ type CheckoutSessionCreatePermissionsUpdateParams struct {
 type CheckoutSessionCreatePermissionsParams struct {
 	// Permissions for updating the Checkout Session.
 	Update *CheckoutSessionCreatePermissionsUpdateParams `form:"update"`
+	// Determines which entity is allowed to update the discounts (coupons or promotion codes) that apply to this session.
+	//
+	// Default is `client_only`. Stripe Checkout client will automatically handle discount updates. If set to `server_only`, only your server is allowed to update discounts.
+	UpdateDiscounts *string `form:"update_discounts"`
 	// Determines which entity is allowed to update the line items.
 	//
 	// Default is `client_only`. Stripe Checkout client will automatically update the line items. If set to `server_only`, only your server is allowed to update the line items.
@@ -4315,6 +4351,7 @@ type CheckoutSessionCreateShippingOptionParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type CheckoutSessionCreateSubscriptionDataBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -4613,6 +4650,39 @@ type CheckoutSessionUpdateCollectedInformationParams struct {
 	ShippingDetails *CheckoutSessionUpdateCollectedInformationShippingDetailsParams `form:"shipping_details"`
 }
 
+// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+type CheckoutSessionUpdateDiscountCouponDataParams struct {
+	// A positive integer representing the amount to subtract from an invoice total (required if `percent_off` is not passed).
+	AmountOff *int64 `form:"amount_off"`
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
+	Currency *string `form:"currency"`
+	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
+	Duration *string `form:"duration"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
+	Name *string `form:"name"`
+	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
+	PercentOff *float64 `form:"percent_off"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionUpdateDiscountCouponDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+// List of coupons and promotion codes attached to the Checkout Session.
+type CheckoutSessionUpdateDiscountParams struct {
+	// The ID of the [Coupon](https://stripe.com/docs/api/coupons) to apply to this Session. One of `coupon` or `coupon_data` is required when updating discounts.
+	Coupon *string `form:"coupon"`
+	// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+	CouponData *CheckoutSessionUpdateDiscountCouponDataParams `form:"coupon_data"`
+}
+
 // When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
 type CheckoutSessionUpdateLineItemAdjustableQuantityParams struct {
 	// Set to true if the quantity can be adjusted to any positive integer. Setting to false will remove any previously specified constraints on quantity.
@@ -4788,6 +4858,14 @@ type CheckoutSessionUpdateShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionUpdateShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
+// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
+type CheckoutSessionUpdateSubscriptionDataParams struct {
+	// Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. Has to be at least 48 hours in the future.
+	TrialEnd *int64 `form:"trial_end"`
+	// Integer representing the number of trial period days before the customer is charged for the first time. Has to be at least 1.
+	TrialPeriodDays *int64 `form:"trial_period_days"`
+}
+
 // Updates a Checkout Session object.
 //
 // Related guide: [Dynamically update Checkout](https://docs.stripe.com/payments/checkout/dynamic-updates)
@@ -4795,6 +4873,8 @@ type CheckoutSessionUpdateParams struct {
 	Params `form:"*"`
 	// Information about the customer collected within the Checkout Session. Can only be set when updating `embedded` or `custom` sessions.
 	CollectedInformation *CheckoutSessionUpdateCollectedInformationParams `form:"collected_information"`
+	// List of coupons and promotion codes attached to the Checkout Session.
+	Discounts []*CheckoutSessionUpdateDiscountParams `form:"discounts"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// A list of items the customer is purchasing.
@@ -4815,6 +4895,8 @@ type CheckoutSessionUpdateParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The shipping rate options to apply to this Session. Up to a maximum of 5.
 	ShippingOptions []*CheckoutSessionUpdateShippingOptionParams `form:"shipping_options"`
+	// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
+	SubscriptionData *CheckoutSessionUpdateSubscriptionDataParams `form:"subscription_data"`
 }
 
 // AddExpand appends a new field to expand.

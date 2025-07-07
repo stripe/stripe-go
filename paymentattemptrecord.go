@@ -44,7 +44,7 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguageNL PaymentAttemptRecordPaymentMethodDetailsBancontactPreferredLanguage = "nl"
 )
 
-// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 type PaymentAttemptRecordPaymentMethodDetailsCardBrand string
 
 // List of values that PaymentAttemptRecordPaymentMethodDetailsCardBrand can take
@@ -676,7 +676,7 @@ type PaymentAttemptRecordPaymentMethodDetailsAlipay struct {
 }
 type PaymentAttemptRecordPaymentMethodDetailsAlma struct{}
 type PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
 	BrandProduct string `json:"brand_product"`
@@ -783,7 +783,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCardThreeDSecure struct {
 
 // Details of the card used for this payment attempt.
 type PaymentAttemptRecordPaymentMethodDetailsCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentAttemptRecordPaymentMethodDetailsCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
 	CaptureBefore int64 `json:"capture_before"`
@@ -851,7 +851,7 @@ type PaymentAttemptRecordPaymentMethodDetailsCardPresentWallet struct {
 type PaymentAttemptRecordPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -906,6 +906,8 @@ type PaymentAttemptRecordPaymentMethodDetailsCashApp struct {
 	BuyerID string `json:"buyer_id"`
 	// A public identifier for buyers using Cash App.
 	Cashtag string `json:"cashtag"`
+	// A unique and immutable identifier of payments assigned by Cash App
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsCrypto struct {
 	// The wallet address of the customer.
@@ -1224,7 +1226,7 @@ type PaymentAttemptRecordPaymentMethodDetailsPromptPay struct {
 type PaymentAttemptRecordPaymentMethodDetailsQris struct{}
 type PaymentAttemptRecordPaymentMethodDetailsRechnung struct{}
 type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFundingCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
 	BrandProduct string `json:"brand_product"`

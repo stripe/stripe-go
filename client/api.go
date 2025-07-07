@@ -123,6 +123,7 @@ import (
 	"github.com/stripe/stripe-go/v82/setupintent"
 	"github.com/stripe/stripe-go/v82/shippingrate"
 	sigmascheduledqueryrun "github.com/stripe/stripe-go/v82/sigma/scheduledqueryrun"
+	sigmaschema "github.com/stripe/stripe-go/v82/sigma/schema"
 	"github.com/stripe/stripe-go/v82/source"
 	"github.com/stripe/stripe-go/v82/sourcetransaction"
 	"github.com/stripe/stripe-go/v82/subscription"
@@ -426,6 +427,8 @@ type API struct {
 	ShippingRates *shippingrate.Client
 	// SigmaScheduledQueryRuns is the client used to invoke /v1/sigma/scheduled_query_runs APIs.
 	SigmaScheduledQueryRuns *sigmascheduledqueryrun.Client
+	// SigmaSchemas is the client used to invoke /v1/sigma/schemas APIs.
+	SigmaSchemas *sigmaschema.Client
 	// Sources is the client used to invoke /v1/sources APIs.
 	Sources *source.Client
 	// SourceTransactions is the client used to invoke /v1/sources/{source}/source_transactions APIs.
@@ -702,6 +705,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
 	a.ShippingRates = &shippingrate.Client{B: backends.API, Key: key}
 	a.SigmaScheduledQueryRuns = &sigmascheduledqueryrun.Client{B: backends.API, Key: key}
+	a.SigmaSchemas = &sigmaschema.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
 	a.SourceTransactions = &sourcetransaction.Client{B: backends.API, Key: key}
 	a.SubscriptionItems = &subscriptionitem.Client{B: backends.API, Key: key}

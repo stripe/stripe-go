@@ -18,7 +18,7 @@ const (
 	PaymentMethodAllowRedisplayUnspecified PaymentMethodAllowRedisplay = "unspecified"
 )
 
-// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 type PaymentMethodCardBrand string
 
 // List of values that PaymentMethodCardBrand can take
@@ -1459,7 +1459,7 @@ type PaymentMethodUpdateUSBankAccountParams struct {
 	AccountType *string `form:"account_type"`
 }
 
-// Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.
+// Updates a PaymentMethod object. A PaymentMethod must be attached to a customer to be updated.
 type PaymentMethodUpdateParams struct {
 	Params `form:"*"`
 	// This field indicates whether this payment method can be shown again to its customer in a checkout flow. Stripe products such as Checkout and Elements use this field to determine whether a payment method can be shown as a saved payment method in a checkout flow. The field defaults to `unspecified`.
@@ -1597,7 +1597,7 @@ type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresentWallet struct 
 type PaymentMethodCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -1719,7 +1719,7 @@ type PaymentMethodCardWallet struct {
 	VisaCheckout *PaymentMethodCardWalletVisaCheckout `json:"visa_checkout"`
 }
 type PaymentMethodCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// Checks on Card address and CVC if provided.
 	Checks *PaymentMethodCardChecks `json:"checks"`
@@ -1779,7 +1779,7 @@ type PaymentMethodCardPresentWallet struct {
 	Type PaymentMethodCardPresentWalletType `json:"type"`
 }
 type PaymentMethodCardPresent struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`

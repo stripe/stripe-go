@@ -877,6 +877,7 @@ type SubscriptionBillingCycleAnchorConfigParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -1541,6 +1542,7 @@ type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionCreateBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 

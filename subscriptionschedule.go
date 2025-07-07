@@ -212,6 +212,7 @@ func (p *SubscriptionScheduleListParams) AddExpand(f string) {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionScheduleBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -1036,6 +1037,7 @@ func (p *SubscriptionScheduleReleaseParams) AddExpand(f string) {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionScheduleCreateBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
