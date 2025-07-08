@@ -11,7 +11,7 @@ import (
 	"github.com/stripe/stripe-go/v82/form"
 )
 
-// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
+// Whether the business is a minority-owned, women-owned, and/or LGBTQI+ -owned business.
 type AccountBusinessProfileMinorityOwnedBusinessDesignation string
 
 // List of values that AccountBusinessProfileMinorityOwnedBusinessDesignation can take
@@ -383,7 +383,7 @@ type AccountBusinessProfileParams struct {
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
 	// [The merchant category code for the account](https://docs.stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
-	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
+	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+ -owned business.
 	MinorityOwnedBusinessDesignation []*string `form:"minority_owned_business_designation"`
 	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 	MonthlyEstimatedRevenue *AccountBusinessProfileMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue"`
@@ -1579,7 +1579,7 @@ type AccountUpdateBusinessProfileParams struct {
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
 	// [The merchant category code for the account](https://docs.stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
-	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
+	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+ -owned business.
 	MinorityOwnedBusinessDesignation []*string `form:"minority_owned_business_designation"`
 	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 	MonthlyEstimatedRevenue *AccountUpdateBusinessProfileMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue"`
@@ -2746,7 +2746,7 @@ type AccountCreateBusinessProfileParams struct {
 	EstimatedWorkerCount *int64 `form:"estimated_worker_count"`
 	// [The merchant category code for the account](https://docs.stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC *string `form:"mcc"`
-	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
+	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+ -owned business.
 	MinorityOwnedBusinessDesignation []*string `form:"minority_owned_business_designation"`
 	// An estimate of the monthly revenue of the business. Only accepted for accounts in Brazil and India.
 	MonthlyEstimatedRevenue *AccountCreateBusinessProfileMonthlyEstimatedRevenueParams `form:"monthly_estimated_revenue"`
@@ -3962,7 +3962,7 @@ type AccountBusinessProfile struct {
 	EstimatedWorkerCount int64 `json:"estimated_worker_count"`
 	// [The merchant category code for the account](https://docs.stripe.com/connect/setting-mcc). MCCs are used to classify businesses based on the goods or services they provide.
 	MCC string `json:"mcc"`
-	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+-owned business.
+	// Whether the business is a minority-owned, women-owned, and/or LGBTQI+ -owned business.
 	MinorityOwnedBusinessDesignation []AccountBusinessProfileMinorityOwnedBusinessDesignation `json:"minority_owned_business_designation"`
 	MonthlyEstimatedRevenue          *AccountBusinessProfileMonthlyEstimatedRevenue           `json:"monthly_estimated_revenue"`
 	// The customer-facing business name.
