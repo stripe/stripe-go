@@ -228,7 +228,7 @@ type FxQuoteUsage struct {
 
 // The FX Quotes API provides three functions:
 // - View Stripe's current exchange rate for any given currency pair.
-// - Extend quoted rates for a 1-hour period or a 24-hour period, minimzing uncertainty from FX fluctuations.
+// - Extend quoted rates for a 1-hour period or a 24-hour period, minimizing uncertainty from FX fluctuations.
 // - Preview the FX fees Stripe will charge on your FX transaction, allowing you to anticipate specific settlement amounts before payment costs.
 //
 // [View the docs](https://docs.stripe.com/payments/currencies/localize-prices/fx-quotes-api)
