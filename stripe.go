@@ -950,11 +950,22 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 		}
 		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
 		typedError = tmp.Error
-	case "financial_account_not_open":
+	case "non_zero_balance":
 		tmp := struct {
-			Error *FinancialAccountNotOpenError `json:"error"`
+			Error *NonZeroBalanceError `json:"error"`
 		}{
-			Error: &FinancialAccountNotOpenError{},
+			Error: &NonZeroBalanceError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "already_exists":
+		tmp := struct {
+			Error *AlreadyExistsError `json:"error"`
+		}{
+			Error: &AlreadyExistsError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err
@@ -966,6 +977,17 @@ func (s *BackendImplementation) responseToErrorV2(res *http.Response, resBody []
 			Error *FeatureNotEnabledError `json:"error"`
 		}{
 			Error: &FeatureNotEnabledError{},
+		}
+		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
+			return err
+		}
+		tmp.Error.SetLastResponse(newAPIResponse(res, resBody, nil))
+		typedError = tmp.Error
+	case "financial_account_not_open":
+		tmp := struct {
+			Error *FinancialAccountNotOpenError `json:"error"`
+		}{
+			Error: &FinancialAccountNotOpenError{},
 		}
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &tmp); err != nil {
 			return err

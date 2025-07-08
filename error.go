@@ -30,6 +30,7 @@ const (
 
 	// V2 error types
 	ErrorTypeAlreadyCanceled         ErrorType = "already_canceled"
+	ErrorTypeAlreadyExists           ErrorType = "already_exists"
 	ErrorTypeBlockedByStripe         ErrorType = "blocked_by_stripe"
 	ErrorTypeControlledByDashboard   ErrorType = "controlled_by_dashboard"
 	ErrorTypeFeatureNotEnabled       ErrorType = "feature_not_enabled"
@@ -37,6 +38,7 @@ const (
 	ErrorTypeInsufficientFunds       ErrorType = "insufficient_funds"
 	ErrorTypeInvalidPaymentMethod    ErrorType = "invalid_payment_method"
 	ErrorTypeInvalidPayoutMethod     ErrorType = "invalid_payout_method"
+	ErrorTypeNonZeroBalance          ErrorType = "non_zero_balance"
 	ErrorTypeNotCancelable           ErrorType = "not_cancelable"
 	ErrorTypeQuotaExceeded           ErrorType = "quota_exceeded"
 	ErrorTypeRecipientNotNotifiable  ErrorType = "recipient_not_notifiable"
@@ -464,8 +466,9 @@ func (e *TemporarySessionExpiredError) canRetry() bool {
 	return false
 }
 
-// FinancialAccountNotOpenError is the Go struct corresponding to the error type "financial_account_not_open."
-type FinancialAccountNotOpenError struct {
+// NonZeroBalanceError is the Go struct corresponding to the error type "non_zero_balance."
+// Error thrown if a user tries to close an account that has non-zero balances.
+type NonZeroBalanceError struct {
 	APIResource
 	Code        string    `json:"code"`
 	DocURL      *string   `json:"doc_url,omitempty"`
@@ -475,18 +478,45 @@ type FinancialAccountNotOpenError struct {
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *FinancialAccountNotOpenError) Error() string {
+func (e *NonZeroBalanceError) Error() string {
 	ret, _ := json.Marshal(e)
 	return string(ret)
 }
 
 // redact implements the redacter interface.
-func (e *FinancialAccountNotOpenError) redact() error {
+func (e *NonZeroBalanceError) redact() error {
 	return e
 }
 
 // canRetry implements the retrier interface.
-func (e *FinancialAccountNotOpenError) canRetry() bool {
+func (e *NonZeroBalanceError) canRetry() bool {
+	return false
+}
+
+// AlreadyExistsError is the Go struct corresponding to the error type "already_exists."
+// The resource already exists.
+type AlreadyExistsError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *AlreadyExistsError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *AlreadyExistsError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *AlreadyExistsError) canRetry() bool {
 	return false
 }
 
@@ -514,6 +544,32 @@ func (e *FeatureNotEnabledError) redact() error {
 
 // canRetry implements the retrier interface.
 func (e *FeatureNotEnabledError) canRetry() bool {
+	return false
+}
+
+// FinancialAccountNotOpenError is the Go struct corresponding to the error type "financial_account_not_open."
+type FinancialAccountNotOpenError struct {
+	APIResource
+	Code        string    `json:"code"`
+	DocURL      *string   `json:"doc_url,omitempty"`
+	Message     string    `json:"message"`
+	Type        ErrorType `json:"type"`
+	UserMessage *string   `json:"user_message,omitempty"`
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *FinancialAccountNotOpenError) Error() string {
+	ret, _ := json.Marshal(e)
+	return string(ret)
+}
+
+// redact implements the redacter interface.
+func (e *FinancialAccountNotOpenError) redact() error {
+	return e
+}
+
+// canRetry implements the retrier interface.
+func (e *FinancialAccountNotOpenError) canRetry() bool {
 	return false
 }
 
