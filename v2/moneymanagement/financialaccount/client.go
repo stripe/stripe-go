@@ -22,6 +22,18 @@ type Client struct {
 	Key string
 }
 
+// Creates a new FinancialAccount.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) New(params *stripe.V2MoneyManagementFinancialAccountParams) (*stripe.V2MoneyManagementFinancialAccount, error) {
+	financialaccount := &stripe.V2MoneyManagementFinancialAccount{}
+	err := c.B.Call(
+		http.MethodPost, "/v2/money_management/financial_accounts", c.Key, params, financialaccount)
+	return financialaccount, err
+}
+
 // Retrieves the details of an existing FinancialAccount.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
@@ -31,6 +43,19 @@ func (c Client) Get(id string, params *stripe.V2MoneyManagementFinancialAccountP
 	path := stripe.FormatURLPath("/v2/money_management/financial_accounts/%s", id)
 	financialaccount := &stripe.V2MoneyManagementFinancialAccount{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, financialaccount)
+	return financialaccount, err
+}
+
+// Closes a FinancialAccount with or without forwarding settings.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) Close(id string, params *stripe.V2MoneyManagementFinancialAccountCloseParams) (*stripe.V2MoneyManagementFinancialAccount, error) {
+	path := stripe.FormatURLPath(
+		"/v2/money_management/financial_accounts/%s/close", id)
+	financialaccount := &stripe.V2MoneyManagementFinancialAccount{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, financialaccount)
 	return financialaccount, err
 }
 
