@@ -102,6 +102,23 @@ const (
 	V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapabilityStripeTransfers              V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability = "stripe.transfers"
 )
 
+// Open Enum. The capability which had its status updated.
+type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability string
+
+// List of values that V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability can take
+const (
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityFinancialAddresssesBankAccounts    V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "financial_addressses.bank_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesEUR                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.eur"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesGBP                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.gbp"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityHoldsCurrenciesUSD                 V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "holds_currencies.usd"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityInboundTransfersBankAccounts       V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "inbound_transfers.bank_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsBankAccounts       V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.bank_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsCards              V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.cards"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundPaymentsFinancialAccounts  V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_payments.financial_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersBankAccounts      V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.bank_accounts"
+	V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapabilityOutboundTransfersFinancialAccounts V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability = "outbound_transfers.financial_accounts"
+)
+
 // Open Enum.
 type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeCode string
 
@@ -354,6 +371,33 @@ type V2CoreAccountIncludingConfigurationRecipientUpdatedEvent struct {
 
 // FetchRelatedObject fetches the related V2CoreAccount object for the event.
 func (e V2CoreAccountIncludingConfigurationRecipientUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].capability_status_updated" event.
+// Occurs when the status of an Account's storer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                             `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2CoreAccountIncludingConfigurationStorerUpdatedEvent is the Go struct for the "v2.core.account[configuration.storer].updated" event.
+// Occurs when a Storer's configuration is updated.
+type V2CoreAccountIncludingConfigurationStorerUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2CoreAccount, error)
+}
+
+// FetchRelatedObject fetches the related V2CoreAccount object for the event.
+func (e V2CoreAccountIncludingConfigurationStorerUpdatedEvent) FetchRelatedObject() (*V2CoreAccount, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -972,6 +1016,12 @@ type V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDat
 	UpdatedCapability V2CoreAccountIncludingConfigurationRecipientCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
 }
 
+// Occurs when the status of an Account's storer configuration capability is updated.
+type V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventData struct {
+	// Open Enum. The capability which had its status updated.
+	UpdatedCapability V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEventDataUpdatedCapability `json:"updated_capability"`
+}
+
 // The request causes the error.
 type V1BillingMeterErrorReportTriggeredEventDataReasonErrorTypeSampleErrorRequest struct {
 	// The request idempotency key.
@@ -1243,6 +1293,29 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		return result, nil
 	case "v2.core.account[configuration.recipient].updated":
 		result := &V2CoreAccountIncludingConfigurationRecipientUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.storer].capability_status_updated":
+		result := &V2CoreAccountIncludingConfigurationStorerCapabilityStatusUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
+			v := &V2CoreAccount{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.core.account[configuration.storer].updated":
+		result := &V2CoreAccountIncludingConfigurationStorerUpdatedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2CoreAccount, error) {
