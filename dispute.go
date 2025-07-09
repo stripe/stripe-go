@@ -119,6 +119,17 @@ const (
 	DisputeReasonUnrecognized            DisputeReason = "unrecognized"
 )
 
+// Smart Disputes auto representment packet availability status.
+type DisputeSmartDisputesStatus string
+
+// List of values that DisputeSmartDisputesStatus can take
+const (
+	DisputeSmartDisputesStatusAvailable        DisputeSmartDisputesStatus = "available"
+	DisputeSmartDisputesStatusProcessing       DisputeSmartDisputesStatus = "processing"
+	DisputeSmartDisputesStatusRequiresEvidence DisputeSmartDisputesStatus = "requires_evidence"
+	DisputeSmartDisputesStatusUnavailable      DisputeSmartDisputesStatus = "unavailable"
+)
+
 // Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, or `lost`.
 type DisputeStatus string
 
@@ -646,6 +657,12 @@ type DisputePaymentMethodDetails struct {
 	// Payment method type.
 	Type DisputePaymentMethodDetailsType `json:"type"`
 }
+type DisputeSmartDisputes struct {
+	// Evidence that could be provided to improve the SmartDisputes packet
+	RecommendedEvidence []string `json:"recommended_evidence"`
+	// Smart Disputes auto representment packet availability status.
+	Status DisputeSmartDisputesStatus `json:"status"`
+}
 
 // A dispute occurs when a customer questions your charge with their card issuer.
 // When this happens, you have the opportunity to respond to the dispute with
@@ -684,7 +701,8 @@ type Dispute struct {
 	PaymentIntent        *PaymentIntent               `json:"payment_intent"`
 	PaymentMethodDetails *DisputePaymentMethodDetails `json:"payment_method_details"`
 	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `noncompliant`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://stripe.com/docs/disputes/categories).
-	Reason DisputeReason `json:"reason"`
+	Reason        DisputeReason         `json:"reason"`
+	SmartDisputes *DisputeSmartDisputes `json:"smart_disputes"`
 	// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, or `lost`.
 	Status DisputeStatus `json:"status"`
 }

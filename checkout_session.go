@@ -377,6 +377,15 @@ const (
 	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
 )
 
+// Where the user is coming from. This informs the optimizations that are applied to the session.
+type CheckoutSessionOriginContext string
+
+// List of values that CheckoutSessionOriginContext can take
+const (
+	CheckoutSessionOriginContextMobileApp CheckoutSessionOriginContext = "mobile_app"
+	CheckoutSessionOriginContextWeb       CheckoutSessionOriginContext = "web"
+)
+
 // Configure whether a Checkout Session should collect a payment method. Defaults to `always`.
 type CheckoutSessionPaymentMethodCollection string
 
@@ -2882,6 +2891,8 @@ type CheckoutSessionParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items"`
+	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `embedded` or `custom`.
+	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
@@ -4539,6 +4550,8 @@ type CheckoutSessionCreateParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionCreateOptionalItemParams `form:"optional_items"`
+	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `embedded` or `custom`.
+	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionCreatePaymentIntentDataParams `form:"payment_intent_data"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
@@ -6005,6 +6018,8 @@ type CheckoutSession struct {
 	Object string `json:"object"`
 	// The optional items presented to the customer at checkout.
 	OptionalItems []*CheckoutSessionOptionalItem `json:"optional_items"`
+	// Where the user is coming from. This informs the optimizations that are applied to the session.
+	OriginContext CheckoutSessionOriginContext `json:"origin_context"`
 	// The ID of the PaymentIntent for Checkout Sessions in `payment` mode. You can't confirm or cancel the PaymentIntent for a Checkout Session. To cancel, [expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The ID of the Payment Link that created this Session.
