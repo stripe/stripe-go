@@ -228,6 +228,8 @@ type Client struct {
 	V1ShippingRates *v1ShippingRateService
 	// V1SigmaScheduledQueryRuns is the service used to invoke /v1/sigma/scheduled_query_runs APIs.
 	V1SigmaScheduledQueryRuns *v1SigmaScheduledQueryRunService
+	// V1SigmaSchemas is the service used to invoke /v1/sigma/schemas APIs.
+	V1SigmaSchemas *v1SigmaSchemaService
 	// V1Sources is the service used to invoke /v1/sources APIs.
 	V1Sources *v1SourceService
 	// V1SourceTransactions is the service used to invoke /v1/sources/{source}/source_transactions APIs.
@@ -519,6 +521,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}
 	client.V1ShippingRates = &v1ShippingRateService{B: backends.API, Key: key}
 	client.V1SigmaScheduledQueryRuns = &v1SigmaScheduledQueryRunService{B: backends.API, Key: key}
+	client.V1SigmaSchemas = &v1SigmaSchemaService{B: backends.API, Key: key}
 	client.V1Sources = &v1SourceService{B: backends.API, Key: key}
 	client.V1SourceTransactions = &v1SourceTransactionService{B: backends.API, Key: key}
 	client.V1SubscriptionItems = &v1SubscriptionItemService{B: backends.API, Key: key}

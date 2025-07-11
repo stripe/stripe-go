@@ -121,6 +121,7 @@ func (c v1PaymentIntentService) Capture(ctx context.Context, id string, params *
 // Confirm that your customer intends to pay with current or provided
 // payment method. Upon confirmation, the PaymentIntent will attempt to initiate
 // a payment.
+//
 // If the selected payment method requires additional authentication steps, the
 // PaymentIntent will transition to the requires_action status and
 // suggest additional actions via next_action. If payment fails,
@@ -128,18 +129,22 @@ func (c v1PaymentIntentService) Capture(ctx context.Context, id string, params *
 // canceled status if the confirmation limit is reached. If
 // payment succeeds, the PaymentIntent will transition to the succeeded
 // status (or requires_capture, if capture_method is set to manual).
+//
 // If the confirmation_method is automatic, payment may be attempted
 // using our [client SDKs](https://docs.stripe.com/docs/stripe-js/reference#stripe-handle-card-payment)
 // and the PaymentIntent's [client_secret](https://docs.stripe.com/api#payment_intent_object-client_secret).
 // After next_actions are handled by the client, no additional
 // confirmation is required to complete the payment.
+//
 // If the confirmation_method is manual, all payment attempts must be
 // initiated using a secret key.
+//
 // If any actions are required for the payment, the PaymentIntent will
 // return to the requires_confirmation state
 // after those actions are completed. Your server needs to then
 // explicitly re-confirm the PaymentIntent to initiate the next payment
 // attempt.
+//
 // There is a variable upper limit on how many times a PaymentIntent can be confirmed.
 // After this limit is reached, any further calls to this endpoint will
 // transition the PaymentIntent to the canceled state.
