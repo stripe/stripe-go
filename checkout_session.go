@@ -1061,6 +1061,20 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 type CheckoutSessionPaymentMethodOptionsRevolutPaySetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsRevolutPaySetupFutureUsage can take
@@ -2349,6 +2363,14 @@ type CheckoutSessionPaymentMethodOptionsPaytoParams struct {
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
 // contains details about the RevolutPay payment method options.
@@ -4010,6 +4032,14 @@ type CheckoutSessionCreatePaymentMethodOptionsPaytoParams struct {
 type CheckoutSessionCreatePaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
 // contains details about the RevolutPay payment method options.
@@ -5643,6 +5673,14 @@ type CheckoutSessionPaymentMethodOptionsPayto struct {
 type CheckoutSessionPaymentMethodOptionsPix struct {
 	// The number of seconds after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsRevolutPay struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
