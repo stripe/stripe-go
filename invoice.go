@@ -352,7 +352,7 @@ type InvoiceParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action. Defaults to false.
 	AutoAdvance *bool `form:"auto_advance"`
-	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state. To turn off automatic finalization, set `auto_advance` to false.
+	// The time when this invoice should be scheduled to finalize (up to 5 years in the future). The invoice is finalized at this time if it's still in draft state. To turn off automatic finalization, set `auto_advance` to false.
 	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
@@ -2833,7 +2833,7 @@ type InvoiceUpdateParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice.
 	AutoAdvance *bool `form:"auto_advance"`
-	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state. To turn off automatic finalization, set `auto_advance` to false.
+	// The time when this invoice should be scheduled to finalize (up to 5 years in the future). The invoice is finalized at this time if it's still in draft state. To turn off automatic finalization, set `auto_advance` to false.
 	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceUpdateAutomaticTaxParams `form:"automatic_tax"`
@@ -3266,7 +3266,7 @@ type InvoiceCreateParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action. Defaults to false.
 	AutoAdvance *bool `form:"auto_advance"`
-	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state.
+	// The time when this invoice should be scheduled to finalize (up to 5 years in the future). The invoice is finalized at this time if it's still in draft state.
 	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceCreateAutomaticTaxParams `form:"automatic_tax"`
