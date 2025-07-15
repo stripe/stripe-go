@@ -365,6 +365,14 @@ type SubscriptionSchedulePhaseDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// The number of intervals the phase should last. If set, `end_date` must not be set.
+type SubscriptionSchedulePhaseDurationParams struct {
+	// Specifies phase duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionSchedulePhaseInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -500,6 +508,8 @@ type SubscriptionSchedulePhaseParams struct {
 	Description *string `form:"description"`
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*SubscriptionSchedulePhaseDiscountParams `form:"discounts"`
+	// The number of intervals the phase should last. If set, `end_date` must not be set.
+	Duration *SubscriptionSchedulePhaseDurationParams `form:"duration"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
@@ -1189,6 +1199,14 @@ type SubscriptionScheduleCreatePhaseDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// The number of intervals the phase should last. If set, `end_date` must not be set.
+type SubscriptionScheduleCreatePhaseDurationParams struct {
+	// Specifies phase duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionScheduleCreatePhaseInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -1324,6 +1342,8 @@ type SubscriptionScheduleCreatePhaseParams struct {
 	Description *string `form:"description"`
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*SubscriptionScheduleCreatePhaseDiscountParams `form:"discounts"`
+	// The number of intervals the phase should last. If set, `end_date` must not be set.
+	Duration *SubscriptionScheduleCreatePhaseDurationParams `form:"duration"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate *int64 `form:"end_date"`
 	// All invoices will be billed using the specified settings.
@@ -1580,6 +1600,14 @@ type SubscriptionScheduleUpdatePhaseDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// The number of intervals the phase should last. If set, `end_date` must not be set.
+type SubscriptionScheduleUpdatePhaseDurationParams struct {
+	// Specifies phase duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type SubscriptionScheduleUpdatePhaseInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -1715,6 +1743,8 @@ type SubscriptionScheduleUpdatePhaseParams struct {
 	Description *string `form:"description"`
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*SubscriptionScheduleUpdatePhaseDiscountParams `form:"discounts"`
+	// The number of intervals the phase should last. If set, `end_date` must not be set.
+	Duration *SubscriptionScheduleUpdatePhaseDurationParams `form:"duration"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo

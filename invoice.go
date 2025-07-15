@@ -1956,6 +1956,14 @@ type InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// The number of intervals the phase should last. If set, `end_date` must not be set.
+type InvoiceCreatePreviewScheduleDetailsPhaseDurationParams struct {
+	// Specifies phase duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
+}
+
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
 type InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsIssuerParams struct {
 	// The connected account being referenced when `type` is `account`.
@@ -2123,6 +2131,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	Description *string `form:"description"`
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams `form:"discounts"`
+	// The number of intervals the phase should last. If set, `end_date` must not be set.
+	Duration *InvoiceCreatePreviewScheduleDetailsPhaseDurationParams `form:"duration"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
