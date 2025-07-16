@@ -22,7 +22,7 @@ type Client struct {
 	Key string
 }
 
-// Create OSP.
+// Creates an OffSessionPayment object.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -34,7 +34,7 @@ func (c Client) New(params *stripe.V2PaymentsOffSessionPaymentParams) (*stripe.V
 	return offsessionpayment, err
 }
 
-// Retrieve OSP by ID.
+// Retrieves the details of an OffSessionPayment that has previously been created.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -46,7 +46,7 @@ func (c Client) Get(id string, params *stripe.V2PaymentsOffSessionPaymentParams)
 	return offsessionpayment, err
 }
 
-// Cancel OSP.
+// Cancel an OffSessionPayment that has previously been created.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
@@ -59,7 +59,7 @@ func (c Client) Cancel(id string, params *stripe.V2PaymentsOffSessionPaymentCanc
 	return offsessionpayment, err
 }
 
-// List OSPs matching filter.
+// Returns a list of OffSessionPayments matching a filter.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

@@ -17,7 +17,7 @@ type v2PaymentsOffSessionPaymentService struct {
 	Key string
 }
 
-// Create OSP.
+// Creates an OffSessionPayment object.
 func (c v2PaymentsOffSessionPaymentService) Create(ctx context.Context, params *V2PaymentsOffSessionPaymentCreateParams) (*V2PaymentsOffSessionPayment, error) {
 	if params == nil {
 		params = &V2PaymentsOffSessionPaymentCreateParams{}
@@ -29,7 +29,7 @@ func (c v2PaymentsOffSessionPaymentService) Create(ctx context.Context, params *
 	return offsessionpayment, err
 }
 
-// Retrieve OSP by ID.
+// Retrieves the details of an OffSessionPayment that has previously been created.
 func (c v2PaymentsOffSessionPaymentService) Retrieve(ctx context.Context, id string, params *V2PaymentsOffSessionPaymentRetrieveParams) (*V2PaymentsOffSessionPayment, error) {
 	if params == nil {
 		params = &V2PaymentsOffSessionPaymentRetrieveParams{}
@@ -41,7 +41,7 @@ func (c v2PaymentsOffSessionPaymentService) Retrieve(ctx context.Context, id str
 	return offsessionpayment, err
 }
 
-// Cancel OSP.
+// Cancel an OffSessionPayment that has previously been created.
 func (c v2PaymentsOffSessionPaymentService) Cancel(ctx context.Context, id string, params *V2PaymentsOffSessionPaymentCancelParams) (*V2PaymentsOffSessionPayment, error) {
 	if params == nil {
 		params = &V2PaymentsOffSessionPaymentCancelParams{}
@@ -53,7 +53,7 @@ func (c v2PaymentsOffSessionPaymentService) Cancel(ctx context.Context, id strin
 	return offsessionpayment, err
 }
 
-// List OSPs matching filter.
+// Returns a list of OffSessionPayments matching a filter.
 func (c v2PaymentsOffSessionPaymentService) List(ctx context.Context, listParams *V2PaymentsOffSessionPaymentListParams) Seq2[*V2PaymentsOffSessionPayment, error] {
 	if listParams == nil {
 		listParams = &V2PaymentsOffSessionPaymentListParams{}

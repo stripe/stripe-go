@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, or `payment_never_settled`.
+// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, `payment_never_settled`, or `acknowledged`.
 type ReviewClosedReason string
 
 // List of values that ReviewClosedReason can take
@@ -118,7 +118,7 @@ type Review struct {
 	BillingZip string `json:"billing_zip"`
 	// The charge associated with this review.
 	Charge *Charge `json:"charge"`
-	// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, or `payment_never_settled`.
+	// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, `payment_never_settled`, or `acknowledged`.
 	ClosedReason ReviewClosedReason `json:"closed_reason"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
@@ -138,7 +138,7 @@ type Review struct {
 	OpenedReason ReviewOpenedReason `json:"opened_reason"`
 	// The PaymentIntent ID associated with this review, if one exists.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
-	// The reason the review is currently open or closed. One of `rule`, `manual`, `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, or `payment_never_settled`.
+	// The reason the review is currently open or closed. One of `rule`, `manual`, `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, `payment_never_settled`, or `acknowledged`.
 	Reason string `json:"reason"`
 	// Information related to the browsing session of the user who initiated the payment.
 	Session *ReviewSession `json:"session"`
