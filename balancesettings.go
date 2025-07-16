@@ -79,7 +79,7 @@ type BalanceSettingsPayoutsParams struct {
 // Settings related to the account's balance settlement timing.
 type BalanceSettingsSettlementTimingParams struct {
 	// The number of days charge funds are held before becoming available. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `payouts.schedule.interval` is `manual`. [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
-	DelayDays *int64 `form:"delay_days"`
+	DelayDaysOverride *int64 `form:"delay_days_override"`
 }
 
 // Retrieves balance settings for a given connected account.
@@ -117,7 +117,7 @@ type BalanceSettingsUpdatePayoutsParams struct {
 // Settings related to the account's balance settlement timing.
 type BalanceSettingsUpdateSettlementTimingParams struct {
 	// The number of days charge funds are held before becoming available. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `payouts.schedule.interval` is `manual`. [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
-	DelayDays *int64 `form:"delay_days"`
+	DelayDaysOverride *int64 `form:"delay_days_override"`
 }
 
 // Updates balance settings for a given connected account.
