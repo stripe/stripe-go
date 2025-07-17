@@ -32,6 +32,7 @@ import (
 	billingmeterevent "github.com/stripe/stripe-go/v82/billing/meterevent"
 	billingmetereventadjustment "github.com/stripe/stripe-go/v82/billing/metereventadjustment"
 	billingmetereventsummary "github.com/stripe/stripe-go/v82/billing/metereventsummary"
+	billingmeterusage "github.com/stripe/stripe-go/v82/billing/meterusage"
 	billingportalconfiguration "github.com/stripe/stripe-go/v82/billingportal/configuration"
 	billingportalsession "github.com/stripe/stripe-go/v82/billingportal/session"
 	"github.com/stripe/stripe-go/v82/capability"
@@ -246,6 +247,8 @@ type API struct {
 	BillingMeterEventSummaries *billingmetereventsummary.Client
 	// BillingMeters is the client used to invoke /v1/billing/meters APIs.
 	BillingMeters *billingmeter.Client
+	// BillingMeterUsage is the client used to invoke /v1/billing/analytics/meter_usage APIs.
+	BillingMeterUsage *billingmeterusage.Client
 	// BillingPortalConfigurations is the client used to invoke /v1/billing_portal/configurations APIs.
 	BillingPortalConfigurations *billingportalconfiguration.Client
 	// BillingPortalSessions is the client used to invoke /v1/billing_portal/sessions APIs.
@@ -617,6 +620,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
 	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}
 	a.BillingMeters = &billingmeter.Client{B: backends.API, Key: key}
+	a.BillingMeterUsage = &billingmeterusage.Client{B: backends.API, Key: key}
 	a.BillingPortalConfigurations = &billingportalconfiguration.Client{B: backends.API, Key: key}
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}
