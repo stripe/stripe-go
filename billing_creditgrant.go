@@ -61,7 +61,7 @@ type BillingCreditGrantAmountMonetaryParams struct {
 type BillingCreditGrantAmountParams struct {
 	// The monetary amount.
 	Monetary *BillingCreditGrantAmountMonetaryParams `form:"monetary"`
-	// Specify the type of this amount. We currently only support `monetary` billing credits.
+	// The type of this amount. We currently only support `monetary` billing credits.
 	Type *string `form:"type"`
 }
 
@@ -162,7 +162,7 @@ type BillingCreditGrantCreateAmountMonetaryParams struct {
 type BillingCreditGrantCreateAmountParams struct {
 	// The monetary amount.
 	Monetary *BillingCreditGrantCreateAmountMonetaryParams `form:"monetary"`
-	// Specify the type of this amount. We currently only support `monetary` billing credits.
+	// The type of this amount. We currently only support `monetary` billing credits.
 	Type *string `form:"type"`
 }
 

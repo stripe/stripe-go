@@ -45,7 +45,7 @@ func (c v1PaymentMethodService) Retrieve(ctx context.Context, id string, params 
 	return paymentmethod, err
 }
 
-// Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.
+// Updates a PaymentMethod object. A PaymentMethod must be attached to a customer to be updated.
 func (c v1PaymentMethodService) Update(ctx context.Context, id string, params *PaymentMethodUpdateParams) (*PaymentMethod, error) {
 	if params == nil {
 		params = &PaymentMethodUpdateParams{}

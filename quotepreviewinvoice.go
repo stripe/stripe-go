@@ -303,6 +303,15 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
 )
 
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType string
+
+// List of values that QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType can take
+const (
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountTypeFixed   QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType = "fixed"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountTypeMaximum QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType = "maximum"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 
@@ -389,6 +398,7 @@ const (
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSofort             QuotePreviewInvoicePaymentSettingsPaymentMethodType = "sofort"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeStripeBalance      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "stripe_balance"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeSwish              QuotePreviewInvoicePaymentSettingsPaymentMethodType = "swish"
+	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUpi                QuotePreviewInvoicePaymentSettingsPaymentMethodType = "upi"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeUSBankAccount      QuotePreviewInvoicePaymentSettingsPaymentMethodType = "us_bank_account"
 	QuotePreviewInvoicePaymentSettingsPaymentMethodTypeWeChatPay          QuotePreviewInvoicePaymentSettingsPaymentMethodType = "wechat_pay"
 )
@@ -675,6 +685,21 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
 
 // If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsSEPADebit struct{}
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType `json:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description string `json:"description"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate int64 `json:"end_date"`
+}
+
+// If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpi struct {
+	MandateOptions *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpiMandateOptions `json:"mandate_options"`
+}
 type QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
@@ -712,6 +737,8 @@ type QuotePreviewInvoicePaymentSettingsPaymentMethodOptions struct {
 	Konbini *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 	// If paying by `sepa_debit`, this sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
+	// If paying by `upi`, this sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+	Upi *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUpi `json:"upi"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *QuotePreviewInvoicePaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }

@@ -48,6 +48,8 @@ type Client struct {
 	V1BillingMeterEventSummaries *v1BillingMeterEventSummaryService
 	// V1BillingMeters is the service used to invoke /v1/billing/meters APIs.
 	V1BillingMeters *v1BillingMeterService
+	// V1BillingMeterUsage is the service used to invoke /v1/billing/analytics/meter_usage APIs.
+	V1BillingMeterUsage *v1BillingMeterUsageService
 	// V1BillingPortalConfigurations is the service used to invoke /v1/billing_portal/configurations APIs.
 	V1BillingPortalConfigurations *v1BillingPortalConfigurationService
 	// V1BillingPortalSessions is the service used to invoke /v1/billing_portal/sessions APIs.
@@ -228,6 +230,8 @@ type Client struct {
 	V1ShippingRates *v1ShippingRateService
 	// V1SigmaScheduledQueryRuns is the service used to invoke /v1/sigma/scheduled_query_runs APIs.
 	V1SigmaScheduledQueryRuns *v1SigmaScheduledQueryRunService
+	// V1SigmaSchemas is the service used to invoke /v1/sigma/schemas APIs.
+	V1SigmaSchemas *v1SigmaSchemaService
 	// V1Sources is the service used to invoke /v1/sources APIs.
 	V1Sources *v1SourceService
 	// V1SourceTransactions is the service used to invoke /v1/sources/{source}/source_transactions APIs.
@@ -262,6 +266,8 @@ type Client struct {
 	V1TerminalConnectionTokens *v1TerminalConnectionTokenService
 	// V1TerminalLocations is the service used to invoke /v1/terminal/locations APIs.
 	V1TerminalLocations *v1TerminalLocationService
+	// V1TerminalOnboardingLinks is the service used to invoke /v1/terminal/onboarding_links APIs.
+	V1TerminalOnboardingLinks *v1TerminalOnboardingLinkService
 	// V1TerminalReaderCollectedData is the service used to invoke /v1/terminal/reader_collected_data APIs.
 	V1TerminalReaderCollectedData *v1TerminalReaderCollectedDataService
 	// V1TerminalReaders is the service used to invoke /v1/terminal/readers APIs.
@@ -429,6 +435,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1BillingMeterEvents = &v1BillingMeterEventService{B: backends.API, Key: key}
 	client.V1BillingMeterEventSummaries = &v1BillingMeterEventSummaryService{B: backends.API, Key: key}
 	client.V1BillingMeters = &v1BillingMeterService{B: backends.API, Key: key}
+	client.V1BillingMeterUsage = &v1BillingMeterUsageService{B: backends.API, Key: key}
 	client.V1BillingPortalConfigurations = &v1BillingPortalConfigurationService{B: backends.API, Key: key}
 	client.V1BillingPortalSessions = &v1BillingPortalSessionService{B: backends.API, Key: key}
 	client.V1Capabilities = &v1CapabilityService{B: backends.API, Key: key}
@@ -519,6 +526,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1SetupIntents = &v1SetupIntentService{B: backends.API, Key: key}
 	client.V1ShippingRates = &v1ShippingRateService{B: backends.API, Key: key}
 	client.V1SigmaScheduledQueryRuns = &v1SigmaScheduledQueryRunService{B: backends.API, Key: key}
+	client.V1SigmaSchemas = &v1SigmaSchemaService{B: backends.API, Key: key}
 	client.V1Sources = &v1SourceService{B: backends.API, Key: key}
 	client.V1SourceTransactions = &v1SourceTransactionService{B: backends.API, Key: key}
 	client.V1SubscriptionItems = &v1SubscriptionItemService{B: backends.API, Key: key}
@@ -536,6 +544,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TerminalConfigurations = &v1TerminalConfigurationService{B: backends.API, Key: key}
 	client.V1TerminalConnectionTokens = &v1TerminalConnectionTokenService{B: backends.API, Key: key}
 	client.V1TerminalLocations = &v1TerminalLocationService{B: backends.API, Key: key}
+	client.V1TerminalOnboardingLinks = &v1TerminalOnboardingLinkService{B: backends.API, Key: key}
 	client.V1TerminalReaderCollectedData = &v1TerminalReaderCollectedDataService{B: backends.API, Key: key}
 	client.V1TerminalReaders = &v1TerminalReaderService{B: backends.API, Key: key}
 	client.V1TestHelpersConfirmationTokens = &v1TestHelpersConfirmationTokenService{B: backends.API, Key: key}

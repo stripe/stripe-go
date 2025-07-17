@@ -46,6 +46,15 @@ const (
 	V2MoneyManagementPayoutMethodUsageStatusTransfersRequiresAction V2MoneyManagementPayoutMethodUsageStatusTransfers = "requires_action"
 )
 
+// The type of bank account (checking or savings).
+type V2MoneyManagementPayoutMethodBankAccountBankAccountType string
+
+// List of values that V2MoneyManagementPayoutMethodBankAccountBankAccountType can take
+const (
+	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeChecking V2MoneyManagementPayoutMethodBankAccountBankAccountType = "checking"
+	V2MoneyManagementPayoutMethodBankAccountBankAccountTypeSavings  V2MoneyManagementPayoutMethodBankAccountBankAccountType = "savings"
+)
+
 // Indicates whether the payout method has met the necessary requirements for outbound money movement.
 type V2MoneyManagementPayoutMethodUsageStatus struct {
 	// Payments status - used when sending OutboundPayments (sending funds to recipients).
@@ -60,6 +69,8 @@ type V2MoneyManagementPayoutMethodBankAccount struct {
 	// the /archive API, and they will not be automatically archived by Stripe. Archived PayoutMethodBankAccount objects
 	// cannot be used as payout methods and will not appear in the payout method list.
 	Archived bool `json:"archived"`
+	// The type of bank account (checking or savings).
+	BankAccountType V2MoneyManagementPayoutMethodBankAccountBankAccountType `json:"bank_account_type"`
 	// The name of the bank this bank account is in. This field is populated automatically by Stripe.
 	BankName string `json:"bank_name"`
 	// The country code of the bank account.
