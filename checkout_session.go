@@ -1593,6 +1593,8 @@ type CheckoutSessionInvoiceCreationInvoiceDataIssuerParams struct {
 type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for this invoice.
+	Template *string `form:"template"`
 }
 
 // Parameters passed when creating invoices for payment-mode Checkout Sessions.
@@ -3264,6 +3266,8 @@ type CheckoutSessionCreateInvoiceCreationInvoiceDataIssuerParams struct {
 type CheckoutSessionCreateInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for this invoice.
+	Template *string `form:"template"`
 }
 
 // Parameters passed when creating invoices for payment-mode Checkout Sessions.
@@ -5213,6 +5217,8 @@ type CheckoutSessionInvoiceCreationInvoiceDataIssuer struct {
 type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
+	// ID of the invoice rendering template to be used for the generated invoice.
+	Template string `json:"template"`
 }
 type CheckoutSessionInvoiceCreationInvoiceData struct {
 	// The account tax IDs associated with the invoice.
@@ -5845,7 +5851,7 @@ type CheckoutSessionPhoneNumberCollection struct {
 	Enabled bool `json:"enabled"`
 }
 type CheckoutSessionPresentmentDetails struct {
-	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	// Amount intended to be collected by this payment, denominated in `presentment_currency`.
 	PresentmentAmount int64 `json:"presentment_amount"`
 	// Currency presented to the customer during payment.
 	PresentmentCurrency Currency `json:"presentment_currency"`

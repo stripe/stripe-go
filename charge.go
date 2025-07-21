@@ -2802,7 +2802,7 @@ type ChargePaymentMethodDetails struct {
 	Zip           *ChargePaymentMethodDetailsZip           `json:"zip"`
 }
 type ChargePresentmentDetails struct {
-	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	// Amount intended to be collected by this payment, denominated in `presentment_currency`.
 	PresentmentAmount int64 `json:"presentment_amount"`
 	// Currency presented to the customer during payment.
 	PresentmentCurrency Currency `json:"presentment_currency"`

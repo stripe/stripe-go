@@ -409,6 +409,8 @@ type PaymentLinkInvoiceCreationInvoiceDataIssuerParams struct {
 type PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for this invoice.
+	Template *string `form:"template"`
 }
 
 // Invoice PDF configuration.
@@ -959,6 +961,8 @@ type PaymentLinkCreateInvoiceCreationInvoiceDataIssuerParams struct {
 type PaymentLinkCreateInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for this invoice.
+	Template *string `form:"template"`
 }
 
 // Invoice PDF configuration.
@@ -1484,6 +1488,8 @@ type PaymentLinkUpdateInvoiceCreationInvoiceDataIssuerParams struct {
 type PaymentLinkUpdateInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for this invoice.
+	Template *string `form:"template"`
 }
 
 // Invoice PDF configuration.
@@ -1868,6 +1874,8 @@ type PaymentLinkInvoiceCreationInvoiceDataIssuer struct {
 type PaymentLinkInvoiceCreationInvoiceDataRenderingOptions struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
+	// ID of the invoice rendering template to be used for the generated invoice.
+	Template string `json:"template"`
 }
 
 // Configuration for the invoice. Default invoice values will be used if unspecified.

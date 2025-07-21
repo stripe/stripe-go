@@ -17,16 +17,18 @@ const (
 	BalanceSettingsPayoutsScheduleIntervalWeekly  BalanceSettingsPayoutsScheduleInterval = "weekly"
 )
 
-// The day of the week funds will be paid out, of the style 'monday', 'tuesday', etc. Only shown if `interval` is weekly.
-type BalanceSettingsPayoutsScheduleWeeklyAnchor string
+// The days of the week when available funds are paid out, specified as an array, for example, [`monday`, `tuesday`]. Only shown if `interval` is weekly.
+type BalanceSettingsPayoutsScheduleWeeklyPayoutDay string
 
-// List of values that BalanceSettingsPayoutsScheduleWeeklyAnchor can take
+// List of values that BalanceSettingsPayoutsScheduleWeeklyPayoutDay can take
 const (
-	BalanceSettingsPayoutsScheduleWeeklyAnchorFriday    BalanceSettingsPayoutsScheduleWeeklyAnchor = "friday"
-	BalanceSettingsPayoutsScheduleWeeklyAnchorMonday    BalanceSettingsPayoutsScheduleWeeklyAnchor = "monday"
-	BalanceSettingsPayoutsScheduleWeeklyAnchorThursday  BalanceSettingsPayoutsScheduleWeeklyAnchor = "thursday"
-	BalanceSettingsPayoutsScheduleWeeklyAnchorTuesday   BalanceSettingsPayoutsScheduleWeeklyAnchor = "tuesday"
-	BalanceSettingsPayoutsScheduleWeeklyAnchorWednesday BalanceSettingsPayoutsScheduleWeeklyAnchor = "wednesday"
+	BalanceSettingsPayoutsScheduleWeeklyPayoutDayFriday    BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "friday"
+	BalanceSettingsPayoutsScheduleWeeklyPayoutDayMonday    BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "monday"
+	BalanceSettingsPayoutsScheduleWeeklyPayoutDaySaturday  BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "saturday"
+	BalanceSettingsPayoutsScheduleWeeklyPayoutDaySunday    BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "sunday"
+	BalanceSettingsPayoutsScheduleWeeklyPayoutDayThursday  BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "thursday"
+	BalanceSettingsPayoutsScheduleWeeklyPayoutDayTuesday   BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "tuesday"
+	BalanceSettingsPayoutsScheduleWeeklyPayoutDayWednesday BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "wednesday"
 )
 
 // Whether the funds in this account can be paid out.
@@ -62,10 +64,10 @@ func (p *BalanceSettingsParams) AddExpand(f string) {
 type BalanceSettingsPayoutsScheduleParams struct {
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
 	Interval *string `form:"interval"`
-	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
-	MonthlyAnchor *int64 `form:"monthly_anchor"`
-	// The day of the week when available funds are paid out (required and applicable only if `interval` is `weekly`.)
-	WeeklyAnchor *string `form:"weekly_anchor"`
+	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
+	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly`.)
+	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
 // Settings specific to the account's payouts.
@@ -100,10 +102,10 @@ func (p *BalanceSettingsRetrieveParams) AddExpand(f string) {
 type BalanceSettingsUpdatePayoutsScheduleParams struct {
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
 	Interval *string `form:"interval"`
-	// The day of the month when available funds are paid out, specified as a number between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
-	MonthlyAnchor *int64 `form:"monthly_anchor"`
-	// The day of the week when available funds are paid out (required and applicable only if `interval` is `weekly`.)
-	WeeklyAnchor *string `form:"weekly_anchor"`
+	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
+	MonthlyPayoutDays []*int64 `form:"monthly_payout_days"`
+	// The days of the week when available funds are paid out, specified as an array, e.g., [`monday`, `tuesday`]. (required and applicable only if `interval` is `weekly`.)
+	WeeklyPayoutDays []*string `form:"weekly_payout_days"`
 }
 
 // Settings specific to the account's payouts.
@@ -145,9 +147,9 @@ type BalanceSettingsPayoutsSchedule struct {
 	// How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
 	Interval BalanceSettingsPayoutsScheduleInterval `json:"interval"`
 	// The day of the month funds will be paid out. Only shown if `interval` is monthly. Payouts scheduled between the 29th and 31st of the month are sent on the last day of shorter months.
-	MonthlyAnchor int64 `json:"monthly_anchor"`
-	// The day of the week funds will be paid out, of the style 'monday', 'tuesday', etc. Only shown if `interval` is weekly.
-	WeeklyAnchor BalanceSettingsPayoutsScheduleWeeklyAnchor `json:"weekly_anchor"`
+	MonthlyPayoutDays []int64 `json:"monthly_payout_days"`
+	// The days of the week when available funds are paid out, specified as an array, for example, [`monday`, `tuesday`]. Only shown if `interval` is weekly.
+	WeeklyPayoutDays []BalanceSettingsPayoutsScheduleWeeklyPayoutDay `json:"weekly_payout_days"`
 }
 
 // Settings specific to the account's payouts.
