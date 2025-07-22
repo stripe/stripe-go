@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, or `canceled`.
+// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, `payment_never_settled`, or `acknowledged`.
 type ReviewClosedReason string
 
 // List of values that ReviewClosedReason can take
@@ -28,21 +28,6 @@ type ReviewOpenedReason string
 const (
 	ReviewOpenedReasonManual ReviewOpenedReason = "manual"
 	ReviewOpenedReasonRule   ReviewOpenedReason = "rule"
-)
-
-// The reason the review is currently open or closed. One of `rule`, `manual`, `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, or `canceled`.
-type ReviewReason string
-
-// List of values that ReviewReason can take
-const (
-	ReviewReasonApproved        ReviewReason = "approved"
-	ReviewReasonCanceled        ReviewReason = "canceled"
-	ReviewReasonDisputed        ReviewReason = "disputed"
-	ReviewReasonManual          ReviewReason = "manual"
-	ReviewReasonRefunded        ReviewReason = "refunded"
-	ReviewReasonRefundedAsFraud ReviewReason = "refunded_as_fraud"
-	ReviewReasonRedacted        ReviewReason = "redacted"
-	ReviewReasonRule            ReviewReason = "rule"
 )
 
 // Returns a list of Review objects that have open set to true. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
@@ -133,7 +118,7 @@ type Review struct {
 	BillingZip string `json:"billing_zip"`
 	// The charge associated with this review.
 	Charge *Charge `json:"charge"`
-	// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, or `canceled`.
+	// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, `payment_never_settled`, or `acknowledged`.
 	ClosedReason ReviewClosedReason `json:"closed_reason"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
@@ -153,8 +138,8 @@ type Review struct {
 	OpenedReason ReviewOpenedReason `json:"opened_reason"`
 	// The PaymentIntent ID associated with this review, if one exists.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
-	// The reason the review is currently open or closed. One of `rule`, `manual`, `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, or `canceled`.
-	Reason ReviewReason `json:"reason"`
+	// The reason the review is currently open or closed. One of `rule`, `manual`, `approved`, `refunded`, `refunded_as_fraud`, `disputed`, `redacted`, `canceled`, `payment_never_settled`, or `acknowledged`.
+	Reason string `json:"reason"`
 	// Information related to the browsing session of the user who initiated the payment.
 	Session *ReviewSession `json:"session"`
 }

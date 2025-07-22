@@ -313,9 +313,9 @@ type InvoiceParams struct {
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// A fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
+	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action. Defaults to false.
 	AutoAdvance *bool `form:"auto_advance"`
-	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state. To turn off automatic finalization, set `auto_advance` to false.
+	// The time when this invoice should be scheduled to finalize (up to 5 years in the future). The invoice is finalized at this time if it's still in draft state. To turn off automatic finalization, set `auto_advance` to false.
 	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceAutomaticTaxParams `form:"automatic_tax"`
@@ -462,7 +462,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams struct
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this invoice (Mexico Only).
+// Installment configuration for payments attempted on this invoice.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
@@ -475,7 +475,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
-	// Installment configuration for payments attempted on this invoice (Mexico Only).
+	// Installment configuration for payments attempted on this invoice.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *InvoicePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
@@ -1315,6 +1315,7 @@ type InvoiceCreatePreviewIssuerParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewScheduleDetailsBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -1388,6 +1389,14 @@ type InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams struct {
 	Discount *string `form:"discount"`
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *string `form:"promotion_code"`
+}
+
+// The number of intervals the phase should last. If set, `end_date` must not be set.
+type InvoiceCreatePreviewScheduleDetailsPhaseDurationParams struct {
+	// Specifies phase duration. Either `day`, `week`, `month` or `year`.
+	Interval *string `form:"interval"`
+	// The multiplier applied to the interval.
+	IntervalCount *int64 `form:"interval_count"`
 }
 
 // The connected account that issues the invoice. The invoice is presented with the branding and support information of the specified account.
@@ -1509,6 +1518,8 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	Description *string `form:"description"`
 	// The coupons to redeem into discounts for the schedule phase. If not specified, inherits the discount from the subscription's customer. Pass an empty string to avoid inheriting any discounts.
 	Discounts []*InvoiceCreatePreviewScheduleDetailsPhaseDiscountParams `form:"discounts"`
+	// The number of intervals the phase should last. If set, `end_date` must not be set.
+	Duration *InvoiceCreatePreviewScheduleDetailsPhaseDurationParams `form:"duration"`
 	// The date at which this phase of the subscription schedule ends. If set, `iterations` must not be set.
 	EndDate    *int64 `form:"end_date"`
 	EndDateNow *bool  `form:"-"` // See custom AppendTo
@@ -1516,7 +1527,7 @@ type InvoiceCreatePreviewScheduleDetailsPhaseParams struct {
 	InvoiceSettings *InvoiceCreatePreviewScheduleDetailsPhaseInvoiceSettingsParams `form:"invoice_settings"`
 	// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 	Items []*InvoiceCreatePreviewScheduleDetailsPhaseItemParams `form:"items"`
-	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set.
+	// Integer representing the multiplier applied to the price interval. For example, `iterations=2` applied to a price with `interval=month` and `interval_count=3` results in a phase of duration `2 * 3 months = 6 months`. If set, `end_date` must not be set. This parameter is deprecated and will be removed in a future version. Use `duration` instead.
 	Iterations *int64 `form:"iterations"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to a phase. Metadata on a schedule's phase will update the underlying subscription's `metadata` when the phase is entered, adding new keys and replacing existing keys in the subscription's `metadata`. Individual keys in the subscription's `metadata` can be unset by posting an empty value to them in the phase's `metadata`. To unset all keys in the subscription's `metadata`, update the subscription directly or unset every key individually from the phase's `metadata`.
 	Metadata map[string]string `form:"metadata"`
@@ -1572,6 +1583,7 @@ type InvoiceCreatePreviewScheduleDetailsParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type InvoiceCreatePreviewSubscriptionDetailsBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -1659,7 +1671,9 @@ type InvoiceCreatePreviewSubscriptionDetailsParams struct {
 	// Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 	BillingMode *InvoiceCreatePreviewSubscriptionDetailsBillingModeParams `form:"billing_mode"`
 	// A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using `proration_behavior`. If set during a future period, this will always cause a proration for that period.
-	CancelAt *int64 `form:"cancel_at"`
+	CancelAt             *int64 `form:"cancel_at"`
+	CancelAtMaxPeriodEnd *bool  `form:"-"` // See custom AppendTo
+	CancelAtMinPeriodEnd *bool  `form:"-"` // See custom AppendTo
 	// Indicate whether this subscription should cancel at the end of the current period (`current_period_end`). Defaults to `false`.
 	CancelAtPeriodEnd *bool `form:"cancel_at_period_end"`
 	// This simulates the subscription being canceled or expired immediately.
@@ -1688,6 +1702,12 @@ func (p *InvoiceCreatePreviewSubscriptionDetailsParams) AppendTo(body *form.Valu
 	}
 	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(p.CancelAtMaxPeriodEnd) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "max_period_end")
+	}
+	if BoolValue(p.CancelAtMinPeriodEnd) {
+		body.Add(form.FormatKey(append(keyParts, "cancel_at")), "min_period_end")
 	}
 	if BoolValue(p.TrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
@@ -1843,7 +1863,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams 
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this invoice (Mexico Only).
+// Installment configuration for payments attempted on this invoice.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
@@ -1856,7 +1876,7 @@ type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams stru
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardParams struct {
-	// Installment configuration for payments attempted on this invoice (Mexico Only).
+	// Installment configuration for payments attempted on this invoice.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *InvoiceUpdatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
@@ -2073,7 +2093,7 @@ type InvoiceUpdateParams struct {
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice.
 	AutoAdvance *bool `form:"auto_advance"`
-	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state. To turn off automatic finalization, set `auto_advance` to false.
+	// The time when this invoice should be scheduled to finalize (up to 5 years in the future). The invoice is finalized at this time if it's still in draft state. To turn off automatic finalization, set `auto_advance` to false.
 	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceUpdateAutomaticTaxParams `form:"automatic_tax"`
@@ -2218,7 +2238,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsPlanParams 
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this invoice (Mexico Only).
+// Installment configuration for payments attempted on this invoice.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams struct {
@@ -2231,7 +2251,7 @@ type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams stru
 
 // If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type InvoiceCreatePaymentSettingsPaymentMethodOptionsCardParams struct {
-	// Installment configuration for payments attempted on this invoice (Mexico Only).
+	// Installment configuration for payments attempted on this invoice.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *InvoiceCreatePaymentSettingsPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
@@ -2441,9 +2461,9 @@ type InvoiceCreateParams struct {
 	AccountTaxIDs []*string `form:"account_tax_ids"`
 	// A fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account. The request must be made with an OAuth key or the Stripe-Account header in order to take an application fee. For more information, see the application fees [documentation](https://stripe.com/docs/billing/invoices/connect#collecting-fees).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
-	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action.
+	// Controls whether Stripe performs [automatic collection](https://stripe.com/docs/invoicing/integration/automatic-advancement-collection) of the invoice. If `false`, the invoice's state doesn't automatically advance without an explicit action. Defaults to false.
 	AutoAdvance *bool `form:"auto_advance"`
-	// The time when this invoice should be scheduled to finalize. The invoice will be finalized at this time if it is still in draft state.
+	// The time when this invoice should be scheduled to finalize (up to 5 years in the future). The invoice is finalized at this time if it's still in draft state.
 	AutomaticallyFinalizesAt *int64 `form:"automatically_finalizes_at"`
 	// Settings for automatic tax lookup for this invoice.
 	AutomaticTax *InvoiceCreateAutomaticTaxParams `form:"automatic_tax"`
