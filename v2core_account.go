@@ -7294,10 +7294,22 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceAccount struct {
 	UserAgent string `json:"user_agent"`
 }
 
+// Details on the Account's acceptance of Treasury-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceStorer struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date time.Time `json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP string `json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent string `json:"user_agent"`
+}
+
 // Attestations of accepted terms of service agreements.
 type V2CoreAccountIdentityAttestationsTermsOfService struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccount `json:"account"`
+	// Details on the Account's acceptance of Treasury-specific terms of service.
+	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorer `json:"storer"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors.

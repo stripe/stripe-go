@@ -13044,12 +13044,20 @@ func TestV2CoreAccountLinkPostService(t *testing.T) {
 		UseCase: &stripe.V2CoreAccountLinkUseCaseParams{
 			Type: stripe.String("account_onboarding"),
 			AccountOnboarding: &stripe.V2CoreAccountLinkUseCaseAccountOnboardingParams{
-				Configurations: []*string{stripe.String("recipient")},
+				CollectionOptions: &stripe.V2CoreAccountLinkUseCaseAccountOnboardingCollectionOptionsParams{
+					Fields:             stripe.String("eventually_due"),
+					FutureRequirements: stripe.String("include"),
+				},
+				Configurations: []*string{stripe.String("storer")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
 			AccountUpdate: &stripe.V2CoreAccountLinkUseCaseAccountUpdateParams{
-				Configurations: []*string{stripe.String("recipient")},
+				CollectionOptions: &stripe.V2CoreAccountLinkUseCaseAccountUpdateCollectionOptionsParams{
+					Fields:             stripe.String("eventually_due"),
+					FutureRequirements: stripe.String("include"),
+				},
+				Configurations: []*string{stripe.String("storer")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
@@ -13072,12 +13080,20 @@ func TestV2CoreAccountLinkPostClient(t *testing.T) {
 		UseCase: &stripe.V2CoreAccountLinkCreateUseCaseParams{
 			Type: stripe.String("account_onboarding"),
 			AccountOnboarding: &stripe.V2CoreAccountLinkCreateUseCaseAccountOnboardingParams{
-				Configurations: []*string{stripe.String("recipient")},
+				CollectionOptions: &stripe.V2CoreAccountLinkCreateUseCaseAccountOnboardingCollectionOptionsParams{
+					Fields:             stripe.String("eventually_due"),
+					FutureRequirements: stripe.String("include"),
+				},
+				Configurations: []*string{stripe.String("storer")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},
 			AccountUpdate: &stripe.V2CoreAccountLinkCreateUseCaseAccountUpdateParams{
-				Configurations: []*string{stripe.String("recipient")},
+				CollectionOptions: &stripe.V2CoreAccountLinkCreateUseCaseAccountUpdateCollectionOptionsParams{
+					Fields:             stripe.String("eventually_due"),
+					FutureRequirements: stripe.String("include"),
+				},
+				Configurations: []*string{stripe.String("storer")},
 				RefreshURL:     stripe.String("refresh_url"),
 				ReturnURL:      stripe.String("return_url"),
 			},

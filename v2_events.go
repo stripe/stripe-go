@@ -13,20 +13,23 @@ import (
 )
 
 // Configurations on the Account that was onboarded via the account link.
-type V2CoreAccountLinkCompletedEventDataConfiguration string
+type V2CoreAccountLinkReturnedEventDataConfiguration string
 
-// List of values that V2CoreAccountLinkCompletedEventDataConfiguration can take
+// List of values that V2CoreAccountLinkReturnedEventDataConfiguration can take
 const (
-	V2CoreAccountLinkCompletedEventDataConfigurationRecipient V2CoreAccountLinkCompletedEventDataConfiguration = "recipient"
+	V2CoreAccountLinkReturnedEventDataConfigurationCustomer  V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
+	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
+	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
+	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
 )
 
 // Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkCompletedEventDataUseCase string
+type V2CoreAccountLinkReturnedEventDataUseCase string
 
-// List of values that V2CoreAccountLinkCompletedEventDataUseCase can take
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
 const (
-	V2CoreAccountLinkCompletedEventDataUseCaseAccountOnboarding V2CoreAccountLinkCompletedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkCompletedEventDataUseCaseAccountUpdate     V2CoreAccountLinkCompletedEventDataUseCase = "account_update"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // Open Enum. The capability which had its status updated.
@@ -179,11 +182,11 @@ func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V
 	return e.fetchRelatedObject()
 }
 
-// V2CoreAccountLinkCompletedEvent is the Go struct for the "v2.core.account_link.completed" event.
+// V2CoreAccountLinkReturnedEvent is the Go struct for the "v2.core.account_link.returned" event.
 // Occurs when the generated AccountLink is completed.
-type V2CoreAccountLinkCompletedEvent struct {
+type V2CoreAccountLinkReturnedEvent struct {
 	V2BaseEvent
-	Data V2CoreAccountLinkCompletedEventData `json:"data"`
+	Data V2CoreAccountLinkReturnedEventData `json:"data"`
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
@@ -972,13 +975,13 @@ func (e V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject() (*V2Money
 }
 
 // Occurs when the generated AccountLink is completed.
-type V2CoreAccountLinkCompletedEventData struct {
+type V2CoreAccountLinkReturnedEventData struct {
 	// The ID of the v2 account.
 	AccountID string `json:"account_id"`
 	// Configurations on the Account that was onboarded via the account link.
-	Configurations []V2CoreAccountLinkCompletedEventDataConfiguration `json:"configurations"`
+	Configurations []V2CoreAccountLinkReturnedEventDataConfiguration `json:"configurations"`
 	// Open Enum. The use case type of the account link that has been completed.
-	UseCase V2CoreAccountLinkCompletedEventDataUseCase `json:"use_case"`
+	UseCase V2CoreAccountLinkReturnedEventDataUseCase `json:"use_case"`
 }
 
 // Occurs when the status of an Account's customer configuration capability is updated.
@@ -1137,8 +1140,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return v, err
 		}
 		return result, nil
-	case "v2.core.account_link.completed":
-		result := &V2CoreAccountLinkCompletedEvent{}
+	case "v2.core.account_link.returned":
+		result := &V2CoreAccountLinkReturnedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
