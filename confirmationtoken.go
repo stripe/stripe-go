@@ -666,7 +666,7 @@ type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsC
 type ConfirmationTokenPaymentMethodPreviewCardGeneratedFromPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -788,7 +788,7 @@ type ConfirmationTokenPaymentMethodPreviewCardWallet struct {
 	VisaCheckout *ConfirmationTokenPaymentMethodPreviewCardWalletVisaCheckout `json:"visa_checkout"`
 }
 type ConfirmationTokenPaymentMethodPreviewCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// Checks on Card address and CVC if provided.
 	Checks *ConfirmationTokenPaymentMethodPreviewCardChecks `json:"checks"`
@@ -846,7 +846,7 @@ type ConfirmationTokenPaymentMethodPreviewCardPresentWallet struct {
 	Type ConfirmationTokenPaymentMethodPreviewCardPresentWalletType `json:"type"`
 }
 type ConfirmationTokenPaymentMethodPreviewCardPresent struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`

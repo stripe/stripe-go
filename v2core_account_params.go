@@ -779,10 +779,22 @@ type V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams struct {
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Details on the Account's acceptance of Treasury-specific terms of service.
+type V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Attestations of accepted terms of service agreements.
 type V2CoreAccountIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
+	// Details on the Account's acceptance of Treasury-specific terms of service.
+	Storer *V2CoreAccountIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors.
@@ -2121,10 +2133,22 @@ type V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams struct {
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Details on the Account's acceptance of Treasury-specific terms of service.
+type V2CoreAccountCreateIdentityAttestationsTermsOfServiceStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Attestations of accepted terms of service agreements.
 type V2CoreAccountCreateIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountCreateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
+	// Details on the Account's acceptance of Treasury-specific terms of service.
+	Storer *V2CoreAccountCreateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors.
@@ -3469,10 +3493,22 @@ type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams struct {
 	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
 }
 
+// Details on the Account's acceptance of Treasury-specific terms of service.
+type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams struct {
+	// The time when the Account's representative accepted the terms of service. Represented as a RFC 3339 date & time UTC value in millisecond precision, for example: 2022-09-18T13:22:18.123Z.
+	Date *time.Time `form:"date" json:"date,omitempty"`
+	// The IP address from which the Account's representative accepted the terms of service.
+	IP *string `form:"ip" json:"ip,omitempty"`
+	// The user agent of the browser from which the Account's representative accepted the terms of service.
+	UserAgent *string `form:"user_agent" json:"user_agent,omitempty"`
+}
+
 // Attestations of accepted terms of service agreements.
 type V2CoreAccountUpdateIdentityAttestationsTermsOfServiceParams struct {
 	// Details on the Account's acceptance of the [Stripe Services Agreement](https://docs.stripe.com/connect/updating-accounts#tos-acceptance).
 	Account *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceAccountParams `form:"account" json:"account,omitempty"`
+	// Details on the Account's acceptance of Treasury-specific terms of service.
+	Storer *V2CoreAccountUpdateIdentityAttestationsTermsOfServiceStorerParams `form:"storer" json:"storer,omitempty"`
 }
 
 // Attestations from the identity's key people, e.g. owners, executives, directors.

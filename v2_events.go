@@ -13,20 +13,23 @@ import (
 )
 
 // Configurations on the Account that was onboarded via the account link.
-type V2CoreAccountLinkCompletedEventDataConfiguration string
+type V2CoreAccountLinkReturnedEventDataConfiguration string
 
-// List of values that V2CoreAccountLinkCompletedEventDataConfiguration can take
+// List of values that V2CoreAccountLinkReturnedEventDataConfiguration can take
 const (
-	V2CoreAccountLinkCompletedEventDataConfigurationRecipient V2CoreAccountLinkCompletedEventDataConfiguration = "recipient"
+	V2CoreAccountLinkReturnedEventDataConfigurationCustomer  V2CoreAccountLinkReturnedEventDataConfiguration = "customer"
+	V2CoreAccountLinkReturnedEventDataConfigurationMerchant  V2CoreAccountLinkReturnedEventDataConfiguration = "merchant"
+	V2CoreAccountLinkReturnedEventDataConfigurationRecipient V2CoreAccountLinkReturnedEventDataConfiguration = "recipient"
+	V2CoreAccountLinkReturnedEventDataConfigurationStorer    V2CoreAccountLinkReturnedEventDataConfiguration = "storer"
 )
 
 // Open Enum. The use case type of the account link that has been completed.
-type V2CoreAccountLinkCompletedEventDataUseCase string
+type V2CoreAccountLinkReturnedEventDataUseCase string
 
-// List of values that V2CoreAccountLinkCompletedEventDataUseCase can take
+// List of values that V2CoreAccountLinkReturnedEventDataUseCase can take
 const (
-	V2CoreAccountLinkCompletedEventDataUseCaseAccountOnboarding V2CoreAccountLinkCompletedEventDataUseCase = "account_onboarding"
-	V2CoreAccountLinkCompletedEventDataUseCaseAccountUpdate     V2CoreAccountLinkCompletedEventDataUseCase = "account_update"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountOnboarding V2CoreAccountLinkReturnedEventDataUseCase = "account_onboarding"
+	V2CoreAccountLinkReturnedEventDataUseCaseAccountUpdate     V2CoreAccountLinkReturnedEventDataUseCase = "account_update"
 )
 
 // Open Enum. The capability which had its status updated.
@@ -179,11 +182,11 @@ func (e V2CoreAccountIncludingRequirementsUpdatedEvent) FetchRelatedObject() (*V
 	return e.fetchRelatedObject()
 }
 
-// V2CoreAccountLinkCompletedEvent is the Go struct for the "v2.core.account_link.completed" event.
+// V2CoreAccountLinkReturnedEvent is the Go struct for the "v2.core.account_link.returned" event.
 // Occurs when the generated AccountLink is completed.
-type V2CoreAccountLinkCompletedEvent struct {
+type V2CoreAccountLinkReturnedEvent struct {
 	V2BaseEvent
-	Data V2CoreAccountLinkCompletedEventData `json:"data"`
+	Data V2CoreAccountLinkReturnedEventData `json:"data"`
 }
 
 // V2CoreAccountClosedEvent is the Go struct for the "v2.core.account.closed" event.
@@ -579,21 +582,8 @@ func (e V2CoreEventDestinationPingEvent) FetchRelatedObject() (*V2EventDestinati
 	return e.fetchRelatedObject()
 }
 
-// V2OffSessionPaymentRequiresCaptureEvent is the Go struct for the "v2.off_session_payment.requires_capture" event.
-// Off session payment requires capture event definition.
-type V2OffSessionPaymentRequiresCaptureEvent struct {
-	V2BaseEvent
-	RelatedObject      RelatedObject `json:"related_object"`
-	fetchRelatedObject func() (*V2PaymentsOffSessionPayment, error)
-}
-
-// FetchRelatedObject fetches the related V2PaymentsOffSessionPayment object for the event.
-func (e V2OffSessionPaymentRequiresCaptureEvent) FetchRelatedObject() (*V2PaymentsOffSessionPayment, error) {
-	return e.fetchRelatedObject()
-}
-
 // V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_failed" event.
-// Off session payment authorization attempt failed event definition.
+// Sent after a failed authorization if there are still retries available on the OffSessionPayment.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -606,7 +596,8 @@ func (e V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent) FetchRelated
 }
 
 // V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent is the Go struct for the "v2.payments.off_session_payment.authorization_attempt_started" event.
-// Off session payment authorization attempt started event definition.
+// Sent when our internal scheduling system kicks off an attempt at authorization, whether it's a
+// retry or an initial authorization.
 type V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -619,7 +610,7 @@ func (e V2PaymentsOffSessionPaymentAuthorizationAttemptStartedEvent) FetchRelate
 }
 
 // V2PaymentsOffSessionPaymentCanceledEvent is the Go struct for the "v2.payments.off_session_payment.canceled" event.
-// Off session payment canceled event definition.
+// Sent immediately following a user's call to the Off-Session Payments cancel endpoint.
 type V2PaymentsOffSessionPaymentCanceledEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -632,7 +623,7 @@ func (e V2PaymentsOffSessionPaymentCanceledEvent) FetchRelatedObject() (*V2Payme
 }
 
 // V2PaymentsOffSessionPaymentCreatedEvent is the Go struct for the "v2.payments.off_session_payment.created" event.
-// Off session payment created event definition.
+// Sent immediately following a user's call to the Off-Session Payments create endpoint.
 type V2PaymentsOffSessionPaymentCreatedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -645,7 +636,7 @@ func (e V2PaymentsOffSessionPaymentCreatedEvent) FetchRelatedObject() (*V2Paymen
 }
 
 // V2PaymentsOffSessionPaymentFailedEvent is the Go struct for the "v2.payments.off_session_payment.failed" event.
-// Off session payment failed event definition.
+// Sent after a failed authorization if there are no retries remaining, or if the failure is unretryable.
 type V2PaymentsOffSessionPaymentFailedEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -658,7 +649,7 @@ func (e V2PaymentsOffSessionPaymentFailedEvent) FetchRelatedObject() (*V2Payment
 }
 
 // V2PaymentsOffSessionPaymentSucceededEvent is the Go struct for the "v2.payments.off_session_payment.succeeded" event.
-// Off session payment succeeded event definition.
+// Sent immediately after a successful authorization.
 type V2PaymentsOffSessionPaymentSucceededEvent struct {
 	V2BaseEvent
 	RelatedObject      RelatedObject `json:"related_object"`
@@ -826,6 +817,19 @@ func (e V2MoneyManagementOutboundTransferUpdatedEvent) FetchRelatedObject() (*V2
 	return e.fetchRelatedObject()
 }
 
+// V2MoneyManagementPayoutMethodUpdatedEvent is the Go struct for the "v2.money_management.payout_method.updated" event.
+// Occurs when a PayoutMethod is updated.
+type V2MoneyManagementPayoutMethodUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2MoneyManagementPayoutMethod, error)
+}
+
+// FetchRelatedObject fetches the related V2MoneyManagementPayoutMethod object for the event.
+func (e V2MoneyManagementPayoutMethodUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementPayoutMethod, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2MoneyManagementReceivedCreditAvailableEvent is the Go struct for the "v2.money_management.received_credit.available" event.
 // Occurs when a ReceivedCredit's funds are received and are available in your balance.
 type V2MoneyManagementReceivedCreditAvailableEvent struct {
@@ -971,13 +975,13 @@ func (e V2MoneyManagementTransactionUpdatedEvent) FetchRelatedObject() (*V2Money
 }
 
 // Occurs when the generated AccountLink is completed.
-type V2CoreAccountLinkCompletedEventData struct {
+type V2CoreAccountLinkReturnedEventData struct {
 	// The ID of the v2 account.
 	AccountID string `json:"account_id"`
 	// Configurations on the Account that was onboarded via the account link.
-	Configurations []V2CoreAccountLinkCompletedEventDataConfiguration `json:"configurations"`
+	Configurations []V2CoreAccountLinkReturnedEventDataConfiguration `json:"configurations"`
 	// Open Enum. The use case type of the account link that has been completed.
-	UseCase V2CoreAccountLinkCompletedEventDataUseCase `json:"use_case"`
+	UseCase V2CoreAccountLinkReturnedEventDataUseCase `json:"use_case"`
 }
 
 // Occurs when the status of an Account's customer configuration capability is updated.
@@ -1136,8 +1140,8 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return v, err
 		}
 		return result, nil
-	case "v2.core.account_link.completed":
-		result := &V2CoreAccountLinkCompletedEvent{}
+	case "v2.core.account_link.returned":
+		result := &V2CoreAccountLinkReturnedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
@@ -1467,16 +1471,6 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return v, err
 		}
 		return result, nil
-	case "v2.off_session_payment.requires_capture":
-		result := &V2OffSessionPaymentRequiresCaptureEvent{}
-		result.V2BaseEvent = event.V2BaseEvent
-		result.RelatedObject = *event.RelatedObject
-		result.fetchRelatedObject = func() (*V2PaymentsOffSessionPayment, error) {
-			v := &V2PaymentsOffSessionPayment{}
-			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
-			return v, err
-		}
-		return result, nil
 	case "v2.payments.off_session_payment.authorization_attempt_failed":
 		result := &V2PaymentsOffSessionPaymentAuthorizationAttemptFailedEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -1653,6 +1647,16 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementOutboundTransfer, error) {
 			v := &V2MoneyManagementOutboundTransfer{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.money_management.payout_method.updated":
+		result := &V2MoneyManagementPayoutMethodUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2MoneyManagementPayoutMethod, error) {
+			v := &V2MoneyManagementPayoutMethod{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}

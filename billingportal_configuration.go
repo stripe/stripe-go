@@ -150,8 +150,20 @@ type BillingPortalConfigurationFeaturesSubscriptionCancelParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
+// Control whether the quantity of the product can be adjusted.
+type BillingPortalConfigurationFeaturesSubscriptionUpdateProductAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled *bool `form:"enabled"`
+	// The maximum quantity that can be set for the product.
+	Maximum *int64 `form:"maximum"`
+	// The minimum quantity that can be set for the product.
+	Minimum *int64 `form:"minimum"`
+}
+
 // The list of up to 10 products that support subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams struct {
+	// Control whether the quantity of the product can be adjusted.
+	AdjustableQuantity *BillingPortalConfigurationFeaturesSubscriptionUpdateProductAdjustableQuantityParams `form:"adjustable_quantity"`
 	// The list of price IDs for the product that a subscription can be updated to.
 	Prices []*string `form:"prices"`
 	// The product id.
@@ -289,8 +301,20 @@ type BillingPortalConfigurationCreateFeaturesSubscriptionCancelParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
+// Control whether the quantity of the product can be adjusted.
+type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateProductAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled *bool `form:"enabled"`
+	// The maximum quantity that can be set for the product.
+	Maximum *int64 `form:"maximum"`
+	// The minimum quantity that can be set for the product.
+	Minimum *int64 `form:"minimum"`
+}
+
 // The list of up to 10 products that support subscription updates.
 type BillingPortalConfigurationCreateFeaturesSubscriptionUpdateProductParams struct {
+	// Control whether the quantity of the product can be adjusted.
+	AdjustableQuantity *BillingPortalConfigurationCreateFeaturesSubscriptionUpdateProductAdjustableQuantityParams `form:"adjustable_quantity"`
 	// The list of price IDs for the product that a subscription can be updated to.
 	Prices []*string `form:"prices"`
 	// The product id.
@@ -436,8 +460,20 @@ type BillingPortalConfigurationUpdateFeaturesSubscriptionCancelParams struct {
 	ProrationBehavior *string `form:"proration_behavior"`
 }
 
+// Control whether the quantity of the product can be adjusted.
+type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateProductAdjustableQuantityParams struct {
+	// Set to true if the quantity can be adjusted to any non-negative integer.
+	Enabled *bool `form:"enabled"`
+	// The maximum quantity that can be set for the product.
+	Maximum *int64 `form:"maximum"`
+	// The minimum quantity that can be set for the product.
+	Minimum *int64 `form:"minimum"`
+}
+
 // The list of up to 10 products that support subscription updates.
 type BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateProductParams struct {
+	// Control whether the quantity of the product can be adjusted.
+	AdjustableQuantity *BillingPortalConfigurationUpdateFeaturesSubscriptionUpdateProductAdjustableQuantityParams `form:"adjustable_quantity"`
 	// The list of price IDs for the product that a subscription can be updated to.
 	Prices []*string `form:"prices"`
 	// The product id.
@@ -562,9 +598,18 @@ type BillingPortalConfigurationFeaturesSubscriptionCancel struct {
 	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`.
 	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior `json:"proration_behavior"`
 }
+type BillingPortalConfigurationFeaturesSubscriptionUpdateProductAdjustableQuantity struct {
+	// If true, the quantity can be adjusted to any non-negative integer.
+	Enabled bool `json:"enabled"`
+	// The maximum quantity that can be set for the product.
+	Maximum int64 `json:"maximum"`
+	// The minimum quantity that can be set for the product.
+	Minimum int64 `json:"minimum"`
+}
 
 // The list of up to 10 products that support subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProduct struct {
+	AdjustableQuantity *BillingPortalConfigurationFeaturesSubscriptionUpdateProductAdjustableQuantity `json:"adjustable_quantity"`
 	// The list of price IDs which, when subscribed to, a subscription can be updated.
 	Prices []string `json:"prices"`
 	// The product ID.
