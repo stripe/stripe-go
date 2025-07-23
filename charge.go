@@ -906,7 +906,7 @@ type ChargePaymentMethodDetailsAlipay struct {
 }
 type ChargePaymentMethodDetailsAlma struct{}
 type ChargePaymentMethodDetailsAmazonPayFundingCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
@@ -1088,7 +1088,7 @@ type ChargePaymentMethodDetailsCard struct {
 	AmountAuthorized int64 `json:"amount_authorized"`
 	// Authorization code on the charge.
 	AuthorizationCode string `json:"authorization_code"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
 	CaptureBefore int64 `json:"capture_before"`
@@ -1178,7 +1178,7 @@ type ChargePaymentMethodDetailsCardPresentWallet struct {
 type ChargePaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -1235,6 +1235,8 @@ type ChargePaymentMethodDetailsCashApp struct {
 	BuyerID string `json:"buyer_id"`
 	// A public identifier for buyers using Cash App.
 	Cashtag string `json:"cashtag"`
+	// A unique and immutable identifier of payments assigned by Cash App
+	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsCrypto struct {
 	// The wallet address of the customer.
@@ -1505,7 +1507,7 @@ type ChargePaymentMethodDetailsPromptPay struct {
 	Reference string `json:"reference"`
 }
 type ChargePaymentMethodDetailsRevolutPayFundingCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
 	Country string `json:"country"`
@@ -1679,7 +1681,7 @@ type ChargePaymentMethodDetails struct {
 	Zip           *ChargePaymentMethodDetailsZip           `json:"zip"`
 }
 type ChargePresentmentDetails struct {
-	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	// Amount intended to be collected by this payment, denominated in `presentment_currency`.
 	PresentmentAmount int64 `json:"presentment_amount"`
 	// Currency presented to the customer during payment.
 	PresentmentCurrency Currency `json:"presentment_currency"`

@@ -46,7 +46,6 @@ type CapabilityStatus string
 // List of values that CapabilityStatus can take
 const (
 	CapabilityStatusActive      CapabilityStatus = "active"
-	CapabilityStatusDisabled    CapabilityStatus = "disabled"
 	CapabilityStatusInactive    CapabilityStatus = "inactive"
 	CapabilityStatusPending     CapabilityStatus = "pending"
 	CapabilityStatusUnrequested CapabilityStatus = "unrequested"

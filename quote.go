@@ -265,6 +265,7 @@ type QuoteLineItemParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteSubscriptionDataBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -544,6 +545,7 @@ type QuoteCreateLineItemParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type QuoteCreateSubscriptionDataBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
