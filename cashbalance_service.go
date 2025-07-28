@@ -37,9 +37,7 @@ func (c v1CashBalanceService) Update(ctx context.Context, params *CashBalanceUpd
 		return nil, fmt.Errorf(
 			"params cannot be nil, and params.Customer must be set")
 	}
-	if params == nil {
-		params = &CashBalanceUpdateParams{}
-	}
+
 	params.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/cash_balance", StringValue(params.Customer))

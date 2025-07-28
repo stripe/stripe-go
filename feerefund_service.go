@@ -64,9 +64,7 @@ func (c v1FeeRefundService) Update(ctx context.Context, id string, params *FeeRe
 	if params.Fee == nil {
 		return nil, fmt.Errorf("params.Fee must be set")
 	}
-	if params == nil {
-		params = &FeeRefundUpdateParams{}
-	}
+
 	params.Context = ctx
 	path := FormatURLPath(
 		"/v1/application_fees/%s/refunds/%s", StringValue(params.Fee), id)
