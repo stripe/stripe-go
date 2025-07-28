@@ -58,9 +58,6 @@ func (c v1PaymentSourceService) Update(ctx context.Context, id string, params *P
 	if params.Customer == nil {
 		return nil, fmt.Errorf("Invalid source params: customer needs to be set")
 	}
-	if params == nil {
-		params = &PaymentSourceUpdateParams{}
-	}
 	params.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
