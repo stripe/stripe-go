@@ -61,12 +61,12 @@ func (c Client) Get(id string, params *stripe.PaymentMethodParams) (*stripe.Paym
 	return paymentmethod, err
 }
 
-// Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.
+// Updates a PaymentMethod object. A PaymentMethod must be attached to a customer to be updated.
 func Update(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
 	return getC().Update(id, params)
 }
 
-// Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.
+// Updates a PaymentMethod object. A PaymentMethod must be attached to a customer to be updated.
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

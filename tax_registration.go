@@ -8,6 +8,15 @@ package stripe
 
 import "github.com/stripe/stripe-go/v82/form"
 
+// Place of supply scheme used in an Default standard registration.
+type TaxRegistrationCountryOptionsAeStandardPlaceOfSupplyScheme string
+
+// List of values that TaxRegistrationCountryOptionsAeStandardPlaceOfSupplyScheme can take
+const (
+	TaxRegistrationCountryOptionsAeStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsAeStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsAeStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsAeStandardPlaceOfSupplyScheme = "standard"
+)
+
 // Type of registration in `country`.
 type TaxRegistrationCountryOptionsAeType string
 
@@ -45,8 +54,9 @@ type TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsAtStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsAtStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsAtStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsAtStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsAtStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsAtStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -58,6 +68,15 @@ const (
 	TaxRegistrationCountryOptionsAtTypeOssNonUnion TaxRegistrationCountryOptionsAtType = "oss_non_union"
 	TaxRegistrationCountryOptionsAtTypeOssUnion    TaxRegistrationCountryOptionsAtType = "oss_union"
 	TaxRegistrationCountryOptionsAtTypeStandard    TaxRegistrationCountryOptionsAtType = "standard"
+)
+
+// Place of supply scheme used in an Default standard registration.
+type TaxRegistrationCountryOptionsAuStandardPlaceOfSupplyScheme string
+
+// List of values that TaxRegistrationCountryOptionsAuStandardPlaceOfSupplyScheme can take
+const (
+	TaxRegistrationCountryOptionsAuStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsAuStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsAuStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsAuStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in `country`.
@@ -113,8 +132,9 @@ type TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsBeStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsBeStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsBeStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsBeStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsBeStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsBeStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -141,8 +161,9 @@ type TaxRegistrationCountryOptionsBGStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsBGStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsBGStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsBGStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsBGStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsBGStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsBGStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsBGStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsBGStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsBGStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsBGStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsBGStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -206,6 +227,15 @@ const (
 	TaxRegistrationCountryOptionsCdTypeStandard TaxRegistrationCountryOptionsCdType = "standard"
 )
 
+// Place of supply scheme used in an Default standard registration.
+type TaxRegistrationCountryOptionsChStandardPlaceOfSupplyScheme string
+
+// List of values that TaxRegistrationCountryOptionsChStandardPlaceOfSupplyScheme can take
+const (
+	TaxRegistrationCountryOptionsChStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsChStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsChStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsChStandardPlaceOfSupplyScheme = "standard"
+)
+
 // Type of registration in `country`.
 type TaxRegistrationCountryOptionsChType string
 
@@ -259,8 +289,9 @@ type TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsCyStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsCyStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsCyStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsCyStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsCyStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsCyStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -279,8 +310,9 @@ type TaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsCzStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsCzStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsCzStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsCzStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsCzStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsCzStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -299,8 +331,9 @@ type TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsDEStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsDEStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsDEStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsDEStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsDEStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsDEStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -319,8 +352,9 @@ type TaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsDkStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsDkStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsDkStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsDkStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsDkStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsDkStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -347,8 +381,9 @@ type TaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsEeStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsEeStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsEeStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsEeStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsEeStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsEeStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -375,8 +410,9 @@ type TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsESStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsESStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsESStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsESStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsESStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsESStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -403,8 +439,9 @@ type TaxRegistrationCountryOptionsFIStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsFIStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsFIStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsFIStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsFIStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsFIStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsFIStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsFIStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsFIStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsFIStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsFIStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsFIStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -423,8 +460,9 @@ type TaxRegistrationCountryOptionsFRStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsFRStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsFRStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsFRStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsFRStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsFRStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsFRStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsFRStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsFRStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsFRStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsFRStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsFRStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -436,6 +474,15 @@ const (
 	TaxRegistrationCountryOptionsFRTypeOssNonUnion TaxRegistrationCountryOptionsFRType = "oss_non_union"
 	TaxRegistrationCountryOptionsFRTypeOssUnion    TaxRegistrationCountryOptionsFRType = "oss_union"
 	TaxRegistrationCountryOptionsFRTypeStandard    TaxRegistrationCountryOptionsFRType = "standard"
+)
+
+// Place of supply scheme used in an Default standard registration.
+type TaxRegistrationCountryOptionsGBStandardPlaceOfSupplyScheme string
+
+// List of values that TaxRegistrationCountryOptionsGBStandardPlaceOfSupplyScheme can take
+const (
+	TaxRegistrationCountryOptionsGBStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsGBStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsGBStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsGBStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in `country`.
@@ -467,8 +514,9 @@ type TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsGrStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsGrStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsGrStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsGrStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsGrStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsGrStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -487,8 +535,9 @@ type TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsHRStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsHRStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsHRStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsHRStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsHRStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsHRStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -507,8 +556,9 @@ type TaxRegistrationCountryOptionsHUStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsHUStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsHUStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsHUStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsHUStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsHUStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsHUStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsHUStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsHUStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsHUStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsHUStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsHUStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -535,8 +585,9 @@ type TaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsIeStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsIeStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsIeStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsIeStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsIeStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsIeStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -571,8 +622,9 @@ type TaxRegistrationCountryOptionsITStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsITStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsITStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsITStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsITStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsITStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsITStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsITStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsITStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsITStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsITStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsITStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -584,6 +636,15 @@ const (
 	TaxRegistrationCountryOptionsITTypeOssNonUnion TaxRegistrationCountryOptionsITType = "oss_non_union"
 	TaxRegistrationCountryOptionsITTypeOssUnion    TaxRegistrationCountryOptionsITType = "oss_union"
 	TaxRegistrationCountryOptionsITTypeStandard    TaxRegistrationCountryOptionsITType = "standard"
+)
+
+// Place of supply scheme used in an Default standard registration.
+type TaxRegistrationCountryOptionsJPStandardPlaceOfSupplyScheme string
+
+// List of values that TaxRegistrationCountryOptionsJPStandardPlaceOfSupplyScheme can take
+const (
+	TaxRegistrationCountryOptionsJPStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsJPStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsJPStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsJPStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in `country`.
@@ -647,8 +708,9 @@ type TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsLTStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsLTStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsLTStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsLTStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsLTStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsLTStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -667,8 +729,9 @@ type TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsLuStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsLuStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsLuStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsLuStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsLuStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsLuStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -687,8 +750,9 @@ type TaxRegistrationCountryOptionsLVStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsLVStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsLVStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsLVStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsLVStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsLVStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsLVStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsLVStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsLVStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsLVStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsLVStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsLVStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -747,8 +811,9 @@ type TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsMTStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsMTStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsMTStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsMTStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsMTStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsMTStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -791,8 +856,9 @@ type TaxRegistrationCountryOptionsNLStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsNLStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsNLStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsNLStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsNLStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsNLStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsNLStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsNLStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsNLStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsNLStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsNLStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsNLStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -804,6 +870,15 @@ const (
 	TaxRegistrationCountryOptionsNLTypeOssNonUnion TaxRegistrationCountryOptionsNLType = "oss_non_union"
 	TaxRegistrationCountryOptionsNLTypeOssUnion    TaxRegistrationCountryOptionsNLType = "oss_union"
 	TaxRegistrationCountryOptionsNLTypeStandard    TaxRegistrationCountryOptionsNLType = "standard"
+)
+
+// Place of supply scheme used in an Default standard registration.
+type TaxRegistrationCountryOptionsNoStandardPlaceOfSupplyScheme string
+
+// List of values that TaxRegistrationCountryOptionsNoStandardPlaceOfSupplyScheme can take
+const (
+	TaxRegistrationCountryOptionsNoStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsNoStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsNoStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsNoStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in `country`.
@@ -820,6 +895,15 @@ type TaxRegistrationCountryOptionsNpType string
 // List of values that TaxRegistrationCountryOptionsNpType can take
 const (
 	TaxRegistrationCountryOptionsNpTypeSimplified TaxRegistrationCountryOptionsNpType = "simplified"
+)
+
+// Place of supply scheme used in an Default standard registration.
+type TaxRegistrationCountryOptionsNzStandardPlaceOfSupplyScheme string
+
+// List of values that TaxRegistrationCountryOptionsNzStandardPlaceOfSupplyScheme can take
+const (
+	TaxRegistrationCountryOptionsNzStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsNzStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsNzStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsNzStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in `country`.
@@ -859,8 +943,9 @@ type TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsPLStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsPLStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsPLStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsPLStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsPLStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsPLStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -879,8 +964,9 @@ type TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsPTStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsPTStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsPTStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsPTStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsPTStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsPTStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -899,8 +985,9 @@ type TaxRegistrationCountryOptionsROStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsROStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsROStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsROStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsROStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsROStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsROStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsROStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsROStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsROStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsROStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsROStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -943,8 +1030,9 @@ type TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsSeStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsSeStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsSeStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsSeStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsSeStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsSeStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -956,6 +1044,15 @@ const (
 	TaxRegistrationCountryOptionsSeTypeOssNonUnion TaxRegistrationCountryOptionsSeType = "oss_non_union"
 	TaxRegistrationCountryOptionsSeTypeOssUnion    TaxRegistrationCountryOptionsSeType = "oss_union"
 	TaxRegistrationCountryOptionsSeTypeStandard    TaxRegistrationCountryOptionsSeType = "standard"
+)
+
+// Place of supply scheme used in an Default standard registration.
+type TaxRegistrationCountryOptionsSgStandardPlaceOfSupplyScheme string
+
+// List of values that TaxRegistrationCountryOptionsSgStandardPlaceOfSupplyScheme can take
+const (
+	TaxRegistrationCountryOptionsSgStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsSgStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsSgStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsSgStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in `country`.
@@ -971,8 +1068,9 @@ type TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsSiStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsSiStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsSiStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsSiStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsSiStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsSiStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -991,8 +1089,9 @@ type TaxRegistrationCountryOptionsSKStandardPlaceOfSupplyScheme string
 
 // List of values that TaxRegistrationCountryOptionsSKStandardPlaceOfSupplyScheme can take
 const (
-	TaxRegistrationCountryOptionsSKStandardPlaceOfSupplySchemeSmallSeller TaxRegistrationCountryOptionsSKStandardPlaceOfSupplyScheme = "small_seller"
-	TaxRegistrationCountryOptionsSKStandardPlaceOfSupplySchemeStandard    TaxRegistrationCountryOptionsSKStandardPlaceOfSupplyScheme = "standard"
+	TaxRegistrationCountryOptionsSKStandardPlaceOfSupplySchemeInboundGoods TaxRegistrationCountryOptionsSKStandardPlaceOfSupplyScheme = "inbound_goods"
+	TaxRegistrationCountryOptionsSKStandardPlaceOfSupplySchemeSmallSeller  TaxRegistrationCountryOptionsSKStandardPlaceOfSupplyScheme = "small_seller"
+	TaxRegistrationCountryOptionsSKStandardPlaceOfSupplySchemeStandard     TaxRegistrationCountryOptionsSKStandardPlaceOfSupplyScheme = "standard"
 )
 
 // Type of registration in an EU country.
@@ -1164,14 +1263,30 @@ func (p *TaxRegistrationListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsAeStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AE.
 type TaxRegistrationCountryOptionsAeParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsAeStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsAlStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AL.
 type TaxRegistrationCountryOptionsAlParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsAlStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1182,8 +1297,16 @@ type TaxRegistrationCountryOptionsAmParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsAoStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AO.
 type TaxRegistrationCountryOptionsAoParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsAoStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1202,14 +1325,30 @@ type TaxRegistrationCountryOptionsAtParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsAuStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AU.
 type TaxRegistrationCountryOptionsAuParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsAuStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsAwStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AW.
 type TaxRegistrationCountryOptionsAwParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsAwStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1220,20 +1359,44 @@ type TaxRegistrationCountryOptionsAzParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsBaStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BA.
 type TaxRegistrationCountryOptionsBaParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsBaStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsBbStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
 }
 
 // Options for the registration in BB.
 type TaxRegistrationCountryOptionsBbParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsBbStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsBdStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BD.
 type TaxRegistrationCountryOptionsBdParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsBdStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1252,8 +1415,16 @@ type TaxRegistrationCountryOptionsBeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsBfStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BF.
 type TaxRegistrationCountryOptionsBfParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsBfStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1272,8 +1443,16 @@ type TaxRegistrationCountryOptionsBGParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsBhStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BH.
 type TaxRegistrationCountryOptionsBhParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsBhStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1284,8 +1463,16 @@ type TaxRegistrationCountryOptionsBjParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsBsStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BS.
 type TaxRegistrationCountryOptionsBsParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsBsStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1310,14 +1497,30 @@ type TaxRegistrationCountryOptionsCaParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsCdStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in CD.
 type TaxRegistrationCountryOptionsCdParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsCdStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsChStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in CH.
 type TaxRegistrationCountryOptionsChParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsChStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1448,8 +1651,16 @@ type TaxRegistrationCountryOptionsESParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsETStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in ET.
 type TaxRegistrationCountryOptionsETParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsETStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1482,8 +1693,16 @@ type TaxRegistrationCountryOptionsFRParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsGBStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in GB.
 type TaxRegistrationCountryOptionsGBParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsGBStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1494,8 +1713,16 @@ type TaxRegistrationCountryOptionsGeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsGnStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in GN.
 type TaxRegistrationCountryOptionsGnParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsGnStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1568,8 +1795,16 @@ type TaxRegistrationCountryOptionsInParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsIsStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in IS.
 type TaxRegistrationCountryOptionsIsParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsIsStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1588,8 +1823,16 @@ type TaxRegistrationCountryOptionsITParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsJPStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in JP.
 type TaxRegistrationCountryOptionsJPParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsJPStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1684,20 +1927,44 @@ type TaxRegistrationCountryOptionsMdParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsMeStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in ME.
 type TaxRegistrationCountryOptionsMeParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsMeStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsMkStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
 }
 
 // Options for the registration in MK.
 type TaxRegistrationCountryOptionsMkParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsMkStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsMrStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in MR.
 type TaxRegistrationCountryOptionsMrParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsMrStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1748,8 +2015,16 @@ type TaxRegistrationCountryOptionsNLParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsNoStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in NO.
 type TaxRegistrationCountryOptionsNoParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsNoStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1760,14 +2035,30 @@ type TaxRegistrationCountryOptionsNpParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsNzStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in NZ.
 type TaxRegistrationCountryOptionsNzParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsNzStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsOmStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in OM.
 type TaxRegistrationCountryOptionsOmParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsOmStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1826,8 +2117,16 @@ type TaxRegistrationCountryOptionsROParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsRsStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in RS.
 type TaxRegistrationCountryOptionsRsParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsRsStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1858,8 +2157,16 @@ type TaxRegistrationCountryOptionsSeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsSgStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in SG.
 type TaxRegistrationCountryOptionsSgParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsSgStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1898,8 +2205,16 @@ type TaxRegistrationCountryOptionsSnParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsSrStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in SR.
 type TaxRegistrationCountryOptionsSrParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsSrStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1980,8 +2295,16 @@ type TaxRegistrationCountryOptionsUSParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsUyStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in UY.
 type TaxRegistrationCountryOptionsUyParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsUyStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -1998,8 +2321,16 @@ type TaxRegistrationCountryOptionsVnParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsZaStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in ZA.
 type TaxRegistrationCountryOptionsZaParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsZaStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2010,8 +2341,16 @@ type TaxRegistrationCountryOptionsZmParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCountryOptionsZwStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in ZW.
 type TaxRegistrationCountryOptionsZwParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCountryOptionsZwStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2250,14 +2589,30 @@ func (p *TaxRegistrationParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsAeStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AE.
 type TaxRegistrationCreateCountryOptionsAeParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsAeStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsAlStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AL.
 type TaxRegistrationCreateCountryOptionsAlParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsAlStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2268,8 +2623,16 @@ type TaxRegistrationCreateCountryOptionsAmParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsAoStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AO.
 type TaxRegistrationCreateCountryOptionsAoParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsAoStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2288,14 +2651,30 @@ type TaxRegistrationCreateCountryOptionsAtParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsAuStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AU.
 type TaxRegistrationCreateCountryOptionsAuParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsAuStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsAwStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in AW.
 type TaxRegistrationCreateCountryOptionsAwParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsAwStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2306,20 +2685,44 @@ type TaxRegistrationCreateCountryOptionsAzParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsBaStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BA.
 type TaxRegistrationCreateCountryOptionsBaParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsBaStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsBbStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
 }
 
 // Options for the registration in BB.
 type TaxRegistrationCreateCountryOptionsBbParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsBbStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsBdStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BD.
 type TaxRegistrationCreateCountryOptionsBdParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsBdStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2338,8 +2741,16 @@ type TaxRegistrationCreateCountryOptionsBeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsBfStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BF.
 type TaxRegistrationCreateCountryOptionsBfParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsBfStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2358,8 +2769,16 @@ type TaxRegistrationCreateCountryOptionsBGParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsBhStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BH.
 type TaxRegistrationCreateCountryOptionsBhParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsBhStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2370,8 +2789,16 @@ type TaxRegistrationCreateCountryOptionsBjParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsBsStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in BS.
 type TaxRegistrationCreateCountryOptionsBsParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsBsStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2396,14 +2823,30 @@ type TaxRegistrationCreateCountryOptionsCaParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsCdStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in CD.
 type TaxRegistrationCreateCountryOptionsCdParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsCdStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsChStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in CH.
 type TaxRegistrationCreateCountryOptionsChParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsChStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2534,8 +2977,16 @@ type TaxRegistrationCreateCountryOptionsESParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsETStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in ET.
 type TaxRegistrationCreateCountryOptionsETParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsETStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2568,8 +3019,16 @@ type TaxRegistrationCreateCountryOptionsFRParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsGBStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in GB.
 type TaxRegistrationCreateCountryOptionsGBParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsGBStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2580,8 +3039,16 @@ type TaxRegistrationCreateCountryOptionsGeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsGnStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in GN.
 type TaxRegistrationCreateCountryOptionsGnParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsGnStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2654,8 +3121,16 @@ type TaxRegistrationCreateCountryOptionsInParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsIsStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in IS.
 type TaxRegistrationCreateCountryOptionsIsParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsIsStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2674,8 +3149,16 @@ type TaxRegistrationCreateCountryOptionsITParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsJPStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in JP.
 type TaxRegistrationCreateCountryOptionsJPParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsJPStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2770,20 +3253,44 @@ type TaxRegistrationCreateCountryOptionsMdParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsMeStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in ME.
 type TaxRegistrationCreateCountryOptionsMeParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsMeStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
+}
+
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsMkStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
 }
 
 // Options for the registration in MK.
 type TaxRegistrationCreateCountryOptionsMkParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsMkStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsMrStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in MR.
 type TaxRegistrationCreateCountryOptionsMrParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsMrStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2834,8 +3341,16 @@ type TaxRegistrationCreateCountryOptionsNLParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsNoStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in NO.
 type TaxRegistrationCreateCountryOptionsNoParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsNoStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2846,14 +3361,30 @@ type TaxRegistrationCreateCountryOptionsNpParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsNzStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in NZ.
 type TaxRegistrationCreateCountryOptionsNzParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsNzStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsOmStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in OM.
 type TaxRegistrationCreateCountryOptionsOmParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsOmStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2912,8 +3443,16 @@ type TaxRegistrationCreateCountryOptionsROParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsRsStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in RS.
 type TaxRegistrationCreateCountryOptionsRsParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsRsStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2944,8 +3483,16 @@ type TaxRegistrationCreateCountryOptionsSeParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsSgStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in SG.
 type TaxRegistrationCreateCountryOptionsSgParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsSgStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -2984,8 +3531,16 @@ type TaxRegistrationCreateCountryOptionsSnParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsSrStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in SR.
 type TaxRegistrationCreateCountryOptionsSrParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsSrStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -3066,8 +3621,16 @@ type TaxRegistrationCreateCountryOptionsUSParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsUyStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in UY.
 type TaxRegistrationCreateCountryOptionsUyParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsUyStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -3084,8 +3647,16 @@ type TaxRegistrationCreateCountryOptionsVnParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsZaStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in ZA.
 type TaxRegistrationCreateCountryOptionsZaParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsZaStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -3096,8 +3667,16 @@ type TaxRegistrationCreateCountryOptionsZmParams struct {
 	Type *string `form:"type"`
 }
 
+// Options for the standard registration.
+type TaxRegistrationCreateCountryOptionsZwStandardParams struct {
+	// Place of supply scheme used in an standard registration.
+	PlaceOfSupplyScheme *string `form:"place_of_supply_scheme"`
+}
+
 // Options for the registration in ZW.
 type TaxRegistrationCreateCountryOptionsZwParams struct {
+	// Options for the standard registration.
+	Standard *TaxRegistrationCreateCountryOptionsZwStandardParams `form:"standard"`
 	// Type of registration to be created in `country`.
 	Type *string `form:"type"`
 }
@@ -3374,7 +3953,12 @@ func (p *TaxRegistrationUpdateParams) AppendTo(body *form.Values, keyParts []str
 	}
 }
 
+type TaxRegistrationCountryOptionsAeStandard struct {
+	// Place of supply scheme used in an Default standard registration.
+	PlaceOfSupplyScheme TaxRegistrationCountryOptionsAeStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
+}
 type TaxRegistrationCountryOptionsAe struct {
+	Standard *TaxRegistrationCountryOptionsAeStandard `json:"standard"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsAeType `json:"type"`
 }
@@ -3399,7 +3983,12 @@ type TaxRegistrationCountryOptionsAt struct {
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsAtType `json:"type"`
 }
+type TaxRegistrationCountryOptionsAuStandard struct {
+	// Place of supply scheme used in an Default standard registration.
+	PlaceOfSupplyScheme TaxRegistrationCountryOptionsAuStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
+}
 type TaxRegistrationCountryOptionsAu struct {
+	Standard *TaxRegistrationCountryOptionsAuStandard `json:"standard"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsAuType `json:"type"`
 }
@@ -3474,7 +4063,12 @@ type TaxRegistrationCountryOptionsCd struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsCdType `json:"type"`
 }
+type TaxRegistrationCountryOptionsChStandard struct {
+	// Place of supply scheme used in an Default standard registration.
+	PlaceOfSupplyScheme TaxRegistrationCountryOptionsChStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
+}
 type TaxRegistrationCountryOptionsCh struct {
+	Standard *TaxRegistrationCountryOptionsChStandard `json:"standard"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsChType `json:"type"`
 }
@@ -3582,7 +4176,12 @@ type TaxRegistrationCountryOptionsFR struct {
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsFRType `json:"type"`
 }
+type TaxRegistrationCountryOptionsGBStandard struct {
+	// Place of supply scheme used in an Default standard registration.
+	PlaceOfSupplyScheme TaxRegistrationCountryOptionsGBStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
+}
 type TaxRegistrationCountryOptionsGB struct {
+	Standard *TaxRegistrationCountryOptionsGBStandard `json:"standard"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsGBType `json:"type"`
 }
@@ -3651,7 +4250,12 @@ type TaxRegistrationCountryOptionsIT struct {
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsITType `json:"type"`
 }
+type TaxRegistrationCountryOptionsJPStandard struct {
+	// Place of supply scheme used in an Default standard registration.
+	PlaceOfSupplyScheme TaxRegistrationCountryOptionsJPStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
+}
 type TaxRegistrationCountryOptionsJP struct {
+	Standard *TaxRegistrationCountryOptionsJPStandard `json:"standard"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsJPType `json:"type"`
 }
@@ -3756,7 +4360,12 @@ type TaxRegistrationCountryOptionsNL struct {
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsNLType `json:"type"`
 }
+type TaxRegistrationCountryOptionsNoStandard struct {
+	// Place of supply scheme used in an Default standard registration.
+	PlaceOfSupplyScheme TaxRegistrationCountryOptionsNoStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
+}
 type TaxRegistrationCountryOptionsNo struct {
+	Standard *TaxRegistrationCountryOptionsNoStandard `json:"standard"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsNoType `json:"type"`
 }
@@ -3764,7 +4373,12 @@ type TaxRegistrationCountryOptionsNp struct {
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsNpType `json:"type"`
 }
+type TaxRegistrationCountryOptionsNzStandard struct {
+	// Place of supply scheme used in an Default standard registration.
+	PlaceOfSupplyScheme TaxRegistrationCountryOptionsNzStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
+}
 type TaxRegistrationCountryOptionsNz struct {
+	Standard *TaxRegistrationCountryOptionsNzStandard `json:"standard"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsNzType `json:"type"`
 }
@@ -3828,7 +4442,12 @@ type TaxRegistrationCountryOptionsSe struct {
 	// Type of registration in an EU country.
 	Type TaxRegistrationCountryOptionsSeType `json:"type"`
 }
+type TaxRegistrationCountryOptionsSgStandard struct {
+	// Place of supply scheme used in an Default standard registration.
+	PlaceOfSupplyScheme TaxRegistrationCountryOptionsSgStandardPlaceOfSupplyScheme `json:"place_of_supply_scheme"`
+}
 type TaxRegistrationCountryOptionsSg struct {
+	Standard *TaxRegistrationCountryOptionsSgStandard `json:"standard"`
 	// Type of registration in `country`.
 	Type TaxRegistrationCountryOptionsSgType `json:"type"`
 }

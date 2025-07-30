@@ -1443,6 +1443,104 @@ func (p *PaymentIntentListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// This sub-hash contains line item details that are specific to `card` payment method."
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `card_present` payment method."
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `klarna` payment method."
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
+	// URL to an image for the product. Max length, 4096 characters.
+	ImageURL *string `form:"image_url"`
+	// URL to the product page. Max length, 4096 characters.
+	ProductURL *string `form:"product_url"`
+	// Reference for the subscription this line item is for.
+	SubscriptionReference *string `form:"subscription_reference"`
+}
+
+// This sub-hash contains line item details that are specific to `paypal` payment method."
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+}
+
+// Payment method-specific information for line items.
+type PaymentIntentAmountDetailsLineItemPaymentMethodOptionsParams struct {
+	// This sub-hash contains line item details that are specific to `card` payment method."
+	Card *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
+	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	CardPresent *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	Klarna *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	Paypal *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
+}
+
+// Contains information about the tax on the item.
+type PaymentIntentAmountDetailsLineItemTaxParams struct {
+	// The total tax on an item. Non-negative integer.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type PaymentIntentAmountDetailsLineItemParams struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// Payment method-specific information for line items.
+	PaymentMethodOptions *PaymentIntentAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode *string `form:"product_code"`
+	// Name of the product. At most 100 characters long.
+	ProductName *string `form:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity *int64 `form:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *PaymentIntentAmountDetailsLineItemTaxParams `form:"tax"`
+	// Cost of the product. Non-negative integer.
+	UnitCost *int64 `form:"unit_cost"`
+	// A unit of measure for the line item, such as gallons, feet, meters, etc.
+	UnitOfMeasure *string `form:"unit_of_measure"`
+}
+
+// Contains information about the shipping portion of the amount.
+type PaymentIntentAmountDetailsShippingParams struct {
+	// Portion of the amount that is for shipping.
+	Amount *int64 `form:"amount"`
+	// The postal code that represents the shipping source.
+	FromPostalCode *string `form:"from_postal_code"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode *string `form:"to_postal_code"`
+}
+
+// Contains information about the tax portion of the amount.
+type PaymentIntentAmountDetailsTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the amount.
+type PaymentIntentAmountDetailsParams struct {
+	// The amount an item was discounted for.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*PaymentIntentAmountDetailsLineItemParams `form:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *PaymentIntentAmountDetailsShippingParams `form:"shipping"`
+	// Contains information about the tax portion of the amount.
+	Tax *PaymentIntentAmountDetailsTaxParams `form:"tax"`
+}
+
 // When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
 type PaymentIntentAutomaticPaymentMethodsParams struct {
 	// Controls whether this PaymentIntent will accept redirect-based payment methods.
@@ -2222,7 +2320,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this PaymentIntent (Mexico Only).
+// Installment configuration for payments attempted on this PaymentIntent.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type PaymentIntentPaymentMethodOptionsCardInstallmentsParams struct {
@@ -2328,7 +2426,7 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// A single-use `cvc_update` Token that represents a card CVC value. When provided, the CVC value will be verified during the card payment attempt. This parameter can only be provided during confirmation.
 	CVCToken *string `form:"cvc_token"`
-	// Installment configuration for payments attempted on this PaymentIntent (Mexico Only).
+	// Installment configuration for payments attempted on this PaymentIntent.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *PaymentIntentPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
@@ -3381,6 +3479,8 @@ type PaymentIntentParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *PaymentIntentAmountDetailsParams `form:"amount_details"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
@@ -3551,6 +3651,104 @@ type PaymentIntentCancelParams struct {
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentCancelParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// This sub-hash contains line item details that are specific to `card` payment method."
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `card_present` payment method."
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `klarna` payment method."
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
+	// URL to an image for the product. Max length, 4096 characters.
+	ImageURL *string `form:"image_url"`
+	// URL to the product page. Max length, 4096 characters.
+	ProductURL *string `form:"product_url"`
+	// Reference for the subscription this line item is for.
+	SubscriptionReference *string `form:"subscription_reference"`
+}
+
+// This sub-hash contains line item details that are specific to `paypal` payment method."
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+}
+
+// Payment method-specific information for line items.
+type PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsParams struct {
+	// This sub-hash contains line item details that are specific to `card` payment method."
+	Card *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
+	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	CardPresent *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	Klarna *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	Paypal *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
+}
+
+// Contains information about the tax on the item.
+type PaymentIntentCaptureAmountDetailsLineItemTaxParams struct {
+	// The total tax on an item. Non-negative integer.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type PaymentIntentCaptureAmountDetailsLineItemParams struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// Payment method-specific information for line items.
+	PaymentMethodOptions *PaymentIntentCaptureAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode *string `form:"product_code"`
+	// Name of the product. At most 100 characters long.
+	ProductName *string `form:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity *int64 `form:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *PaymentIntentCaptureAmountDetailsLineItemTaxParams `form:"tax"`
+	// Cost of the product. Non-negative integer.
+	UnitCost *int64 `form:"unit_cost"`
+	// A unit of measure for the line item, such as gallons, feet, meters, etc.
+	UnitOfMeasure *string `form:"unit_of_measure"`
+}
+
+// Contains information about the shipping portion of the amount.
+type PaymentIntentCaptureAmountDetailsShippingParams struct {
+	// Portion of the amount that is for shipping.
+	Amount *int64 `form:"amount"`
+	// The postal code that represents the shipping source.
+	FromPostalCode *string `form:"from_postal_code"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode *string `form:"to_postal_code"`
+}
+
+// Contains information about the tax portion of the amount.
+type PaymentIntentCaptureAmountDetailsTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the amount.
+type PaymentIntentCaptureAmountDetailsParams struct {
+	// The amount an item was discounted for.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*PaymentIntentCaptureAmountDetailsLineItemParams `form:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *PaymentIntentCaptureAmountDetailsShippingParams `form:"shipping"`
+	// Contains information about the tax portion of the amount.
+	Tax *PaymentIntentCaptureAmountDetailsTaxParams `form:"tax"`
 }
 
 // Tax arguments for automations
@@ -3912,6 +4110,8 @@ type PaymentIntentCapturePaymentDetailsParams struct {
 // Learn more about [separate authorization and capture](https://docs.stripe.com/docs/payments/capture-later).
 type PaymentIntentCaptureParams struct {
 	Params `form:"*"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *PaymentIntentCaptureAmountDetailsParams `form:"amount_details"`
 	// The amount to capture from the PaymentIntent, which must be less than or equal to the original amount. Defaults to the full `amount_capturable` if it's not provided.
 	AmountToCapture *int64 `form:"amount_to_capture"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
@@ -3949,6 +4149,104 @@ func (p *PaymentIntentCaptureParams) AddMetadata(key string, value string) {
 	}
 
 	p.Metadata[key] = value
+}
+
+// This sub-hash contains line item details that are specific to `card` payment method."
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `card_present` payment method."
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `klarna` payment method."
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
+	// URL to an image for the product. Max length, 4096 characters.
+	ImageURL *string `form:"image_url"`
+	// URL to the product page. Max length, 4096 characters.
+	ProductURL *string `form:"product_url"`
+	// Reference for the subscription this line item is for.
+	SubscriptionReference *string `form:"subscription_reference"`
+}
+
+// This sub-hash contains line item details that are specific to `paypal` payment method."
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+}
+
+// Payment method-specific information for line items.
+type PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsParams struct {
+	// This sub-hash contains line item details that are specific to `card` payment method."
+	Card *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
+	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	CardPresent *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	Klarna *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	Paypal *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
+}
+
+// Contains information about the tax on the item.
+type PaymentIntentConfirmAmountDetailsLineItemTaxParams struct {
+	// The total tax on an item. Non-negative integer.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type PaymentIntentConfirmAmountDetailsLineItemParams struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// Payment method-specific information for line items.
+	PaymentMethodOptions *PaymentIntentConfirmAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode *string `form:"product_code"`
+	// Name of the product. At most 100 characters long.
+	ProductName *string `form:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity *int64 `form:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *PaymentIntentConfirmAmountDetailsLineItemTaxParams `form:"tax"`
+	// Cost of the product. Non-negative integer.
+	UnitCost *int64 `form:"unit_cost"`
+	// A unit of measure for the line item, such as gallons, feet, meters, etc.
+	UnitOfMeasure *string `form:"unit_of_measure"`
+}
+
+// Contains information about the shipping portion of the amount.
+type PaymentIntentConfirmAmountDetailsShippingParams struct {
+	// Portion of the amount that is for shipping.
+	Amount *int64 `form:"amount"`
+	// The postal code that represents the shipping source.
+	FromPostalCode *string `form:"from_postal_code"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode *string `form:"to_postal_code"`
+}
+
+// Contains information about the tax portion of the amount.
+type PaymentIntentConfirmAmountDetailsTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the amount.
+type PaymentIntentConfirmAmountDetailsParams struct {
+	// The amount an item was discounted for.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*PaymentIntentConfirmAmountDetailsLineItemParams `form:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *PaymentIntentConfirmAmountDetailsShippingParams `form:"shipping"`
+	// Contains information about the tax portion of the amount.
+	Tax *PaymentIntentConfirmAmountDetailsTaxParams `form:"tax"`
 }
 
 // Tax arguments for automations
@@ -4312,6 +4610,7 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // Confirm that your customer intends to pay with current or provided
 // payment method. Upon confirmation, the PaymentIntent will attempt to initiate
 // a payment.
+//
 // If the selected payment method requires additional authentication steps, the
 // PaymentIntent will transition to the requires_action status and
 // suggest additional actions via next_action. If payment fails,
@@ -4319,23 +4618,29 @@ type PaymentIntentConfirmRadarOptionsParams struct {
 // canceled status if the confirmation limit is reached. If
 // payment succeeds, the PaymentIntent will transition to the succeeded
 // status (or requires_capture, if capture_method is set to manual).
+//
 // If the confirmation_method is automatic, payment may be attempted
 // using our [client SDKs](https://docs.stripe.com/docs/stripe-js/reference#stripe-handle-card-payment)
 // and the PaymentIntent's [client_secret](https://docs.stripe.com/api#payment_intent_object-client_secret).
 // After next_actions are handled by the client, no additional
 // confirmation is required to complete the payment.
+//
 // If the confirmation_method is manual, all payment attempts must be
 // initiated using a secret key.
+//
 // If any actions are required for the payment, the PaymentIntent will
 // return to the requires_confirmation state
 // after those actions are completed. Your server needs to then
 // explicitly re-confirm the PaymentIntent to initiate the next payment
 // attempt.
+//
 // There is a variable upper limit on how many times a PaymentIntent can be confirmed.
 // After this limit is reached, any further calls to this endpoint will
 // transition the PaymentIntent to the canceled state.
 type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *PaymentIntentConfirmAmountDetailsParams `form:"amount_details"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls when the funds will be captured from the customer's account.
@@ -4473,6 +4778,104 @@ func (p *PaymentIntentDecrementAuthorizationParams) AddMetadata(key string, valu
 	p.Metadata[key] = value
 }
 
+// This sub-hash contains line item details that are specific to `card` payment method."
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `card_present` payment method."
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `klarna` payment method."
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
+	// URL to an image for the product. Max length, 4096 characters.
+	ImageURL *string `form:"image_url"`
+	// URL to the product page. Max length, 4096 characters.
+	ProductURL *string `form:"product_url"`
+	// Reference for the subscription this line item is for.
+	SubscriptionReference *string `form:"subscription_reference"`
+}
+
+// This sub-hash contains line item details that are specific to `paypal` payment method."
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+}
+
+// Payment method-specific information for line items.
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsParams struct {
+	// This sub-hash contains line item details that are specific to `card` payment method."
+	Card *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
+	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	CardPresent *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	Klarna *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	Paypal *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
+}
+
+// Contains information about the tax on the item.
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams struct {
+	// The total tax on an item. Non-negative integer.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// Payment method-specific information for line items.
+	PaymentMethodOptions *PaymentIntentIncrementAuthorizationAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode *string `form:"product_code"`
+	// Name of the product. At most 100 characters long.
+	ProductName *string `form:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity *int64 `form:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *PaymentIntentIncrementAuthorizationAmountDetailsLineItemTaxParams `form:"tax"`
+	// Cost of the product. Non-negative integer.
+	UnitCost *int64 `form:"unit_cost"`
+	// A unit of measure for the line item, such as gallons, feet, meters, etc.
+	UnitOfMeasure *string `form:"unit_of_measure"`
+}
+
+// Contains information about the shipping portion of the amount.
+type PaymentIntentIncrementAuthorizationAmountDetailsShippingParams struct {
+	// Portion of the amount that is for shipping.
+	Amount *int64 `form:"amount"`
+	// The postal code that represents the shipping source.
+	FromPostalCode *string `form:"from_postal_code"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode *string `form:"to_postal_code"`
+}
+
+// Contains information about the tax portion of the amount.
+type PaymentIntentIncrementAuthorizationAmountDetailsTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the amount.
+type PaymentIntentIncrementAuthorizationAmountDetailsParams struct {
+	// The amount an item was discounted for.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*PaymentIntentIncrementAuthorizationAmountDetailsLineItemParams `form:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *PaymentIntentIncrementAuthorizationAmountDetailsShippingParams `form:"shipping"`
+	// Contains information about the tax portion of the amount.
+	Tax *PaymentIntentIncrementAuthorizationAmountDetailsTaxParams `form:"tax"`
+}
+
 // Tax arguments for automations
 type PaymentIntentIncrementAuthorizationHooksInputsTaxParams struct {
 	// The [TaxCalculation](https://stripe.com/docs/api/tax/calculations) id
@@ -4489,6 +4892,14 @@ type PaymentIntentIncrementAuthorizationHooksInputsParams struct {
 type PaymentIntentIncrementAuthorizationHooksParams struct {
 	// Arguments passed in automations
 	Inputs *PaymentIntentIncrementAuthorizationHooksInputsParams `form:"inputs"`
+}
+
+// Provides industry-specific information about the charge.
+type PaymentIntentIncrementAuthorizationPaymentDetailsParams struct {
+	// Some customers might be required by their company or organization to provide this information. If so, provide this value. Otherwise you can ignore this field.
+	CustomerReference *string `form:"customer_reference"`
+	// A unique value assigned by the business to identify the transaction.
+	OrderReference *string `form:"order_reference"`
 }
 
 // Configuration for any card payments attempted on this PaymentIntent.
@@ -4538,6 +4949,8 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Params `form:"*"`
 	// The updated total amount that you intend to collect from the cardholder. This amount must be greater than the currently authorized amount.
 	Amount *int64 `form:"amount"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *PaymentIntentIncrementAuthorizationAmountDetailsParams `form:"amount_details"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
@@ -4548,6 +4961,8 @@ type PaymentIntentIncrementAuthorizationParams struct {
 	Hooks *PaymentIntentIncrementAuthorizationHooksParams `form:"hooks"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
+	// Provides industry-specific information about the charge.
+	PaymentDetails *PaymentIntentIncrementAuthorizationPaymentDetailsParams `form:"payment_details"`
 	// Payment method-specific configuration for this PaymentIntent.
 	PaymentMethodOptions *PaymentIntentIncrementAuthorizationPaymentMethodOptionsParams `form:"payment_method_options"`
 	// Text that appears on the customer's statement as the statement descriptor for a non-card or card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see [the Statement Descriptor docs](https://docs.stripe.com/get-started/account/statement-descriptors).
@@ -4607,6 +5022,104 @@ type PaymentIntentTriggerActionParams struct {
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentTriggerActionParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// This sub-hash contains line item details that are specific to `card` payment method."
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `card_present` payment method."
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `klarna` payment method."
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
+	// URL to an image for the product. Max length, 4096 characters.
+	ImageURL *string `form:"image_url"`
+	// URL to the product page. Max length, 4096 characters.
+	ProductURL *string `form:"product_url"`
+	// Reference for the subscription this line item is for.
+	SubscriptionReference *string `form:"subscription_reference"`
+}
+
+// This sub-hash contains line item details that are specific to `paypal` payment method."
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+}
+
+// Payment method-specific information for line items.
+type PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsParams struct {
+	// This sub-hash contains line item details that are specific to `card` payment method."
+	Card *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
+	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	CardPresent *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	Klarna *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	Paypal *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
+}
+
+// Contains information about the tax on the item.
+type PaymentIntentCreateAmountDetailsLineItemTaxParams struct {
+	// The total tax on an item. Non-negative integer.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type PaymentIntentCreateAmountDetailsLineItemParams struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// Payment method-specific information for line items.
+	PaymentMethodOptions *PaymentIntentCreateAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode *string `form:"product_code"`
+	// Name of the product. At most 100 characters long.
+	ProductName *string `form:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity *int64 `form:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *PaymentIntentCreateAmountDetailsLineItemTaxParams `form:"tax"`
+	// Cost of the product. Non-negative integer.
+	UnitCost *int64 `form:"unit_cost"`
+	// A unit of measure for the line item, such as gallons, feet, meters, etc.
+	UnitOfMeasure *string `form:"unit_of_measure"`
+}
+
+// Contains information about the shipping portion of the amount.
+type PaymentIntentCreateAmountDetailsShippingParams struct {
+	// Portion of the amount that is for shipping.
+	Amount *int64 `form:"amount"`
+	// The postal code that represents the shipping source.
+	FromPostalCode *string `form:"from_postal_code"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode *string `form:"to_postal_code"`
+}
+
+// Contains information about the tax portion of the amount.
+type PaymentIntentCreateAmountDetailsTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the amount.
+type PaymentIntentCreateAmountDetailsParams struct {
+	// The amount an item was discounted for.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*PaymentIntentCreateAmountDetailsLineItemParams `form:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *PaymentIntentCreateAmountDetailsShippingParams `form:"shipping"`
+	// Contains information about the tax portion of the amount.
+	Tax *PaymentIntentCreateAmountDetailsTaxParams `form:"tax"`
 }
 
 // When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
@@ -5388,7 +5901,7 @@ type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this PaymentIntent (Mexico Only).
+// Installment configuration for payments attempted on this PaymentIntent.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type PaymentIntentCreatePaymentMethodOptionsCardInstallmentsParams struct {
@@ -5494,7 +6007,7 @@ type PaymentIntentCreatePaymentMethodOptionsCardParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// A single-use `cvc_update` Token that represents a card CVC value. When provided, the CVC value will be verified during the card payment attempt. This parameter can only be provided during confirmation.
 	CVCToken *string `form:"cvc_token"`
-	// Installment configuration for payments attempted on this PaymentIntent (Mexico Only).
+	// Installment configuration for payments attempted on this PaymentIntent.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *PaymentIntentCreatePaymentMethodOptionsCardInstallmentsParams `form:"installments"`
@@ -6547,6 +7060,8 @@ type PaymentIntentCreateParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *PaymentIntentCreateAmountDetailsParams `form:"amount_details"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// When you enable this parameter, this PaymentIntent accepts payment methods that you enable in the Dashboard and that are compatible with this PaymentIntent's other parameters.
@@ -6676,6 +7191,104 @@ type PaymentIntentRetrieveParams struct {
 // AddExpand appends a new field to expand.
 func (p *PaymentIntentRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// This sub-hash contains line item details that are specific to `card` payment method."
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `card_present` payment method."
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams struct {
+	// Identifier that categorizes the items being purchased using a standardized commodity scheme such as (but not limited to) UNSPSC, NAICS, NAPCS, etc.
+	CommodityCode *string `form:"commodity_code"`
+}
+
+// This sub-hash contains line item details that are specific to `klarna` payment method."
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams struct {
+	// URL to an image for the product. Max length, 4096 characters.
+	ImageURL *string `form:"image_url"`
+	// URL to the product page. Max length, 4096 characters.
+	ProductURL *string `form:"product_url"`
+	// Reference for the subscription this line item is for.
+	SubscriptionReference *string `form:"subscription_reference"`
+}
+
+// This sub-hash contains line item details that are specific to `paypal` payment method."
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsPaypalParams struct {
+	// Type of the line item.
+	Category *string `form:"category"`
+	// Description of the line item.
+	Description *string `form:"description"`
+	// The Stripe account ID of the connected account that sells the item.
+	SoldBy *string `form:"sold_by"`
+}
+
+// Payment method-specific information for line items.
+type PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsParams struct {
+	// This sub-hash contains line item details that are specific to `card` payment method."
+	Card *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardParams `form:"card"`
+	// This sub-hash contains line item details that are specific to `card_present` payment method."
+	CardPresent *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// This sub-hash contains line item details that are specific to `klarna` payment method."
+	Klarna *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	// This sub-hash contains line item details that are specific to `paypal` payment method."
+	Paypal *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsPaypalParams `form:"paypal"`
+}
+
+// Contains information about the tax on the item.
+type PaymentIntentUpdateAmountDetailsLineItemTaxParams struct {
+	// The total tax on an item. Non-negative integer.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+type PaymentIntentUpdateAmountDetailsLineItemParams struct {
+	// The amount an item was discounted for. Positive integer.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// Payment method-specific information for line items.
+	PaymentMethodOptions *PaymentIntentUpdateAmountDetailsLineItemPaymentMethodOptionsParams `form:"payment_method_options"`
+	// Unique identifier of the product. At most 12 characters long.
+	ProductCode *string `form:"product_code"`
+	// Name of the product. At most 100 characters long.
+	ProductName *string `form:"product_name"`
+	// Number of items of the product. Positive integer.
+	Quantity *int64 `form:"quantity"`
+	// Contains information about the tax on the item.
+	Tax *PaymentIntentUpdateAmountDetailsLineItemTaxParams `form:"tax"`
+	// Cost of the product. Non-negative integer.
+	UnitCost *int64 `form:"unit_cost"`
+	// A unit of measure for the line item, such as gallons, feet, meters, etc.
+	UnitOfMeasure *string `form:"unit_of_measure"`
+}
+
+// Contains information about the shipping portion of the amount.
+type PaymentIntentUpdateAmountDetailsShippingParams struct {
+	// Portion of the amount that is for shipping.
+	Amount *int64 `form:"amount"`
+	// The postal code that represents the shipping source.
+	FromPostalCode *string `form:"from_postal_code"`
+	// The postal code that represents the shipping destination.
+	ToPostalCode *string `form:"to_postal_code"`
+}
+
+// Contains information about the tax portion of the amount.
+type PaymentIntentUpdateAmountDetailsTaxParams struct {
+	// Total portion of the amount that is for tax.
+	TotalTaxAmount *int64 `form:"total_tax_amount"`
+}
+
+// Provides industry-specific information about the amount.
+type PaymentIntentUpdateAmountDetailsParams struct {
+	// The amount an item was discounted for.
+	DiscountAmount *int64 `form:"discount_amount"`
+	// A list of line items, each containing information about a product in the PaymentIntent. There is a maximum of 100 line items.
+	LineItems []*PaymentIntentUpdateAmountDetailsLineItemParams `form:"line_items"`
+	// Contains information about the shipping portion of the amount.
+	Shipping *PaymentIntentUpdateAmountDetailsShippingParams `form:"shipping"`
+	// Contains information about the tax portion of the amount.
+	Tax *PaymentIntentUpdateAmountDetailsTaxParams `form:"tax"`
 }
 
 // Tax arguments for automations
@@ -7440,7 +8053,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsPlanParams struct {
 	Type *string `form:"type"`
 }
 
-// Installment configuration for payments attempted on this PaymentIntent (Mexico Only).
+// Installment configuration for payments attempted on this PaymentIntent.
 //
 // For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsParams struct {
@@ -7546,7 +8159,7 @@ type PaymentIntentUpdatePaymentMethodOptionsCardParams struct {
 	CaptureMethod *string `form:"capture_method"`
 	// A single-use `cvc_update` Token that represents a card CVC value. When provided, the CVC value will be verified during the card payment attempt. This parameter can only be provided during confirmation.
 	CVCToken *string `form:"cvc_token"`
-	// Installment configuration for payments attempted on this PaymentIntent (Mexico Only).
+	// Installment configuration for payments attempted on this PaymentIntent.
 	//
 	// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 	Installments *PaymentIntentUpdatePaymentMethodOptionsCardInstallmentsParams `form:"installments"`
@@ -8578,6 +9191,8 @@ type PaymentIntentUpdateParams struct {
 	Params `form:"*"`
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount *int64 `form:"amount"`
+	// Provides industry-specific information about the amount.
+	AmountDetails *PaymentIntentUpdateAmountDetailsParams `form:"amount_details"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total amount captured. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls when the funds will be captured from the customer's account.
@@ -10075,7 +10690,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Zip              *PaymentIntentPaymentMethodOptionsZip              `json:"zip"`
 }
 type PaymentIntentPresentmentDetails struct {
-	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	// Amount intended to be collected by this payment, denominated in `presentment_currency`.
 	PresentmentAmount int64 `json:"presentment_amount"`
 	// Currency presented to the customer during payment.
 	PresentmentCurrency Currency `json:"presentment_currency"`

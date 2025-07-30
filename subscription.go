@@ -164,6 +164,15 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
 )
 
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountTypeFixed   SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType = "fixed"
+	SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountTypeMaximum SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType = "maximum"
+)
+
 // The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory string
 
@@ -250,6 +259,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeSofort             SubscriptionPaymentSettingsPaymentMethodType = "sofort"
 	SubscriptionPaymentSettingsPaymentMethodTypeStripeBalance      SubscriptionPaymentSettingsPaymentMethodType = "stripe_balance"
 	SubscriptionPaymentSettingsPaymentMethodTypeSwish              SubscriptionPaymentSettingsPaymentMethodType = "swish"
+	SubscriptionPaymentSettingsPaymentMethodTypeUpi                SubscriptionPaymentSettingsPaymentMethodType = "upi"
 	SubscriptionPaymentSettingsPaymentMethodTypeUSBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "us_bank_account"
 	SubscriptionPaymentSettingsPaymentMethodTypeWeChatPay          SubscriptionPaymentSettingsPaymentMethodType = "wechat_pay"
 )
@@ -718,6 +728,24 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
 
+// Configuration options for setting up an eMandate
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *int64 `form:"end_date"`
+}
+
+// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
+}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
@@ -760,6 +788,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+	Upi *SubscriptionPaymentSettingsPaymentMethodOptionsUpiParams `form:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
@@ -877,6 +907,7 @@ type SubscriptionBillingCycleAnchorConfigParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -1242,6 +1273,24 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
 
+// Configuration options for setting up an eMandate
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *int64 `form:"end_date"`
+}
+
+// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
+}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
@@ -1284,6 +1333,8 @@ type SubscriptionUpdatePaymentSettingsPaymentMethodOptionsParams struct {
 	Konbini *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+	Upi *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionUpdatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
@@ -1409,7 +1460,7 @@ type SubscriptionUpdateParams struct {
 	//
 	// Use `pending_if_incomplete` to update the subscription using [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates). When you use `pending_if_incomplete` you can only pass the parameters [supported by pending updates](https://stripe.com/docs/billing/pending-updates-reference#supported-attributes).
 	//
-	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://stripe.com/docs/upgrades#2019-03-14) to learn more.
+	// Use `error_if_incomplete` if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https://docs.stripe.com/changelog/2019-03-14) to learn more.
 	PaymentBehavior *string `form:"payment_behavior"`
 	// Payment settings to pass to invoices created by the subscription.
 	PaymentSettings *SubscriptionUpdatePaymentSettingsParams `form:"payment_settings"`
@@ -1541,6 +1592,7 @@ type SubscriptionCreateBillingCycleAnchorConfigParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type SubscriptionCreateBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -1768,6 +1820,24 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams struct{}
 
+// Configuration options for setting up an eMandate
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *int64 `form:"end_date"`
+}
+
+// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiParams struct {
+	// Configuration options for setting up an eMandate
+	MandateOptions *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiMandateOptionsParams `form:"mandate_options"`
+}
+
 // Provide filters for the linked accounts that the customer can select for the payment method.
 type SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersParams struct {
 	// The account subcategories to use to filter for selectable accounts. Valid subcategories are `checking` and `savings`.
@@ -1810,6 +1880,8 @@ type SubscriptionCreatePaymentSettingsPaymentMethodOptionsParams struct {
 	Konbini *SubscriptionCreatePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to the invoice's PaymentIntent.
 	SEPADebit *SubscriptionCreatePaymentSettingsPaymentMethodOptionsSEPADebitParams `form:"sepa_debit"`
+	// This sub-hash contains details about the UPI payment method options to pass to the invoice's PaymentIntent.
+	Upi *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUpiParams `form:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
 	USBankAccount *SubscriptionCreatePaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
@@ -2142,6 +2214,21 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsKonbini struct{}
 
 // This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit struct{}
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptionsAmountType `json:"amount_type"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description string `json:"description"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate int64 `json:"end_date"`
+}
+
+// This sub-hash contains details about the UPI payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUpi struct {
+	MandateOptions *SubscriptionPaymentSettingsPaymentMethodOptionsUpiMandateOptions `json:"mandate_options"`
+}
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFilters struct {
 	// The account subcategories to use to filter for possible accounts to link. Valid subcategories are `checking` and `savings`.
 	AccountSubcategories []SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountFinancialConnectionsFiltersAccountSubcategory `json:"account_subcategories"`
@@ -2179,6 +2266,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 	// This sub-hash contains details about the SEPA Direct Debit payment method options to pass to invoices created by the subscription.
 	SEPADebit *SubscriptionPaymentSettingsPaymentMethodOptionsSEPADebit `json:"sepa_debit"`
+	// This sub-hash contains details about the UPI payment method options to pass to invoices created by the subscription.
+	Upi *SubscriptionPaymentSettingsPaymentMethodOptionsUpi `json:"upi"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
 	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }

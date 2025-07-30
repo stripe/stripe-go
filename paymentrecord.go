@@ -46,7 +46,7 @@ const (
 	PaymentRecordPaymentMethodDetailsBancontactPreferredLanguageNL PaymentRecordPaymentMethodDetailsBancontactPreferredLanguage = "nl"
 )
 
-// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 type PaymentRecordPaymentMethodDetailsCardBrand string
 
 // List of values that PaymentRecordPaymentMethodDetailsCardBrand can take
@@ -932,7 +932,7 @@ type PaymentRecordPaymentMethodDetailsAlipay struct {
 }
 type PaymentRecordPaymentMethodDetailsAlma struct{}
 type PaymentRecordPaymentMethodDetailsAmazonPayFundingCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
 	BrandProduct string `json:"brand_product"`
@@ -1039,7 +1039,7 @@ type PaymentRecordPaymentMethodDetailsCardThreeDSecure struct {
 
 // Details of the card used for this payment attempt.
 type PaymentRecordPaymentMethodDetailsCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand PaymentRecordPaymentMethodDetailsCardBrand `json:"brand"`
 	// When using manual capture, a future timestamp at which the charge will be automatically refunded if uncaptured.
 	CaptureBefore int64 `json:"capture_before"`
@@ -1107,7 +1107,7 @@ type PaymentRecordPaymentMethodDetailsCardPresentWallet struct {
 type PaymentRecordPaymentMethodDetailsCardPresent struct {
 	// The authorized amount
 	AmountAuthorized int64 `json:"amount_authorized"`
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card.
 	BrandProduct string `json:"brand_product"`
@@ -1162,6 +1162,8 @@ type PaymentRecordPaymentMethodDetailsCashApp struct {
 	BuyerID string `json:"buyer_id"`
 	// A public identifier for buyers using Cash App.
 	Cashtag string `json:"cashtag"`
+	// A unique and immutable identifier of payments assigned by Cash App
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsCrypto struct {
 	// The wallet address of the customer.
@@ -1480,7 +1482,7 @@ type PaymentRecordPaymentMethodDetailsPromptPay struct {
 type PaymentRecordPaymentMethodDetailsQris struct{}
 type PaymentRecordPaymentMethodDetailsRechnung struct{}
 type PaymentRecordPaymentMethodDetailsRevolutPayFundingCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The [product code](https://stripe.com/docs/card-product-codes) that identifies the specific program or product associated with a card. (For internal use only and not typically available in standard API requests.)
 	BrandProduct string `json:"brand_product"`

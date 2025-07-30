@@ -32,6 +32,7 @@ import (
 	billingmeterevent "github.com/stripe/stripe-go/v82/billing/meterevent"
 	billingmetereventadjustment "github.com/stripe/stripe-go/v82/billing/metereventadjustment"
 	billingmetereventsummary "github.com/stripe/stripe-go/v82/billing/metereventsummary"
+	billingmeterusage "github.com/stripe/stripe-go/v82/billing/meterusage"
 	billingportalconfiguration "github.com/stripe/stripe-go/v82/billingportal/configuration"
 	billingportalsession "github.com/stripe/stripe-go/v82/billingportal/session"
 	"github.com/stripe/stripe-go/v82/capability"
@@ -140,6 +141,7 @@ import (
 	terminalconfiguration "github.com/stripe/stripe-go/v82/terminal/configuration"
 	terminalconnectiontoken "github.com/stripe/stripe-go/v82/terminal/connectiontoken"
 	terminallocation "github.com/stripe/stripe-go/v82/terminal/location"
+	terminalonboardinglink "github.com/stripe/stripe-go/v82/terminal/onboardinglink"
 	terminalreader "github.com/stripe/stripe-go/v82/terminal/reader"
 	terminalreadercollecteddata "github.com/stripe/stripe-go/v82/terminal/readercollecteddata"
 	testhelpersconfirmationtoken "github.com/stripe/stripe-go/v82/testhelpers/confirmationtoken"
@@ -244,6 +246,8 @@ type API struct {
 	BillingMeterEventSummaries *billingmetereventsummary.Client
 	// BillingMeters is the client used to invoke /v1/billing/meters APIs.
 	BillingMeters *billingmeter.Client
+	// BillingMeterUsage is the client used to invoke /v1/billing/analytics/meter_usage APIs.
+	BillingMeterUsage *billingmeterusage.Client
 	// BillingPortalConfigurations is the client used to invoke /v1/billing_portal/configurations APIs.
 	BillingPortalConfigurations *billingportalconfiguration.Client
 	// BillingPortalSessions is the client used to invoke /v1/billing_portal/sessions APIs.
@@ -460,6 +464,8 @@ type API struct {
 	TerminalConnectionTokens *terminalconnectiontoken.Client
 	// TerminalLocations is the client used to invoke /v1/terminal/locations APIs.
 	TerminalLocations *terminallocation.Client
+	// TerminalOnboardingLinks is the client used to invoke /v1/terminal/onboarding_links APIs.
+	TerminalOnboardingLinks *terminalonboardinglink.Client
 	// TerminalReaderCollectedData is the client used to invoke /v1/terminal/reader_collected_data APIs.
 	TerminalReaderCollectedData *terminalreadercollecteddata.Client
 	// TerminalReaders is the client used to invoke /v1/terminal/readers APIs.
@@ -611,6 +617,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BillingMeterEvents = &billingmeterevent.Client{B: backends.API, Key: key}
 	a.BillingMeterEventSummaries = &billingmetereventsummary.Client{B: backends.API, Key: key}
 	a.BillingMeters = &billingmeter.Client{B: backends.API, Key: key}
+	a.BillingMeterUsage = &billingmeterusage.Client{B: backends.API, Key: key}
 	a.BillingPortalConfigurations = &billingportalconfiguration.Client{B: backends.API, Key: key}
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}
@@ -719,6 +726,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalConfigurations = &terminalconfiguration.Client{B: backends.API, Key: key}
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
+	a.TerminalOnboardingLinks = &terminalonboardinglink.Client{B: backends.API, Key: key}
 	a.TerminalReaderCollectedData = &terminalreadercollecteddata.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
 	a.TestHelpersConfirmationTokens = &testhelpersconfirmationtoken.Client{B: backends.API, Key: key}
