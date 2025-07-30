@@ -609,7 +609,7 @@ type DisputePaymentMethodDetailsAmazonPay struct {
 	DisputeType DisputePaymentMethodDetailsAmazonPayDisputeType `json:"dispute_type"`
 }
 type DisputePaymentMethodDetailsCard struct {
-	// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
 	// The type of dispute opened. Different case types may have varying fees and financial impact.
 	CaseType DisputePaymentMethodDetailsCardCaseType `json:"case_type"`

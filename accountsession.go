@@ -126,6 +126,24 @@ type AccountSessionComponentsFinancialAccountTransactionsParams struct {
 }
 
 // The list of features enabled in the embedded component.
+type AccountSessionComponentsInstantPayoutsPromotionFeaturesParams struct {
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+	ExternalAccountCollection *bool `form:"external_account_collection"`
+	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	InstantPayouts *bool `form:"instant_payouts"`
+}
+
+// Configuration for the [instant payouts promotion](https://docs.stripe.com/connect/supported-embedded-components/instant-payouts-promotion/) embedded component.
+type AccountSessionComponentsInstantPayoutsPromotionParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionComponentsInstantPayoutsPromotionFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
 type AccountSessionComponentsIssuingCardFeaturesParams struct {
 	// Whether to allow cardholder management features.
 	CardholderManagement *bool `form:"cardholder_management"`
@@ -312,6 +330,8 @@ type AccountSessionComponentsParams struct {
 	FinancialAccount *AccountSessionComponentsFinancialAccountParams `form:"financial_account"`
 	// Configuration for the [financial account transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-account-transactions/) embedded component.
 	FinancialAccountTransactions *AccountSessionComponentsFinancialAccountTransactionsParams `form:"financial_account_transactions"`
+	// Configuration for the [instant payouts promotion](https://docs.stripe.com/connect/supported-embedded-components/instant-payouts-promotion/) embedded component.
+	InstantPayoutsPromotion *AccountSessionComponentsInstantPayoutsPromotionParams `form:"instant_payouts_promotion"`
 	// Configuration for the [issuing card](https://docs.stripe.com/connect/supported-embedded-components/issuing-card/) embedded component.
 	IssuingCard *AccountSessionComponentsIssuingCardParams `form:"issuing_card"`
 	// Configuration for the [issuing cards list](https://docs.stripe.com/connect/supported-embedded-components/issuing-cards-list/) embedded component.
@@ -467,6 +487,24 @@ type AccountSessionCreateComponentsFinancialAccountTransactionsParams struct {
 	Enabled *bool `form:"enabled"`
 	// The list of features enabled in the embedded component.
 	Features *AccountSessionCreateComponentsFinancialAccountTransactionsFeaturesParams `form:"features"`
+}
+
+// The list of features enabled in the embedded component.
+type AccountSessionCreateComponentsInstantPayoutsPromotionFeaturesParams struct {
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+	DisableStripeUserAuthentication *bool `form:"disable_stripe_user_authentication"`
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+	ExternalAccountCollection *bool `form:"external_account_collection"`
+	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	InstantPayouts *bool `form:"instant_payouts"`
+}
+
+// Configuration for the [instant payouts promotion](https://docs.stripe.com/connect/supported-embedded-components/instant-payouts-promotion/) embedded component.
+type AccountSessionCreateComponentsInstantPayoutsPromotionParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of features enabled in the embedded component.
+	Features *AccountSessionCreateComponentsInstantPayoutsPromotionFeaturesParams `form:"features"`
 }
 
 // The list of features enabled in the embedded component.
@@ -656,6 +694,8 @@ type AccountSessionCreateComponentsParams struct {
 	FinancialAccount *AccountSessionCreateComponentsFinancialAccountParams `form:"financial_account"`
 	// Configuration for the [financial account transactions](https://docs.stripe.com/connect/supported-embedded-components/financial-account-transactions/) embedded component.
 	FinancialAccountTransactions *AccountSessionCreateComponentsFinancialAccountTransactionsParams `form:"financial_account_transactions"`
+	// Configuration for the [instant payouts promotion](https://docs.stripe.com/connect/supported-embedded-components/instant-payouts-promotion/) embedded component.
+	InstantPayoutsPromotion *AccountSessionCreateComponentsInstantPayoutsPromotionParams `form:"instant_payouts_promotion"`
 	// Configuration for the [issuing card](https://docs.stripe.com/connect/supported-embedded-components/issuing-card/) embedded component.
 	IssuingCard *AccountSessionCreateComponentsIssuingCardParams `form:"issuing_card"`
 	// Configuration for the [issuing cards list](https://docs.stripe.com/connect/supported-embedded-components/issuing-cards-list/) embedded component.
@@ -777,6 +817,19 @@ type AccountSessionComponentsFinancialAccountTransactions struct {
 	// Whether the embedded component is enabled.
 	Enabled  bool                                                          `json:"enabled"`
 	Features *AccountSessionComponentsFinancialAccountTransactionsFeatures `json:"features"`
+}
+type AccountSessionComponentsInstantPayoutsPromotionFeatures struct {
+	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
+	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
+	// Whether external account collection is enabled. This feature can only be `false` for accounts where you're responsible for collecting updated information when requirements are due or change, like Custom accounts. The default value for this feature is `true`.
+	ExternalAccountCollection bool `json:"external_account_collection"`
+	// Whether to allow creation of instant payouts. Defaults to `true` when `controller.losses.payments` is set to `stripe` for the account, otherwise `false`.
+	InstantPayouts bool `json:"instant_payouts"`
+}
+type AccountSessionComponentsInstantPayoutsPromotion struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                                     `json:"enabled"`
+	Features *AccountSessionComponentsInstantPayoutsPromotionFeatures `json:"features"`
 }
 type AccountSessionComponentsIssuingCardFeatures struct {
 	// Whether to allow cardholder management features.
@@ -907,6 +960,7 @@ type AccountSessionComponents struct {
 	Documents                    *AccountSessionComponentsDocuments                    `json:"documents"`
 	FinancialAccount             *AccountSessionComponentsFinancialAccount             `json:"financial_account"`
 	FinancialAccountTransactions *AccountSessionComponentsFinancialAccountTransactions `json:"financial_account_transactions"`
+	InstantPayoutsPromotion      *AccountSessionComponentsInstantPayoutsPromotion      `json:"instant_payouts_promotion"`
 	IssuingCard                  *AccountSessionComponentsIssuingCard                  `json:"issuing_card"`
 	IssuingCardsList             *AccountSessionComponentsIssuingCardsList             `json:"issuing_cards_list"`
 	NotificationBanner           *AccountSessionComponentsNotificationBanner           `json:"notification_banner"`

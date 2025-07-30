@@ -259,6 +259,15 @@ const (
 	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
 )
 
+// Where the user is coming from. This informs the optimizations that are applied to the session.
+type CheckoutSessionOriginContext string
+
+// List of values that CheckoutSessionOriginContext can take
+const (
+	CheckoutSessionOriginContextMobileApp CheckoutSessionOriginContext = "mobile_app"
+	CheckoutSessionOriginContextWeb       CheckoutSessionOriginContext = "web"
+)
+
 // Configure whether a Checkout Session should collect a payment method. Defaults to `always`.
 type CheckoutSessionPaymentMethodCollection string
 
@@ -868,6 +877,20 @@ const (
 // If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
 //
 // When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+type CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+//
+// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+//
+// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 type CheckoutSessionPaymentMethodOptionsRevolutPaySetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsRevolutPaySetupFutureUsage can take
@@ -1359,6 +1382,8 @@ type CheckoutSessionInvoiceCreationInvoiceDataIssuerParams struct {
 type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for this invoice.
+	Template *string `form:"template"`
 }
 
 // Parameters passed when creating invoices for payment-mode Checkout Sessions.
@@ -2078,6 +2103,14 @@ type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
 // contains details about the RevolutPay payment method options.
@@ -2400,6 +2433,7 @@ type CheckoutSessionShippingOptionParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type CheckoutSessionSubscriptionDataBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -2587,6 +2621,8 @@ type CheckoutSessionParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items"`
+	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `custom`.
+	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
@@ -2911,6 +2947,8 @@ type CheckoutSessionCreateInvoiceCreationInvoiceDataIssuerParams struct {
 type CheckoutSessionCreateInvoiceCreationInvoiceDataRenderingOptionsParams struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs. One of `exclude_tax` or `include_inclusive_tax`. `include_inclusive_tax` will include inclusive tax (and exclude exclusive tax) in invoice PDF amounts. `exclude_tax` will exclude all tax (inclusive and exclusive alike) from invoice PDF amounts.
 	AmountTaxDisplay *string `form:"amount_tax_display"`
+	// ID of the invoice rendering template to use for this invoice.
+	Template *string `form:"template"`
 }
 
 // Parameters passed when creating invoices for payment-mode Checkout Sessions.
@@ -3630,6 +3668,14 @@ type CheckoutSessionCreatePaymentMethodOptionsPaypalParams struct {
 type CheckoutSessionCreatePaymentMethodOptionsPixParams struct {
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
 // contains details about the RevolutPay payment method options.
@@ -3952,6 +3998,7 @@ type CheckoutSessionCreateShippingOptionParams struct {
 
 // Controls how prorations and invoices for subscriptions are calculated and orchestrated.
 type CheckoutSessionCreateSubscriptionDataBillingModeParams struct {
+	// Controls the calculation and orchestration of prorations and invoices for subscriptions.
 	Type *string `form:"type"`
 }
 
@@ -4137,6 +4184,8 @@ type CheckoutSessionCreateParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionCreateOptionalItemParams `form:"optional_items"`
+	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `custom`.
+	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionCreatePaymentIntentDataParams `form:"payment_intent_data"`
 	// Specify whether Checkout should collect a payment method. When set to `if_required`, Checkout will not collect a payment method when the total due for the session is 0.
@@ -4595,6 +4644,8 @@ type CheckoutSessionInvoiceCreationInvoiceDataIssuer struct {
 type CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions struct {
 	// How line-item prices and amounts will be displayed with respect to tax on invoice PDFs.
 	AmountTaxDisplay string `json:"amount_tax_display"`
+	// ID of the invoice rendering template to be used for the generated invoice.
+	Template string `json:"template"`
 }
 type CheckoutSessionInvoiceCreationInvoiceData struct {
 	// The account tax IDs associated with the invoice.
@@ -5024,6 +5075,14 @@ type CheckoutSessionPaymentMethodOptionsPaypal struct {
 type CheckoutSessionPaymentMethodOptionsPix struct {
 	// The number of seconds after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
+	//
+	// If the payment method is `card_present` and isn't a digital wallet, Stripe creates and attaches a [generated_card](https://docs.stripe.com/api/charges/object#charge_object-payment_method_details-card_present-generated_card) payment method representing the card to the Customer instead.
+	//
+	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
+	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsRevolutPay struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -5156,7 +5215,7 @@ type CheckoutSessionPhoneNumberCollection struct {
 	Enabled bool `json:"enabled"`
 }
 type CheckoutSessionPresentmentDetails struct {
-	// Amount intended to be collected by this payment, denominated in presentment_currency.
+	// Amount intended to be collected by this payment, denominated in `presentment_currency`.
 	PresentmentAmount int64 `json:"presentment_amount"`
 	// Currency presented to the customer during payment.
 	PresentmentCurrency Currency `json:"presentment_currency"`
@@ -5365,6 +5424,8 @@ type CheckoutSession struct {
 	Object string `json:"object"`
 	// The optional items presented to the customer at checkout.
 	OptionalItems []*CheckoutSessionOptionalItem `json:"optional_items"`
+	// Where the user is coming from. This informs the optimizations that are applied to the session.
+	OriginContext CheckoutSessionOriginContext `json:"origin_context"`
 	// The ID of the PaymentIntent for Checkout Sessions in `payment` mode. You can't confirm or cancel the PaymentIntent for a Checkout Session. To cancel, [expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
 	// The ID of the Payment Link that created this Session.
