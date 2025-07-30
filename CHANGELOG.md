@@ -1,6 +1,27 @@
 # Changelog
 
+## 82.4.0 - 2025-07-30
+This release changes the pinned API version to `2025-07-30.basil`.
+
+* [#2088](https://github.com/stripe/stripe-go/pull/2088) Update generated code
+  * Add support for `InstantPayoutsPromotion` on `AccountSessionComponentsParams` and `AccountSessionComponents`
+  * Add support for `AdjustableQuantity` on `BillingPortalConfigurationFeaturesSubscriptionUpdateProductsParams` and `BillingPortalConfigurationFeaturesSubscriptionUpdateProducts`
+  * Remove support for value `disabled` from enum `Capability.Status`
+  * Add support for `TransactionID` on `ChargePaymentMethodDetailsCashapp`
+  * Add support for `OriginContext` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Template` on `CheckoutSessionInvoiceCreationInvoiceDataRenderingOptionsParams`, `CheckoutSessionInvoiceCreationInvoiceDataRenderingOptions`, `PaymentLinkInvoiceCreationInvoiceDataRenderingOptionsParams`, and `PaymentLinkInvoiceCreationInvoiceDataRenderingOptions`
+  * Add support for `SetupFutureUsage` on `CheckoutSessionPaymentMethodOptionsPixParams` and `CheckoutSessionPaymentMethodOptionsPix`
+  * Add support for `Duration` on `InvoiceCreatePreviewScheduleDetailsPhaseParams` and `SubscriptionSchedulePhaseParams`
+  * Change type of `InvoiceCreatePreviewSubscriptionDetailsParams.CancelAt` and `SubscriptionParams.CancelAt` from `DateTime` to `DateTime | enum('max_period_end'|'min_period_end')`
+  * Add support for `PriceData` on `PaymentLinkLineItemParams`
+  * Add support for `Standard` on `TaxRegistrationCountryOptionsAeParams`, `TaxRegistrationCountryOptionsAe`, `TaxRegistrationCountryOptionsAlParams`, `TaxRegistrationCountryOptionsAoParams`, `TaxRegistrationCountryOptionsAuParams`, `TaxRegistrationCountryOptionsAu`, `TaxRegistrationCountryOptionsAwParams`, `TaxRegistrationCountryOptionsBaParams`, `TaxRegistrationCountryOptionsBbParams`, `TaxRegistrationCountryOptionsBdParams`, `TaxRegistrationCountryOptionsBfParams`, `TaxRegistrationCountryOptionsBhParams`, `TaxRegistrationCountryOptionsBsParams`, `TaxRegistrationCountryOptionsCdParams`, `TaxRegistrationCountryOptionsChParams`, `TaxRegistrationCountryOptionsCh`, `TaxRegistrationCountryOptionsEtParams`, `TaxRegistrationCountryOptionsGbParams`, `TaxRegistrationCountryOptionsGb`, `TaxRegistrationCountryOptionsGnParams`, `TaxRegistrationCountryOptionsIsParams`, `TaxRegistrationCountryOptionsJpParams`, `TaxRegistrationCountryOptionsJp`, `TaxRegistrationCountryOptionsMeParams`, `TaxRegistrationCountryOptionsMkParams`, `TaxRegistrationCountryOptionsMrParams`, `TaxRegistrationCountryOptionsNoParams`, `TaxRegistrationCountryOptionsNo`, `TaxRegistrationCountryOptionsNzParams`, `TaxRegistrationCountryOptionsNz`, `TaxRegistrationCountryOptionsOmParams`, `TaxRegistrationCountryOptionsRsParams`, `TaxRegistrationCountryOptionsSgParams`, `TaxRegistrationCountryOptionsSg`, `TaxRegistrationCountryOptionsSrParams`, `TaxRegistrationCountryOptionsUyParams`, `TaxRegistrationCountryOptionsZaParams`, and `TaxRegistrationCountryOptionsZwParams`
+  * Add support for new value `inbound_goods` on enums `TaxRegistrationCountryOptionsAtStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsBeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsBgStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsCyStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsCzStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsDeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsDkStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsEeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsEsStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsFiStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsFrStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsGrStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsHrStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsHuStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsIeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsItStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsLtStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsLuStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsLvStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsMtStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsNlStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsPlStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsPtStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsRoStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsSeStandard.PlaceOfSupplyScheme`, `TaxRegistrationCountryOptionsSiStandard.PlaceOfSupplyScheme`, and `TaxRegistrationCountryOptionsSkStandard.PlaceOfSupplyScheme`
+  * Add support for `Aed`, `Bgn`, `Huf`, and `Ron` on `TerminalConfigurationTippingParams` and `TerminalConfigurationTipping`
+* [#2086](https://github.com/stripe/stripe-go/pull/2086) update changelog example to feature APIs that are not part of a preview
+
 ## 82.3.0 - 2025-07-01
+This release changes the pinned API version to `2025-06-30.basil`.
+
 * [#2078](https://github.com/stripe/stripe-go/pull/2078) Update generated code
   * Add support for `Migrate` method on resource `Subscription`
   * Add support for `CollectPaymentMethod` and `ConfirmPaymentIntent` methods on resource `TerminalReader`
@@ -29,7 +50,7 @@
   * Add support for new values `collect_payment_method` and `confirm_payment_intent` on enum `TerminalReaderAction.Type`
   * Add support for `Status` on `TreasuryFinancialAccountListParams`
   * Add support for snapshot event `EventTypeTerminalReaderActionUpdated` with resource `TerminalReader`
-* [#2082](https://github.com/stripe/stripe-go/pull/2082) Add form information to amount
+* [#2082](https://github.com/stripe/stripe-go/pull/2082) Add form information to amount. Fixes a bug on v2 endpoints that uses the amount type
 * [#2076](https://github.com/stripe/stripe-go/pull/2076) Switch to use generated API versions and add major/monthly version constants
   * Export constants for the major and monthly API versions
     * e.g. `2025-05-28.basil` has major version `basil` and monthly version `2025-05-28`
