@@ -1,5 +1,33 @@
 # Changelog
 
+## 82.5.0-beta.1 - 2025-07-30
+This release changes the pinned API version to `2025-07-30.preview`.
+
+* [#2083](https://github.com/stripe/stripe-go/pull/2083) Update generated code for beta
+  * Add support for new resources `BillingMeterUsageRow`, `BillingMeterUsage`, and `TerminalOnboardingLink`
+  * Add support for `Get` method on resource `BillingMeterUsage`
+  * Add support for `New` method on resource `TerminalOnboardingLink`
+  * Add support for `MonthlyPayoutDays` and `WeeklyPayoutDays` on `BalanceSettingsPayoutsScheduleParams` and `BalanceSettingsPayoutsSchedule`
+  * Remove support for `MonthlyAnchor` and `WeeklyAnchor` on `BalanceSettingsPayoutsScheduleParams` and `BalanceSettingsPayoutsSchedule`
+  * Add support for `DelayDaysOverride` on `BalanceSettingsSettlementTimingParams`
+  * Remove support for `DelayDays` on `BalanceSettingsSettlementTimingParams`
+  * Add support for `UpdateDiscounts` on `CheckoutSessionPermissionsParams`
+  * Add support for `Discounts` and `SubscriptionData` on `CheckoutSessionParams`
+  * Add support for `SmartDisputes` on `Dispute`
+  * Add support for `Upi` on `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `QuotePreviewInvoicePaymentSettingsPaymentMethodOptions`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`
+  * Add support for new value `upi` on enums `InvoicePaymentSettings.PaymentMethodTypes`, `QuotePreviewInvoicePaymentSettings.PaymentMethodTypes`, and `SubscriptionPaymentSettings.PaymentMethodTypes`
+  * Add support for `TransactionID` on `PaymentAttemptRecordPaymentMethodDetailsCashapp` and `PaymentRecordPaymentMethodDetailsCashapp`
+  * Add support for `AmountDetails` on `PaymentIntentCaptureParams`, `PaymentIntentConfirmParams`, `PaymentIntentIncrementAuthorizationParams`, and `PaymentIntentParams`
+  * Add support for `PaymentDetails` on `PaymentIntentIncrementAuthorizationParams`
+  * Add support for `Storer` on `V2CoreAccountIdentityAttestationsTermsOfServiceParams` and `V2CoreAccountIdentityAttestationsTermsOfService`
+  * Add support for `CollectionOptions` on `V2CoreAccountLinkUseCaseAccountOnboardingParams`, `V2CoreAccountLinkUseCaseAccountOnboarding`, `V2CoreAccountLinkUseCaseAccountUpdateParams`, and `V2CoreAccountLinkUseCaseAccountUpdate`
+  * Change type of `V2CoreAccountLinkUseCaseAccountOnboarding.Configurations`, `V2CoreAccountLinkUseCaseAccountOnboardingParams.Configurations`, `V2CoreAccountLinkUseCaseAccountUpdate.Configurations`, and `V2CoreAccountLinkUseCaseAccountUpdateParams.Configurations` from `literal('recipient')` to `enum('customer'|'merchant'|'recipient'|'storer')`
+  * Add support for `BankAccountType` on `V2MoneyManagementPayoutMethodBankAccount`
+  * Add support for thin event `V2CoreAccountLinkReturnedEvent`
+  * Add support for thin event `V2MoneyManagementPayoutMethodUpdatedEvent` with related object `V2MoneyManagementPayoutMethod`
+  * Remove support for thin event `V2CoreAccountLinkCompletedEvent`
+  * Remove support for thin event `V2OffSessionPaymentRequiresCaptureEvent` with related object `V2PaymentsOffSessionPayment`
+
 ## 82.4.0-beta.2 - 2025-07-09
 * [#2084](https://github.com/stripe/stripe-go/pull/2084) Pull in V2 FinancialAccount changes for June release
   * Add support for `Close` and `New` methods on resource `V2MoneyManagementFinancialAccount`
@@ -13,6 +41,8 @@
   * Add support for error types `AlreadyExistsError` and `NonZeroBalanceError`
 
 ## 82.4.0-beta.1 - 2025-07-01
+This release changes the pinned API version to `2025-06-30.preview`.
+
 * [#2069](https://github.com/stripe/stripe-go/pull/2069) Update generated code for beta
   * Change type of `CheckoutSessionSubscriptionDataParams.BillingMode`, `InvoiceCreatePreviewScheduleDetailsParams.BillingMode`, `InvoiceCreatePreviewSubscriptionDetailsParams.BillingMode`, `QuoteSubscriptionData.BillingMode`, `QuoteSubscriptionDataParams.BillingMode`, `SubscriptionParams.BillingMode`, and `SubscriptionScheduleParams.BillingMode` from `enum('classic'|'flexible')` to `billing_mode`
   * Add support for `SubmissionMethod` on `DisputeEvidenceDetails`
