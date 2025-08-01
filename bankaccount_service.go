@@ -22,18 +22,15 @@ type v1BankAccountService struct {
 
 // Create creates a new bank account
 func (c v1BankAccountService) Create(ctx context.Context, params *BankAccountCreateParams) (*BankAccount, error) {
-	if params == nil {
-		params = &BankAccountCreateParams{}
-	}
-	params.Context = ctx
 	var path string
-	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
-		return nil, fmt.Errorf("Invalid card params: exactly one of Account or Customer need to be set")
+	if params == nil || (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+		return nil, fmt.Errorf("Invalid bank account params: exactly one of Account or Customer need to be set")
 	} else if params.Account != nil {
 		path = FormatURLPath("/v1/accounts/%s/external_accounts", StringValue(params.Account))
 	} else if params.Customer != nil {
 		path = FormatURLPath("/v1/customers/%s/sources", StringValue(params.Customer))
 	}
+	params.Context = ctx
 	body := &form.Values{}
 
 	// Note that we call this special append method instead of the standard one
@@ -51,13 +48,10 @@ func (c v1BankAccountService) Create(ctx context.Context, params *BankAccountCre
 
 // Get returns the details of a bank account.
 func (c v1BankAccountService) Retrieve(ctx context.Context, id string, params *BankAccountRetrieveParams) (*BankAccount, error) {
-	if params == nil {
-		params = &BankAccountRetrieveParams{}
+	if params == nil || params.Account == nil {
+		return nil, fmt.Errorf("invalid bank account params: Account is required")
 	}
 	params.Context = ctx
-	if params.Account == nil {
-		return nil, fmt.Errorf("Invalid bank account params: Account is required")
-	}
 	path := FormatURLPath(
 		"/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
 	bankaccount := &BankAccount{}
@@ -74,13 +68,10 @@ func (c v1BankAccountService) Retrieve(ctx context.Context, id string, params *B
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
 func (c v1BankAccountService) Update(ctx context.Context, id string, params *BankAccountUpdateParams) (*BankAccount, error) {
-	if params == nil {
-		params = &BankAccountUpdateParams{}
+	if params == nil || params.Account == nil {
+		return nil, fmt.Errorf("invalid bank account params: Account is required")
 	}
 	params.Context = ctx
-	if params.Account == nil {
-		return nil, fmt.Errorf("Invalid bank account params: Account is required")
-	}
 	path := FormatURLPath(
 		"/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
 	bankaccount := &BankAccount{}
@@ -90,26 +81,17 @@ func (c v1BankAccountService) Update(ctx context.Context, id string, params *Ban
 
 // Delete a specified external account for a given account.
 func (c v1BankAccountService) Delete(ctx context.Context, id string, params *BankAccountDeleteParams) (*BankAccount, error) {
-	if params == nil {
-		params = &BankAccountDeleteParams{}
+	if params == nil || params.Account == nil {
+		return nil, fmt.Errorf("invalid bank account params: Account is required")
 	}
 	params.Context = ctx
-	if params.Account == nil {
-		return nil, fmt.Errorf("Invalid bank account params: Account is required")
-	}
 	path := FormatURLPath(
 		"/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
 	bankaccount := &BankAccount{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, bankaccount)
 	return bankaccount, err
 }
-
 func (c v1BankAccountService) List(ctx context.Context, listParams *BankAccountListParams) Seq2[*BankAccount, error] {
-	if listParams == nil {
-		listParams = &BankAccountListParams{}
-	}
-	listParams.Context = ctx
-
 	var path string
 	var outerErr error
 
@@ -128,12 +110,14 @@ func (c v1BankAccountService) List(ctx context.Context, listParams *BankAccountL
 		path = FormatURLPath("/v1/customers/%s/sources",
 			StringValue(listParams.Customer))
 	}
-
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*BankAccount, ListContainer, error) {
+		list := &BankAccountList{}
+
 		if outerErr != nil {
 			return nil, nil, outerErr
 		}
-		list := &BankAccountList{}
+
 		if p == nil {
 			p = &Params{}
 		}

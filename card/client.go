@@ -24,12 +24,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new card
+// Create creates a new card
 func New(params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().New(params)
 }
 
-// New creates a new card
+// Create creates a new card
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //

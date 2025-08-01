@@ -20,21 +20,17 @@ type v1CardService struct {
 	Key string
 }
 
-// New creates a new card
+// Create creates a new card
 func (c v1CardService) Create(ctx context.Context, params *CardCreateParams) (*Card, error) {
-	if params == nil {
-		params = &CardCreateParams{}
-	}
-	params.Context = ctx
 	var path string
-	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+	if params == nil || (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
 		return nil, fmt.Errorf("Invalid card params: exactly one of Account or Customer need to be set")
 	} else if params.Account != nil {
 		path = FormatURLPath("/v1/accounts/%s/external_accounts", StringValue(params.Account))
 	} else if params.Customer != nil {
 		path = FormatURLPath("/v1/customers/%s/sources", StringValue(params.Customer))
 	}
-
+	params.Context = ctx
 	body := &form.Values{}
 
 	// Note that we call this special append method instead of the standard one
@@ -52,11 +48,8 @@ func (c v1CardService) Create(ctx context.Context, params *CardCreateParams) (*C
 
 // Get returns the details of a card.
 func (c v1CardService) Retrieve(ctx context.Context, id string, params *CardRetrieveParams) (*Card, error) {
-	if params == nil {
-		params = &CardRetrieveParams{}
-	}
-	if params.Account == nil {
-		return nil, fmt.Errorf("Invalid card params: Account is required")
+	if params == nil || params.Account == nil {
+		return nil, fmt.Errorf("invalid card params: Account is required")
 	}
 	params.Context = ctx
 	path := FormatURLPath(
@@ -68,11 +61,8 @@ func (c v1CardService) Retrieve(ctx context.Context, id string, params *CardRetr
 
 // Update a specified source for a given customer.
 func (c v1CardService) Update(ctx context.Context, id string, params *CardUpdateParams) (*Card, error) {
-	if params == nil {
-		params = &CardUpdateParams{}
-	}
-	if params.Customer == nil {
-		return nil, fmt.Errorf("Invalid card params: Customer is required")
+	if params == nil || params.Customer == nil {
+		return nil, fmt.Errorf("invalid card params: Customer is required")
 	}
 	params.Context = ctx
 	path := FormatURLPath(
@@ -84,11 +74,8 @@ func (c v1CardService) Update(ctx context.Context, id string, params *CardUpdate
 
 // Delete a specified source for a given customer.
 func (c v1CardService) Delete(ctx context.Context, id string, params *CardDeleteParams) (*Card, error) {
-	if params == nil {
-		params = &CardDeleteParams{}
-	}
-	if params.Customer == nil {
-		return nil, fmt.Errorf("Invalid card params: Customer is required")
+	if params == nil || params.Customer == nil {
+		return nil, fmt.Errorf("invalid card params: Customer is required")
 	}
 	params.Context = ctx
 	path := FormatURLPath(
@@ -98,11 +85,6 @@ func (c v1CardService) Delete(ctx context.Context, id string, params *CardDelete
 	return card, err
 }
 func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq2[*Card, error] {
-	if listParams == nil {
-		listParams = &CardListParams{}
-	}
-	listParams.Context = ctx
-
 	var path string
 	var outerErr error
 
@@ -121,11 +103,14 @@ func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq
 		path = FormatURLPath("/v1/customers/%s/sources",
 			StringValue(listParams.Customer))
 	}
+	listParams.Context = ctx
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Card, ListContainer, error) {
+		list := &CardList{}
+
 		if outerErr != nil {
 			return nil, nil, outerErr
 		}
-		list := &CardList{}
+
 		if p == nil {
 			p = &Params{}
 		}

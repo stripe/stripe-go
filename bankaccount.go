@@ -8,9 +8,8 @@ package stripe
 
 import (
 	"encoding/json"
-	"strconv"
-
 	"github.com/stripe/stripe-go/v82/form"
+	"strconv"
 )
 
 // The type of entity that holds the account. This can be either `individual` or `company`.
@@ -495,7 +494,7 @@ func (p *BankAccountUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// New creates a new bank account
+// Create creates a new bank account
 type BankAccountCreateParams struct {
 	Params   `form:"*"`
 	Account  *string `form:"-"` // Included in URL
@@ -519,8 +518,7 @@ type BankAccountCreateParams struct {
 	RoutingNumber *string `form:"routing_number"`
 }
 
-// AppendToAsSourceOrExternalAccount appends the given BankCreateAccountParams as
-// either a source or external account.
+// AppendToAsSourceOrExternalAccount appends the given BankAccountCreateParams as either a source or external account.
 func (p *BankAccountCreateParams) AppendToAsSourceOrExternalAccount(body *form.Values) {
 	// Rather than being called in addition to `AppendTo`, this function
 	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
