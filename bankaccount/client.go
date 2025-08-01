@@ -24,12 +24,12 @@ type Client struct {
 	Key string
 }
 
-// New creates a new bank account
+// Create creates a new bank account
 func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	return getC().New(params)
 }
 
-// New creates a new bank account
+// Create creates a new bank account
 //
 // Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
 //
