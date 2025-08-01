@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v82/form"
@@ -25,11 +26,27 @@ func (c v1CardService) Create(ctx context.Context, params *CardCreateParams) (*C
 		params = &CardCreateParams{}
 	}
 	params.Context = ctx
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts", StringValue(params.Token), StringValue(
-			params.Customer), StringValue(params.Account))
+	var path string
+	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+		return nil, fmt.Errorf("Invalid card params: exactly one of Account or Customer need to be set")
+	} else if params.Account != nil {
+		path = FormatURLPath("/v1/accounts/%s/external_accounts", StringValue(params.Account))
+	} else if params.Customer != nil {
+		path = FormatURLPath("/v1/customers/%s/sources", StringValue(params.Customer))
+	}
+
+	body := &form.Values{}
+
+	// Note that we call this special append method instead of the standard one
+	// from the form package. We should not use form's because doing so will
+	// include some parameters that are undesirable here.
+	params.AppendToAsCardSourceOrExternalAccount(body, nil)
+
+	// Because card creation uses the custom append above, we have to
+	// make an explicit call using a form and CallRaw instead of the standard
+	// Call (which takes a set of parameters).
 	card := &Card{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
+	err := c.B.CallRaw(http.MethodPost, path, c.Key, []byte(body.Encode()), &params.Params, card)
 	return card, err
 }
 
@@ -37,6 +54,9 @@ func (c v1CardService) Create(ctx context.Context, params *CardCreateParams) (*C
 func (c v1CardService) Retrieve(ctx context.Context, id string, params *CardRetrieveParams) (*Card, error) {
 	if params == nil {
 		params = &CardRetrieveParams{}
+	}
+	if params.Account == nil {
+		return nil, fmt.Errorf("Invalid card params: Account is required")
 	}
 	params.Context = ctx
 	path := FormatURLPath(
@@ -51,6 +71,9 @@ func (c v1CardService) Update(ctx context.Context, id string, params *CardUpdate
 	if params == nil {
 		params = &CardUpdateParams{}
 	}
+	if params.Customer == nil {
+		return nil, fmt.Errorf("Invalid card params: Customer is required")
+	}
 	params.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
@@ -64,6 +87,9 @@ func (c v1CardService) Delete(ctx context.Context, id string, params *CardDelete
 	if params == nil {
 		params = &CardDeleteParams{}
 	}
+	if params.Customer == nil {
+		return nil, fmt.Errorf("Invalid card params: Customer is required")
+	}
 	params.Context = ctx
 	path := FormatURLPath(
 		"/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
@@ -76,10 +102,29 @@ func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq
 		listParams = &CardListParams{}
 	}
 	listParams.Context = ctx
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts", StringValue(
-			listParams.Account), StringValue(listParams.Customer))
+
+	var path string
+	var outerErr error
+
+	// There's no cards list URL, so we use one sources or external
+	// accounts. An override on CardListParam's `AppendTo` will add the
+	// filter `object=card` to make sure that only cards come
+	// back with the response.
+	if listParams == nil {
+		outerErr = fmt.Errorf("params should not be nil")
+	} else if (listParams.Account != nil && listParams.Customer != nil) || (listParams.Account == nil && listParams.Customer == nil) {
+		outerErr = fmt.Errorf("Invalid card params: exactly one of Account or Customer need to be set")
+	} else if listParams.Account != nil {
+		path = FormatURLPath("/v1/accounts/%s/external_accounts",
+			StringValue(listParams.Account))
+	} else if listParams.Customer != nil {
+		path = FormatURLPath("/v1/customers/%s/sources",
+			StringValue(listParams.Customer))
+	}
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Card, ListContainer, error) {
+		if outerErr != nil {
+			return nil, nil, outerErr
+		}
 		list := &CardList{}
 		if p == nil {
 			p = &Params{}

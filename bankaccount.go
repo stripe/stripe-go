@@ -8,8 +8,9 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v82/form"
 	"strconv"
+
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // The type of entity that holds the account. This can be either `individual` or `company`.
@@ -516,6 +517,38 @@ type BankAccountCreateParams struct {
 	PaymentMethod *string `form:"payment_method"`
 	// The routing number, sort code, or other country-appropriate institution number for the bank account. For US bank accounts, this is required and should be the ACH routing number, not the wire routing number. If you are providing an IBAN for `account_number`, this field is not required.
 	RoutingNumber *string `form:"routing_number"`
+}
+
+// AppendToAsSourceOrExternalAccount appends the given BankCreateAccountParams as
+// either a source or external account.
+func (p *BankAccountCreateParams) AppendToAsSourceOrExternalAccount(body *form.Values) {
+	// Rather than being called in addition to `AppendTo`, this function
+	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
+	// of `Params` so metadata and the like is included in the encoded payload.
+	form.AppendTo(body, p.Params)
+
+	isCustomer := p.Customer != nil
+
+	var sourceType string
+	if isCustomer {
+		sourceType = "source"
+	} else {
+		sourceType = "external_account"
+	}
+
+	// Use token (if exists) or a dictionary containing a user’s bank account details.
+	if p.Token != nil {
+		body.Add(sourceType, StringValue(p.Token))
+	} else {
+		body.Add(sourceType+"[object]", "bank_account")
+		body.Add(sourceType+"[country]", StringValue(p.Country))
+		body.Add(sourceType+"[account_number]", StringValue(p.AccountNumber))
+		body.Add(sourceType+"[currency]", StringValue(p.Currency))
+
+		if p.RoutingNumber != nil {
+			body.Add(sourceType+"[routing_number]", StringValue(p.RoutingNumber))
+		}
+	}
 }
 
 // Get returns the details of a bank account.
