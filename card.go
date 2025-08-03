@@ -8,8 +8,9 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v82/form"
 	"strconv"
+
+	"github.com/stripe/stripe-go/v82/form"
 )
 
 // If `address_line1` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
