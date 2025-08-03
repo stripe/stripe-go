@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/stripe/stripe-go/v82/form"
@@ -19,24 +20,36 @@ type v1CardService struct {
 	Key string
 }
 
-// New creates a new card
+// Create creates a new card
 func (c v1CardService) Create(ctx context.Context, params *CardCreateParams) (*Card, error) {
-	if params == nil {
-		params = &CardCreateParams{}
+	var path string
+	if params == nil || (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+		return nil, fmt.Errorf("Invalid card params: exactly one of Account or Customer need to be set")
+	} else if params.Account != nil {
+		path = FormatURLPath("/v1/accounts/%s/external_accounts", StringValue(params.Account))
+	} else if params.Customer != nil {
+		path = FormatURLPath("/v1/customers/%s/sources", StringValue(params.Customer))
 	}
 	params.Context = ctx
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts", StringValue(params.Token), StringValue(
-			params.Customer), StringValue(params.Account))
+	body := &form.Values{}
+
+	// Note that we call this special append method instead of the standard one
+	// from the form package. We should not use form's because doing so will
+	// include some parameters that are undesirable here.
+	params.AppendToAsCardSourceOrExternalAccount(body, nil)
+
+	// Because card creation uses the custom append above, we have to
+	// make an explicit call using a form and CallRaw instead of the standard
+	// Call (which takes a set of parameters).
 	card := &Card{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
+	err := c.B.CallRaw(http.MethodPost, path, c.Key, []byte(body.Encode()), &params.Params, card)
 	return card, err
 }
 
 // Get returns the details of a card.
 func (c v1CardService) Retrieve(ctx context.Context, id string, params *CardRetrieveParams) (*Card, error) {
-	if params == nil {
-		params = &CardRetrieveParams{}
+	if params == nil || params.Account == nil {
+		return nil, fmt.Errorf("invalid card params: Account is required")
 	}
 	params.Context = ctx
 	path := FormatURLPath(
@@ -48,8 +61,8 @@ func (c v1CardService) Retrieve(ctx context.Context, id string, params *CardRetr
 
 // Update a specified source for a given customer.
 func (c v1CardService) Update(ctx context.Context, id string, params *CardUpdateParams) (*Card, error) {
-	if params == nil {
-		params = &CardUpdateParams{}
+	if params == nil || params.Customer == nil {
+		return nil, fmt.Errorf("invalid card params: Customer is required")
 	}
 	params.Context = ctx
 	path := FormatURLPath(
@@ -61,8 +74,8 @@ func (c v1CardService) Update(ctx context.Context, id string, params *CardUpdate
 
 // Delete a specified source for a given customer.
 func (c v1CardService) Delete(ctx context.Context, id string, params *CardDeleteParams) (*Card, error) {
-	if params == nil {
-		params = &CardDeleteParams{}
+	if params == nil || params.Customer == nil {
+		return nil, fmt.Errorf("invalid card params: Customer is required")
 	}
 	params.Context = ctx
 	path := FormatURLPath(
@@ -72,15 +85,32 @@ func (c v1CardService) Delete(ctx context.Context, id string, params *CardDelete
 	return card, err
 }
 func (c v1CardService) List(ctx context.Context, listParams *CardListParams) Seq2[*Card, error] {
+	var path string
+	var outerErr error
+
+	// There's no cards list URL, so we use one sources or external
+	// accounts. An override on CardListParam's `AppendTo` will add the
+	// filter `object=card` to make sure that only cards come
+	// back with the response.
 	if listParams == nil {
-		listParams = &CardListParams{}
+		outerErr = fmt.Errorf("params should not be nil")
+	} else if (listParams.Account != nil && listParams.Customer != nil) || (listParams.Account == nil && listParams.Customer == nil) {
+		outerErr = fmt.Errorf("Invalid card params: exactly one of Account or Customer need to be set")
+	} else if listParams.Account != nil {
+		path = FormatURLPath("/v1/accounts/%s/external_accounts",
+			StringValue(listParams.Account))
+	} else if listParams.Customer != nil {
+		path = FormatURLPath("/v1/customers/%s/sources",
+			StringValue(listParams.Customer))
 	}
 	listParams.Context = ctx
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts", StringValue(
-			listParams.Account), StringValue(listParams.Customer))
 	return newV1List(listParams, func(p *Params, b *form.Values) ([]*Card, ListContainer, error) {
 		list := &CardList{}
+
+		if outerErr != nil {
+			return nil, nil, outerErr
+		}
+
 		if p == nil {
 			p = &Params{}
 		}

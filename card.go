@@ -372,12 +372,28 @@ func (p *CardUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// New creates a new card
+// Create creates a new card
 type CardCreateParams struct {
 	Params   `form:"*"`
 	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
 	Token    *string `form:"-"` // Included in URL
+}
+
+// AppendToAsCardSourceOrExternalAccount appends the given CardCreateParams as either a
+// card or external account.
+func (p *CardCreateParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, keyParts []string) {
+	// Rather than being called in addition to `AppendTo`, this function
+	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
+	// of `Params` so metadata and the like is included in the encoded payload.
+	form.AppendToPrefixed(body, p.Params, keyParts)
+	if p.Token != nil {
+		if p.Account != nil {
+			body.Add(form.FormatKey(append(keyParts, "external_account")), StringValue(p.Token))
+		} else {
+			body.Add(form.FormatKey(append(keyParts, cardSource)), StringValue(p.Token))
+		}
+	}
 }
 
 // Get returns the details of a card.
