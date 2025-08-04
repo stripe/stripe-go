@@ -64,8 +64,12 @@ func TestBankAccountList_ByCustomer(t *testing.T) {
 func TestBankAccountCreate_ByAccount(t *testing.T) {
 	sc := stripe.NewClient(TestAPIKey)
 	bankAccount, err := sc.V1BankAccounts.Create(context.TODO(), &stripe.BankAccountCreateParams{
-		Account: stripe.String("acct_123"),
-		Token:   stripe.String("tok_123"),
+		Account:            stripe.String("acct_123"),
+		Token:              stripe.String("tok_123"),
+		DefaultForCurrency: stripe.Bool(false),
+		Metadata: map[string]string{
+			"key": "value",
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAccount)
@@ -76,6 +80,9 @@ func TestBankAccountCreate_ByCustomer(t *testing.T) {
 	bankAccount, err := sc.V1BankAccounts.Create(context.TODO(), &stripe.BankAccountCreateParams{
 		Customer: stripe.String("cus_123"),
 		Token:    stripe.String("tok_123"),
+		Metadata: map[string]string{
+			"key": "value",
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAccount)

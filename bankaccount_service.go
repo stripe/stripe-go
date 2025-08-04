@@ -22,8 +22,12 @@ type v1BankAccountService struct {
 
 // Create creates a new bank account
 func (c v1BankAccountService) Create(ctx context.Context, params *BankAccountCreateParams) (*BankAccount, error) {
+	if params == nil {
+		return nil, fmt.Errorf("params should not be nil")
+	}
+
 	var path string
-	if params == nil || (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
 		return nil, fmt.Errorf("Invalid bank account params: exactly one of Account or Customer need to be set")
 	} else if params.Account != nil {
 		path = FormatURLPath("/v1/accounts/%s/external_accounts", StringValue(params.Account))
@@ -36,7 +40,9 @@ func (c v1BankAccountService) Create(ctx context.Context, params *BankAccountCre
 	// Note that we call this special append method instead of the standard one
 	// from the form package. We should not use form's because doing so will
 	// include some parameters that are undesirable here.
-	params.AppendToAsSourceOrExternalAccount(body)
+	if err := params.AppendToAsSourceOrExternalAccount(body); err != nil {
+		return nil, err
+	}
 
 	// Because bank account creation uses the custom append above, we have to
 	// make an explicit call using a form and CallRaw instead of the standard
@@ -48,12 +54,18 @@ func (c v1BankAccountService) Create(ctx context.Context, params *BankAccountCre
 
 // Get returns the details of a bank account.
 func (c v1BankAccountService) Retrieve(ctx context.Context, id string, params *BankAccountRetrieveParams) (*BankAccount, error) {
-	if params == nil || params.Account == nil {
-		return nil, fmt.Errorf("invalid bank account params: Account is required")
+	if params == nil {
+		return nil, fmt.Errorf("params should not be nil")
+	}
+	var path string
+	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+		return nil, fmt.Errorf("Invalid bank account params: exactly one of Account or Customer need to be set")
+	} else if params.Account != nil {
+		path = FormatURLPath("/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
+	} else if params.Customer != nil {
+		path = FormatURLPath("/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
 	}
 	params.Context = ctx
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
 	bankaccount := &BankAccount{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, bankaccount)
 	return bankaccount, err
@@ -68,12 +80,18 @@ func (c v1BankAccountService) Retrieve(ctx context.Context, id string, params *B
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
 func (c v1BankAccountService) Update(ctx context.Context, id string, params *BankAccountUpdateParams) (*BankAccount, error) {
-	if params == nil || params.Account == nil {
-		return nil, fmt.Errorf("invalid bank account params: Account is required")
+	if params == nil {
+		return nil, fmt.Errorf("params should not be nil")
+	}
+	var path string
+	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+		return nil, fmt.Errorf("Invalid bank account params: exactly one of Account or Customer need to be set")
+	} else if params.Account != nil {
+		path = FormatURLPath("/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
+	} else if params.Customer != nil {
+		path = FormatURLPath("/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
 	}
 	params.Context = ctx
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
 	bankaccount := &BankAccount{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, bankaccount)
 	return bankaccount, err
@@ -81,12 +99,18 @@ func (c v1BankAccountService) Update(ctx context.Context, id string, params *Ban
 
 // Delete a specified external account for a given account.
 func (c v1BankAccountService) Delete(ctx context.Context, id string, params *BankAccountDeleteParams) (*BankAccount, error) {
-	if params == nil || params.Account == nil {
-		return nil, fmt.Errorf("invalid bank account params: Account is required")
+	if params == nil {
+		return nil, fmt.Errorf("params should not be nil")
+	}
+	var path string
+	if (params.Account != nil && params.Customer != nil) || (params.Account == nil && params.Customer == nil) {
+		return nil, fmt.Errorf("Invalid bank account params: exactly one of Account or Customer need to be set")
+	} else if params.Account != nil {
+		path = FormatURLPath("/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
+	} else if params.Customer != nil {
+		path = FormatURLPath("/v1/customers/%s/sources/%s", StringValue(params.Customer), id)
 	}
 	params.Context = ctx
-	path := FormatURLPath(
-		"/v1/accounts/%s/external_accounts/%s", StringValue(params.Account), id)
 	bankaccount := &BankAccount{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, bankaccount)
 	return bankaccount, err
