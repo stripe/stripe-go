@@ -1,9 +1,9 @@
-# Go Stripe
+# Go Savyonpayment 
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go/v82)
-[![Build Status](https://github.com/stripe/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/stripe/stripe-go/actions/workflows/ci.yml?query=branch%3Amaster)
+[![Go Reference](https://pkg.go.dev/badge/github.com/savyonpayment/savyonpayment-go)](https://pkg.go.dev/github.com/savyonpayment/savyonpayment-go/v82)
+[![Build Status](https://github.com/savyonpayment/stripe-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/savyonpayment/savyonpayment-go/actions/workflows/ci.yml?query=branch%3Amaster)
 
-The official [Stripe][stripe] Go client library.
+The official [Savyonpayment][savyonpayment] Go client library.
 
 ## Requirements
 
@@ -18,22 +18,22 @@ root if it already is):
 go mod init
 ```
 
-Then, reference stripe-go in a Go program with `import`:
+Then, reference savyonpayment-go in a Go program with `import`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v82"
-	"github.com/stripe/stripe-go/v82/customer"
+	"github.com/savyonpayment/savyonpayment-go/v82"
+	"github.com/savyonpayment/savyonpayment-go/v82/customer"
 )
 ```
 
 Run any of the normal `go` commands (`build`/`install`/`test`). The Go
-toolchain will resolve and fetch the stripe-go module automatically.
+toolchain will resolve and fetch the savyonpayment-go module automatically.
 
 Alternatively, you can also explicitly `go get` the package into a project:
 
 ```bash
-go get -u github.com/stripe/stripe-go/v82
+go get -u github.com/stripe/savyonpayment-go/v82
 ```
 
 ## Documentation
