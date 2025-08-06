@@ -132,6 +132,8 @@ type Client struct {
 	V1InvoiceItems *v1InvoiceItemService
 	// V1InvoiceLineItems is the service used to invoke /v1/invoices/{invoice}/lines APIs.
 	V1InvoiceLineItems *v1InvoiceLineItemService
+	// V1InvoicePayments is the service used to invoke /v1/invoice_payments APIs.
+	V1InvoicePayments *v1InvoicePaymentService
 	// V1InvoiceRenderingTemplates is the service used to invoke /v1/invoice_rendering_templates APIs.
 	V1InvoiceRenderingTemplates *v1InvoiceRenderingTemplateService
 	// V1Invoices is the service used to invoke /v1/invoices APIs.
@@ -475,6 +477,7 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1IdentityVerificationSessions = &v1IdentityVerificationSessionService{B: backends.API, Key: key}
 	client.V1InvoiceItems = &v1InvoiceItemService{B: backends.API, Key: key}
 	client.V1InvoiceLineItems = &v1InvoiceLineItemService{B: backends.API, Key: key}
+	client.V1InvoicePayments = &v1InvoicePaymentService{B: backends.API, Key: key}
 	client.V1InvoiceRenderingTemplates = &v1InvoiceRenderingTemplateService{B: backends.API, Key: key}
 	client.V1Invoices = &v1InvoiceService{B: backends.API, Key: key}
 	client.V1IssuingAuthorizations = &v1IssuingAuthorizationService{B: backends.API, Key: key}
