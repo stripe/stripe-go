@@ -12917,7 +12917,7 @@ func TestV2BillingMeterEventStreamPostService(t *testing.T) {
 			{
 				EventName:  stripe.String("event_name"),
 				Identifier: stripe.String("identifier"),
-				Payload:    map[string]string{"undefined": "payload"},
+				Payload:    map[string]string{"key": "payload"},
 				Timestamp:  stripe.Time(time.Now()),
 			},
 		},
@@ -12937,7 +12937,7 @@ func TestV2BillingMeterEventStreamPostClient(t *testing.T) {
 			{
 				EventName:  stripe.String("event_name"),
 				Identifier: stripe.String("identifier"),
-				Payload:    map[string]string{"undefined": "payload"},
+				Payload:    map[string]string{"key": "payload"},
 				Timestamp:  stripe.Time(time.Now()),
 			},
 		},
@@ -12954,10 +12954,10 @@ func TestV2BillingMeterEventStreamPostClient(t *testing.T) {
 func TestV2BillingMeterEventPostService(t *testing.T) {
 	params := &stripe.V2BillingMeterEventParams{
 		EventName: stripe.String("event_name"),
-		Payload:   map[string]string{"undefined": "payload"},
+		Payload:   map[string]string{"key": "payload"},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"undefined\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -12970,10 +12970,10 @@ func TestV2BillingMeterEventPostService(t *testing.T) {
 func TestV2BillingMeterEventPostClient(t *testing.T) {
 	params := &stripe.V2BillingMeterEventCreateParams{
 		EventName: stripe.String("event_name"),
-		Payload:   map[string]string{"undefined": "payload"},
+		Payload:   map[string]string{"key": "payload"},
 	}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"undefined\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
+		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
@@ -13259,7 +13259,7 @@ func TestTemporarySessionExpiredErrorService(t *testing.T) {
 		Events: []*stripe.V2BillingMeterEventStreamEventParams{
 			{
 				EventName: stripe.String("event_name"),
-				Payload:   map[string]string{"undefined": "payload"},
+				Payload:   map[string]string{"key": "payload"},
 			},
 		},
 	}
@@ -13277,7 +13277,7 @@ func TestTemporarySessionExpiredErrorClient(t *testing.T) {
 		Events: []*stripe.V2BillingMeterEventStreamCreateEventParams{
 			{
 				EventName: stripe.String("event_name"),
-				Payload:   map[string]string{"undefined": "payload"},
+				Payload:   map[string]string{"key": "payload"},
 			},
 		},
 	}
