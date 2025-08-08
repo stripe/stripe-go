@@ -190,6 +190,16 @@ type TerminalConfigurationTippingJPYParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
+// Tipping configuration for MXN
+type TerminalConfigurationTippingMxnParams struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []*int64 `form:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []*int64 `form:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
+}
+
 // Tipping configuration for MYR
 type TerminalConfigurationTippingMYRParams struct {
 	// Fixed amounts displayed when collecting a tip
@@ -296,6 +306,8 @@ type TerminalConfigurationTippingParams struct {
 	Huf *TerminalConfigurationTippingHufParams `form:"huf"`
 	// Tipping configuration for JPY
 	JPY *TerminalConfigurationTippingJPYParams `form:"jpy"`
+	// Tipping configuration for MXN
+	Mxn *TerminalConfigurationTippingMxnParams `form:"mxn"`
 	// Tipping configuration for MYR
 	MYR *TerminalConfigurationTippingMYRParams `form:"myr"`
 	// Tipping configuration for NOK
@@ -543,6 +555,16 @@ type TerminalConfigurationUpdateTippingJPYParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
+// Tipping configuration for MXN
+type TerminalConfigurationUpdateTippingMxnParams struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []*int64 `form:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []*int64 `form:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
+}
+
 // Tipping configuration for MYR
 type TerminalConfigurationUpdateTippingMYRParams struct {
 	// Fixed amounts displayed when collecting a tip
@@ -649,6 +671,8 @@ type TerminalConfigurationUpdateTippingParams struct {
 	Huf *TerminalConfigurationUpdateTippingHufParams `form:"huf"`
 	// Tipping configuration for JPY
 	JPY *TerminalConfigurationUpdateTippingJPYParams `form:"jpy"`
+	// Tipping configuration for MXN
+	Mxn *TerminalConfigurationUpdateTippingMxnParams `form:"mxn"`
 	// Tipping configuration for MYR
 	MYR *TerminalConfigurationUpdateTippingMYRParams `form:"myr"`
 	// Tipping configuration for NOK
@@ -893,6 +917,16 @@ type TerminalConfigurationCreateTippingJPYParams struct {
 	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
 }
 
+// Tipping configuration for MXN
+type TerminalConfigurationCreateTippingMxnParams struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []*int64 `form:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []*int64 `form:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold *int64 `form:"smart_tip_threshold"`
+}
+
 // Tipping configuration for MYR
 type TerminalConfigurationCreateTippingMYRParams struct {
 	// Fixed amounts displayed when collecting a tip
@@ -999,6 +1033,8 @@ type TerminalConfigurationCreateTippingParams struct {
 	Huf *TerminalConfigurationCreateTippingHufParams `form:"huf"`
 	// Tipping configuration for JPY
 	JPY *TerminalConfigurationCreateTippingJPYParams `form:"jpy"`
+	// Tipping configuration for MXN
+	Mxn *TerminalConfigurationCreateTippingMxnParams `form:"mxn"`
 	// Tipping configuration for MYR
 	MYR *TerminalConfigurationCreateTippingMYRParams `form:"myr"`
 	// Tipping configuration for NOK
@@ -1211,6 +1247,14 @@ type TerminalConfigurationTippingJPY struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
+type TerminalConfigurationTippingMxn struct {
+	// Fixed amounts displayed when collecting a tip
+	FixedAmounts []int64 `json:"fixed_amounts"`
+	// Percentages displayed when collecting a tip
+	Percentages []int64 `json:"percentages"`
+	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
+	SmartTipThreshold int64 `json:"smart_tip_threshold"`
+}
 type TerminalConfigurationTippingMYR struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
@@ -1288,6 +1332,7 @@ type TerminalConfigurationTipping struct {
 	HKD *TerminalConfigurationTippingHKD `json:"hkd"`
 	Huf *TerminalConfigurationTippingHuf `json:"huf"`
 	JPY *TerminalConfigurationTippingJPY `json:"jpy"`
+	Mxn *TerminalConfigurationTippingMxn `json:"mxn"`
 	MYR *TerminalConfigurationTippingMYR `json:"myr"`
 	NOK *TerminalConfigurationTippingNOK `json:"nok"`
 	NZD *TerminalConfigurationTippingNZD `json:"nzd"`

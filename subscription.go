@@ -893,15 +893,15 @@ func (p *SubscriptionListParams) AddExpand(f string) {
 
 // Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
 type SubscriptionBillingCycleAnchorConfigParams struct {
-	// The day of the month the billing_cycle_anchor should be. Ranges from 1 to 31.
+	// The day of the month the anchor should be. Ranges from 1 to 31.
 	DayOfMonth *int64 `form:"day_of_month"`
-	// The hour of the day the billing_cycle_anchor should be. Ranges from 0 to 23.
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
 	Hour *int64 `form:"hour"`
-	// The minute of the hour the billing_cycle_anchor should be. Ranges from 0 to 59.
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
 	Minute *int64 `form:"minute"`
-	// The month to start full cycle billing periods. Ranges from 1 to 12.
+	// The month to start full cycle periods. Ranges from 1 to 12.
 	Month *int64 `form:"month"`
-	// The second of the minute the billing_cycle_anchor should be. Ranges from 0 to 59.
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
 	Second *int64 `form:"second"`
 }
 
@@ -1578,15 +1578,15 @@ type SubscriptionCreateAutomaticTaxParams struct {
 
 // Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
 type SubscriptionCreateBillingCycleAnchorConfigParams struct {
-	// The day of the month the billing_cycle_anchor should be. Ranges from 1 to 31.
+	// The day of the month the anchor should be. Ranges from 1 to 31.
 	DayOfMonth *int64 `form:"day_of_month"`
-	// The hour of the day the billing_cycle_anchor should be. Ranges from 0 to 23.
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
 	Hour *int64 `form:"hour"`
-	// The minute of the hour the billing_cycle_anchor should be. Ranges from 0 to 59.
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
 	Minute *int64 `form:"minute"`
-	// The month to start full cycle billing periods. Ranges from 1 to 12.
+	// The month to start full cycle periods. Ranges from 1 to 12.
 	Month *int64 `form:"month"`
-	// The second of the minute the billing_cycle_anchor should be. Ranges from 0 to 59.
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
 	Second *int64 `form:"second"`
 }
 

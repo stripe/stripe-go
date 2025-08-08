@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/stripe/stripe-go/v82/form"
 	"strconv"
 )
@@ -115,14 +116,14 @@ const cardSource = "source"
 // Delete a specified source for a given customer.
 type CardParams struct {
 	Params   `form:"*"`
-	Account  *string `form:"-"` // Included in URL
 	Token    *string `form:"-"` // Included in URL
+	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
 	AccountHolderType *string `form:"account_holder_type"`
-	// City/District/Suburb/Town/Village.
+	// City / District / Suburb / Town / Village.
 	AddressCity *string `form:"address_city"`
 	// Billing address country, if provided when creating card.
 	AddressCountry *string `form:"address_country"`
@@ -142,13 +143,13 @@ type CardParams struct {
 	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Two digit number representing the card's expiration month.
+	// Two-digit number representing the card's expiration month.
 	ExpMonth *string `form:"exp_month"`
-	// Four digit number representing the card's expiration year.
+	// Two- or -four-digit number representing the card's expiration year.
 	ExpYear *string `form:"exp_year"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// Cardholder name.
+	// Cardholder's full name.
 	Name *string `form:"name"`
 	// The card number, as a string without any separators.
 	Number *string          `form:"number"`
@@ -161,7 +162,7 @@ type CardParams struct {
 // card or external account.
 //
 // It may look like an AppendTo from the form package, but it's not, and is
-// only used in the special case where we use `card.New`. It's needed because
+// only used in the special case where we create a new Card. It's needed because
 // we have some weird encoding logic here that can't be handled by the form
 // package (and it's special enough that it wouldn't be desirable to have it do
 // so).
@@ -174,14 +175,12 @@ func (p *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
 	// of `Params` so metadata and the like is included in the encoded payload.
 	form.AppendToPrefixed(body, p.Params, keyParts)
-
 	if p.DefaultForCurrency != nil {
 		body.Add(
 			form.FormatKey(
 				append(keyParts, "default_for_currency")), strconv.FormatBool(
 				BoolValue(p.DefaultForCurrency)))
 	}
-
 	if p.Token != nil {
 		if p.Account != nil {
 			body.Add(form.FormatKey(append(keyParts, "external_account")), StringValue(p.Token))
@@ -296,6 +295,7 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 // Delete a specified source for a given customer.
 type CardDeleteParams struct {
 	Params   `form:"*"`
+	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
@@ -320,6 +320,7 @@ type CardUpdateOwnerParams struct {
 // Update a specified source for a given customer.
 type CardUpdateParams struct {
 	Params   `form:"*"`
+	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name"`
@@ -372,18 +373,176 @@ func (p *CardUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// New creates a new card
+// Create creates a new card
 type CardCreateParams struct {
 	Params   `form:"*"`
 	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
 	Token    *string `form:"-"` // Included in URL
+	// City / District / Suburb / Town / Village.
+	AddressCity *string `form:"address_city"`
+	// Billing address country, if provided.
+	AddressCountry *string `form:"address_country"`
+	// Address line 1 (Street address/PO Box/Company name).
+	AddressLine1 *string `form:"address_line1"`
+	// Address line 2 (Apartment/Suite/Unit/Building).
+	AddressLine2 *string `form:"address_line2"`
+	// State/County/Province/Region.
+	AddressState *string `form:"address_state"`
+	// ZIP or postal code.
+	AddressZip *string `form:"address_zip"`
+	// Required when adding a card to an account (not applicable to customers or recipients). The card (which must be a debit card) can be used as a transfer destination for funds in this currency.
+	Currency *string `form:"currency"`
+	// Card security code. Highly recommended to always include this value, but it's required only for accounts based in European countries.
+	CVC *string `form:"cvc"`
+	// Applicable only on accounts (not customers or recipients). If you set this to `true` (or if this is the first external account being added in this currency), this card will become the default external account for its currency.
+	DefaultForCurrency *bool `form:"default_for_currency"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth *string `form:"exp_month"`
+	// Two- or -four-digit number representing the card's expiration year.
+	ExpYear *string `form:"exp_year"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Cardholder's full name.
+	Name *string `form:"name"`
+	// The card number, as a string without any separators.
+	Number *string `form:"number"`
+}
+
+// AppendToAsCardSourceOrExternalAccount appends the given CardCreateParams as either a
+// card or external account.
+//
+// It may look like an AppendTo from the form package, but it's not, and is
+// only used in the special case where we create a new Card. It's needed because
+// we have some weird encoding logic here that can't be handled by the form
+// package (and it's special enough that it wouldn't be desirable to have it do
+// so).
+//
+// This is not a pattern that we want to push forward, and this largely exists
+// because the cards endpoint is a little unusual. There is one other resource
+// like it, which is bank account.
+func (p *CardCreateParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, keyParts []string) error {
+	// Rather than being called in addition to `AppendTo`, this function
+	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
+	// of `Params` so metadata and the like is included in the encoded payload.
+	form.AppendToPrefixed(body, p.Params, keyParts)
+	if p.Metadata != nil && p.Params.Metadata != nil {
+		return fmt.Errorf(
+			"you cannot specify both the (deprecated) .Params.Metadata and .Metadata in `CardCreateParams`")
+	}
+	if p.Expand != nil && p.Params.Expand != nil {
+		return fmt.Errorf(
+			"you cannot specify both the (deprecated) .Params.Expand and .Expand in `CardCreateParams`")
+	}
+	if p.Metadata != nil {
+		for k, v := range p.Metadata {
+			body.Add("metadata["+k+"]", v)
+		}
+	}
+	if p.Expand != nil {
+		for _, v := range p.Expand {
+			body.Add("expand[]", StringValue(v))
+		}
+	}
+	if p.DefaultForCurrency != nil {
+		body.Add(
+			form.FormatKey(
+				append(keyParts, "default_for_currency")), strconv.FormatBool(
+				BoolValue(p.DefaultForCurrency)))
+	}
+	if p.Token != nil {
+		if p.Account != nil {
+			body.Add(form.FormatKey(append(keyParts, "external_account")), StringValue(p.Token))
+		} else {
+			body.Add(form.FormatKey(append(keyParts, cardSource)), StringValue(p.Token))
+		}
+	}
+
+	if p.Number != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "object")), "card")
+		body.Add(form.FormatKey(append(keyParts, cardSource, "number")), StringValue(p.Number))
+	}
+	if p.CVC != nil {
+		body.Add(
+			form.FormatKey(append(keyParts, cardSource, "cvc")), StringValue(p.CVC))
+	}
+	if p.Currency != nil {
+		body.Add(
+			form.FormatKey(append(keyParts, cardSource, "currency")), StringValue(
+				p.Currency))
+	}
+	if p.ExpMonth != nil {
+		body.Add(
+			form.FormatKey(append(keyParts, cardSource, "exp_month")), StringValue(
+				p.ExpMonth))
+	}
+	if p.ExpYear != nil {
+		body.Add(
+			form.FormatKey(append(keyParts, cardSource, "exp_year")), StringValue(
+				p.ExpYear))
+	}
+	if p.Name != nil {
+		body.Add(
+			form.FormatKey(append(keyParts, cardSource, "name")), StringValue(p.Name))
+	}
+	if p.AddressCity != nil {
+		body.Add(
+			form.FormatKey(append(keyParts, cardSource, "address_city")), StringValue(
+				p.AddressCity))
+	}
+	if p.AddressCountry != nil {
+		body.Add(
+			form.FormatKey(
+				append(keyParts, cardSource, "address_country")), StringValue(
+				p.AddressCountry))
+	}
+	if p.AddressLine1 != nil {
+		body.Add(
+			form.FormatKey(
+				append(keyParts, cardSource, "address_line1")), StringValue(
+				p.AddressLine1))
+	}
+	if p.AddressLine2 != nil {
+		body.Add(
+			form.FormatKey(
+				append(keyParts, cardSource, "address_line2")), StringValue(
+				p.AddressLine2))
+	}
+	if p.AddressState != nil {
+		body.Add(
+			form.FormatKey(
+				append(keyParts, cardSource, "address_state")), StringValue(
+				p.AddressState))
+	}
+	if p.AddressZip != nil {
+		body.Add(
+			form.FormatKey(append(keyParts, cardSource, "address_zip")), StringValue(
+				p.AddressZip))
+	}
+	return nil
+}
+
+// AddExpand appends a new field to expand.
+func (p *CardCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CardCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // Get returns the details of a card.
 type CardRetrieveParams struct {
-	Params  `form:"*"`
-	Account *string `form:"-"` // Included in URL
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	Account  *string `form:"-"` // Included in URL
 }
 type CardNetworks struct {
 	// The preferred network for co-branded cards. Can be `cartes_bancaires`, `mastercard`, `visa` or `invalid_preference` if requested network is not valid for the card.

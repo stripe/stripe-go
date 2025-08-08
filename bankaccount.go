@@ -8,6 +8,7 @@ package stripe
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/stripe/stripe-go/v82/form"
 	"strconv"
 )
@@ -250,15 +251,15 @@ const (
 
 // Delete a specified external account for a given account.
 type BankAccountParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+	Params `form:"*"`
 	// Token is a token referencing an external account like one returned from
 	// Stripe.js.
-	Token *string `form:"-"` // Included in URL
+	Token    *string `form:"-"` // Included in URL
+	Customer *string `form:"-"` // Included in URL
 	// Account is the identifier of the parent account under which bank
 	// accounts are nested.
 	Account *string `form:"-"` // Included in URL
-	// The name of the person or business that owns the bank account.
+	// The name of the person or business that owns the bank account. This field is required when attaching the bank account to a `Customer` object.
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
 	AccountHolderType *string `form:"account_holder_type"`
@@ -282,7 +283,7 @@ type BankAccountParams struct {
 	Country *string `form:"country"`
 	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports](https://stripe.com/docs/payouts).
 	Currency *string `form:"currency"`
-	// When set to true, this becomes the default external account for its currency.
+	// When set to true, or if this is the first external account added in this currency, this account becomes the default external account for its currency.
 	DefaultForCurrency *bool `form:"default_for_currency"`
 	// Documents that may be submitted to satisfy various informational requests.
 	Documents *BankAccountDocumentsParams `form:"documents"`
@@ -314,7 +315,7 @@ type BankAccountParams struct {
 // either a source or external account.
 //
 // It may look like an AppendTo from the form package, but it's not, and is
-// only used in the special case where we use `bankaccount.New`. It's needed
+// only used in the special case where we create a new BankAccount. It's needed
 // because we have some weird encoding logic here that can't be handled by the
 // form package (and it's special enough that it wouldn't be desirable to have
 // it do so).
@@ -337,7 +338,7 @@ func (p *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 		sourceType = "external_account"
 	}
 
-	// Use token (if exists) or a dictionary containing a user’s bank account details.
+	// Use token (if exists) or a dictionary containing a user's bank account details.
 	if p.Token != nil {
 		body.Add(sourceType, StringValue(p.Token))
 
@@ -419,8 +420,9 @@ func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
 
 // Delete a specified external account for a given account.
 type BankAccountDeleteParams struct {
-	Params  `form:"*"`
-	Account *string `form:"-"` // Included in URL
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	Account  *string `form:"-"` // Included in URL
 }
 
 // One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the bank account that displays the last 4 digits of the account number, either a statement or a check.
@@ -444,8 +446,9 @@ type BankAccountUpdateDocumentsParams struct {
 // You can re-enable a disabled bank account by performing an update call without providing any
 // arguments or changes.
 type BankAccountUpdateParams struct {
-	Params  `form:"*"`
-	Account *string `form:"-"` // Included in URL
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	Account  *string `form:"-"` // Included in URL
 	// The name of the person or business that owns the bank account.
 	AccountHolderName *string `form:"account_holder_name"`
 	// The type of entity that holds the account. This can be either `individual` or `company`.
@@ -494,18 +497,38 @@ func (p *BankAccountUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
-// New creates a new bank account
+// Documents that may be submitted to satisfy various informational requests.
+type BankAccountCreateDocumentsBankAccountOwnershipVerificationParams struct {
+	Files []*string `form:"files"`
+}
+type BankAccountCreateDocumentsParams struct {
+	// Documents that may be submitted to satisfy various informational requests.
+	BankAccountOwnershipVerification *BankAccountCreateDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
+}
+
+// Create creates a new bank account
 type BankAccountCreateParams struct {
 	Params   `form:"*"`
 	Account  *string `form:"-"` // Included in URL
 	Customer *string `form:"-"` // Included in URL
 	Token    *string `form:"-"` // Included in URL
+	// The name of the person or business that owns the bank account. This field is required when attaching the bank account to a `Customer` object.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The type of entity that holds the account. This can be either `individual` or `company`.
+	AccountHolderType *string `form:"account_holder_type"`
 	// The account number for the bank account, in string form. Must be a checking account.
 	AccountNumber *string `form:"account_number"`
 	// The country in which the bank account is located.
 	Country *string `form:"country"`
 	// The currency the bank account is in. This must be a country/currency pairing that [Stripe supports](https://stripe.com/docs/payouts).
 	Currency *string `form:"currency"`
+	// When set to true, or if this is the first external account added in this currency, this account becomes the default external account for its currency.
+	DefaultForCurrency *bool                             `form:"default_for_currency"`
+	Documents          *BankAccountCreateDocumentsParams `form:"documents"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
 	// The ID of a Payment Method with a `type` of `us_bank_account`. The Payment Method's bank account information will be copied and
 	// returned as a Bank Account Token. This parameter is exclusive with respect to all other parameters in the `bank_account` hash.
 	// You must include the top-level `customer` parameter if the Payment Method is attached to a `Customer` object. If the Payment
@@ -518,10 +541,107 @@ type BankAccountCreateParams struct {
 	RoutingNumber *string `form:"routing_number"`
 }
 
+// AppendToAsSourceOrExternalAccount appends the given BankAccountCreateParams as
+// either a source or external account.
+//
+// It may look like an AppendTo from the form package, but it's not, and is
+// only used in the special case where we create a new BankAccount. It's needed
+// because we have some weird encoding logic here that can't be handled by the
+// form package (and it's special enough that it wouldn't be desirable to have
+// it do so).
+//
+// This is not a pattern that we want to push forward, and this largely exists
+// because the bank accounts endpoint is a little unusual. There is one other
+// resource like it, which is cards.
+func (p *BankAccountCreateParams) AppendToAsSourceOrExternalAccount(body *form.Values) error {
+	// Rather than being called in addition to `AppendTo`, this function
+	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
+	// of `Params` so metadata and the like is included in the encoded payload.
+	form.AppendTo(body, p.Params)
+	if p.Metadata != nil && p.Params.Metadata != nil {
+		return fmt.Errorf(
+			"you cannot specify both the (deprecated) .Params.Metadata and .Metadata in `BankAccountCreateParams`")
+	}
+	if p.Expand != nil && p.Params.Expand != nil {
+		return fmt.Errorf(
+			"you cannot specify both the (deprecated) .Params.Expand and .Expand in `BankAccountCreateParams`")
+	}
+	if p.Metadata != nil {
+		for k, v := range p.Metadata {
+			body.Add("metadata["+k+"]", v)
+		}
+	}
+	if p.Expand != nil {
+		for _, v := range p.Expand {
+			body.Add("expand[]", StringValue(v))
+		}
+	}
+
+	isCustomer := p.Customer != nil
+
+	var sourceType string
+	if isCustomer {
+		sourceType = "source"
+	} else {
+		sourceType = "external_account"
+	}
+
+	// Use token (if exists) or a dictionary containing a user's bank account details.
+	if p.Token != nil {
+		body.Add(sourceType, StringValue(p.Token))
+
+		if p.DefaultForCurrency != nil {
+			body.Add(
+				"default_for_currency", strconv.FormatBool(
+					BoolValue(p.DefaultForCurrency)))
+		}
+	} else {
+		body.Add(sourceType+"[object]", "bank_account")
+		body.Add(sourceType+"[country]", StringValue(p.Country))
+		body.Add(sourceType+"[account_number]", StringValue(p.AccountNumber))
+		body.Add(sourceType+"[currency]", StringValue(p.Currency))
+
+		// These are optional and the API will fail if we try to send empty
+		// values in for them, so make sure to check that they're actually set
+		// before encoding them.
+		if p.AccountHolderName != nil {
+			body.Add(sourceType+"[account_holder_name]", StringValue(p.AccountHolderName))
+		}
+
+		if p.AccountHolderType != nil {
+			body.Add(sourceType+"[account_holder_type]", StringValue(p.AccountHolderType))
+		}
+
+		if p.RoutingNumber != nil {
+			body.Add(sourceType+"[routing_number]", StringValue(p.RoutingNumber))
+		}
+
+		if p.DefaultForCurrency != nil {
+			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(BoolValue(p.DefaultForCurrency)))
+		}
+	}
+	return nil
+}
+
+// AddExpand appends a new field to expand.
+func (p *BankAccountCreateParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *BankAccountCreateParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // Get returns the details of a bank account.
 type BankAccountRetrieveParams struct {
-	Params  `form:"*"`
-	Account *string `form:"-"` // Included in URL
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	Account  *string `form:"-"` // Included in URL
 }
 
 // Fields that are `currently_due` and need to be collected again because validation or verification failed.

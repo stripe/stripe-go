@@ -219,8 +219,11 @@ type PromotionCodeRestrictions struct {
 	MinimumAmountCurrency Currency `json:"minimum_amount_currency"`
 }
 
-// A Promotion Code represents a customer-redeemable code for a [coupon](https://stripe.com/docs/api#coupons). It can be used to
-// create multiple codes for a single coupon.
+// A Promotion Code represents a customer-redeemable code for a [coupon](https://stripe.com/docs/api#coupons).
+// You can create multiple codes for a single coupon.
+//
+// If you enable promotion codes in your [customer portal configuration](https://stripe.com/docs/customer-management/configure-portal), then customers can redeem a code themselves when updating a subscription in the portal.
+// Customers can also view the currently active promotion codes and coupons on each of their subscriptions in the portal.
 type PromotionCode struct {
 	APIResource
 	// Whether the promotion code is currently active. A promotion code is only active if the coupon is also valid.

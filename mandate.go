@@ -152,6 +152,23 @@ const (
 	MandateTypeSingleUse MandateType = "single_use"
 )
 
+// Retrieves a list of Mandates for a given PaymentMethod.
+type MandateListParams struct {
+	ListParams `form:"*"`
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
+	// The Stripe account ID that the mandates are intended for. Learn more about the [use case for connected accounts payments](https://stripe.com/docs/payments/connected-accounts).
+	OnBehalfOf    *string `form:"on_behalf_of"`
+	PaymentMethod *string `form:"payment_method"`
+	// The status of the mandates to retrieve. Status indicates whether or not you can use it to initiate a payment, and can have a value of `active`, `pending`, or `inactive`.
+	Status *string `form:"status"`
+}
+
+// AddExpand appends a new field to expand.
+func (p *MandateListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
+}
+
 // Retrieves a Mandate object.
 type MandateParams struct {
 	Params `form:"*"`
@@ -312,6 +329,13 @@ type Mandate struct {
 	Status MandateStatus `json:"status"`
 	// The type of the mandate.
 	Type MandateType `json:"type"`
+}
+
+// MandateList is a list of Mandates as retrieved from a list endpoint.
+type MandateList struct {
+	APIResource
+	ListMeta
+	Data []*Mandate `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Mandate.

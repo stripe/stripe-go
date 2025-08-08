@@ -18,5 +18,5 @@ type BillingAlertTriggered struct {
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The value triggering the alert
-	Value int64 `json:"value"`
+	Value float64 `json:"value,string"`
 }
