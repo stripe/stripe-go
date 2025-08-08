@@ -1859,11 +1859,11 @@ type ChargeOutcome struct {
 	AdviceCode ChargeOutcomeAdviceCode `json:"advice_code"`
 	// For charges declined by the network, a 2 digit code which indicates the advice returned by the network on how to proceed with an error.
 	NetworkAdviceCode string `json:"network_advice_code"`
-	// For charges declined by the network, a brand specific 2, 3, or 4 digit code which indicates the reason the authorization failed.
+	// For charges declined by the network, a brand specific alphanumeric code which indicates the reason the authorization failed.
 	NetworkDeclineCode string `json:"network_decline_code"`
 	// Possible values are `approved_by_network`, `declined_by_network`, `not_sent_to_network`, and `reversed_after_approval`. The value `reversed_after_approval` indicates the payment was [blocked by Stripe](https://stripe.com/docs/declines#blocked-payments) after bank authorization, and may temporarily appear as "pending" on a cardholder's statement.
 	NetworkStatus string `json:"network_status"`
-	// An enumerated value providing a more detailed explanation of the outcome's `type`. Charges blocked by Radar's default block rule have the value `highest_risk_level`. Charges placed in review by Radar's default review rule have the value `elevated_risk_level`. Charges authorized, blocked, or placed in review by custom rules have the value `rule`. See [understanding declines](https://stripe.com/docs/declines) for more details.
+	// An enumerated value providing a more detailed explanation of the outcome's `type`. Charges blocked by Radar's default block rule have the value `highest_risk_level`. Charges placed in review by Radar's default review rule have the value `elevated_risk_level`. Charges blocked because the payment is unlikely to be authorized have the value `low_probability_of_authorization`. Charges authorized, blocked, or placed in review by custom rules have the value `rule`. See [understanding declines](https://stripe.com/docs/declines) for more details.
 	Reason string `json:"reason"`
 	// Stripe Radar's evaluation of the riskiness of the payment. Possible values for evaluated payments are `normal`, `elevated`, `highest`. For non-card payments, and card-based payments predating the public assignment of risk levels, this field will have the value `not_assessed`. In the event of an error in the evaluation, this field will have the value `unknown`. This field is only available with Radar.
 	RiskLevel string `json:"risk_level"`
@@ -1954,7 +1954,15 @@ type ChargePaymentMethodDetailsAlipay struct {
 	// Transaction ID of this particular Alipay transaction.
 	TransactionID string `json:"transaction_id"`
 }
-type ChargePaymentMethodDetailsAlma struct{}
+type ChargePaymentMethodDetailsAlmaInstallments struct {
+	// The number of installments.
+	Count int64 `json:"count"`
+}
+type ChargePaymentMethodDetailsAlma struct {
+	Installments *ChargePaymentMethodDetailsAlmaInstallments `json:"installments"`
+	// The Alma transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type ChargePaymentMethodDetailsAmazonPayFundingCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
@@ -1978,6 +1986,8 @@ type ChargePaymentMethodDetailsAmazonPayFunding struct {
 }
 type ChargePaymentMethodDetailsAmazonPay struct {
 	Funding *ChargePaymentMethodDetailsAmazonPayFunding `json:"funding"`
+	// The Amazon Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
@@ -2440,6 +2450,8 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 type ChargePaymentMethodDetailsKakaoPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Kakao Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 
 // The payer's address
@@ -2480,6 +2492,8 @@ type ChargePaymentMethodDetailsKrCard struct {
 	BuyerID string `json:"buyer_id"`
 	// The last four digits of the card. This may not be present for American Express cards.
 	Last4 string `json:"last4"`
+	// The Korean Card transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment.
@@ -2514,6 +2528,8 @@ type ChargePaymentMethodDetailsMultibanco struct {
 type ChargePaymentMethodDetailsNaverPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Naver Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsNzBankAccount struct {
 	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
@@ -2547,6 +2563,8 @@ type ChargePaymentMethodDetailsPayByBank struct{}
 type ChargePaymentMethodDetailsPayco struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Payco transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsPayNow struct {
 	// Reference number associated with this PayNow payment
@@ -2633,10 +2651,14 @@ type ChargePaymentMethodDetailsRevolutPayFunding struct {
 }
 type ChargePaymentMethodDetailsRevolutPay struct {
 	Funding *ChargePaymentMethodDetailsRevolutPayFunding `json:"funding"`
+	// The Revolut Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsSamsungPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Samsung Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type ChargePaymentMethodDetailsSatispay struct{}
 type ChargePaymentMethodDetailsSEPACreditTransfer struct {

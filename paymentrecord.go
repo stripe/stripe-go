@@ -930,7 +930,15 @@ type PaymentRecordPaymentMethodDetailsAlipay struct {
 	// Transaction ID of this particular Alipay transaction.
 	TransactionID string `json:"transaction_id"`
 }
-type PaymentRecordPaymentMethodDetailsAlma struct{}
+type PaymentRecordPaymentMethodDetailsAlmaInstallments struct {
+	// The number of installments.
+	Count int64 `json:"count"`
+}
+type PaymentRecordPaymentMethodDetailsAlma struct {
+	Installments *PaymentRecordPaymentMethodDetailsAlmaInstallments `json:"installments"`
+	// The Alma transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentRecordPaymentMethodDetailsAmazonPayFundingCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
@@ -954,6 +962,8 @@ type PaymentRecordPaymentMethodDetailsAmazonPayFunding struct {
 }
 type PaymentRecordPaymentMethodDetailsAmazonPay struct {
 	Funding *PaymentRecordPaymentMethodDetailsAmazonPayFunding `json:"funding"`
+	// The Amazon Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
@@ -1311,6 +1321,8 @@ type PaymentRecordPaymentMethodDetailsInteracPresent struct {
 type PaymentRecordPaymentMethodDetailsKakaoPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Kakao Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 
 // The payer's address
@@ -1351,6 +1363,8 @@ type PaymentRecordPaymentMethodDetailsKrCard struct {
 	BuyerID string `json:"buyer_id"`
 	// The last four digits of the card. This may not be present for American Express cards.
 	Last4 string `json:"last4"`
+	// The Korean Card transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment.
@@ -1385,6 +1399,8 @@ type PaymentRecordPaymentMethodDetailsMultibanco struct {
 type PaymentRecordPaymentMethodDetailsNaverPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Naver Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsNzBankAccount struct {
 	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
@@ -1418,6 +1434,8 @@ type PaymentRecordPaymentMethodDetailsPayByBank struct{}
 type PaymentRecordPaymentMethodDetailsPayco struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Payco transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsPayNow struct {
 	// Reference number associated with this PayNow payment
@@ -1504,10 +1522,14 @@ type PaymentRecordPaymentMethodDetailsRevolutPayFunding struct {
 }
 type PaymentRecordPaymentMethodDetailsRevolutPay struct {
 	Funding *PaymentRecordPaymentMethodDetailsRevolutPayFunding `json:"funding"`
+	// The Revolut Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsSamsungPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Samsung Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentRecordPaymentMethodDetailsSatispay struct{}
 type PaymentRecordPaymentMethodDetailsSEPACreditTransfer struct {

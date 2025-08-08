@@ -1395,7 +1395,7 @@ func (p *CheckoutSessionListParams) AddExpand(f string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionAdaptivePricingParams struct {
-	// Set to `true` to enable [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
+	// If set to `true`, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
 	Enabled *bool `form:"enabled"`
 }
 
@@ -1561,6 +1561,31 @@ type CheckoutSessionCustomerUpdateParams struct {
 	// Describes whether Checkout saves shipping information onto `customer.shipping`.
 	// To collect shipping information, use `shipping_address_collection`. Defaults to `never`.
 	Shipping *string `form:"shipping"`
+}
+
+// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+type CheckoutSessionDiscountCouponDataParams struct {
+	// A positive integer representing the amount to subtract from an invoice total (required if `percent_off` is not passed).
+	AmountOff *int64 `form:"amount_off"`
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
+	Currency *string `form:"currency"`
+	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
+	Duration *string `form:"duration"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
+	Name *string `form:"name"`
+	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
+	PercentOff *float64 `form:"percent_off"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionDiscountCouponDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
@@ -2915,7 +2940,7 @@ type CheckoutSessionParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `custom`.
+	// Where the user is coming from. This informs the optimizations that are applied to the session.
 	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
@@ -3016,31 +3041,6 @@ type CheckoutSessionCollectedInformationParams struct {
 	ShippingDetails *CheckoutSessionCollectedInformationShippingDetailsParams `form:"shipping_details"`
 }
 
-// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
-type CheckoutSessionDiscountCouponDataParams struct {
-	// A positive integer representing the amount to subtract from an invoice total (required if `percent_off` is not passed).
-	AmountOff *int64 `form:"amount_off"`
-	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
-	Currency *string `form:"currency"`
-	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
-	Duration *string `form:"duration"`
-	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
-	Metadata map[string]string `form:"metadata"`
-	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
-	Name *string `form:"name"`
-	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
-	PercentOff *float64 `form:"percent_off"`
-}
-
-// AddMetadata adds a new key-value pair to the Metadata.
-func (p *CheckoutSessionDiscountCouponDataParams) AddMetadata(key string, value string) {
-	if p.Metadata == nil {
-		p.Metadata = make(map[string]string)
-	}
-
-	p.Metadata[key] = value
-}
-
 // When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CheckoutSessionListLineItemsParams struct {
 	ListParams `form:"*"`
@@ -3070,7 +3070,7 @@ func (p *CheckoutSessionExpireParams) AddExpand(f string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionCreateAdaptivePricingParams struct {
-	// Set to `true` to enable [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
+	// If set to `true`, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
 	Enabled *bool `form:"enabled"`
 }
 
@@ -3238,10 +3238,37 @@ type CheckoutSessionCreateCustomerUpdateParams struct {
 	Shipping *string `form:"shipping"`
 }
 
+// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+type CheckoutSessionCreateDiscountCouponDataParams struct {
+	// A positive integer representing the amount to subtract from an invoice total (required if `percent_off` is not passed).
+	AmountOff *int64 `form:"amount_off"`
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `amount_off` parameter (required if `amount_off` is passed).
+	Currency *string `form:"currency"`
+	// Specifies how long the discount will be in effect if used on a subscription. Defaults to `once`.
+	Duration *string `form:"duration"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the `id` is shown if `name` is not set.
+	Name *string `form:"name"`
+	// A positive float larger than 0, and smaller or equal to 100, that represents the discount the coupon will apply (required if `amount_off` is not passed).
+	PercentOff *float64 `form:"percent_off"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCreateDiscountCouponDataParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
 // The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 type CheckoutSessionCreateDiscountParams struct {
 	// The ID of the coupon to apply to this Session.
 	Coupon *string `form:"coupon"`
+	// Data used to generate a new [Coupon](https://stripe.com/docs/api/coupon) object inline. One of `coupon` or `coupon_data` is required when updating discounts.
+	CouponData *CheckoutSessionCreateDiscountCouponDataParams `form:"coupon_data"`
 	// The ID of a promotion code to apply to this Session.
 	PromotionCode *string `form:"promotion_code"`
 }
@@ -4584,7 +4611,7 @@ type CheckoutSessionCreateParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionCreateOptionalItemParams `form:"optional_items"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `custom`.
+	// Where the user is coming from. This informs the optimizations that are applied to the session.
 	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionCreatePaymentIntentDataParams `form:"payment_intent_data"`
@@ -4962,7 +4989,7 @@ func (p *CheckoutSessionUpdateParams) AddMetadata(key string, value string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionAdaptivePricing struct {
-	// Whether Adaptive Pricing is enabled.
+	// If enabled, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions).
 	Enabled bool `json:"enabled"`
 }
 

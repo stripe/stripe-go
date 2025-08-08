@@ -674,7 +674,15 @@ type PaymentAttemptRecordPaymentMethodDetailsAlipay struct {
 	// Transaction ID of this particular Alipay transaction.
 	TransactionID string `json:"transaction_id"`
 }
-type PaymentAttemptRecordPaymentMethodDetailsAlma struct{}
+type PaymentAttemptRecordPaymentMethodDetailsAlmaInstallments struct {
+	// The number of installments.
+	Count int64 `json:"count"`
+}
+type PaymentAttemptRecordPaymentMethodDetailsAlma struct {
+	Installments *PaymentAttemptRecordPaymentMethodDetailsAlmaInstallments `json:"installments"`
+	// The Alma transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentAttemptRecordPaymentMethodDetailsAmazonPayFundingCard struct {
 	// Card brand. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa` or `unknown`.
 	Brand string `json:"brand"`
@@ -698,6 +706,8 @@ type PaymentAttemptRecordPaymentMethodDetailsAmazonPayFunding struct {
 }
 type PaymentAttemptRecordPaymentMethodDetailsAmazonPay struct {
 	Funding *PaymentAttemptRecordPaymentMethodDetailsAmazonPayFunding `json:"funding"`
+	// The Amazon Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsAUBECSDebit struct {
 	// Bank-State-Branch number of the bank account.
@@ -1055,6 +1065,8 @@ type PaymentAttemptRecordPaymentMethodDetailsInteracPresent struct {
 type PaymentAttemptRecordPaymentMethodDetailsKakaoPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Kakao Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 
 // The payer's address
@@ -1095,6 +1107,8 @@ type PaymentAttemptRecordPaymentMethodDetailsKrCard struct {
 	BuyerID string `json:"buyer_id"`
 	// The last four digits of the card. This may not be present for American Express cards.
 	Last4 string `json:"last4"`
+	// The Korean Card transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsLink struct {
 	// Two-letter ISO code representing the funding source country beneath the Link payment.
@@ -1129,6 +1143,8 @@ type PaymentAttemptRecordPaymentMethodDetailsMultibanco struct {
 type PaymentAttemptRecordPaymentMethodDetailsNaverPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Naver Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsNzBankAccount struct {
 	// The name on the bank account. Only present if the account holder name is different from the name of the authorized signatory collected in the PaymentMethod's billing details.
@@ -1162,6 +1178,8 @@ type PaymentAttemptRecordPaymentMethodDetailsPayByBank struct{}
 type PaymentAttemptRecordPaymentMethodDetailsPayco struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Payco transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsPayNow struct {
 	// Reference number associated with this PayNow payment
@@ -1248,10 +1266,14 @@ type PaymentAttemptRecordPaymentMethodDetailsRevolutPayFunding struct {
 }
 type PaymentAttemptRecordPaymentMethodDetailsRevolutPay struct {
 	Funding *PaymentAttemptRecordPaymentMethodDetailsRevolutPayFunding `json:"funding"`
+	// The Revolut Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsSamsungPay struct {
 	// A unique identifier for the buyer as determined by the local payment processor.
 	BuyerID string `json:"buyer_id"`
+	// The Samsung Pay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsSatispay struct{}
 type PaymentAttemptRecordPaymentMethodDetailsSEPACreditTransfer struct {
