@@ -28,6 +28,12 @@ This release changes the pinned API version to `2025-07-30.preview`.
   * Remove support for thin event `V2CoreAccountLinkCompletedEvent`
   * Remove support for thin event `V2OffSessionPaymentRequiresCaptureEvent` with related object `V2PaymentsOffSessionPayment`
 
+## 82.4.1 - 2025-08-11
+* [#2102](https://github.com/stripe/stripe-go/pull/2102) Add missing parameters to Card and BankAccount services
+  * Fixes bugs in `V1Cards` and `V1BankAccounts` services: ensures the new `stripe.Client` pattern supports all parameters previously available in `client.API` for those two services.
+* [#2098](https://github.com/stripe/stripe-go/pull/2098) Bug fixes for `V1BankAccounts` and `V1Cards` services
+  * Fixes bugs in `Create` and `List` methods in `V1BankAccounts` and `V1Cards` services in the `stripe.Client` pattern, which were previously returning errors on any valid inputs.
+
 ## 82.4.0 - 2025-07-30
 This release changes the pinned API version to `2025-07-30.basil`.
 
