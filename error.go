@@ -119,6 +119,7 @@ const (
 	ErrorCodeIncorrectCVC                                                ErrorCode = "incorrect_cvc"
 	ErrorCodeIncorrectNumber                                             ErrorCode = "incorrect_number"
 	ErrorCodeIncorrectZip                                                ErrorCode = "incorrect_zip"
+	ErrorCodeIndiaRecurringPaymentMandateCanceled                        ErrorCode = "india_recurring_payment_mandate_canceled"
 	ErrorCodeInstantPayoutsConfigDisabled                                ErrorCode = "instant_payouts_config_disabled"
 	ErrorCodeInstantPayoutsCurrencyDisabled                              ErrorCode = "instant_payouts_currency_disabled"
 	ErrorCodeInstantPayoutsLimitExceeded                                 ErrorCode = "instant_payouts_limit_exceeded"

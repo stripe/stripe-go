@@ -1087,6 +1087,15 @@ const (
 	PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage = "off_session"
 )
 
+// Determines if the amount includes the IOF tax.
+type PaymentIntentPaymentMethodOptionsPixAmountIncludesIof string
+
+// List of values that PaymentIntentPaymentMethodOptionsPixAmountIncludesIof can take
+const (
+	PaymentIntentPaymentMethodOptionsPixAmountIncludesIofAlways PaymentIntentPaymentMethodOptionsPixAmountIncludesIof = "always"
+	PaymentIntentPaymentMethodOptionsPixAmountIncludesIofNever  PaymentIntentPaymentMethodOptionsPixAmountIncludesIof = "never"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -3040,6 +3049,8 @@ type PaymentIntentPaymentMethodOptionsPaytoParams struct {
 
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentPaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
@@ -6621,6 +6632,8 @@ type PaymentIntentCreatePaymentMethodOptionsPaytoParams struct {
 
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentCreatePaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
@@ -8773,6 +8786,8 @@ type PaymentIntentUpdatePaymentMethodOptionsPaytoParams struct {
 
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
@@ -10436,6 +10451,8 @@ type PaymentIntentPaymentMethodOptionsPayto struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaytoSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsPix struct {
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof PaymentIntentPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
 	// The timestamp at which the Pix expires.
