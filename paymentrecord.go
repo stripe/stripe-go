@@ -526,6 +526,14 @@ const (
 	PaymentRecordPaymentMethodDetailsUSBankAccountAccountTypeSavings  PaymentRecordPaymentMethodDetailsUSBankAccountAccountType = "savings"
 )
 
+// The processor used for this payment attempt.
+type PaymentRecordProcessorDetailsType string
+
+// List of values that PaymentRecordProcessorDetailsType can take
+const (
+	PaymentRecordProcessorDetailsTypeCustom PaymentRecordProcessorDetailsType = "custom"
+)
+
 // Retrieves a Payment Record with the given ID
 type PaymentRecordParams struct {
 	Params `form:"*"`
@@ -697,7 +705,7 @@ func (p *PaymentRecordReportPaymentAttemptCanceledParams) AddMetadata(key string
 type PaymentRecordReportPaymentAmountRequestedParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value *int64 `form:"value"`
 }
 
@@ -757,6 +765,20 @@ type PaymentRecordReportPaymentPaymentMethodDetailsParams struct {
 	Type *string `form:"type"`
 }
 
+// Information about the custom processor used to make this payment.
+type PaymentRecordReportPaymentProcessorDetailsCustomParams struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference *string `form:"payment_reference"`
+}
+
+// Processor information for this payment.
+type PaymentRecordReportPaymentProcessorDetailsParams struct {
+	// Information about the custom processor used to make this payment.
+	Custom *PaymentRecordReportPaymentProcessorDetailsCustomParams `form:"custom"`
+	// The type of the processor details. An additional hash is included on processor_details with a name matching this value. It contains additional information specific to the processor.
+	Type *string `form:"type"`
+}
+
 // Shipping information for this payment.
 type PaymentRecordReportPaymentShippingDetailsParams struct {
 	// The physical shipping address.
@@ -795,8 +817,8 @@ type PaymentRecordReportPaymentParams struct {
 	Outcome *string `form:"outcome"`
 	// Information about the Payment Method debited for this payment.
 	PaymentMethodDetails *PaymentRecordReportPaymentPaymentMethodDetailsParams `form:"payment_method_details"`
-	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
-	PaymentReference *string `form:"payment_reference"`
+	// Processor information for this payment.
+	ProcessorDetails *PaymentRecordReportPaymentProcessorDetailsParams `form:"processor_details"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordReportPaymentShippingDetailsParams `form:"shipping_details"`
 }
@@ -828,10 +850,26 @@ func (p *PaymentRecordRetrieveParams) AddExpand(f string) {
 }
 
 // A representation of an amount of money, consisting of an amount and a currency.
+type PaymentRecordAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	Value int64 `json:"value"`
+}
+
+// A representation of an amount of money, consisting of an amount and a currency.
+type PaymentRecordAmountAuthorized struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	Value int64 `json:"value"`
+}
+
+// A representation of an amount of money, consisting of an amount and a currency.
 type PaymentRecordAmountCanceled struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -839,7 +877,7 @@ type PaymentRecordAmountCanceled struct {
 type PaymentRecordAmountFailed struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -847,7 +885,15 @@ type PaymentRecordAmountFailed struct {
 type PaymentRecordAmountGuaranteed struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	Value int64 `json:"value"`
+}
+
+// A representation of an amount of money, consisting of an amount and a currency.
+type PaymentRecordAmountRefunded struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -855,7 +901,7 @@ type PaymentRecordAmountGuaranteed struct {
 type PaymentRecordAmountRequested struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -1705,6 +1751,24 @@ type PaymentRecordPaymentMethodDetails struct {
 	Zip           *PaymentRecordPaymentMethodDetailsZip           `json:"zip"`
 }
 
+// Custom processors represent payment processors not modeled directly in
+// the Stripe API. This resource consists of details about the custom processor
+// used for this payment attempt.
+type PaymentRecordProcessorDetailsCustom struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference string `json:"payment_reference"`
+}
+
+// Processor information associated with this payment.
+type PaymentRecordProcessorDetails struct {
+	// Custom processors represent payment processors not modeled directly in
+	// the Stripe API. This resource consists of details about the custom processor
+	// used for this payment attempt.
+	Custom *PaymentRecordProcessorDetailsCustom `json:"custom"`
+	// The processor used for this payment attempt.
+	Type PaymentRecordProcessorDetailsType `json:"type"`
+}
+
 // Shipping information for this payment.
 type PaymentRecordShippingDetails struct {
 	// A representation of a physical address.
@@ -1722,13 +1786,21 @@ type PaymentRecordShippingDetails struct {
 type PaymentRecord struct {
 	APIResource
 	// A representation of an amount of money, consisting of an amount and a currency.
+	Amount *PaymentRecordAmount `json:"amount"`
+	// A representation of an amount of money, consisting of an amount and a currency.
+	AmountAuthorized *PaymentRecordAmountAuthorized `json:"amount_authorized"`
+	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountCanceled *PaymentRecordAmountCanceled `json:"amount_canceled"`
 	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountFailed *PaymentRecordAmountFailed `json:"amount_failed"`
 	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountGuaranteed *PaymentRecordAmountGuaranteed `json:"amount_guaranteed"`
 	// A representation of an amount of money, consisting of an amount and a currency.
+	AmountRefunded *PaymentRecordAmountRefunded `json:"amount_refunded"`
+	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountRequested *PaymentRecordAmountRequested `json:"amount_requested"`
+	// ID of the Connect application that created the PaymentRecord.
+	Application string `json:"application"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Customer information for this payment.
@@ -1749,8 +1821,8 @@ type PaymentRecord struct {
 	Object string `json:"object"`
 	// Information about the Payment Method debited for this payment.
 	PaymentMethodDetails *PaymentRecordPaymentMethodDetails `json:"payment_method_details"`
-	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
-	PaymentReference string `json:"payment_reference"`
+	// Processor information associated with this payment.
+	ProcessorDetails *PaymentRecordProcessorDetails `json:"processor_details"`
 	// Shipping information for this payment.
 	ShippingDetails *PaymentRecordShippingDetails `json:"shipping_details"`
 }

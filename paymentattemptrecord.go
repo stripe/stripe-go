@@ -524,6 +524,14 @@ const (
 	PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountTypeSavings  PaymentAttemptRecordPaymentMethodDetailsUSBankAccountAccountType = "savings"
 )
 
+// The processor used for this payment attempt.
+type PaymentAttemptRecordProcessorDetailsType string
+
+// List of values that PaymentAttemptRecordProcessorDetailsType can take
+const (
+	PaymentAttemptRecordProcessorDetailsTypeCustom PaymentAttemptRecordProcessorDetailsType = "custom"
+)
+
 // Indicates who reported the payment.
 type PaymentAttemptRecordReportedBy string
 
@@ -572,10 +580,26 @@ func (p *PaymentAttemptRecordRetrieveParams) AddExpand(f string) {
 }
 
 // A representation of an amount of money, consisting of an amount and a currency.
+type PaymentAttemptRecordAmount struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	Value int64 `json:"value"`
+}
+
+// A representation of an amount of money, consisting of an amount and a currency.
+type PaymentAttemptRecordAmountAuthorized struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	Value int64 `json:"value"`
+}
+
+// A representation of an amount of money, consisting of an amount and a currency.
 type PaymentAttemptRecordAmountCanceled struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -583,7 +607,7 @@ type PaymentAttemptRecordAmountCanceled struct {
 type PaymentAttemptRecordAmountFailed struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -591,7 +615,15 @@ type PaymentAttemptRecordAmountFailed struct {
 type PaymentAttemptRecordAmountGuaranteed struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
+	Value int64 `json:"value"`
+}
+
+// A representation of an amount of money, consisting of an amount and a currency.
+type PaymentAttemptRecordAmountRefunded struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -599,7 +631,7 @@ type PaymentAttemptRecordAmountGuaranteed struct {
 type PaymentAttemptRecordAmountRequested struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	// A positive integer representing the amount in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) for example, 100 cents for 1 USD or 100 for 100 JPY, a zero-decimal currency.
+	// A positive integer representing the amount in the currency's [minor unit](https://stripe.com/docs/currencies#zero-decimal). For example, `100` can represent 1 USD or 100 JPY.
 	Value int64 `json:"value"`
 }
 
@@ -1449,6 +1481,24 @@ type PaymentAttemptRecordPaymentMethodDetails struct {
 	Zip           *PaymentAttemptRecordPaymentMethodDetailsZip           `json:"zip"`
 }
 
+// Custom processors represent payment processors not modeled directly in
+// the Stripe API. This resource consists of details about the custom processor
+// used for this payment attempt.
+type PaymentAttemptRecordProcessorDetailsCustom struct {
+	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
+	PaymentReference string `json:"payment_reference"`
+}
+
+// Processor information associated with this payment.
+type PaymentAttemptRecordProcessorDetails struct {
+	// Custom processors represent payment processors not modeled directly in
+	// the Stripe API. This resource consists of details about the custom processor
+	// used for this payment attempt.
+	Custom *PaymentAttemptRecordProcessorDetailsCustom `json:"custom"`
+	// The processor used for this payment attempt.
+	Type PaymentAttemptRecordProcessorDetailsType `json:"type"`
+}
+
 // Shipping information for this payment.
 type PaymentAttemptRecordShippingDetails struct {
 	// A representation of a physical address.
@@ -1466,13 +1516,21 @@ type PaymentAttemptRecordShippingDetails struct {
 type PaymentAttemptRecord struct {
 	APIResource
 	// A representation of an amount of money, consisting of an amount and a currency.
+	Amount *PaymentAttemptRecordAmount `json:"amount"`
+	// A representation of an amount of money, consisting of an amount and a currency.
+	AmountAuthorized *PaymentAttemptRecordAmountAuthorized `json:"amount_authorized"`
+	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountCanceled *PaymentAttemptRecordAmountCanceled `json:"amount_canceled"`
 	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountFailed *PaymentAttemptRecordAmountFailed `json:"amount_failed"`
 	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountGuaranteed *PaymentAttemptRecordAmountGuaranteed `json:"amount_guaranteed"`
 	// A representation of an amount of money, consisting of an amount and a currency.
+	AmountRefunded *PaymentAttemptRecordAmountRefunded `json:"amount_refunded"`
+	// A representation of an amount of money, consisting of an amount and a currency.
 	AmountRequested *PaymentAttemptRecordAmountRequested `json:"amount_requested"`
+	// ID of the Connect application that created the PaymentAttemptRecord.
+	Application string `json:"application"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Customer information for this payment.
@@ -1493,8 +1551,8 @@ type PaymentAttemptRecord struct {
 	PaymentMethodDetails *PaymentAttemptRecordPaymentMethodDetails `json:"payment_method_details"`
 	// ID of the Payment Record this Payment Attempt Record belongs to.
 	PaymentRecord string `json:"payment_record"`
-	// An opaque string for manual reconciliation of this payment, for example a check number or a payment processor ID.
-	PaymentReference string `json:"payment_reference"`
+	// Processor information associated with this payment.
+	ProcessorDetails *PaymentAttemptRecordProcessorDetails `json:"processor_details"`
 	// Indicates who reported the payment.
 	ReportedBy PaymentAttemptRecordReportedBy `json:"reported_by"`
 	// Shipping information for this payment.
