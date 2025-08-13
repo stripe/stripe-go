@@ -27,6 +27,8 @@ type TerminalConfigurationParams struct {
 	Name *string `form:"name"`
 	// Configurations for collecting transactions offline.
 	Offline *TerminalConfigurationOfflineParams `form:"offline"`
+	// Configurations for reader security settings.
+	ReaderSecurity *TerminalConfigurationReaderSecurityParams `form:"reader_security"`
 	// Reboot time settings for readers that support customized reboot time configuration.
 	RebootWindow *TerminalConfigurationRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers
@@ -54,6 +56,12 @@ type TerminalConfigurationBBPOSWisePOSEParams struct {
 type TerminalConfigurationOfflineParams struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
 	Enabled *bool `form:"enabled"`
+}
+
+// Configurations for reader security settings.
+type TerminalConfigurationReaderSecurityParams struct {
+	// Passcode used to access a reader's admin menu.
+	AdminMenuPasscode *string `form:"admin_menu_passcode"`
 }
 
 // Reboot time settings for readers that support customized reboot time configuration.
@@ -421,6 +429,12 @@ type TerminalConfigurationUpdateOfflineParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Configurations for reader security settings.
+type TerminalConfigurationUpdateReaderSecurityParams struct {
+	// Passcode used to access a reader's admin menu.
+	AdminMenuPasscode *string `form:"admin_menu_passcode"`
+}
+
 // Reboot time settings for readers that support customized reboot time configuration.
 type TerminalConfigurationUpdateRebootWindowParams struct {
 	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
@@ -754,6 +768,8 @@ type TerminalConfigurationUpdateParams struct {
 	Name *string `form:"name"`
 	// Configurations for collecting transactions offline.
 	Offline *TerminalConfigurationUpdateOfflineParams `form:"offline"`
+	// Configurations for reader security settings.
+	ReaderSecurity *TerminalConfigurationUpdateReaderSecurityParams `form:"reader_security"`
 	// Reboot time settings for readers that support customized reboot time configuration.
 	RebootWindow *TerminalConfigurationUpdateRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers
@@ -781,6 +797,12 @@ type TerminalConfigurationCreateBBPOSWisePOSEParams struct {
 type TerminalConfigurationCreateOfflineParams struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
 	Enabled *bool `form:"enabled"`
+}
+
+// Configurations for reader security settings.
+type TerminalConfigurationCreateReaderSecurityParams struct {
+	// Passcode used to access a reader's admin menu.
+	AdminMenuPasscode *string `form:"admin_menu_passcode"`
 }
 
 // Reboot time settings for readers that support customized reboot time configuration.
@@ -1116,6 +1138,8 @@ type TerminalConfigurationCreateParams struct {
 	Name *string `form:"name"`
 	// Configurations for collecting transactions offline.
 	Offline *TerminalConfigurationCreateOfflineParams `form:"offline"`
+	// Configurations for reader security settings.
+	ReaderSecurity *TerminalConfigurationCreateReaderSecurityParams `form:"reader_security"`
 	// Reboot time settings for readers that support customized reboot time configuration.
 	RebootWindow *TerminalConfigurationCreateRebootWindowParams `form:"reboot_window"`
 	// An object containing device type specific settings for Stripe S700 readers
@@ -1140,6 +1164,10 @@ type TerminalConfigurationBBPOSWisePOSE struct {
 type TerminalConfigurationOffline struct {
 	// Determines whether to allow transactions to be collected while reader is offline. Defaults to false.
 	Enabled bool `json:"enabled"`
+}
+type TerminalConfigurationReaderSecurity struct {
+	// Passcode used to access a reader's admin menu.
+	AdminMenuPasscode string `json:"admin_menu_passcode"`
 }
 type TerminalConfigurationRebootWindow struct {
 	// Integer between 0 to 23 that represents the end hour of the reboot time window. The value must be different than the start_hour.
@@ -1397,13 +1425,14 @@ type TerminalConfiguration struct {
 	// String indicating the name of the Configuration object, set by the user
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object       string                             `json:"object"`
-	Offline      *TerminalConfigurationOffline      `json:"offline"`
-	RebootWindow *TerminalConfigurationRebootWindow `json:"reboot_window"`
-	StripeS700   *TerminalConfigurationStripeS700   `json:"stripe_s700"`
-	Tipping      *TerminalConfigurationTipping      `json:"tipping"`
-	VerifoneP400 *TerminalConfigurationVerifoneP400 `json:"verifone_p400"`
-	Wifi         *TerminalConfigurationWifi         `json:"wifi"`
+	Object         string                               `json:"object"`
+	Offline        *TerminalConfigurationOffline        `json:"offline"`
+	ReaderSecurity *TerminalConfigurationReaderSecurity `json:"reader_security"`
+	RebootWindow   *TerminalConfigurationRebootWindow   `json:"reboot_window"`
+	StripeS700     *TerminalConfigurationStripeS700     `json:"stripe_s700"`
+	Tipping        *TerminalConfigurationTipping        `json:"tipping"`
+	VerifoneP400   *TerminalConfigurationVerifoneP400   `json:"verifone_p400"`
+	Wifi           *TerminalConfigurationWifi           `json:"wifi"`
 }
 
 // TerminalConfigurationList is a list of Configurations as retrieved from a list endpoint.
