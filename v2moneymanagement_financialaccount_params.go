@@ -24,6 +24,8 @@ type V2MoneyManagementFinancialAccountStorageParams struct {
 // Creates a new FinancialAccount.
 type V2MoneyManagementFinancialAccountParams struct {
 	Params `form:"*"`
+	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters specific to creating `storage` type FinancialAccounts.
@@ -65,6 +67,8 @@ type V2MoneyManagementFinancialAccountCreateStorageParams struct {
 // Creates a new FinancialAccount.
 type V2MoneyManagementFinancialAccountCreateParams struct {
 	Params `form:"*"`
+	// A descriptive name for the FinancialAccount, up to 50 characters long. This name will be used in the Stripe Dashboard and embedded components.
+	DisplayName *string `form:"display_name" json:"display_name,omitempty"`
 	// Metadata associated with the FinancialAccount.
 	Metadata map[string]string `form:"metadata" json:"metadata,omitempty"`
 	// Parameters specific to creating `storage` type FinancialAccounts.
