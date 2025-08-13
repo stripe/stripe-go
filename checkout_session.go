@@ -1063,6 +1063,36 @@ const (
 	CheckoutSessionPaymentMethodOptionsPixAmountIncludesIofNever  CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof = "never"
 )
 
+// Determines if the amount includes the IOF tax.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIofAlways CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "always"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIofNever  CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof = "never"
+)
+
+// Type of amount.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountTypeFixed   CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType = "fixed"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountTypeMaximum CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType = "maximum"
+)
+
+// Schedule at which the future payments will be charged.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleHalfyearly CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "halfyearly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleMonthly    CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "monthly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleQuarterly  CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "quarterly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleWeekly     CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "weekly"
+	CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentScheduleYearly     CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule = "yearly"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1074,7 +1104,8 @@ type CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage string
 
 // List of values that CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage can take
 const (
-	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageNone CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageNone       CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "none"
+	CheckoutSessionPaymentMethodOptionsPixSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPixSetupFutureUsage = "off_session"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2395,12 +2426,34 @@ type CheckoutSessionPaymentMethodOptionsPaytoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 250 BRL.
+	Amount *int64 `form:"amount"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date"`
+	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date"`
+}
+
 // contains details about the Pix payment method options.
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -4070,12 +4123,34 @@ type CheckoutSessionCreatePaymentMethodOptionsPaytoParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// Additional fields for mandate creation.
+type CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams struct {
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 250 BRL.
+	Amount *int64 `form:"amount"`
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
+	// Type of amount. Defaults to `maximum`.
+	AmountType *string `form:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Only `brl` is supported currently.
+	Currency *string `form:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *string `form:"end_date"`
+	// Schedule at which the future payments will be charged. Defaults to `weekly`.
+	PaymentSchedule *string `form:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app. Defaults to the displayable business name.
+	Reference *string `form:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`. Start date should be at least 3 days in the future. Defaults to 3 days after the current date.
+	StartDate *string `form:"start_date"`
+}
+
 // contains details about the Pix payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsPixParams struct {
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
+	// Additional fields for mandate creation.
+	MandateOptions *CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams `form:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -5716,11 +5791,30 @@ type CheckoutSessionPaymentMethodOptionsPayto struct {
 	// When processing card payments, Stripe uses `setup_future_usage` to help you comply with regional legislation and network rules, such as [SCA](https://docs.stripe.com/strong-customer-authentication).
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPaytoSetupFutureUsage `json:"setup_future_usage"`
 }
+type CheckoutSessionPaymentMethodOptionsPixMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountIncludesIof `json:"amount_includes_iof"`
+	// Type of amount.
+	AmountType CheckoutSessionPaymentMethodOptionsPixMandateOptionsAmountType `json:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.
+	Currency Currency `json:"currency"`
+	// Date when the mandate expires and no further payments will be charged, in `YYYY-MM-DD`.
+	EndDate string `json:"end_date"`
+	// Schedule at which the future payments will be charged.
+	PaymentSchedule CheckoutSessionPaymentMethodOptionsPixMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	// Subscription name displayed to buyers in their bank app.
+	Reference string `json:"reference"`
+	// Start date of the mandate, in `YYYY-MM-DD`.
+	StartDate string `json:"start_date"`
+}
 type CheckoutSessionPaymentMethodOptionsPix struct {
 	// Determines if the amount includes the IOF tax.
 	AmountIncludesIof CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof"`
 	// The number of seconds after which Pix payment will expire.
-	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
+	ExpiresAfterSeconds int64                                                 `json:"expires_after_seconds"`
+	MandateOptions      *CheckoutSessionPaymentMethodOptionsPixMandateOptions `json:"mandate_options"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//
 	// If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
