@@ -353,6 +353,17 @@ type AccountSessionComponentsPaymentsParams struct {
 	Features *AccountSessionComponentsPaymentsFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionComponentsPayoutDetailsFeaturesParams struct{}
+
+// Configuration for the [payout details](https://docs.stripe.com/connect/supported-embedded-components/payout-details/) embedded component.
+type AccountSessionComponentsPayoutDetailsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionComponentsPayoutDetailsFeaturesParams `form:"features"`
+}
+
 // The list of features enabled in the embedded component.
 type AccountSessionComponentsPayoutsFeaturesParams struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
@@ -498,6 +509,8 @@ type AccountSessionComponentsParams struct {
 	PaymentMethodSettings *AccountSessionComponentsPaymentMethodSettingsParams `form:"payment_method_settings"`
 	// Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.
 	Payments *AccountSessionComponentsPaymentsParams `form:"payments"`
+	// Configuration for the [payout details](https://docs.stripe.com/connect/supported-embedded-components/payout-details/) embedded component.
+	PayoutDetails *AccountSessionComponentsPayoutDetailsParams `form:"payout_details"`
 	// Configuration for the [payouts](https://docs.stripe.com/connect/supported-embedded-components/payouts/) embedded component.
 	Payouts *AccountSessionComponentsPayoutsParams `form:"payouts"`
 	// Configuration for the [payouts list](https://docs.stripe.com/connect/supported-embedded-components/payouts-list/) embedded component.
@@ -879,6 +892,17 @@ type AccountSessionCreateComponentsPaymentsParams struct {
 	Features *AccountSessionCreateComponentsPaymentsFeaturesParams `form:"features"`
 }
 
+// An empty list, because this embedded component has no features.
+type AccountSessionCreateComponentsPayoutDetailsFeaturesParams struct{}
+
+// Configuration for the [payout details](https://docs.stripe.com/connect/supported-embedded-components/payout-details/) embedded component.
+type AccountSessionCreateComponentsPayoutDetailsParams struct {
+	// Whether the embedded component is enabled.
+	Enabled *bool `form:"enabled"`
+	// An empty list, because this embedded component has no features.
+	Features *AccountSessionCreateComponentsPayoutDetailsFeaturesParams `form:"features"`
+}
+
 // The list of features enabled in the embedded component.
 type AccountSessionCreateComponentsPayoutsFeaturesParams struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
@@ -1024,6 +1048,8 @@ type AccountSessionCreateComponentsParams struct {
 	PaymentMethodSettings *AccountSessionCreateComponentsPaymentMethodSettingsParams `form:"payment_method_settings"`
 	// Configuration for the [payments](https://docs.stripe.com/connect/supported-embedded-components/payments/) embedded component.
 	Payments *AccountSessionCreateComponentsPaymentsParams `form:"payments"`
+	// Configuration for the [payout details](https://docs.stripe.com/connect/supported-embedded-components/payout-details/) embedded component.
+	PayoutDetails *AccountSessionCreateComponentsPayoutDetailsParams `form:"payout_details"`
 	// Configuration for the [payouts](https://docs.stripe.com/connect/supported-embedded-components/payouts/) embedded component.
 	Payouts *AccountSessionCreateComponentsPayoutsParams `form:"payouts"`
 	// Configuration for the [payouts list](https://docs.stripe.com/connect/supported-embedded-components/payouts-list/) embedded component.
@@ -1259,6 +1285,12 @@ type AccountSessionComponentsPayments struct {
 	Enabled  bool                                      `json:"enabled"`
 	Features *AccountSessionComponentsPaymentsFeatures `json:"features"`
 }
+type AccountSessionComponentsPayoutDetailsFeatures struct{}
+type AccountSessionComponentsPayoutDetails struct {
+	// Whether the embedded component is enabled.
+	Enabled  bool                                           `json:"enabled"`
+	Features *AccountSessionComponentsPayoutDetailsFeatures `json:"features"`
+}
 type AccountSessionComponentsPayoutsFeatures struct {
 	// Whether Stripe user authentication is disabled. This value can only be `true` for accounts where `controller.requirement_collection` is `application` for the account. The default value is the opposite of the `external_account_collection` value. For example, if you don't set `external_account_collection`, it defaults to `true` and `disable_stripe_user_authentication` defaults to `false`.
 	DisableStripeUserAuthentication bool `json:"disable_stripe_user_authentication"`
@@ -1312,6 +1344,7 @@ type AccountSessionComponents struct {
 	PaymentDetails               *AccountSessionComponentsPaymentDetails               `json:"payment_details"`
 	PaymentDisputes              *AccountSessionComponentsPaymentDisputes              `json:"payment_disputes"`
 	Payments                     *AccountSessionComponentsPayments                     `json:"payments"`
+	PayoutDetails                *AccountSessionComponentsPayoutDetails                `json:"payout_details"`
 	Payouts                      *AccountSessionComponentsPayouts                      `json:"payouts"`
 	PayoutsList                  *AccountSessionComponentsPayoutsList                  `json:"payouts_list"`
 	TaxRegistrations             *AccountSessionComponentsTaxRegistrations             `json:"tax_registrations"`
