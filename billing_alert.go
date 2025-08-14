@@ -11,7 +11,32 @@ type BillingAlertAlertType string
 
 // List of values that BillingAlertAlertType can take
 const (
-	BillingAlertAlertTypeUsageThreshold BillingAlertAlertType = "usage_threshold"
+	BillingAlertAlertTypeCreditBalanceThreshold BillingAlertAlertType = "credit_balance_threshold"
+	BillingAlertAlertTypeUsageThreshold         BillingAlertAlertType = "usage_threshold"
+)
+
+type BillingAlertCreditBalanceThresholdFilterType string
+
+// List of values that BillingAlertCreditBalanceThresholdFilterType can take
+const (
+	BillingAlertCreditBalanceThresholdFilterTypeCustomer BillingAlertCreditBalanceThresholdFilterType = "customer"
+)
+
+// The type of this balance. We currently only support `monetary` amounts.
+type BillingAlertCreditBalanceThresholdLteBalanceType string
+
+// List of values that BillingAlertCreditBalanceThresholdLteBalanceType can take
+const (
+	BillingAlertCreditBalanceThresholdLteBalanceTypeCustomPricingUnit BillingAlertCreditBalanceThresholdLteBalanceType = "custom_pricing_unit"
+	BillingAlertCreditBalanceThresholdLteBalanceTypeMonetary          BillingAlertCreditBalanceThresholdLteBalanceType = "monetary"
+)
+
+// Defines how the alert will behave.
+type BillingAlertCreditBalanceThresholdRecurrence string
+
+// List of values that BillingAlertCreditBalanceThresholdRecurrence can take
+const (
+	BillingAlertCreditBalanceThresholdRecurrenceOneTime BillingAlertCreditBalanceThresholdRecurrence = "one_time"
 )
 
 // Status of the alert. This can be active, inactive or archived.
@@ -44,6 +69,8 @@ type BillingAlertListParams struct {
 	ListParams `form:"*"`
 	// Filter results to only include this type of alert.
 	AlertType *string `form:"alert_type"`
+	// Filter results to only include alerts for the given customer.
+	Customer *string `form:"customer"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// Filter results to only include alerts with the given meter.
@@ -53,6 +80,50 @@ type BillingAlertListParams struct {
 // AddExpand appends a new field to expand.
 func (p *BillingAlertListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
+type BillingAlertCreditBalanceThresholdFilterParams struct {
+	// Limit the scope to this credit balance alert only to this customer.
+	Customer *string `form:"customer"`
+	// What type of filter is being applied to this credit balance alert.
+	Type *string `form:"type"`
+}
+
+// The custom pricing unit amount.
+type BillingAlertCreditBalanceThresholdLteCustomPricingUnitParams struct {
+	// The ID of the custom pricing unit.
+	ID *string `form:"id"`
+	// A positive decimal string representing the amount of the custom pricing unit threshold.
+	Value *float64 `form:"value,high_precision"`
+}
+
+// The monetary amount.
+type BillingAlertCreditBalanceThresholdLteMonetaryParams struct {
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
+	Currency *string `form:"currency"`
+	// An integer representing the amount of the threshold.
+	Value *int64 `form:"value"`
+}
+
+// Defines at which value the alert will fire.
+type BillingAlertCreditBalanceThresholdLteParams struct {
+	// Specify the type of this balance. We currently only support `monetary` billing credits.
+	BalanceType *string `form:"balance_type"`
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingAlertCreditBalanceThresholdLteCustomPricingUnitParams `form:"custom_pricing_unit"`
+	// The monetary amount.
+	Monetary *BillingAlertCreditBalanceThresholdLteMonetaryParams `form:"monetary"`
+}
+
+// The configuration of the credit balance threshold.
+type BillingAlertCreditBalanceThresholdParams struct {
+	// The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
+	Filters []*BillingAlertCreditBalanceThresholdFilterParams `form:"filters"`
+	// Defines at which value the alert will fire.
+	Lte *BillingAlertCreditBalanceThresholdLteParams `form:"lte"`
+	// Whether the alert should only fire only once, or once per billing cycle.
+	Recurrence *string `form:"recurrence"`
 }
 
 // The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
@@ -80,6 +151,8 @@ type BillingAlertParams struct {
 	Params `form:"*"`
 	// The type of alert to create.
 	AlertType *string `form:"alert_type"`
+	// The configuration of the credit balance threshold.
+	CreditBalanceThreshold *BillingAlertCreditBalanceThresholdParams `form:"credit_balance_threshold"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The title of the alert.
@@ -129,6 +202,50 @@ func (p *BillingAlertDeactivateParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
+type BillingAlertCreateCreditBalanceThresholdFilterParams struct {
+	// Limit the scope to this credit balance alert only to this customer.
+	Customer *string `form:"customer"`
+	// What type of filter is being applied to this credit balance alert.
+	Type *string `form:"type"`
+}
+
+// The custom pricing unit amount.
+type BillingAlertCreateCreditBalanceThresholdLteCustomPricingUnitParams struct {
+	// The ID of the custom pricing unit.
+	ID *string `form:"id"`
+	// A positive decimal string representing the amount of the custom pricing unit threshold.
+	Value *float64 `form:"value,high_precision"`
+}
+
+// The monetary amount.
+type BillingAlertCreateCreditBalanceThresholdLteMonetaryParams struct {
+	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
+	Currency *string `form:"currency"`
+	// An integer representing the amount of the threshold.
+	Value *int64 `form:"value"`
+}
+
+// Defines at which value the alert will fire.
+type BillingAlertCreateCreditBalanceThresholdLteParams struct {
+	// Specify the type of this balance. We currently only support `monetary` billing credits.
+	BalanceType *string `form:"balance_type"`
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingAlertCreateCreditBalanceThresholdLteCustomPricingUnitParams `form:"custom_pricing_unit"`
+	// The monetary amount.
+	Monetary *BillingAlertCreateCreditBalanceThresholdLteMonetaryParams `form:"monetary"`
+}
+
+// The configuration of the credit balance threshold.
+type BillingAlertCreateCreditBalanceThresholdParams struct {
+	// The filters allows limiting the scope of this credit balance alert. You must specify a customer filter at this time.
+	Filters []*BillingAlertCreateCreditBalanceThresholdFilterParams `form:"filters"`
+	// Defines at which value the alert will fire.
+	Lte *BillingAlertCreateCreditBalanceThresholdLteParams `form:"lte"`
+	// Whether the alert should only fire only once, or once per billing cycle.
+	Recurrence *string `form:"recurrence"`
+}
+
 // The filters allows limiting the scope of this usage alert. You can only specify up to one filter at this time.
 type BillingAlertCreateUsageThresholdFilterParams struct {
 	// Limit the scope to this usage alert only to this customer.
@@ -154,6 +271,8 @@ type BillingAlertCreateParams struct {
 	Params `form:"*"`
 	// The type of alert to create.
 	AlertType *string `form:"alert_type"`
+	// The configuration of the credit balance threshold.
+	CreditBalanceThreshold *BillingAlertCreateCreditBalanceThresholdParams `form:"credit_balance_threshold"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The title of the alert.
@@ -177,6 +296,46 @@ type BillingAlertRetrieveParams struct {
 // AddExpand appends a new field to expand.
 func (p *BillingAlertRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// The filters allow limiting the scope of this credit balance alert. You must specify only a customer filter at this time.
+type BillingAlertCreditBalanceThresholdFilter struct {
+	// Limit the scope of the alert to this customer ID
+	Customer *Customer                                    `json:"customer"`
+	Type     BillingAlertCreditBalanceThresholdFilterType `json:"type"`
+}
+
+// The custom pricing unit amount.
+type BillingAlertCreditBalanceThresholdLteCustomPricingUnit struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A positive decimal string representing the amount.
+	Value float64 `json:"value,string"`
+}
+
+// The monetary amount.
+type BillingAlertCreditBalanceThresholdLteMonetary struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A positive integer representing the amount.
+	Value int64 `json:"value"`
+}
+type BillingAlertCreditBalanceThresholdLte struct {
+	// The type of this balance. We currently only support `monetary` amounts.
+	BalanceType BillingAlertCreditBalanceThresholdLteBalanceType `json:"balance_type"`
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingAlertCreditBalanceThresholdLteCustomPricingUnit `json:"custom_pricing_unit"`
+	// The monetary amount.
+	Monetary *BillingAlertCreditBalanceThresholdLteMonetary `json:"monetary"`
+}
+
+// Encapsulates configuration of the alert to monitor billing credit balance.
+type BillingAlertCreditBalanceThreshold struct {
+	// The filters allow limiting the scope of this credit balance alert. You must specify only a customer filter at this time.
+	Filters []*BillingAlertCreditBalanceThresholdFilter `json:"filters"`
+	Lte     *BillingAlertCreditBalanceThresholdLte      `json:"lte"`
+	// Defines how the alert will behave.
+	Recurrence BillingAlertCreditBalanceThresholdRecurrence `json:"recurrence"`
 }
 
 // The filters allow limiting the scope of this usage alert. You can only specify up to one filter at this time.
@@ -203,6 +362,8 @@ type BillingAlert struct {
 	APIResource
 	// Defines the type of the alert.
 	AlertType BillingAlertAlertType `json:"alert_type"`
+	// Encapsulates configuration of the alert to monitor billing credit balance.
+	CreditBalanceThreshold *BillingAlertCreditBalanceThreshold `json:"credit_balance_threshold"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.

@@ -122,6 +122,23 @@ func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Su
 	return subscription, err
 }
 
+// Attach a Cadence to an existing subscription. Once attached, the subscription will be billed by the cadence, potentially sharing invoices with the other subscriptions linked to the Cadence.
+func AttachCadence(id string, params *stripe.SubscriptionAttachCadenceParams) (*stripe.Subscription, error) {
+	return getC().AttachCadence(id, params)
+}
+
+// Attach a Cadence to an existing subscription. Once attached, the subscription will be billed by the cadence, potentially sharing invoices with the other subscriptions linked to the Cadence.
+//
+// Deprecated: Client methods are deprecated. This should be accessed instead through [stripe.Client]. See the [migration guide] for more info.
+//
+// [migration guide]: https://github.com/stripe/stripe-go/wiki/Migration-guide-for-Stripe-Client
+func (c Client) AttachCadence(id string, params *stripe.SubscriptionAttachCadenceParams) (*stripe.Subscription, error) {
+	path := stripe.FormatURLPath("/v1/subscriptions/%s/attach_cadence", id)
+	subscription := &stripe.Subscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
+	return subscription, err
+}
+
 // Cancels a customer's subscription immediately. The customer won't be charged again for the subscription. After it's canceled, you can no longer update the subscription or its [metadata](https://docs.stripe.com/metadata).
 //
 // Any pending invoice items that you've created are still charged at the end of the period, unless manually [deleted](https://docs.stripe.com/api#delete_invoiceitem). If you've set the subscription to cancel at the end of the period, any pending prorations are also left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations are removed if invoice_now and prorate are both set to true.

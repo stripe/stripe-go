@@ -132,8 +132,6 @@ type Client struct {
 	V1InvoiceItems *v1InvoiceItemService
 	// V1InvoiceLineItems is the service used to invoke /v1/invoices/{invoice}/lines APIs.
 	V1InvoiceLineItems *v1InvoiceLineItemService
-	// V1InvoicePayments is the service used to invoke /v1/invoice_payments APIs.
-	V1InvoicePayments *v1InvoicePaymentService
 	// V1InvoiceRenderingTemplates is the service used to invoke /v1/invoice_rendering_templates APIs.
 	V1InvoiceRenderingTemplates *v1InvoiceRenderingTemplateService
 	// V1Invoices is the service used to invoke /v1/invoices APIs.
@@ -330,6 +328,32 @@ type Client struct {
 	V1TreasuryTransactions *v1TreasuryTransactionService
 	// V1WebhookEndpoints is the service used to invoke /v1/webhook_endpoints APIs.
 	V1WebhookEndpoints *v1WebhookEndpointService
+	// V2AccountLinks is the service used to invoke /v2/account_links APIs.
+	V2AccountLinks *v2AccountLinkService
+	// V2Accounts is the service used to invoke /v2/accounts APIs.
+	V2Accounts *v2AccountService
+	// V2BillingBillSettings is the service used to invoke /v2/billing/bill_settings APIs.
+	V2BillingBillSettings *v2BillingBillSettingService
+	// V2BillingBillSettingsVersions is the service used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
+	V2BillingBillSettingsVersions *v2BillingBillSettingsVersionService
+	// V2BillingCadences is the service used to invoke /v2/billing/cadences APIs.
+	V2BillingCadences *v2BillingCadenceService
+	// V2BillingCollectionSettings is the service used to invoke /v2/billing/collection_settings APIs.
+	V2BillingCollectionSettings *v2BillingCollectionSettingService
+	// V2BillingCollectionSettingsVersions is the service used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
+	V2BillingCollectionSettingsVersions *v2BillingCollectionSettingsVersionService
+	// V2BillingCustomPricingUnits is the service used to invoke /v2/billing/custom_pricing_units APIs.
+	V2BillingCustomPricingUnits *v2BillingCustomPricingUnitService
+	// V2BillingIntents is the service used to invoke /v2/billing/intents APIs.
+	V2BillingIntents *v2BillingIntentService
+	// V2BillingLicensedItems is the service used to invoke /v2/billing/licensed_items APIs.
+	V2BillingLicensedItems *v2BillingLicensedItemService
+	// V2BillingLicenseFees is the service used to invoke /v2/billing/license_fees APIs.
+	V2BillingLicenseFees *v2BillingLicenseFeeService
+	// V2BillingLicenseFeesVersions is the service used to invoke /v2/billing/license_fees/{license_fee_id}/versions APIs.
+	V2BillingLicenseFeesVersions *v2BillingLicenseFeesVersionService
+	// V2BillingMeteredItems is the service used to invoke /v2/billing/metered_items APIs.
+	V2BillingMeteredItems *v2BillingMeteredItemService
 	// V2BillingMeterEventAdjustments is the service used to invoke /v2/billing/meter_event_adjustments APIs.
 	V2BillingMeterEventAdjustments *v2BillingMeterEventAdjustmentService
 	// V2BillingMeterEvents is the service used to invoke /v2/billing/meter_events APIs.
@@ -338,6 +362,26 @@ type Client struct {
 	V2BillingMeterEventSessions *v2BillingMeterEventSessionService
 	// V2BillingMeterEventStreams is the service used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2BillingMeterEventStreamService
+	// V2BillingPricingPlans is the service used to invoke /v2/billing/pricing_plans APIs.
+	V2BillingPricingPlans *v2BillingPricingPlanService
+	// V2BillingPricingPlansComponents is the service used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/components APIs.
+	V2BillingPricingPlansComponents *v2BillingPricingPlansComponentService
+	// V2BillingPricingPlanSubscriptions is the service used to invoke /v2/billing/pricing_plan_subscriptions APIs.
+	V2BillingPricingPlanSubscriptions *v2BillingPricingPlanSubscriptionService
+	// V2BillingPricingPlansVersions is the service used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/versions APIs.
+	V2BillingPricingPlansVersions *v2BillingPricingPlansVersionService
+	// V2BillingProfiles is the service used to invoke /v2/billing/profiles APIs.
+	V2BillingProfiles *v2BillingProfileService
+	// V2BillingRateCards is the service used to invoke /v2/billing/rate_cards APIs.
+	V2BillingRateCards *v2BillingRateCardService
+	// V2BillingRateCardsRates is the service used to invoke /v2/billing/rate_cards/{rate_card_id}/rates APIs.
+	V2BillingRateCardsRates *v2BillingRateCardsRateService
+	// V2BillingRateCardSubscriptions is the service used to invoke /v2/billing/rate_card_subscriptions APIs.
+	V2BillingRateCardSubscriptions *v2BillingRateCardSubscriptionService
+	// V2BillingRateCardsVersions is the service used to invoke /v2/billing/rate_cards/{rate_card_id}/versions APIs.
+	V2BillingRateCardsVersions *v2BillingRateCardsVersionService
+	// V2BillingServiceActions is the service used to invoke /v2/billing/service_actions APIs.
+	V2BillingServiceActions *v2BillingServiceActionService
 	// V2CoreAccountLinks is the service used to invoke /v2/core/account_links APIs.
 	V2CoreAccountLinks *v2CoreAccountLinkService
 	// V2CoreAccounts is the service used to invoke /v2/core/accounts APIs.
@@ -382,6 +426,12 @@ type Client struct {
 	V2MoneyManagementTransactions *v2MoneyManagementTransactionService
 	// V2PaymentsOffSessionPayments is the service used to invoke /v2/payments/off_session_payments APIs.
 	V2PaymentsOffSessionPayments *v2PaymentsOffSessionPaymentService
+	// V2ReportingReportRuns is the service used to invoke /v2/reporting/report_runs APIs.
+	V2ReportingReportRuns *v2ReportingReportRunService
+	// V2ReportingReports is the service used to invoke report related APIs.
+	V2ReportingReports *v2ReportingReportService
+	// V2TaxAutomaticRules is the service used to invoke /v2/tax/automatic_rules APIs.
+	V2TaxAutomaticRules *v2TaxAutomaticRuleService
 	// V2TestHelpersFinancialAddresses is the service used to invoke financialaddress related APIs.
 	V2TestHelpersFinancialAddresses *v2TestHelpersFinancialAddressService
 	// stripeClientStruct: The end of the section generated from our OpenAPI spec
@@ -477,7 +527,6 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1IdentityVerificationSessions = &v1IdentityVerificationSessionService{B: backends.API, Key: key}
 	client.V1InvoiceItems = &v1InvoiceItemService{B: backends.API, Key: key}
 	client.V1InvoiceLineItems = &v1InvoiceLineItemService{B: backends.API, Key: key}
-	client.V1InvoicePayments = &v1InvoicePaymentService{B: backends.API, Key: key}
 	client.V1InvoiceRenderingTemplates = &v1InvoiceRenderingTemplateService{B: backends.API, Key: key}
 	client.V1Invoices = &v1InvoiceService{B: backends.API, Key: key}
 	client.V1IssuingAuthorizations = &v1IssuingAuthorizationService{B: backends.API, Key: key}
@@ -576,10 +625,33 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V1TreasuryTransactionEntries = &v1TreasuryTransactionEntryService{B: backends.API, Key: key}
 	client.V1TreasuryTransactions = &v1TreasuryTransactionService{B: backends.API, Key: key}
 	client.V1WebhookEndpoints = &v1WebhookEndpointService{B: backends.API, Key: key}
+	client.V2AccountLinks = &v2AccountLinkService{B: backends.API, Key: key}
+	client.V2Accounts = &v2AccountService{B: backends.API, Key: key}
+	client.V2BillingBillSettings = &v2BillingBillSettingService{B: backends.API, Key: key}
+	client.V2BillingBillSettingsVersions = &v2BillingBillSettingsVersionService{B: backends.API, Key: key}
+	client.V2BillingCadences = &v2BillingCadenceService{B: backends.API, Key: key}
+	client.V2BillingCollectionSettings = &v2BillingCollectionSettingService{B: backends.API, Key: key}
+	client.V2BillingCollectionSettingsVersions = &v2BillingCollectionSettingsVersionService{B: backends.API, Key: key}
+	client.V2BillingCustomPricingUnits = &v2BillingCustomPricingUnitService{B: backends.API, Key: key}
+	client.V2BillingIntents = &v2BillingIntentService{B: backends.API, Key: key}
+	client.V2BillingLicensedItems = &v2BillingLicensedItemService{B: backends.API, Key: key}
+	client.V2BillingLicenseFees = &v2BillingLicenseFeeService{B: backends.API, Key: key}
+	client.V2BillingLicenseFeesVersions = &v2BillingLicenseFeesVersionService{B: backends.API, Key: key}
+	client.V2BillingMeteredItems = &v2BillingMeteredItemService{B: backends.API, Key: key}
 	client.V2BillingMeterEventAdjustments = &v2BillingMeterEventAdjustmentService{B: backends.API, Key: key}
 	client.V2BillingMeterEvents = &v2BillingMeterEventService{B: backends.API, Key: key}
 	client.V2BillingMeterEventSessions = &v2BillingMeterEventSessionService{B: backends.API, Key: key}
 	client.V2BillingMeterEventStreams = &v2BillingMeterEventStreamService{BMeterEvents: backends.MeterEvents, Key: key}
+	client.V2BillingPricingPlans = &v2BillingPricingPlanService{B: backends.API, Key: key}
+	client.V2BillingPricingPlansComponents = &v2BillingPricingPlansComponentService{B: backends.API, Key: key}
+	client.V2BillingPricingPlanSubscriptions = &v2BillingPricingPlanSubscriptionService{B: backends.API, Key: key}
+	client.V2BillingPricingPlansVersions = &v2BillingPricingPlansVersionService{B: backends.API, Key: key}
+	client.V2BillingProfiles = &v2BillingProfileService{B: backends.API, Key: key}
+	client.V2BillingRateCards = &v2BillingRateCardService{B: backends.API, Key: key}
+	client.V2BillingRateCardsRates = &v2BillingRateCardsRateService{B: backends.API, Key: key}
+	client.V2BillingRateCardSubscriptions = &v2BillingRateCardSubscriptionService{B: backends.API, Key: key}
+	client.V2BillingRateCardsVersions = &v2BillingRateCardsVersionService{B: backends.API, Key: key}
+	client.V2BillingServiceActions = &v2BillingServiceActionService{B: backends.API, Key: key}
 	client.V2CoreAccountLinks = &v2CoreAccountLinkService{B: backends.API, Key: key}
 	client.V2CoreAccounts = &v2CoreAccountService{B: backends.API, Key: key}
 	client.V2CoreAccountsPersons = &v2CoreAccountsPersonService{B: backends.API, Key: key}
@@ -602,6 +674,9 @@ func initClient(client *Client, cfg clientConfig) {
 	client.V2MoneyManagementTransactionEntries = &v2MoneyManagementTransactionEntryService{B: backends.API, Key: key}
 	client.V2MoneyManagementTransactions = &v2MoneyManagementTransactionService{B: backends.API, Key: key}
 	client.V2PaymentsOffSessionPayments = &v2PaymentsOffSessionPaymentService{B: backends.API, Key: key}
+	client.V2ReportingReportRuns = &v2ReportingReportRunService{B: backends.API, Key: key}
+	client.V2ReportingReports = &v2ReportingReportService{B: backends.API, Key: key}
+	client.V2TaxAutomaticRules = &v2TaxAutomaticRuleService{B: backends.API, Key: key}
 	client.V2TestHelpersFinancialAddresses = &v2TestHelpersFinancialAddressService{B: backends.API, Key: key}
 	// stripeClientInit: The end of the section generated from our OpenAPI spec
 }

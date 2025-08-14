@@ -11,8 +11,9 @@ type InvoiceLineItemParentType string
 
 // List of values that InvoiceLineItemParentType can take
 const (
-	InvoiceLineItemParentTypeInvoiceItemDetails      InvoiceLineItemParentType = "invoice_item_details"
-	InvoiceLineItemParentTypeSubscriptionItemDetails InvoiceLineItemParentType = "subscription_item_details"
+	InvoiceLineItemParentTypeInvoiceItemDetails          InvoiceLineItemParentType = "invoice_item_details"
+	InvoiceLineItemParentTypeSubscriptionItemDetails     InvoiceLineItemParentType = "subscription_item_details"
+	InvoiceLineItemParentTypeRateCardSubscriptionDetails InvoiceLineItemParentType = "rate_card_subscription_details"
 )
 
 // Type of the pretax credit amount referenced.
@@ -30,7 +31,8 @@ type InvoiceLineItemPricingType string
 
 // List of values that InvoiceLineItemPricingType can take
 const (
-	InvoiceLineItemPricingTypePriceDetails InvoiceLineItemPricingType = "price_details"
+	InvoiceLineItemPricingTypePriceDetails        InvoiceLineItemPricingType = "price_details"
+	InvoiceLineItemPricingTypeRateCardRateDetails InvoiceLineItemPricingType = "rate_card_rate_details"
 )
 
 // Whether this tax is inclusive or exclusive.
@@ -482,11 +484,17 @@ type InvoiceLineItemParentSubscriptionItemDetails struct {
 	// The subscription item that generated this line item
 	SubscriptionItem string `json:"subscription_item"`
 }
+type InvoiceLineItemParentRateCardSubscriptionDetails struct {
+	InvoiceItem          string `json:"invoice_item"`
+	RateCardSubscription string `json:"rate_card_subscription"`
+	RateCardVersion      string `json:"rate_card_version"`
+}
 
 // The parent that generated this line item.
 type InvoiceLineItemParent struct {
 	// Details about the invoice item that generated this line item
-	InvoiceItemDetails *InvoiceLineItemParentInvoiceItemDetails `json:"invoice_item_details"`
+	InvoiceItemDetails          *InvoiceLineItemParentInvoiceItemDetails          `json:"invoice_item_details"`
+	RateCardSubscriptionDetails *InvoiceLineItemParentRateCardSubscriptionDetails `json:"rate_card_subscription_details"`
 	// Details about the subscription item that generated this line item
 	SubscriptionItemDetails *InvoiceLineItemParentSubscriptionItemDetails `json:"subscription_item_details"`
 	// The type of parent that generated this line item
@@ -512,10 +520,16 @@ type InvoiceLineItemPricingPriceDetails struct {
 	// The ID of the product this item is associated with.
 	Product string `json:"product"`
 }
+type InvoiceLineItemPricingRateCardRateDetails struct {
+	MeteredItem  string `json:"metered_item"`
+	RateCard     string `json:"rate_card"`
+	RateCardRate string `json:"rate_card_rate"`
+}
 
 // The pricing information of the line item.
 type InvoiceLineItemPricing struct {
-	PriceDetails *InvoiceLineItemPricingPriceDetails `json:"price_details"`
+	PriceDetails        *InvoiceLineItemPricingPriceDetails        `json:"price_details"`
+	RateCardRateDetails *InvoiceLineItemPricingRateCardRateDetails `json:"rate_card_rate_details"`
 	// The type of the pricing details.
 	Type InvoiceLineItemPricingType `json:"type"`
 	// The unit amount (in the `currency` specified) of the item which contains a decimal value with at most 12 decimal places.

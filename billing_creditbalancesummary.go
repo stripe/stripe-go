@@ -11,7 +11,8 @@ type BillingCreditBalanceSummaryBalanceAvailableBalanceType string
 
 // List of values that BillingCreditBalanceSummaryBalanceAvailableBalanceType can take
 const (
-	BillingCreditBalanceSummaryBalanceAvailableBalanceTypeMonetary BillingCreditBalanceSummaryBalanceAvailableBalanceType = "monetary"
+	BillingCreditBalanceSummaryBalanceAvailableBalanceTypeCustomPricingUnit BillingCreditBalanceSummaryBalanceAvailableBalanceType = "custom_pricing_unit"
+	BillingCreditBalanceSummaryBalanceAvailableBalanceTypeMonetary          BillingCreditBalanceSummaryBalanceAvailableBalanceType = "monetary"
 )
 
 // The type of this amount. We currently only support `monetary` billing credits.
@@ -19,8 +20,15 @@ type BillingCreditBalanceSummaryBalanceLedgerBalanceType string
 
 // List of values that BillingCreditBalanceSummaryBalanceLedgerBalanceType can take
 const (
-	BillingCreditBalanceSummaryBalanceLedgerBalanceTypeMonetary BillingCreditBalanceSummaryBalanceLedgerBalanceType = "monetary"
+	BillingCreditBalanceSummaryBalanceLedgerBalanceTypeCustomPricingUnit BillingCreditBalanceSummaryBalanceLedgerBalanceType = "custom_pricing_unit"
+	BillingCreditBalanceSummaryBalanceLedgerBalanceTypeMonetary          BillingCreditBalanceSummaryBalanceLedgerBalanceType = "monetary"
 )
+
+// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+type BillingCreditBalanceSummaryFilterApplicabilityScopeBillableItemParams struct {
+	// The billable item ID this credit grant should apply to.
+	ID *string `form:"id"`
+}
 
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams struct {
@@ -30,6 +38,8 @@ type BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams struct {
 
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryFilterApplicabilityScopeParams struct {
+	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+	BillableItems []*BillingCreditBalanceSummaryFilterApplicabilityScopeBillableItemParams `form:"billable_items"`
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 	Prices []*BillingCreditBalanceSummaryFilterApplicabilityScopePriceParams `form:"prices"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
@@ -64,6 +74,12 @@ func (p *BillingCreditBalanceSummaryParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeBillableItemParams struct {
+	// The billable item ID this credit grant should apply to.
+	ID *string `form:"id"`
+}
+
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams struct {
 	// The price ID this credit grant should apply to.
@@ -72,6 +88,8 @@ type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams stru
 
 // The billing credit applicability scope for which to fetch credit balance summary.
 type BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeParams struct {
+	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+	BillableItems []*BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopeBillableItemParams `form:"billable_items"`
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 	Prices []*BillingCreditBalanceSummaryRetrieveFilterApplicabilityScopePriceParams `form:"prices"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
@@ -106,6 +124,14 @@ func (p *BillingCreditBalanceSummaryRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The custom pricing unit amount.
+type BillingCreditBalanceSummaryBalanceAvailableBalanceCustomPricingUnit struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A positive integer representing the amount.
+	Value float64 `json:"value,string"`
+}
+
 // The monetary amount.
 type BillingCreditBalanceSummaryBalanceAvailableBalanceMonetary struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -114,10 +140,20 @@ type BillingCreditBalanceSummaryBalanceAvailableBalanceMonetary struct {
 	Value int64 `json:"value"`
 }
 type BillingCreditBalanceSummaryBalanceAvailableBalance struct {
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingCreditBalanceSummaryBalanceAvailableBalanceCustomPricingUnit `json:"custom_pricing_unit"`
 	// The monetary amount.
 	Monetary *BillingCreditBalanceSummaryBalanceAvailableBalanceMonetary `json:"monetary"`
 	// The type of this amount. We currently only support `monetary` billing credits.
 	Type BillingCreditBalanceSummaryBalanceAvailableBalanceType `json:"type"`
+}
+
+// The custom pricing unit amount.
+type BillingCreditBalanceSummaryBalanceLedgerBalanceCustomPricingUnit struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A positive integer representing the amount.
+	Value float64 `json:"value,string"`
 }
 
 // The monetary amount.
@@ -128,6 +164,8 @@ type BillingCreditBalanceSummaryBalanceLedgerBalanceMonetary struct {
 	Value int64 `json:"value"`
 }
 type BillingCreditBalanceSummaryBalanceLedgerBalance struct {
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingCreditBalanceSummaryBalanceLedgerBalanceCustomPricingUnit `json:"custom_pricing_unit"`
 	// The monetary amount.
 	Monetary *BillingCreditBalanceSummaryBalanceLedgerBalanceMonetary `json:"monetary"`
 	// The type of this amount. We currently only support `monetary` billing credits.

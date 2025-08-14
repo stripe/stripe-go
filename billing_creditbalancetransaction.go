@@ -13,7 +13,8 @@ type BillingCreditBalanceTransactionCreditAmountType string
 
 // List of values that BillingCreditBalanceTransactionCreditAmountType can take
 const (
-	BillingCreditBalanceTransactionCreditAmountTypeMonetary BillingCreditBalanceTransactionCreditAmountType = "monetary"
+	BillingCreditBalanceTransactionCreditAmountTypeCustomPricingUnit BillingCreditBalanceTransactionCreditAmountType = "custom_pricing_unit"
+	BillingCreditBalanceTransactionCreditAmountTypeMonetary          BillingCreditBalanceTransactionCreditAmountType = "monetary"
 )
 
 // The type of credit transaction.
@@ -30,7 +31,8 @@ type BillingCreditBalanceTransactionDebitAmountType string
 
 // List of values that BillingCreditBalanceTransactionDebitAmountType can take
 const (
-	BillingCreditBalanceTransactionDebitAmountTypeMonetary BillingCreditBalanceTransactionDebitAmountType = "monetary"
+	BillingCreditBalanceTransactionDebitAmountTypeCustomPricingUnit BillingCreditBalanceTransactionDebitAmountType = "custom_pricing_unit"
+	BillingCreditBalanceTransactionDebitAmountTypeMonetary          BillingCreditBalanceTransactionDebitAmountType = "monetary"
 )
 
 // The type of debit transaction.
@@ -94,6 +96,14 @@ func (p *BillingCreditBalanceTransactionRetrieveParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The custom pricing unit amount.
+type BillingCreditBalanceTransactionCreditAmountCustomPricingUnit struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A positive integer representing the amount.
+	Value float64 `json:"value,string"`
+}
+
 // The monetary amount.
 type BillingCreditBalanceTransactionCreditAmountMonetary struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -102,6 +112,8 @@ type BillingCreditBalanceTransactionCreditAmountMonetary struct {
 	Value int64 `json:"value"`
 }
 type BillingCreditBalanceTransactionCreditAmount struct {
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingCreditBalanceTransactionCreditAmountCustomPricingUnit `json:"custom_pricing_unit"`
 	// The monetary amount.
 	Monetary *BillingCreditBalanceTransactionCreditAmountMonetary `json:"monetary"`
 	// The type of this amount. We currently only support `monetary` billing credits.
@@ -125,6 +137,14 @@ type BillingCreditBalanceTransactionCredit struct {
 	Type BillingCreditBalanceTransactionCreditType `json:"type"`
 }
 
+// The custom pricing unit amount.
+type BillingCreditBalanceTransactionDebitAmountCustomPricingUnit struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A positive integer representing the amount.
+	Value float64 `json:"value,string"`
+}
+
 // The monetary amount.
 type BillingCreditBalanceTransactionDebitAmountMonetary struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -133,6 +153,8 @@ type BillingCreditBalanceTransactionDebitAmountMonetary struct {
 	Value int64 `json:"value"`
 }
 type BillingCreditBalanceTransactionDebitAmount struct {
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingCreditBalanceTransactionDebitAmountCustomPricingUnit `json:"custom_pricing_unit"`
 	// The monetary amount.
 	Monetary *BillingCreditBalanceTransactionDebitAmountMonetary `json:"monetary"`
 	// The type of this amount. We currently only support `monetary` billing credits.

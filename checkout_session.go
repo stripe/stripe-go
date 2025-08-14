@@ -1357,6 +1357,13 @@ const (
 	CheckoutSessionWalletOptionsLinkDisplayNever CheckoutSessionWalletOptionsLinkDisplay = "never"
 )
 
+type CheckoutSessionCheckoutItemType string
+
+// List of values that CheckoutSessionCheckoutItemType can take
+const (
+	CheckoutSessionCheckoutItemTypeCheckoutItem CheckoutSessionCheckoutItemType = "checkout_item"
+)
+
 // Only return the Checkout Sessions for the Customer details specified.
 type CheckoutSessionListCustomerDetailsParams struct {
 	// Customer's email address.
@@ -1395,7 +1402,7 @@ func (p *CheckoutSessionListParams) AddExpand(f string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionAdaptivePricingParams struct {
-	// Set to `true` to enable [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
+	// If set to `true`, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
 	Enabled *bool `form:"enabled"`
 }
 
@@ -2825,6 +2832,26 @@ type CheckoutSessionWalletOptionsParams struct {
 	// contains details about the Link wallet options.
 	Link *CheckoutSessionWalletOptionsLinkParams `form:"link"`
 }
+type CheckoutSessionCheckoutItemRateCardSubscriptionItemParams struct {
+	Metadata        map[string]string `form:"metadata"`
+	RateCard        *string           `form:"rate_card"`
+	RateCardVersion *string           `form:"rate_card_version"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCheckoutItemRateCardSubscriptionItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+type CheckoutSessionCheckoutItemParams struct {
+	Key                      *string                                                    `form:"key"`
+	RateCardSubscriptionItem *CheckoutSessionCheckoutItemRateCardSubscriptionItemParams `form:"rate_card_subscription_item"`
+	Type                     *string                                                    `form:"type"`
+}
 
 // Creates a Checkout Session object.
 type CheckoutSessionParams struct {
@@ -2840,7 +2867,8 @@ type CheckoutSessionParams struct {
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
-	CancelURL *string `form:"cancel_url"`
+	CancelURL     *string                              `form:"cancel_url"`
+	CheckoutItems []*CheckoutSessionCheckoutItemParams `form:"checkout_items"`
 	// A unique string to reference the Checkout Session. This can be a
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// session with your internal systems.
@@ -3070,7 +3098,7 @@ func (p *CheckoutSessionExpireParams) AddExpand(f string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionCreateAdaptivePricingParams struct {
-	// Set to `true` to enable [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
+	// If set to `true`, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
 	Enabled *bool `form:"enabled"`
 }
 
@@ -4496,6 +4524,26 @@ type CheckoutSessionCreateWalletOptionsParams struct {
 	// contains details about the Link wallet options.
 	Link *CheckoutSessionCreateWalletOptionsLinkParams `form:"link"`
 }
+type CheckoutSessionCreateCheckoutItemRateCardSubscriptionItemParams struct {
+	Metadata        map[string]string `form:"metadata"`
+	RateCard        *string           `form:"rate_card"`
+	RateCardVersion *string           `form:"rate_card_version"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *CheckoutSessionCreateCheckoutItemRateCardSubscriptionItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
+}
+
+type CheckoutSessionCreateCheckoutItemParams struct {
+	Key                      *string                                                          `form:"key"`
+	RateCardSubscriptionItem *CheckoutSessionCreateCheckoutItemRateCardSubscriptionItemParams `form:"rate_card_subscription_item"`
+	Type                     *string                                                          `form:"type"`
+}
 
 // Creates a Checkout Session object.
 type CheckoutSessionCreateParams struct {
@@ -4511,7 +4559,8 @@ type CheckoutSessionCreateParams struct {
 	// Specify whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection *string `form:"billing_address_collection"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website. This parameter is not allowed if ui_mode is `embedded` or `custom`.
-	CancelURL *string `form:"cancel_url"`
+	CancelURL     *string                                    `form:"cancel_url"`
+	CheckoutItems []*CheckoutSessionCreateCheckoutItemParams `form:"checkout_items"`
 	// A unique string to reference the Checkout Session. This can be a
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// session with your internal systems.
@@ -4962,7 +5011,7 @@ func (p *CheckoutSessionUpdateParams) AddMetadata(key string, value string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionAdaptivePricing struct {
-	// Whether Adaptive Pricing is enabled.
+	// If enabled, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions).
 	Enabled bool `json:"enabled"`
 }
 
@@ -5966,6 +6015,18 @@ type CheckoutSessionWalletOptionsLink struct {
 type CheckoutSessionWalletOptions struct {
 	Link *CheckoutSessionWalletOptionsLink `json:"link"`
 }
+type CheckoutSessionCheckoutItemRateCardSubscriptionItem struct {
+	BillingCadence       string            `json:"billing_cadence"`
+	Metadata             map[string]string `json:"metadata"`
+	RateCard             string            `json:"rate_card"`
+	RateCardSubscription string            `json:"rate_card_subscription"`
+	RateCardVersion      string            `json:"rate_card_version"`
+}
+type CheckoutSessionCheckoutItem struct {
+	Key                      string                                               `json:"key"`
+	RateCardSubscriptionItem *CheckoutSessionCheckoutItemRateCardSubscriptionItem `json:"rate_card_subscription_item"`
+	Type                     CheckoutSessionCheckoutItemType                      `json:"type"`
+}
 
 // A Checkout Session represents your customer's session as they pay for
 // one-time purchases or subscriptions through [Checkout](https://stripe.com/docs/payments/checkout)
@@ -5997,7 +6058,8 @@ type CheckoutSession struct {
 	// Describes whether Checkout should collect the customer's billing address. Defaults to `auto`.
 	BillingAddressCollection CheckoutSessionBillingAddressCollection `json:"billing_address_collection"`
 	// If set, Checkout displays a back button and customers will be directed to this URL if they decide to cancel payment and return to your website.
-	CancelURL string `json:"cancel_url"`
+	CancelURL     string                         `json:"cancel_url"`
+	CheckoutItems []*CheckoutSessionCheckoutItem `json:"checkout_items"`
 	// A unique string to reference the Checkout Session. This can be a
 	// customer ID, a cart ID, or similar, and can be used to reconcile the
 	// Session with your internal systems.

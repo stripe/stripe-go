@@ -154,6 +154,25 @@ const (
 	V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCodeTimestampTooFarInPast           V1BillingMeterNoMeterFoundEventDataReasonErrorTypeCode = "timestamp_too_far_in_past"
 )
 
+// Closed Enum. The use case type of the account link that has been completed.
+type AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase string
+
+// List of values that AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase can take
+const (
+	AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCaseAccountOnboarding AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase = "account_onboarding"
+	AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCaseAccountUpdate     AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase = "account_update"
+)
+
+// Closed Enum. The recipient_data feature which had its status updated.
+type AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName string
+
+// List of values that AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName can take
+const (
+	AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureNameBankAccountsLocal AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName = "bank_accounts.local"
+	AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureNameBankAccountsWire  AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName = "bank_accounts.wire"
+	AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureNameCards             AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName = "cards"
+)
+
 // V2Event is the interface implemented by V2 Events. To get the underlying Event,
 // use a type switch or type assertion to one of the concrete event types.
 type V2Event interface {
@@ -436,6 +455,47 @@ func (e V1BillingMeterErrorReportTriggeredEvent) FetchRelatedObject() (*BillingM
 type V1BillingMeterNoMeterFoundEvent struct {
 	V2BaseEvent
 	Data V1BillingMeterNoMeterFoundEventData `json:"data"`
+}
+
+// AccountConfigurationRecipientDataAccountLinkCompletedEvent is the Go struct for the "account.configuration_recipient_data.account_link_completed" event.
+// Occurs when an Account link generated for a recipient is completed.
+type AccountConfigurationRecipientDataAccountLinkCompletedEvent struct {
+	V2BaseEvent
+	Data               AccountConfigurationRecipientDataAccountLinkCompletedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                  `json:"related_object"`
+	fetchRelatedObject func() (*V2Account, error)
+}
+
+// FetchRelatedObject fetches the related V2Account object for the event.
+func (e AccountConfigurationRecipientDataAccountLinkCompletedEvent) FetchRelatedObject() (*V2Account, error) {
+	return e.fetchRelatedObject()
+}
+
+// AccountConfigurationRecipientDataFeatureStatusUpdatedEvent is the Go struct for the "account.configuration_recipient_data.feature_status_updated" event.
+// Occurs when an Account's recipient feature status is updated.
+type AccountConfigurationRecipientDataFeatureStatusUpdatedEvent struct {
+	V2BaseEvent
+	Data               AccountConfigurationRecipientDataFeatureStatusUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                                  `json:"related_object"`
+	fetchRelatedObject func() (*V2Account, error)
+}
+
+// FetchRelatedObject fetches the related V2Account object for the event.
+func (e AccountConfigurationRecipientDataFeatureStatusUpdatedEvent) FetchRelatedObject() (*V2Account, error) {
+	return e.fetchRelatedObject()
+}
+
+// AccountRequirementsUpdatedEvent is the Go struct for the "account.requirements.updated" event.
+// Occurs when an Account's requirements are updated.
+type AccountRequirementsUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2Account, error)
+}
+
+// FetchRelatedObject fetches the related V2Account object for the event.
+func (e AccountRequirementsUpdatedEvent) FetchRelatedObject() (*V2Account, error) {
+	return e.fetchRelatedObject()
 }
 
 // V2MoneyManagementFinancialAccountCreatedEvent is the Go struct for the "v2.money_management.financial_account.created" event.
@@ -830,6 +890,508 @@ func (e V2MoneyManagementPayoutMethodUpdatedEvent) FetchRelatedObject() (*V2Mone
 	return e.fetchRelatedObject()
 }
 
+// V2BillingCadenceBilledEvent is the Go struct for the "v2.billing.cadence.billed" event.
+// Occurs when a billing Cadence generates an invoice.
+type V2BillingCadenceBilledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingCadence, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingCadence object for the event.
+func (e V2BillingCadenceBilledEvent) FetchRelatedObject() (*V2BillingCadence, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingCadenceCanceledEvent is the Go struct for the "v2.billing.cadence.canceled" event.
+// Occurs when a billing Cadence is canceled.
+type V2BillingCadenceCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingCadence, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingCadence object for the event.
+func (e V2BillingCadenceCanceledEvent) FetchRelatedObject() (*V2BillingCadence, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingCadenceCreatedEvent is the Go struct for the "v2.billing.cadence.created" event.
+// Occurs when a billing Cadence is created.
+type V2BillingCadenceCreatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingCadenceCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                    `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingCadence, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingCadence object for the event.
+func (e V2BillingCadenceCreatedEvent) FetchRelatedObject() (*V2BillingCadence, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingCadenceErroredEvent is the Go struct for the "v2.billing.cadence.errored" event.
+// Occurs when a billing Cadence encounters an error during a tick.
+type V2BillingCadenceErroredEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingCadence, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingCadence object for the event.
+func (e V2BillingCadenceErroredEvent) FetchRelatedObject() (*V2BillingCadence, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingLicenseFeeCreatedEvent is the Go struct for the "v2.billing.license_fee.created" event.
+// Occurs when a LicenseFee is created.
+type V2BillingLicenseFeeCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingLicenseFee, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingLicenseFee object for the event.
+func (e V2BillingLicenseFeeCreatedEvent) FetchRelatedObject() (*V2BillingLicenseFee, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingLicenseFeeUpdatedEvent is the Go struct for the "v2.billing.license_fee.updated" event.
+// Occurs when a LicenseFee is updated.
+type V2BillingLicenseFeeUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingLicenseFee, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingLicenseFee object for the event.
+func (e V2BillingLicenseFeeUpdatedEvent) FetchRelatedObject() (*V2BillingLicenseFee, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingLicenseFeeVersionCreatedEvent is the Go struct for the "v2.billing.license_fee_version.created" event.
+// Occurs when a LicenseFeeVersion is created.
+type V2BillingLicenseFeeVersionCreatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingLicenseFeeVersionCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                              `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingLicenseFeeVersion, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingLicenseFeeVersion object for the event.
+func (e V2BillingLicenseFeeVersionCreatedEvent) FetchRelatedObject() (*V2BillingLicenseFeeVersion, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingLicensedItemCreatedEvent is the Go struct for the "v2.billing.licensed_item.created" event.
+// Occurs when a LicensedItem is created.
+type V2BillingLicensedItemCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingLicensedItem, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingLicensedItem object for the event.
+func (e V2BillingLicensedItemCreatedEvent) FetchRelatedObject() (*V2BillingLicensedItem, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingLicensedItemUpdatedEvent is the Go struct for the "v2.billing.licensed_item.updated" event.
+// Occurs when a LicensedItem is updated.
+type V2BillingLicensedItemUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingLicensedItem, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingLicensedItem object for the event.
+func (e V2BillingLicensedItemUpdatedEvent) FetchRelatedObject() (*V2BillingLicensedItem, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingMeteredItemCreatedEvent is the Go struct for the "v2.billing.metered_item.created" event.
+// Occurs when a MeteredItem is created.
+type V2BillingMeteredItemCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingMeteredItem, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingMeteredItem object for the event.
+func (e V2BillingMeteredItemCreatedEvent) FetchRelatedObject() (*V2BillingMeteredItem, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingMeteredItemUpdatedEvent is the Go struct for the "v2.billing.metered_item.updated" event.
+// Occurs when a MeteredItem is updated.
+type V2BillingMeteredItemUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingMeteredItem, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingMeteredItem object for the event.
+func (e V2BillingMeteredItemUpdatedEvent) FetchRelatedObject() (*V2BillingMeteredItem, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanCreatedEvent is the Go struct for the "v2.billing.pricing_plan.created" event.
+// Occurs when a PricingPlan is created.
+type V2BillingPricingPlanCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlan, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlan object for the event.
+func (e V2BillingPricingPlanCreatedEvent) FetchRelatedObject() (*V2BillingPricingPlan, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanUpdatedEvent is the Go struct for the "v2.billing.pricing_plan.updated" event.
+// Occurs when a PricingPlan is updated.
+type V2BillingPricingPlanUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlan, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlan object for the event.
+func (e V2BillingPricingPlanUpdatedEvent) FetchRelatedObject() (*V2BillingPricingPlan, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanComponentCreatedEvent is the Go struct for the "v2.billing.pricing_plan_component.created" event.
+// Occurs when a PricingPlanComponent is created.
+type V2BillingPricingPlanComponentCreatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingPricingPlanComponentCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                 `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanComponent, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanComponent object for the event.
+func (e V2BillingPricingPlanComponentCreatedEvent) FetchRelatedObject() (*V2BillingPricingPlanComponent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanComponentUpdatedEvent is the Go struct for the "v2.billing.pricing_plan_component.updated" event.
+// Occurs when a PricingPlanComponent is updated.
+type V2BillingPricingPlanComponentUpdatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingPricingPlanComponentUpdatedEventData `json:"data"`
+	RelatedObject      RelatedObject                                 `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanComponent, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanComponent object for the event.
+func (e V2BillingPricingPlanComponentUpdatedEvent) FetchRelatedObject() (*V2BillingPricingPlanComponent, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_awaiting_customer_action" event.
+// Occurs when a PricingPlanSubscription's collection is awaiting customer action.
+type V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanSubscription object for the event.
+func (e V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent) FetchRelatedObject() (*V2BillingPricingPlanSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanSubscriptionCollectionCurrentEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_current" event.
+// Occurs when a PricingPlanSubscription's collection is current.
+type V2BillingPricingPlanSubscriptionCollectionCurrentEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanSubscription object for the event.
+func (e V2BillingPricingPlanSubscriptionCollectionCurrentEvent) FetchRelatedObject() (*V2BillingPricingPlanSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanSubscriptionCollectionPastDueEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_past_due" event.
+// Occurs when a PricingPlanSubscription's collection is past due.
+type V2BillingPricingPlanSubscriptionCollectionPastDueEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanSubscription object for the event.
+func (e V2BillingPricingPlanSubscriptionCollectionPastDueEvent) FetchRelatedObject() (*V2BillingPricingPlanSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanSubscriptionCollectionPausedEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_paused" event.
+// Occurs when a PricingPlanSubscription's collection is paused.
+type V2BillingPricingPlanSubscriptionCollectionPausedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanSubscription object for the event.
+func (e V2BillingPricingPlanSubscriptionCollectionPausedEvent) FetchRelatedObject() (*V2BillingPricingPlanSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanSubscriptionCollectionUnpaidEvent is the Go struct for the "v2.billing.pricing_plan_subscription.collection_unpaid" event.
+// Occurs when a PricingPlanSubscription's collection is unpaid.
+type V2BillingPricingPlanSubscriptionCollectionUnpaidEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanSubscription object for the event.
+func (e V2BillingPricingPlanSubscriptionCollectionUnpaidEvent) FetchRelatedObject() (*V2BillingPricingPlanSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanSubscriptionServicingActivatedEvent is the Go struct for the "v2.billing.pricing_plan_subscription.servicing_activated" event.
+// Occurs when PricingPlanSubscription servicing is activated.
+type V2BillingPricingPlanSubscriptionServicingActivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanSubscription object for the event.
+func (e V2BillingPricingPlanSubscriptionServicingActivatedEvent) FetchRelatedObject() (*V2BillingPricingPlanSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanSubscriptionServicingCanceledEvent is the Go struct for the "v2.billing.pricing_plan_subscription.servicing_canceled" event.
+// Occurs when PricingPlanSubscription servicing is canceled.
+type V2BillingPricingPlanSubscriptionServicingCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanSubscription object for the event.
+func (e V2BillingPricingPlanSubscriptionServicingCanceledEvent) FetchRelatedObject() (*V2BillingPricingPlanSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanSubscriptionServicingPausedEvent is the Go struct for the "v2.billing.pricing_plan_subscription.servicing_paused" event.
+// Occurs when PricingPlanSubscription servicing is paused.
+type V2BillingPricingPlanSubscriptionServicingPausedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanSubscription object for the event.
+func (e V2BillingPricingPlanSubscriptionServicingPausedEvent) FetchRelatedObject() (*V2BillingPricingPlanSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingPricingPlanVersionCreatedEvent is the Go struct for the "v2.billing.pricing_plan_version.created" event.
+// Occurs when a PricingPlanVersion is created.
+type V2BillingPricingPlanVersionCreatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingPricingPlanVersionCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                               `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingPricingPlanVersion, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingPricingPlanVersion object for the event.
+func (e V2BillingPricingPlanVersionCreatedEvent) FetchRelatedObject() (*V2BillingPricingPlanVersion, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardCreatedEvent is the Go struct for the "v2.billing.rate_card.created" event.
+// Occurs when a RateCard is created.
+type V2BillingRateCardCreatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingRateCardCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                     `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCard, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCard object for the event.
+func (e V2BillingRateCardCreatedEvent) FetchRelatedObject() (*V2BillingRateCard, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardUpdatedEvent is the Go struct for the "v2.billing.rate_card.updated" event.
+// Occurs when a RateCard is updated.
+type V2BillingRateCardUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCard, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCard object for the event.
+func (e V2BillingRateCardUpdatedEvent) FetchRelatedObject() (*V2BillingRateCard, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardRateCreatedEvent is the Go struct for the "v2.billing.rate_card_rate.created" event.
+// Occurs when a RateCardRate is created.
+type V2BillingRateCardRateCreatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingRateCardRateCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                         `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardRate, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardRate object for the event.
+func (e V2BillingRateCardRateCreatedEvent) FetchRelatedObject() (*V2BillingRateCardRate, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionActivatedEvent is the Go struct for the "v2.billing.rate_card_subscription.activated" event.
+// Occurs when a RateCardSubscription is activated.
+type V2BillingRateCardSubscriptionActivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionActivatedEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionCanceledEvent is the Go struct for the "v2.billing.rate_card_subscription.canceled" event.
+// Occurs when a RateCardSubscription is canceled.
+type V2BillingRateCardSubscriptionCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionCanceledEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_awaiting_customer_action" event.
+// Occurs when a RateCardSubscription's collection is awaiting customer action.
+type V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionCollectionCurrentEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_current" event.
+// Occurs when a RateCardSubscription's collection is current.
+type V2BillingRateCardSubscriptionCollectionCurrentEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionCollectionCurrentEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionCollectionPastDueEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_past_due" event.
+// Occurs when a RateCardSubscription's collection is past due.
+type V2BillingRateCardSubscriptionCollectionPastDueEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionCollectionPastDueEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionCollectionPausedEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_paused" event.
+// Occurs when a RateCardSubscription's collection is paused.
+type V2BillingRateCardSubscriptionCollectionPausedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionCollectionPausedEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionCollectionUnpaidEvent is the Go struct for the "v2.billing.rate_card_subscription.collection_unpaid" event.
+// Occurs when a RateCardSubscription's collection is unpaid.
+type V2BillingRateCardSubscriptionCollectionUnpaidEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionCollectionUnpaidEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionServicingActivatedEvent is the Go struct for the "v2.billing.rate_card_subscription.servicing_activated" event.
+// Occurs when RateCardSubscription servicing is activated.
+type V2BillingRateCardSubscriptionServicingActivatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionServicingActivatedEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionServicingCanceledEvent is the Go struct for the "v2.billing.rate_card_subscription.servicing_canceled" event.
+// Occurs when RateCardSubscription servicing is canceled.
+type V2BillingRateCardSubscriptionServicingCanceledEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionServicingCanceledEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardSubscriptionServicingPausedEvent is the Go struct for the "v2.billing.rate_card_subscription.servicing_paused" event.
+// Occurs when RateCardSubscription servicing is paused.
+type V2BillingRateCardSubscriptionServicingPausedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardSubscription, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardSubscription object for the event.
+func (e V2BillingRateCardSubscriptionServicingPausedEvent) FetchRelatedObject() (*V2BillingRateCardSubscription, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2BillingRateCardVersionCreatedEvent is the Go struct for the "v2.billing.rate_card_version.created" event.
+// Occurs when a RateCardVersion is created.
+type V2BillingRateCardVersionCreatedEvent struct {
+	V2BaseEvent
+	Data               V2BillingRateCardVersionCreatedEventData `json:"data"`
+	RelatedObject      RelatedObject                            `json:"related_object"`
+	fetchRelatedObject func() (*V2BillingRateCardVersion, error)
+}
+
+// FetchRelatedObject fetches the related V2BillingRateCardVersion object for the event.
+func (e V2BillingRateCardVersionCreatedEvent) FetchRelatedObject() (*V2BillingRateCardVersion, error) {
+	return e.fetchRelatedObject()
+}
+
 // V2MoneyManagementReceivedCreditAvailableEvent is the Go struct for the "v2.money_management.received_credit.available" event.
 // Occurs when a ReceivedCredit's funds are received and are available in your balance.
 type V2MoneyManagementReceivedCreditAvailableEvent struct {
@@ -945,6 +1507,58 @@ type V2MoneyManagementReceivedDebitUpdatedEvent struct {
 
 // FetchRelatedObject fetches the related V2MoneyManagementReceivedDebit object for the event.
 func (e V2MoneyManagementReceivedDebitUpdatedEvent) FetchRelatedObject() (*V2MoneyManagementReceivedDebit, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ReportingReportRunCreatedEvent is the Go struct for the "v2.reporting.report_run.created" event.
+// Occurs when a ReportRun is created.
+type V2ReportingReportRunCreatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ReportingReportRun, error)
+}
+
+// FetchRelatedObject fetches the related V2ReportingReportRun object for the event.
+func (e V2ReportingReportRunCreatedEvent) FetchRelatedObject() (*V2ReportingReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ReportingReportRunFailedEvent is the Go struct for the "v2.reporting.report_run.failed" event.
+// Occurs when a ReportRun has failed to complete.
+type V2ReportingReportRunFailedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ReportingReportRun, error)
+}
+
+// FetchRelatedObject fetches the related V2ReportingReportRun object for the event.
+func (e V2ReportingReportRunFailedEvent) FetchRelatedObject() (*V2ReportingReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ReportingReportRunSucceededEvent is the Go struct for the "v2.reporting.report_run.succeeded" event.
+// Occurs when a ReportRun has successfully completed.
+type V2ReportingReportRunSucceededEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ReportingReportRun, error)
+}
+
+// FetchRelatedObject fetches the related V2ReportingReportRun object for the event.
+func (e V2ReportingReportRunSucceededEvent) FetchRelatedObject() (*V2ReportingReportRun, error) {
+	return e.fetchRelatedObject()
+}
+
+// V2ReportingReportRunUpdatedEvent is the Go struct for the "v2.reporting.report_run.updated" event.
+// Occurs when a ReportRun is updated.
+type V2ReportingReportRunUpdatedEvent struct {
+	V2BaseEvent
+	RelatedObject      RelatedObject `json:"related_object"`
+	fetchRelatedObject func() (*V2ReportingReportRun, error)
+}
+
+// FetchRelatedObject fetches the related V2ReportingReportRun object for the event.
+func (e V2ReportingReportRunUpdatedEvent) FetchRelatedObject() (*V2ReportingReportRun, error) {
 	return e.fetchRelatedObject()
 }
 
@@ -1114,10 +1728,76 @@ type V1BillingMeterNoMeterFoundEventData struct {
 	ValidationStart time.Time `json:"validation_start"`
 }
 
+// Occurs when an Account link generated for a recipient is completed.
+type AccountConfigurationRecipientDataAccountLinkCompletedEventData struct {
+	// Closed Enum. The use case type of the account link that has been completed.
+	UseCase AccountConfigurationRecipientDataAccountLinkCompletedEventDataUseCase `json:"use_case"`
+}
+
+// Occurs when an Account's recipient feature status is updated.
+type AccountConfigurationRecipientDataFeatureStatusUpdatedEventData struct {
+	// Closed Enum. The recipient_data feature which had its status updated.
+	FeatureName AccountConfigurationRecipientDataFeatureStatusUpdatedEventDataFeatureName `json:"feature_name"`
+}
+
 // Occurs when an InboundTransfer's funds are made available.
 type V2MoneyManagementInboundTransferAvailableEventData struct {
 	// The transaction ID of the received credit.
 	TransactionID string `json:"transaction_id"`
+}
+
+// Occurs when a billing Cadence is created.
+type V2BillingCadenceCreatedEventData struct {
+	// Timestamp of when the object was created.
+	Created time.Time `json:"created"`
+}
+
+// Occurs when a LicenseFeeVersion is created.
+type V2BillingLicenseFeeVersionCreatedEventData struct {
+	// The ID of the LicenseFee that the LicenseFeeVersion belongs to.
+	LicenseFeeID string `json:"license_fee_id"`
+}
+
+// Occurs when a PricingPlanComponent is created.
+type V2BillingPricingPlanComponentCreatedEventData struct {
+	// The ID of the PricingPlan that the PricingPlanComponent belongs to.
+	PricingPlanID string `json:"pricing_plan_id"`
+}
+
+// Occurs when a PricingPlanComponent is updated.
+type V2BillingPricingPlanComponentUpdatedEventData struct {
+	// The ID of the PricingPlan that the PricingPlanComponent belongs to.
+	PricingPlanID string `json:"pricing_plan_id"`
+}
+
+// Occurs when a PricingPlanVersion is created.
+type V2BillingPricingPlanVersionCreatedEventData struct {
+	// The ID of the PricingPlan that the PricingPlanVersion belongs to.
+	PricingPlanID string `json:"pricing_plan_id"`
+}
+
+// Occurs when a RateCard is created.
+type V2BillingRateCardCreatedEventData struct {
+	// Timestamp of when the object was created.
+	Created time.Time `json:"created"`
+}
+
+// Occurs when a RateCardRate is created.
+type V2BillingRateCardRateCreatedEventData struct {
+	// The ID of the BillableItem which this Rate is associated with.
+	BillableItem string `json:"billable_item"`
+	// Timestamp of when the object was created.
+	Created time.Time `json:"created"`
+	// The ID of the RateCard which this Rate belongs to.
+	RateCard string `json:"rate_card"`
+	// The ID of the latest RateCard Version when the Rate was created.
+	RateCardVersion string `json:"rate_card_version"`
+}
+
+// Occurs when a RateCardVersion is created.
+type V2BillingRateCardVersionCreatedEventData struct {
+	// The ID of the RateCard that the RateCardVersion belongs to.
+	RateCardID string `json:"rate_card_id"`
 }
 
 // Occurs when a ReceivedCredit's funds are received and are available in your balance.
@@ -1356,6 +2036,42 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.V2BaseEvent = event.V2BaseEvent
 		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
 			return nil, err
+		}
+		return result, nil
+	case "account.configuration_recipient_data.account_link_completed":
+		result := &AccountConfigurationRecipientDataAccountLinkCompletedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2Account, error) {
+			v := &V2Account{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "account.configuration_recipient_data.feature_status_updated":
+		result := &AccountConfigurationRecipientDataFeatureStatusUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2Account, error) {
+			v := &V2Account{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "account.requirements.updated":
+		result := &AccountRequirementsUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2Account, error) {
+			v := &V2Account{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
 		}
 		return result, nil
 	case "v2.money_management.financial_account.created":
@@ -1661,6 +2377,410 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 			return v, err
 		}
 		return result, nil
+	case "v2.billing.cadence.billed":
+		result := &V2BillingCadenceBilledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingCadence, error) {
+			v := &V2BillingCadence{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.cadence.canceled":
+		result := &V2BillingCadenceCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingCadence, error) {
+			v := &V2BillingCadence{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.cadence.created":
+		result := &V2BillingCadenceCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingCadence, error) {
+			v := &V2BillingCadence{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.cadence.errored":
+		result := &V2BillingCadenceErroredEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingCadence, error) {
+			v := &V2BillingCadence{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.license_fee.created":
+		result := &V2BillingLicenseFeeCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingLicenseFee, error) {
+			v := &V2BillingLicenseFee{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.license_fee.updated":
+		result := &V2BillingLicenseFeeUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingLicenseFee, error) {
+			v := &V2BillingLicenseFee{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.license_fee_version.created":
+		result := &V2BillingLicenseFeeVersionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingLicenseFeeVersion, error) {
+			v := &V2BillingLicenseFeeVersion{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.licensed_item.created":
+		result := &V2BillingLicensedItemCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingLicensedItem, error) {
+			v := &V2BillingLicensedItem{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.licensed_item.updated":
+		result := &V2BillingLicensedItemUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingLicensedItem, error) {
+			v := &V2BillingLicensedItem{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.metered_item.created":
+		result := &V2BillingMeteredItemCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingMeteredItem, error) {
+			v := &V2BillingMeteredItem{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.metered_item.updated":
+		result := &V2BillingMeteredItemUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingMeteredItem, error) {
+			v := &V2BillingMeteredItem{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan.created":
+		result := &V2BillingPricingPlanCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlan, error) {
+			v := &V2BillingPricingPlan{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan.updated":
+		result := &V2BillingPricingPlanUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlan, error) {
+			v := &V2BillingPricingPlan{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_component.created":
+		result := &V2BillingPricingPlanComponentCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanComponent, error) {
+			v := &V2BillingPricingPlanComponent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_component.updated":
+		result := &V2BillingPricingPlanComponentUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanComponent, error) {
+			v := &V2BillingPricingPlanComponent{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_subscription.collection_awaiting_customer_action":
+		result := &V2BillingPricingPlanSubscriptionCollectionAwaitingCustomerActionEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
+			v := &V2BillingPricingPlanSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_subscription.collection_current":
+		result := &V2BillingPricingPlanSubscriptionCollectionCurrentEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
+			v := &V2BillingPricingPlanSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_subscription.collection_past_due":
+		result := &V2BillingPricingPlanSubscriptionCollectionPastDueEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
+			v := &V2BillingPricingPlanSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_subscription.collection_paused":
+		result := &V2BillingPricingPlanSubscriptionCollectionPausedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
+			v := &V2BillingPricingPlanSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_subscription.collection_unpaid":
+		result := &V2BillingPricingPlanSubscriptionCollectionUnpaidEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
+			v := &V2BillingPricingPlanSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_subscription.servicing_activated":
+		result := &V2BillingPricingPlanSubscriptionServicingActivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
+			v := &V2BillingPricingPlanSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_subscription.servicing_canceled":
+		result := &V2BillingPricingPlanSubscriptionServicingCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
+			v := &V2BillingPricingPlanSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_subscription.servicing_paused":
+		result := &V2BillingPricingPlanSubscriptionServicingPausedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanSubscription, error) {
+			v := &V2BillingPricingPlanSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.pricing_plan_version.created":
+		result := &V2BillingPricingPlanVersionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingPricingPlanVersion, error) {
+			v := &V2BillingPricingPlanVersion{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.rate_card.created":
+		result := &V2BillingRateCardCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCard, error) {
+			v := &V2BillingRateCard{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.rate_card.updated":
+		result := &V2BillingRateCardUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCard, error) {
+			v := &V2BillingRateCard{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_rate.created":
+		result := &V2BillingRateCardRateCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardRate, error) {
+			v := &V2BillingRateCardRate{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.activated":
+		result := &V2BillingRateCardSubscriptionActivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.canceled":
+		result := &V2BillingRateCardSubscriptionCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.collection_awaiting_customer_action":
+		result := &V2BillingRateCardSubscriptionCollectionAwaitingCustomerActionEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.collection_current":
+		result := &V2BillingRateCardSubscriptionCollectionCurrentEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.collection_past_due":
+		result := &V2BillingRateCardSubscriptionCollectionPastDueEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.collection_paused":
+		result := &V2BillingRateCardSubscriptionCollectionPausedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.collection_unpaid":
+		result := &V2BillingRateCardSubscriptionCollectionUnpaidEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.servicing_activated":
+		result := &V2BillingRateCardSubscriptionServicingActivatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.servicing_canceled":
+		result := &V2BillingRateCardSubscriptionServicingCanceledEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_subscription.servicing_paused":
+		result := &V2BillingRateCardSubscriptionServicingPausedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardSubscription, error) {
+			v := &V2BillingRateCardSubscription{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.billing.rate_card_version.created":
+		result := &V2BillingRateCardVersionCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2BillingRateCardVersion, error) {
+			v := &V2BillingRateCardVersion{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		if err := json.Unmarshal(*event.Data, &result.Data); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case "v2.money_management.received_credit.available":
 		result := &V2MoneyManagementReceivedCreditAvailableEvent{}
 		result.V2BaseEvent = event.V2BaseEvent
@@ -1750,6 +2870,46 @@ func ConvertRawEvent(event *V2RawEvent, backend Backend, key string) (V2Event, e
 		result.RelatedObject = *event.RelatedObject
 		result.fetchRelatedObject = func() (*V2MoneyManagementReceivedDebit, error) {
 			v := &V2MoneyManagementReceivedDebit{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.reporting.report_run.created":
+		result := &V2ReportingReportRunCreatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
+			v := &V2ReportingReportRun{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.reporting.report_run.failed":
+		result := &V2ReportingReportRunFailedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
+			v := &V2ReportingReportRun{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.reporting.report_run.succeeded":
+		result := &V2ReportingReportRunSucceededEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
+			v := &V2ReportingReportRun{}
+			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
+			return v, err
+		}
+		return result, nil
+	case "v2.reporting.report_run.updated":
+		result := &V2ReportingReportRunUpdatedEvent{}
+		result.V2BaseEvent = event.V2BaseEvent
+		result.RelatedObject = *event.RelatedObject
+		result.fetchRelatedObject = func() (*V2ReportingReportRun, error) {
+			v := &V2ReportingReportRun{}
 			err := backend.Call(http.MethodGet, event.RelatedObject.URL, key, nil, v)
 			return v, err
 		}

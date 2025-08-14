@@ -13,7 +13,8 @@ type BillingCreditGrantAmountType string
 
 // List of values that BillingCreditGrantAmountType can take
 const (
-	BillingCreditGrantAmountTypeMonetary BillingCreditGrantAmountType = "monetary"
+	BillingCreditGrantAmountTypeCustomPricingUnit BillingCreditGrantAmountType = "custom_pricing_unit"
+	BillingCreditGrantAmountTypeMonetary          BillingCreditGrantAmountType = "monetary"
 )
 
 // The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`.
@@ -49,6 +50,14 @@ func (p *BillingCreditGrantListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The custom pricing unit amount.
+type BillingCreditGrantAmountCustomPricingUnitParams struct {
+	// The ID of the custom pricing unit.
+	ID *string `form:"id"`
+	// A positive integer representing the amount of the credit grant.
+	Value *float64 `form:"value,high_precision"`
+}
+
 // The monetary amount.
 type BillingCreditGrantAmountMonetaryParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
@@ -59,10 +68,18 @@ type BillingCreditGrantAmountMonetaryParams struct {
 
 // Amount of this credit grant.
 type BillingCreditGrantAmountParams struct {
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingCreditGrantAmountCustomPricingUnitParams `form:"custom_pricing_unit"`
 	// The monetary amount.
 	Monetary *BillingCreditGrantAmountMonetaryParams `form:"monetary"`
 	// The type of this amount. We currently only support `monetary` billing credits.
 	Type *string `form:"type"`
+}
+
+// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+type BillingCreditGrantApplicabilityConfigScopeBillableItemParams struct {
+	// The billable item ID this credit grant should apply to.
+	ID *string `form:"id"`
 }
 
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
@@ -73,6 +90,8 @@ type BillingCreditGrantApplicabilityConfigScopePriceParams struct {
 
 // Specify the scope of this applicability config.
 type BillingCreditGrantApplicabilityConfigScopeParams struct {
+	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+	BillableItems []*BillingCreditGrantApplicabilityConfigScopeBillableItemParams `form:"billable_items"`
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 	Prices []*BillingCreditGrantApplicabilityConfigScopePriceParams `form:"prices"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
@@ -150,6 +169,14 @@ func (p *BillingCreditGrantVoidGrantParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// The custom pricing unit amount.
+type BillingCreditGrantCreateAmountCustomPricingUnitParams struct {
+	// The ID of the custom pricing unit.
+	ID *string `form:"id"`
+	// A positive integer representing the amount of the credit grant.
+	Value *float64 `form:"value,high_precision"`
+}
+
 // The monetary amount.
 type BillingCreditGrantCreateAmountMonetaryParams struct {
 	// Three-letter [ISO code for the currency](https://stripe.com/docs/currencies) of the `value` parameter.
@@ -160,10 +187,18 @@ type BillingCreditGrantCreateAmountMonetaryParams struct {
 
 // Amount of this credit grant.
 type BillingCreditGrantCreateAmountParams struct {
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingCreditGrantCreateAmountCustomPricingUnitParams `form:"custom_pricing_unit"`
 	// The monetary amount.
 	Monetary *BillingCreditGrantCreateAmountMonetaryParams `form:"monetary"`
 	// The type of this amount. We currently only support `monetary` billing credits.
 	Type *string `form:"type"`
+}
+
+// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+type BillingCreditGrantCreateApplicabilityConfigScopeBillableItemParams struct {
+	// The billable item ID this credit grant should apply to.
+	ID *string `form:"id"`
 }
 
 // A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
@@ -174,6 +209,8 @@ type BillingCreditGrantCreateApplicabilityConfigScopePriceParams struct {
 
 // Specify the scope of this applicability config.
 type BillingCreditGrantCreateApplicabilityConfigScopeParams struct {
+	// A list of billable items that the credit grant can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+	BillableItems []*BillingCreditGrantCreateApplicabilityConfigScopeBillableItemParams `form:"billable_items"`
 	// A list of prices that the credit grant can apply to. We currently only support the `metered` prices. Cannot be used in combination with `price_type`.
 	Prices []*BillingCreditGrantCreateApplicabilityConfigScopePriceParams `form:"prices"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. Cannot be used in combination with `prices`.
@@ -264,6 +301,14 @@ func (p *BillingCreditGrantUpdateParams) AddMetadata(key string, value string) {
 	p.Metadata[key] = value
 }
 
+// The custom pricing unit amount.
+type BillingCreditGrantAmountCustomPricingUnit struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A positive integer representing the amount.
+	Value float64 `json:"value,string"`
+}
+
 // The monetary amount.
 type BillingCreditGrantAmountMonetary struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -272,10 +317,18 @@ type BillingCreditGrantAmountMonetary struct {
 	Value int64 `json:"value"`
 }
 type BillingCreditGrantAmount struct {
+	// The custom pricing unit amount.
+	CustomPricingUnit *BillingCreditGrantAmountCustomPricingUnit `json:"custom_pricing_unit"`
 	// The monetary amount.
 	Monetary *BillingCreditGrantAmountMonetary `json:"monetary"`
 	// The type of this amount. We currently only support `monetary` billing credits.
 	Type BillingCreditGrantAmountType `json:"type"`
+}
+
+// The billable items that credit grants can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+type BillingCreditGrantApplicabilityConfigScopeBillableItem struct {
+	// Unique identifier for the object.
+	ID string `json:"id"`
 }
 
 // The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `price_type`.
@@ -284,6 +337,8 @@ type BillingCreditGrantApplicabilityConfigScopePrice struct {
 	ID string `json:"id"`
 }
 type BillingCreditGrantApplicabilityConfigScope struct {
+	// The billable items that credit grants can apply to. We currently only support metered billable items. Cannot be used in combination with `price_type` or `prices`.
+	BillableItems []*BillingCreditGrantApplicabilityConfigScopeBillableItem `json:"billable_items"`
 	// The prices that credit grants can apply to. We currently only support `metered` prices. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `price_type`.
 	Prices []*BillingCreditGrantApplicabilityConfigScopePrice `json:"prices"`
 	// The price type that credit grants can apply to. We currently only support the `metered` price type. This refers to prices that have a [Billing Meter](https://docs.stripe.com/api/billing/meter) attached to them. Cannot be used in combination with `prices`.
