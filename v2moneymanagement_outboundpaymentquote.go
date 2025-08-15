@@ -99,7 +99,7 @@ type V2MoneyManagementOutboundPaymentQuoteTo struct {
 	Recipient string `json:"recipient"`
 }
 
-// OutboundPaymentQuote represents a quote
+// OutboundPaymentQuote represents a quote that provides fee and amount estimates for OutboundPayment.
 type V2MoneyManagementOutboundPaymentQuote struct {
 	APIResource
 	// The "presentment amount" for the OutboundPaymentQuote.
