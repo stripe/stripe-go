@@ -53,6 +53,68 @@ const (
 	PaymentIntentConfirmationMethodManual    PaymentIntentConfirmationMethod = "manual"
 )
 
+// The list of payment method types to exclude from use with this payment.
+type PaymentIntentExcludedPaymentMethodType string
+
+// List of values that PaymentIntentExcludedPaymentMethodType can take
+const (
+	PaymentIntentExcludedPaymentMethodTypeACSSDebit        PaymentIntentExcludedPaymentMethodType = "acss_debit"
+	PaymentIntentExcludedPaymentMethodTypeAffirm           PaymentIntentExcludedPaymentMethodType = "affirm"
+	PaymentIntentExcludedPaymentMethodTypeAfterpayClearpay PaymentIntentExcludedPaymentMethodType = "afterpay_clearpay"
+	PaymentIntentExcludedPaymentMethodTypeAlipay           PaymentIntentExcludedPaymentMethodType = "alipay"
+	PaymentIntentExcludedPaymentMethodTypeAlma             PaymentIntentExcludedPaymentMethodType = "alma"
+	PaymentIntentExcludedPaymentMethodTypeAmazonPay        PaymentIntentExcludedPaymentMethodType = "amazon_pay"
+	PaymentIntentExcludedPaymentMethodTypeAUBECSDebit      PaymentIntentExcludedPaymentMethodType = "au_becs_debit"
+	PaymentIntentExcludedPaymentMethodTypeBACSDebit        PaymentIntentExcludedPaymentMethodType = "bacs_debit"
+	PaymentIntentExcludedPaymentMethodTypeBancontact       PaymentIntentExcludedPaymentMethodType = "bancontact"
+	PaymentIntentExcludedPaymentMethodTypeBillie           PaymentIntentExcludedPaymentMethodType = "billie"
+	PaymentIntentExcludedPaymentMethodTypeBLIK             PaymentIntentExcludedPaymentMethodType = "blik"
+	PaymentIntentExcludedPaymentMethodTypeBoleto           PaymentIntentExcludedPaymentMethodType = "boleto"
+	PaymentIntentExcludedPaymentMethodTypeCard             PaymentIntentExcludedPaymentMethodType = "card"
+	PaymentIntentExcludedPaymentMethodTypeCashApp          PaymentIntentExcludedPaymentMethodType = "cashapp"
+	PaymentIntentExcludedPaymentMethodTypeCrypto           PaymentIntentExcludedPaymentMethodType = "crypto"
+	PaymentIntentExcludedPaymentMethodTypeCustomerBalance  PaymentIntentExcludedPaymentMethodType = "customer_balance"
+	PaymentIntentExcludedPaymentMethodTypeEPS              PaymentIntentExcludedPaymentMethodType = "eps"
+	PaymentIntentExcludedPaymentMethodTypeFPX              PaymentIntentExcludedPaymentMethodType = "fpx"
+	PaymentIntentExcludedPaymentMethodTypeGiropay          PaymentIntentExcludedPaymentMethodType = "giropay"
+	PaymentIntentExcludedPaymentMethodTypeGopay            PaymentIntentExcludedPaymentMethodType = "gopay"
+	PaymentIntentExcludedPaymentMethodTypeGrabpay          PaymentIntentExcludedPaymentMethodType = "grabpay"
+	PaymentIntentExcludedPaymentMethodTypeIDBankTransfer   PaymentIntentExcludedPaymentMethodType = "id_bank_transfer"
+	PaymentIntentExcludedPaymentMethodTypeIDEAL            PaymentIntentExcludedPaymentMethodType = "ideal"
+	PaymentIntentExcludedPaymentMethodTypeKakaoPay         PaymentIntentExcludedPaymentMethodType = "kakao_pay"
+	PaymentIntentExcludedPaymentMethodTypeKlarna           PaymentIntentExcludedPaymentMethodType = "klarna"
+	PaymentIntentExcludedPaymentMethodTypeKonbini          PaymentIntentExcludedPaymentMethodType = "konbini"
+	PaymentIntentExcludedPaymentMethodTypeKrCard           PaymentIntentExcludedPaymentMethodType = "kr_card"
+	PaymentIntentExcludedPaymentMethodTypeMbWay            PaymentIntentExcludedPaymentMethodType = "mb_way"
+	PaymentIntentExcludedPaymentMethodTypeMobilepay        PaymentIntentExcludedPaymentMethodType = "mobilepay"
+	PaymentIntentExcludedPaymentMethodTypeMultibanco       PaymentIntentExcludedPaymentMethodType = "multibanco"
+	PaymentIntentExcludedPaymentMethodTypeNaverPay         PaymentIntentExcludedPaymentMethodType = "naver_pay"
+	PaymentIntentExcludedPaymentMethodTypeNzBankAccount    PaymentIntentExcludedPaymentMethodType = "nz_bank_account"
+	PaymentIntentExcludedPaymentMethodTypeOXXO             PaymentIntentExcludedPaymentMethodType = "oxxo"
+	PaymentIntentExcludedPaymentMethodTypeP24              PaymentIntentExcludedPaymentMethodType = "p24"
+	PaymentIntentExcludedPaymentMethodTypePayByBank        PaymentIntentExcludedPaymentMethodType = "pay_by_bank"
+	PaymentIntentExcludedPaymentMethodTypePayco            PaymentIntentExcludedPaymentMethodType = "payco"
+	PaymentIntentExcludedPaymentMethodTypePayNow           PaymentIntentExcludedPaymentMethodType = "paynow"
+	PaymentIntentExcludedPaymentMethodTypePaypal           PaymentIntentExcludedPaymentMethodType = "paypal"
+	PaymentIntentExcludedPaymentMethodTypePayto            PaymentIntentExcludedPaymentMethodType = "payto"
+	PaymentIntentExcludedPaymentMethodTypePix              PaymentIntentExcludedPaymentMethodType = "pix"
+	PaymentIntentExcludedPaymentMethodTypePromptPay        PaymentIntentExcludedPaymentMethodType = "promptpay"
+	PaymentIntentExcludedPaymentMethodTypeQris             PaymentIntentExcludedPaymentMethodType = "qris"
+	PaymentIntentExcludedPaymentMethodTypeRechnung         PaymentIntentExcludedPaymentMethodType = "rechnung"
+	PaymentIntentExcludedPaymentMethodTypeRevolutPay       PaymentIntentExcludedPaymentMethodType = "revolut_pay"
+	PaymentIntentExcludedPaymentMethodTypeSamsungPay       PaymentIntentExcludedPaymentMethodType = "samsung_pay"
+	PaymentIntentExcludedPaymentMethodTypeSatispay         PaymentIntentExcludedPaymentMethodType = "satispay"
+	PaymentIntentExcludedPaymentMethodTypeSEPADebit        PaymentIntentExcludedPaymentMethodType = "sepa_debit"
+	PaymentIntentExcludedPaymentMethodTypeShopeepay        PaymentIntentExcludedPaymentMethodType = "shopeepay"
+	PaymentIntentExcludedPaymentMethodTypeSofort           PaymentIntentExcludedPaymentMethodType = "sofort"
+	PaymentIntentExcludedPaymentMethodTypeStripeBalance    PaymentIntentExcludedPaymentMethodType = "stripe_balance"
+	PaymentIntentExcludedPaymentMethodTypeSwish            PaymentIntentExcludedPaymentMethodType = "swish"
+	PaymentIntentExcludedPaymentMethodTypeTWINT            PaymentIntentExcludedPaymentMethodType = "twint"
+	PaymentIntentExcludedPaymentMethodTypeUSBankAccount    PaymentIntentExcludedPaymentMethodType = "us_bank_account"
+	PaymentIntentExcludedPaymentMethodTypeWeChatPay        PaymentIntentExcludedPaymentMethodType = "wechat_pay"
+	PaymentIntentExcludedPaymentMethodTypeZip              PaymentIntentExcludedPaymentMethodType = "zip"
+)
+
 // The payment networks supported by this FinancialAddress
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork string
 
@@ -3577,6 +3639,8 @@ type PaymentIntentParams struct {
 	CustomerAccount *string `form:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
@@ -7182,6 +7246,8 @@ type PaymentIntentCreateParams struct {
 	Description *string `form:"description"`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. Use this parameter for simpler integrations that don't handle customer actions, such as [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication). This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// The FX rate in the quote is validated and used to convert the presentment amount to the settlement amount.
@@ -10913,6 +10979,8 @@ type PaymentIntent struct {
 	CustomerAccount string `json:"customer_account"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []PaymentIntentExcludedPaymentMethodType `json:"excluded_payment_method_types"`
 	// The FX Quote used for the PaymentIntent.
 	FxQuote string              `json:"fx_quote"`
 	Hooks   *PaymentIntentHooks `json:"hooks"`
