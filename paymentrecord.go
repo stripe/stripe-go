@@ -1051,7 +1051,10 @@ type PaymentRecordPaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
-type PaymentRecordPaymentMethodDetailsBillie struct{}
+type PaymentRecordPaymentMethodDetailsBillie struct {
+	// The Billie transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 
 // The billing details associated with the method of payment.
 type PaymentRecordPaymentMethodDetailsBillingDetails struct {
@@ -1579,7 +1582,10 @@ type PaymentRecordPaymentMethodDetailsSamsungPay struct {
 	// The Samsung Pay transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
-type PaymentRecordPaymentMethodDetailsSatispay struct{}
+type PaymentRecordPaymentMethodDetailsSatispay struct {
+	// The Satispay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type PaymentRecordPaymentMethodDetailsSEPACreditTransfer struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`

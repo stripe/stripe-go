@@ -2029,7 +2029,10 @@ type ChargePaymentMethodDetailsBancontact struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
-type ChargePaymentMethodDetailsBillie struct{}
+type ChargePaymentMethodDetailsBillie struct {
+	// The Billie transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type ChargePaymentMethodDetailsBLIK struct {
 	// A unique and immutable identifier assigned by BLIK to every buyer.
 	BuyerID string `json:"buyer_id"`
@@ -2662,7 +2665,10 @@ type ChargePaymentMethodDetailsSamsungPay struct {
 	// The Samsung Pay transaction ID associated with this payment.
 	TransactionID string `json:"transaction_id"`
 }
-type ChargePaymentMethodDetailsSatispay struct{}
+type ChargePaymentMethodDetailsSatispay struct {
+	// The Satispay transaction ID associated with this payment.
+	TransactionID string `json:"transaction_id"`
+}
 type ChargePaymentMethodDetailsSEPACreditTransfer struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
