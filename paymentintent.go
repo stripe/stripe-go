@@ -3142,7 +3142,7 @@ type PaymentIntentPaymentMethodOptionsPaytoParams struct {
 
 // Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
 type PaymentIntentPaymentMethodOptionsPixMandateOptionsParams struct {
-	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 250 BRL.
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
 	Amount *int64 `form:"amount"`
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof"`
@@ -6749,7 +6749,7 @@ type PaymentIntentCreatePaymentMethodOptionsPaytoParams struct {
 
 // Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
 type PaymentIntentCreatePaymentMethodOptionsPixMandateOptionsParams struct {
-	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 250 BRL.
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
 	Amount *int64 `form:"amount"`
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof"`
@@ -8927,7 +8927,7 @@ type PaymentIntentUpdatePaymentMethodOptionsPaytoParams struct {
 
 // Additional fields for mandate creation. Only applicable when `setup_future_usage=off_session`.
 type PaymentIntentUpdatePaymentMethodOptionsPixMandateOptionsParams struct {
-	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 250 BRL.
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
 	Amount *int64 `form:"amount"`
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof"`

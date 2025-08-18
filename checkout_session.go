@@ -2428,7 +2428,7 @@ type CheckoutSessionPaymentMethodOptionsPaytoParams struct {
 
 // Additional fields for mandate creation.
 type CheckoutSessionPaymentMethodOptionsPixMandateOptionsParams struct {
-	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 250 BRL.
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
 	Amount *int64 `form:"amount"`
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof"`
@@ -4125,7 +4125,7 @@ type CheckoutSessionCreatePaymentMethodOptionsPaytoParams struct {
 
 // Additional fields for mandate creation.
 type CheckoutSessionCreatePaymentMethodOptionsPixMandateOptionsParams struct {
-	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 250 BRL.
+	// Amount to be charged for future payments. Required when `amount_type=fixed`. If not provided for `amount_type=maximum`, defaults to 40000.
 	Amount *int64 `form:"amount"`
 	// Determines if the amount includes the IOF tax. Defaults to `never`.
 	AmountIncludesIof *string `form:"amount_includes_iof"`
