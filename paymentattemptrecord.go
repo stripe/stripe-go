@@ -1217,6 +1217,10 @@ type PaymentAttemptRecordPaymentMethodDetailsPayco struct {
 	TransactionID string `json:"transaction_id"`
 }
 type PaymentAttemptRecordPaymentMethodDetailsPayNow struct {
+	// ID of the [location](https://stripe.com/docs/api/terminal/locations) that this transaction's reader is assigned to.
+	Location string `json:"location"`
+	// ID of the [reader](https://stripe.com/docs/api/terminal/readers) this transaction was made on.
+	Reader string `json:"reader"`
 	// Reference number associated with this PayNow payment
 	Reference string `json:"reference"`
 }
