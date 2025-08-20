@@ -407,6 +407,8 @@ type BankAccountListParams struct {
 	// The identifier of the parent account under which the bank accounts are
 	// nested. Either Account or Customer should be populated.
 	Account *string `form:"-"` // Included in URL
+	// Specifies which fields in the response should be expanded.
+	Expand []*string `form:"expand"`
 	// Filter according to a particular object type. Valid values are "bank_account" or "card".
 	Object *string `form:"object"`
 }
@@ -416,6 +418,11 @@ type BankAccountListParams struct {
 // other specified parameters.
 func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
 	body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
+}
+
+// AddExpand appends a new field to expand.
+func (p *BankAccountListParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // Delete a specified external account for a given account.
