@@ -172,59 +172,12 @@ import (
 	treasuryreceiveddebit "github.com/stripe/stripe-go/v82/treasury/receiveddebit"
 	treasurytransaction "github.com/stripe/stripe-go/v82/treasury/transaction"
 	treasurytransactionentry "github.com/stripe/stripe-go/v82/treasury/transactionentry"
-	v2account "github.com/stripe/stripe-go/v82/v2/account"
-	v2accountlink "github.com/stripe/stripe-go/v82/v2/accountlink"
-	v2billingbillsetting "github.com/stripe/stripe-go/v82/v2/billing/billsetting"
-	v2billingbillsettingsversion "github.com/stripe/stripe-go/v82/v2/billing/billsettings/version"
-	v2billingcadence "github.com/stripe/stripe-go/v82/v2/billing/cadence"
-	v2billingcollectionsetting "github.com/stripe/stripe-go/v82/v2/billing/collectionsetting"
-	v2billingcollectionsettingsversion "github.com/stripe/stripe-go/v82/v2/billing/collectionsettings/version"
-	v2billingcustompricingunit "github.com/stripe/stripe-go/v82/v2/billing/custompricingunit"
-	v2billingintent "github.com/stripe/stripe-go/v82/v2/billing/intent"
-	v2billinglicenseditem "github.com/stripe/stripe-go/v82/v2/billing/licenseditem"
-	v2billinglicensefee "github.com/stripe/stripe-go/v82/v2/billing/licensefee"
-	v2billinglicensefeesversion "github.com/stripe/stripe-go/v82/v2/billing/licensefees/version"
-	v2billingmetereditem "github.com/stripe/stripe-go/v82/v2/billing/metereditem"
 	v2billingmeterevent "github.com/stripe/stripe-go/v82/v2/billing/meterevent"
 	v2billingmetereventadjustment "github.com/stripe/stripe-go/v82/v2/billing/metereventadjustment"
 	v2billingmetereventsession "github.com/stripe/stripe-go/v82/v2/billing/metereventsession"
 	v2billingmetereventstream "github.com/stripe/stripe-go/v82/v2/billing/metereventstream"
-	v2billingpricingplan "github.com/stripe/stripe-go/v82/v2/billing/pricingplan"
-	v2billingpricingplanscomponent "github.com/stripe/stripe-go/v82/v2/billing/pricingplans/component"
-	v2billingpricingplansversion "github.com/stripe/stripe-go/v82/v2/billing/pricingplans/version"
-	v2billingpricingplansubscription "github.com/stripe/stripe-go/v82/v2/billing/pricingplansubscription"
-	v2billingprofile "github.com/stripe/stripe-go/v82/v2/billing/profile"
-	v2billingratecard "github.com/stripe/stripe-go/v82/v2/billing/ratecard"
-	v2billingratecardsrate "github.com/stripe/stripe-go/v82/v2/billing/ratecards/rate"
-	v2billingratecardsversion "github.com/stripe/stripe-go/v82/v2/billing/ratecards/version"
-	v2billingratecardsubscription "github.com/stripe/stripe-go/v82/v2/billing/ratecardsubscription"
-	v2billingserviceaction "github.com/stripe/stripe-go/v82/v2/billing/serviceaction"
-	v2coreaccount "github.com/stripe/stripe-go/v82/v2/core/account"
-	v2coreaccountlink "github.com/stripe/stripe-go/v82/v2/core/accountlink"
-	v2coreaccountsperson "github.com/stripe/stripe-go/v82/v2/core/accounts/person"
 	v2coreevent "github.com/stripe/stripe-go/v82/v2/core/event"
 	v2coreeventdestination "github.com/stripe/stripe-go/v82/v2/core/eventdestination"
-	v2corevaultgbbankaccount "github.com/stripe/stripe-go/v82/v2/core/vault/gbbankaccount"
-	v2corevaultusbankaccount "github.com/stripe/stripe-go/v82/v2/core/vault/usbankaccount"
-	v2moneymanagementadjustment "github.com/stripe/stripe-go/v82/v2/moneymanagement/adjustment"
-	v2moneymanagementfinancialaccount "github.com/stripe/stripe-go/v82/v2/moneymanagement/financialaccount"
-	v2moneymanagementfinancialaddress "github.com/stripe/stripe-go/v82/v2/moneymanagement/financialaddress"
-	v2moneymanagementinboundtransfer "github.com/stripe/stripe-go/v82/v2/moneymanagement/inboundtransfer"
-	v2moneymanagementoutboundpayment "github.com/stripe/stripe-go/v82/v2/moneymanagement/outboundpayment"
-	v2moneymanagementoutboundpaymentquote "github.com/stripe/stripe-go/v82/v2/moneymanagement/outboundpaymentquote"
-	v2moneymanagementoutboundsetupintent "github.com/stripe/stripe-go/v82/v2/moneymanagement/outboundsetupintent"
-	v2moneymanagementoutboundtransfer "github.com/stripe/stripe-go/v82/v2/moneymanagement/outboundtransfer"
-	v2moneymanagementpayoutmethod "github.com/stripe/stripe-go/v82/v2/moneymanagement/payoutmethod"
-	v2moneymanagementpayoutmethodsbankaccountspec "github.com/stripe/stripe-go/v82/v2/moneymanagement/payoutmethodsbankaccountspec"
-	v2moneymanagementreceivedcredit "github.com/stripe/stripe-go/v82/v2/moneymanagement/receivedcredit"
-	v2moneymanagementreceiveddebit "github.com/stripe/stripe-go/v82/v2/moneymanagement/receiveddebit"
-	v2moneymanagementtransaction "github.com/stripe/stripe-go/v82/v2/moneymanagement/transaction"
-	v2moneymanagementtransactionentry "github.com/stripe/stripe-go/v82/v2/moneymanagement/transactionentry"
-	v2paymentsoffsessionpayment "github.com/stripe/stripe-go/v82/v2/payments/offsessionpayment"
-	v2reportingreport "github.com/stripe/stripe-go/v82/v2/reporting/report"
-	v2reportingreportrun "github.com/stripe/stripe-go/v82/v2/reporting/reportrun"
-	v2taxautomaticrule "github.com/stripe/stripe-go/v82/v2/tax/automaticrule"
-	v2testhelpersfinancialaddress "github.com/stripe/stripe-go/v82/v2/testhelpers/financialaddress"
 	"github.com/stripe/stripe-go/v82/webhookendpoint"
 )
 
@@ -552,32 +505,6 @@ type API struct {
 	TreasuryTransactionEntries *treasurytransactionentry.Client
 	// TreasuryTransactions is the client used to invoke /v1/treasury/transactions APIs.
 	TreasuryTransactions *treasurytransaction.Client
-	// V2AccountLinks is the client used to invoke /v2/account_links APIs.
-	V2AccountLinks *v2accountlink.Client
-	// V2Accounts is the client used to invoke /v2/accounts APIs.
-	V2Accounts *v2account.Client
-	// V2BillingBillSettings is the client used to invoke /v2/billing/bill_settings APIs.
-	V2BillingBillSettings *v2billingbillsetting.Client
-	// V2BillingBillSettingsVersions is the client used to invoke /v2/billing/bill_settings/{bill_setting_id}/versions APIs.
-	V2BillingBillSettingsVersions *v2billingbillsettingsversion.Client
-	// V2BillingCadences is the client used to invoke /v2/billing/cadences APIs.
-	V2BillingCadences *v2billingcadence.Client
-	// V2BillingCollectionSettings is the client used to invoke /v2/billing/collection_settings APIs.
-	V2BillingCollectionSettings *v2billingcollectionsetting.Client
-	// V2BillingCollectionSettingsVersions is the client used to invoke /v2/billing/collection_settings/{collection_setting_id}/versions APIs.
-	V2BillingCollectionSettingsVersions *v2billingcollectionsettingsversion.Client
-	// V2BillingCustomPricingUnits is the client used to invoke /v2/billing/custom_pricing_units APIs.
-	V2BillingCustomPricingUnits *v2billingcustompricingunit.Client
-	// V2BillingIntents is the client used to invoke /v2/billing/intents APIs.
-	V2BillingIntents *v2billingintent.Client
-	// V2BillingLicensedItems is the client used to invoke /v2/billing/licensed_items APIs.
-	V2BillingLicensedItems *v2billinglicenseditem.Client
-	// V2BillingLicenseFees is the client used to invoke /v2/billing/license_fees APIs.
-	V2BillingLicenseFees *v2billinglicensefee.Client
-	// V2BillingLicenseFeesVersions is the client used to invoke /v2/billing/license_fees/{license_fee_id}/versions APIs.
-	V2BillingLicenseFeesVersions *v2billinglicensefeesversion.Client
-	// V2BillingMeteredItems is the client used to invoke /v2/billing/metered_items APIs.
-	V2BillingMeteredItems *v2billingmetereditem.Client
 	// V2BillingMeterEventAdjustments is the client used to invoke /v2/billing/meter_event_adjustments APIs.
 	V2BillingMeterEventAdjustments *v2billingmetereventadjustment.Client
 	// V2BillingMeterEvents is the client used to invoke /v2/billing/meter_events APIs.
@@ -586,78 +513,10 @@ type API struct {
 	V2BillingMeterEventSessions *v2billingmetereventsession.Client
 	// V2BillingMeterEventStreams is the client used to invoke /v2/billing/meter_event_stream APIs.
 	V2BillingMeterEventStreams *v2billingmetereventstream.Client
-	// V2BillingPricingPlans is the client used to invoke /v2/billing/pricing_plans APIs.
-	V2BillingPricingPlans *v2billingpricingplan.Client
-	// V2BillingPricingPlansComponents is the client used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/components APIs.
-	V2BillingPricingPlansComponents *v2billingpricingplanscomponent.Client
-	// V2BillingPricingPlanSubscriptions is the client used to invoke /v2/billing/pricing_plan_subscriptions APIs.
-	V2BillingPricingPlanSubscriptions *v2billingpricingplansubscription.Client
-	// V2BillingPricingPlansVersions is the client used to invoke /v2/billing/pricing_plans/{pricing_plan_id}/versions APIs.
-	V2BillingPricingPlansVersions *v2billingpricingplansversion.Client
-	// V2BillingProfiles is the client used to invoke /v2/billing/profiles APIs.
-	V2BillingProfiles *v2billingprofile.Client
-	// V2BillingRateCards is the client used to invoke /v2/billing/rate_cards APIs.
-	V2BillingRateCards *v2billingratecard.Client
-	// V2BillingRateCardsRates is the client used to invoke /v2/billing/rate_cards/{rate_card_id}/rates APIs.
-	V2BillingRateCardsRates *v2billingratecardsrate.Client
-	// V2BillingRateCardSubscriptions is the client used to invoke /v2/billing/rate_card_subscriptions APIs.
-	V2BillingRateCardSubscriptions *v2billingratecardsubscription.Client
-	// V2BillingRateCardsVersions is the client used to invoke /v2/billing/rate_cards/{rate_card_id}/versions APIs.
-	V2BillingRateCardsVersions *v2billingratecardsversion.Client
-	// V2BillingServiceActions is the client used to invoke /v2/billing/service_actions APIs.
-	V2BillingServiceActions *v2billingserviceaction.Client
-	// V2CoreAccountLinks is the client used to invoke /v2/core/account_links APIs.
-	V2CoreAccountLinks *v2coreaccountlink.Client
-	// V2CoreAccounts is the client used to invoke /v2/core/accounts APIs.
-	V2CoreAccounts *v2coreaccount.Client
-	// V2CoreAccountsPersons is the client used to invoke /v2/core/accounts/{account_id}/persons APIs.
-	V2CoreAccountsPersons *v2coreaccountsperson.Client
 	// V2CoreEventDestinations is the client used to invoke /v2/core/event_destinations APIs.
 	V2CoreEventDestinations *v2coreeventdestination.Client
 	// V2CoreEvents is the client used to invoke /v2/core/events APIs.
 	V2CoreEvents *v2coreevent.Client
-	// V2CoreVaultGBBankAccounts is the client used to invoke /v2/core/vault/gb_bank_accounts APIs.
-	V2CoreVaultGBBankAccounts *v2corevaultgbbankaccount.Client
-	// V2CoreVaultUSBankAccounts is the client used to invoke /v2/core/vault/us_bank_accounts APIs.
-	V2CoreVaultUSBankAccounts *v2corevaultusbankaccount.Client
-	// V2MoneyManagementAdjustments is the client used to invoke /v2/money_management/adjustments APIs.
-	V2MoneyManagementAdjustments *v2moneymanagementadjustment.Client
-	// V2MoneyManagementFinancialAccounts is the client used to invoke /v2/money_management/financial_accounts APIs.
-	V2MoneyManagementFinancialAccounts *v2moneymanagementfinancialaccount.Client
-	// V2MoneyManagementFinancialAddresses is the client used to invoke /v2/money_management/financial_addresses APIs.
-	V2MoneyManagementFinancialAddresses *v2moneymanagementfinancialaddress.Client
-	// V2MoneyManagementInboundTransfers is the client used to invoke /v2/money_management/inbound_transfers APIs.
-	V2MoneyManagementInboundTransfers *v2moneymanagementinboundtransfer.Client
-	// V2MoneyManagementOutboundPaymentQuotes is the client used to invoke /v2/money_management/outbound_payment_quotes APIs.
-	V2MoneyManagementOutboundPaymentQuotes *v2moneymanagementoutboundpaymentquote.Client
-	// V2MoneyManagementOutboundPayments is the client used to invoke /v2/money_management/outbound_payments APIs.
-	V2MoneyManagementOutboundPayments *v2moneymanagementoutboundpayment.Client
-	// V2MoneyManagementOutboundSetupIntents is the client used to invoke /v2/money_management/outbound_setup_intents APIs.
-	V2MoneyManagementOutboundSetupIntents *v2moneymanagementoutboundsetupintent.Client
-	// V2MoneyManagementOutboundTransfers is the client used to invoke /v2/money_management/outbound_transfers APIs.
-	V2MoneyManagementOutboundTransfers *v2moneymanagementoutboundtransfer.Client
-	// V2MoneyManagementPayoutMethods is the client used to invoke /v2/money_management/payout_methods APIs.
-	V2MoneyManagementPayoutMethods *v2moneymanagementpayoutmethod.Client
-	// V2MoneyManagementPayoutMethodsBankAccountSpecs is the client used to invoke payoutmethodsbankaccountspec related APIs.
-	V2MoneyManagementPayoutMethodsBankAccountSpecs *v2moneymanagementpayoutmethodsbankaccountspec.Client
-	// V2MoneyManagementReceivedCredits is the client used to invoke /v2/money_management/received_credits APIs.
-	V2MoneyManagementReceivedCredits *v2moneymanagementreceivedcredit.Client
-	// V2MoneyManagementReceivedDebits is the client used to invoke /v2/money_management/received_debits APIs.
-	V2MoneyManagementReceivedDebits *v2moneymanagementreceiveddebit.Client
-	// V2MoneyManagementTransactionEntries is the client used to invoke /v2/money_management/transaction_entries APIs.
-	V2MoneyManagementTransactionEntries *v2moneymanagementtransactionentry.Client
-	// V2MoneyManagementTransactions is the client used to invoke /v2/money_management/transactions APIs.
-	V2MoneyManagementTransactions *v2moneymanagementtransaction.Client
-	// V2PaymentsOffSessionPayments is the client used to invoke /v2/payments/off_session_payments APIs.
-	V2PaymentsOffSessionPayments *v2paymentsoffsessionpayment.Client
-	// V2ReportingReportRuns is the client used to invoke /v2/reporting/report_runs APIs.
-	V2ReportingReportRuns *v2reportingreportrun.Client
-	// V2ReportingReports is the client used to invoke report related APIs.
-	V2ReportingReports *v2reportingreport.Client
-	// V2TaxAutomaticRules is the client used to invoke /v2/tax/automatic_rules APIs.
-	V2TaxAutomaticRules *v2taxautomaticrule.Client
-	// V2TestHelpersFinancialAddresses is the client used to invoke financialaddress related APIs.
-	V2TestHelpersFinancialAddresses *v2testhelpersfinancialaddress.Client
 	// WebhookEndpoints is the client used to invoke /v1/webhook_endpoints APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
@@ -835,59 +694,12 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TreasuryReceivedDebits = &treasuryreceiveddebit.Client{B: backends.API, Key: key}
 	a.TreasuryTransactionEntries = &treasurytransactionentry.Client{B: backends.API, Key: key}
 	a.TreasuryTransactions = &treasurytransaction.Client{B: backends.API, Key: key}
-	a.V2AccountLinks = &v2accountlink.Client{B: backends.API, Key: key}
-	a.V2Accounts = &v2account.Client{B: backends.API, Key: key}
-	a.V2BillingBillSettings = &v2billingbillsetting.Client{B: backends.API, Key: key}
-	a.V2BillingBillSettingsVersions = &v2billingbillsettingsversion.Client{B: backends.API, Key: key}
-	a.V2BillingCadences = &v2billingcadence.Client{B: backends.API, Key: key}
-	a.V2BillingCollectionSettings = &v2billingcollectionsetting.Client{B: backends.API, Key: key}
-	a.V2BillingCollectionSettingsVersions = &v2billingcollectionsettingsversion.Client{B: backends.API, Key: key}
-	a.V2BillingCustomPricingUnits = &v2billingcustompricingunit.Client{B: backends.API, Key: key}
-	a.V2BillingIntents = &v2billingintent.Client{B: backends.API, Key: key}
-	a.V2BillingLicensedItems = &v2billinglicenseditem.Client{B: backends.API, Key: key}
-	a.V2BillingLicenseFees = &v2billinglicensefee.Client{B: backends.API, Key: key}
-	a.V2BillingLicenseFeesVersions = &v2billinglicensefeesversion.Client{B: backends.API, Key: key}
-	a.V2BillingMeteredItems = &v2billingmetereditem.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventAdjustments = &v2billingmetereventadjustment.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEvents = &v2billingmeterevent.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventSessions = &v2billingmetereventsession.Client{B: backends.API, Key: key}
 	a.V2BillingMeterEventStreams = &v2billingmetereventstream.Client{BMeterEvents: backends.MeterEvents, Key: key}
-	a.V2BillingPricingPlans = &v2billingpricingplan.Client{B: backends.API, Key: key}
-	a.V2BillingPricingPlansComponents = &v2billingpricingplanscomponent.Client{B: backends.API, Key: key}
-	a.V2BillingPricingPlanSubscriptions = &v2billingpricingplansubscription.Client{B: backends.API, Key: key}
-	a.V2BillingPricingPlansVersions = &v2billingpricingplansversion.Client{B: backends.API, Key: key}
-	a.V2BillingProfiles = &v2billingprofile.Client{B: backends.API, Key: key}
-	a.V2BillingRateCards = &v2billingratecard.Client{B: backends.API, Key: key}
-	a.V2BillingRateCardsRates = &v2billingratecardsrate.Client{B: backends.API, Key: key}
-	a.V2BillingRateCardSubscriptions = &v2billingratecardsubscription.Client{B: backends.API, Key: key}
-	a.V2BillingRateCardsVersions = &v2billingratecardsversion.Client{B: backends.API, Key: key}
-	a.V2BillingServiceActions = &v2billingserviceaction.Client{B: backends.API, Key: key}
-	a.V2CoreAccountLinks = &v2coreaccountlink.Client{B: backends.API, Key: key}
-	a.V2CoreAccounts = &v2coreaccount.Client{B: backends.API, Key: key}
-	a.V2CoreAccountsPersons = &v2coreaccountsperson.Client{B: backends.API, Key: key}
 	a.V2CoreEventDestinations = &v2coreeventdestination.Client{B: backends.API, Key: key}
 	a.V2CoreEvents = &v2coreevent.Client{B: backends.API, Key: key}
-	a.V2CoreVaultGBBankAccounts = &v2corevaultgbbankaccount.Client{B: backends.API, Key: key}
-	a.V2CoreVaultUSBankAccounts = &v2corevaultusbankaccount.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementAdjustments = &v2moneymanagementadjustment.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementFinancialAccounts = &v2moneymanagementfinancialaccount.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementFinancialAddresses = &v2moneymanagementfinancialaddress.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementInboundTransfers = &v2moneymanagementinboundtransfer.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementOutboundPaymentQuotes = &v2moneymanagementoutboundpaymentquote.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementOutboundPayments = &v2moneymanagementoutboundpayment.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementOutboundSetupIntents = &v2moneymanagementoutboundsetupintent.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementOutboundTransfers = &v2moneymanagementoutboundtransfer.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementPayoutMethods = &v2moneymanagementpayoutmethod.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementPayoutMethodsBankAccountSpecs = &v2moneymanagementpayoutmethodsbankaccountspec.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementReceivedCredits = &v2moneymanagementreceivedcredit.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementReceivedDebits = &v2moneymanagementreceiveddebit.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementTransactionEntries = &v2moneymanagementtransactionentry.Client{B: backends.API, Key: key}
-	a.V2MoneyManagementTransactions = &v2moneymanagementtransaction.Client{B: backends.API, Key: key}
-	a.V2PaymentsOffSessionPayments = &v2paymentsoffsessionpayment.Client{B: backends.API, Key: key}
-	a.V2ReportingReportRuns = &v2reportingreportrun.Client{B: backends.API, Key: key}
-	a.V2ReportingReports = &v2reportingreport.Client{B: backends.API, Key: key}
-	a.V2TaxAutomaticRules = &v2taxautomaticrule.Client{B: backends.API, Key: key}
-	a.V2TestHelpersFinancialAddresses = &v2testhelpersfinancialaddress.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 
