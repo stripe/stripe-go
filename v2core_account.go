@@ -3265,10 +3265,13 @@ type V2CoreAccountIdentityBusinessDetailsIDNumberType string
 const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAeVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ae_vat"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAoNif   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ao_nif"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAtFn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "at_fn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAUABN   V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_abn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuAcn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_acn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAuIn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "au_in"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeAzTin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "az_tin"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBdEtin  V2CoreAccountIdentityBusinessDetailsIDNumberType = "bd_etin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBeCbe   V2CoreAccountIdentityBusinessDetailsIDNumberType = "be_cbe"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBGUIC   V2CoreAccountIdentityBusinessDetailsIDNumberType = "bg_uic"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeBRCNPJ  V2CoreAccountIdentityBusinessDetailsIDNumberType = "br_cnpj"
@@ -3278,11 +3281,14 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCaRid   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ca_rid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeChChid  V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_chid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCHUID   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ch_uid"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrCpj   V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_cpj"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCrNite  V2CoreAccountIdentityBusinessDetailsIDNumberType = "cr_nite"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCyTic   V2CoreAccountIdentityBusinessDetailsIDNumberType = "cy_tic"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeCzIco   V2CoreAccountIdentityBusinessDetailsIDNumberType = "cz_ico"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDEHrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "de_hrn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDEVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "de_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDkCvr   V2CoreAccountIdentityBusinessDetailsIDNumberType = "dk_cvr"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeDORCN   V2CoreAccountIdentityBusinessDetailsIDNumberType = "do_rcn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeEeRk    V2CoreAccountIdentityBusinessDetailsIDNumberType = "ee_rk"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeESCIF   V2CoreAccountIdentityBusinessDetailsIDNumberType = "es_cif"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeFIYt    V2CoreAccountIdentityBusinessDetailsIDNumberType = "fi_yt"
@@ -3291,6 +3297,7 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGBCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gb_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGiCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gi_crn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGrGemi  V2CoreAccountIdentityBusinessDetailsIDNumberType = "gr_gemi"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeGtNit   V2CoreAccountIdentityBusinessDetailsIDNumberType = "gt_nit"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHKBR    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_br"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHkCr    V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_cr"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeHkMbs   V2CoreAccountIdentityBusinessDetailsIDNumberType = "hk_mbs"
@@ -3299,6 +3306,7 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITRea   V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_rea"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeITVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "it_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeJPCN    V2CoreAccountIdentityBusinessDetailsIDNumberType = "jp_cn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeKzBin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "kz_bin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLIUID   V2CoreAccountIdentityBusinessDetailsIDNumberType = "li_uid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLTCcrn  V2CoreAccountIdentityBusinessDetailsIDNumberType = "lt_ccrn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeLuRcs   V2CoreAccountIdentityBusinessDetailsIDNumberType = "lu_rcs"
@@ -3308,12 +3316,17 @@ const (
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyBrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_brn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMyCoid  V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_coid"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMYSST   V2CoreAccountIdentityBusinessDetailsIDNumberType = "my_sst"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeMzNuit  V2CoreAccountIdentityBusinessDetailsIDNumberType = "mz_nuit"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNLKvk   V2CoreAccountIdentityBusinessDetailsIDNumberType = "nl_kvk"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNoOrgnr V2CoreAccountIdentityBusinessDetailsIDNumberType = "no_orgnr"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeNzBn    V2CoreAccountIdentityBusinessDetailsIDNumberType = "nz_bn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePERUC   V2CoreAccountIdentityBusinessDetailsIDNumberType = "pe_ruc"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypePkNtn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "pk_ntn"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePLRegon V2CoreAccountIdentityBusinessDetailsIDNumberType = "pl_regon"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypePTVAT   V2CoreAccountIdentityBusinessDetailsIDNumberType = "pt_vat"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeROCui   V2CoreAccountIdentityBusinessDetailsIDNumberType = "ro_cui"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSaCrn   V2CoreAccountIdentityBusinessDetailsIDNumberType = "sa_crn"
+	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSaTin   V2CoreAccountIdentityBusinessDetailsIDNumberType = "sa_tin"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSeOrgnr V2CoreAccountIdentityBusinessDetailsIDNumberType = "se_orgnr"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSGUEN   V2CoreAccountIdentityBusinessDetailsIDNumberType = "sg_uen"
 	V2CoreAccountIdentityBusinessDetailsIDNumberTypeSiMsp   V2CoreAccountIdentityBusinessDetailsIDNumberType = "si_msp"
@@ -4722,12 +4735,28 @@ type V2CoreAccountIdentityIndividualIDNumberType string
 // List of values that V2CoreAccountIdentityIndividualIDNumberType can take
 const (
 	V2CoreAccountIdentityIndividualIDNumberTypeAeEid       V2CoreAccountIdentityIndividualIDNumberType = "ae_eid"
+	V2CoreAccountIdentityIndividualIDNumberTypeAoNif       V2CoreAccountIdentityIndividualIDNumberType = "ao_nif"
+	V2CoreAccountIdentityIndividualIDNumberTypeAzTin       V2CoreAccountIdentityIndividualIDNumberType = "az_tin"
+	V2CoreAccountIdentityIndividualIDNumberTypeBdBrc       V2CoreAccountIdentityIndividualIDNumberType = "bd_brc"
+	V2CoreAccountIdentityIndividualIDNumberTypeBdEtin      V2CoreAccountIdentityIndividualIDNumberType = "bd_etin"
+	V2CoreAccountIdentityIndividualIDNumberTypeBdNid       V2CoreAccountIdentityIndividualIDNumberType = "bd_nid"
 	V2CoreAccountIdentityIndividualIDNumberTypeBRCPF       V2CoreAccountIdentityIndividualIDNumberType = "br_cpf"
+	V2CoreAccountIdentityIndividualIDNumberTypeCrCpf       V2CoreAccountIdentityIndividualIDNumberType = "cr_cpf"
+	V2CoreAccountIdentityIndividualIDNumberTypeCrDimex     V2CoreAccountIdentityIndividualIDNumberType = "cr_dimex"
+	V2CoreAccountIdentityIndividualIDNumberTypeCrNite      V2CoreAccountIdentityIndividualIDNumberType = "cr_nite"
 	V2CoreAccountIdentityIndividualIDNumberTypeDEStn       V2CoreAccountIdentityIndividualIDNumberType = "de_stn"
+	V2CoreAccountIdentityIndividualIDNumberTypeDORCN       V2CoreAccountIdentityIndividualIDNumberType = "do_rcn"
+	V2CoreAccountIdentityIndividualIDNumberTypeGtNit       V2CoreAccountIdentityIndividualIDNumberType = "gt_nit"
 	V2CoreAccountIdentityIndividualIDNumberTypeHkID        V2CoreAccountIdentityIndividualIDNumberType = "hk_id"
+	V2CoreAccountIdentityIndividualIDNumberTypeKzIIN       V2CoreAccountIdentityIndividualIDNumberType = "kz_iin"
 	V2CoreAccountIdentityIndividualIDNumberTypeMXRFC       V2CoreAccountIdentityIndividualIDNumberType = "mx_rfc"
 	V2CoreAccountIdentityIndividualIDNumberTypeMyNric      V2CoreAccountIdentityIndividualIDNumberType = "my_nric"
+	V2CoreAccountIdentityIndividualIDNumberTypeMzNuit      V2CoreAccountIdentityIndividualIDNumberType = "mz_nuit"
 	V2CoreAccountIdentityIndividualIDNumberTypeNLBsn       V2CoreAccountIdentityIndividualIDNumberType = "nl_bsn"
+	V2CoreAccountIdentityIndividualIDNumberTypePeDni       V2CoreAccountIdentityIndividualIDNumberType = "pe_dni"
+	V2CoreAccountIdentityIndividualIDNumberTypePkCnic      V2CoreAccountIdentityIndividualIDNumberType = "pk_cnic"
+	V2CoreAccountIdentityIndividualIDNumberTypePkSnic      V2CoreAccountIdentityIndividualIDNumberType = "pk_snic"
+	V2CoreAccountIdentityIndividualIDNumberTypeSaTin       V2CoreAccountIdentityIndividualIDNumberType = "sa_tin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSgFin       V2CoreAccountIdentityIndividualIDNumberType = "sg_fin"
 	V2CoreAccountIdentityIndividualIDNumberTypeSGNRIC      V2CoreAccountIdentityIndividualIDNumberType = "sg_nric"
 	V2CoreAccountIdentityIndividualIDNumberTypeTHLc        V2CoreAccountIdentityIndividualIDNumberType = "th_lc"
@@ -5870,6 +5899,8 @@ type V2CoreAccountConfigurationCustomerShipping struct {
 
 // The Customer Configuration allows the Account to be used in inbound payment flows.
 type V2CoreAccountConfigurationCustomer struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied bool `json:"applied"`
 	// Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
 	AutomaticIndirectTax *V2CoreAccountConfigurationCustomerAutomaticIndirectTax `json:"automatic_indirect_tax"`
 	// Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
@@ -6872,6 +6903,8 @@ type V2CoreAccountConfigurationMerchantSupport struct {
 
 // The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
 type V2CoreAccountConfigurationMerchant struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied bool `json:"applied"`
 	// Settings used for Bacs debit payments.
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantBACSDebitPayments `json:"bacs_debit_payments"`
 	// Settings used to apply the merchant's branding to email receipts, invoices, Checkout, and other products.
@@ -7016,6 +7049,8 @@ type V2CoreAccountConfigurationRecipientDefaultOutboundDestination struct {
 
 // The Recipient Configuration allows the Account to receive funds.
 type V2CoreAccountConfigurationRecipient struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied bool `json:"applied"`
 	// Capabilities that have been requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountConfigurationRecipientCapabilities `json:"capabilities"`
 	// The payout method to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through the dashboard.
@@ -7218,6 +7253,8 @@ type V2CoreAccountConfigurationStorerCapabilities struct {
 
 // The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 type V2CoreAccountConfigurationStorer struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied bool `json:"applied"`
 	// Capabilities that have been requested on the Storer Configuration.
 	Capabilities *V2CoreAccountConfigurationStorerCapabilities `json:"capabilities"`
 }

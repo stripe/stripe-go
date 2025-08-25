@@ -17,7 +17,7 @@ type BillingMeterUsageRow struct {
 	Dimensions map[string]string `json:"dimensions"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
-	// The unique identifier for the meter.
+	// The unique identifier for the meter. Null if no meters were provided and usage was aggregated across all meters.
 	MeterID string `json:"meter_id"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`

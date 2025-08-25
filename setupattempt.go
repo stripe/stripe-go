@@ -301,6 +301,7 @@ type SetupAttemptPaymentMethodDetailsNaverPay struct {
 type SetupAttemptPaymentMethodDetailsNzBankAccount struct{}
 type SetupAttemptPaymentMethodDetailsPaypal struct{}
 type SetupAttemptPaymentMethodDetailsPayto struct{}
+type SetupAttemptPaymentMethodDetailsPix struct{}
 type SetupAttemptPaymentMethodDetailsRevolutPay struct{}
 type SetupAttemptPaymentMethodDetailsSEPADebit struct{}
 type SetupAttemptPaymentMethodDetailsSofort struct {
@@ -345,6 +346,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	NzBankAccount  *SetupAttemptPaymentMethodDetailsNzBankAccount  `json:"nz_bank_account"`
 	Paypal         *SetupAttemptPaymentMethodDetailsPaypal         `json:"paypal"`
 	Payto          *SetupAttemptPaymentMethodDetailsPayto          `json:"payto"`
+	Pix            *SetupAttemptPaymentMethodDetailsPix            `json:"pix"`
 	RevolutPay     *SetupAttemptPaymentMethodDetailsRevolutPay     `json:"revolut_pay"`
 	SEPADebit      *SetupAttemptPaymentMethodDetailsSEPADebit      `json:"sepa_debit"`
 	Sofort         *SetupAttemptPaymentMethodDetailsSofort         `json:"sofort"`

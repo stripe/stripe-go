@@ -104,6 +104,26 @@ const (
 	QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndTypeTimestamp QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscountDiscountEndType = "timestamp"
 )
 
+// Select how to calculate the end of the invoice item period.
+type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndType string
+
+// List of values that QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndType can take
+const (
+	QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndTypeMinItemPeriodEnd QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndType = "min_item_period_end"
+	QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndTypePhaseEnd         QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndType = "phase_end"
+	QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndTypeTimestamp        QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndType = "timestamp"
+)
+
+// Select how to calculate the start of the invoice item period.
+type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartType string
+
+// List of values that QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartType can take
+const (
+	QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartTypeMaxItemPeriodStart QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartType = "max_item_period_start"
+	QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartTypePhaseStart         QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartType = "phase_start"
+	QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartTypeTimestamp          QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartType = "timestamp"
+)
+
 // If Stripe disabled automatic tax, this enum describes why.
 type QuotePreviewSubscriptionSchedulePhaseAutomaticTaxDisabledReason string
 
@@ -372,11 +392,30 @@ type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscount struct {
 	// ID of the promotion code to create a new discount for.
 	PromotionCode *PromotionCode `json:"promotion_code"`
 }
+type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEnd struct {
+	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
+	Timestamp int64 `json:"timestamp"`
+	// Select how to calculate the end of the invoice item period.
+	Type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEndType `json:"type"`
+}
+type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStart struct {
+	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
+	Timestamp int64 `json:"timestamp"`
+	// Select how to calculate the start of the invoice item period.
+	Type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStartType `json:"type"`
+}
+type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriod struct {
+	End   *QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodEnd   `json:"end"`
+	Start *QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriodStart `json:"start"`
+}
 
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this phase.
 type QuotePreviewSubscriptionSchedulePhaseAddInvoiceItem struct {
 	// The stackable discounts that will be applied to the item.
 	Discounts []*QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemDiscount `json:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string                                          `json:"metadata"`
+	Period   *QuotePreviewSubscriptionSchedulePhaseAddInvoiceItemPeriod `json:"period"`
 	// ID of the price used to generate the invoice item.
 	Price *Price `json:"price"`
 	// The quantity of the invoice item.

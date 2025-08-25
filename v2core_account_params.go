@@ -91,6 +91,8 @@ type V2CoreAccountConfigurationCustomerShippingParams struct {
 
 // The Customer Configuration allows the Account to be used in inbound payment flows.
 type V2CoreAccountConfigurationCustomerParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
 	AutomaticIndirectTax *V2CoreAccountConfigurationCustomerAutomaticIndirectTaxParams `form:"automatic_indirect_tax" json:"automatic_indirect_tax,omitempty"`
 	// Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
@@ -531,6 +533,8 @@ type V2CoreAccountConfigurationMerchantSupportParams struct {
 
 // The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
 type V2CoreAccountConfigurationMerchantParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Settings used for Bacs debit payments.
 	BACSDebitPayments *V2CoreAccountConfigurationMerchantBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Settings used to apply the merchant's branding to email receipts, invoices, Checkout, and other products.
@@ -597,6 +601,8 @@ type V2CoreAccountConfigurationRecipientCapabilitiesParams struct {
 
 // The Recipient Configuration allows the Account to receive funds.
 type V2CoreAccountConfigurationRecipientParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to be requested on the Recipient Configuration.
 	Capabilities *V2CoreAccountConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination.
@@ -703,6 +709,8 @@ type V2CoreAccountConfigurationStorerCapabilitiesParams struct {
 
 // The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 type V2CoreAccountConfigurationStorerParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to request on the Storer Configuration.
 	Capabilities *V2CoreAccountConfigurationStorerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 }
@@ -2805,6 +2813,8 @@ type V2CoreAccountUpdateConfigurationCustomerShippingParams struct {
 
 // The Customer Configuration allows the Account to be charged.
 type V2CoreAccountUpdateConfigurationCustomerParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Automatic indirect tax settings to be used when automatic tax calculation is enabled on the customer's invoices, subscriptions, checkout sessions, or payment links. Surfaces if automatic tax calculation is possible given the current customer location information.
 	AutomaticIndirectTax *V2CoreAccountUpdateConfigurationCustomerAutomaticIndirectTaxParams `form:"automatic_indirect_tax" json:"automatic_indirect_tax,omitempty"`
 	// Billing settings - default settings used for this customer in Billing flows such as Invoices and Subscriptions.
@@ -3245,6 +3255,8 @@ type V2CoreAccountUpdateConfigurationMerchantSupportParams struct {
 
 // The Merchant configuration allows the Account to act as a connected account and collect payments facilitated by a Connect platform. You can add this configuration to your connected accounts only if you've completed onboarding as a Connect platform.
 type V2CoreAccountUpdateConfigurationMerchantParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Settings used for Bacs debit payments.
 	BACSDebitPayments *V2CoreAccountUpdateConfigurationMerchantBACSDebitPaymentsParams `form:"bacs_debit_payments" json:"bacs_debit_payments,omitempty"`
 	// Settings used to apply the merchant's branding to email receipts, invoices, Checkout, and other products.
@@ -3311,6 +3323,8 @@ type V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams struct {
 
 // The Recipient Configuration allows the Account to receive funds.
 type V2CoreAccountUpdateConfigurationRecipientParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to request on the Recipient Configuration.
 	Capabilities *V2CoreAccountUpdateConfigurationRecipientCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 	// The payout method id to be used as a default outbound destination. This will allow the PayoutMethod to be omitted on OutboundPayments made through API or sending payouts via dashboard. Can also be explicitly set to `null` to clear the existing default outbound destination.
@@ -3417,6 +3431,8 @@ type V2CoreAccountUpdateConfigurationStorerCapabilitiesParams struct {
 
 // The Storer Configuration allows the Account to store and move funds using stored-value FinancialAccounts.
 type V2CoreAccountUpdateConfigurationStorerParams struct {
+	// Represents the state of the configuration, and can be updated to deactivate or re-apply a configuration.
+	Applied *bool `form:"applied" json:"applied,omitempty"`
 	// Capabilities to request on the Storer Configuration.
 	Capabilities *V2CoreAccountUpdateConfigurationStorerCapabilitiesParams `form:"capabilities" json:"capabilities,omitempty"`
 }

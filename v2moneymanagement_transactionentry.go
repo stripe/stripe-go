@@ -13,14 +13,15 @@ type V2MoneyManagementTransactionEntryTransactionDetailsCategory string
 
 // List of values that V2MoneyManagementTransactionEntryTransactionDetailsCategory can take
 const (
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryAdjustment       V2MoneyManagementTransactionEntryTransactionDetailsCategory = "adjustment"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundTransfer  V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundPayment  V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_payment"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundTransfer V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedCredit   V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_credit"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedDebit    V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_debit"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReturn           V2MoneyManagementTransactionEntryTransactionDetailsCategory = "return"
-	V2MoneyManagementTransactionEntryTransactionDetailsCategoryStripeFee        V2MoneyManagementTransactionEntryTransactionDetailsCategory = "stripe_fee"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryAdjustment         V2MoneyManagementTransactionEntryTransactionDetailsCategory = "adjustment"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryCurrencyConversion V2MoneyManagementTransactionEntryTransactionDetailsCategory = "currency_conversion"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryInboundTransfer    V2MoneyManagementTransactionEntryTransactionDetailsCategory = "inbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundPayment    V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_payment"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryOutboundTransfer   V2MoneyManagementTransactionEntryTransactionDetailsCategory = "outbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedCredit     V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_credit"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReceivedDebit      V2MoneyManagementTransactionEntryTransactionDetailsCategory = "received_debit"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryReturn             V2MoneyManagementTransactionEntryTransactionDetailsCategory = "return"
+	V2MoneyManagementTransactionEntryTransactionDetailsCategoryStripeFee          V2MoneyManagementTransactionEntryTransactionDetailsCategory = "stripe_fee"
 )
 
 // Open Enum. Type of the flow that created the Transaction. The field matching this value will contain the ID of the flow.
@@ -28,13 +29,14 @@ type V2MoneyManagementTransactionEntryTransactionDetailsFlowType string
 
 // List of values that V2MoneyManagementTransactionEntryTransactionDetailsFlowType can take
 const (
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeAdjustment       V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "adjustment"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer  V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundPayment  V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_payment"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundTransfer V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_transfer"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedCredit   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_credit"
-	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedDebit    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_debit"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeAdjustment         V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "adjustment"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeCurrencyConversion V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "currency_conversion"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeFeeTransaction     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "fee_transaction"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeInboundTransfer    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "inbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundPayment    V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_payment"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeOutboundTransfer   V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "outbound_transfer"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedCredit     V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_credit"
+	V2MoneyManagementTransactionEntryTransactionDetailsFlowTypeReceivedDebit      V2MoneyManagementTransactionEntryTransactionDetailsFlowType = "received_debit"
 )
 
 // The delta to the FinancialAccount's balance.
@@ -51,6 +53,8 @@ type V2MoneyManagementTransactionEntryBalanceImpact struct {
 type V2MoneyManagementTransactionEntryTransactionDetailsFlow struct {
 	// If applicable, the ID of the Adjustment that created this Transaction.
 	Adjustment string `json:"adjustment"`
+	// In the future, this will be the ID of the currency conversion that created this Transaction. For now, this field is always null.
+	CurrencyConversion string `json:"currency_conversion"`
 	// If applicable, the ID of the FeeTransaction that created this Transaction.
 	FeeTransaction string `json:"fee_transaction"`
 	// If applicable, the ID of the InboundTransfer that created this Transaction.

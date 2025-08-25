@@ -7,37 +7,37 @@
 package stripe
 
 // How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
-type BalanceSettingsPayoutsScheduleInterval string
+type BalanceSettingsPaymentsPayoutsScheduleInterval string
 
-// List of values that BalanceSettingsPayoutsScheduleInterval can take
+// List of values that BalanceSettingsPaymentsPayoutsScheduleInterval can take
 const (
-	BalanceSettingsPayoutsScheduleIntervalDaily   BalanceSettingsPayoutsScheduleInterval = "daily"
-	BalanceSettingsPayoutsScheduleIntervalManual  BalanceSettingsPayoutsScheduleInterval = "manual"
-	BalanceSettingsPayoutsScheduleIntervalMonthly BalanceSettingsPayoutsScheduleInterval = "monthly"
-	BalanceSettingsPayoutsScheduleIntervalWeekly  BalanceSettingsPayoutsScheduleInterval = "weekly"
+	BalanceSettingsPaymentsPayoutsScheduleIntervalDaily   BalanceSettingsPaymentsPayoutsScheduleInterval = "daily"
+	BalanceSettingsPaymentsPayoutsScheduleIntervalManual  BalanceSettingsPaymentsPayoutsScheduleInterval = "manual"
+	BalanceSettingsPaymentsPayoutsScheduleIntervalMonthly BalanceSettingsPaymentsPayoutsScheduleInterval = "monthly"
+	BalanceSettingsPaymentsPayoutsScheduleIntervalWeekly  BalanceSettingsPaymentsPayoutsScheduleInterval = "weekly"
 )
 
 // The days of the week when available funds are paid out, specified as an array, for example, [`monday`, `tuesday`]. Only shown if `interval` is weekly.
-type BalanceSettingsPayoutsScheduleWeeklyPayoutDay string
+type BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay string
 
-// List of values that BalanceSettingsPayoutsScheduleWeeklyPayoutDay can take
+// List of values that BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay can take
 const (
-	BalanceSettingsPayoutsScheduleWeeklyPayoutDayFriday    BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "friday"
-	BalanceSettingsPayoutsScheduleWeeklyPayoutDayMonday    BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "monday"
-	BalanceSettingsPayoutsScheduleWeeklyPayoutDaySaturday  BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "saturday"
-	BalanceSettingsPayoutsScheduleWeeklyPayoutDaySunday    BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "sunday"
-	BalanceSettingsPayoutsScheduleWeeklyPayoutDayThursday  BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "thursday"
-	BalanceSettingsPayoutsScheduleWeeklyPayoutDayTuesday   BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "tuesday"
-	BalanceSettingsPayoutsScheduleWeeklyPayoutDayWednesday BalanceSettingsPayoutsScheduleWeeklyPayoutDay = "wednesday"
+	BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDayFriday    BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay = "friday"
+	BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDayMonday    BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay = "monday"
+	BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDaySaturday  BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay = "saturday"
+	BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDaySunday    BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay = "sunday"
+	BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDayThursday  BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay = "thursday"
+	BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDayTuesday   BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay = "tuesday"
+	BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDayWednesday BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay = "wednesday"
 )
 
 // Whether the funds in this account can be paid out.
-type BalanceSettingsPayoutsStatus string
+type BalanceSettingsPaymentsPayoutsStatus string
 
-// List of values that BalanceSettingsPayoutsStatus can take
+// List of values that BalanceSettingsPaymentsPayoutsStatus can take
 const (
-	BalanceSettingsPayoutsStatusDisabled BalanceSettingsPayoutsStatus = "disabled"
-	BalanceSettingsPayoutsStatusEnabled  BalanceSettingsPayoutsStatus = "enabled"
+	BalanceSettingsPaymentsPayoutsStatusDisabled BalanceSettingsPaymentsPayoutsStatus = "disabled"
+	BalanceSettingsPaymentsPayoutsStatusEnabled  BalanceSettingsPaymentsPayoutsStatus = "enabled"
 )
 
 // Retrieves balance settings for a given connected account.
@@ -45,14 +45,10 @@ const (
 //	Related guide: [Making API calls for connected accounts](https://docs.stripe.com/connect/authentication)
 type BalanceSettingsParams struct {
 	Params `form:"*"`
-	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
-	DebitNegativeBalances *bool `form:"debit_negative_balances"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Settings specific to the account's payouts.
-	Payouts *BalanceSettingsPayoutsParams `form:"payouts"`
-	// Settings related to the account's balance settlement timing.
-	SettlementTiming *BalanceSettingsSettlementTimingParams `form:"settlement_timing"`
+	// Settings that apply to the [Payments Balance](https://docs.stripe.com/api/balance).
+	Payments *BalanceSettingsPaymentsParams `form:"payments"`
 }
 
 // AddExpand appends a new field to expand.
@@ -61,7 +57,7 @@ func (p *BalanceSettingsParams) AddExpand(f string) {
 }
 
 // Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
-type BalanceSettingsPayoutsScheduleParams struct {
+type BalanceSettingsPaymentsPayoutsScheduleParams struct {
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
 	Interval *string `form:"interval"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
@@ -71,17 +67,27 @@ type BalanceSettingsPayoutsScheduleParams struct {
 }
 
 // Settings specific to the account's payouts.
-type BalanceSettingsPayoutsParams struct {
+type BalanceSettingsPaymentsPayoutsParams struct {
 	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
-	Schedule *BalanceSettingsPayoutsScheduleParams `form:"schedule"`
+	Schedule *BalanceSettingsPaymentsPayoutsScheduleParams `form:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
 // Settings related to the account's balance settlement timing.
-type BalanceSettingsSettlementTimingParams struct {
+type BalanceSettingsPaymentsSettlementTimingParams struct {
 	// The number of days charge funds are held before becoming available. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `payouts.schedule.interval` is `manual`. [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
 	DelayDaysOverride *int64 `form:"delay_days_override"`
+}
+
+// Settings that apply to the [Payments Balance](https://docs.stripe.com/api/balance).
+type BalanceSettingsPaymentsParams struct {
+	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
+	DebitNegativeBalances *bool `form:"debit_negative_balances"`
+	// Settings specific to the account's payouts.
+	Payouts *BalanceSettingsPaymentsPayoutsParams `form:"payouts"`
+	// Settings related to the account's balance settlement timing.
+	SettlementTiming *BalanceSettingsPaymentsSettlementTimingParams `form:"settlement_timing"`
 }
 
 // Retrieves balance settings for a given connected account.
@@ -99,7 +105,7 @@ func (p *BalanceSettingsRetrieveParams) AddExpand(f string) {
 }
 
 // Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
-type BalanceSettingsUpdatePayoutsScheduleParams struct {
+type BalanceSettingsUpdatePaymentsPayoutsScheduleParams struct {
 	// How frequently available funds are paid out. One of: `daily`, `manual`, `weekly`, or `monthly`. Default is `daily`.
 	Interval *string `form:"interval"`
 	// The days of the month when available funds are paid out, specified as an array of numbers between 1--31. Payouts nominally scheduled between the 29th and 31st of the month are instead sent on the last day of a shorter month. Required and applicable only if `interval` is `monthly`.
@@ -109,17 +115,27 @@ type BalanceSettingsUpdatePayoutsScheduleParams struct {
 }
 
 // Settings specific to the account's payouts.
-type BalanceSettingsUpdatePayoutsParams struct {
+type BalanceSettingsUpdatePaymentsPayoutsParams struct {
 	// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://docs.stripe.com/connect/bank-transfers#payout-information) documentation.
-	Schedule *BalanceSettingsUpdatePayoutsScheduleParams `form:"schedule"`
+	Schedule *BalanceSettingsUpdatePaymentsPayoutsScheduleParams `form:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
 // Settings related to the account's balance settlement timing.
-type BalanceSettingsUpdateSettlementTimingParams struct {
+type BalanceSettingsUpdatePaymentsSettlementTimingParams struct {
 	// The number of days charge funds are held before becoming available. May also be set to `minimum`, representing the lowest available value for the account country. Default is `minimum`. The `delay_days` parameter remains at the last configured value if `payouts.schedule.interval` is `manual`. [Learn more about controlling payout delay days](https://docs.stripe.com/connect/manage-payout-schedule).
 	DelayDaysOverride *int64 `form:"delay_days_override"`
+}
+
+// Settings that apply to the [Payments Balance](https://docs.stripe.com/api/balance).
+type BalanceSettingsUpdatePaymentsParams struct {
+	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
+	DebitNegativeBalances *bool `form:"debit_negative_balances"`
+	// Settings specific to the account's payouts.
+	Payouts *BalanceSettingsUpdatePaymentsPayoutsParams `form:"payouts"`
+	// Settings related to the account's balance settlement timing.
+	SettlementTiming *BalanceSettingsUpdatePaymentsSettlementTimingParams `form:"settlement_timing"`
 }
 
 // Updates balance settings for a given connected account.
@@ -127,14 +143,10 @@ type BalanceSettingsUpdateSettlementTimingParams struct {
 //	Related guide: [Making API calls for connected accounts](https://docs.stripe.com/connect/authentication)
 type BalanceSettingsUpdateParams struct {
 	Params `form:"*"`
-	// A Boolean indicating whether Stripe should try to reclaim negative balances from an attached bank account. For details, see [Understanding Connect Account Balances](https://docs.stripe.com/connect/account-balances).
-	DebitNegativeBalances *bool `form:"debit_negative_balances"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
-	// Settings specific to the account's payouts.
-	Payouts *BalanceSettingsUpdatePayoutsParams `form:"payouts"`
-	// Settings related to the account's balance settlement timing.
-	SettlementTiming *BalanceSettingsUpdateSettlementTimingParams `form:"settlement_timing"`
+	// Settings that apply to the [Payments Balance](https://docs.stripe.com/api/balance).
+	Payments *BalanceSettingsUpdatePaymentsParams `form:"payments"`
 }
 
 // AddExpand appends a new field to expand.
@@ -143,27 +155,34 @@ func (p *BalanceSettingsUpdateParams) AddExpand(f string) {
 }
 
 // Details on when funds from charges are available, and when they are paid out to an external account. See our [Setting Bank and Debit Card Payouts](https://stripe.com/docs/connect/bank-transfers#payout-information) documentation for details.
-type BalanceSettingsPayoutsSchedule struct {
+type BalanceSettingsPaymentsPayoutsSchedule struct {
 	// How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
-	Interval BalanceSettingsPayoutsScheduleInterval `json:"interval"`
+	Interval BalanceSettingsPaymentsPayoutsScheduleInterval `json:"interval"`
 	// The day of the month funds will be paid out. Only shown if `interval` is monthly. Payouts scheduled between the 29th and 31st of the month are sent on the last day of shorter months.
 	MonthlyPayoutDays []int64 `json:"monthly_payout_days"`
 	// The days of the week when available funds are paid out, specified as an array, for example, [`monday`, `tuesday`]. Only shown if `interval` is weekly.
-	WeeklyPayoutDays []BalanceSettingsPayoutsScheduleWeeklyPayoutDay `json:"weekly_payout_days"`
+	WeeklyPayoutDays []BalanceSettingsPaymentsPayoutsScheduleWeeklyPayoutDay `json:"weekly_payout_days"`
 }
 
 // Settings specific to the account's payouts.
-type BalanceSettingsPayouts struct {
+type BalanceSettingsPaymentsPayouts struct {
 	// Details on when funds from charges are available, and when they are paid out to an external account. See our [Setting Bank and Debit Card Payouts](https://stripe.com/docs/connect/bank-transfers#payout-information) documentation for details.
-	Schedule *BalanceSettingsPayoutsSchedule `json:"schedule"`
+	Schedule *BalanceSettingsPaymentsPayoutsSchedule `json:"schedule"`
 	// The text that appears on the bank account statement for payouts. If not set, this defaults to the platform's bank descriptor as set in the Dashboard.
 	StatementDescriptor string `json:"statement_descriptor"`
 	// Whether the funds in this account can be paid out.
-	Status BalanceSettingsPayoutsStatus `json:"status"`
+	Status BalanceSettingsPaymentsPayoutsStatus `json:"status"`
 }
-type BalanceSettingsSettlementTiming struct {
+type BalanceSettingsPaymentsSettlementTiming struct {
 	// The number of days charge funds are held before becoming available.
 	DelayDays int64 `json:"delay_days"`
+}
+type BalanceSettingsPayments struct {
+	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://docs.stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.
+	DebitNegativeBalances bool `json:"debit_negative_balances"`
+	// Settings specific to the account's payouts.
+	Payouts          *BalanceSettingsPaymentsPayouts          `json:"payouts"`
+	SettlementTiming *BalanceSettingsPaymentsSettlementTiming `json:"settlement_timing"`
 }
 
 // Options for customizing account balances and payout settings for a Stripe platform's connected accounts.
@@ -173,11 +192,7 @@ type BalanceSettingsSettlementTiming struct {
 // to manage your connected accounts' balance settings instead.
 type BalanceSettings struct {
 	APIResource
-	// A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See [Understanding Connect account balances](https://docs.stripe.com/connect/account-balances) for details. The default value is `false` when [controller.requirement_collection](https://docs.stripe.com/api/accounts/object#account_object-controller-requirement_collection) is `application`, which includes Custom accounts, otherwise `true`.
-	DebitNegativeBalances bool `json:"debit_negative_balances"`
 	// String representing the object's type. Objects of the same type share the same value.
-	Object string `json:"object"`
-	// Settings specific to the account's payouts.
-	Payouts          *BalanceSettingsPayouts          `json:"payouts"`
-	SettlementTiming *BalanceSettingsSettlementTiming `json:"settlement_timing"`
+	Object   string                   `json:"object"`
+	Payments *BalanceSettingsPayments `json:"payments"`
 }

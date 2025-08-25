@@ -519,10 +519,38 @@ type SubscriptionAddInvoiceItemDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// End of the invoice item period.
+type SubscriptionAddInvoiceItemPeriodEndParams struct {
+	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the end of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// Start of the invoice item period.
+type SubscriptionAddInvoiceItemPeriodStartParams struct {
+	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the start of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// The period associated with this invoice item. Defaults to the current period of the subscription.
+type SubscriptionAddInvoiceItemPeriodParams struct {
+	// End of the invoice item period.
+	End *SubscriptionAddInvoiceItemPeriodEndParams `form:"end"`
+	// Start of the invoice item period.
+	Start *SubscriptionAddInvoiceItemPeriodStartParams `form:"start"`
+}
+
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionAddInvoiceItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The period associated with this invoice item. Defaults to the current period of the subscription.
+	Period *SubscriptionAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -531,6 +559,15 @@ type SubscriptionAddInvoiceItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionAddInvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -862,13 +899,13 @@ type SubscriptionListParams struct {
 	Created *int64 `form:"created"`
 	// Only return subscriptions that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
-	// Only return subscriptions whose current_period_end falls within the given date interval.
+	// Only return subscriptions whose minimum item current_period_end falls within the given date interval.
 	CurrentPeriodEnd *int64 `form:"current_period_end"`
-	// Only return subscriptions whose current_period_end falls within the given date interval.
+	// Only return subscriptions whose minimum item current_period_end falls within the given date interval.
 	CurrentPeriodEndRange *RangeQueryParams `form:"current_period_end"`
-	// Only return subscriptions whose current_period_start falls within the given date interval.
+	// Only return subscriptions whose maximum item current_period_start falls within the given date interval.
 	CurrentPeriodStart *int64 `form:"current_period_start"`
-	// Only return subscriptions whose current_period_start falls within the given date interval.
+	// Only return subscriptions whose maximum item current_period_start falls within the given date interval.
 	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start"`
 	// The ID of the customer whose subscriptions will be retrieved.
 	Customer *string `form:"customer"`
@@ -893,15 +930,15 @@ func (p *SubscriptionListParams) AddExpand(f string) {
 
 // Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
 type SubscriptionBillingCycleAnchorConfigParams struct {
-	// The day of the month the billing_cycle_anchor should be. Ranges from 1 to 31.
+	// The day of the month the anchor should be. Ranges from 1 to 31.
 	DayOfMonth *int64 `form:"day_of_month"`
-	// The hour of the day the billing_cycle_anchor should be. Ranges from 0 to 23.
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
 	Hour *int64 `form:"hour"`
-	// The minute of the hour the billing_cycle_anchor should be. Ranges from 0 to 59.
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
 	Minute *int64 `form:"minute"`
-	// The month to start full cycle billing periods. Ranges from 1 to 12.
+	// The month to start full cycle periods. Ranges from 1 to 12.
 	Month *int64 `form:"month"`
-	// The second of the minute the billing_cycle_anchor should be. Ranges from 0 to 59.
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
 	Second *int64 `form:"second"`
 }
 
@@ -1007,10 +1044,38 @@ type SubscriptionUpdateAddInvoiceItemDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// End of the invoice item period.
+type SubscriptionUpdateAddInvoiceItemPeriodEndParams struct {
+	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the end of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// Start of the invoice item period.
+type SubscriptionUpdateAddInvoiceItemPeriodStartParams struct {
+	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the start of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// The period associated with this invoice item. Defaults to the current period of the subscription.
+type SubscriptionUpdateAddInvoiceItemPeriodParams struct {
+	// End of the invoice item period.
+	End *SubscriptionUpdateAddInvoiceItemPeriodEndParams `form:"end"`
+	// Start of the invoice item period.
+	Start *SubscriptionUpdateAddInvoiceItemPeriodStartParams `form:"start"`
+}
+
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionUpdateAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionUpdateAddInvoiceItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The period associated with this invoice item. Defaults to the current period of the subscription.
+	Period *SubscriptionUpdateAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -1019,6 +1084,15 @@ type SubscriptionUpdateAddInvoiceItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionUpdateAddInvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -1546,10 +1620,38 @@ type SubscriptionCreateAddInvoiceItemDiscountParams struct {
 	PromotionCode *string `form:"promotion_code"`
 }
 
+// End of the invoice item period.
+type SubscriptionCreateAddInvoiceItemPeriodEndParams struct {
+	// A precise Unix timestamp for the end of the invoice item period. Must be greater than or equal to `period.start`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the end of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// Start of the invoice item period.
+type SubscriptionCreateAddInvoiceItemPeriodStartParams struct {
+	// A precise Unix timestamp for the start of the invoice item period. Must be less than or equal to `period.end`.
+	Timestamp *int64 `form:"timestamp"`
+	// Select how to calculate the start of the invoice item period.
+	Type *string `form:"type"`
+}
+
+// The period associated with this invoice item. Defaults to the current period of the subscription.
+type SubscriptionCreateAddInvoiceItemPeriodParams struct {
+	// End of the invoice item period.
+	End *SubscriptionCreateAddInvoiceItemPeriodEndParams `form:"end"`
+	// Start of the invoice item period.
+	Start *SubscriptionCreateAddInvoiceItemPeriodStartParams `form:"start"`
+}
+
 // A list of prices and quantities that will generate invoice items appended to the next invoice for this subscription. You may pass up to 20 items.
 type SubscriptionCreateAddInvoiceItemParams struct {
 	// The coupons to redeem into discounts for the item.
 	Discounts []*SubscriptionCreateAddInvoiceItemDiscountParams `form:"discounts"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// The period associated with this invoice item. Defaults to the current period of the subscription.
+	Period *SubscriptionCreateAddInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
@@ -1558,6 +1660,15 @@ type SubscriptionCreateAddInvoiceItemParams struct {
 	Quantity *int64 `form:"quantity"`
 	// The tax rates which apply to the item. When set, the `default_tax_rates` do not apply to this item.
 	TaxRates []*string `form:"tax_rates"`
+}
+
+// AddMetadata adds a new key-value pair to the Metadata.
+func (p *SubscriptionCreateAddInvoiceItemParams) AddMetadata(key string, value string) {
+	if p.Metadata == nil {
+		p.Metadata = make(map[string]string)
+	}
+
+	p.Metadata[key] = value
 }
 
 // The account that's liable for tax. If set, the business address and tax registrations required to perform the tax calculation are loaded from this account. The tax transaction is returned in the report of the connected account.
@@ -1578,15 +1689,15 @@ type SubscriptionCreateAutomaticTaxParams struct {
 
 // Mutually exclusive with billing_cycle_anchor and only valid with monthly and yearly price intervals. When provided, the billing_cycle_anchor is set to the next occurence of the day_of_month at the hour, minute, and second UTC.
 type SubscriptionCreateBillingCycleAnchorConfigParams struct {
-	// The day of the month the billing_cycle_anchor should be. Ranges from 1 to 31.
+	// The day of the month the anchor should be. Ranges from 1 to 31.
 	DayOfMonth *int64 `form:"day_of_month"`
-	// The hour of the day the billing_cycle_anchor should be. Ranges from 0 to 23.
+	// The hour of the day the anchor should be. Ranges from 0 to 23.
 	Hour *int64 `form:"hour"`
-	// The minute of the hour the billing_cycle_anchor should be. Ranges from 0 to 59.
+	// The minute of the hour the anchor should be. Ranges from 0 to 59.
 	Minute *int64 `form:"minute"`
-	// The month to start full cycle billing periods. Ranges from 1 to 12.
+	// The month to start full cycle periods. Ranges from 1 to 12.
 	Month *int64 `form:"month"`
-	// The second of the minute the billing_cycle_anchor should be. Ranges from 0 to 59.
+	// The second of the minute the anchor should be. Ranges from 0 to 59.
 	Second *int64 `form:"second"`
 }
 
