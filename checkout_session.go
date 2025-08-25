@@ -870,6 +870,15 @@ const (
 	CheckoutSessionPaymentMethodOptionsPaypalSetupFutureUsageOffSession CheckoutSessionPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
 )
 
+// Determines if the amount includes the IOF tax.
+type CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof string
+
+// List of values that CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof can take
+const (
+	CheckoutSessionPaymentMethodOptionsPixAmountIncludesIofAlways CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof = "always"
+	CheckoutSessionPaymentMethodOptionsPixAmountIncludesIofNever  CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof = "never"
+)
+
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
 //
 // If you provide a Customer with the PaymentIntent, you can use this parameter to [attach the payment method](https://docs.stripe.com/payments/save-during-payment) to the Customer after the PaymentIntent is confirmed and the customer completes any required actions. If you don't provide a Customer, you can still [attach](https://docs.stripe.com/api/payment_methods/attach) the payment method to a Customer after the transaction completes.
@@ -1186,7 +1195,7 @@ func (p *CheckoutSessionListParams) AddExpand(f string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionAdaptivePricingParams struct {
-	// Set to `true` to enable [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
+	// If set to `true`, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
 	Enabled *bool `form:"enabled"`
 }
 
@@ -2101,6 +2110,8 @@ type CheckoutSessionPaymentMethodOptionsPaypalParams struct {
 
 // contains details about the Pix payment method options.
 type CheckoutSessionPaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2621,7 +2632,7 @@ type CheckoutSessionParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionOptionalItemParams `form:"optional_items"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `custom`.
+	// Where the user is coming from. This informs the optimizations that are applied to the session.
 	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
@@ -2751,7 +2762,7 @@ func (p *CheckoutSessionExpireParams) AddExpand(f string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionCreateAdaptivePricingParams struct {
-	// Set to `true` to enable [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
+	// If set to `true`, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions). Defaults to your [dashboard setting](https://dashboard.stripe.com/settings/adaptive-pricing).
 	Enabled *bool `form:"enabled"`
 }
 
@@ -3666,6 +3677,8 @@ type CheckoutSessionCreatePaymentMethodOptionsPaypalParams struct {
 
 // contains details about the Pix payment method options.
 type CheckoutSessionCreatePaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -4184,7 +4197,7 @@ type CheckoutSessionCreateParams struct {
 	//
 	// For `subscription` mode, there is a maximum of 20 line items and optional items with recurring Prices and 20 line items and optional items with one-time Prices.
 	OptionalItems []*CheckoutSessionCreateOptionalItemParams `form:"optional_items"`
-	// Where the user is coming from. This informs the optimizations that are applied to the session. For example, a session originating from a mobile app may behave more like a native app, depending on the platform. This parameter is currently not allowed if `ui_mode` is `custom`.
+	// Where the user is coming from. This informs the optimizations that are applied to the session.
 	OriginContext *string `form:"origin_context"`
 	// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 	PaymentIntentData *CheckoutSessionCreatePaymentIntentDataParams `form:"payment_intent_data"`
@@ -4405,7 +4418,7 @@ func (p *CheckoutSessionUpdateParams) AddMetadata(key string, value string) {
 
 // Settings for price localization with [Adaptive Pricing](https://docs.stripe.com/payments/checkout/adaptive-pricing).
 type CheckoutSessionAdaptivePricing struct {
-	// Whether Adaptive Pricing is enabled.
+	// If enabled, Adaptive Pricing is available on [eligible sessions](https://docs.stripe.com/payments/currencies/localize-prices/adaptive-pricing?payment-ui=stripe-hosted#restrictions).
 	Enabled bool `json:"enabled"`
 }
 
@@ -5073,6 +5086,8 @@ type CheckoutSessionPaymentMethodOptionsPaypal struct {
 	SetupFutureUsage CheckoutSessionPaymentMethodOptionsPaypalSetupFutureUsage `json:"setup_future_usage"`
 }
 type CheckoutSessionPaymentMethodOptionsPix struct {
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof CheckoutSessionPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof"`
 	// The number of seconds after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.

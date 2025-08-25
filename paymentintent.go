@@ -53,6 +53,60 @@ const (
 	PaymentIntentConfirmationMethodManual    PaymentIntentConfirmationMethod = "manual"
 )
 
+// The list of payment method types to exclude from use with this payment.
+type PaymentIntentExcludedPaymentMethodType string
+
+// List of values that PaymentIntentExcludedPaymentMethodType can take
+const (
+	PaymentIntentExcludedPaymentMethodTypeACSSDebit        PaymentIntentExcludedPaymentMethodType = "acss_debit"
+	PaymentIntentExcludedPaymentMethodTypeAffirm           PaymentIntentExcludedPaymentMethodType = "affirm"
+	PaymentIntentExcludedPaymentMethodTypeAfterpayClearpay PaymentIntentExcludedPaymentMethodType = "afterpay_clearpay"
+	PaymentIntentExcludedPaymentMethodTypeAlipay           PaymentIntentExcludedPaymentMethodType = "alipay"
+	PaymentIntentExcludedPaymentMethodTypeAlma             PaymentIntentExcludedPaymentMethodType = "alma"
+	PaymentIntentExcludedPaymentMethodTypeAmazonPay        PaymentIntentExcludedPaymentMethodType = "amazon_pay"
+	PaymentIntentExcludedPaymentMethodTypeAUBECSDebit      PaymentIntentExcludedPaymentMethodType = "au_becs_debit"
+	PaymentIntentExcludedPaymentMethodTypeBACSDebit        PaymentIntentExcludedPaymentMethodType = "bacs_debit"
+	PaymentIntentExcludedPaymentMethodTypeBancontact       PaymentIntentExcludedPaymentMethodType = "bancontact"
+	PaymentIntentExcludedPaymentMethodTypeBillie           PaymentIntentExcludedPaymentMethodType = "billie"
+	PaymentIntentExcludedPaymentMethodTypeBLIK             PaymentIntentExcludedPaymentMethodType = "blik"
+	PaymentIntentExcludedPaymentMethodTypeBoleto           PaymentIntentExcludedPaymentMethodType = "boleto"
+	PaymentIntentExcludedPaymentMethodTypeCard             PaymentIntentExcludedPaymentMethodType = "card"
+	PaymentIntentExcludedPaymentMethodTypeCashApp          PaymentIntentExcludedPaymentMethodType = "cashapp"
+	PaymentIntentExcludedPaymentMethodTypeCrypto           PaymentIntentExcludedPaymentMethodType = "crypto"
+	PaymentIntentExcludedPaymentMethodTypeCustomerBalance  PaymentIntentExcludedPaymentMethodType = "customer_balance"
+	PaymentIntentExcludedPaymentMethodTypeEPS              PaymentIntentExcludedPaymentMethodType = "eps"
+	PaymentIntentExcludedPaymentMethodTypeFPX              PaymentIntentExcludedPaymentMethodType = "fpx"
+	PaymentIntentExcludedPaymentMethodTypeGiropay          PaymentIntentExcludedPaymentMethodType = "giropay"
+	PaymentIntentExcludedPaymentMethodTypeGrabpay          PaymentIntentExcludedPaymentMethodType = "grabpay"
+	PaymentIntentExcludedPaymentMethodTypeIDEAL            PaymentIntentExcludedPaymentMethodType = "ideal"
+	PaymentIntentExcludedPaymentMethodTypeKakaoPay         PaymentIntentExcludedPaymentMethodType = "kakao_pay"
+	PaymentIntentExcludedPaymentMethodTypeKlarna           PaymentIntentExcludedPaymentMethodType = "klarna"
+	PaymentIntentExcludedPaymentMethodTypeKonbini          PaymentIntentExcludedPaymentMethodType = "konbini"
+	PaymentIntentExcludedPaymentMethodTypeKrCard           PaymentIntentExcludedPaymentMethodType = "kr_card"
+	PaymentIntentExcludedPaymentMethodTypeMobilepay        PaymentIntentExcludedPaymentMethodType = "mobilepay"
+	PaymentIntentExcludedPaymentMethodTypeMultibanco       PaymentIntentExcludedPaymentMethodType = "multibanco"
+	PaymentIntentExcludedPaymentMethodTypeNaverPay         PaymentIntentExcludedPaymentMethodType = "naver_pay"
+	PaymentIntentExcludedPaymentMethodTypeNzBankAccount    PaymentIntentExcludedPaymentMethodType = "nz_bank_account"
+	PaymentIntentExcludedPaymentMethodTypeOXXO             PaymentIntentExcludedPaymentMethodType = "oxxo"
+	PaymentIntentExcludedPaymentMethodTypeP24              PaymentIntentExcludedPaymentMethodType = "p24"
+	PaymentIntentExcludedPaymentMethodTypePayByBank        PaymentIntentExcludedPaymentMethodType = "pay_by_bank"
+	PaymentIntentExcludedPaymentMethodTypePayco            PaymentIntentExcludedPaymentMethodType = "payco"
+	PaymentIntentExcludedPaymentMethodTypePayNow           PaymentIntentExcludedPaymentMethodType = "paynow"
+	PaymentIntentExcludedPaymentMethodTypePaypal           PaymentIntentExcludedPaymentMethodType = "paypal"
+	PaymentIntentExcludedPaymentMethodTypePix              PaymentIntentExcludedPaymentMethodType = "pix"
+	PaymentIntentExcludedPaymentMethodTypePromptPay        PaymentIntentExcludedPaymentMethodType = "promptpay"
+	PaymentIntentExcludedPaymentMethodTypeRevolutPay       PaymentIntentExcludedPaymentMethodType = "revolut_pay"
+	PaymentIntentExcludedPaymentMethodTypeSamsungPay       PaymentIntentExcludedPaymentMethodType = "samsung_pay"
+	PaymentIntentExcludedPaymentMethodTypeSatispay         PaymentIntentExcludedPaymentMethodType = "satispay"
+	PaymentIntentExcludedPaymentMethodTypeSEPADebit        PaymentIntentExcludedPaymentMethodType = "sepa_debit"
+	PaymentIntentExcludedPaymentMethodTypeSofort           PaymentIntentExcludedPaymentMethodType = "sofort"
+	PaymentIntentExcludedPaymentMethodTypeSwish            PaymentIntentExcludedPaymentMethodType = "swish"
+	PaymentIntentExcludedPaymentMethodTypeTWINT            PaymentIntentExcludedPaymentMethodType = "twint"
+	PaymentIntentExcludedPaymentMethodTypeUSBankAccount    PaymentIntentExcludedPaymentMethodType = "us_bank_account"
+	PaymentIntentExcludedPaymentMethodTypeWeChatPay        PaymentIntentExcludedPaymentMethodType = "wechat_pay"
+	PaymentIntentExcludedPaymentMethodTypeZip              PaymentIntentExcludedPaymentMethodType = "zip"
+)
+
 // The payment networks supported by this FinancialAddress
 type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork string
 
@@ -893,6 +947,15 @@ type PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage string
 const (
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage = "off_session"
+)
+
+// Determines if the amount includes the IOF tax.
+type PaymentIntentPaymentMethodOptionsPixAmountIncludesIof string
+
+// List of values that PaymentIntentPaymentMethodOptionsPixAmountIncludesIof can take
+const (
+	PaymentIntentPaymentMethodOptionsPixAmountIncludesIofAlways PaymentIntentPaymentMethodOptionsPixAmountIncludesIof = "always"
+	PaymentIntentPaymentMethodOptionsPixAmountIncludesIofNever  PaymentIntentPaymentMethodOptionsPixAmountIncludesIof = "never"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -2192,6 +2255,8 @@ type PaymentIntentPaymentMethodOptionsPaypalParams struct {
 
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentPaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
@@ -2586,6 +2651,8 @@ type PaymentIntentParams struct {
 	Customer *string `form:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -3938,6 +4005,8 @@ type PaymentIntentCreatePaymentMethodOptionsPaypalParams struct {
 
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentCreatePaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
@@ -4332,6 +4401,8 @@ type PaymentIntentCreateParams struct {
 	Description *string `form:"description"`
 	// Set to `true` to fail the payment attempt if the PaymentIntent transitions into `requires_action`. Use this parameter for simpler integrations that don't handle customer actions, such as [saving cards without authentication](https://stripe.com/docs/payments/save-card-without-authentication). This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []*string `form:"excluded_payment_method_types"`
 	// Specifies which fields in the response should be expanded.
 	Expand []*string `form:"expand"`
 	// ID of the mandate that's used for this payment. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/payment_intents/create#create_payment_intent-confirm).
@@ -5389,6 +5460,8 @@ type PaymentIntentUpdatePaymentMethodOptionsPaypalParams struct {
 
 // If this is a `pix` PaymentMethod, this sub-hash contains details about the Pix payment method options.
 type PaymentIntentUpdatePaymentMethodOptionsPixParams struct {
+	// Determines if the amount includes the IOF tax. Defaults to `never`.
+	AmountIncludesIof *string `form:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire. Defaults to 86400 seconds.
 	ExpiresAfterSeconds *int64 `form:"expires_after_seconds"`
 	// The timestamp at which the Pix expires (between 10 and 1209600 seconds in the future). Defaults to 1 day in the future.
@@ -6695,6 +6768,8 @@ type PaymentIntentPaymentMethodOptionsPaypal struct {
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsPaypalSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsPix struct {
+	// Determines if the amount includes the IOF tax.
+	AmountIncludesIof PaymentIntentPaymentMethodOptionsPixAmountIncludesIof `json:"amount_includes_iof"`
 	// The number of seconds (between 10 and 1209600) after which Pix payment will expire.
 	ExpiresAfterSeconds int64 `json:"expires_after_seconds"`
 	// The timestamp at which the Pix expires.
@@ -6987,6 +7062,8 @@ type PaymentIntent struct {
 	Customer *Customer `json:"customer"`
 	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description string `json:"description"`
+	// The list of payment method types to exclude from use with this payment.
+	ExcludedPaymentMethodTypes []PaymentIntentExcludedPaymentMethodType `json:"excluded_payment_method_types"`
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// The payment error encountered in the previous PaymentIntent confirmation. It will be cleared if the PaymentIntent is later updated for any reason.

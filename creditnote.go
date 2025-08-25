@@ -165,7 +165,7 @@ type CreditNoteLineParams struct {
 type CreditNoteRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
-	// ID of an existing refund to link this credit note to.
+	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
 }
 
@@ -268,7 +268,7 @@ type CreditNotePreviewLineParams struct {
 type CreditNotePreviewRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
-	// ID of an existing refund to link this credit note to.
+	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
 }
 
@@ -361,7 +361,7 @@ type CreditNotePreviewLinesLineParams struct {
 type CreditNotePreviewLinesRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
-	// ID of an existing refund to link this credit note to.
+	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
 }
 
@@ -479,7 +479,7 @@ type CreditNoteCreateLineParams struct {
 type CreditNoteCreateRefundParams struct {
 	// Amount of the refund that applies to this credit note, in cents (or local equivalent). Defaults to the entire refund amount.
 	AmountRefunded *int64 `form:"amount_refunded"`
-	// ID of an existing refund to link this credit note to.
+	// ID of an existing refund to link this credit note to. Required when `type` is `refund`.
 	Refund *string `form:"refund"`
 }
 

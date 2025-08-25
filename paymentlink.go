@@ -507,7 +507,7 @@ type PaymentLinkLineItemParams struct {
 	AdjustableQuantity *PaymentLinkLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
 	// The ID of an existing line item on the payment link.
 	ID *string `form:"id"`
-	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object.
+	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *PaymentLinkLineItemPriceDataParams `form:"price_data"`
@@ -1057,7 +1057,7 @@ type PaymentLinkCreateLineItemPriceDataParams struct {
 type PaymentLinkCreateLineItemParams struct {
 	// When set, provides configuration for this item's quantity to be adjusted by the customer during checkout.
 	AdjustableQuantity *PaymentLinkCreateLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
-	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object.
+	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object. One of `price` or `price_data` is required.
 	Price *string `form:"price"`
 	// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
 	PriceData *PaymentLinkCreateLineItemPriceDataParams `form:"price_data"`

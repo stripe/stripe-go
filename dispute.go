@@ -71,9 +71,11 @@ type DisputePaymentMethodDetailsCardCaseType string
 
 // List of values that DisputePaymentMethodDetailsCardCaseType can take
 const (
+	DisputePaymentMethodDetailsCardCaseTypeBlock      DisputePaymentMethodDetailsCardCaseType = "block"
 	DisputePaymentMethodDetailsCardCaseTypeChargeback DisputePaymentMethodDetailsCardCaseType = "chargeback"
 	DisputePaymentMethodDetailsCardCaseTypeCompliance DisputePaymentMethodDetailsCardCaseType = "compliance"
 	DisputePaymentMethodDetailsCardCaseTypeInquiry    DisputePaymentMethodDetailsCardCaseType = "inquiry"
+	DisputePaymentMethodDetailsCardCaseTypeResolution DisputePaymentMethodDetailsCardCaseType = "resolution"
 )
 
 // Payment method type.
@@ -109,7 +111,7 @@ const (
 	DisputeReasonUnrecognized            DisputeReason = "unrecognized"
 )
 
-// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, or `lost`.
+// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, `lost`, or `prevented`.
 type DisputeStatus string
 
 // List of values that DisputeStatus can take
@@ -673,7 +675,7 @@ type Dispute struct {
 	PaymentMethodDetails *DisputePaymentMethodDetails `json:"payment_method_details"`
 	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `noncompliant`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Learn more about [dispute reasons](https://stripe.com/docs/disputes/categories).
 	Reason DisputeReason `json:"reason"`
-	// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, or `lost`.
+	// The current status of a dispute. Possible values include:`warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `won`, `lost`, or `prevented`.
 	Status DisputeStatus `json:"status"`
 }
 
