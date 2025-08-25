@@ -12846,6 +12846,38 @@ func TestCoreEventsGetClient(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestV2BillingMeterEventPostService(t *testing.T) {
+	params := &stripe.V2BillingMeterEventParams{
+		EventName: stripe.String("event_name"),
+		Payload:   map[string]string{"key": "payload"},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2BillingMeterEvents.New(params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2BillingMeterEventPostClient(t *testing.T) {
+	params := &stripe.V2BillingMeterEventCreateParams{
+		EventName: stripe.String("event_name"),
+		Payload:   map[string]string{"key": "payload"},
+	}
+	testServer := MockServer(
+		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2BillingMeterEvents.Create(context.TODO(), params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
 func TestV2BillingMeterEventAdjustmentPostService(t *testing.T) {
 	params := &stripe.V2BillingMeterEventAdjustmentParams{
 		Cancel: &stripe.V2BillingMeterEventAdjustmentCancelParams{
@@ -12951,34 +12983,52 @@ func TestV2BillingMeterEventStreamPostClient(t *testing.T) {
 	sc.V2BillingMeterEventStreams.Create(context.TODO(), params)
 }
 
-func TestV2BillingMeterEventPostService(t *testing.T) {
-	params := &stripe.V2BillingMeterEventParams{
-		EventName: stripe.String("event_name"),
-		Payload:   map[string]string{"key": "payload"},
-	}
+func TestV2CoreEventGetService(t *testing.T) {
+	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2BillingMeterEvents.New(params)
+	result := sc.V2CoreEvents.All(params)
 	assert.NotNil(t, result)
-	assert.Nil(t, err)
 }
 
-func TestV2BillingMeterEventPostClient(t *testing.T) {
-	params := &stripe.V2BillingMeterEventCreateParams{
-		EventName: stripe.String("event_name"),
-		Payload:   map[string]string{"key": "payload"},
-	}
+func TestV2CoreEventGetClient(t *testing.T) {
+	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
 	testServer := MockServer(
-		t, http.MethodPost, "/v2/billing/meter_events", params, "{\"created\":\"1970-01-12T21:42:34.472Z\",\"event_name\":\"event_name\",\"identifier\":\"identifier\",\"object\":\"v2.billing.meter_event\",\"payload\":{\"key\":\"payload\"},\"timestamp\":\"1970-01-01T15:18:46.294Z\",\"livemode\":true}")
+		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
 	defer testServer.Close()
 	backends := stripe.NewBackendsWithConfig(
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2BillingMeterEvents.Create(context.TODO(), params)
+	result := sc.V2CoreEvents.List(context.TODO(), params)
+	assert.NotNil(t, result)
+}
+
+func TestV2CoreEventGet2Service(t *testing.T) {
+	params := &stripe.V2CoreEventParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := client.New(TestAPIKey, backends)
+	result, err := sc.V2CoreEvents.Get("id_123", params)
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestV2CoreEventGet2Client(t *testing.T) {
+	params := &stripe.V2CoreEventRetrieveParams{}
+	testServer := MockServer(
+		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}")
+	defer testServer.Close()
+	backends := stripe.NewBackendsWithConfig(
+		&stripe.BackendConfig{URL: &testServer.URL})
+	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
+	result, err := sc.V2CoreEvents.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
@@ -13200,56 +13250,6 @@ func TestV2CoreEventDestinationPost5Client(t *testing.T) {
 		&stripe.BackendConfig{URL: &testServer.URL})
 	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
 	result, err := sc.V2CoreEventDestinations.Ping("id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2CoreEventGetService(t *testing.T) {
-	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result := sc.V2CoreEvents.All(params)
-	assert.NotNil(t, result)
-}
-
-func TestV2CoreEventGetClient(t *testing.T) {
-	params := &stripe.V2CoreEventListParams{ObjectID: stripe.String("object_id")}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events", params, "{\"data\":[{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}],\"next_page_url\":null,\"previous_page_url\":null}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result := sc.V2CoreEvents.List(context.TODO(), params)
-	assert.NotNil(t, result)
-}
-
-func TestV2CoreEventGet2Service(t *testing.T) {
-	params := &stripe.V2CoreEventParams{}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := client.New(TestAPIKey, backends)
-	result, err := sc.V2CoreEvents.Get("id_123", params)
-	assert.NotNil(t, result)
-	assert.Nil(t, err)
-}
-
-func TestV2CoreEventGet2Client(t *testing.T) {
-	params := &stripe.V2CoreEventRetrieveParams{}
-	testServer := MockServer(
-		t, http.MethodGet, "/v2/core/events/id_123", params, "{\"context\":null,\"created\":\"1970-01-12T21:42:34.472Z\",\"id\":\"obj_123\",\"object\":\"v2.core.event\",\"reason\":null,\"type\":\"type\",\"livemode\":true}")
-	defer testServer.Close()
-	backends := stripe.NewBackendsWithConfig(
-		&stripe.BackendConfig{URL: &testServer.URL})
-	sc := stripe.NewClient(TestAPIKey, stripe.WithBackends(backends))
-	result, err := sc.V2CoreEvents.Retrieve(context.TODO(), "id_123", params)
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
